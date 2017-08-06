@@ -62,13 +62,9 @@ public class TransaksiAdapter extends RecyclerView.Adapter<TransaksiAdapter.View
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{
-        public ImageView imgThumbnail;
-        public TextView title;
-        public TextView member;
-        public TextView waktu;
-        public TextView loca;
-        public TextView harga;
-        public CardView cardDetTrans;
+        private ImageView imgThumbnail;
+        private TextView title, member, waktu, loca, harga;
+        private CardView cardDetTrans;
 
         public ViewHolder(View itemView){
             super(itemView);
