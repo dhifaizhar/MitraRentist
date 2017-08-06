@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/min_padding"
+        android:layout_margin="@dimen/min_padding"
+        android:background="@drawable/radius_white">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/min_padding"
+            android:paddingRight="@dimen/min_padding"
+            android:layout_gravity="center_horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rp."
+                android:id="@+id/rp"
+                android:layout_marginLeft="@dimen/min_padding"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/huge_text"/>
+
+            <EditText
+                android:id="@+id/wd_credit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/rp"
+                android:inputType="number"
+                android:textColor="@android:color/black"
+                android:textCursorDrawable="@null"
+                android:textSize="@dimen/huge_text"
+                android:backgroundTint="@color/colorBlack"
+                android:cursorVisible="true"
+                />
+
+            <ImageButton
+                android:id="@+id/reset_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:clickable="true"
+                android:src="@drawable/ic_refresh_black_24dp"
+                android:background="@color/colorWhite"
+                />
+
+
+        </RelativeLayout>
+
+        <RadioGroup
+            android:id="@+id/rek_ragrup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/min_padding"
+            android:layout_marginTop="@dimen/med_padding">
+
+            <RadioButton
+                android:id="@+id/rad_terdaftar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:buttonTint="@color/colorPrimary"
+                android:checked="true"
+                android:contextClickable="false"
+                android:text="Rek. Terdaftar" />
+
+            <RadioButton android:id="@+id/rad_baru"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rek. Baru"
+                android:buttonTint="@color/colorPrimary"
+                />
+        </RadioGroup>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/con_baru"
+                android:visibility="gone">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="Nomor Rekening"
+                    android:inputType="number"
+                    android:paddingTop="@dimen/min_padding"
+                    android:backgroundTint="@color/colorGrey"
+                    android:textColor="@android:color/black"
+                    android:textCursorDrawable="@null"
+                    />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="Bank Tujuan"
+                    android:inputType="text"
+                    android:paddingTop="@dimen/min_padding"
+                    android:backgroundTint="@color/colorGrey"
+                    android:textColor="@android:color/black"
+                    android:textCursorDrawable="@null"
+                    />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="Atas Nama"
+                    android:inputType="textPersonName"
+                    android:paddingTop="@dimen/min_padding"
+                    android:backgroundTint="@color/colorGrey"
+                    android:textColor="@android:color/black"
+                    android:textCursorDrawable="@null"
+                    />
+
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+
+</LinearLayout>

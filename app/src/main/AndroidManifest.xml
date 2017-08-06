@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="id.rentist.mitrarentist">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/icon_bo_250x250"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".SplashScreen">
+             <intent-filter>
+                 <action android:name="android.intent.action.MAIN" />
+
+                 <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>
+        </activity>
+        <activity
+            android:name=".LoginActivity"
+            android:label="@string/title_activity_login" >
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
+        <activity
+            android:name=".DashboardActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
+        <activity
+            android:name=".ProfileActivity"
+            android:label="@string/app_name"
+            android:parentActivityName=".DashboardActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".AsetActivity"
+            android:label="@string/title_activity_aset"
+            android:parentActivityName=".DashboardActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".DetailAsetActivity"
+            android:parentActivityName=".AsetActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".TentangKamiActivity" />
+        <activity
+            android:name=".PanduanActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ForgotPasswordActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".DompetActivity"
+            android:label="@string/title_activity_dompet"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".HistoryActivity"
+            android:label="@string/title_activity_history"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".PengaturanActivity"
+            android:label="@string/title_activity_pengaturan"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_pengaturan"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".KebijakanActivity"
+            android:label="@string/title_activity_kebijakan"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".FormEditProfilActivity"
+            android:label="@string/title_activity_form_edit_profil_rental"
+            android:parentActivityName=".ProfileActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".FormEditAsetActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".WithdrawalActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".AktivasiActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".TransactionActivity"
+            android:parentActivityName=".DashboardActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".TransDetailActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".FormAddKebijakanActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".VoucherActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".FormAddVoucherActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".MessageDetailActivity"
+            android:parentActivityName=".MessageListActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".MessageListActivity"
+            android:parentActivityName=".DashboardActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".WorkDateActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".DriverActivity"
+            android:parentActivityName=".DashboardActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".DriverDetailActivity"
+            android:parentActivityName=".DriverActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".FormDriverActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".FormAsetActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".OnBoardActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ComplainActivity"
+            android:label="@string/title_activity_complain"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ComplainDetailActivity"
+            android:label="@string/title_activity_complain_detail"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity
+            android:name=".SampleTimesSquareActivity"
+            android:label="@string/title_activity_complain_detail"
+            android:theme="@style/AppTheme.NoActionBar"/>
+    </application>
+
+</manifest>

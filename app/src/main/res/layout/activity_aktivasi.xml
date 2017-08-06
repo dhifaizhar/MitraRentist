@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context="id.rentist.mitrarentist.AktivasiActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        android:id="@+id/appBarLayout">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="20dp"
+        android:layout_marginTop="@dimen/breadcrumb_height">
+
+        <TextView
+            android:id="@+id/aktif_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="@string/aktif_text"
+            android:textAlignment="center"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/medium_text" />
+
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/aktif_text_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/aktif_text"
+            android:backgroundTint="@color/colorWhite"
+            android:padding="20dp"
+            android:textColorHint="@color/colorNearWhite">
+
+            <EditText
+                android:id="@+id/aktif_code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Kode Aktivasi"
+                android:imeActionId="@+id/aktif"
+                android:inputType="text"
+                android:maxLines="1"
+                android:textAlignment="center"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorNearWhite"
+                android:textColorLink="@color/colorAccent"
+                android:textSize="@dimen/large_text" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:id="@+id/aktif_button"
+            style="?android:textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/radius_white"
+            android:filterTouchesWhenObscured="false"
+            android:text="AKTIVASI"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_below="@+id/aktif_text_layout"/>
+    </RelativeLayout>
+</RelativeLayout>

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="@dimen/breadcrumb_height">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="@dimen/xmin_padding"
+            android:background="@drawable/radius_white">
+
+            <RelativeLayout
+                android:id="@+id/header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorBlack87"
+                android:elevation="1dp"
+                android:padding="@dimen/xmin_padding">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Data Kupon"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/medium_text"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <EditText
+                android:id="@+id/vou_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:layout_marginTop="@dimen/xmin_padding"
+                android:hint="Nama Kupon"
+                android:inputType="text"
+                android:maxLines="1"
+                android:padding="@dimen/min_padding"
+                android:backgroundTint="@color/colorGrey"
+                android:textColor="@android:color/black"
+                android:textCursorDrawable="@null"
+            />
+
+            <EditText
+                android:id="@+id/vou_code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:layout_marginTop="@dimen/xmin_padding"
+                android:hint="Kode Kupon"
+                android:inputType="text"
+                android:maxLines="1"
+                android:padding="@dimen/min_padding"
+                android:backgroundTint="@color/colorGrey"
+                android:textColor="@android:color/black"
+                android:textCursorDrawable="@null"
+                />
+
+            <EditText
+                android:id="@+id/vou_discount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:layout_marginTop="@dimen/xmin_padding"
+                android:hint="Besarnya Diskon (nominal)"
+                android:inputType="number"
+                android:padding="@dimen/min_padding"
+                android:backgroundTint="@color/colorGrey"
+                android:textColor="@android:color/black"
+                android:textCursorDrawable="@null"
+            />
+
+            <EditText
+                android:id="@+id/vou_discount_percent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:layout_marginTop="@dimen/xmin_padding"
+                android:hint="Besarnya Diskon (persentase)"
+                android:inputType="number"
+                android:padding="@dimen/min_padding"
+                android:backgroundTint="@color/colorGrey"
+                android:textColor="@android:color/black"
+                android:textCursorDrawable="@null"
+                />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/vou_startDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:layout_marginTop="@dimen/xmin_padding"
+                    android:hint="Tanggal Sewa"
+                    android:inputType="date"
+                    android:padding="@dimen/min_padding"
+                    android:onClick="setStartDate"
+                    android:backgroundTint="@color/colorGrey"
+                    android:textColor="@android:color/black"
+                    android:textCursorDrawable="@null"
+                />
+
+                <Button
+                    android:id="@+id/btn_start_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_alignEnd="@+id/vou_startDate"
+                    android:elevation="9dp"
+                    android:text="Pilih Tanggal"
+                    android:textSize="10sp" />
+
+            </RelativeLayout>
+
+            <!--<RelativeLayout-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content">-->
+
+                <!--<EditText-->
+                    <!--android:id="@+id/vou_endDate"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginTop="@dimen/xmin_padding"-->
+                    <!--android:ems="10"-->
+                    <!--android:hint="Tanggal Berakhir"-->
+                    <!--android:inputType="date"-->
+                    <!--android:onClick="setEndDate"-->
+                    <!--android:padding="@dimen/min_padding"-->
+                    <!--android:textColor="@android:color/black"-->
+                    <!--android:textCursorDrawable="@null" />-->
+
+                <!--<Button-->
+                    <!--android:id="@+id/btn_end_date"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="40dp"-->
+                    <!--android:layout_alignEnd="@+id/vou_endDate"-->
+                    <!--android:text="Select Date"-->
+                    <!--android:textSize="10sp" />-->
+
+            <!--</RelativeLayout>-->
+
+            <EditText
+                android:id="@+id/vou_amount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:layout_marginTop="@dimen/xmin_padding"
+                android:hint="Kuota Kupon"
+                android:inputType="number"
+                android:padding="@dimen/min_padding"
+                android:backgroundTint="@color/colorGrey"
+                android:textColor="@android:color/black"
+                android:textCursorDrawable="@null"
+            />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btn_add"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/btn_lmedium_height"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimaryDark"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/medium_text"
+        android:text="Tambah"
+        android:layout_margin="0dp"
+        android:padding="0dp" />
+
+</RelativeLayout>

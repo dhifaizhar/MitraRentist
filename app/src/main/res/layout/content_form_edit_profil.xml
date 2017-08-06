@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/xmin_padding"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="id.rentist.mitrarentist.FormEditProfilActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:padding="@dimen/min_padding">
+
+                <ImageView
+                    android:id="@+id/pr_thumb"
+                    android:layout_width="@dimen/thumb_width"
+                    android:layout_height="@dimen/thumb_height"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/user_ava_man" />
+
+                <Button
+                    android:id="@+id/btnUploadFoto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/xmin_padding"
+                    android:layout_weight="1"
+                    android:text="Pilih Foto" />
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/pr_address_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="alamat"
+                android:inputType="textMultiLine"
+                android:lines="3"
+                android:padding="@dimen/min_padding" />
+
+            <EditText
+                android:id="@+id/pr_telp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="nomor telepon"
+                android:inputType="phone"
+                android:padding="@dimen/min_padding" />
+
+            <EditText
+                android:id="@+id/pr_rental_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="nama rental"
+                android:inputType="textPersonName"
+                android:padding="@dimen/min_padding" />
+
+            <EditText
+                android:id="@+id/pr_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="email"
+                android:inputType="textEmailAddress"
+                android:padding="@dimen/min_padding" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/xmin_padding"
+    android:background="@color/colorBackgound"
+    tools:context="id.rentist.mitrarentist.DashboardActivity"
+    tools:showIn="@layout/app_bar_dashboard">
+
+    <TextView
+        android:id="@+id/rentName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/xmin_padding"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:padding="@dimen/min_padding"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/large_text"
+        android:textStyle="bold" />
+
+    <!--head breadsrumb-->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/tr_breadcrumb"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/xmin_padding"
+                android:background="@color/colorWhite"
+                android:orientation="vertical"
+                android:padding="@dimen/no_padding">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/xmin_padding"
+                    android:layout_marginLeft="@dimen/xmin_padding"
+                    android:layout_marginRight="@dimen/xmin_padding"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/xmin_padding">
+
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="@dimen/xmin_padding"
+                        android:text="BUKA"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/small_text" />
+
+                    <TextView
+                        android:id="@+id/textView1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="@dimen/xmin_padding"
+                        android:layout_toRightOf="@+id/textView"
+                        android:gravity="left"
+                        android:text=" | Senin - Minggu (07:00 - 21:00)"
+                        android:textSize="@dimen/small_text" />
+
+                    <ImageButton
+                        android:id="@+id/btn_work_date"
+                        android:layout_width="40dp"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:background="@color/colorWhite"
+                        android:padding="@dimen/xmin_padding"
+                        app:srcCompat="@drawable/ic_edit_black_24dp" />
+
+                </RelativeLayout>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_new_trans"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/explorer_item_size"
+                android:background="@color/colorWhite">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="@dimen/xmin_padding"
+                    android:layout_marginEnd="@dimen/btn_medium_height"
+                    android:layout_marginStart="@dimen/min_padding"
+                    android:layout_marginTop="@dimen/xmin_padding"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="@dimen/xmin_padding"
+                    android:paddingEnd="@dimen/fab_margin"
+                    android:paddingStart="@dimen/fab_margin">
+
+                    <TextView
+                        android:id="@+id/val_new_trans"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="7"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="50sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/new_trans_info"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="PERMINTAAN BARU"
+                        android:textSize="@dimen/medium_text" />
+
+                </LinearLayout>
+
+                <ImageButton
+                    android:id="@+id/btn_to_det_new_trans"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentTop="true"
+                    android:background="@color/colorNearWhite"
+                    app:srcCompat="@drawable/ic_chevron_right_black_36dp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_rev_saldo"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/breadcrumb_height"
+                android:layout_marginBottom="@dimen/xmin_padding"
+                android:background="@color/colorPrimarySoft">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/btn_medium_height"
+                    android:layout_marginStart="@dimen/min_padding"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/xmin_padding"
+                    android:paddingEnd="@dimen/fab_margin"
+                    android:paddingStart="@dimen/fab_margin">
+
+                    <TextView
+                        android:id="@+id/text_saldo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="SALDO"
+                        android:textSize="@dimen/medium_text" />
+
+                    <TextView
+                        android:id="@+id/val_saldo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="7.000.000 IDR"
+                        android:textAlignment="textEnd"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="30sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <ImageButton
+                    android:id="@+id/btn_to_saldo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:background="@color/colorNearWhite"
+                    app:srcCompat="@drawable/ic_chevron_right_black_36dp" />
+
+            </RelativeLayout>
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/breadcrumb_height"
+                    android:layout_marginBottom="@dimen/xmin_padding">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_column="0"
+                        android:layout_marginEnd="2.5dp"
+                        android:layout_weight="1"
+                        android:background="@color/colorWhite"
+                        android:orientation="vertical"
+                        android:padding="@dimen/med_padding">
+
+                        <TextView
+                            android:id="@+id/stat_info_1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/xmin_padding"
+                            android:gravity="center"
+                            android:text="Nilai"
+                            android:textSize="@dimen/small_text" />
+
+                        <ImageView
+                            android:id="@+id/img_stat_1"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/btn_medium_height"
+                            android:layout_marginBottom="@dimen/xmin_padding"
+                            android:layout_marginTop="@dimen/xmin_padding"
+                            app:srcCompat="@drawable/rating_ico" />
+
+                        <TextView
+                            android:id="@+id/textView17"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:text="5.0"
+                            android:textAlignment="center"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/large_text"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_column="1"
+                        android:layout_marginStart="2.5dp"
+                        android:layout_weight="1"
+                        android:background="@color/colorWhite"
+                        android:orientation="vertical"
+                        android:padding="@dimen/med_padding">
+
+                        <TextView
+                            android:id="@+id/stat_info_2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/xmin_padding"
+                            android:gravity="center"
+                            android:text="Aset Rental"
+                            android:textSize="@dimen/small_text" />
+
+                        <ImageView
+                            android:id="@+id/img_stat_2"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/btn_medium_height"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="@dimen/xmin_padding"
+                            android:layout_marginTop="@dimen/xmin_padding"
+                            app:srcCompat="@drawable/asset_ico" />
+
+                        <TextView
+                            android:id="@+id/textView23"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="10"
+                            android:textAlignment="center"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/large_text"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/breadcrumb_height"
+                    android:layout_marginBottom="@dimen/xmin_padding">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_column="0"
+                        android:layout_marginEnd="2.5dp"
+                        android:layout_weight="1"
+                        android:background="@color/colorWhite"
+                        android:orientation="vertical"
+                        android:padding="@dimen/med_padding">
+
+                        <TextView
+                            android:id="@+id/stat_info_3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/xmin_padding"
+                            android:gravity="center"
+                            android:text="Rental Selesai"
+                            android:textSize="@dimen/small_text" />
+
+                        <ImageView
+                            android:id="@+id/img_stat_3"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/btn_medium_height"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="@dimen/xmin_padding"
+                            android:layout_marginTop="@dimen/xmin_padding"
+                            app:srcCompat="@drawable/tr_complete_ico" />
+
+                        <TextView
+                            android:id="@+id/textView24"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="150"
+                            android:textAlignment="center"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/large_text"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_column="1"
+                        android:layout_marginStart="2.5dp"
+                        android:layout_weight="1"
+                        android:background="@color/colorWhite"
+                        android:orientation="vertical"
+                        android:padding="@dimen/med_padding">
+
+                        <TextView
+                            android:id="@+id/stat_info_4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/xmin_padding"
+                            android:gravity="center"
+                            android:text="Rental Berlangsung"
+                            android:textSize="@dimen/small_text" />
+
+                        <ImageView
+                            android:id="@+id/img_stat_4"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/btn_medium_height"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="@dimen/xmin_padding"
+                            android:layout_marginTop="@dimen/xmin_padding"
+                            app:srcCompat="@drawable/tr_on_progress_ico" />
+
+                        <TextView
+                            android:id="@+id/textView25"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="17"
+                            android:textAlignment="center"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/large_text"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+                </TableRow>
+
+            </TableLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

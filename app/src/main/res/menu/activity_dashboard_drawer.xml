@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_profile"
+            android:icon="@drawable/ic_person_black_24dp"
+            android:title="Profil" />
+        <item
+            android:id="@+id/nav_aset"
+            android:icon="@drawable/ic_directions_car_black_24dp"
+            android:title="Aset" />
+        <item
+            android:id="@+id/nav_driver"
+            android:icon="@drawable/ic_person_black_24dp"
+            android:title="Pengemudi" />
+        <item
+            android:id="@+id/nav_dompet"
+            android:icon="@drawable/ic_account_balance_wallet_black_24dp"
+            android:title="Dompet" />
+        <item
+            android:id="@+id/nav_riwayat"
+            android:icon="@drawable/ic_history_black_24dp"
+            android:title="Riwayat" />
+        <item
+            android:id="@+id/nav_message"
+            android:icon="@drawable/ic_message_black_24dp"
+            android:title="Pesan" />
+        <item
+            android:id="@+id/nav_voucher"
+            android:icon="@drawable/ic_card_giftcard_black_24dp"
+            android:title="Kupon" />
+        <item
+            android:id="@+id/nav_pengaturan"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Pengaturan" />
+        <item
+            android:id="@+id/nav_kebijakan"
+            android:icon="@drawable/ic_book_black_36dp"
+            android:title="Kebijakan" />
+        <item
+            android:id="@+id/nav_pengaduan"
+            android:icon="@drawable/ic_book_black_36dp"
+            android:title="Pengaduan" />
+        <item
+            android:id="@+id/nav_panduan"
+            android:icon="@drawable/ic_help_black_24dp"
+            android:title="Panduan" />
+        <item
+            android:id="@+id/nav_tentang"
+            android:icon="@drawable/ic_info_black_24dp"
+            android:title="Tentang Kami" />
+    </group>
+
+    <!--<item android:title="Pusat Bantuan">-->
+        <!--<menu>-->
+            <!---->
+        <!--</menu>-->
+    <!--</item>-->
+
+</menu>

@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_dashboard"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="id.rentist.mitrarentist.ProfileActivity"
+    tools:showIn="@layout/activity_profile">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/xmin_padding">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="@dimen/min_padding"
+            android:layout_above="@+id/btn_edit_profil">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/card_profile_view"
+                    android:layout_marginBottom="@dimen/xmin_padding"
+                    app:cardBackgroundColor="@color/colorWhite"
+                    app:cardElevation="1dp"
+                    android:foreground="?selectableItemBackground">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/xmin_padding"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/pr_rental_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_gravity="center"
+                            android:layout_margin="@dimen/xmin_padding"
+                            android:layout_marginStart="@dimen/xmin_padding"
+                            android:text="Nama Rental"
+                            android:textAllCaps="true"
+                            android:textStyle="bold"
+                            android:textSize="@dimen/large_text" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/explorer_item_size"
+                            android:layout_marginBottom="@dimen/min_padding">
+
+                            <ImageView
+                                android:id="@+id/pr_thumb"
+                                android:layout_width="@dimen/msg_thumb_width"
+                                android:layout_height="@dimen/msg_thumb_height"
+                                android:layout_above="@+id/pr_owner_name"
+                                android:layout_alignParentBottom="false"
+                                android:layout_alignParentEnd="false"
+                                android:layout_alignParentStart="false"
+                                android:layout_alignParentTop="false"
+                                android:layout_centerHorizontal="true"
+                                android:layout_centerInParent="false"
+                                android:layout_marginEnd="@dimen/xmin_padding"
+                                android:layout_marginStart="@dimen/xmin_padding"
+                                android:layout_marginTop="@dimen/xmin_padding"
+                                android:contentDescription="profil"
+                                android:src="@drawable/user_ava_man" />
+
+                            <TextView
+                                android:id="@+id/pr_owner_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentBottom="true"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginTop="@dimen/min_padding"
+                                android:layout_toEndOf="@+id/pr_owner_ico"
+                                android:background="@color/colorPrimary"
+                                android:paddingBottom="@dimen/xmin_padding"
+                                android:paddingLeft="@dimen/med_padding"
+                                android:paddingRight="@dimen/med_padding"
+                                android:paddingTop="@dimen/xmin_padding"
+                                android:text="Masduki"
+                                android:textColor="@color/colorWhite"
+                                android:textSize="@dimen/medium_text"
+                                android:textStyle="bold" />
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/pr_address"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorPrimarySoft"
+                            android:padding="@dimen/xmin_padding"
+                            tools:ignore="UselessParent">
+
+                            <ImageView
+                                android:id="@+id/pr_address_ico"
+                                android:layout_width="@dimen/thumb_prop_width"
+                                android:layout_height="@dimen/thumb_prop_height"
+                                android:layout_marginEnd="@dimen/min_padding"
+                                android:contentDescription="loaction"
+                                app:srcCompat="@drawable/ic_location_on_black_24dp" />
+
+                            <TextView
+                                android:id="@+id/pr_address_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_toEndOf="@+id/pr_address_ico"
+                                android:text="Jl. Halimun No. 103 Bogor Tengah, Bogor Jawa Barat 16150"
+                                android:textSize="@dimen/medium_text"
+                                android:textStyle="italic" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/pr_no_telp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/xmin_padding"
+                            tools:ignore="UselessParent">
+
+                            <ImageView
+                                android:id="@+id/pr_telp_ico"
+                                android:layout_width="@dimen/thumb_prop_width"
+                                android:layout_height="@dimen/thumb_prop_height"
+                                android:layout_marginEnd="@dimen/min_padding"
+                                android:contentDescription="phone"
+                                app:srcCompat="@drawable/ic_phone_android_black_24dp"/>
+
+                            <TextView
+                                android:id="@+id/pr_phone_number"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_toEndOf="@+id/pr_telp_ico"
+                                android:text="081 xxx xxx xxx"
+                                android:textSize="@dimen/medium_text"/>
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/pr_mail_info"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/xmin_padding"
+                            android:background="@color/colorPrimarySoft"
+                            tools:ignore="UselessParent">
+
+                            <ImageView
+                                android:id="@+id/pr_email_ico"
+                                android:layout_width="@dimen/thumb_prop_width"
+                                android:layout_height="@dimen/thumb_prop_height"
+                                android:layout_marginEnd="@dimen/min_padding"
+                                android:contentDescription="email"
+                                app:srcCompat="@drawable/ic_email_black_24dp"/>
+
+                            <TextView
+                                android:id="@+id/pr_email"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_toEndOf="@+id/pr_email_ico"
+                                android:text="rental@mail.com"
+                                android:textSize="@dimen/medium_text" />
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/card_rating_view"
+                    android:layout_marginBottom="@dimen/xmin_padding"
+                    app:cardBackgroundColor="@color/colorWhite"
+                    app:cardElevation="1dp"
+                    android:foreground="?selectableItemBackground">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/min_padding">
+
+                        <TextView
+                            android:id="@+id/pr_sum_rating"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="@dimen/xmin_padding"
+                            android:layout_marginStart="@dimen/xmin_padding"
+                            android:text="Nilai Rental"
+                            android:textSize="@dimen/medium_text" />
+
+                        <RatingBar
+                            android:id="@+id/pr_rating_bar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/xmin_padding"
+                            android:layout_marginRight="@dimen/xmin_padding" />
+                    </RelativeLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <TextView
+                    android:id="@+id/pr_testi_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/xmin_padding"
+                    android:layout_marginBottom="@dimen/min_padding"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="@dimen/medium_text"
+                    android:textColor="@color/colorBlack"
+                    android:text="TESTIMONI"/>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/card_testimoni_view"
+                    android:layout_marginBottom="@dimen/xmin_padding"
+                    app:cardBackgroundColor="@color/colorWhite"
+                    app:cardElevation="1dp"
+                    android:foreground="?selectableItemBackground">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center">
+
+                        <LinearLayout
+                            android:id="@+id/pr_first_testi"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/xmin_padding"
+                            android:orientation="vertical"
+                            android:layout_alignParentStart="true">
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <TextView
+                                    android:id="@+id/pr_aset_tes"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_margin="@dimen/xmin_padding"
+                                    android:layout_marginStart="@dimen/xmin_padding"
+                                    android:background="@android:color/holo_orange_light"
+                                    android:padding="@dimen/xmin_padding"
+                                    android:text="DAihatsu Xenia | DD 6612 QW"
+                                    android:textSize="@dimen/medium_text" />
+
+                                <RatingBar
+                                    android:id="@+id/aset_rating"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="@dimen/xmin_padding"
+                                    android:layout_alignParentEnd="true"
+                                    style="@style/SmallRatingBar"
+                                    />
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:id="@+id/pr_testimoni"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:padding="@dimen/xmin_padding">
+
+                                <ImageView
+                                    android:id="@+id/pr_test_ico"
+                                    android:layout_width="@dimen/thumb_prop_width"
+                                    android:layout_height="@dimen/thumb_prop_height"
+                                    android:layout_marginEnd="@dimen/min_padding"
+                                    app:srcCompat="@drawable/ic_person_black_36dp"
+                                    android:contentDescription="nama testimoni"/>
+
+                                <TextView
+                                    android:id="@+id/pr_testi_name"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="@dimen/xmin_padding"
+                                    android:text="Wiliam Negara"
+                                    android:layout_toRightOf="@+id/pr_test_ico"
+                                    android:textSize="@dimen/small_text"/>
+
+                                <TextView
+                                    android:id="@+id/pr_testi_date"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="@dimen/xmin_padding"
+                                    android:text="15/05/2017"
+                                    android:layout_toRightOf="@+id/pr_testi_name"
+                                    android:layout_alignParentEnd="true"
+                                    android:gravity="center_vertical|right"/>
+
+                                <TextView
+                                    android:id="@+id/pr_testi_content"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Murah sekaliiiiii"
+                                    android:layout_below="@+id/pr_testi_name"
+                                    android:layout_toRightOf="@+id/pr_test_ico" />
+
+                            </RelativeLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/xmin_padding"
+                            android:orientation="vertical"
+                            android:background="@color/colorPrimarySoft"
+                            android:layout_below="@+id/pr_first_testi">
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <TextView
+                                    android:id="@+id/pr_aset_tes2"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_margin="@dimen/xmin_padding"
+                                    android:layout_marginStart="@dimen/xmin_padding"
+                                    android:background="@android:color/holo_orange_light"
+                                    android:padding="@dimen/xmin_padding"
+                                    android:text="Daihatsu Xenia | DD 6612 QW"
+                                    android:textSize="@dimen/medium_text" />
+
+                                <RatingBar
+                                    android:id="@+id/aset_rating2"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="@dimen/xmin_padding"
+                                    android:layout_alignParentEnd="true"
+                                    style="@style/SmallRatingBar"
+                                    />
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:id="@+id/pr_testimoni2"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:padding="@dimen/xmin_padding">
+
+                                <ImageView
+                                    android:id="@+id/pr_test_ico2"
+                                    android:layout_width="@dimen/thumb_prop_width"
+                                    android:layout_height="@dimen/thumb_prop_height"
+                                    android:layout_marginEnd="@dimen/min_padding"
+                                    app:srcCompat="@drawable/ic_person_black_36dp"
+                                    android:contentDescription="nama testimoni"/>
+
+                                <TextView
+                                    android:id="@+id/pr_testi_name2"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="@dimen/xmin_padding"
+                                    android:text="Wiliam Negara"
+                                    android:layout_toRightOf="@+id/pr_test_ico2"
+                                    android:textSize="@dimen/small_text"/>
+
+                                <TextView
+                                    android:id="@+id/pr_testi_date2"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="@dimen/xmin_padding"
+                                    android:text="15/05/2017"
+                                    android:layout_toRightOf="@+id/pr_testi_name2"
+                                    android:layout_alignParentEnd="true"
+                                    android:gravity="center_vertical|right"/>
+
+                                <TextView
+                                    android:id="@+id/pr_testi_content2"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Murah sekaliiiiii"
+                                    android:layout_below="@+id/pr_testi_name2"
+                                    android:layout_toRightOf="@+id/pr_test_ico2" />
+
+                            </RelativeLayout>
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                </android.support.v7.widget.CardView>
+
+            </LinearLayout>
+        </ScrollView>
+
+        <Button
+            android:id="@+id/btn_edit_profil"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/btn_medium_height"
+            android:layout_alignParentBottom="true"
+            android:background="@android:color/holo_green_light"
+            android:text="Ubah Profil"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/medium_text" />
+
+    </RelativeLayout>
+
+</LinearLayout>

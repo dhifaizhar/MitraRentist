@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="id.rentist.mitrarentist.FormAsetActivity"
+    tools:showIn="@layout/activity_form_aset">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/xmin_padding"
+        android:layout_marginBottom="@dimen/btn_lmedium_height">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:padding="@dimen/min_padding">
+
+                <ImageView
+                    android:id="@+id/thumb_aset"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/ic_directions_car_black_48dp" />
+
+                <Button
+                    android:id="@+id/btnUploadFoto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/xmin_padding"
+                    android:layout_weight="1"
+                    android:text="Pilih Foto" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorWhite"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/cardview_dark_background"
+                    android:padding="@dimen/min_padding">
+
+                    <TextView
+                        android:id="@+id/textView4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:text="Detail Aset"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="@dimen/medium_text"
+                        android:textStyle="bold" />
+
+                </RelativeLayout>
+
+                <EditText
+                    android:id="@+id/as_merk"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="Merek"
+                    android:padding="@dimen/min_padding" />
+
+                <EditText
+                    android:id="@+id/editText2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="Tipe"
+                    android:padding="@dimen/min_padding" />
+
+                <EditText
+                    android:id="@+id/editText3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="Plat Nomor"
+                    android:padding="@dimen/min_padding" />
+
+                <EditText
+                    android:id="@+id/editText4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="Tahun Produksi"
+                    android:inputType="textPersonName"
+                    android:padding="@dimen/min_padding" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/cardview_dark_background"
+                    android:padding="@dimen/min_padding">
+
+                    <TextView
+                        android:id="@+id/textView8"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:text="Fitur Aset"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="@dimen/medium_text"
+                        android:textStyle="bold" />
+
+                </RelativeLayout>
+
+                <EditText
+                    android:id="@+id/editText5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="fitur aset"
+                    android:inputType="textMultiLine"
+                    android:lines="4"
+                    android:padding="@dimen/min_padding" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>
