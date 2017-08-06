@@ -1,6 +1,7 @@
 package id.rentist.mitrarentist.Tab;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -33,8 +34,8 @@ public class SlidingTabLayout extends HorizontalScrollView {
 
     }
 
-    private static final int TITLE_OFFSET_DIPS = 36;
-    private static final int TAB_VIEW_PADDING_DIPS = 16;
+    private static final int TITLE_OFFSET_DIPS = 35;
+    private static final int TAB_VIEW_PADDING_DIPS = 15;
     private static final int TAB_VIEW_TEXT_SIZE_SP = 18;
 
     private int mTitleOffset;
@@ -136,6 +137,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
      */
     protected TextView createDefaultTabView(Context context) {
         TextView textView = new TextView(context);
+        textView.setTextColor(Color.WHITE);
         textView.setGravity(Gravity.CENTER);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, TAB_VIEW_TEXT_SIZE_SP);
         textView.setTypeface(Typeface.DEFAULT_BOLD);

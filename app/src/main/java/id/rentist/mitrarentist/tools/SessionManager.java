@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 public class SessionManager {
     private Context context;
     private String position;
+    private Integer positionInt;
     private SharedPreferences prefs;
     private SharedPreferences.Editor editor = null;
 
@@ -23,9 +24,9 @@ public class SessionManager {
         editor.apply();
     }
 
-    public void setPreferences(String key, Integer value) {
+    public void setIntPreferences(String key, Integer value) {
         editor = context.getSharedPreferences("RentistSession", Context.MODE_PRIVATE).edit();
-        editor.putString(key, value.toString());
+        editor.putInt(key, value);
         editor.apply();
     }
 
@@ -33,6 +34,12 @@ public class SessionManager {
         prefs = context.getSharedPreferences("RentistSession", Context.MODE_PRIVATE);
         position = prefs.getString(key, "");
         return position;
+    }
+
+    public Integer getIntPreferences(String key){
+        prefs = context.getSharedPreferences("RentistSession", Context.MODE_PRIVATE);
+        positionInt = prefs.getInt(key, 0);
+        return positionInt;
     }
 
     public void clearPreferences(){

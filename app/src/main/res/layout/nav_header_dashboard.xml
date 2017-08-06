@@ -13,16 +13,16 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/navImageProfile"
         android:layout_width="@dimen/msg_thumb_width"
         android:layout_height="@dimen/msg_thumb_height"
         android:layout_gravity="center"
         android:layout_marginBottom="@dimen/xmin_padding"
         android:layout_marginTop="@dimen/min_padding"
-        app:srcCompat="@drawable/user_ava_man" />
+        app:srcCompat="@android:drawable/sym_def_app_icon" />
 
     <TextView
-        android:id="@+id/rentNameDrawer"
+        android:id="@+id/navRentName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/xmin_padding"
@@ -34,16 +34,14 @@
         android:textSize="@dimen/medium_text"
         android:textStyle="bold" />
 
-    <RatingBar
+    <com.iarcuschin.simpleratingbar.SimpleRatingBar
         android:id="@+id/mitra_rating"
-        style="@style/SmallRatingBar"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center" />
-    <!--<TextView-->
-    <!--android:id="@+id/textView"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:text="pengguna@mail.com" />-->
+        android:layout_height="25dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/xmin_padding"
+        app:srb_isIndicator="true"
+        app:srb_rating="4.5"
+        style="@style/CustomRatingBar" />
 
 </LinearLayout>

@@ -76,7 +76,6 @@ public class TransaksiAdapter extends RecyclerView.Adapter<TransaksiAdapter.View
             harga = (TextView) itemView.findViewById(R.id.tr_harga_det);
             cardDetTrans = (CardView) itemView.findViewById(R.id.card_view_transaksi);
         }
-
     }
 
     @Override

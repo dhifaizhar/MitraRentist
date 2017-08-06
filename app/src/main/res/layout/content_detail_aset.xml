@@ -85,15 +85,15 @@
                             android:layout_alignParentStart="true"
                             android:textSize="@dimen/small_text" />
 
-                        <RatingBar
+                        <com.iarcuschin.simpleratingbar.SimpleRatingBar
                             android:id="@+id/det_aset_rating"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            style="@style/CustomRatingBar"
+                            android:layout_width="70dp"
+                            android:layout_height="25dp"
                             android:layout_margin="@dimen/xmin_padding"
                             android:layout_marginLeft="0dp"
                             android:layout_toRightOf="@+id/det_as_rating_text"
-                            style="@style/SmallRatingBar"
-                            />
+                            app:srb_rating="4.5" />
 
                     </RelativeLayout>
 

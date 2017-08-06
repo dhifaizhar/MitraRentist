@@ -18,16 +18,15 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="SmallRatingBar" parent="@android:style/Widget.Holo.Light.RatingBar.Small">
-        <item name="android:minHeight">30dip</item>
-        <item name="android:maxHeight">60dip</item>
+    <style name="CustomRatingBar" parent="Theme.AppCompat">
+        <item name="srb_fillColor">@color/colorYellow</item>
+        <item name="srb_borderColor">@color/colorYellowDark</item>
+        <item name="srb_numberOfStars">5</item>
+        <item name="srb_stepSize">0.5</item>
     </style>
 
     <style name="TextLabelWhite" parent="TextAppearance.AppCompat">
-        <!-- Hint color and label color in FALSE state -->
-        <!--<item name="android:textColorHint">@color/colorBlack87</item>-->
         <item name="android:textSize">20sp</item>
-        <!-- Label color in TRUE state and bar color FALSE and TRUE State -->
         <item name="colorAccent">@color/colorWhite</item>
         <item name="colorControlNormal">@color/colorWhite</item>
         <item name="colorControlActivated">@color/colorWhite</item>

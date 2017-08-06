@@ -356,9 +356,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 sm.setPreferences("nama_rental", sNamaRent);
                 sm.setPreferences("nama_pemilik", sNamaPem);
                 sm.setPreferences("alamat", sAlamat);
-                sm.setPreferences("email", sEmail);
                 sm.setPreferences("telepon", sTelp);
-                sm.setPreferences("foto_profil", sImg);
+                sm.setIntPreferences("foto_profil", sImg);
                 sm.setPreferences("status",sStat);
 
                 if(sStat.equals("1")){

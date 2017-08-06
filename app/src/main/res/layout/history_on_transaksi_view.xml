@@ -112,9 +112,8 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/cardview_compat_inset_shadow"
-                android:paddingLeft="@dimen/min_padding"
-                android:paddingRight="@dimen/min_padding">
+                android:layout_marginBottom="@dimen/xmin_padding"
+                android:padding="@dimen/xmin_padding">
 
                 <TextView
                     android:id="@+id/tr_harga_det"
@@ -123,20 +122,22 @@
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/min_padding"
+                    android:layout_marginStart="@dimen/min_padding"
                     android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/medium_text" />
 
-                <RatingBar
+                <com.iarcuschin.simpleratingbar.SimpleRatingBar
                     android:id="@+id/aset_rating2"
-                    style="@style/SmallRatingBar"
-                    android:layout_width="wrap_content"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_gravity="center"
-                    android:layout_marginRight="@dimen/min_padding"
-                    android:paddingTop="@dimen/min_padding" />
+                    android:layout_marginEnd="@dimen/min_padding"
+                    android:padding="@dimen/xmin_padding"
+                    app:srb_isIndicator="true"
+                    app:srb_rating="4.5"
+                    style="@style/CustomRatingBar"/>
 
             </RelativeLayout>
 

@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +23,8 @@ import id.rentist.mitrarentist.tools.SessionManager;
 public class DashboardActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private SessionManager sm;
+    private View navHeaderView;
+    ImageView rentImgProfile;
     TextView rentName, rentNameDrawer;
     ImageButton btnNewTrans, btnToSaldo, btnWorkDate;
 
@@ -42,19 +45,25 @@ public class DashboardActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        navHeaderView = navigationView.getHeaderView(0);
 
         controlContent();
         Toast.makeText(getApplicationContext(),"Selamat Datang Mitra : " + sm.getPreferences("nama_rental"), Toast.LENGTH_LONG).show();
     }
 
     private void controlContent() {
+        //initialize view
         rentName = (TextView) findViewById(R.id.rentName);
+        rentNameDrawer = (TextView) navHeaderView.findViewById(R.id.navRentName);
+        rentImgProfile = (ImageView) navHeaderView.findViewById(R.id.navImageProfile);
         btnNewTrans = (ImageButton) findViewById(R.id.btn_to_det_new_trans);
         btnToSaldo = (ImageButton) findViewById(R.id.btn_to_saldo);
         btnWorkDate = (ImageButton) findViewById(R.id.btn_work_date);
 
-        // set content control
+        // set content control value
         rentName.setText(sm.getPreferences("nama_rental"));
+        rentNameDrawer.setText(sm.getPreferences("nama_rental"));
+        rentImgProfile.setImageResource(sm.getIntPreferences("foto_profil"));
         btnNewTrans.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -164,6 +173,7 @@ public class DashboardActivity extends AppCompatActivity
         showAlert.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface arg0, int arg1) {
+                sm.clearPreferences();
                 startActivity(iLogin);
                 finish();
             }

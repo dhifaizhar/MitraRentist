@@ -9,6 +9,8 @@
     <color name="colorNearWhite">#f9f9f9</color>
     <color name="colorBlack">#000000</color>
     <color name="colorGrey">#AAAAAA</color>
+    <color name="colorYellow">#f2e600</color>
+    <color name="colorYellowDark">#d9cd02</color>
     <color name="colorBlack54">#757575</color>
     <color name="colorBlack87">#212121</color>
     <color name="colorButtonDefault">#e2e2e2</color>

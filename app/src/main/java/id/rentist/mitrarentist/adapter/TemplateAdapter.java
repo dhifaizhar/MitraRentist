@@ -9,28 +9,27 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import id.rentist.mitrarentist.R;
 import id.rentist.mitrarentist.modul.ProfileContentModul;
 
 /**
  * Created by mdhif on 21/06/2017.
  */
 
-public class ProfilAdapter extends RecyclerView.Adapter<ProfilAdapter.ViewHolder> {
+public class TemplateAdapter extends RecyclerView.Adapter<TemplateAdapter.ViewHolder> {
 
     private List<ProfileContentModul> mProfile;
     private int j;
 
-    public ProfilAdapter(){
+    public TemplateAdapter(){
         super();
         this.mProfile = new ArrayList<ProfileContentModul>();
         ProfileContentModul pr;
 
-        pr = new ProfileContentModul();
-        pr.setProfilePhoto(R.drawable.user_ava_man);
-        pr.setRentName("Rental Budi Makmur");
-        pr.setAddress("Gg. Pusaka Kuta, Kabupaten Badung, Bali 80361");
-        mProfile.add(pr);
+//        pr = new ProfileContentModul();
+//        pr.setProfilePhoto(R.drawable.user_ava_man);
+//        pr.setRentName("Rental Budi Makmur");
+//        pr.setAddress("Gg. Pusaka Kuta, Kabupaten Badung, Bali 80361");
+//        mProfile.add(pr);
     }
 
     @Override
@@ -52,9 +51,9 @@ public class ProfilAdapter extends RecyclerView.Adapter<ProfilAdapter.ViewHolder
 
         public ViewHolder(View itemView){
             super(itemView);
-            rental = (TextView) itemView.findViewById(R.id.pr_rental_name);
-            address = (TextView) itemView.findViewById(R.id.pr_address_name);
-            profilePhoto = (ImageView) itemView.findViewById(R.id.pr_thumb);
+//            rental = (TextView) itemView.findViewById(R.id.pr_rental_name);
+//            address = (TextView) itemView.findViewById(R.id.pr_address_name);
+//            profilePhoto = (ImageView) itemView.findViewById(R.id.pr_thumb);
         }
     }
 
@@ -63,8 +62,8 @@ public class ProfilAdapter extends RecyclerView.Adapter<ProfilAdapter.ViewHolder
         ProfileContentModul as = mProfile.get(i);
 
 //        simpan value dalam object
-        viewHolder.rental.setText(as.getRentName());
-        viewHolder.address.setText(as.getAddress());
-        viewHolder.profilePhoto.setImageResource(as.getProfilePhoto());
+//        viewHolder.rental.setText(as.getRentName());
+//        viewHolder.address.setText(as.getAddress());
+//        viewHolder.profilePhoto.setImageResource(as.getProfilePhoto());
     }
 }

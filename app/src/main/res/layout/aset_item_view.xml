@@ -44,14 +44,14 @@
                     android:layout_toLeftOf="@+id/aset_rating"
                     android:textSize="@dimen/small_text" />
 
-                <RatingBar
+                <com.iarcuschin.simpleratingbar.SimpleRatingBar
                     android:id="@+id/aset_rating"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/xmin_padding"
+                    style="@style/CustomRatingBar"
+                    android:layout_width="65dp"
+                    android:layout_height="25dp"
                     android:layout_alignParentEnd="true"
-                    style="@style/SmallRatingBar"
-                    />
+                    android:layout_margin="@dimen/xmin_padding"
+                    app:srb_rating="4.5" />
 
             </RelativeLayout>
 

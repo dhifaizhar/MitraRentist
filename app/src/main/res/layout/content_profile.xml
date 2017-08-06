@@ -41,19 +41,6 @@
                         android:padding="@dimen/xmin_padding"
                         android:orientation="vertical">
 
-                        <TextView
-                            android:id="@+id/pr_rental_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentStart="true"
-                            android:layout_gravity="center"
-                            android:layout_margin="@dimen/xmin_padding"
-                            android:layout_marginStart="@dimen/xmin_padding"
-                            android:text="Nama Rental"
-                            android:textAllCaps="true"
-                            android:textStyle="bold"
-                            android:textSize="@dimen/large_text" />
-
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/explorer_item_size"
@@ -74,7 +61,7 @@
                                 android:layout_marginStart="@dimen/xmin_padding"
                                 android:layout_marginTop="@dimen/xmin_padding"
                                 android:contentDescription="profil"
-                                android:src="@drawable/user_ava_man" />
+                                android:src="@android:drawable/sym_def_app_icon" />
 
                             <TextView
                                 android:id="@+id/pr_owner_name"
@@ -83,7 +70,6 @@
                                 android:layout_alignParentBottom="true"
                                 android:layout_centerHorizontal="true"
                                 android:layout_marginTop="@dimen/min_padding"
-                                android:layout_toEndOf="@+id/pr_owner_ico"
                                 android:background="@color/colorPrimary"
                                 android:paddingBottom="@dimen/xmin_padding"
                                 android:paddingLeft="@dimen/med_padding"
@@ -108,7 +94,7 @@
                                 android:layout_width="@dimen/thumb_prop_width"
                                 android:layout_height="@dimen/thumb_prop_height"
                                 android:layout_marginEnd="@dimen/min_padding"
-                                android:contentDescription="loaction"
+                                android:contentDescription="location"
                                 app:srcCompat="@drawable/ic_location_on_black_24dp" />
 
                             <TextView
@@ -186,31 +172,43 @@
                     app:cardElevation="1dp"
                     android:foreground="?selectableItemBackground">
 
-                    <RelativeLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/min_padding">
+                        android:orientation="horizontal"
+                        android:padding="@dimen/xmin_padding">
 
                         <TextView
                             android:id="@+id/pr_sum_rating"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentStart="true"
-                            android:layout_centerVertical="true"
+                            android:layout_gravity="center_vertical|start"
                             android:layout_margin="@dimen/xmin_padding"
                             android:layout_marginStart="@dimen/xmin_padding"
                             android:text="Nilai Rental"
                             android:textSize="@dimen/medium_text" />
 
-                        <RatingBar
-                            android:id="@+id/pr_rating_bar"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="@dimen/xmin_padding"
-                            android:layout_marginRight="@dimen/xmin_padding" />
-                    </RelativeLayout>
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <com.iarcuschin.simpleratingbar.SimpleRatingBar
+                                android:id="@+id/pr_rating_bar"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_gravity="center_vertical|end"
+                                android:layout_marginLeft="@dimen/xmin_padding"
+                                android:layout_marginRight="@dimen/xmin_padding"
+                                android:maxHeight="@dimen/btn_lmedium_height"
+                                android:maxWidth="@dimen/thumb_width"
+                                app:srb_isIndicator="true"
+                                app:srb_rating="4.5"
+                                style="@style/CustomRatingBar" />
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
 
                 </android.support.v7.widget.CardView>
 
@@ -258,19 +256,22 @@
                                     android:layout_alignParentStart="true"
                                     android:layout_margin="@dimen/xmin_padding"
                                     android:layout_marginStart="@dimen/xmin_padding"
-                                    android:background="@android:color/holo_orange_light"
                                     android:padding="@dimen/xmin_padding"
-                                    android:text="DAihatsu Xenia | DD 6612 QW"
-                                    android:textSize="@dimen/medium_text" />
+                                    android:text="Honda Jazz"
+                                    android:textSize="@dimen/medium_text"
+                                    android:textStyle="bold"/>
 
-                                <RatingBar
+                                <com.iarcuschin.simpleratingbar.SimpleRatingBar
                                     android:id="@+id/aset_rating"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_margin="@dimen/xmin_padding"
+                                    style="@style/CustomRatingBar"
+                                    android:layout_width="75dp"
+                                    android:layout_height="30dp"
                                     android:layout_alignParentEnd="true"
-                                    style="@style/SmallRatingBar"
-                                    />
+                                    android:layout_centerHorizontal="false"
+                                    android:layout_centerVertical="true"
+                                    android:layout_margin="@dimen/xmin_padding"
+                                    app:srb_isIndicator="true"
+                                    app:srb_rating="4.0" />
 
                             </RelativeLayout>
 
@@ -337,19 +338,21 @@
                                     android:layout_alignParentStart="true"
                                     android:layout_margin="@dimen/xmin_padding"
                                     android:layout_marginStart="@dimen/xmin_padding"
-                                    android:background="@android:color/holo_orange_light"
                                     android:padding="@dimen/xmin_padding"
-                                    android:text="Daihatsu Xenia | DD 6612 QW"
-                                    android:textSize="@dimen/medium_text" />
+                                    android:text="Daihatsu Xenia"
+                                    android:textSize="@dimen/medium_text"
+                                    android:textStyle="bold"/>
 
-                                <RatingBar
+                                <com.iarcuschin.simpleratingbar.SimpleRatingBar
                                     android:id="@+id/aset_rating2"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_margin="@dimen/xmin_padding"
+                                    style="@style/CustomRatingBar"
+                                    android:layout_width="75dp"
+                                    android:layout_height="30dp"
                                     android:layout_alignParentEnd="true"
-                                    style="@style/SmallRatingBar"
-                                    />
+                                    android:layout_centerVertical="true"
+                                    android:layout_margin="@dimen/xmin_padding"
+                                    app:srb_isIndicator="true"
+                                    app:srb_rating="4.5" />
 
                             </RelativeLayout>
 
@@ -372,7 +375,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginBottom="@dimen/xmin_padding"
-                                    android:text="Wiliam Negara"
+                                    android:text="Heru Sakti"
                                     android:layout_toRightOf="@+id/pr_test_ico2"
                                     android:textSize="@dimen/small_text"/>
 
@@ -390,7 +393,7 @@
                                     android:id="@+id/pr_testi_content2"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Murah sekaliiiiii"
+                                    android:text="Mudah mencari yang dibutuhkan"
                                     android:layout_below="@+id/pr_testi_name2"
                                     android:layout_toRightOf="@+id/pr_test_ico2" />
 

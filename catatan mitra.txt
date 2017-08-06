@@ -1,0 +1,41 @@
+MITRA RENTIST
+== Catatan 30 Juli 2017
+
+app.src.main.java :: Activity
+- FormEditProfilRentalActivity -> FormEditProfilActivity
+- FormEditProfilOwnerActivity -> hapus
+- AssetDetail -> DetailAsetActivity
+
+app.src.main.java :: Tab
+- DashboardTabAdapter -> hapus
+- ProfileTabAdapter -> hapus
+
+app.src.main.java :: Fragment
+- OwnerFragment -> hapus
+- RentalFragment -> hapus
+- TransaksiFragment -> TemplateFragment
+
+app.src.main.java :: Adapter
+- ProfilOwnerAdapter -> hapus
+- ProfilRentalAdapter -> TemplateAdapter
+- EditProfilRentalAdapter -> hapus
+- EditProfilOwnerAdapter -> hapus
+- EditProfilAdapter -> hapus
+
+app.src.main.res :: layout
+- fragment_profile_rental -> hapus
+- fragment_profile_owner -> hapus
+- activity_form_edit_profil_owner -> hapus
+- content_form_edit_profil_owner -> hapus
+- profil_owner_view -> hapus
+- activity_form_edit_profil_rental -> activity_form_edit_profil
+- content_form_edit_profil_rental -> content_form_edit_profil
+- profil_rental_view -> hapus
+- fragement_transaksi -> hapus
+
+app.src.main.res :: values
+- colors
+- strings
+
+build.gradle :: <color name="colorYellow">#f2e600</color>
++ com.iarcuschin:simpleratingbar:0.1.5

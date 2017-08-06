@@ -7,7 +7,8 @@
     android:orientation="vertical"
     android:padding="@dimen/xmin_padding"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="id.rentist.mitrarentist.FormEditProfilActivity">
+    tools:context="id.rentist.mitrarentist.FormEditProfilActivity"
+    tools:showIn="@layout/activity_form_edit_profil">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -42,26 +43,16 @@
             </LinearLayout>
 
             <EditText
-                android:id="@+id/pr_address_name"
+                android:id="@+id/epr_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="alamat"
-                android:inputType="textMultiLine"
-                android:lines="3"
+                android:hint="email"
+                android:inputType="textEmailAddress"
                 android:padding="@dimen/min_padding" />
 
             <EditText
-                android:id="@+id/pr_telp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="nomor telepon"
-                android:inputType="phone"
-                android:padding="@dimen/min_padding" />
-
-            <EditText
-                android:id="@+id/pr_rental_name"
+                android:id="@+id/epr_rental_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -70,13 +61,33 @@
                 android:padding="@dimen/min_padding" />
 
             <EditText
-                android:id="@+id/pr_email"
+                android:id="@+id/epr_owner_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="email"
-                android:inputType="textEmailAddress"
+                android:hint="nama pemilik"
+                android:inputType="textPersonName"
                 android:padding="@dimen/min_padding" />
+
+            <EditText
+                android:id="@+id/epr_telp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="nomor telepon"
+                android:inputType="phone"
+                android:padding="@dimen/min_padding" />
+
+            <EditText
+                android:id="@+id/epr_address_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="alamat"
+                android:inputType="textMultiLine"
+                android:lines="3"
+                android:padding="@dimen/min_padding" />
+
         </LinearLayout>
     </ScrollView>
 
