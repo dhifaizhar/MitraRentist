@@ -1,10 +1,9 @@
 package id.rentist.mitrarentist;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.LoaderManager.LoaderCallbacks;
+import android.app.ProgressDialog;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -44,8 +43,9 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     private UserLoginTask mAuthTask = null;
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
-    private View mProgressView, mLoginFormView;
+    private View mLoginFormView;
     private SessionManager sm;
+    private ProgressDialog pDialog;
 
     private static final int REQUEST_READ_CONTACTS = 0;
     private static final String[] DUMMY_CREDENTIALS = new String[]{
@@ -55,28 +55,18 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sm = new SessionManager(getApplicationContext());
         setContentView(R.layout.activity_login);
 
+        sm = new SessionManager(getApplicationContext());
+        pDialog = new ProgressDialog(this);
+        pDialog.setCancelable(false);
+
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+        populateAutoComplete();
         mLoginFormView = findViewById(R.id.login_form);
-        mProgressView = findViewById(R.id.login_progress);
         mPasswordView = (EditText) findViewById(R.id.password);
         mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         forgotPassword = (TextView) findViewById(R.id.forgotPassword);
-
-//        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-//            @Override
-//            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-//                if (id == R.id.login || id == EditorInfo.IME_NULL) {
-//                    attemptLogin();
-//                    return true;
-//                }
-//                return false;
-//            }
-//        });
-
-        populateAutoComplete();
 
         //Perform SIGN IN authentication
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
@@ -174,6 +164,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
         // Check for a valid email & password, if the user entered one.
         if (isEmailValid(email) && isPasswordValid(password)) {
+            pDialog.setMessage("authentication request ...");
             showProgress(true);
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
@@ -228,30 +219,16 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     private void showProgress(final boolean show) {
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
-
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            mLoginFormView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
-
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mProgressView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-                }
-            });
-        } else {
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+        if(show){
+            mLoginFormView.setVisibility(View.GONE);
+            if (!pDialog.isShowing()){
+                pDialog.show();
+            }
+        }else{
+            mLoginFormView.setVisibility(View.VISIBLE);
+            if (pDialog.isShowing()){
+                pDialog.dismiss();
+            }
         }
     }
 
@@ -369,7 +346,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 }
 
             } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
+                Toast.makeText(getApplicationContext(),R.string.error_incorrect_password, Toast.LENGTH_LONG).show();
+                mPasswordView.setError("Masukan kembali kata kunci");
                 mPasswordView.requestFocus();
             }
         }

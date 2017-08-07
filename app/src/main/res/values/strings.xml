@@ -8,9 +8,9 @@
     <string name="prompt_password">Password </string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
-    <string name="error_invalid_email">Gunakan alamat surel yang valid.</string>
-    <string name="error_invalid_password">Minimal 5 karakter. Gunakan hanya karakter angka dan huruf.</string>
-    <string name="error_incorrect_password">Kata kunci tidak sesuai.</string>
+    <string name="error_invalid_email">Gunakan alamat surel yang valid</string>
+    <string name="error_invalid_password">Minimal 5 karakter ( hanya angka atau huruf )</string>
+    <string name="error_incorrect_password">Kata kunci tidak sesuai</string>
     <string name="error_field_required">Wajib diisi!</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
