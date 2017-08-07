@@ -4,11 +4,15 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import id.rentist.mitrarentist.tools.SessionManager;
+
 public class SplashScreen extends Activity {
+    private SessionManager sm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sm = new SessionManager(getApplicationContext());
         setContentView(R.layout.activity_splash_screen);
         Thread thread = new Thread(){
             public void run(){
@@ -17,8 +21,18 @@ public class SplashScreen extends Activity {
                 } catch (InterruptedException e){
                     e.printStackTrace();
                 } finally {
-                    startActivity(new Intent(SplashScreen.this, OnBoardActivity.class));
-                    finish();
+                    if(sm.getAppPreferences("APP_ONBOARDVIEW").isEmpty()){
+                        if(sm.getAppPreferences("status").isEmpty()){
+                            startActivity(new Intent(SplashScreen.this, OnBoardActivity.class));
+                            finish();
+                        }else{
+                            startActivity(new Intent(SplashScreen.this, DashboardActivity.class));
+                            finish();
+                        }
+                    }else{
+                        startActivity(new Intent(SplashScreen.this, LoginActivity.class));
+                        finish();
+                    }
                 }
             }
         };

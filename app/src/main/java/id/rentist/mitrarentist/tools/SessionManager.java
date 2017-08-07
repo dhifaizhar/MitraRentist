@@ -18,6 +18,18 @@ public class SessionManager {
         this.context = context;
     }
 
+    public void setAppPreferences(String key, String value){
+        editor = context.getSharedPreferences("LocalSession", Context.MODE_PRIVATE).edit();
+        editor.putString(key, value);
+        editor.apply();
+    }
+
+    public String getAppPreferences(String key) {
+        prefs = context.getSharedPreferences("LocalSession", Context.MODE_PRIVATE);
+        position = prefs.getString(key, "");
+        return position;
+    }
+
     public void setPreferences(String key, String value) {
         editor = context.getSharedPreferences("RentistSession", Context.MODE_PRIVATE).edit();
         editor.putString(key, value);

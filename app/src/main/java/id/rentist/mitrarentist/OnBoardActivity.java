@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import id.rentist.mitrarentist.tools.SessionManager;
 import id.rentist.mitrarentist.tools.Tools;
 
 public class OnBoardActivity extends AppCompatActivity {
@@ -24,10 +25,12 @@ public class OnBoardActivity extends AppCompatActivity {
     private TextView[] dots;
     private int[] layouts;
     private Button btnSkip, btnNext;
+    private SessionManager sm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sm = new SessionManager(getApplicationContext());
         setContentView(R.layout.activity_onboard);
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         dotsLayout = (LinearLayout) findViewById(R.id.layoutDots);
@@ -98,6 +101,7 @@ public class OnBoardActivity extends AppCompatActivity {
 
     private void launchActivityMain() {
         startActivity(new Intent(OnBoardActivity.this, LoginActivity.class));
+        sm.setAppPreferences("APP_ONBOARDVIEW", "1");
         finish();
     }
 
