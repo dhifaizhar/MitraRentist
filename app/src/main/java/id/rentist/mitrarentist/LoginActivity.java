@@ -19,6 +19,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
@@ -28,9 +29,22 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import id.rentist.mitrarentist.tools.AppConfig;
 import id.rentist.mitrarentist.tools.SessionManager;
 
 import static android.Manifest.permission.READ_CONTACTS;
@@ -46,11 +60,11 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     private View mLoginFormView;
     private SessionManager sm;
     private ProgressDialog pDialog;
+    private JSONObject userObject, responseMessage;
+    private String user;
 
+    private static final String TAG = "LoginActivity";
     private static final int REQUEST_READ_CONTACTS = 0;
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "user@mail.com:123456"
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -232,6 +246,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         }
     }
 
+    // start auto complete action : not use
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         return new CursorLoader(this,
@@ -270,6 +285,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
         mEmailView.setAdapter(adapter);
     }
+    //end auto complete action
 
     private interface ProfileQuery {
         String[] PROJECTION = {
@@ -291,6 +307,59 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         UserLoginTask(String email, String password) {
             mEmail = email;
             mPassword = password;
+
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.URL_LOGIN, new Response.Listener<String>() {
+
+                @Override
+                public void onResponse(String response) {
+                    String errorMsg;
+
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        int errorCode = jsonObject.getInt("code");
+                        if(errorCode == 200 && !jsonObject.isNull("data")){
+                            Log.e(TAG, "Login Status : Sukses");
+                            errorMsg = "";
+                            user = String.valueOf(jsonObject.getJSONObject("data"));
+                        }else {
+                            user = null;
+                            responseMessage = jsonObject.getJSONObject("reponse");
+                            errorMsg = responseMessage.getString("message");
+                            mPasswordView.setError("Masukan kembali kata kunci");
+                            mPasswordView.requestFocus();
+                            Toast.makeText(getApplicationContext(),R.string.error_incorrect_password, Toast.LENGTH_LONG).show();
+                            Log.e(TAG, "Login Error : " + errorMsg);
+                        }
+                    } catch (JSONException e) {
+                        // JSON error
+                        e.printStackTrace();
+                        errorMsg = "";
+                        Toast.makeText(getApplicationContext(), "JSON Error : " + e.getMessage(),
+                                Toast.LENGTH_LONG).show();
+                    }
+
+                    Log.d(TAG, "Login Error Response : " + errorMsg);
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.e(TAG, "Login Error : " + error.toString());
+                    Toast.makeText(getApplicationContext(), "Connection error, try again.",
+                            Toast.LENGTH_LONG).show();
+                }
+            }){
+                @Override
+                protected Map<String, String> getParams(){
+                    // Posting parameters to login url
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("email", mEmail);
+                    params.put("password", mPassword);
+                    return params;
+                }
+            };
+
+            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+            requestQueue.add(stringRequest);
         }
 
         @Override
@@ -298,16 +367,13 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             // TODO: attempt authentication against a network service.
 
             try {
-                Thread.sleep(2000);
+                Thread.sleep(5000);
             } catch (InterruptedException e) {
                 return false;
             }
 
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    return pieces[1].equals(mPassword);
-                }
+            if (user != null) {
+                return true;
             }
 
             // TODO: register the new account here.
@@ -320,35 +386,38 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             showProgress(false);
 
             if (success) {
-                EditText etEmail = (EditText) findViewById(R.id.email);
-                sEmail = etEmail.getText().toString();
-                sNamaRent = "RENTAL ABADI";
-                sNamaPem = "ABDI NEGARA";
-                sAlamat = "Gg. Pusaka Kuta, Kabupaten Badung, Bali 80361";
-                sTelp = "081 1232 3144";
-                sImg = R.drawable.user_ava_man;
-                sStat = "1";
+                try {
+                    userObject = new JSONObject(user);
+                    Log.d(TAG, String.valueOf(userObject));
 
-                sm.setPreferences("email", sEmail);
-                sm.setPreferences("nama_rental", sNamaRent);
-                sm.setPreferences("nama_pemilik", sNamaPem);
-                sm.setPreferences("alamat", sAlamat);
-                sm.setPreferences("telepon", sTelp);
-                sm.setIntPreferences("foto_profil", sImg);
-                sm.setPreferences("status",sStat);
+                    sEmail = userObject.getString("email");
+                    sNamaRent = userObject.getString("name");
+                    sNamaPem = "ABDI NEGARA";
+                    sAlamat = "Gg. Pusaka Kuta, Kabupaten Badung, Bali 80361";
+                    sTelp = "081 1232 3144";
+                    sImg = R.drawable.user_ava_man;
+                    sStat = "1";
 
-                if(sStat.equals("1")){
-                    startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
-                    finish();
-                }else{
-                    startActivity(new Intent(LoginActivity.this, AktivasiActivity.class));
-                    finish();
+                    sm.setPreferences("email", sEmail);
+                    sm.setPreferences("nama_rental", sNamaRent);
+                    sm.setPreferences("nama_pemilik", sNamaPem);
+                    sm.setPreferences("alamat", sAlamat);
+                    sm.setPreferences("telepon", sTelp);
+                    sm.setIntPreferences("foto_profil", sImg);
+                    sm.setPreferences("status",sStat);
+
+                    if(sStat.equals("1")){
+                        startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
+                        finish();
+                    }else{
+                        startActivity(new Intent(LoginActivity.this, AktivasiActivity.class));
+                        finish();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Log.d(TAG, "JSON Error : " + e);
                 }
-
-            } else {
-                Toast.makeText(getApplicationContext(),R.string.error_incorrect_password, Toast.LENGTH_LONG).show();
-                mPasswordView.setError("Masukan kembali kata kunci");
-                mPasswordView.requestFocus();
             }
         }
 
