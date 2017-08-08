@@ -43,6 +43,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import id.rentist.mitrarentist.tools.AppConfig;
 import id.rentist.mitrarentist.tools.SessionManager;
@@ -317,7 +318,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                     try {
                         JSONObject jsonObject = new JSONObject(response);
                         int errorCode = jsonObject.getInt("code");
-                        if(errorCode == 200 && !jsonObject.isNull("data")){
+                        String data = jsonObject.getString("data");
+                        if(errorCode == 200 && !Objects.equals(data, "false")){
                             Log.e(TAG, "Login Status : Sukses");
                             errorMsg = "";
                             user = String.valueOf(jsonObject.getJSONObject("data"));
@@ -334,8 +336,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                         // JSON error
                         e.printStackTrace();
                         errorMsg = "";
-                        Toast.makeText(getApplicationContext(), "JSON Error : " + e.getMessage(),
-                                Toast.LENGTH_LONG).show();
+                        user = null;
+                        mEmailView.setError("Masukan kembali data anda!");
+                        mEmailView.requestFocus();
+                        Toast.makeText(getApplicationContext(),"Alamat email dan kata kunci tidak cocok", Toast.LENGTH_LONG).show();
                     }
 
                     Log.d(TAG, "Login Error Response : " + errorMsg);
@@ -367,17 +371,19 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             // TODO: attempt authentication against a network service.
 
             try {
-                Thread.sleep(5000);
+                Thread.sleep(3000);
             } catch (InterruptedException e) {
                 return false;
             }
 
             if (user != null) {
                 return true;
+            }else{
+                return false;
             }
 
             // TODO: register the new account here.
-            return true;
+//            return true;
         }
 
         @Override
