@@ -7,4 +7,6 @@ package id.rentist.mitrarentist.tools;
 public class AppConfig {
     private static String SERVER = "http://192.168.88.59:1337/";
     public static String URL_LOGIN = SERVER + "login/tenant/";
+    public static  String URL_MOBIL = SERVER + "mobil/";
+    public static  String URL_ADD_MOBIL = SERVER + "item/mobil/";
 }
