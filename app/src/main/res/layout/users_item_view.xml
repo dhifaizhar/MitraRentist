@@ -101,7 +101,6 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_marginTop="@dimen/xmin_padding"
                 android:layout_height="1dp"
                 android:layout_marginLeft="@dimen/min_padding"
                 android:layout_marginRight="@dimen/min_padding"

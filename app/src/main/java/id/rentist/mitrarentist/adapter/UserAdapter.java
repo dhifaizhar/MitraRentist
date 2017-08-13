@@ -41,7 +41,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                     user.setEmail("riki@mail.com");
                     user.setPhone("081254674578");
                     user.setRole("Executive");
-                    user.setThumbnail(R.drawable.ava_budi);
+                    user.setThumbnail(R.drawable.user_ava_man);
                     break;
 
                 case 2 :
