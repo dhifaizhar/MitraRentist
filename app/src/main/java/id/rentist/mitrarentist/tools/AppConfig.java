@@ -9,4 +9,5 @@ public class AppConfig {
     public static String URL_LOGIN = SERVER + "login/tenant/";
     public static  String URL_LIST_MOBIL = SERVER + "mobil/";
     public static  String URL_ADD_MOBIL = SERVER + "item/mobil/";
+    public static  String URL_LIST_USER = SERVER + "tenant/child/";
 }

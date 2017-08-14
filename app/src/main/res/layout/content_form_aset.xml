@@ -77,59 +77,66 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:hint="Merek"
-                    android:padding="@dimen/min_padding" />
+                    android:padding="@dimen/min_padding"
+                    android:text="SUZUKI" />
 
                 <EditText
-                    android:id="@+id/editText2"
+                    android:id="@+id/as_type"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:hint="Tipe"
-                    android:padding="@dimen/min_padding" />
+                    android:padding="@dimen/min_padding"
+                    android:text="ERTIGA" />
 
                 <EditText
-                    android:id="@+id/editText3"
+                    android:id="@+id/as_plat"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:hint="Plat Nomor"
-                    android:padding="@dimen/min_padding" />
+                    android:padding="@dimen/min_padding"
+                    android:text="B 2946 DK" />
 
                 <EditText
-                    android:id="@+id/editText4"
+                    android:id="@+id/as_year"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:hint="Tahun Produksi"
                     android:inputType="textPersonName"
-                    android:padding="@dimen/min_padding" />
+                    android:padding="@dimen/min_padding"
+                    android:text="2017" />
 
                 <EditText
-                    android:id="@+id/editText5"
+                    android:id="@+id/as_colour"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:hint="Warna"
                     android:inputType="textPersonName"
-                    android:padding="@dimen/min_padding" />
+                    android:padding="@dimen/min_padding"
+                    android:text="BLUE" />
 
                 <EditText
-                    android:id="@+id/editText6"
+                    android:id="@+id/as_regnum"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:hint="Nomor BPKB"
                     android:inputType="textPersonName"
-                    android:padding="@dimen/min_padding" />
+                    android:padding="@dimen/min_padding"
+                    android:text="005201701SWQ116" />
 
                 <EditText
-                    android:id="@+id/editText7"
+                    android:id="@+id/as_engcap"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:hint="Kapasitas Mesin"
                     android:inputType="textPersonName"
-                    android:padding="@dimen/min_padding" />
+                    android:padding="@dimen/min_padding"
+                    android:text="1333 cc" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -152,31 +159,33 @@
                 </RelativeLayout>
 
                 <EditText
-                    android:id="@+id/editText9"
+                    android:id="@+id/as_fuel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:hint="Bahan Bakar"
                     android:inputType="textPersonName"
-                    android:padding="@dimen/min_padding" />
+                    android:padding="@dimen/min_padding"
+                    android:text="PERTAMAX" />
 
                 <EditText
-                    android:id="@+id/editText10"
+                    android:id="@+id/as_seat"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:hint="Kursi"
                     android:inputType="number"
-                    android:padding="@dimen/min_padding" />
-
+                    android:padding="@dimen/min_padding"
+                    android:text="6" />
 
 
                 <RadioGroup
-                    android:id="@+id/radiogroup"
+                    android:id="@+id/transmission_group"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/min_padding"
                     android:layout_marginTop="@dimen/med_padding"
+                    android:checkedButton="@+id/r_manual"
                     android:orientation="horizontal">
 
                     <RadioButton
@@ -199,21 +208,23 @@
                 </RadioGroup>
 
                 <CheckBox
-                    android:id="@+id/checkBox7"
+                    android:id="@+id/as_ck_ac"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:checked="true"
                     android:text="AC" />
 
                 <CheckBox
-                    android:id="@+id/checkBox8"
+                    android:id="@+id/as_ck_ab"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:checked="true"
                     android:text="Air Bag" />
 
                 <CheckBox
-                    android:id="@+id/checkBox9"
+                    android:id="@+id/as_ck_driver"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -224,27 +235,28 @@
                     android:layout_height="wrap_content">
 
                     <CheckBox
-                        android:id="@+id/checkBox10"
+                        android:id="@+id/as_ck_assurance"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
                         android:layout_alignParentTop="true"
-                        android:layout_weight="1"
-                        android:paddingEnd="@dimen/min_padding"
                         android:layout_marginTop="@dimen/xmin_padding"
-                        android:text="Asuransi"
-                        />
+                        android:layout_weight="1"
+                        android:checked="true"
+                        android:paddingEnd="@dimen/min_padding"
+                        android:text="Asuransi" />
 
                     <EditText
-                        android:id="@+id/editText11"
+                        android:id="@+id/as_assurance_price"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_toRightOf="@+id/checkBox10"
+                        android:layout_alignBottom="@id/as_ck_assurance"
+                        android:layout_toRightOf="@+id/as_ck_assurance"
                         android:ems="10"
                         android:hint="Harga Asuransi"
                         android:inputType="number"
-                        android:layout_alignBottom="@id/checkBox10"
-                        android:padding="@dimen/min_padding" />
+                        android:padding="@dimen/min_padding"
+                        android:text="20000" />
                 </RelativeLayout>
 
 

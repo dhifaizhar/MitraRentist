@@ -65,8 +65,8 @@ public class AsetActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         // action retrieve data aset
-        String tId = String.valueOf(sm.getIntPreferences("id_tenant"));
-        getAsetDataList(tId);
+        String tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
+        getAsetDataList(tenant);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -108,7 +108,6 @@ public class AsetActivity extends AppCompatActivity {
     private class getAsetListTask extends AsyncTask<String, String, String> {
         private final String mTenant;
         private String errorMsg, responseAsset;
-
 
         private getAsetListTask(String tenant) {
             mTenant = tenant;
