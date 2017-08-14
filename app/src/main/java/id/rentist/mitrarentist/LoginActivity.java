@@ -65,6 +65,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     private String user;
 
     private static final String TAG = "LoginActivity";
+    private static final String TOKEN = "secretissecret";
     private static final int REQUEST_READ_CONTACTS = 0;
 
     @Override
@@ -364,6 +365,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 protected Map<String, String> getParams(){
                     // Posting parameters to login url
                     Map<String, String> keys = new HashMap<String, String>();
+                    keys.put("token", TOKEN);
                     keys.put("email", mEmail);
                     keys.put("password", mPassword);
                     return keys;

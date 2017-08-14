@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -46,6 +47,7 @@ public class AsetActivity extends AppCompatActivity {
     private SessionManager sm;
 
     private static final String TAG = "AssetActivity";
+    private static final String TOKEN = "secretissecret";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,13 +67,6 @@ public class AsetActivity extends AppCompatActivity {
         // action retrieve data aset
         String tId = String.valueOf(sm.getIntPreferences("id_tenant"));
         getAsetDataList(tId);
-        
-//        mRecyclerView = (RecyclerView) findViewById(R.id.as_recyclerView);
-//        mLayoutManager = new LinearLayoutManager(getApplicationContext());
-//        mAdapter = new AsetAdapter(getApplicationContext(),mAset);
-//
-//        mRecyclerView.setLayoutManager(mLayoutManager);
-//        mRecyclerView.setAdapter(mAdapter);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -112,7 +107,7 @@ public class AsetActivity extends AppCompatActivity {
 
     private class getAsetListTask extends AsyncTask<String, String, String> {
         private final String mTenant;
-        private String errorMsg;
+        private String errorMsg, responseAsset;
 
 
         private getAsetListTask(String tenant) {
@@ -122,52 +117,11 @@ public class AsetActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
 
+            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
             StringRequest stringRequest = new StringRequest(Request.Method.GET, AppConfig.URL_LIST_MOBIL, new Response.Listener<String>() {
-
-                private String aName, aType, aPlat;
-                private Integer dataLength;
-
                 @Override
                 public void onResponse(String response) {
-
-                    try {
-                        JSONArray jsonArray = new JSONArray(response);
-                        Log.e(TAG, "Asset : " + jsonArray);
-                        dataLength = jsonArray.length();
-                        if(dataLength > 0){
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                errorMsg = "-";
-
-                                JSONObject jsonobject = jsonArray.getJSONObject(i);
-                                aName = jsonobject.getString("merk");
-                                aType = jsonobject.getString("type");
-                                aPlat = jsonobject.getString("license_plat");
-                                Log.e(TAG, "What Data : " + String.valueOf(jsonobject));
-
-                                ItemAsetModul itemModul = new ItemAsetModul();
-                                itemModul.setTitle(aName + " " + aType + " | " + aPlat);
-                                itemModul.setThumbnail(R.drawable.mobil_1);
-                                itemModul.setRating("4/5");
-                                itemModul.setPrice("Rp " + (i*100000) + " /hari");
-                                mAset.add(itemModul);
-                            }
-
-                            mRecyclerView = (RecyclerView) findViewById(R.id.as_recyclerView);
-                            mLayoutManager = new LinearLayoutManager(getApplicationContext());
-                            mAdapter = new AsetAdapter(getApplicationContext(),mAset);
-
-                            mRecyclerView.setLayoutManager(mLayoutManager);
-                            mRecyclerView.setAdapter(mAdapter);
-
-                        }else{
-                            errorMsg = "Anda belum memiliki Aset";
-                            Toast.makeText(getApplicationContext(),errorMsg, Toast.LENGTH_LONG).show();
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        errorMsg = "Anda belum memiliki Aset";
-                        Toast.makeText(getApplicationContext(),errorMsg, Toast.LENGTH_LONG).show();
-                    }
+                    responseAsset = response;
                 }
             }, new Response.ErrorListener() {
                 @Override
@@ -179,33 +133,75 @@ public class AsetActivity extends AppCompatActivity {
                 }
             }){
                 @Override
-                protected Map<String, String> getParams(){
+                public Map<String, String> getHeaders() throws AuthFailureError {
                     // Posting parameters to login url
-                    Map<String, String> params = new HashMap<>();
-                    params.put("id_tenant", mTenant);
-                    return params;
+                    Map<String, String> keys = new HashMap<String, String>();
+                    keys.put("token", TOKEN);
+                    keys.put("id_tenant", mTenant);
+                    return keys;
                 }
             };
 
             try {
-                RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
                 requestQueue.add(stringRequest);
                 Thread.sleep(3000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            Log.e(TAG, String.valueOf(mTenant));
+            Log.e(TAG, String.valueOf(mTenant + " | " + TOKEN));
 
-            return mTenant;
+            return responseAsset;
         }
 
         @Override
-        protected void onPostExecute(String user) {
+        protected void onPostExecute(String aset) {
             mAssetTask = null;
             showProgress(false);
+            String aName, aType, aPlat;
+            Integer dataLength;
 
-            if (user != null) {
-                Log.e(TAG, "Asset Result : " + errorMsg);
+
+            if (aset != null) {
+                Log.e(TAG, "Asset Result : " + aset);
+
+                try {
+                    JSONArray jsonArray = new JSONArray(aset);
+                    Log.e(TAG, "Asset : " + jsonArray);
+                    dataLength = jsonArray.length();
+                    if(dataLength > 0){
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            errorMsg = "-";
+
+                            JSONObject jsonobject = jsonArray.getJSONObject(i);
+                            aName = jsonobject.getString("merk");
+                            aType = jsonobject.getString("type");
+                            aPlat = jsonobject.getString("license_plat");
+                            Log.e(TAG, "What Data : " + String.valueOf(jsonobject));
+
+                            ItemAsetModul itemModul = new ItemAsetModul();
+                            itemModul.setTitle(aName + " " + aType + " | " + aPlat);
+                            itemModul.setThumbnail(R.drawable.mobil_1);
+                            itemModul.setRating("4/5");
+                            itemModul.setPrice("Rp " + (i*100000) + " /hari");
+                            mAset.add(itemModul);
+                        }
+
+                        mRecyclerView = (RecyclerView) findViewById(R.id.as_recyclerView);
+                        mLayoutManager = new LinearLayoutManager(getApplicationContext());
+                        mAdapter = new AsetAdapter(getApplicationContext(),mAset);
+
+                        mRecyclerView.setLayoutManager(mLayoutManager);
+                        mRecyclerView.setAdapter(mAdapter);
+
+                    }else{
+                        errorMsg = "Anda belum memiliki Aset";
+                        Toast.makeText(getApplicationContext(),errorMsg, Toast.LENGTH_LONG).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    errorMsg = "Anda belum memiliki Aset";
+                    Toast.makeText(getApplicationContext(),errorMsg, Toast.LENGTH_LONG).show();
+                }
             }
         }
 
