@@ -6,7 +6,7 @@ package id.rentist.mitrarentist.modul;
 
 public class ItemAsetModul {
     private int mId, mRatingIco, mThumbnail, mPriceIco, mFeatureIco;
-    private String mMerk, mType, mYear, mColor, mPlat, mFuel, mSeat, mEngCap, mStatus, mTitle, mRating, mPrice, mFeature;
+    private String mMerk, mType, mYear, mColor, mPlat, mFuel, mSeat, mEngCap, mStatus, mTitle, mRating, mPrice, mFeature, mTransm;
     private boolean mAirCon, mAirBag;
 
     public void setTitle(String mTitle) {
@@ -140,6 +140,13 @@ public class ItemAsetModul {
 
     public void setStatus(String mStatus) {
         this.mStatus = mStatus;
+    }
+    public String getTransm() {
+        return mTransm;
+    }
+
+    public void setTransm(String mTransm) {
+        this.mTransm = mTransm;
     }
 
     public boolean isAirCon() {

@@ -7,11 +7,12 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="id.rentist.mitrarentist.AsetActivity"
+    android:background="@color/colorBackgound"
     tools:showIn="@layout/activity_aset">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/as_recyclerView"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="@dimen/xmin_padding">
     </android.support.v7.widget.RecyclerView>

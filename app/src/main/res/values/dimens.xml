@@ -33,4 +33,5 @@
     <dimen name="explorer_item_size">120dp</dimen>
     <dimen name="spacing_middle">10dp</dimen>
     <dimen name="img_width_height">200dp</dimen>
+    <dimen name="status_width">150dp</dimen>
 </resources>

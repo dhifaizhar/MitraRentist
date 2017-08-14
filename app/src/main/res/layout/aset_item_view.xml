@@ -7,14 +7,14 @@
     android:layout_height="wrap_content">
 
     <android.support.v7.widget.CardView
+        android:id="@+id/card_view_aset"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/card_view_aset"
         android:layout_marginBottom="@dimen/xmin_padding"
-        app:cardBackgroundColor="@color/colorWhite"
-        app:cardElevation="1dp"
+        android:clickable="true"
         android:foreground="?selectableItemBackground"
-        android:clickable="true">
+        app:cardBackgroundColor="@color/colorWhite"
+        app:cardElevation="1dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -25,22 +25,44 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+                <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:padding="@dimen/xmin_padding"-->
+                <!--android:layout_margin="@dimen/xmin_padding"-->
+                <!--android:gravity="center"-->
+                <!--android:background="@drawable/radius_primary">-->
                 <TextView
-                    android:id="@+id/as_aset_type"
+                    android:id="@+id/as_status_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
                     android:layout_margin="@dimen/xmin_padding"
-                    android:layout_marginStart="@dimen/xmin_padding"
+                    android:text="Status : "
+                    android:textColor="@color/colorBlack87"
+                    android:textSize="@dimen/small_text" />
+
+                <TextView
+                    android:id="@+id/as_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/xmin_padding"
+                    android:layout_toEndOf="@+id/as_status_text"
+                    android:text="[ Aktif ]"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorPrimaryDark"
                     android:textSize="@dimen/medium_text"
-                    android:textColor="@color/colorPrimaryDark"/>
+                    android:textStyle="bold" />
+
+                <!--</LinearLayout>-->
 
                 <TextView
                     android:id="@+id/as_rating_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/xmin_padding"
+                    android:layout_marginEnd="@dimen/xmin_padding"
                     android:layout_marginStart="@dimen/xmin_padding"
+                    android:layout_marginTop="@dimen/min_padding"
                     android:layout_toLeftOf="@+id/aset_rating"
                     android:textSize="@dimen/small_text" />
 
@@ -69,14 +91,14 @@
                     android:layout_marginEnd="@dimen/xmin_padding"
                     android:layout_marginStart="@dimen/xmin_padding"
                     android:layout_marginTop="@dimen/xmin_padding"
-                    android:foregroundGravity="center_horizontal|center_vertical"
-                    android:contentDescription="itemAset"/>
+                    android:contentDescription="itemAset"
+                    android:foregroundGravity="center_horizontal|center_vertical" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_toEndOf="@+id/as_thumb_aset">
+                    android:layout_toEndOf="@+id/as_thumb_aset"
+                    android:orientation="vertical">
 
                     <RelativeLayout
                         android:id="@+id/as_harga_sewa"
@@ -90,14 +112,16 @@
                             android:layout_width="@dimen/thumb_prop_width"
                             android:layout_height="@dimen/thumb_prop_height"
                             android:layout_marginEnd="@dimen/min_padding"
-                            app:srcCompat="@drawable/ic_monetization_on_black_18dp"
-                            android:contentDescription="price"/>
+                            android:contentDescription="price"
+                            app:srcCompat="@drawable/ic_monetization_on_black_18dp" />
 
                         <TextView
                             android:id="@+id/as_harga_det"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_toEndOf="@+id/as_harga_thumb"/>
+                            android:layout_toEndOf="@+id/as_harga_thumb"
+                            android:textColor="@color/colorPrice"
+                            android:textStyle="bold" />
 
                     </RelativeLayout>
 
@@ -110,131 +134,135 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:text="Fitur : "/>
+                            android:text="Fitur : " />
 
                         <GridLayout
                             android:id="@+id/as_grid_fitur"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:padding="@dimen/xmin_padding"
-                            android:columnCount="2">
+                            android:columnCount="2"
+                            android:padding="@dimen/xmin_padding">
 
                             <RelativeLayout
-                                android:id="@+id/as_fitur_1"
+                                android:id="@+id/as_seat"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginRight="@dimen/min_padding">
 
                                 <ImageView
-                                    android:id="@+id/as_fitur_1_ico"
+                                    android:id="@+id/as_seat_ico"
                                     android:layout_width="@dimen/thumb_prop_width"
                                     android:layout_height="@dimen/thumb_prop_height"
                                     android:layout_marginEnd="@dimen/xmin_padding"
-                                    app:srcCompat="@drawable/ic_monetization_on_black_18dp"
-                                    android:contentDescription="price"/>
+                                    android:contentDescription="Kursi"
+                                    app:srcCompat="@drawable/ic_airline_seat_recline_normal_black_18dp" />
 
                                 <TextView
-                                    android:id="@+id/as_fitur_1_det"
+                                    android:id="@+id/as_seat_det"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_toRightOf="@id/as_fitur_1_ico"
-                                    android:text="8 kursi"/>
+                                    android:layout_toRightOf="@id/as_seat_ico"
+                                    android:text="0" />
                             </RelativeLayout>
 
                             <RelativeLayout
-                                android:id="@+id/as_fitur_2"
+                                android:id="@+id/as_trans"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginRight="@dimen/min_padding">
 
                                 <ImageView
-                                    android:id="@+id/as_fitur_2_ico"
+                                    android:id="@+id/as_trans_ico"
                                     android:layout_width="@dimen/thumb_prop_width"
                                     android:layout_height="@dimen/thumb_prop_height"
                                     android:layout_marginEnd="@dimen/xmin_padding"
-                                    app:srcCompat="@drawable/ic_monetization_on_black_18dp"
-                                    android:contentDescription="price"/>
+                                    android:contentDescription="transmission"
+                                    app:srcCompat="@drawable/ic_settings_black_18dp" />
 
                                 <TextView
-                                    android:id="@+id/as_fitur_2_det"
+                                    android:id="@+id/as_trans_det"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_toRightOf="@id/as_fitur_2_ico"
-                                    android:text="8 kursi"/>
+                                    android:layout_toRightOf="@id/as_trans_ico"
+                                    android:text="Manual" />
                             </RelativeLayout>
 
                             <RelativeLayout
-                                android:id="@+id/as_fitur_3"
+                                android:id="@+id/as_ac"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginRight="@dimen/min_padding">
+                                android:layout_marginRight="@dimen/min_padding"
+                                android:layout_marginTop="@dimen/xmin_padding">
 
                                 <ImageView
-                                    android:id="@+id/as_fitur_3_ico"
+                                    android:id="@+id/as_ac_ico"
                                     android:layout_width="@dimen/thumb_prop_width"
                                     android:layout_height="@dimen/thumb_prop_height"
                                     android:layout_marginEnd="@dimen/xmin_padding"
-                                    app:srcCompat="@drawable/ic_monetization_on_black_18dp"
-                                    android:contentDescription="price"/>
+                                    android:contentDescription="AC"
+                                    app:srcCompat="@drawable/ic_ac_unit_black_36dp" />
 
                                 <TextView
-                                    android:id="@+id/as_fitur_3_det"
+                                    android:id="@+id/as_ac_det"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_toRightOf="@id/as_fitur_3_ico"
-                                    android:text="8 kursi"/>
+                                    android:layout_toRightOf="@id/as_ac_ico"
+                                    android:text="" />
                             </RelativeLayout>
 
                             <RelativeLayout
-                                android:id="@+id/as_fitur_4"
+                                android:id="@+id/as_driver"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginRight="@dimen/min_padding">
+                                android:layout_marginRight="@dimen/min_padding"
+                                android:layout_marginTop="@dimen/xmin_padding">
 
                                 <ImageView
-                                    android:id="@+id/as_fitur_4_ico"
+                                    android:id="@+id/as_driver_ico"
                                     android:layout_width="@dimen/thumb_prop_width"
                                     android:layout_height="@dimen/thumb_prop_height"
                                     android:layout_marginEnd="@dimen/xmin_padding"
-                                    app:srcCompat="@drawable/ic_monetization_on_black_18dp"
-                                    android:contentDescription="price"/>
+                                    android:contentDescription="price"
+                                    app:srcCompat="@drawable/ic_person_black_18dp" />
 
                                 <TextView
-                                    android:id="@+id/as_fitur_4_det"
+                                    android:id="@+id/as_driver_det"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_toRightOf="@id/as_fitur_4_ico"
-                                    android:text="8 kursi"/>
+                                    android:layout_toRightOf="@id/as_driver_ico"
+                                    android:text="" />
                             </RelativeLayout>
 
                         </GridLayout>
                     </LinearLayout>
 
 
-
                 </LinearLayout>
-
 
 
             </RelativeLayout>
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:padding="@dimen/xmin_padding"
-                android:layout_margin="@dimen/xmin_padding"
-                android:gravity="center"
-                android:background="@drawable/radius_primary">
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimaryTrans"
+                android:padding="@dimen/min_padding">
 
                 <TextView
-                    android:id="@+id/as_status"
+                    android:id="@+id/as_aset_type"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="[ Aktif ]"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:text="Aset Type"
                     android:textColor="@color/colorWhite"
-                    android:textSize="@dimen/medium_text"/>
-            </LinearLayout>
+
+                    android:textSize="@dimen/medium_text"
+                    android:textStyle="bold" />
+
+
+            </RelativeLayout>
+
+
         </LinearLayout>
 
     </android.support.v7.widget.CardView>

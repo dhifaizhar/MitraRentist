@@ -46,7 +46,7 @@ public class AsetAdapter extends RecyclerView.Adapter<AsetAdapter.ViewHolder> {
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{
-        private TextView title, rating, price;
+        private TextView title, rating, price, seat, transmission, status;
         private ImageView imgThumbnail;
         private CardView cardDetAset;
 
@@ -56,6 +56,9 @@ public class AsetAdapter extends RecyclerView.Adapter<AsetAdapter.ViewHolder> {
             imgThumbnail = (ImageView) itemView.findViewById(R.id.as_thumb_aset);
             rating = (TextView) itemView.findViewById(R.id.as_rating_text);
             price = (TextView) itemView.findViewById(R.id.as_harga_det);
+            seat = (TextView) itemView.findViewById(R.id.as_seat_det);
+            transmission = (TextView) itemView.findViewById(R.id.as_trans_det);
+            status = (TextView) itemView.findViewById(R.id.as_status);
             cardDetAset = (CardView) itemView.findViewById(R.id.card_view_aset);
         }
     }
@@ -70,6 +73,9 @@ public class AsetAdapter extends RecyclerView.Adapter<AsetAdapter.ViewHolder> {
         viewHolder.imgThumbnail.setImageResource(as.getThumbnail());
         viewHolder.rating.setText(as.getRating());
         viewHolder.price.setText(as.getPrice());
+        viewHolder.seat.setText(as.getSeat());
+        viewHolder.transmission.setText(as.getTransm());
+        viewHolder.status.setText(as.getStatus());
         viewHolder.cardDetAset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

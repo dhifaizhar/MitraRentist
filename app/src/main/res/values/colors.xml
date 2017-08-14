@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#009ddd</color>
     <color name="colorPrimaryLight">#00bfff</color>
     <color name="colorPrimarySoft">#f8fcfd</color>
+    <color name="colorPrimaryTrans">#9d009ddd</color>
     <color name="colorAccent">#55f2dd</color>
     <color name="colorWhite">#ffffff</color>
     <color name="colorNearWhite">#f9f9f9</color>
@@ -15,6 +16,11 @@
     <color name="colorBlack87">#212121</color>
     <color name="colorButtonDefault">#e2e2e2</color>
     <color name="colorDanger">#ff2828</color>
-    <color name="colorBackgound">#e6e6e6</color>
+    <color name="colorPrice">#f19800</color>
+    <color name="colorBackgound">#d6d6d6</color>
+    <color name="colorBackgoundCard">#c4c4c4</color>
     <color name="backgoundLighter">#eeeeee</color>
+    <color name="colorGreen">#54cf46</color>
+    <color name="colorGreenSoft">#9bd996</color>
+
 </resources>
