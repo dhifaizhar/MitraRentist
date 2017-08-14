@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,32 +21,16 @@ import id.rentist.mitrarentist.modul.ItemAsetModul;
  * Created by mdhif on 19/06/2017.
  */
 
-public class AsetAdapter extends RecyclerView.Adapter<AsetAdapter.ViewHolder> implements View.OnClickListener {
+public class AsetAdapter extends RecyclerView.Adapter<AsetAdapter.ViewHolder> {
 
-    private List<ItemAsetModul> mAset;
+    private final List<ItemAsetModul> mAset;
     private Context context;
-    private int j;
+    private static final String TAG = "AssetAdapter";
 
-    public AsetAdapter(Context context, List<ItemAsetModul> mAset){
+    public AsetAdapter(final Context context, final List<ItemAsetModul> mAset){
         super();
         this.mAset = mAset;
         this.context = context;
-        ItemAsetModul as;
-
-        for(j = 1;j < 8;j++){
-            as = new ItemAsetModul();
-
-            as.setTitle("Daihatsu Jazz | DC 123 WOW");
-            if(j%2==0){
-                as.setThumbnail(R.drawable.mobil_1);
-            }else{
-                as.setThumbnail(R.drawable.mobil_2);
-            }
-            as.setRating("4/5");
-            as.setPrice("Rp " + (j*100000) + " /hari");
-
-            this.mAset.add(as);
-        }
     }
 
     @Override
@@ -60,20 +45,10 @@ public class AsetAdapter extends RecyclerView.Adapter<AsetAdapter.ViewHolder> im
         return mAset.size();
     }
 
-    @Override
-    public void onClick(View v) {
-
-    }
-
     class ViewHolder extends RecyclerView.ViewHolder{
-        public TextView title;
-        public TextView rating;
-        public ImageView imgThumbnail;
-        public TextView price;
-        public CardView cardDetAset;
-        public ImageView priceIco;
-        public TextView feature;
-        public ImageView featureIco;
+        private TextView title, rating, price;
+        private ImageView imgThumbnail;
+        private CardView cardDetAset;
 
         public ViewHolder(View itemView){
             super(itemView);
@@ -88,6 +63,7 @@ public class AsetAdapter extends RecyclerView.Adapter<AsetAdapter.ViewHolder> im
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i ){
         ItemAsetModul as = mAset.get(i);
+        Log.e(TAG, String.format("Data Bind : %s", mAset));
 
 //        simpan value dalam object
         viewHolder.title.setText(as.getTitle());

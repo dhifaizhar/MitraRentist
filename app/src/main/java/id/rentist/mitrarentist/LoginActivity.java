@@ -182,7 +182,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             pDialog.setMessage("authentication request ...");
             showProgress(true);
             mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
+            mAuthTask.execute();
         } else if(TextUtils.isEmpty(password) || TextUtils.isEmpty(email)) {
             if(TextUtils.isEmpty(password)){
                 mPasswordView.setError(getString(R.string.error_field_required));
@@ -298,16 +298,21 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         int IS_PRIMARY = 1;
     }
 
-    private class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    private class UserLoginTask extends AsyncTask<String, String, String> {
 
         private final String mEmail;
         private final String mPassword;
         String sEmail, sNamaRent, sNamaPem, sTelp, sAlamat, sStat;
-        Integer sImg;
+        Integer sId, sIdTenant, sImg;
 
         UserLoginTask(String email, String password) {
             mEmail = email;
             mPassword = password;
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            // TODO: attempt authentication against a network service.
 
             StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.URL_LOGIN, new Response.Listener<String>() {
 
@@ -324,6 +329,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                             errorMsg = "";
                             user = String.valueOf(jsonObject.getJSONObject("data"));
                         }else {
+                            showProgress(false);
                             user = null;
                             responseMessage = jsonObject.getJSONObject("reponse");
                             errorMsg = responseMessage.getString("message");
@@ -336,6 +342,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                         // JSON error
                         e.printStackTrace();
                         errorMsg = "";
+                        showProgress(false);
                         user = null;
                         mEmailView.setError("Masukan kembali data anda!");
                         mEmailView.requestFocus();
@@ -348,6 +355,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     Log.e(TAG, "Login Error : " + error.toString());
+                    showProgress(false);
                     Toast.makeText(getApplicationContext(), "Connection error, try again.",
                             Toast.LENGTH_LONG).show();
                 }
@@ -355,47 +363,36 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 @Override
                 protected Map<String, String> getParams(){
                     // Posting parameters to login url
-                    Map<String, String> params = new HashMap<String, String>();
-                    params.put("email", mEmail);
-                    params.put("password", mPassword);
-                    return params;
+                    Map<String, String> keys = new HashMap<String, String>();
+                    keys.put("email", mEmail);
+                    keys.put("password", mPassword);
+                    return keys;
                 }
             };
 
-            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-            requestQueue.add(stringRequest);
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
             try {
+                RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+                requestQueue.add(stringRequest);
                 Thread.sleep(3000);
             } catch (InterruptedException e) {
-                return false;
+                e.printStackTrace();
             }
 
-            if (user != null) {
-                return true;
-            }else{
-                return false;
-            }
-
-            // TODO: register the new account here.
-//            return true;
+            return user;
         }
 
         @Override
-        protected void onPostExecute(final Boolean success) {
+        protected void onPostExecute(String user) {
             mAuthTask = null;
             showProgress(false);
 
-            if (success) {
+            if (user != null) {
                 try {
                     userObject = new JSONObject(user);
                     Log.d(TAG, String.valueOf(userObject));
 
+                    sId = userObject.getInt("id");
+                    sIdTenant = userObject.getInt("id_tenant");
                     sEmail = userObject.getString("email");
                     sNamaRent = userObject.getString("name");
                     sNamaPem = "ABDI NEGARA";
@@ -404,6 +401,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                     sImg = R.drawable.user_ava_man;
                     sStat = "1";
 
+                    sm.setIntPreferences("id", sId);
+                    sm.setIntPreferences("id_tenant", sIdTenant);
                     sm.setPreferences("email", sEmail);
                     sm.setPreferences("nama_rental", sNamaRent);
                     sm.setPreferences("nama_pemilik", sNamaPem);
