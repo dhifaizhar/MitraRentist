@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Mitra</string>
+    <string name="app_name">Mitra Rentist</string>
     <string name="title_activity_dashboard">DashboardActivity</string>
     <string name="title_activity_login">Sign in</string>
 
