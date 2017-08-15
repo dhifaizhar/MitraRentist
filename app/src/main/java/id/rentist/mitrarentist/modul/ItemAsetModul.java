@@ -7,7 +7,7 @@ package id.rentist.mitrarentist.modul;
 public class ItemAsetModul {
     private int mId, mRatingIco, mThumbnail, mPriceIco, mFeatureIco;
     private String mMerk, mType, mYear, mColor, mPlat, mFuel, mSeat, mEngCap, mStatus, mTitle, mRating, mPrice, mFeature, mTransm;
-    private boolean mAirCon, mAirBag;
+    private boolean mAirCon, mAirBag, mDriver;
 
     public void setTitle(String mTitle) {
         this.mTitle = mTitle;
@@ -163,5 +163,13 @@ public class ItemAsetModul {
 
     public void setAirBag(boolean mAirBag) {
         this.mAirBag = mAirBag;
+    }
+
+    public boolean isDriver() {
+        return mDriver;
+    }
+
+    public void setDriver(boolean mDriver) {
+        this.mDriver = mDriver;
     }
 }

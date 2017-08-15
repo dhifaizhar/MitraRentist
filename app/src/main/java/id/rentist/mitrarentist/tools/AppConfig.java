@@ -10,4 +10,5 @@ public class AppConfig {
     public static  String URL_LIST_MOBIL = SERVER + "mobil/";
     public static  String URL_ADD_MOBIL = SERVER + "item/mobil/";
     public static  String URL_LIST_USER = SERVER + "tenant/child/";
+    public static  String URL_ONGOING_RENT = SERVER + "order/history/";
 }

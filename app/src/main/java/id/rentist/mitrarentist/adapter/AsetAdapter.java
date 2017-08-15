@@ -46,7 +46,7 @@ public class AsetAdapter extends RecyclerView.Adapter<AsetAdapter.ViewHolder> {
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{
-        private TextView title, rating, price, seat, transmission, status;
+        private TextView title, rating, price, seat, transmission, status, ac, driver;
         private ImageView imgThumbnail;
         private CardView cardDetAset;
 
@@ -59,6 +59,8 @@ public class AsetAdapter extends RecyclerView.Adapter<AsetAdapter.ViewHolder> {
             seat = (TextView) itemView.findViewById(R.id.as_seat_det);
             transmission = (TextView) itemView.findViewById(R.id.as_trans_det);
             status = (TextView) itemView.findViewById(R.id.as_status);
+            ac = (TextView) itemView.findViewById(R.id.as_ac_det);
+            driver = (TextView) itemView.findViewById(R.id.as_driver_det);
             cardDetAset = (CardView) itemView.findViewById(R.id.card_view_aset);
         }
     }
@@ -66,6 +68,7 @@ public class AsetAdapter extends RecyclerView.Adapter<AsetAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i ){
         ItemAsetModul as = mAset.get(i);
+        String ac, driver;
         Log.e(TAG, String.format("Data Bind : %s", mAset));
 
 //        simpan value dalam object
@@ -76,6 +79,20 @@ public class AsetAdapter extends RecyclerView.Adapter<AsetAdapter.ViewHolder> {
         viewHolder.seat.setText(as.getSeat());
         viewHolder.transmission.setText(as.getTransm());
         viewHolder.status.setText(as.getStatus());
+        if(as.isAirCon()){
+            ac = "AC - ya";
+            viewHolder.ac.setText(ac);
+        }else{
+            ac = "AC - tidak";
+            viewHolder.ac.setText(ac);
+        }
+        if(as.isDriver()){
+            driver = "driver - ya";
+            viewHolder.driver.setText(driver);
+        }else{
+            driver = "driver - tidak";
+            viewHolder.driver.setText(driver);
+        }
         viewHolder.cardDetAset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -42,7 +42,10 @@ public class FormAsetActivity extends AppCompatActivity {
     private SessionManager sm;
 
     ImageView aImg;
-    TextView aMerk, aType, aPlat, aYear, aColor, aRegNum, aEngCap, aFuel, aSeat, aAsuracePrice;
+    TextView aMerk, aType, aPlat, aYear, aColor, aRegNum,
+            aEngCap, aFuel, aSeat, aAsuracePrice, aLowPrice,
+            aNormalPrice, aHighPrice;
+    String aLatitude, aLongitude, aAddress, aRentPackage;
     CheckBox aAc, aAb, aDriver, aAssurace;
     RadioGroup aTransmisionGroup;
     RadioButton aTransmisionButton;
@@ -50,7 +53,6 @@ public class FormAsetActivity extends AppCompatActivity {
 
     private static final String TAG = "FormAssetActivity";
     private static final String TOKEN = "secretissecret";
-    String errorMsg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,11 +94,19 @@ public class FormAsetActivity extends AppCompatActivity {
         aFuel = (TextView) findViewById(R.id.as_fuel);
         aSeat = (TextView) findViewById(R.id.as_seat);
         aAsuracePrice = (TextView) findViewById(R.id.as_assurance_price);
+        aLowPrice = (TextView) findViewById(R.id.as_lprice);
+        aNormalPrice = (TextView) findViewById(R.id.as_nprice);
+        aHighPrice = (TextView) findViewById(R.id.as_hprice);
         aAc = (CheckBox) findViewById(R.id.as_ck_ac);
         aAb = (CheckBox) findViewById(R.id.as_ck_ab);
         aDriver = (CheckBox) findViewById(R.id.as_ck_driver);
         aAssurace = (CheckBox) findViewById(R.id.as_ck_assurance);
         aImg = (ImageView) findViewById(R.id.thumb_aset);
+        aAddress = "BALI,INDONESIA";
+        aLatitude = "0";
+        aLongitude = "0";
+        aRentPackage = "-";
+
         btnImgUpload = (Button) findViewById(R.id.btnUploadFoto);
         pDialog.setMessage("loading ...");
         showProgress(true);
@@ -156,7 +166,6 @@ public class FormAsetActivity extends AppCompatActivity {
                     // Posting parameters to login url
                     Map<String, String> keys = new HashMap<String, String>();
                     keys.put("id_tenant", mTenant);
-                    keys.put("id_asset_category", "1");
                     keys.put("merk", aMerk.getText().toString());
                     keys.put("type", aType.getText().toString());
                     keys.put("year", aYear.getText().toString());
@@ -165,14 +174,20 @@ public class FormAsetActivity extends AppCompatActivity {
                     keys.put("engine_capacity", aEngCap.getText().toString());
                     keys.put("lisence_plat", aPlat.getText().toString());
                     keys.put("seat", aSeat.getText().toString());
-                    keys.put("air_bag", String.valueOf(aAb.isEnabled()));
-                    keys.put("air_conditioner", String.valueOf(aAc.isEnabled()));
+                    keys.put("air_bag", String.valueOf(aAb.isChecked()));
+                    keys.put("air_conditioner", String.valueOf(aAc.isChecked()));
                     keys.put("transmission", aTransmisionButton.getText().toString());
                     keys.put("fuel", aFuel.getText().toString());
-                    keys.put("insurance", String.valueOf(aAssurace.isEnabled()));
+                    keys.put("insurance", String.valueOf(aAssurace.isChecked()));
                     keys.put("insurance_price", aAsuracePrice.getText().toString());
-                    keys.put("driver_included", String.valueOf(aDriver.isEnabled()));
-                    keys.put("status", "inactive");
+                    keys.put("price_low", aLowPrice.getText().toString());
+                    keys.put("price_normal", aNormalPrice.getText().toString());
+                    keys.put("price_high", aHighPrice.getText().toString());
+                    keys.put("driver_included", String.valueOf(aDriver.isChecked()));
+                    keys.put("address", aAddress);
+                    keys.put("rent_package", aRentPackage);
+                    keys.put("latitude", aLatitude);
+                    keys.put("longitude", aLongitude);
                     Log.e(TAG, "Form Asset Fetch Data : \n"
                             + String.valueOf(keys)
                     );
@@ -181,7 +196,6 @@ public class FormAsetActivity extends AppCompatActivity {
 
                 @Override
                 public Map<String, String> getHeaders() throws AuthFailureError {
-                    // Posting parameters to login url
                     Map<String, String> keys = new HashMap<String, String>();
                     keys.put("token", TOKEN);
                     return keys;

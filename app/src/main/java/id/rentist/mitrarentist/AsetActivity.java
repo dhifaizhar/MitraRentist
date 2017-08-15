@@ -156,7 +156,7 @@ public class AsetActivity extends AppCompatActivity {
         protected void onPostExecute(String aset) {
             mAssetTask = null;
             showProgress(false);
-            String aName, aType, aPlat, aStatus, aSeat, aTransm;
+            String aName, aType, aPlat, aStatus, aSeat, aTransm, aAc, aDriver;
             Integer dataLength;
 
 
@@ -178,6 +178,8 @@ public class AsetActivity extends AppCompatActivity {
                             aStatus = jsonobject.getString("status");
                             aSeat = jsonobject.getString("seat");
                             aTransm = jsonobject.getString("transmission");
+                            aAc = jsonobject.getString("air_conditioner");
+                            aDriver = jsonobject.getString("driver_included");
                             Log.e(TAG, "What Data : " + String.valueOf(jsonobject));
 
                             ItemAsetModul itemModul = new ItemAsetModul();
@@ -188,6 +190,8 @@ public class AsetActivity extends AppCompatActivity {
                             itemModul.setStatus("[ " + aStatus + " ]");
                             itemModul.setSeat(aSeat + " kursi");
                             itemModul.setTransm(aTransm);
+                            itemModul.setAirCon(Boolean.parseBoolean(aAc));
+                            itemModul.setDriver(Boolean.parseBoolean(aDriver));
                             mAset.add(itemModul);
                         }
 

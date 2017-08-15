@@ -259,6 +259,55 @@
                         android:text="20000" />
                 </RelativeLayout>
 
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/cardview_dark_background"
+                    android:padding="@dimen/min_padding">
+
+                    <TextView
+                        android:id="@+id/inputPrice"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:text="Nilai Sewa Aset"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="@dimen/medium_text"
+                        android:textStyle="bold" />
+
+                </RelativeLayout>
+
+                <EditText
+                    android:id="@+id/as_lprice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="Low Season"
+                    android:inputType="textPersonName"
+                    android:padding="@dimen/min_padding"
+                    android:text="150000" />
+
+                <EditText
+                    android:id="@+id/as_nprice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="Normal Season"
+                    android:inputType="textPersonName"
+                    android:padding="@dimen/min_padding"
+                    android:text="180000" />
+
+                <EditText
+                    android:id="@+id/as_hprice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="High Season"
+                    android:inputType="textPersonName"
+                    android:padding="@dimen/min_padding"
+                    android:text="220000" />
 
             </LinearLayout>
 
