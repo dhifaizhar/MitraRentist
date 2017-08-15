@@ -150,7 +150,9 @@
         <activity
             android:name=".FormUserActivity"
             android:label="@string/title_activity_form_user"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".UserDetailActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

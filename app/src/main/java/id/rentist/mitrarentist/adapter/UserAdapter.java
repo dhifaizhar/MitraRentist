@@ -1,6 +1,7 @@
 package id.rentist.mitrarentist.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -13,13 +14,14 @@ import android.widget.TextView;
 import java.util.List;
 
 import id.rentist.mitrarentist.R;
+import id.rentist.mitrarentist.UserDetailActivity;
 import id.rentist.mitrarentist.modul.UserModul;
 
 /**
  * Created by Nugroho Tri Pambud on 8/9/2017.
  */
 
-public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
+public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> implements View.OnClickListener {
 
     private final List<UserModul> mUser;
     private Context context;
@@ -49,9 +51,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         viewHolder.cardViewUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(context, MessageDetailActivity.class);
-//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                context.startActivity(intent);
+                Intent intent = new Intent(context, UserDetailActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
             }
         });
     }
@@ -59,6 +61,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     @Override
     public int getItemCount() {
         return mUser.size();
+    }
+
+    @Override
+    public void onClick(View v) {
+
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
