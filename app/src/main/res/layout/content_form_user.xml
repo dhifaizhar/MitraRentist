@@ -9,11 +9,10 @@
     tools:showIn="@layout/activity_form_user">
 
     <ScrollView
-        android:layout_width="368dp"
-        android:layout_height="495dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:padding="@dimen/xmin_padding"
-        tools:layout_editor_absoluteY="8dp"
-        tools:layout_editor_absoluteX="8dp">
+>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -55,6 +54,14 @@
                     android:padding="@dimen/min_padding" />
 
                 <EditText
+                    android:id="@+id/us_role"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="Role"
+                    android:padding="@dimen/min_padding" />
+
+                <EditText
                     android:id="@+id/us_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -78,7 +85,7 @@
                     android:ems="10"
                     android:hint="Ulangi Kata Sandi"
                     android:inputType="textPassword"
-                    android:padding="@dimen/min_padding" />
+                    android:padding="@dimen/med_padding" />
 
             </LinearLayout>
 
