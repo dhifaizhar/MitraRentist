@@ -149,8 +149,6 @@ public class FormAsetActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(String response) {
                     responseAsset = response;
-                    Toast.makeText(getApplicationContext(), "Add Asset : " + response,
-                            Toast.LENGTH_LONG).show();
                 }
             }, new Response.ErrorListener() {
                 @Override
@@ -172,7 +170,7 @@ public class FormAsetActivity extends AppCompatActivity {
                     keys.put("no_bpkb", aRegNum.getText().toString());
                     keys.put("colour", aColor.getText().toString());
                     keys.put("engine_capacity", aEngCap.getText().toString());
-                    keys.put("lisence_plat", aPlat.getText().toString());
+                    keys.put("license_plat", aPlat.getText().toString());
                     keys.put("seat", aSeat.getText().toString());
                     keys.put("air_bag", String.valueOf(aAb.isChecked()));
                     keys.put("air_conditioner", String.valueOf(aAc.isChecked()));
@@ -188,9 +186,6 @@ public class FormAsetActivity extends AppCompatActivity {
                     keys.put("rent_package", aRentPackage);
                     keys.put("latitude", aLatitude);
                     keys.put("longitude", aLongitude);
-                    Log.e(TAG, "Form Asset Fetch Data : \n"
-                            + String.valueOf(keys)
-                    );
                     return keys;
                 }
 

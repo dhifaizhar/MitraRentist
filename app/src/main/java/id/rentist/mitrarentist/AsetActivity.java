@@ -117,7 +117,7 @@ public class AsetActivity extends AppCompatActivity {
         protected String doInBackground(String... params) {
 
             RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-            StringRequest stringRequest = new StringRequest(Request.Method.GET, AppConfig.URL_LIST_MOBIL, new Response.Listener<String>() {
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.URL_LIST_MOBIL, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     responseAsset = response;
@@ -132,11 +132,18 @@ public class AsetActivity extends AppCompatActivity {
                 }
             }){
                 @Override
+                protected Map<String, String> getParams() {
+                    // Posting parameters to login url
+                    Map<String, String> keys = new HashMap<String, String>();
+                    keys.put("id_tenant", mTenant);
+                    return keys;
+                }
+
+                @Override
                 public Map<String, String> getHeaders() throws AuthFailureError {
                     // Posting parameters to login url
                     Map<String, String> keys = new HashMap<String, String>();
                     keys.put("token", TOKEN);
-                    keys.put("id_tenant", mTenant);
                     return keys;
                 }
             };

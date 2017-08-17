@@ -196,14 +196,14 @@
                         android:buttonTint="@color/colorPrimary"
                         android:checked="true"
                         android:contextClickable="false"
-                        android:text="Manual" />
+                        android:text="manual" />
 
                     <RadioButton
                         android:id="@+id/r_automatic"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:buttonTint="@color/colorPrimary"
-                        android:text="Automatic" />
+                        android:text="automatic" />
 
                 </RadioGroup>
 

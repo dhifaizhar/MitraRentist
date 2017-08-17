@@ -7,8 +7,11 @@ package id.rentist.mitrarentist.tools;
 public class AppConfig {
     private static String SERVER = "http://52.221.215.137:1337/";
     public static String URL_LOGIN = SERVER + "login/tenant/";
-    public static  String URL_LIST_MOBIL = SERVER + "mobil/";
+    public static  String URL_LIST_MOBIL = SERVER + "list/item/1/";
     public static  String URL_ADD_MOBIL = SERVER + "item/mobil/";
+    public static  String URL_LIST_MOTOR = SERVER + "list/item/2/";
+    public static  String URL_LIST_YACHT = SERVER + "list/item/3/";
     public static  String URL_LIST_USER = SERVER + "tenant/child/";
     public static  String URL_ONGOING_RENT = SERVER + "order/history/";
+    public static  String URL_ADD_POLICY = SERVER + "kebijakan/";
 }
