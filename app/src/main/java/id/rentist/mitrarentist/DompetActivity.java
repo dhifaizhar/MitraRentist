@@ -1,23 +1,24 @@
 package id.rentist.mitrarentist;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import id.rentist.mitrarentist.adapter.DompetAdapter;
 import id.rentist.mitrarentist.modul.DompetModul;
 
 public class DompetActivity extends AppCompatActivity {
-    RecyclerView.Adapter mAdapter;
-    RecyclerView.LayoutManager mLayoutManager;
     private List<DompetModul> mDompet = new ArrayList<>();
+    TextView credit,tunai;
+    Button withdrawal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,12 +31,25 @@ public class DompetActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.dm_recyclerView);
-        mLayoutManager = new LinearLayoutManager(getApplicationContext());
-        mAdapter = new DompetAdapter(mDompet);
+        controlContent();
+    }
 
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setAdapter(mAdapter);
+    private void controlContent() {
+        //initialize view
+        credit = (TextView)findViewById(R.id.dm_credit);
+        tunai = (TextView)findViewById(R.id.dm_tunai);
+        withdrawal = (Button)findViewById(R.id.dm_btn_drawal);
+
+        // set content control value
+        credit.setText("7.000.000 IDR");
+        tunai.setText("0 IDR");
+        withdrawal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent iWithdrawal = new Intent(v.getContext(), WithdrawalActivity.class);
+                startActivity(iWithdrawal);
+            }
+        });
     }
 
     @Override

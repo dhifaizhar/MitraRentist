@@ -20,13 +20,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/dm_recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/breadcrumb_height"
-        android:padding="@dimen/xmin_padding">
-
-    </android.support.v7.widget.RecyclerView>
+    <include layout="@layout/content_dompet" />
 
 </android.support.design.widget.CoordinatorLayout>
