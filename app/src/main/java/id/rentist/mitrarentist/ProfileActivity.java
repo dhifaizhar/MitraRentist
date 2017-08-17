@@ -13,8 +13,9 @@ import id.rentist.mitrarentist.tools.SessionManager;
 
 public class ProfileActivity extends AppCompatActivity {
     private SessionManager sm;
-    TextView rName, rOwner, rAddress, rEmail, rPhone;
+    TextView rName, rOwner, rAddress, rEmail, rPhone, vAll;
     ImageView profilePhoto;
+    Button btnEdit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,15 +31,6 @@ public class ProfileActivity extends AppCompatActivity {
 
         // conten call controll
         controlContent();
-
-        Button btnEdit = (Button) findViewById(R.id.btn_edit_profil);
-        btnEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent iEditRent = new Intent(ProfileActivity.this, FormEditProfilActivity.class);
-                startActivity(iEditRent);
-            }
-        });
     }
 
     private void controlContent() {
@@ -49,14 +41,32 @@ public class ProfileActivity extends AppCompatActivity {
         rPhone = (TextView) findViewById(R.id.pr_phone_number);
         rEmail = (TextView) findViewById(R.id.pr_email);
         profilePhoto = (ImageView) findViewById(R.id.pr_thumb);
+        btnEdit = (Button) findViewById(R.id.btn_edit_profil);
+        vAll = (TextView) findViewById(R.id.view_testi);
 
         // set content control value
 //        rName.setText(sm.getPreferences("nama_rental"));
-        rOwner.setText(sm.getPreferences("nama_pemilik"));
+        rOwner.setText(sm.getPreferences("nama"));
         rAddress.setText(sm.getPreferences("alamat"));
         rPhone.setText(sm.getPreferences("telepon"));
         rEmail.setText(sm.getPreferences("email"));
         profilePhoto.setImageResource(sm.getIntPreferences("foto_profil"));
+
+        btnEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent iEditRent = new Intent(ProfileActivity.this, FormEditProfilActivity.class);
+                startActivity(iEditRent);
+            }
+        });
+
+        vAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent iViewTesti = new Intent(ProfileActivity.this, TestimonyActivity.class);
+                startActivity(iViewTesti);
+            }
+        });
     }
 
     @Override

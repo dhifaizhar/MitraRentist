@@ -44,6 +44,11 @@
             android:parentActivityName=".DashboardActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".TestimonyActivity"
+            android:label="@string/title_activity_aset"
+            android:parentActivityName=".DashboardActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".DetailAsetActivity"
             android:parentActivityName=".AsetActivity"
             android:theme="@style/AppTheme.NoActionBar" />

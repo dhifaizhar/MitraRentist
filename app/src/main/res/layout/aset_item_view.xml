@@ -63,11 +63,11 @@
                     android:layout_marginEnd="@dimen/xmin_padding"
                     android:layout_marginStart="@dimen/xmin_padding"
                     android:layout_marginTop="@dimen/min_padding"
-                    android:layout_toLeftOf="@+id/aset_rating"
+                    android:layout_toLeftOf="@+id/tm_aset_rating"
                     android:textSize="@dimen/small_text" />
 
                 <com.iarcuschin.simpleratingbar.SimpleRatingBar
-                    android:id="@+id/aset_rating"
+                    android:id="@+id/tm_aset_rating"
                     style="@style/CustomRatingBar"
                     android:layout_width="65dp"
                     android:layout_height="25dp"

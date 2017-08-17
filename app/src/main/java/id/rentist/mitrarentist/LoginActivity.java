@@ -29,6 +29,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -303,7 +304,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
         private final String mEmail;
         private final String mPassword;
-        String sEmail, sNamaRent, sNamaPem, sTelp, sAlamat, sStat;
+        String sEmail, sNama, sNamaRent, sNamaPem, sTelp, sAlamat, sStat;
         Integer sId, sIdTenant, sImg;
 
         UserLoginTask(String email, String password) {
@@ -323,9 +324,9 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
                     try {
                         JSONObject jsonObject = new JSONObject(response);
-                        int errorCode = jsonObject.getInt("code");
+                        //int errorCode = jsonObject.getInt("code");
                         String data = jsonObject.getString("data");
-                        if(errorCode == 200 && !Objects.equals(data, "false")){
+                        if(response != null && !Objects.equals(data, "false")){
                             Log.e(TAG, "Login Status : Sukses");
                             errorMsg = "";
                             user = String.valueOf(jsonObject.getJSONObject("data"));
@@ -350,12 +351,12 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                         Toast.makeText(getApplicationContext(),"Alamat email dan kata kunci tidak cocok", Toast.LENGTH_LONG).show();
                     }
 
-                    Log.d(TAG, "Login Error Response : " + errorMsg);
+                    Log.d(TAG, "Login Response : " + errorMsg);
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Log.e(TAG, "Login Error : " + error.toString());
+                    Log.e(TAG, "Login Error Response : " + error.toString());
                     showProgress(false);
                     Toast.makeText(getApplicationContext(), "Connection error, try again.",
                             Toast.LENGTH_LONG).show();
@@ -365,9 +366,15 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 protected Map<String, String> getParams(){
                     // Posting parameters to login url
                     Map<String, String> keys = new HashMap<String, String>();
-                    keys.put("token", TOKEN);
                     keys.put("email", mEmail);
                     keys.put("password", mPassword);
+                    return keys;
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> keys = new HashMap<String, String>();
+                    keys.put("token", TOKEN);
                     return keys;
                 }
             };
@@ -396,7 +403,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                     sId = userObject.getInt("id");
                     sIdTenant = userObject.getInt("id_tenant");
                     sEmail = userObject.getString("email");
-                    sNamaRent = userObject.getString("name");
+                    sNama = userObject.getString("name");
+                    sNamaRent = "RENTAL SUKSES";
                     sNamaPem = "ABDI NEGARA";
                     sAlamat = "Gg. Pusaka Kuta, Kabupaten Badung, Bali 80361";
                     sTelp = "081 1232 3144";
@@ -406,6 +414,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                     sm.setIntPreferences("id", sId);
                     sm.setIntPreferences("id_tenant", sIdTenant);
                     sm.setPreferences("email", sEmail);
+                    sm.setPreferences("nama", sNama);
                     sm.setPreferences("nama_rental", sNamaRent);
                     sm.setPreferences("nama_pemilik", sNamaPem);
                     sm.setPreferences("alamat", sAlamat);

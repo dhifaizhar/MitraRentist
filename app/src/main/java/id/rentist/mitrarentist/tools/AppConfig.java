@@ -14,4 +14,5 @@ public class AppConfig {
     public static  String URL_LIST_USER = SERVER + "tenant/child/";
     public static  String URL_ONGOING_RENT = SERVER + "order/history/";
     public static  String URL_ADD_POLICY = SERVER + "kebijakan/";
+    public static  String URL_LIST_TESTIMONY = SERVER + "list/testimony/";
 }

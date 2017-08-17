@@ -75,7 +75,6 @@
                                 android:paddingLeft="@dimen/med_padding"
                                 android:paddingRight="@dimen/med_padding"
                                 android:paddingTop="@dimen/xmin_padding"
-                                android:text="Masduki"
                                 android:textColor="@color/colorWhite"
                                 android:textSize="@dimen/medium_text"
                                 android:textStyle="bold" />
@@ -102,7 +101,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_toEndOf="@+id/pr_address_ico"
-                                android:text="Jl. Halimun No. 103 Bogor Tengah, Bogor Jawa Barat 16150"
+                                android:text="Alamat"
                                 android:textSize="@dimen/medium_text"
                                 android:textStyle="italic" />
 
@@ -212,16 +211,34 @@
 
                 </android.support.v7.widget.CardView>
 
-                <TextView
-                    android:id="@+id/pr_testi_info"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/xmin_padding"
-                    android:layout_marginBottom="@dimen/min_padding"
-                    android:layout_gravity="center_horizontal"
-                    android:textSize="@dimen/medium_text"
-                    android:textColor="@color/colorBlack"
-                    android:text="TESTIMONI"/>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/xmin_padding"
+                    android:layout_marginTop="@dimen/min_padding"
+                    android:padding="@dimen/xmin_padding">
+
+                    <TextView
+                        android:id="@+id/pr_testi_info"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="false"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:text="TESTIMONI"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/medium_text" />
+
+                    <TextView
+                        android:id="@+id/view_testi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:text="Lihat Semua >>"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/medium_text" />
+                </RelativeLayout>
 
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
@@ -262,7 +279,7 @@
                                     android:textStyle="bold"/>
 
                                 <com.iarcuschin.simpleratingbar.SimpleRatingBar
-                                    android:id="@+id/aset_rating"
+                                    android:id="@+id/tm_aset_rating"
                                     style="@style/CustomRatingBar"
                                     android:layout_width="75dp"
                                     android:layout_height="30dp"
@@ -290,7 +307,7 @@
                                     android:contentDescription="nama testimoni"/>
 
                                 <TextView
-                                    android:id="@+id/pr_testi_name"
+                                    android:id="@+id/tm_member_name"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginBottom="@dimen/xmin_padding"
@@ -304,7 +321,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginBottom="@dimen/xmin_padding"
                                     android:text="15/05/2017"
-                                    android:layout_toRightOf="@+id/pr_testi_name"
+                                    android:layout_toRightOf="@+id/tm_member_name"
                                     android:layout_alignParentEnd="true"
                                     android:gravity="center_vertical|right"/>
 
@@ -313,7 +330,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Murah sekaliiiiii"
-                                    android:layout_below="@+id/pr_testi_name"
+                                    android:layout_below="@+id/tm_member_name"
                                     android:layout_toRightOf="@+id/pr_test_ico" />
 
                             </RelativeLayout>

@@ -48,7 +48,7 @@ public class DashboardActivity extends AppCompatActivity
         navHeaderView = navigationView.getHeaderView(0);
 
         controlContent();
-        Toast.makeText(getApplicationContext(),"Selamat Datang Mitra : " + sm.getPreferences("nama_rental"), Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(),"Selamat Datang Mitra : " + sm.getPreferences("nama"), Toast.LENGTH_LONG).show();
     }
 
     private void controlContent() {
@@ -62,7 +62,7 @@ public class DashboardActivity extends AppCompatActivity
 
         // set content control value
         rentName.setText(sm.getPreferences("nama_rental"));
-        rentNameDrawer.setText(sm.getPreferences("nama_rental"));
+        rentNameDrawer.setText(sm.getPreferences("nama"));
         rentImgProfile.setImageResource(sm.getIntPreferences("foto_profil"));
         btnNewTrans.setOnClickListener(new View.OnClickListener() {
             @Override
