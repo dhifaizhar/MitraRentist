@@ -1,6 +1,5 @@
 package id.rentist.mitrarentist.adapter;
 
-import android.support.annotation.IdRes;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -64,36 +63,34 @@ public class WithdrawalAdapter extends RecyclerView.Adapter<WithdrawalAdapter.Vi
 
         public ViewHolder(View itemView){
             super(itemView);
-            credit = (TextView) itemView.findViewById(R.id.wd_credit);
-            withdrawal = (Button) itemView.findViewById(R.id.dm_btn_drawal);
-            reset = (ImageButton) itemView.findViewById(R.id.reset_button);
-            radioGroup = (RadioGroup) itemView.findViewById(R.id.rek_ragrup);
-            formNew = (LinearLayout) itemView.findViewById(R.id.con_baru);
+//            credit = (TextView) itemView.findViewById(R.id.wd_credit);
+//            withdrawal = (Button) itemView.findViewById(R.id.dm_btn_drawal);
+//            reset = (ImageButton) itemView.findViewById(R.id.reset_button);
+//            radioGroup = (RadioGroup) itemView.findViewById(R.id.rek_ragrup);
+//            formNew = (LinearLayout) itemView.findViewById(R.id.con_baru);
 
-            reset.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View v) {
-                    credit.setText("0");
-                }
-            });
+//            reset.setOnClickListener(new View.OnClickListener(){
+//                @Override
+//                public void onClick(View v) {
+//                    credit.setText("0");
+//                }
+//            });
 
-            radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
-                    int id = radioGroup.getCheckedRadioButtonId();
-                    View radioButton = radioGroup.findViewById(id);
-                    if(radioButton.getId()==R.id.rad_terdaftar)
-                    {
-                        formNew.setVisibility(View.GONE);
-                    }
-                    else
-                    {
-//                        Snackbar.make(group, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-                       formNew.setVisibility(View.VISIBLE);
-                    }
-                }
-            });
+//            radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+//                @Override
+//                public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+//                    int id = radioGroup.getCheckedRadioButtonId();
+//                    View radioButton = radioGroup.findViewById(id);
+//                    if(radioButton.getId()==R.id.rad_terdaftar)
+//                    {
+//                        formNew.setVisibility(View.GONE);
+//                    }
+//                    else
+//                    {
+//                       formNew.setVisibility(View.VISIBLE);
+//                    }
+//                }
+//            });
 
         }
     }

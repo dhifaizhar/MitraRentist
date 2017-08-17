@@ -21,29 +21,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/withdrawal_recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingBottom="@dimen/breadcrumb_height"
-        android:layout_marginTop="@dimen/breadcrumb_height">
-
-    </android.support.v7.widget.RecyclerView>
-    <!--<include layout="@layout/content_withdrawal" />-->
-
-    <Button
-        android:id="@+id/btn_withdrawal"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/btn_lmedium_height"
-        android:layout_alignParentBottom="true"
-        android:background="@color/colorPrimaryDark"
-        android:textColor="@color/colorWhite"
-        android:textSize="@dimen/medium_text"
-        android:text="Withdrawal"
-        android:layout_margin="0dp"
-        android:padding="0dp"
-        android:layout_gravity="bottom"
-        />
-
+    <include layout="@layout/content_withdrawal" />
 
 </android.support.design.widget.CoordinatorLayout>

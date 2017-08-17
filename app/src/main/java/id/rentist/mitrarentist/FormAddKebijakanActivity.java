@@ -2,7 +2,6 @@ package id.rentist.mitrarentist;
 
 import android.annotation.TargetApi;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -32,8 +31,6 @@ public class FormAddKebijakanActivity extends AppCompatActivity {
     private AsyncTask mAddPolicyTask = null;
     private ProgressDialog pDialog;
     private SessionManager sm;
-//    RecyclerView.Adapter mAdapter;
-//    RecyclerView.LayoutManager mLayoutManager;
 
     TextView kTitle, kDesc;
     Button btnAddPolicy;
@@ -153,8 +150,8 @@ public class FormAddKebijakanActivity extends AppCompatActivity {
             showProgress(false);
 
             if(policy != null){
-                Intent iPolicy = new Intent(FormAddKebijakanActivity.this, KebijakanActivity.class);
-                startActivity(iPolicy);
+//                Intent iPolicy = new Intent(FormAddKebijakanActivity.this, KebijakanActivity.class);
+//                startActivity(iPolicy);
                 Toast.makeText(getApplicationContext(),"Data sukses disimpan", Toast.LENGTH_LONG).show();
                 finish();
             }else{

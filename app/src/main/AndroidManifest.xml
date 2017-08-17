@@ -89,7 +89,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".WithdrawalActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".AktivasiActivity"
             android:theme="@style/AppTheme.NoActionBar" />

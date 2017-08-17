@@ -1,24 +1,44 @@
 package id.rentist.mitrarentist;
 
+import android.annotation.TargetApi;
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
-import id.rentist.mitrarentist.adapter.WithdrawalAdapter;
-import id.rentist.mitrarentist.modul.WithdrawalModul;
+import java.util.HashMap;
+import java.util.Map;
+
+import id.rentist.mitrarentist.tools.AppConfig;
+import id.rentist.mitrarentist.tools.SessionManager;
 
 public class WithdrawalActivity extends AppCompatActivity {
-    RecyclerView.Adapter mAdapter;
-    RecyclerView.LayoutManager mLayoutManager;
-    private List<WithdrawalModul> mWithdrawal = new ArrayList<>();
+    private AsyncTask mAddPolicyTask = null;
+    private ProgressDialog pDialog;
+    private SessionManager sm;
+
+    TextView credit, description;
+    Button withdrawal;
+    ImageButton reset;
+
+    private static final String TAG = "WithdrawalActivity";
+    private static final String TOKEN = "secretissecret";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,30 +46,134 @@ public class WithdrawalActivity extends AppCompatActivity {
         setContentView(R.layout.activity_withdrawal);
         setTitle("Withdrawal");
 
+        sm = new SessionManager(getApplicationContext());
+        pDialog = new ProgressDialog(this);
+        pDialog.setCancelable(false);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.withdrawal_recyclerView);
-        mLayoutManager = new LinearLayoutManager(getApplicationContext());
-        mAdapter = new WithdrawalAdapter(mWithdrawal);
+        controlContent();
+    }
 
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setAdapter(mAdapter);
+    private void controlContent() {
+        //initialize view
+        credit = (TextView)findViewById(R.id.wd_credit);
+        description = (TextView)findViewById(R.id.wd_desc);
+        withdrawal = (Button)findViewById(R.id.btn_withdrawal);
+        reset = (ImageButton)findViewById(R.id.reset_button);
 
-        Button btnEdit = (Button) findViewById(R.id.btn_withdrawal);
-        btnEdit.setText("Withdrawal");
-        btnEdit.setOnClickListener(new View.OnClickListener() {
+        // set content control value
+        reset.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                credit.setText("0");
+            }
+        });
+        withdrawal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
+                addYourPolicy(tenant);
+            }
+        });
+    }
 
-                    Snackbar.make(v, "Withdrawal now", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
+    private void addYourPolicy(String tenant) {
+        pDialog.setMessage("loading ...");
+        showProgress(true);
+        new postWithdrawalTask(tenant).execute();
+    }
 
+    private class postWithdrawalTask extends AsyncTask<String, String, String>{
+        private final String mTenant;
+        private String errorMsg, responseWithdrawal;
+
+        private postWithdrawalTask(String tenant) {
+            mTenant = tenant;
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.URL_WITHDRAWAL, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    responseWithdrawal = response;
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    errorMsg = error.toString();
+                    Log.e(TAG, "Withdrawal Fetch Error : " + errorMsg);
+                    Toast.makeText(getApplicationContext(), "Connection error, try again.",
+                            Toast.LENGTH_LONG).show();
+                }
+            }){
+                @Override
+                protected Map<String, String> getParams() {
+                    // Posting parameters to url
+                    Map<String, String> keys = new HashMap<String, String>();
+                    keys.put("id_tenant", mTenant);
+                    keys.put("nominal", credit.getText().toString());
+                    keys.put("description", description.getText().toString());
+                    return keys;
                 }
 
-        });
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> keys = new HashMap<String, String>();
+                    keys.put("token", TOKEN);
+                    return keys;
+                }
+            };
+
+            try {
+                requestQueue.add(stringRequest);
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            return responseWithdrawal;
+        }
+
+        @Override
+        protected void onPostExecute(String policy) {
+            mAddPolicyTask = null;
+            showProgress(false);
+
+            if(policy != null){
+//                Intent iWd = new Intent(WithdrawalActivity.this, DompetActivity.class);
+//                startActivity(iWd);
+                Toast.makeText(getApplicationContext(),"Data sukses disimpan", Toast.LENGTH_LONG).show();
+                finish();
+            }else{
+                Toast.makeText(getApplicationContext(),"Gagal meyimpan data", Toast.LENGTH_LONG).show();
+            }
+
+        }
+
+        @Override
+        protected void onCancelled() {
+            mAddPolicyTask = null;
+            showProgress(false);
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+    private void showProgress(final boolean show) {
+        if(show){
+            if (!pDialog.isShowing()){
+                pDialog.show();
+            }
+        }else{
+            if (pDialog.isShowing()){
+                pDialog.dismiss();
+            }
+        }
     }
 
     @Override

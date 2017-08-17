@@ -2,7 +2,6 @@ package id.rentist.mitrarentist;
 
 import android.annotation.TargetApi;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -216,8 +215,8 @@ public class FormAsetActivity extends AppCompatActivity {
             showProgress(false);
 
             if(aset != null){
-                Intent iAset = new Intent(FormAsetActivity.this, AsetActivity.class);
-                startActivity(iAset);
+//                Intent iAset = new Intent(FormAsetActivity.this, AsetActivity.class);
+//                startActivity(iAset);
                 Toast.makeText(getApplicationContext(),"Data sukses disimpan", Toast.LENGTH_LONG).show();
                 finish();
             }else{
