@@ -8,7 +8,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -35,8 +34,6 @@ import id.rentist.mitrarentist.tools.AppConfig;
 import id.rentist.mitrarentist.tools.SessionManager;
 
 public class FormAsetActivity extends AppCompatActivity {
-    RecyclerView.Adapter mAdapter;
-    RecyclerView.LayoutManager mLayoutManager;
     private AsyncTask mAddAssetTask = null;
     private ProgressDialog pDialog;
     private SessionManager sm;
@@ -63,12 +60,19 @@ public class FormAsetActivity extends AppCompatActivity {
         sm = new SessionManager(getApplicationContext());
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
+        btnImgUpload = (Button) findViewById(R.id.btnUploadFoto);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        btnImgUpload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,7 +111,6 @@ public class FormAsetActivity extends AppCompatActivity {
         aLongitude = "0";
         aRentPackage = "-";
 
-        btnImgUpload = (Button) findViewById(R.id.btnUploadFoto);
         pDialog.setMessage("loading ...");
         showProgress(true);
         new postAsetTask(tenant).execute();
@@ -161,7 +164,7 @@ public class FormAsetActivity extends AppCompatActivity {
             }){
                 @Override
                 protected Map<String, String> getParams() {
-                    // Posting parameters to login url
+                    // Posting parameters to url
                     Map<String, String> keys = new HashMap<String, String>();
                     keys.put("id_tenant", mTenant);
                     keys.put("merk", aMerk.getText().toString());

@@ -21,11 +21,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/akbjk_recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/breadcrumb_height">
-    </android.support.v7.widget.RecyclerView>
+    <include layout="@layout/content_form_add_kebijakan" />
 
 </android.support.design.widget.CoordinatorLayout>
