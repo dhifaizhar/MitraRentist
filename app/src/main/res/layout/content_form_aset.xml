@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/colorGrey"
+    android:background="@color/colorBackgound"
+    android:padding="@dimen/xmin_padding"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="id.rentist.mitrarentist.FormAsetActivity"
     tools:showIn="@layout/activity_form_aset">
@@ -15,7 +16,7 @@
         android:layout_height="match_parent"
         android:padding="@dimen/xmin_padding"
         android:background="@drawable/radius_white"
-        android:layout_marginBottom="@dimen/btn_lmedium_height">
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
