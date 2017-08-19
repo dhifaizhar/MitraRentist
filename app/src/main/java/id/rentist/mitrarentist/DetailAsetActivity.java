@@ -41,7 +41,7 @@ public class DetailAsetActivity extends AppCompatActivity {
             public void onClick(View view) {
 //                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
 //                        .setAction("Action", null).show();
-                Intent iAsetEdit = new Intent(DetailAsetActivity.this, FormEditAsetActivity.class);
+                Intent iAsetEdit = new Intent(DetailAsetActivity.this, FormAsetActivity.class);
                 startActivity(iAsetEdit);
             }
         });
