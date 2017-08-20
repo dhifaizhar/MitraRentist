@@ -1,11 +1,11 @@
 package id.rentist.mitrarentist;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -27,8 +27,8 @@ import java.util.Set;
 
 import static android.widget.Toast.LENGTH_SHORT;
 
-public class SampleTimesSquareActivity extends Activity {
-  private static final String TAG = "SampleTimesSquareActivi";
+public class DateRangePickerActivity extends AppCompatActivity {
+  private static final String TAG = "DateRangePickerActivity";
   private CalendarPickerView calendar;
   private AlertDialog theDialog;
   private CalendarPickerView dialogView;
@@ -36,7 +36,13 @@ public class SampleTimesSquareActivity extends Activity {
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.sample_calendar_picker);
+    setContentView(R.layout.date_range_picker);
+      setTitle("Pilih Tanggal");
+
+      Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+      setSupportActionBar(toolbar);
+      getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+      getSupportActionBar().setDisplayShowHomeEnabled(true);
 
     final Calendar nextYear = Calendar.getInstance();
     nextYear.add(Calendar.YEAR, 1);
@@ -65,6 +71,39 @@ public class SampleTimesSquareActivity extends Activity {
   }
 
   private void initButtonListeners(final Calendar nextYear, final Calendar lastYear) {
+
+      calendar.setCustomDayView(new DefaultDayViewAdapter());
+      Calendar today = Calendar.getInstance();
+      final ArrayList<Date> dates = new ArrayList<Date>();
+      today.add(Calendar.DATE, 3);
+      dates.add(today.getTime());
+      today.add(Calendar.DATE, 5);
+      dates.add(today.getTime());
+      calendar.setDecorators(Collections.<CalendarCellDecorator>emptyList());
+      calendar.init(new Date(), nextYear.getTime()) //
+              .inMode(SelectionMode.RANGE) //
+              .withSelectedDates(dates);
+
+      findViewById(R.id.done_button).setOnClickListener(new OnClickListener() {
+          @Override public void onClick(View view) {
+              Log.d(TAG, "Selected time in millis: " + calendar.getSelectedDate().getTime());
+              String toast = "Selected: " + calendar.getSelectedDates();
+
+              int i = calendar.getSelectedDates().size();
+
+              String startDate = calendar.getSelectedDates().get(0).toString();
+              String endDate = calendar.getSelectedDates().get(i).toString();
+
+              Toast.makeText(DateRangePickerActivity.this, endDate, LENGTH_SHORT).show();
+
+//              Intent iFormVou = new Intent(DateRangePickerActivity.this, FormVoucherActivity.class);
+//              iFormVou.putExtra("Dates", sessionId);
+
+//              startActivity(iFormVou);
+          }
+      });
+  }
+
 //    final Button single = (Button) findViewById(R.id.button_single);
 //    final Button multi = (Button) findViewById(R.id.button_multi);
 //    final Button highlight = (Button) findViewById(R.id.button_highlight);
@@ -129,23 +168,9 @@ public class SampleTimesSquareActivity extends Activity {
 //      }
 //    });
 //
-//    range.setOnClickListener(new OnClickListener() {
-//      @Override public void onClick(View v) {
-//        setButtonsEnabled(range);
-//
-//        calendar.setCustomDayView(new DefaultDayViewAdapter());
-//        Calendar today = Calendar.getInstance();
-//        ArrayList<Date> dates = new ArrayList<Date>();
-//        today.add(Calendar.DATE, 3);
-//        dates.add(today.getTime());
-//        today.add(Calendar.DATE, 5);
-//        dates.add(today.getTime());
-//        calendar.setDecorators(Collections.<CalendarCellDecorator>emptyList());
-//        calendar.init(new Date(), nextYear.getTime()) //
-//            .inMode(SelectionMode.RANGE) //
-//            .withSelectedDates(dates);
-//      }
-//    });
+
+
+
 //
 //    displayOnly.setOnClickListener(new OnClickListener() {
 //      @Override public void onClick(View v) {
@@ -217,17 +242,7 @@ public class SampleTimesSquareActivity extends Activity {
 //      }
 //    });
 
-    findViewById(R.id.done_button).setOnClickListener(new OnClickListener() {
-      @Override public void onClick(View view) {
-        Log.d(TAG, "Selected time in millis: " + calendar.getSelectedDate().getTime());
-        String toast = "Selected: " + calendar.getSelectedDate().getTime();
-        Toast.makeText(SampleTimesSquareActivity.this, toast, LENGTH_SHORT).show();
 
-        Intent iKebijakan = new Intent(SampleTimesSquareActivity.this, FormVoucherActivity.class);
-        startActivity(iKebijakan);
-      }
-    });
-  }
 
   private void showCalendarInDialog(String title, int layoutResId) {
     dialogView = (CalendarPickerView) getLayoutInflater().inflate(layoutResId, null, false);
@@ -312,4 +327,10 @@ public class SampleTimesSquareActivity extends Activity {
       });
     }
   }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
 }

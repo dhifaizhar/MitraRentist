@@ -146,7 +146,7 @@
             android:label="@string/title_activity_complain_detail"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".SampleTimesSquareActivity"
+            android:name=".DateRangePickerActivity"
             android:label="@string/title_activity_complain_detail"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

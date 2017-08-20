@@ -103,8 +103,8 @@ public class FormVoucherActivity extends AppCompatActivity implements View.OnCli
 //                        }
 //                    }, mYear, mMonth, mDay);
 //            datePickerDialog.show();
-            Intent iKebijakan = new Intent(FormVoucherActivity.this, SampleTimesSquareActivity.class);
-            startActivity(iKebijakan);
+            Intent iPickDate = new Intent(FormVoucherActivity.this, DateRangePickerActivity.class);
+            startActivity(iPickDate);
         }
 
 //        } else if (v == btnEndDate) {
