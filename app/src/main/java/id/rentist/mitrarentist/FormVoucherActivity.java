@@ -9,8 +9,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 
-public class FormAddVoucherActivity extends AppCompatActivity implements View.OnClickListener{
+public class FormVoucherActivity extends AppCompatActivity implements View.OnClickListener{
     Button btnStartDate, btnEndDate;
     EditText startDate, endDate;
     private int mYear, mMonth, mDay;
@@ -19,7 +20,7 @@ public class FormAddVoucherActivity extends AppCompatActivity implements View.On
     @TargetApi(Build.VERSION_CODES.N)
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_form_add_voucher);
+        setContentView(R.layout.activity_form_voucher);
         setTitle("Tambah Voucher");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -41,6 +42,9 @@ public class FormAddVoucherActivity extends AppCompatActivity implements View.On
 
         btnStartDate=(Button)findViewById(R.id.btn_start_date);
         startDate=(EditText)findViewById(R.id.vou_startDate);
+
+        Spinner asCategorySpin=(Spinner) findViewById(R.id.vou_spinner);
+        String asCategory = asCategorySpin.getSelectedItem().toString();
 //        btnEndDate=(Button)findViewById(R.id.btn_end_date);
 //        endDate=(EditText)findViewById(R.id.vou_endDate);
 
@@ -63,7 +67,7 @@ public class FormAddVoucherActivity extends AppCompatActivity implements View.On
 //            case R.id.action_next:
 //                ArrayList<Date> selectedDates = (ArrayList<Date>)calendar
 //                        .getSelectedDates();
-//                Toast.makeText(FormAddVoucherActivity.this, selectedDates.toString(),
+//                Toast.makeText(FormVoucherActivity.this, selectedDates.toString(),
 //                        Toast.LENGTH_LONG).show();
 //                return true;
 //        }
@@ -99,7 +103,7 @@ public class FormAddVoucherActivity extends AppCompatActivity implements View.On
 //                        }
 //                    }, mYear, mMonth, mDay);
 //            datePickerDialog.show();
-            Intent iKebijakan = new Intent(FormAddVoucherActivity.this, SampleTimesSquareActivity.class);
+            Intent iKebijakan = new Intent(FormVoucherActivity.this, SampleTimesSquareActivity.class);
             startActivity(iKebijakan);
         }
 

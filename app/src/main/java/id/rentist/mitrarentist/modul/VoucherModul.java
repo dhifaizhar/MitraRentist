@@ -11,6 +11,8 @@ public class VoucherModul {
     private String mEndDate;
     private String mAmount;
     private String mStatus;
+    private String mAsCategory;
+    private String mType;
 
     public String getTitle() {
         return mTitle;
@@ -47,5 +49,17 @@ public class VoucherModul {
     }
     public void setStatus(String mStatus) {
         this.mStatus = mStatus;
+    }
+    public String getAsCategory() {
+        return mAsCategory;
+    }
+    public void setAsCategory(String mAsCategory) {
+        this.mAsCategory = mAsCategory;
+    }
+    public String getType() {
+        return mType;
+    }
+    public void setType(String mType) {
+        this.mType = mType;
     }
 }

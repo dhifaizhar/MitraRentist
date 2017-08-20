@@ -104,6 +104,12 @@
         <item>3</item>
     </string-array>
 
+    <string-array name="asset_category_entries">
+        <item>Mobil</item>
+        <item>Motor</item>
+        <item>Yacth</item>
+    </string-array>
+
     <string-array name="multi_select_list_preference_default_value" />
 
     <string name="pref_title_system_sync_settings">System sync settings</string>

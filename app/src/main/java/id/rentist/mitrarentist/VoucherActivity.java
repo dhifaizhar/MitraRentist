@@ -35,7 +35,7 @@ public class VoucherActivity extends AppCompatActivity {
 
         RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.v_recyclerView);
         mLayoutManager = new LinearLayoutManager(getApplicationContext());
-        mAdapter = new VoucherAdapter(mVoucher);
+        mAdapter = new VoucherAdapter(getApplicationContext(), mVoucher);
 
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
@@ -44,7 +44,7 @@ public class VoucherActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent iVoucher = new Intent(VoucherActivity.this, FormAddVoucherActivity.class);
+                Intent iVoucher = new Intent(VoucherActivity.this, FormVoucherActivity.class);
                 startActivity(iVoucher);
 
             }

@@ -107,7 +107,7 @@
             android:name=".VoucherActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".FormAddVoucherActivity"
+            android:name=".FormVoucherActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".MessageDetailActivity"

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackgound"
-    tools:context="id.rentist.mitrarentist.FormAddVoucherActivity">
+    tools:context="id.rentist.mitrarentist.FormVoucherActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -23,6 +23,6 @@
     </android.support.design.widget.AppBarLayout>
 
     <include
-        layout="@layout/content_form_add_voucher"/>
+        layout="@layout/content_form_voucher"/>
 
 </android.support.design.widget.CoordinatorLayout>

@@ -39,7 +39,7 @@ public class AddVoucherAdapter extends RecyclerView.Adapter<AddVoucherAdapter.Vi
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.content_form_add_voucher, viewGroup, false);
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.content_form_voucher, viewGroup, false);
         AddVoucherAdapter.ViewHolder viewHolder = new ViewHolder(v);
         return viewHolder;
     }

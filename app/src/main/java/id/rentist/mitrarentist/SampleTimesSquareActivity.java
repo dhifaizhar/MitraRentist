@@ -223,7 +223,7 @@ public class SampleTimesSquareActivity extends Activity {
         String toast = "Selected: " + calendar.getSelectedDate().getTime();
         Toast.makeText(SampleTimesSquareActivity.this, toast, LENGTH_SHORT).show();
 
-        Intent iKebijakan = new Intent(SampleTimesSquareActivity.this, FormAddVoucherActivity.class);
+        Intent iKebijakan = new Intent(SampleTimesSquareActivity.this, FormVoucherActivity.class);
         startActivity(iKebijakan);
       }
     });
