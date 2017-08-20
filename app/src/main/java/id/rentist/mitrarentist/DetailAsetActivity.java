@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.CalendarView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,11 +35,13 @@ import id.rentist.mitrarentist.tools.SessionManager;
 
 public class DetailAsetActivity extends AppCompatActivity {
     private AsyncTask mDetailAssetTask = null;
+    private Toolbar toolbar;
     private ProgressDialog pDialog;
     private SessionManager sm;
     private AlertDialog.Builder showAlert;
     private AlertDialog alertDialog;
     private Intent detIntent;
+    private CalendarView simpleCalendarView;
 
     Integer aId;
     String changeStatus = "active";
@@ -58,10 +61,13 @@ public class DetailAsetActivity extends AppCompatActivity {
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_detail_aset);
+        toolbar = (Toolbar) findViewById(R.id.toolbar_detail_aset);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        simpleCalendarView = (CalendarView) findViewById(R.id.calendar_aset);
+        simpleCalendarView.setFirstDayOfWeek(2);
 
         controlContent();
 

@@ -111,9 +111,9 @@
     </string-array>
 
     <string-array name="role_entries">
-        <item>Super Admin</item>
-        <item>Eksekutif</item>
-        <item>Operator</item>
+        <item>SuperAdmin</item>
+        <item>Operational</item>
+        <item>Executive</item>
     </string-array>
 
     <string-array name="multi_select_list_preference_default_value" />
