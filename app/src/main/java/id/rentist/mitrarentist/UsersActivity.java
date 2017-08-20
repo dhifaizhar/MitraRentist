@@ -69,13 +69,6 @@ public class UsersActivity extends AppCompatActivity {
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
         getUserDataList(tenant);
 
-//        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.user_recyclerView);
-//        mLayoutManager = new LinearLayoutManager(getApplicationContext());
-//        mAdapter = new UserAdapter(getApplicationContext(), mUser);
-//
-//        mRecyclerView.setLayoutManager(mLayoutManager);
-//        mRecyclerView.setAdapter(mAdapter);
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -163,7 +156,7 @@ public class UsersActivity extends AppCompatActivity {
             mUserTask = null;
             showProgress(false);
             String aName, aEmail, aRole, aThumbPhoto;
-            Integer dataLength;
+            Integer aId, dataLength;
 
 
             if (user != null) {
@@ -178,6 +171,7 @@ public class UsersActivity extends AppCompatActivity {
                             errorMsg = "-";
 
                             JSONObject jsonobject = jsonArray.getJSONObject(i);
+                            aId = jsonobject.getInt("id");
                             aName = jsonobject.getString("name");
                             aEmail = jsonobject.getString("email");
                             aRole = jsonobject.getString("role");
@@ -185,6 +179,7 @@ public class UsersActivity extends AppCompatActivity {
                             Log.e(TAG, "What Data : " + String.valueOf(jsonobject));
 
                             UserModul userModul = new UserModul();
+                            userModul.setId(aId);
                             userModul.setName(aName);
                             userModul.setEmail(aEmail);
                             userModul.setPhone("081254674578");

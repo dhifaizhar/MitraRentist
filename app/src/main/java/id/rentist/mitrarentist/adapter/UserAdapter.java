@@ -41,7 +41,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> im
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
-        UserModul user = mUser.get(i);
+        final UserModul user = mUser.get(i);
         Log.e(TAG, String.format("Data Bind : %s", mUser));
 
         viewHolder.imgThumbnail.setImageResource(user.getThumbnail());
@@ -52,6 +52,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> im
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, UserDetailActivity.class);
+                intent.putExtra("id_user", user.getId());
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }

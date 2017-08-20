@@ -93,13 +93,13 @@
                             app:srcCompat="@drawable/ic_person_black_18dp"/>
 
                         <TextView
-                            android:id="@+id/us_address_name"
+                            android:id="@+id/us_role_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_toEndOf="@+id/us_role_ico"
-                            android:text="Operator"
-                            android:textStyle="italic"
-                            android:textSize="@dimen/medium_text"/>
+                            android:text="User Role"
+                            android:textSize="@dimen/medium_text"
+                            android:textStyle="italic" />
 
                     </RelativeLayout>
 

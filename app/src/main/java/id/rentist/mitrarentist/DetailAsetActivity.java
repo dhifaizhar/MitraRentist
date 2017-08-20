@@ -25,12 +25,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import id.rentist.mitrarentist.modul.ItemAsetModul;
 import id.rentist.mitrarentist.tools.AppConfig;
 import id.rentist.mitrarentist.tools.SessionManager;
 
@@ -43,7 +40,6 @@ public class DetailAsetActivity extends AppCompatActivity {
     private AlertDialog alertDialog;
     private Intent detIntent;
 
-    private List<ItemAsetModul> mDetail = new ArrayList<>();
     Integer aId;
     String changeStatus = "active";
     TextView rating, price, status;
