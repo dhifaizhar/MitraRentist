@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/colorBackgound"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="id.rentist.mitrarentist.DetailAsetActivity"
+    tools:showIn="@layout/activity_asset_detail"
     android:padding="@dimen/xmin_padding">
 
     <LinearLayout
@@ -12,47 +14,14 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingBottom="8dp"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="8dp">
-
-            <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top"
-            android:fontFamily="sans-serif"
-            android:text="@string/status_label"
-            android:textColor="@android:color/black"
-            android:textSize="18sp" />
-
-            <TextView
-            android:id="@+id/status"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:layout_marginStart="10dp"
-            android:background="@color/colorPrimary"
-            android:gravity="center"
-            android:text="@string/status_aktif"
-            android:textAlignment="center"
-            android:textColor="@color/colorAccent"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        </LinearLayout>
-
-        <LinearLayout
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/card_view_transaksi"
-            android:orientation="vertical"
             android:layout_marginBottom="@dimen/xmin_padding"
-            android:background="@color/colorWhite"
-
+            android:background="@drawable/radius_white"
+            app:cardBackgroundColor="@color/colorWhite"
+            app:cardElevation="1dp"
             android:foreground="?selectableItemBackground"
             android:clickable="false"
             >
@@ -139,9 +108,6 @@
                             android:id="@+id/det_as_harga_det"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/colorPrice"
-                            android:text="Price"
-                            android:textStyle="bold"
                             android:layout_toEndOf="@+id/det_as_harga_thumb"/>
 
                     </RelativeLayout>
@@ -264,13 +230,46 @@
             </RelativeLayout>
         </LinearLayout>
 
-    </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="8dp"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:fontFamily="sans-serif"
+                android:text="@string/status_label"
+                android:textColor="@android:color/black"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/det_status_aset"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/radius_primary"
+                android:gravity="center"
+                android:text="@string/status_aktif"
+                android:textAlignment="center"
+                android:textColor="@color/colorAccent"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
 
         <CalendarView
             android:id="@+id/calendar_aset"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorWhite" />
+            android:background="@drawable/radius_white" />
 
     </LinearLayout>
 

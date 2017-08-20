@@ -164,7 +164,7 @@ public class AsetActivity extends AppCompatActivity {
             mAssetTask = null;
             showProgress(false);
             String aName, aType, aPlat, aStatus, aSeat, aTransm, aAc, aDriver;
-            Integer dataLength;
+            Integer dataLength, aId;
 
 
             if (aset != null) {
@@ -179,6 +179,7 @@ public class AsetActivity extends AppCompatActivity {
                             errorMsg = "-";
 
                             JSONObject jsonobject = jsonArray.getJSONObject(i);
+                            aId = jsonobject.getInt("id");
                             aName = jsonobject.getString("merk");
                             aType = jsonobject.getString("type");
                             aPlat = jsonobject.getString("license_plat");
@@ -190,6 +191,7 @@ public class AsetActivity extends AppCompatActivity {
                             Log.e(TAG, "What Data : " + String.valueOf(jsonobject));
 
                             ItemAsetModul itemModul = new ItemAsetModul();
+                            itemModul.setAssetId(aId);
                             itemModul.setTitle(aName + " " + aType + " | " + aPlat);
                             itemModul.setThumbnail(R.drawable.mobil_1);
                             itemModul.setRating("4/5");

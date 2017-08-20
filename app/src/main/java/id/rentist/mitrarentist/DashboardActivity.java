@@ -172,7 +172,6 @@ public class DashboardActivity extends AppCompatActivity
         final Intent iLogin = new Intent(this, LoginActivity.class);
         AlertDialog.Builder showAlert = new AlertDialog.Builder(this);
         showAlert.setMessage("Akhiri sesi pengguna aplikasi ?");
-
         showAlert.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface arg0, int arg1) {

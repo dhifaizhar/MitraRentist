@@ -67,8 +67,10 @@ public class AsetAdapter extends RecyclerView.Adapter<AsetAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i ){
-        ItemAsetModul as = mAset.get(i);
+        final ItemAsetModul as = mAset.get(i);
         String ac, driver;
+        Integer id;
+
         Log.e(TAG, String.format("Data Bind : %s", mAset));
 
 //        simpan value dalam object
@@ -97,6 +99,7 @@ public class AsetAdapter extends RecyclerView.Adapter<AsetAdapter.ViewHolder> {
             @Override
             public void onClick(View v) {
                 Intent iAset = new Intent(context, DetailAsetActivity.class);
+                iAset.putExtra("id_asset", as.getAssetId());
                 iAset.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(iAset);
             }

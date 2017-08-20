@@ -26,13 +26,13 @@ public class DetailAsetAdapter extends RecyclerView.Adapter<DetailAsetAdapter.Vi
         this.mDetail = mDetail;
         ItemAsetModul detAs;
 
-        detAs = new ItemAsetModul();
-        detAs.setTitle("Daihatsu Jazz | DC 123 WOW");
-        detAs.setThumbnail(R.drawable.mobil_1);
-        detAs.setRating("4/5");
-        detAs.setPrice("Rp 300.000 /hari");
-
-        this.mDetail.add(detAs);
+//        detAs = new ItemAsetModul();
+//        detAs.setTitle("Daihatsu Jazz | DC 123 WOW");
+//        detAs.setThumbnail(R.drawable.mobil_1);
+//        detAs.setRating("4/5");
+//        detAs.setPrice("Rp 300.000 /hari");
+//
+//        this.mDetail.add(detAs);
     }
 
 
@@ -51,19 +51,15 @@ public class DetailAsetAdapter extends RecyclerView.Adapter<DetailAsetAdapter.Vi
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 //        public TextView title;
-        public TextView rating;
-        public ImageView imgThumbnail;
-        public TextView price;
-        private ImageView priceIco;
-        public TextView feature;
-        public ImageView featureIco;
+        public TextView rating, price, feature;
+        public ImageView imgThumbnail, priceIco, featureIco;
 
         public ViewHolder(View itemView) {
             super(itemView);
 //            title = (TextView) itemView.findViewById(R.id.det_as_aset_type);
-            imgThumbnail = (ImageView) itemView.findViewById(R.id.det_as_thumb_aset);
-            rating = (TextView) itemView.findViewById(R.id.det_as_rating_text);
-            price = (TextView) itemView.findViewById(R.id.det_as_harga_det);
+//            imgThumbnail = (ImageView) itemView.findViewById(R.id.det_as_thumb_aset);
+//            rating = (TextView) itemView.findViewById(R.id.det_as_rating_text);
+//            price = (TextView) itemView.findViewById(R.id.det_as_harga_det);
 
         }
     }
@@ -74,9 +70,9 @@ public class DetailAsetAdapter extends RecyclerView.Adapter<DetailAsetAdapter.Vi
         ItemAsetModul detAs = mDetail.get(i);
 
 //        viewHolder.title.setText(detAs.getTitle());
-        viewHolder.imgThumbnail.setImageResource(detAs.getThumbnail());
-        viewHolder.rating.setText(detAs.getRating());
-        viewHolder.price.setText(detAs.getPrice());
+//        viewHolder.imgThumbnail.setImageResource(detAs.getThumbnail());
+//        viewHolder.rating.setText(detAs.getRating());
+//        viewHolder.price.setText(detAs.getPrice());
 
     }
 }
