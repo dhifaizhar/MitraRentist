@@ -42,6 +42,7 @@ public class UserDetailActivity extends AppCompatActivity {
     String changeStatus = "active", tenant;
     TextView nama, email, role;
     ImageView profilPic;
+    FloatingActionButton fab;
 
     private static final String TAG = "DetailUserActivity";
     private static final String TOKEN = "secretissecret";
@@ -63,15 +64,6 @@ public class UserDetailActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         controlContent();
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent iUser = new Intent(UserDetailActivity.this, FormUserActivity.class);
-                startActivity(iUser);
-            }
-        });
     }
 
     private void controlContent() {
@@ -80,11 +72,25 @@ public class UserDetailActivity extends AppCompatActivity {
         nama = (TextView)findViewById(R.id.us_name);
         role = (TextView)findViewById(R.id.us_role_name);
         email = (TextView)findViewById(R.id.us_email);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
 
         // set content control value
         aId = detIntent.getIntExtra("id_user", 0);
+        Log.e(TAG, "Id Tenant Detail User : " + aId.toString());
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
         detUserTenant(tenant, aId);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                detIntent = new Intent(UserDetailActivity.this, FormUserActivity.class);
+                detIntent.putExtra("id_user", aId.toString());
+                detIntent.putExtra("name", nama.getText());
+                detIntent.putExtra("role", role.getText());
+                detIntent.putExtra("email", email.getText());
+                startActivity(detIntent);
+            }
+        });
     }
 
     private void detUserTenant(String tenant, Integer id) {
@@ -166,9 +172,8 @@ public class UserDetailActivity extends AppCompatActivity {
                     e.printStackTrace();
                     Log.d(TAG, "JSON Error : " + e);
                 }
-                Toast.makeText(getApplicationContext(),"Data sukses diubah", Toast.LENGTH_LONG).show();
             }else{
-                Toast.makeText(getApplicationContext(),"Gagal meyimpan data", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"Gagal memuat data.", Toast.LENGTH_LONG).show();
             }
 
         }

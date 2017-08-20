@@ -268,8 +268,10 @@
         <CalendarView
             android:id="@+id/calendar_aset"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/radius_white" />
+            android:layout_height="match_parent"
+            android:background="@color/calendar_bg"
+            android:minDate="01/01/2017"
+            android:maxDate="30/12/2050" />
 
     </LinearLayout>
 
