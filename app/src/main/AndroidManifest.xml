@@ -89,7 +89,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".WithdrawalActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".AktivasiActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -156,8 +156,12 @@
             android:name=".FormUserActivity"
             android:label="@string/title_activity_form_user"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".UserDetailActivity"
+        <activity
+            android:name=".UserDetailActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".HistorySaldoActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        />
     </application>
 
 </manifest>

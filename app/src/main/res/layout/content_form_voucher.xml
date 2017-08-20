@@ -171,11 +171,14 @@
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
                     android:entries="@array/asset_category_entries"
-                    android:fadingEdge="horizontal"
                     android:padding="@dimen/xmin_padding"
                     app:layout_gravity="bottom" />
 
+
+
             </GridLayout>
+
+
 
             <EditText
                 android:id="@+id/vou_amount"

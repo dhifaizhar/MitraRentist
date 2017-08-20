@@ -86,19 +86,26 @@ public class DateRangePickerActivity extends AppCompatActivity {
 
       findViewById(R.id.done_button).setOnClickListener(new OnClickListener() {
           @Override public void onClick(View view) {
-              Log.d(TAG, "Selected time in millis: " + calendar.getSelectedDate().getTime());
+              Log.d(TAG, "Selected dates: " + calendar.getSelectedDates());
               String toast = "Selected: " + calendar.getSelectedDates();
 
-              int i = calendar.getSelectedDates().size();
+              int istartDate = calendar.getSelectedDates().get(0).getDate();
+              int istartMonth = calendar.getSelectedDates().get(0).getMonth()+1;
+              int istartYear = calendar.getSelectedDates().get(0).getYear();
+              String startDate = "20" + String.valueOf(istartYear).substring(1) + "-" + istartMonth + "-" + istartDate;
 
-              String startDate = calendar.getSelectedDates().get(0).toString();
-              String endDate = calendar.getSelectedDates().get(i).toString();
+              int i = calendar.getSelectedDates().toArray().length;
+              int iendDate = calendar.getSelectedDates().get(i-1).getDate();
+              int iendMonth = calendar.getSelectedDates().get(i-1).getMonth()+1;
+              int iendYear = calendar.getSelectedDates().get(i-1).getYear();
+              String endDate = "20" + String.valueOf(iendYear).substring(1) + "-" + iendMonth + "-" + iendDate;
 
-              Toast.makeText(DateRangePickerActivity.this, endDate, LENGTH_SHORT).show();
+              String dateRange ="Selected: " + startDate + " sampai " + endDate;
+
+              Toast.makeText(DateRangePickerActivity.this, dateRange, LENGTH_SHORT).show();
 
 //              Intent iFormVou = new Intent(DateRangePickerActivity.this, FormVoucherActivity.class);
-//              iFormVou.putExtra("Dates", sessionId);
-
+//              iFormVou.putExtra("Dates", dateRange);
 //              startActivity(iFormVou);
           }
       });

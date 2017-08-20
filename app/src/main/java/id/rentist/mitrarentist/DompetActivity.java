@@ -50,11 +50,15 @@ public class DompetActivity extends AppCompatActivity {
                 startActivity(iWithdrawal);
             }
         });
+
+
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_refresh_option, menu);
+        getMenuInflater().inflate(R.menu.menu_history, menu);
+
         return true;
     }
 
@@ -70,8 +74,16 @@ public class DompetActivity extends AppCompatActivity {
             return true;
         }
 
+        if (id == R.id.action_history) {
+            Intent iHistorySaldo = new Intent(DompetActivity.this, HistorySaldoActivity.class);
+            startActivity(iHistorySaldo);
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
     }
+
+
 
     @Override
     public boolean onSupportNavigateUp() {
