@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -41,6 +42,7 @@ public class DriverActivity extends AppCompatActivity {
     RecyclerView mRecyclerView;
     RecyclerView.Adapter mAdapter;
     RecyclerView.LayoutManager mLayoutManager;
+    SwipeRefreshLayout mSwipeRefreshLayout;
     private List<ItemDriverModul> mDriver = new ArrayList<>();
     private AsyncTask mDriverTask = null;
     private ProgressDialog pDialog;
@@ -80,6 +82,16 @@ public class DriverActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent iDriver = new Intent(DriverActivity.this, FormDriverActivity.class);
                 startActivity(iDriver);
+            }
+        });
+
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mDriver.clear();
+                getDriverDataList(tenant);
+                mSwipeRefreshLayout.setRefreshing(false);
             }
         });
     }
