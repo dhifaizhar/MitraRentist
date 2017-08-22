@@ -24,23 +24,12 @@ public class DriverAdapter extends RecyclerView.Adapter<DriverAdapter.ViewHolder
 
     private List<ItemDriverModul> mDriver;
     private Context context;
-    private int j;
+    private static final String TAG = "DriverAdapter";
 
-    public DriverAdapter(Context context, List<ItemDriverModul> mDriver){
+    public DriverAdapter(final Context context, final List<ItemDriverModul> mDriver){
         super();
         this.mDriver = mDriver;
         this.context = context;
-        ItemDriverModul as;
-
-        for(j = 1;j < 4;j++){
-            as = new ItemDriverModul();
-
-            as.setName("Nama Driver" + j);
-            as.setThumbnail(R.drawable.ic_person_black_24dp);
-            as.setTelp("08xxxxxxxxx" + j);
-
-            this.mDriver.add(as);
-        }
     }
 
     @Override
@@ -61,7 +50,7 @@ public class DriverAdapter extends RecyclerView.Adapter<DriverAdapter.ViewHolder
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{
-        private TextView nama, telp;
+        private TextView nama, telp, sim;
         private ImageView imgThumbnail;
         private CardView cardDetAset;
 
@@ -69,23 +58,24 @@ public class DriverAdapter extends RecyclerView.Adapter<DriverAdapter.ViewHolder
             super(itemView);
             nama = (TextView) itemView.findViewById(R.id.dr_nama_info);
             imgThumbnail = (ImageView) itemView.findViewById(R.id.dr_thumb);
-            telp = (TextView) itemView.findViewById(R.id.dr_telp_info);
+            sim = (TextView) itemView.findViewById(R.id.dr_sim_info);
             cardDetAset = (CardView) itemView.findViewById(R.id.card_view_driver);
         }
     }
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i ){
-        ItemDriverModul as = mDriver.get(i);
+        final ItemDriverModul driver = mDriver.get(i);
 
 //        simpan value dalam object
-        viewHolder.nama.setText(as.getName());
-        viewHolder.telp.setText(as.getTelp());
-        viewHolder.imgThumbnail.setImageResource(as.getThumbnail());
+        viewHolder.nama.setText(driver.getName());
+        viewHolder.sim.setText(driver.getSIM());
+        viewHolder.imgThumbnail.setImageResource(driver.getThumbnail());
         viewHolder.cardDetAset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent iDriver = new Intent(context, DriverDetailActivity.class);
+                iDriver.putExtra("id_driver", driver.getId());
                 iDriver.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(iDriver);
             }

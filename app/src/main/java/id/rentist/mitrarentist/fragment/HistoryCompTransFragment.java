@@ -2,7 +2,7 @@ package id.rentist.mitrarentist.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,7 +39,7 @@ public class HistoryCompTransFragment extends Fragment {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.htrans_recyclerViewFrag);
         mRecyclerView.setHasFixedSize(true);
 
-        mLayoutManager = new GridLayoutManager(getActivity(),1);
+        mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         mAdapter = new HistoryCompTransAdapter(getActivity(),mTrans);

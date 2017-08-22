@@ -76,7 +76,7 @@
                     tools:ignore="UselessParent">
 
                     <ImageView
-                        android:id="@+id/dr_telp_ico"
+                        android:id="@+id/dr_sim_ico"
                         android:layout_width="@dimen/thumb_prop_width"
                         android:layout_height="@dimen/thumb_prop_height"
                         android:layout_marginEnd="@dimen/min_padding"
@@ -89,9 +89,9 @@
                         android:layout_height="wrap_content"
                         android:text="Telepon User"
                         android:textColor="@color/colorBlack"
-                        android:layout_toEndOf="@id/dr_telp_ico"
+                        android:layout_toEndOf="@id/dr_sim_ico"
                         android:layout_alignParentEnd="true"
-                        android:layout_alignTop="@id/dr_telp_ico"
+                        android:layout_alignTop="@id/dr_sim_ico"
                         android:textSize="@dimen/small_text" />
 
 

@@ -117,7 +117,7 @@ public class UsersActivity extends AppCompatActivity {
         protected String doInBackground(String... params) {
             RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
             String newURL = AppConfig.URL_LIST_USER + mTenant;
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, newURL, new Response.Listener<String>() {
+            StringRequest stringRequest = new StringRequest(Request.Method.GET, newURL, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     responseUser = response;

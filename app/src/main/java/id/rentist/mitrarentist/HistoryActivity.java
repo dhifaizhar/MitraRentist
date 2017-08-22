@@ -59,7 +59,6 @@ public class HistoryActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_search) {
-
             //ubah dengan fungsi
             return true;
         }

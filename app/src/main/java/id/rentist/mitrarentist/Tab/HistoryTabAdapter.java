@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import id.rentist.mitrarentist.fragment.HistoryOnTransFragment;
-import id.rentist.mitrarentist.fragment.HistorySaldoFragment;
+import id.rentist.mitrarentist.fragment.HistoryCancelFragment;
 import id.rentist.mitrarentist.fragment.HistoryCompTransFragment;
 
 /**
@@ -16,7 +16,7 @@ import id.rentist.mitrarentist.fragment.HistoryCompTransFragment;
 
 public class HistoryTabAdapter extends FragmentPagerAdapter {
     private Context mContext;
-    private String[] titles={"Berlangsung", "Selesai", "Keuangan"};
+    private String[] titles={"Berlangsung", "Selesai", "Dibatalkan"};
 
     // CHANGE STARTS HERE
     private int current_position=0;
@@ -40,7 +40,7 @@ public class HistoryTabAdapter extends FragmentPagerAdapter {
         }else if(position == 1){
             frag = new HistoryCompTransFragment();
         }else if(position == 2){
-            frag = new HistorySaldoFragment();
+            frag = new HistoryCancelFragment();
         }
 
         Bundle b = new Bundle();
@@ -60,7 +60,7 @@ public class HistoryTabAdapter extends FragmentPagerAdapter {
         }else if(position == current_position+1){
             return "Selesai";
         }else if(position == current_position+2){
-            return "Keuangan";
+            return "Dibatalkan";
         }
 
         return null;
