@@ -20,15 +20,7 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_refresh_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <include layout="@layout/content_users" />
-
-    </android.support.v4.widget.SwipeRefreshLayout>
-
+    <include layout="@layout/content_users" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
@@ -37,5 +29,6 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@android:drawable/ic_input_add" />
+
 
 </android.support.design.widget.CoordinatorLayout>

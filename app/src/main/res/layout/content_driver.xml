@@ -5,16 +5,23 @@
     android:id="@+id/content_driver"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="id.rentist.mitrarentist.DriverActivity"
     tools:showIn="@layout/activity_driver">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/dr_recyclerView"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/xmin_padding"
-        android:layout_marginTop="@dimen/breadcrumb_height"
-        >
-    </android.support.v7.widget.RecyclerView>
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/dr_recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/xmin_padding"
+            >
+        </android.support.v7.widget.RecyclerView>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>

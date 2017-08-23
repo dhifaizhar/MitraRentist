@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SplashScreen"
     android:background="@color/colorPrimary"
     android:focusable="false">
 
@@ -30,7 +29,7 @@
         android:layout_below="@+id/about_logo"
         android:layout_centerHorizontal="true"
         android:text="Copyright \u00A9 2017 Rentist Indonesia"
-        android:textColor="@color/colorAccent"
+        android:textColor="@color/colorWhite"
         android:textSize="@dimen/medium_text"/>
 
     <TextView
@@ -40,6 +39,6 @@
         android:layout_below="@+id/about_text"
         android:layout_centerHorizontal="true"
         android:text="Versi 1.0"
-        android:textColor="@color/colorAccent"
+        android:textColor="@color/colorWhite"
         android:textSize="@dimen/medium_text"/>
 </RelativeLayout>

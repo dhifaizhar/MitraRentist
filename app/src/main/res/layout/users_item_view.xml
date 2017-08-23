@@ -60,7 +60,7 @@
                         android:textColor="@color/colorWhite"
                         android:paddingStart="@dimen/xmin_padding"
                         android:paddingEnd="@dimen/xmin_padding"
-                        android:background="#00ff00"
+                        android:background="@android:color/holo_green_light"
                         android:textSize="@dimen/small_text"
                         android:layout_alignParentEnd="true" />
 
