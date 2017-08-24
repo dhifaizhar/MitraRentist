@@ -25,6 +25,7 @@
     <dimen name="thumb_med_height">80dp</dimen>
     <dimen name="thumb_prop_width">18dp</dimen>
     <dimen name="thumb_prop_height">18dp</dimen>
+    <dimen name="btn_thumb">45dp</dimen>
 
     <dimen name="msg_thumb_width">64dp</dimen>
     <dimen name="msg_thumb_height">64dp</dimen>

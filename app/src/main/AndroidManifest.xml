@@ -159,9 +159,13 @@
         <activity
             android:name=".UserDetailActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".HistorySaldoActivity"
+        <activity
+            android:name=".HistorySaldoActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         />
+        <activity
+            android:name=".DropAsetActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

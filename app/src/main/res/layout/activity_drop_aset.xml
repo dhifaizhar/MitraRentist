@@ -4,9 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:context="id.rentist.mitrarentist.DashboardActivity"
-    tools:showIn="@layout/activity_dashboard">
+    tools:context="id.rentist.mitrarentist.DropAsetActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -22,10 +20,7 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include
-        layout="@layout/content_dashboard"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
+    <include layout="@layout/content_drop_aset" />
+
 
 </android.support.design.widget.CoordinatorLayout>

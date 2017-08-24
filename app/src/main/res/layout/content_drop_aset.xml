@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="id.rentist.mitrarentist.DropAsetActivity"
+    tools:showIn="@layout/activity_drop_aset"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/xmin_padding"
+    android:background="@color/colorBackgound">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/tr_d_pinfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite"
+            android:orientation="vertical"
+            android:padding="@dimen/xmin_padding">
+
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_margin="@dimen/xmin_padding"
+                android:text="440000 IDR"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrice"
+                android:textSize="@dimen/large_text"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="@dimen/xmin_padding"
+                android:text="23 Agustus 2017 - 25 Agustus 2017"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/medium_text" />
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Ngurah Rai International Airport"
+                android:textAlignment="center"
+                android:textColor="@color/colorBlack54"
+                android:textSize="@dimen/medium_text" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/tr_d_det"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tr_d_pinfo"
+            android:layout_marginTop="@dimen/xmin_padding"
+            android:background="@color/colorWhite"
+            android:orientation="vertical"
+            android:padding="@dimen/xmin_padding">
+
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/btn_thumb"
+                    android:columnCount="2">
+
+                    <TextView
+                        android:layout_width="0"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:text="Aset :"
+                        android:textColor="@color/colorBlack54"
+                        android:textSize="@dimen/small_text" />
+
+                    <TextView
+                        android:id="@+id/tr_d_aset_name"
+                        android:layout_width="0"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="2"
+                        android:layout_marginEnd="@dimen/xmin_padding"
+                        android:text="Mitsubisi Xenia | B 1234 WOW"
+                        android:textColor="@color/colorBlack54"
+                        android:textSize="@dimen/small_text" />
+
+                    <TextView
+                        android:layout_width="0"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:text="Member :"
+                        android:textColor="@color/colorBlack54"
+                        android:textSize="@dimen/small_text" />
+
+                    <TextView
+                        android:id="@+id/tr_d_aset_member"
+                        android:layout_width="0"
+                        android:layout_height="wrap_content"
+                        android:text="Dani Hidayat"
+                        android:layout_columnWeight="2"
+                        android:textColor="@color/colorBlack54"
+                        android:textSize="@dimen/small_text"
+                        />
+
+                    <TextView
+                        android:layout_width="0"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:text="Payment :"
+                        android:textColor="@color/colorBlack54"
+                        android:textSize="@dimen/small_text" />
+
+
+                    <TextView
+                        android:id="@+id/tr_d_payment"
+                        android:layout_width="0"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="2"
+                        android:layout_marginEnd="@dimen/btn_thumb"
+                        android:text="Credit "
+                        android:textColor="@color/colorBlack54"
+                        android:textSize="@dimen/small_text" />
+
+
+
+
+                </GridLayout>
+
+
+                <ImageButton
+                    android:id="@+id/call_imageButton"
+                    android:layout_width="@dimen/btn_thumb"
+                    android:layout_height="@dimen/btn_thumb"
+                    android:layout_alignParentRight="true"
+                    android:background="@color/colorButtonDefault"
+                    app:srcCompat="@drawable/ic_phone_black_24dp" />
+
+                <ImageButton
+                    android:id="@+id/msg_imageButton"
+                    android:layout_width="@dimen/btn_thumb"
+                    android:layout_height="@dimen/btn_thumb"
+                    android:layout_alignStart="@+id/call_imageButton"
+                    android:layout_below="@id/call_imageButton"
+                    android:layout_marginTop="@dimen/xmin_padding"
+                    android:background="@color/colorButtonDefault"
+                    app:srcCompat="@drawable/ic_message_black_24dp" />
+
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/tr_d_det"
+            android:layout_marginTop="@dimen/xmin_padding"
+            android:background="@color/colorWhite"
+            android:orientation="vertical"
+            android:padding="@dimen/xmin_padding">
+
+            <ImageView
+                android:id="@+id/tr_d_thumb"
+                android:layout_width="@dimen/thumb_width"
+                android:layout_height="@dimen/thumb_height"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="@dimen/xmin_padding"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/blue_android" />
+
+            <ImageButton
+                android:id="@+id/photo_imageButton"
+                android:layout_width="@dimen/thumb_width"
+                android:layout_height="@dimen/btn_thumb"
+                android:layout_columnWeight="1"
+                android:layout_gravity="center_horizontal"
+                android:background="@color/colorBlack54"
+                app:srcCompat="@drawable/ic_camera_alt_white_24dp" />
+
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/tr_d_btn_done"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/btn_lmedium_height"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="@dimen/xmin_padding"
+            android:background="@color/colorPrimaryDark"
+            android:text="Done"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/medium_text"
+            android:textStyle="bold" />
+
+
+    </RelativeLayout>
+
+
+</LinearLayout>
