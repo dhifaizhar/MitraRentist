@@ -26,7 +26,7 @@ public class SplashScreen extends Activity {
                             startActivity(new Intent(SplashScreen.this, OnBoardActivity.class));
                             finish();
                         }else{
-                            startActivity(new Intent(SplashScreen.this, LoginActivity.class));
+                            startActivity(new Intent(SplashScreen.this, DashboardActivity.class));
                             finish();
                         }
                     }else{

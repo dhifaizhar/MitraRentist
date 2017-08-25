@@ -131,6 +131,9 @@ public class DashboardActivity extends AppCompatActivity
         } else if(id == R.id.nav_driver){
             Intent iDriver = new Intent(DashboardActivity.this, DriverActivity.class);
             startActivity(iDriver);
+        } else if(id == R.id.nav_drop){
+            Intent iDriver = new Intent(DashboardActivity.this, DropAsetActivity.class);
+            startActivity(iDriver);
         } else if (id == R.id.nav_dompet) {
             Intent iDompet = new Intent(DashboardActivity.this, DompetActivity.class);
             startActivity(iDompet);

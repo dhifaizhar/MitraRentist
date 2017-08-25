@@ -190,16 +190,24 @@
                 android:background="@color/colorWhite">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true"
                     android:layout_marginEnd="@dimen/min_padding"
                     android:layout_marginStart="@dimen/min_padding"
                     android:orientation="horizontal"
                     android:padding="@dimen/xmin_padding"
                     android:paddingEnd="@dimen/fab_margin"
                     android:paddingStart="@dimen/fab_margin">
+
+                    <TextView
+                        android:id="@+id/text_poinaa"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/xmin_padding"
+                        android:text="Anda Memiliki "
+                        android:textSize="20sp" />
 
                     <TextView
                         android:id="@+id/val_poin"
