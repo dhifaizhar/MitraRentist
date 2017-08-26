@@ -45,7 +45,9 @@ public class HistoryTabAdapter extends FragmentPagerAdapter {
 
         Bundle b = new Bundle();
         b.putInt("position", position);
-        frag.setArguments(b);
+        if(frag != null){
+            frag.setArguments(b);
+        }
         return frag;
     }
 

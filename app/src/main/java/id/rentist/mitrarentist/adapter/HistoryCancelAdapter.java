@@ -22,24 +22,12 @@ import id.rentist.mitrarentist.modul.ItemTransaksiModul;
 public class HistoryCancelAdapter extends RecyclerView.Adapter<HistoryCancelAdapter.ViewHolder> {
     private List<ItemTransaksiModul> mTransaksi;
     private Context context;
-    private int j;
+    private static final String TAG = "HistoryAdapter";
 
     public HistoryCancelAdapter(Context context, List<ItemTransaksiModul> mTransaksi){
         super();
         this.mTransaksi = mTransaksi;
         this.context = context;
-        ItemTransaksiModul tr;
-
-//        untuk pengambilan data dari server, gunakan foreach
-        for(j = 1;j < 3;j++){
-            tr = new ItemTransaksiModul();
-            tr.setTitle("Daihatsu Xenia");
-            tr.setMember("Pengguna Jasa Sewa " + j);
-            tr.setDate("10 Mei (10:00) - 13 Mei (10:00) ");
-            tr.setPrice("900.000 IDR");
-
-            this.mTransaksi.add(tr);
-        }
     }
 
     @Override

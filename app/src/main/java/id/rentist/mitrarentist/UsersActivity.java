@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import id.rentist.mitrarentist.adapter.UserAdapter;
 import id.rentist.mitrarentist.modul.UserModul;
@@ -47,6 +48,7 @@ public class UsersActivity extends AppCompatActivity {
     private AsyncTask mUserTask = null;
     private ProgressDialog pDialog;
     private SessionManager sm;
+    private Intent iUserAdd;
 
     private static final String TAG = "UserActivity";
     private static final String TOKEN = "secretissecret";
@@ -85,7 +87,8 @@ public class UsersActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent iUserAdd = new Intent(UsersActivity.this, FormUserActivity.class);
+                iUserAdd = new Intent(UsersActivity.this, FormUserActivity.class);
+                iUserAdd.putExtra("action","add");
                 startActivity(iUserAdd);
             }
         });
@@ -96,7 +99,6 @@ public class UsersActivity extends AppCompatActivity {
         showProgress(true);
         new getUserListTask(tenant).execute();
     }
-
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     private void showProgress(final boolean show) {
@@ -201,7 +203,10 @@ public class UsersActivity extends AppCompatActivity {
                             }else{
                                 userModul.setThumbnail(R.drawable.user_ava_man);
                             }
-                            mUser.add(userModul);
+
+                            if(!Objects.equals(aId, sm.getIntPreferences("id"))){
+                                mUser.add(userModul);
+                            }
                         }
 
                         mRecyclerView = (RecyclerView) findViewById(R.id.user_recyclerView);

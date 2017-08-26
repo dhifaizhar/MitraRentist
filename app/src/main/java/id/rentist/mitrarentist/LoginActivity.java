@@ -62,7 +62,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     private View mLoginFormView;
     private SessionManager sm;
     private ProgressDialog pDialog;
-    private JSONObject userObject, responseMessage;
+    private JSONObject userObject, tenantObject, responseMessage;
     private String user;
 
     private static final String TAG = "LoginActivity";
@@ -398,16 +398,23 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             if (user != null) {
                 try {
                     userObject = new JSONObject(user);
+                    tenantObject = new JSONObject(String.valueOf(userObject.getJSONObject("id_tenant")));
                     Log.d(TAG, String.valueOf(userObject));
 
                     sId = userObject.getInt("id");
-                    sIdTenant = userObject.getInt("id_tenant");
                     sEmail = userObject.getString("email");
                     sNama = userObject.getString("name");
-                    sNamaRent = "RENTAL SUKSES";
-                    sNamaPem = "ABDI NEGARA";
-                    sAlamat = "Gg. Pusaka Kuta, Kabupaten Badung, Bali 80361";
-                    sTelp = "081 1232 3144";
+
+                    if(tenantObject.length() > 0){
+                        sIdTenant = tenantObject.getInt("id");
+                        sNamaRent = tenantObject.getString("rental_name");
+                        sNamaPem = tenantObject.getString("owner_name");
+                        sAlamat = tenantObject.getString("address");
+                        sTelp = tenantObject.getString("phone");
+
+                        Log.e(TAG, "What Data Detail : " + String.valueOf(tenantObject));
+                    }
+
                     sImg = R.drawable.user_ava_man;
                     sStat = "1";
 

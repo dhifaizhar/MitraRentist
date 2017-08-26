@@ -37,7 +37,7 @@ public class FormUserActivity extends AppCompatActivity {
     private Intent formUser;
 
     String tenant, aId;
-    TextView nama, email;
+    TextView nama, email, pass;
     Spinner role;
     ImageView profilPic;
     FloatingActionButton fab;
@@ -70,20 +70,25 @@ public class FormUserActivity extends AppCompatActivity {
         nama = (TextView)findViewById(R.id.fus_name);
         role = (Spinner) findViewById(R.id.fus_role);
         email = (TextView)findViewById(R.id.fus_email);
+        pass = (TextView)findViewById(R.id.fus_password);
         fab = (FloatingActionButton) findViewById(R.id.fab);
 
         // set content control value
-        aId = formUser.getStringExtra("id_user");
-        Log.e(TAG, "Id Tenant Form User : " + aId);
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
-        nama.setText(formUser.getStringExtra("name"));
-        email.setText(formUser.getStringExtra("email"));
-        if(formUser.getStringExtra("role").equals("SuperAdmin")){
-            role.setSelection(0);
-        }else if(formUser.getStringExtra("role").equals("Operational")){
-            role.setSelection(1);
-        }else if(formUser.getStringExtra("role").equals("Executive")){
-            role.setSelection(2);
+        if(formUser.getStringExtra("action").equals("update")){
+            aId = formUser.getStringExtra("id_user");
+            Log.e(TAG, "Id Tenant Form User : " + aId);
+            nama.setText(formUser.getStringExtra("name"));
+            email.setText(formUser.getStringExtra("email"));
+            if(formUser.getStringExtra("role").equals("SuperAdmin")){
+                role.setSelection(0);
+            }else if(formUser.getStringExtra("role").equals("Operational")){
+                role.setSelection(1);
+            }else if(formUser.getStringExtra("role").equals("Executive")){
+                role.setSelection(2);
+            }
+        } else if(formUser.getStringExtra("action").equals("add")){
+            pass.setVisibility(View.VISIBLE);
         }
 
         // set action
@@ -98,15 +103,100 @@ public class FormUserActivity extends AppCompatActivity {
     private void formUserTenant(String tenant, String id) {
         pDialog.setMessage("loading ...");
         showProgress(true);
-        new getFormUserTask(tenant, id).execute();
+        if(formUser.getStringExtra("action").equals("add")){
+            new getFormUserAddTask(tenant, id).execute();
+        }else if(formUser.getStringExtra("action").equals("update")){
+            new getFormUserUpdateTask(tenant, id).execute();
+        }
     }
 
-    private class getFormUserTask extends AsyncTask<String, String, String>{
+    private class getFormUserAddTask extends AsyncTask<String, String, String>{
         private final String mTenant;
         private final String idUser;
         private String errorMsg, responseUser;
 
-        private getFormUserTask(String tenant, String id) {
+        private getFormUserAddTask(String tenant, String id) {
+            mTenant = tenant;
+            idUser = id;
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            String URL = AppConfig.URL_ADD_USER;
+            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    responseUser = response;
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    errorMsg = error.toString();
+                    Log.e(TAG, "Tenant User Fetch Error : " + errorMsg);
+                    Toast.makeText(getApplicationContext(), "Connection error, try again.",
+                            Toast.LENGTH_LONG).show();
+                }
+            }){
+                @Override
+                protected Map<String, String> getParams() {
+                    // Posting parameters to url
+                    Map<String, String> keys = new HashMap<String, String>();
+                    keys.put("id_tenant", mTenant);
+                    keys.put("name", nama.getText().toString());
+                    keys.put("role", role.getSelectedItem().toString());
+                    keys.put("password", pass.getText().toString());
+                    keys.put("email", email.getText().toString());
+                    Log.e(TAG, "Key Body : " + keys.toString());
+                    return keys;
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> keys = new HashMap<String, String>();
+                    keys.put("token", TOKEN);
+                    return keys;
+                }
+            };
+
+            try {
+                requestQueue.add(stringRequest);
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            return responseUser;
+        }
+
+        @Override
+        protected void onPostExecute(String user) {
+            mDetailUserTask = null;
+            showProgress(false);
+
+            if(user != null){
+                Toast.makeText(getApplicationContext(),"Sukses mengubah data.", Toast.LENGTH_LONG).show();
+                finish();
+            }else{
+                Toast.makeText(getApplicationContext(),"Gagal memuat data.", Toast.LENGTH_LONG).show();
+            }
+
+        }
+
+        @Override
+        protected void onCancelled() {
+            mDetailUserTask = null;
+            showProgress(false);
+        }
+
+    }
+
+    private class getFormUserUpdateTask extends AsyncTask<String, String, String>{
+        private final String mTenant;
+        private final String idUser;
+        private String errorMsg, responseUser;
+
+        private getFormUserUpdateTask(String tenant, String id) {
             mTenant = tenant;
             idUser = id;
         }

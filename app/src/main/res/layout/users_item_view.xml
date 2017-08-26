@@ -56,13 +56,13 @@
                         android:id="@+id/user_role"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:background="@android:color/darker_gray"
+                        android:paddingEnd="@dimen/xmin_padding"
+                        android:paddingStart="@dimen/xmin_padding"
                         android:text="Role User"
                         android:textColor="@color/colorWhite"
-                        android:paddingStart="@dimen/xmin_padding"
-                        android:paddingEnd="@dimen/xmin_padding"
-                        android:background="@android:color/holo_green_light"
-                        android:textSize="@dimen/small_text"
-                        android:layout_alignParentEnd="true" />
+                        android:textSize="@dimen/small_text" />
 
                 </RelativeLayout>
 

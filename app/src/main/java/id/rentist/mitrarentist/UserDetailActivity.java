@@ -84,6 +84,7 @@ public class UserDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 detIntent = new Intent(UserDetailActivity.this, FormUserActivity.class);
+                detIntent.putExtra("action","update");
                 detIntent.putExtra("id_user", aId.toString());
                 detIntent.putExtra("name", nama.getText());
                 detIntent.putExtra("role", role.getText());

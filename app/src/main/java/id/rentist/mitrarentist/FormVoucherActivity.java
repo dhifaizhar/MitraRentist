@@ -39,7 +39,6 @@ public class FormVoucherActivity extends AppCompatActivity implements View.OnCli
 //                .inMode(CalendarPickerView.SelectionMode.RANGE);
 //        calendar.highlightDates(getHolidays());
 
-
         btnStartDate=(Button)findViewById(R.id.btn_start_date);
         startDate=(EditText)findViewById(R.id.vou_startDate);
 

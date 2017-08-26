@@ -157,30 +157,31 @@ public class TestimonyActivity extends AppCompatActivity {
                             errorMsg = "-";
                             TestimonyModul testimonyModul = new TestimonyModul();
                             JSONObject jsonobject = jsonArray.getJSONObject(i);
-                            JSONArray detailArray = new JSONArray(String.valueOf(jsonobject.getJSONArray("detail")));
 
-                            if(detailArray.length() > 0){
-                                JSONObject detailobject = detailArray.getJSONObject(0);
-
-                                tContent = detailobject.getString("content");
-                                tRating = detailobject.getInt("rating");
+//                            JSONArray detailArray = new JSONArray(String.valueOf(jsonobject.getJSONArray("detail")));
+//
+//                            if(detailArray.length() > 0){
+//                                JSONObject detailobject = detailArray.getJSONObject(0);
+//
+                                tContent = jsonobject.getString("content");
+                                tRating = jsonobject.getInt("rating");
 
                                 testimonyModul.setRating(tRating);
                                 testimonyModul.setContent(tContent);
+//
+//                                Log.e(TAG, "What Data Detail : " + String.valueOf(detailobject));
+//                            }
 
-                                Log.e(TAG, "What Data Detail : " + String.valueOf(detailobject));
-                            }
-
-                            tNameMember = jsonobject.getString("firstname") + " " + jsonobject.getString("lastname");
-                            tPhone = jsonobject.getString("phone");
-                            tEmail = jsonobject.getString("email");
+//                            tNameMember = jsonobject.getString("firstname") + " " + jsonobject.getString("lastname");
+//                            tPhone = jsonobject.getString("phone");
+//                            tEmail = jsonobject.getString("email");
                             tDate = jsonobject.getString("createdAt");
 
-                            Log.e(TAG, "What Data : " + String.valueOf(jsonobject));
+//                            Log.e(TAG, "What Data : " + String.valueOf(jsonobject));
 
-                            testimonyModul.setNameMember(tNameMember);
-                            testimonyModul.setPhone(tPhone);
-                            testimonyModul.setEmail(tEmail);
+//                            testimonyModul.setNameMember(tNameMember);
+//                            testimonyModul.setPhone(tPhone);
+//                            testimonyModul.setEmail(tEmail);
                             testimonyModul.setDate(tDate);
                             mTesti.add(testimonyModul);
                         }

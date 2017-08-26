@@ -18,6 +18,7 @@ import id.rentist.mitrarentist.adapter.VoucherAdapter;
 import id.rentist.mitrarentist.modul.VoucherModul;
 
 public class VoucherActivity extends AppCompatActivity {
+    RecyclerView mRecyclerView;
     RecyclerView.Adapter mAdapter;
     RecyclerView.LayoutManager mLayoutManager;
     private List<VoucherModul> mVoucher = new ArrayList<>();
@@ -33,10 +34,9 @@ public class VoucherActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.v_recyclerView);
+        mRecyclerView = (RecyclerView) findViewById(R.id.v_recyclerView);
         mLayoutManager = new LinearLayoutManager(getApplicationContext());
         mAdapter = new VoucherAdapter(getApplicationContext(), mVoucher);
-
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
 

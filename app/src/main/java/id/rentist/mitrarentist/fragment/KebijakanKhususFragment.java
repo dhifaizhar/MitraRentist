@@ -24,9 +24,7 @@ public class KebijakanKhususFragment extends Fragment {
     RecyclerView.Adapter mAdapter;
     FloatingActionButton mFab;
 
-
-    public KebijakanKhususFragment() {
-    }
+    public KebijakanKhususFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

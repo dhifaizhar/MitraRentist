@@ -109,7 +109,7 @@ public class DetailAsetActivity extends AppCompatActivity {
             public void onClick(DialogInterface arg0, int arg1) {
                 String nowStatus = "active";
                 if(nowStatus.equals("active")){
-                    changeStatus = "deactive";
+                    changeStatus = "inactive";
                 }
                 pDialog.setMessage("loading ...");
                 showProgress(true);

@@ -249,8 +249,6 @@ public class DateRangePickerActivity extends AppCompatActivity {
 //      }
 //    });
 
-
-
   private void showCalendarInDialog(String title, int layoutResId) {
     dialogView = (CalendarPickerView) getLayoutInflater().inflate(layoutResId, null, false);
     theDialog = new AlertDialog.Builder(this) //

@@ -1,6 +1,5 @@
 package id.rentist.mitrarentist;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -10,23 +9,16 @@ import android.view.MenuItem;
 
 import id.rentist.mitrarentist.Tab.HistoryTabAdapter;
 import id.rentist.mitrarentist.Tab.SlidingTabLayout;
-import id.rentist.mitrarentist.tools.SessionManager;
 
 public class HistoryActivity extends AppCompatActivity {
     ViewPager mViewPager;
     SlidingTabLayout mSlidingTabLayout;
-    private ProgressDialog pDialog;
-    private SessionManager sm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
         setTitle("Riwayat");
-
-        sm = new SessionManager(getApplicationContext());
-        pDialog = new ProgressDialog(getApplicationContext());
-        pDialog.setCancelable(false);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -43,7 +35,6 @@ public class HistoryActivity extends AppCompatActivity {
         mSlidingTabLayout.setSelectedIndicatorColors(getResources().getColor(R.color.colorWhite));
         mSlidingTabLayout.setCustomTabView(R.layout.tab_view, R.id.tv_tab);
         mSlidingTabLayout.setViewPager(mViewPager);
-
     }
 
     @Override
