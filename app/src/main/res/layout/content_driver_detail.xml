@@ -27,7 +27,7 @@
                 android:padding="@dimen/min_padding">
 
                 <TextView
-                    android:id="@+id/textView2"
+                    android:id="@+id/det_dr_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/xmin_padding"
@@ -38,7 +38,7 @@
                     android:textStyle="bold" />
 
                 <ImageView
-                    android:id="@+id/imageView2"
+                    android:id="@+id/det_dr_profile_pic"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -89,16 +89,16 @@
                             android:layout_height="@dimen/thumb_prop_height"
                             android:layout_marginEnd="@dimen/min_padding"
                             android:contentDescription="loaction"
-                            app:srcCompat="@drawable/ic_location_on_black_24dp"/>
+                            app:srcCompat="@drawable/ic_contact_mail_black_24dp" />
 
                         <TextView
-                            android:id="@+id/pr_address_name"
+                            android:id="@+id/det_dr_sim"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_toEndOf="@+id/pr_address_ico"
-                            android:text="Jl. Halimun No. 103 Bogor Tengah, Bogor Jawa Barat 16150"
-                            android:textStyle="italic"
-                            android:textSize="@dimen/medium_text"/>
+                            android:text="no SIM"
+                            android:textSize="@dimen/medium_text"
+                            android:textStyle="italic" />
 
                     </RelativeLayout>
 
@@ -118,12 +118,12 @@
                             app:srcCompat="@drawable/ic_phone_android_black_24dp"/>
 
                         <TextView
-                            android:id="@+id/pr_phone_number"
+                            android:id="@+id/det_dr_phone_number"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_toEndOf="@+id/pr_telp_ico"
                             android:text="081 xxx xxx xxx"
-                            android:textSize="@dimen/medium_text"/>
+                            android:textSize="@dimen/medium_text" />
 
                     </RelativeLayout>
 
@@ -144,12 +144,38 @@
                             app:srcCompat="@drawable/ic_email_black_24dp"/>
 
                         <TextView
-                            android:id="@+id/pr_email"
+                            android:id="@+id/det_dr_email"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_toEndOf="@+id/pr_email_ico"
                             android:text="driver@mail.com"
-                            android:textSize="@dimen/medium_text"/>
+                            android:textSize="@dimen/medium_text" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/pr_bdate_info"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/xmin_padding"
+                        android:background="@color/colorPrimarySoft"
+                        tools:ignore="UselessParent">
+
+                        <ImageView
+                            android:id="@+id/pr_bdate_ico"
+                            android:layout_width="@dimen/thumb_prop_width"
+                            android:layout_height="@dimen/thumb_prop_height"
+                            android:layout_marginEnd="@dimen/min_padding"
+                            android:contentDescription="birthdate"
+                            app:srcCompat="@drawable/ic_perm_contact_calendar_black_36dp" />
+
+                        <TextView
+                            android:id="@+id/det_dr_bdate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@+id/pr_bdate_ico"
+                            android:text="01 January 1990"
+                            android:textSize="@dimen/medium_text" />
 
                     </RelativeLayout>
 

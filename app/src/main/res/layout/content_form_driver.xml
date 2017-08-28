@@ -30,7 +30,7 @@
                 android:padding="@dimen/min_padding">
 
                 <ImageView
-                    android:id="@+id/pr_thumb_driver"
+                    android:id="@+id/dr_thumb_driver"
                     android:layout_width="@dimen/thumb_width"
                     android:layout_height="@dimen/thumb_height"
                     android:layout_weight="1"
@@ -67,7 +67,7 @@
             </RelativeLayout>
 
             <EditText
-                android:id="@+id/pr_driver_name"
+                android:id="@+id/dr_driver_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -94,50 +94,40 @@
 
 
                 <RadioGroup
-                    android:id="@+id/pr_rad_gender"
+                    android:id="@+id/dr_rad_gender"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_columnWeight="1">
+                    android:checkedButton="@+id/radioMale"
+                    android:orientation="horizontal">
 
-                    <GridLayout
-                        android:layout_width="match_parent"
+                    <RadioButton
+                        android:id="@+id/radioMale"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:columnCount="2"
-                        android:padding="@dimen/xmin_padding">
+                        android:text="male" />
 
-                        <RadioButton
-                            android:id="@+id/radioButton2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_columnWeight="1"
-                            android:layout_weight="1"
-                            android:text="Male" />
+                    <RadioButton
+                        android:id="@+id/radioFemale"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="female" />
 
-                        <RadioButton
-                            android:id="@+id/radioButton"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_columnWeight="1"
-                            android:layout_weight="1"
-                            android:text="Female" />
-
-                    </GridLayout>
                 </RadioGroup>
 
             </GridLayout>
 
             <EditText
-                android:id="@+id/pr_sim_number"
+                android:id="@+id/dr_sim_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="Nomor SIM"
-                android:inputType="number"
                 android:imeOptions="actionNext"
+                android:inputType="number"
                 android:padding="@dimen/min_padding" />
 
             <EditText
-                android:id="@+id/pr_telp"
+                android:id="@+id/dr_bdate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"

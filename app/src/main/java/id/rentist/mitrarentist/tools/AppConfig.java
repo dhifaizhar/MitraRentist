@@ -20,6 +20,9 @@ public class AppConfig {
     public static  String URL_LIST_TESTIMONY = SERVER + "list/testimony/";
     public static  String URL_WITHDRAWAL = SERVER + "withdrawal/request/";
     public static  String URL_LIST_DRIVER = SERVER + "list/driver/";
+    public static  String URL_DETAIL_DRIVER = SERVER + "view/driver/";
+    public static  String URL_ADD_DRIVER = SERVER + "tenant/driver/";
+    public static  String URL_EDIT_DRIVER = SERVER + "update/driver/";
     public static  String URL_HISTORY_TRANS = SERVER + "order/history/";
     public static  String URL_LIST_KEBIJAKAN = SERVER + "list/kebijakan/";
 }

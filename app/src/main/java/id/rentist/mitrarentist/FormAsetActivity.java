@@ -215,8 +215,6 @@ public class FormAsetActivity extends AppCompatActivity {
             showProgress(false);
 
             if(aset != null){
-//                Intent iAset = new Intent(FormAsetActivity.this, AsetActivity.class);
-//                startActivity(iAset);
                 Toast.makeText(getApplicationContext(),"Data sukses disimpan", Toast.LENGTH_LONG).show();
                 finish();
             }else{

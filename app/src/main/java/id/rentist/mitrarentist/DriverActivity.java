@@ -70,17 +70,12 @@ public class DriverActivity extends AppCompatActivity {
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
         getDriverDataList(tenant);
 
-//        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.dr_recyclerView);
-//        mLayoutManager = new LinearLayoutManager(getApplicationContext());
-//        mAdapter = new DriverAdapter(getApplicationContext(), mDriver);
-//        mRecyclerView.setLayoutManager(mLayoutManager);
-//        mRecyclerView.setAdapter(mAdapter);
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent iDriver = new Intent(DriverActivity.this, FormDriverActivity.class);
+                iDriver.putExtra("action","add");
                 startActivity(iDriver);
             }
         });
@@ -176,8 +171,6 @@ public class DriverActivity extends AppCompatActivity {
             Integer dataLength;
 
             if (user != null) {
-                Log.e(TAG, "User Result : " + user);
-
                 try {
                     JSONArray jsonArray = new JSONArray(user);
                     Log.e(TAG, "User : " + jsonArray);

@@ -24,9 +24,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import id.rentist.mitrarentist.adapter.TestimonyAdapter;
@@ -171,7 +175,14 @@ public class TestimonyActivity extends AppCompatActivity {
 //                            tNameMember = jsonobject.getString("firstname") + " " + jsonobject.getString("lastname");
 //                            tPhone = jsonobject.getString("phone");
 //                            tEmail = jsonobject.getString("email");
-                            tDate = jsonobject.getString("createdAt");
+                            String createdDate = jsonobject.getString("createdAt");
+                            // formatter
+                            SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
+                            Date currentDate = new Date(dateformat.parse(createdDate).getTime());
+                            // set new format
+                            SimpleDateFormat newformat = new SimpleDateFormat("dd MMM yyyy HH:mm:ss", Locale.US);
+                            String newdate = newformat.format(currentDate);
+                            tDate = newdate;
 
 //                            Log.e(TAG, "What Data : " + String.valueOf(jsonobject));
 
@@ -197,6 +208,8 @@ public class TestimonyActivity extends AppCompatActivity {
                     e.printStackTrace();
                     errorMsg = "Belum Ada Testimony";
                     Toast.makeText(getApplicationContext(),errorMsg, Toast.LENGTH_LONG).show();
+                } catch (ParseException e) {
+                    e.printStackTrace();
                 }
             }
         }
