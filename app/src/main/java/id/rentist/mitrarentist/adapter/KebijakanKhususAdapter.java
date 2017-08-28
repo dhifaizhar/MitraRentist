@@ -1,6 +1,8 @@
 package id.rentist.mitrarentist.adapter;
 
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,20 +20,13 @@ import id.rentist.mitrarentist.modul.KebijakanModul;
 public class KebijakanKhususAdapter extends RecyclerView.Adapter<KebijakanKhususAdapter.ViewHolder> {
 
     private final List<KebijakanModul> mKhusus;
-    private int j;
+    private Context context;
+    private static final String TAG = "KebijakanAdapter";
 
-    public KebijakanKhususAdapter(List<KebijakanModul> mKhusus) {
+    public KebijakanKhususAdapter(final Context context, final List<KebijakanModul> mKhusus) {
         super();
         this.mKhusus = mKhusus;
-        KebijakanModul kbj;
-
-        for (j = 1; j < 3;j++){
-            kbj = new KebijakanModul();
-            kbj.setTitle("Pengembalian Saat Peminjaman");
-            kbj.setDesc("Waktu Menerima order adalah 5 menit, jika lebih dari itu maka otomatis tertolak");
-
-            this.mKhusus.add(kbj);
-        }
+        this.context = context;
     }
 
     @Override
@@ -43,10 +38,8 @@ public class KebijakanKhususAdapter extends RecyclerView.Adapter<KebijakanKhusus
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
         KebijakanModul kbjm = mKhusus.get(i);
-
         viewHolder.title.setText(kbjm.getTitle());
         viewHolder.desc.setText(kbjm.getDesc());
-
     }
 
     @Override
@@ -55,10 +48,9 @@ public class KebijakanKhususAdapter extends RecyclerView.Adapter<KebijakanKhusus
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView title, desc;
-        public ImageView btn_expand;
-        public RelativeLayout mItemExpand;
-        public RelativeLayout mItemDescription;
+        private TextView title, desc;
+        private ImageView btn_expand;
+        private RelativeLayout mItemExpand, mItemDescription;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -81,6 +73,7 @@ public class KebijakanKhususAdapter extends RecyclerView.Adapter<KebijakanKhusus
                         btn_expand.setImageResource(R.drawable.ic_keyboard_arrow_down_black_18dp);
                     }
 
+                    @SuppressLint("ObjectAnimatorBinding")
                     ObjectAnimator animation = ObjectAnimator.ofInt(mItemDescription, "layout_height", mItemDescription.getHeight());
                     animation.setDuration(200).start();
                 }

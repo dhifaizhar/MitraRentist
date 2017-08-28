@@ -69,7 +69,7 @@ public class HistoryCompTransFragment extends Fragment {
         pDialog = new ProgressDialog(getActivity());
         pDialog.setCancelable(false);
 
-        // action retrieve data aset
+        // action retrieve data history
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
         getHistoryCompList(tenant);
 

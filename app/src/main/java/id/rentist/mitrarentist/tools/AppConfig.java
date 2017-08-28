@@ -21,4 +21,5 @@ public class AppConfig {
     public static  String URL_WITHDRAWAL = SERVER + "withdrawal/request/";
     public static  String URL_LIST_DRIVER = SERVER + "list/driver/";
     public static  String URL_HISTORY_TRANS = SERVER + "order/history/";
+    public static  String URL_LIST_KEBIJAKAN = SERVER + "list/kebijakan/";
 }

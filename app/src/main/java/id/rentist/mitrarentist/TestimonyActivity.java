@@ -144,10 +144,7 @@ public class TestimonyActivity extends AppCompatActivity {
             String tNameMember, tPhone, tEmail, tContent, tDate;
             Integer dataLength, tRating;
 
-
             if (aset != null) {
-                Log.e(TAG, "Testimony Result : " + aset);
-
                 try {
                     JSONArray jsonArray = new JSONArray(aset);
                     Log.e(TAG, "Testimony : " + jsonArray);
@@ -165,7 +162,6 @@ public class TestimonyActivity extends AppCompatActivity {
 //
                                 tContent = jsonobject.getString("content");
                                 tRating = jsonobject.getInt("rating");
-
                                 testimonyModul.setRating(tRating);
                                 testimonyModul.setContent(tContent);
 //
