@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!--menu yang akan tampil pada toggle option menu-->
+    <item
+        android:id="@+id/action_car"
+        android:orderInCategory="100"
+        android:title="@string/action_car"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_bike"
+        android:orderInCategory="100"
+        android:title="@string/action_bike"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_yacht"
+        android:orderInCategory="100"
+        android:title="@string/action_yacht"
+        app:showAsAction="never" />
+
+</menu>

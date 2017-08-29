@@ -37,6 +37,9 @@
     <string name="action_logout">Keluar</string>
     <string name="action_search">Cari</string>
     <string name="action_go_home">Go Home Now !</string>
+    <string name="action_car">Mobil</string>
+    <string name="action_bike">Motor</string>
+    <string name="action_yacht">Yacht</string>
     <string name="title_activity_tutorial1">Tutorial1Activity</string>
 
     <!-- TODO: Remove or change this placeholder text -->
