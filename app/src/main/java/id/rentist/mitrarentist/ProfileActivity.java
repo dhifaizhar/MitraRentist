@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import id.rentist.mitrarentist.tools.SessionManager;
 
@@ -46,17 +47,23 @@ public class ProfileActivity extends AppCompatActivity {
 
         // set content control value
 //        rName.setText(sm.getPreferences("nama_rental"));
-        rOwner.setText(sm.getPreferences("nama"));
+        rOwner.setText("Pemilik : " + sm.getPreferences("nama_pemilik"));
         rAddress.setText(sm.getPreferences("alamat"));
         rPhone.setText(sm.getPreferences("telepon"));
-        rEmail.setText(sm.getPreferences("email"));
+        rEmail.setText(sm.getPreferences("email_rental"));
         profilePhoto.setImageResource(sm.getIntPreferences("foto_profil"));
 
         btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent iEditRent = new Intent(ProfileActivity.this, FormEditProfilActivity.class);
-                startActivity(iEditRent);
+                if(sm.getPreferences("role").equals("SuperAdmin")){
+                    Intent iEditRent = new Intent(ProfileActivity.this, FormEditProfilActivity.class);
+                    startActivity(iEditRent);
+                }else{
+                    Toast.makeText(getApplicationContext(), "Hanya untuk Administrator",
+                            Toast.LENGTH_LONG).show();
+                }
+
             }
         });
 

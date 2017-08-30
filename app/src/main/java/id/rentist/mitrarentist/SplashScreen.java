@@ -21,16 +21,19 @@ public class SplashScreen extends Activity {
                 } catch (InterruptedException e){
                     e.printStackTrace();
                 } finally {
-                    if(sm.getPreferences("status").isEmpty()){
-                        if(sm.getAppPreferences("APP_ONBOARDVIEW").isEmpty()){
-                            startActivity(new Intent(SplashScreen.this, OnBoardActivity.class));
+                    if(!sm.getAppPreferences("APP_ONBOARDVIEW").isEmpty()){
+                        if(sm.getPreferences("status").equals("true")){
+                            startActivity(new Intent(SplashScreen.this, DashboardActivity.class));
+                            finish();
+                        }else if(sm.getPreferences("status").equals("false")){
+                            startActivity(new Intent(SplashScreen.this, AktivasiActivity.class));
                             finish();
                         }else{
                             startActivity(new Intent(SplashScreen.this, LoginActivity.class));
                             finish();
                         }
                     }else{
-                        startActivity(new Intent(SplashScreen.this, DashboardActivity.class));
+                        startActivity(new Intent(SplashScreen.this, OnBoardActivity.class));
                         finish();
                     }
                 }
