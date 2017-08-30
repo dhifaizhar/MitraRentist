@@ -304,7 +304,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
         private final String mEmail;
         private final String mPassword;
-        String sEmail, sNama, sNamaRent, sNamaPem, sTelp, sAlamat, sStat;
+        String sEmail, sEmailRental, sNama, sNamaRent, sNamaPem, sTelp, sRole, sAlamat, sStat;
         Integer sId, sIdTenant, sImg;
 
         UserLoginTask(String email, String password) {
@@ -404,37 +404,39 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                     sId = userObject.getInt("id");
                     sEmail = userObject.getString("email");
                     sNama = userObject.getString("name");
+                    sRole = userObject.getString("role");
 
                     if(tenantObject.length() > 0){
                         sIdTenant = tenantObject.getInt("id");
                         sNamaRent = tenantObject.getString("rental_name");
                         sNamaPem = tenantObject.getString("owner_name");
                         sAlamat = tenantObject.getString("address");
+                        sEmailRental = tenantObject.getString("email");
                         sTelp = tenantObject.getString("phone");
+                        sStat = tenantObject.getString("is_activated");
 
                         Log.e(TAG, "What Data Detail : " + String.valueOf(tenantObject));
                     }
 
                     sImg = R.drawable.user_ava_man;
-                    sStat = "1";
-
                     sm.setIntPreferences("id", sId);
                     sm.setIntPreferences("id_tenant", sIdTenant);
                     sm.setPreferences("email", sEmail);
+                    sm.setPreferences("email_rental", sEmailRental);
                     sm.setPreferences("nama", sNama);
                     sm.setPreferences("nama_rental", sNamaRent);
                     sm.setPreferences("nama_pemilik", sNamaPem);
                     sm.setPreferences("alamat", sAlamat);
                     sm.setPreferences("telepon", sTelp);
                     sm.setIntPreferences("foto_profil", sImg);
+                    sm.setPreferences("role",sRole);
                     sm.setPreferences("status",sStat);
 
-                    if(sStat.equals("1")){
+                    if(sStat.equals("true")){
                         startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
                         finish();
                     }else{
                         startActivity(new Intent(LoginActivity.this, AktivasiActivity.class));
-                        finish();
                     }
 
                 } catch (JSONException e) {

@@ -1,29 +1,53 @@
 package id.rentist.mitrarentist;
 
+import android.annotation.TargetApi;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import java.io.File;
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+
+import id.rentist.mitrarentist.tools.AppConfig;
 import id.rentist.mitrarentist.tools.SessionManager;
 
 public class FormEditProfilActivity extends AppCompatActivity {
-    private static final int RESULT_LOAD_IMAGE = 1;
+    private AsyncTask mProfileTask = null;
+    private ProgressDialog pDialog;
     private SessionManager sm;
+
     EditText rName, rOwner, rAddress, rEmail, rPhone;
     ImageView profilePhoto;
     Button btnUploadFoto;
+    String tenant, erName, erOwner, erAddress, erEmail, erPhone;
+    Resources eprofilePhoto;
+
+    private static final String TAG = "FormUserActivity";
+    private static final String TOKEN = "secretissecret";
+    private static final int RESULT_LOAD_IMAGE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +55,10 @@ public class FormEditProfilActivity extends AppCompatActivity {
         sm = new SessionManager(getApplicationContext());
         setContentView(R.layout.activity_form_edit_profil);
         setTitle("Edit Profil Rental");
+
+        sm = new SessionManager(getApplicationContext());
+        pDialog = new ProgressDialog(this);
+        pDialog.setCancelable(false);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -60,11 +88,12 @@ public class FormEditProfilActivity extends AppCompatActivity {
         btnUploadFoto = (Button) findViewById(R.id.btnUploadFoto);
 
         // set content control value
+        tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
         rName.setText(sm.getPreferences("nama_rental"));
         rOwner.setText(sm.getPreferences("nama_pemilik"));
         rAddress.setText(sm.getPreferences("alamat"));
         rPhone.setText(sm.getPreferences("telepon"));
-        rEmail.setText(sm.getPreferences("email"));
+        rEmail.setText(sm.getPreferences("email_rental"));
         profilePhoto.setImageResource(sm.getIntPreferences("foto_profil"));
         btnUploadFoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,9 +121,6 @@ public class FormEditProfilActivity extends AppCompatActivity {
     }
 
     private void updateProfileRent() {
-        String erName, erOwner, erAddress, erEmail, erPhone;
-        Resources eprofilePhoto;
-
         //initialize new value
         erName = rName.getText().toString();
         erOwner = rOwner.getText().toString();
@@ -104,19 +130,94 @@ public class FormEditProfilActivity extends AppCompatActivity {
         eprofilePhoto = profilePhoto.getResources();
 
         //some code for post value
+        pDialog.setMessage("loading ...");
+        showProgress(true);
+        new updateProfileTask(tenant).execute();
+    }
 
-        // set new preferences
-        sm.setPreferences("nama_rental", erName);
-        sm.setPreferences("nama_pemilik", erOwner);
-        sm.setPreferences("alamat", erAddress);
-        sm.setPreferences("telepon", erPhone);
-        sm.setPreferences("email", erEmail);
-//        sm.setIntPreferences("foto_profil", eprofilePhoto);
+    private class updateProfileTask extends AsyncTask<String, String, String>{
+        private final String mTenant;
+        private String errorMsg, responseUser;
 
-        Intent iEditRent = new Intent(FormEditProfilActivity.this, ProfileActivity.class);
-        startActivity(iEditRent);
-        Toast.makeText(getApplicationContext(),eprofilePhoto.toString(), Toast.LENGTH_LONG).show();
-        finish();
+        private updateProfileTask(String tenant) {
+            mTenant = tenant;
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            String URL = AppConfig.URL_UPDATE_TENANT + mTenant;
+            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+            StringRequest stringRequest = new StringRequest(Request.Method.PUT, URL, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    responseUser = response;
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    errorMsg = error.toString();
+                    Log.e(TAG, "Tenant Update Fetch Error : " + errorMsg);
+                    Toast.makeText(getApplicationContext(), "Connection error, try again.",
+                            Toast.LENGTH_LONG).show();
+                }
+            }){
+                @Override
+                protected Map<String, String> getParams() {
+                    // Posting parameters to url
+                    Map<String, String> keys = new HashMap<String, String>();
+                    keys.put("id_tenant", mTenant);
+                    keys.put("owner_name", erOwner);
+                    keys.put("rental_name", erName);
+                    keys.put("email", erEmail);
+                    keys.put("address", erAddress);
+                    keys.put("phone", erPhone);
+                    return keys;
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> keys = new HashMap<String, String>();
+                    keys.put("token", TOKEN);
+                    return keys;
+                }
+            };
+
+            try {
+                requestQueue.add(stringRequest);
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            return responseUser;
+        }
+
+        @Override
+        protected void onPostExecute(String user) {
+            mProfileTask = null;
+            showProgress(false);
+
+            if(user != null){
+                // set new preferences
+                sm.setPreferences("nama_rental", erName);
+                sm.setPreferences("nama_pemilik", erOwner);
+                sm.setPreferences("alamat", erAddress);
+                sm.setPreferences("telepon", erPhone);
+                sm.setPreferences("email", erEmail);
+                Toast.makeText(getApplicationContext(),"Sukses mengubah data.", Toast.LENGTH_LONG).show();
+                finish();
+            }else{
+                Toast.makeText(getApplicationContext(),"Gagal memuat data.", Toast.LENGTH_LONG).show();
+            }
+
+        }
+
+        @Override
+        protected void onCancelled() {
+            mProfileTask = null;
+            showProgress(false);
+        }
+
     }
 
     @Override
@@ -126,6 +227,19 @@ public class FormEditProfilActivity extends AppCompatActivity {
             Uri selectedImage = data.getData();
             profilePhoto.setImageURI(selectedImage);
             Toast.makeText(getApplicationContext(),selectedImage.toString(), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+    private void showProgress(final boolean show) {
+        if(show){
+            if (!pDialog.isShowing()){
+                pDialog.show();
+            }
+        }else{
+            if (pDialog.isShowing()){
+                pDialog.dismiss();
+            }
         }
     }
 
