@@ -5,6 +5,7 @@ app.src.main.java :: Activity
 - FormEditProfilRentalActivity -> FormEditProfilActivity
 - FormEditProfilOwnerActivity -> hapus
 - AssetDetail -> DetailAsetActivity
+- SampleDecorator -> hapus
 
 app.src.main.java :: Tab
 - DashboardTabAdapter -> hapus
@@ -21,6 +22,7 @@ app.src.main.java :: Adapter
 - EditProfilRentalAdapter -> hapus
 - EditProfilOwnerAdapter -> hapus
 - EditProfilAdapter -> hapus
+- SampleDayViewAdapter -> hapus
 
 app.src.main.res :: layout
 - fragment_profile_rental -> hapus
