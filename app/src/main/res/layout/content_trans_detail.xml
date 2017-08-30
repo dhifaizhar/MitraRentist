@@ -190,11 +190,10 @@
                                 android:textAlignment="center"
                                 android:textSize="@dimen/medium_text" />
 
-                            <LinearLayout
+                            <RelativeLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
+                                android:layout_height="wrap_content"
                                 android:background="@color/colorPrimarySoft"
-                                android:orientation="vertical"
                                 android:padding="@dimen/xmin_padding">
 
                                 <TextView
@@ -202,7 +201,23 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:padding="@dimen/xmin_padding"
-                                    android:text="Driver : tidak" />
+                                    android:text="Driver : tidak"
+                                    android:layout_centerVertical="true"/>
+
+                                <Button
+                                    android:id="@+id/btn_assign_driver"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="40dp"
+                                    android:layout_alignEnd="@+id/textView15"
+                                    android:text="Pilih Driver"
+                                    android:textColor="@color/colorWhite"
+                                    android:background="@android:color/holo_green_light"
+                                    android:clickable="true"
+                                    android:textSize="12sp" />
+
+                            </RelativeLayout>
+
+
 
                                 <TextView
                                     android:id="@+id/textView16"
@@ -211,7 +226,6 @@
                                     android:padding="@dimen/xmin_padding"
                                     android:text="Asuransi : tidak" />
 
-                            </LinearLayout>
 
                         </LinearLayout>
 
@@ -229,7 +243,7 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:background="@color/colorPrimaryDark"
-            android:text="Terima"
+            android:text="Berhasil diantar"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/medium_text"
             android:textStyle="bold" />

@@ -113,6 +113,12 @@
         <item>Yacth</item>
     </string-array>
 
+    <string-array name="driver_entries">
+        <item>Mamat</item>
+        <item>Dudung</item>
+        <item>Hakim</item>
+    </string-array>
+
     <string-array name="role_entries">
         <item>SuperAdmin</item>
         <item>Operational</item>
