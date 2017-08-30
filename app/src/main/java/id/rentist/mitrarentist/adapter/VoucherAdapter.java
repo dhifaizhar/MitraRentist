@@ -104,7 +104,7 @@ public class VoucherAdapter extends RecyclerView.Adapter<VoucherAdapter.ViewHold
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.vou_title);
             discount = (TextView) itemView.findViewById(R.id.vou_discount);
-            startDate = (TextView) itemView.findViewById(R.id.vou_startDate);
+            startDate = (TextView) itemView.findViewById(R.id.vou_date);
             endDate = (TextView) itemView.findViewById(R.id.vou_endDate);
             asCategory = (TextView) itemView.findViewById(R.id.vou_as_category);
             type = (TextView) itemView.findViewById(R.id.vou_type);

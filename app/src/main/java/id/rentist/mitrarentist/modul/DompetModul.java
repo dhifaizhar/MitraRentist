@@ -5,7 +5,7 @@ package id.rentist.mitrarentist.modul;
  */
 
 public class DompetModul {
-    private String mCredit, mTunai, mDebit, mNama, mStatus, mDate;
+    private String mId, mCredit, mTunai, mDebit, mNama, mStatus, mDate;
 
     public void setNama(String mNama) {
         this.mNama = mNama;
@@ -48,5 +48,13 @@ public class DompetModul {
 
     public String getStatus() {
         return mStatus;
+    }
+
+    public String getId() {
+        return mId;
+    }
+
+    public void setId(String aId) {
+        this.mId = aId;
     }
 }

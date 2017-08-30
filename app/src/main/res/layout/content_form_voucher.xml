@@ -36,6 +36,36 @@
                     android:textStyle="bold" />
             </RelativeLayout>
 
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/vou_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/xmin_padding"
+                    android:backgroundTint="@color/colorGrey"
+                    android:clickable="false"
+                    android:ems="10"
+                    android:focusable="false"
+                    android:hint="Tanggal Sewa"
+                    android:inputType="date"
+                    android:padding="@dimen/min_padding"
+                    android:textColor="@android:color/black"
+                    android:textCursorDrawable="@null" />
+
+                <Button
+                    android:id="@+id/btn_start_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_alignEnd="@+id/vou_date"
+                    android:elevation="9dp"
+                    android:text="Pilih Tanggal"
+                    android:textSize="10sp" />
+
+            </RelativeLayout>
+
             <EditText
                 android:id="@+id/vou_title"
                 android:layout_width="match_parent"
@@ -81,36 +111,6 @@
                 android:textColor="@android:color/black"
                 android:textCursorDrawable="@null"
                 />
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:id="@+id/vou_startDate"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:layout_marginTop="@dimen/xmin_padding"
-                    android:hint="Tanggal Sewa"
-                    android:inputType="date"
-                    android:padding="@dimen/min_padding"
-                    android:onClick="setStartDate"
-                    android:backgroundTint="@color/colorGrey"
-                    android:textColor="@android:color/black"
-                    android:textCursorDrawable="@null"
-                />
-
-                <Button
-                    android:id="@+id/btn_start_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_alignEnd="@+id/vou_startDate"
-                    android:elevation="9dp"
-                    android:text="Pilih Tanggal"
-                    android:textSize="10sp" />
-
-            </RelativeLayout>
 
             <GridLayout
                 android:layout_width="match_parent"

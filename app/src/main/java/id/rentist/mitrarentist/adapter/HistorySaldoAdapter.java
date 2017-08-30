@@ -1,5 +1,6 @@
 package id.rentist.mitrarentist.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,26 +18,13 @@ import id.rentist.mitrarentist.modul.DompetModul;
 
 public class HistorySaldoAdapter extends RecyclerView.Adapter<HistorySaldoAdapter.ViewHolder> {
     private List<DompetModul> mDompet;
+    private Context context;
     private int j;
 
-    public HistorySaldoAdapter(List<DompetModul> mDompet){
+    public HistorySaldoAdapter(final Context context, final List<DompetModul> mDompet){
         super();
         this.mDompet = mDompet;
-        DompetModul dm;
-
-        for(j = 1;j < 5;j++){
-            dm = new DompetModul();
-            dm.setDate("Kamis, 07 Juli 2017");
-            dm.setCredit("50.000,00 IDR");
-            dm.setNama("Dudi Duri");
-            if(j%2 == 0){
-                dm.setStatus("Kredit");
-            }else{
-                dm.setStatus("Transfer Dana Tunai");
-            }
-
-            mDompet.add(dm);
-        }
+        this.context = context;
     }
 
     @Override

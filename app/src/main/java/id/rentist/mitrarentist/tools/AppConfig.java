@@ -17,6 +17,7 @@ public class AppConfig {
     public static  String URL_ADD_USER = SERVER + "register/tenant/child/";
     public static  String URL_ONGOING_RENT = SERVER + "order/history/";
     public static  String URL_ADD_POLICY = SERVER + "kebijakan/";
+    public static  String URL_ADD_VOUCHER = SERVER + "tenant/voucher/";
     public static  String URL_LIST_TESTIMONY = SERVER + "list/testimony/";
     public static  String URL_WITHDRAWAL = SERVER + "withdrawal/request/";
     public static  String URL_LIST_DRIVER = SERVER + "list/driver/";
@@ -24,5 +25,6 @@ public class AppConfig {
     public static  String URL_ADD_DRIVER = SERVER + "tenant/driver/";
     public static  String URL_EDIT_DRIVER = SERVER + "update/driver/";
     public static  String URL_HISTORY_TRANS = SERVER + "order/history/";
+    public static  String URL_HISTORY_SALDO = SERVER + "finance/history/";
     public static  String URL_LIST_KEBIJAKAN = SERVER + "list/kebijakan/";
 }

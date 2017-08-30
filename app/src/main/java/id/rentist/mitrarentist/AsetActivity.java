@@ -142,8 +142,7 @@ public class AsetActivity extends AppCompatActivity {
         return true;
     }
 
-    private class getAssetCarListTask extends AsyncTask<String, String, String>
-    {
+    private class getAssetCarListTask extends AsyncTask<String, String, String> {
         private final String mTenant;
         private String errorMsg, responseAsset;
 

@@ -2,6 +2,7 @@ package id.rentist.mitrarentist;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -35,8 +36,8 @@ public class DateRangePickerActivity extends AppCompatActivity {
   private final Set<Button> modeButtons = new LinkedHashSet<Button>();
 
   @Override protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.date_range_picker);
+      super.onCreate(savedInstanceState);
+      setContentView(R.layout.date_range_picker);
       setTitle("Pilih Tanggal");
 
       Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -44,34 +45,32 @@ public class DateRangePickerActivity extends AppCompatActivity {
       getSupportActionBar().setDisplayHomeAsUpEnabled(true);
       getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-    final Calendar nextYear = Calendar.getInstance();
-    nextYear.add(Calendar.YEAR, 1);
+      final Calendar nextYear = Calendar.getInstance();
+      nextYear.add(Calendar.YEAR, 1);
 
-    final Calendar lastYear = Calendar.getInstance();
-    lastYear.add(Calendar.YEAR, -1);
+      final Calendar lastYear = Calendar.getInstance();
+      lastYear.add(Calendar.YEAR, -1);
 
-    calendar = (CalendarPickerView) findViewById(R.id.calendar_view);
-    calendar.init(lastYear.getTime(), nextYear.getTime()) //
-        .inMode(SelectionMode.SINGLE) //
-        .withSelectedDate(new Date());
+      calendar = (CalendarPickerView) findViewById(R.id.calendar_view);
+      calendar.init(lastYear.getTime(), nextYear.getTime())
+              .inMode(SelectionMode.SINGLE)
+              .withSelectedDate(new Date());
+      initButtonListeners(nextYear, lastYear);
 
-    initButtonListeners(nextYear, lastYear);
-
-    calendar.setCustomDayView(new DefaultDayViewAdapter());
-    Calendar today = Calendar.getInstance();
-    ArrayList<Date> dates = new ArrayList<Date>();
-    today.add(Calendar.DATE, 3);
-    dates.add(today.getTime());
-    today.add(Calendar.DATE, 5);
-    dates.add(today.getTime());
-    calendar.setDecorators(Collections.<CalendarCellDecorator>emptyList());
-    calendar.init(new Date(), nextYear.getTime()) //
-            .inMode(SelectionMode.RANGE) //
-            .withSelectedDates(dates);
+      calendar.setCustomDayView(new DefaultDayViewAdapter());
+      Calendar today = Calendar.getInstance();
+      ArrayList<Date> dates = new ArrayList<Date>();
+      today.add(Calendar.DATE, 3);
+      dates.add(today.getTime());
+      today.add(Calendar.DATE, 5);
+      dates.add(today.getTime());
+      calendar.setDecorators(Collections.<CalendarCellDecorator>emptyList());
+      calendar.init(new Date(), nextYear.getTime())
+              .inMode(SelectionMode.RANGE)
+              .withSelectedDates(dates);
   }
 
   private void initButtonListeners(final Calendar nextYear, final Calendar lastYear) {
-
       calendar.setCustomDayView(new DefaultDayViewAdapter());
       Calendar today = Calendar.getInstance();
       final ArrayList<Date> dates = new ArrayList<Date>();
@@ -100,13 +99,16 @@ public class DateRangePickerActivity extends AppCompatActivity {
               int iendYear = calendar.getSelectedDates().get(i-1).getYear();
               String endDate = "20" + String.valueOf(iendYear).substring(1) + "-" + iendMonth + "-" + iendDate;
 
-              String dateRange ="Selected: " + startDate + " sampai " + endDate;
+              String rangeDate =startDate + " s.d " + endDate;
 
-              Toast.makeText(DateRangePickerActivity.this, dateRange, LENGTH_SHORT).show();
+              Toast.makeText(DateRangePickerActivity.this, "Selected: " + rangeDate, LENGTH_SHORT).show();
 
-//              Intent iFormVou = new Intent(DateRangePickerActivity.this, FormVoucherActivity.class);
-//              iFormVou.putExtra("Dates", dateRange);
-//              startActivity(iFormVou);
+              Intent iFormVou = new Intent(DateRangePickerActivity.this, FormVoucherActivity.class);
+              iFormVou.putExtra("range_date", rangeDate);
+              iFormVou.putExtra("start_date", startDate);
+              iFormVou.putExtra("end_date", endDate);
+              startActivity(iFormVou);
+              finish();
           }
       });
   }
