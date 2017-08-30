@@ -117,7 +117,7 @@
                         android:id="@+id/new_trans_info"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="PERMINTAAN BARU"
+                        android:text="PESANAN BARU"
                         android:textSize="@dimen/medium_text" />
 
                 </LinearLayout>
@@ -297,7 +297,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/xmin_padding"
                             android:gravity="center"
-                            android:text="Aset Rental"
+                            android:text="Jumlah Aset"
                             android:textSize="@dimen/small_text" />
 
                         <ImageView
@@ -343,7 +343,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/xmin_padding"
                             android:gravity="center"
-                            android:text="Rental Selesai"
+                            android:text="Sukses"
                             android:textSize="@dimen/small_text" />
 
                         <ImageView
@@ -383,7 +383,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/xmin_padding"
                             android:gravity="center"
-                            android:text="Rental Berlangsung"
+                            android:text="Sedang Berlangsung"
                             android:textSize="@dimen/small_text" />
 
                         <ImageView

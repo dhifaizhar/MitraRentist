@@ -20,8 +20,12 @@
             android:title="Pengemudi" />
         <item
             android:id="@+id/nav_drop"
-            android:icon="@drawable/ic_directions_car_black_24dp"
+            android:icon="@drawable/ic_assignment_late_black_24dp"
             android:title="Antar Aset" />
+        <item
+            android:id="@+id/nav_take"
+            android:icon="@drawable/ic_assignment_turned_in_black_24dp"
+            android:title="Jemput Aset" />
         <item
             android:id="@+id/nav_dompet"
             android:icon="@drawable/ic_account_balance_wallet_black_24dp"
