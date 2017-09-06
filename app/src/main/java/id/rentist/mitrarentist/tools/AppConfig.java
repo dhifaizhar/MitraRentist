@@ -19,7 +19,10 @@ public class AppConfig {
     public static  String URL_ADD_USER = SERVER + "register/tenant/child/";
     public static  String URL_ONGOING_RENT = SERVER + "order/history/";
     public static  String URL_ADD_POLICY = SERVER + "kebijakan/";
+
+    public static  String URL_LIST_VOUCHER = SERVER + "voucher/list/";
     public static  String URL_ADD_VOUCHER = SERVER + "tenant/voucher/";
+
     public static  String URL_LIST_TESTIMONY = SERVER + "list/testimony/";
     public static  String URL_WITHDRAWAL = SERVER + "withdrawal/request/";
     public static  String URL_LIST_DRIVER = SERVER + "list/driver/";

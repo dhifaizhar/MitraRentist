@@ -19,41 +19,13 @@ import id.rentist.mitrarentist.modul.VoucherModul;
  */
 
 public class VoucherAdapter extends RecyclerView.Adapter<VoucherAdapter.ViewHolder> implements View.OnClickListener{
-
     private final List<VoucherModul> mVoucher;
     private Context context;
-    private int j;
 
     public VoucherAdapter(Context context, List<VoucherModul> mVoucher) {
         super();
         this.mVoucher = mVoucher;
         this.context = context;
-        VoucherModul vou;
-
-        for (j = 1; j < 5;j++){
-            vou = new VoucherModul();
-
-            if (j%2 ==0){
-                vou.setTitle("Weekend Promo");
-                vou.setDiscount("Rp 20000");
-                vou.setStartDate("07-07-2017");
-                vou.setEndDate("21-07-2017");
-                vou.setAsCategory("Mobil");
-                vou.setType("Web, Mobile");
-//                vou.setAmount("100");
-//                vou.setStatus("AKTIF");
-            } else {
-                vou.setTitle("Liburan Telah Tiba");
-                vou.setDiscount("Rp 10000");
-                vou.setStartDate("10-07-2017");
-                vou.setEndDate("10-08-2017");
-                vou.setAsCategory("Motor");
-                vou.setType("Mobile");
-//                vou.setAmou"50");
-//                vou.setStatus("INAKTIF");
-            }
-            this.mVoucher.add(vou);
-        }
     }
 
     @Override
@@ -66,8 +38,12 @@ public class VoucherAdapter extends RecyclerView.Adapter<VoucherAdapter.ViewHold
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
         VoucherModul vou = mVoucher.get(i);
 
-        viewHolder.title.setText(vou.getTitle());
-        viewHolder.discount.setText(vou.getDiscount());
+        viewHolder.title.setText(vou.getName());
+        if(!vou.getNominal().equals("0")){
+            viewHolder.discount.setText(vou.getNominal());
+        }else{
+            viewHolder.discount.setText(vou.getPercen() + "%");
+        }
         viewHolder.startDate.setText(vou.getStartDate());
         viewHolder.endDate.setText(vou.getEndDate());
         viewHolder.asCategory.setText(vou.getAsCategory());
@@ -98,7 +74,7 @@ public class VoucherAdapter extends RecyclerView.Adapter<VoucherAdapter.ViewHold
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView title, discount, startDate, endDate, amount, status, asCategory, type, btnEdit;
+        private TextView title, discount, startDate, endDate, amount, status, asCategory, type, btnEdit;
 
         public ViewHolder(View itemView) {
             super(itemView);

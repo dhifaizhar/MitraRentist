@@ -5,14 +5,9 @@ package id.rentist.mitrarentist.modul;
  */
 
 public class VoucherModul {
-    private String mTitle;
-    private String mDiscount;
-    private String mStartDate;
-    private String mEndDate;
-    private String mAmount;
-    private String mStatus;
-    private String mAsCategory;
-    private String mType;
+    private String mId, mTitle, mDiscount, mStartDate, mEndDate,
+        mName, mCode, mDesc, mPercen, mNominal,
+        mAmount, mStatus, mAsCategory, mType;
 
     public String getTitle() {
         return mTitle;
@@ -61,5 +56,53 @@ public class VoucherModul {
     }
     public void setType(String mType) {
         this.mType = mType;
+    }
+
+    public String getName() {
+        return mName;
+    }
+
+    public void setName(String mName) {
+        this.mName = mName;
+    }
+
+    public String getCode() {
+        return mCode;
+    }
+
+    public void setCode(String mCode) {
+        this.mCode = mCode;
+    }
+
+    public String getDesc() {
+        return mDesc;
+    }
+
+    public void setDesc(String mDesc) {
+        this.mDesc = mDesc;
+    }
+
+    public String getPercen() {
+        return mPercen;
+    }
+
+    public void setPercen(String mPercen) {
+        this.mPercen = mPercen;
+    }
+
+    public String getNominal() {
+        return mNominal;
+    }
+
+    public void setNominal(String mNominal) {
+        this.mNominal = mNominal;
+    }
+
+    public String getId() {
+        return mId;
+    }
+
+    public void setId(String mId) {
+        this.mId = mId;
     }
 }
