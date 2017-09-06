@@ -1,0 +1,65 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/popup_element"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/backgoundLighter"
+    android:orientation="vertical"
+    android:padding="10sp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/txtView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5sp"
+            android:text="Pilih Driver : " />
+
+        <Spinner
+            android:id="@+id/vou_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/asset_category_entries"
+            android:padding="@dimen/xmin_padding"
+            android:layout_toEndOf="@+id/txtView"
+            app:layout_gravity="bottom" />
+
+
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/min_padding"
+        android:layout_gravity="center">
+
+        <Button
+            android:id="@+id/btn_close_popup"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/btn_medium_height"
+            android:background="@color/colorButtonDefault"
+            android:layout_marginEnd="@dimen/xmin_padding"
+            android:text="Batal" />
+
+        <Button
+            android:id="@+id/btn_done_popup"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/btn_medium_height"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/colorWhite"
+            android:layout_marginStart="@dimen/xmin_padding"
+            android:text="Pilih" />
+
+    </LinearLayout>
+
+
+
+</LinearLayout>
+

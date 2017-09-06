@@ -42,3 +42,7 @@ dependencies {
     compile 'com.mcxiaoke.volley:library-aar:1.0.1'
     testCompile 'junit:junit:4.12'
 }
+
+//apply plugin: 'com.google.gms.google-services'
+
+

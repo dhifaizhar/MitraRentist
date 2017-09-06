@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -37,6 +39,7 @@ public class FormVoucherActivity extends AppCompatActivity implements View.OnCli
     private Intent formVoucher;
 //    private CalendarPickerView calendar;
 
+    Integer id;
     String tenant, vId, vType, vStartDate, vEndDate, nominalV, percentageV;
     Spinner vCategory;
     Button btnGetDate,btnAddVoucher;
@@ -51,7 +54,7 @@ public class FormVoucherActivity extends AppCompatActivity implements View.OnCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form_voucher);
-        setTitle("Tambah Voucher");
+        setTitle("Form Voucher");
 
         formVoucher = getIntent();
         sm = new SessionManager(getApplicationContext());
@@ -64,20 +67,6 @@ public class FormVoucherActivity extends AppCompatActivity implements View.OnCli
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         controlContent();
-
-//        // Daterangepicker
-//        Calendar nextYear = Calendar.getInstance();
-//        nextYear.add(Calendar.YEAR, 1);
-//
-//        calendar = (CalendarPickerView) findViewById(R.id.calendar_view);
-//        Date today = new Date();
-//        calendar.init(today, nextYear.getTime())
-//                .withSelectedDate(today)
-//                .inMode(CalendarPickerView.SelectionMode.RANGE);
-//        calendar.highlightDates(getHolidays());
-//        btnEndDate=(Button)findViewById(R.id.btn_end_date);
-//        endDate=(EditText)findViewById(R.id.vou_endDate);
-//        btnEndDate.setOnClickListener(this);
     }
 
     private void controlContent() {
@@ -96,6 +85,13 @@ public class FormVoucherActivity extends AppCompatActivity implements View.OnCli
         vPercentage=(EditText)findViewById(R.id.vou_discount_percent);
 
         // set content control value
+        if(formVoucher.getStringExtra("action").equals("update")) {
+            id = formVoucher.getIntExtra("id_vou", 0);
+            vId = id.toString();
+
+            Log.e(TAG, "Data Voucher to update : " + formVoucher.getStringExtra("action") + "id_vou" + vId);
+
+        }
         vDate.setText(formVoucher.getStringExtra("range_date"));
         vStartDate = formVoucher.getStringExtra("start_date");
         vEndDate = formVoucher.getStringExtra("end_date");
@@ -107,6 +103,8 @@ public class FormVoucherActivity extends AppCompatActivity implements View.OnCli
         }else if(vTypeMobile.isChecked()){
             vType = "mobile";
         }
+
+
 
 //        if(formVoucher.getStringExtra("action").equals("update")){
 //            aId = formVoucher.getStringExtra("id_user");
@@ -222,28 +220,6 @@ public class FormVoucherActivity extends AppCompatActivity implements View.OnCli
             showProgress(false);
         }
     }
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.menu_calendar, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        int id = item.getItemId();
-//        switch (id){
-//            case R.id.action_settings:
-//                return true;
-//            case R.id.action_next:
-//                ArrayList<Date> selectedDates = (ArrayList<Date>)calendar
-//                        .getSelectedDates();
-//                Toast.makeText(FormVoucherActivity.this, selectedDates.toString(),
-//                        Toast.LENGTH_LONG).show();
-//                return true;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
-
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     private void showProgress(final boolean show) {
         if(show){
@@ -258,6 +234,111 @@ public class FormVoucherActivity extends AppCompatActivity implements View.OnCli
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_delete_option, menu);
+
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+
+        if (id == R.id.action_delete) {
+
+            deleteDataVoucher(tenant, vId);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void deleteDataVoucher(String tenant, String vId) {
+        pDialog.setMessage("loading ...");
+        showProgress(true);
+        new putDeleteVoucherTask(tenant, vId).execute();
+    }
+
+    private class putDeleteVoucherTask  extends AsyncTask<String, String, String>{
+        private final String mTenant;
+        private final String idVou;
+        private String errorMsg, responseVoucher;
+
+        private putDeleteVoucherTask(String tenant, String vId) {
+            mTenant = tenant;
+            idVou = vId;
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+            StringRequest stringRequest = new StringRequest(Request.Method.PUT, AppConfig.URL_DELETE_VOUCHER + mTenant, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    responseVoucher = response;
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    errorMsg = error.toString();
+                    Log.e(TAG, "Form Voucher Fetch Error : " + errorMsg);
+                    Toast.makeText(getApplicationContext(), "Connection error, try again.",
+                            Toast.LENGTH_LONG).show();
+                }
+            }){
+                @Override
+                protected Map<String, String> getParams() {
+                    // Posting parameters to url
+                    Map<String, String> keys = new HashMap<String, String>();
+                    keys.put("id_voucher", idVou);
+                    Log.e(TAG, "Delete Data : " + String.valueOf(keys));
+                    return keys;
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> keys = new HashMap<String, String>();
+                    keys.put("token", TOKEN);
+                    return keys;
+                }
+            };
+
+            try {
+                requestQueue.add(stringRequest);
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            return responseVoucher;
+        }
+
+        @Override
+        protected void onPostExecute(String voucher) {
+            mFormVoucherTask = null;
+            showProgress(false);
+
+            if(voucher != null){
+                Toast.makeText(getApplicationContext(),"Data berhasil dihapus", Toast.LENGTH_LONG).show();
+                finish();
+            }else{
+                Toast.makeText(getApplicationContext(),"Gagal menghapus data", Toast.LENGTH_LONG).show();
+            }
+
+        }
+
+        @Override
+        protected void onCancelled() {
+            mFormVoucherTask = null;
+            showProgress(false);
+        }
+
+    }
+
+
+    @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
@@ -266,63 +347,11 @@ public class FormVoucherActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onClick(View v) {
         if (v == btnGetDate) {
-//            // Get Current Date
-//            final Calendar c = Calendar.getInstance();
-//            mYear = c.get(Calendar.YEAR);
-//            mMonth = c.get(Calendar.MONTH);
-//            mDay = c.get(Calendar.DAY_OF_MONTH);
-//
-//
-//            DatePickerDialog datePickerDialog = new DatePickerDialog(this,
-//                    new DatePickerDialog.OnDateSetListener() {
-//
-//                        @Override
-//                        public void onDateSet(DatePicker view, int year,
-//                                              int monthOfYear, int dayOfMonth) {
-//
-//                            startDate.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
-//
-//                        }
-//                    }, mYear, mMonth, mDay);
-//            datePickerDialog.show();
             Intent iPickDate = new Intent(FormVoucherActivity.this, DateRangePickerActivity.class);
             startActivity(iPickDate);
             finish();
         }
-//        } else if (v == btnEndDate) {
-//            // Get Current Date
-//            final Calendar c = Calendar.getInstance();
-//            mYear = c.get(Calendar.YEAR);
-//            mMonth = c.get(Calendar.MONTH);
-//            mDay = c.get(Calendar.DAY_OF_MONTH);
-//
-//
-//            DatePickerDialog datePickerDialog = new DatePickerDialog(this,
-//                    new DatePickerDialog.OnDateSetListener() {
-//
-//                        @Override
-//                        public void onDateSet(DatePicker view, int year,
-//                                              int monthOfYear, int dayOfMonth) {
-//
-//                            endDate.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
-//
-//                        }
-//                    }, mYear, mMonth, mDay);
-//            datePickerDialog.show();
-//        }
     }
-//    @TargetApi(Build.VERSION_CODES.N)
-//    public ArrayList<Date> getHolidays() {
-//        SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy");
-//        String dateInString = "21-04-2015";
-//        Date date = null;
-//        try {
-//            date = sdf.parse(dateInString);
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
-//        ArrayList<Date> holidays = new ArrayList<>();
-//        holidays.add(date);
-//        return holidays;
-//    }
+
+
 }

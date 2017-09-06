@@ -5,7 +5,8 @@ package id.rentist.mitrarentist.modul;
  */
 
 public class VoucherModul {
-    private String mId, mTitle, mDiscount, mStartDate, mEndDate,
+    private int mId;
+    private String  mTitle, mDiscount, mStartDate, mEndDate,
         mName, mCode, mDesc, mPercen, mNominal,
         mAmount, mStatus, mAsCategory, mType;
 
@@ -98,11 +99,11 @@ public class VoucherModul {
         this.mNominal = mNominal;
     }
 
-    public String getId() {
+    public int getId() {
         return mId;
     }
 
-    public void setId(String mId) {
+    public void setId(int mId) {
         this.mId = mId;
     }
 }

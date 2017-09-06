@@ -36,6 +36,7 @@
 
     <string name="action_logout">Keluar</string>
     <string name="action_search">Cari</string>
+    <string name="action_delete">Cari</string>
     <string name="action_go_home">Go Home Now !</string>
     <string name="action_car">Mobil</string>
     <string name="action_bike">Motor</string>

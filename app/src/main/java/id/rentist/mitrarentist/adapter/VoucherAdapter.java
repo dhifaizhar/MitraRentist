@@ -36,7 +36,7 @@ public class VoucherAdapter extends RecyclerView.Adapter<VoucherAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
-        VoucherModul vou = mVoucher.get(i);
+        final VoucherModul vou = mVoucher.get(i);
 
         viewHolder.title.setText(vou.getName());
         if(!vou.getNominal().equals("0")){
@@ -46,15 +46,21 @@ public class VoucherAdapter extends RecyclerView.Adapter<VoucherAdapter.ViewHold
         }
         viewHolder.startDate.setText(vou.getStartDate());
         viewHolder.endDate.setText(vou.getEndDate());
-        viewHolder.asCategory.setText(vou.getAsCategory());
+//        viewHolder.asCategory.setText(vou.getAsCategory());
         viewHolder.type.setText(vou.getType());
+        viewHolder.code.setText(vou.getCode());
+        viewHolder.desc.setText(vou.getDesc());
+
 //        viewHolder.amount.setText(vou.getAmount());
 //        viewHolder.status.setText(vou.getStatus());
 
         viewHolder.btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Integer id = vou.getId();
                 Intent iVou = new Intent(context, FormVoucherActivity.class);
+                iVou.putExtra("action","update");
+                iVou.putExtra("id_vou", vou.getId());
                 iVou.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(iVou);
             }
@@ -74,7 +80,7 @@ public class VoucherAdapter extends RecyclerView.Adapter<VoucherAdapter.ViewHold
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView title, discount, startDate, endDate, amount, status, asCategory, type, btnEdit;
+        private TextView title, discount, startDate, endDate, code, desc, amount, status, asCategory, type, btnEdit;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -82,7 +88,9 @@ public class VoucherAdapter extends RecyclerView.Adapter<VoucherAdapter.ViewHold
             discount = (TextView) itemView.findViewById(R.id.vou_discount);
             startDate = (TextView) itemView.findViewById(R.id.vou_date);
             endDate = (TextView) itemView.findViewById(R.id.vou_endDate);
-            asCategory = (TextView) itemView.findViewById(R.id.vou_as_category);
+            code = (TextView) itemView.findViewById(R.id.vou_code);
+            desc = (TextView) itemView.findViewById(R.id.vou_desc);
+//            asCategory = (TextView) itemView.findViewById(R.id.vou_as_category);
             type = (TextView) itemView.findViewById(R.id.vou_type);
             btnEdit = (TextView) itemView.findViewById(R.id.vou_edit);
 

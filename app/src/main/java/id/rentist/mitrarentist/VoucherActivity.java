@@ -73,12 +73,24 @@ public class VoucherActivity extends AppCompatActivity {
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
         getVoucherDataList(tenant);
 
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mVoucher.clear();
+                getVoucherDataList(tenant);
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent iVoucher = new Intent(VoucherActivity.this, FormVoucherActivity.class);
-                startActivity(iVoucher);
+                Intent iFormVou = new Intent(VoucherActivity.this, FormVoucherActivity.class);
+                iFormVou.putExtra("action","add");
+                iFormVou.putExtra("dateStat", "false");
+                startActivity(iFormVou);
 
             }
         });
@@ -140,7 +152,8 @@ public class VoucherActivity extends AppCompatActivity {
         protected void onPostExecute(String user) {
             mVoucherTask = null;
             showProgress(false);
-            String vId, vName,vCode,startDate,endDate,vDesc,vType,vNominal,vPercen;
+            int vId;
+            String vName,vCode,startDate,endDate,vDesc,vType,vNominal,vPercen, vSdate;
             Integer dataLength;
 
             if (user != null) {
@@ -152,7 +165,7 @@ public class VoucherActivity extends AppCompatActivity {
                         for (int i = 0; i < jsonArray.length(); i++) {
                             errorMsg = "-";
                             JSONObject jsonobject = jsonArray.getJSONObject(i);
-                            vId = jsonobject.getString("id");
+                            vId = jsonobject.getInt("id");
                             vName = jsonobject.getString("voucher_name");
                             vCode = jsonobject.getString("voucher_code");
                             vDesc = jsonobject.getString("description");
@@ -167,12 +180,16 @@ public class VoucherActivity extends AppCompatActivity {
                             vModul.setId(vId);
                             vModul.setName(vName);
                             vModul.setCode(vCode);
-                            vModul.setStartDate(startDate);
-                            vModul.setEndDate(endDate);
+                            vModul.setStartDate(startDate.substring(0,10));
+                            vModul.setEndDate(endDate.substring(0,10));
                             vModul.setDesc(vDesc);
-                            vModul.setNominal(vNominal);
-                            vModul.setPercen(vPercen);
-                            vModul.setType(vType);
+                            vModul.setNominal(vNominal + " IDR");
+                            vModul.setPercen(vPercen + "%");
+                            if(vType.equals("both")){
+                                vModul.setType("Mobile, Web");
+                            }else{
+                                vModul.setType(vType);
+                            }
 
                             mVoucher.add(vModul);
                         }
