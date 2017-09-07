@@ -164,7 +164,7 @@
                         android:id="@+id/val_saldo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="7.000.000 IDR"
+                        android:text="0 IDR"
                         android:textAlignment="textEnd"
                         android:textColor="@color/colorPrice"
                         android:textSize="30sp"
@@ -213,7 +213,7 @@
                         android:id="@+id/val_poin"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="150"
+                        android:text="0"
                         android:textAlignment="textEnd"
                         android:textColor="@color/colorPrimary"
                         android:textSize="30sp"
@@ -269,11 +269,11 @@
                             app:srcCompat="@drawable/rating_ico" />
 
                         <TextView
-                            android:id="@+id/textView17"
+                            android:id="@+id/val_rating"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:text="5.0"
+                            android:text="0"
                             android:textAlignment="center"
                             android:textColor="@color/colorPrimary"
                             android:textSize="@dimen/large_text"
@@ -310,10 +310,10 @@
                             app:srcCompat="@drawable/asset_ico" />
 
                         <TextView
-                            android:id="@+id/textView23"
+                            android:id="@+id/val_sum_asset"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="10"
+                            android:text="0"
                             android:textAlignment="center"
                             android:textColor="@color/colorPrimary"
                             android:textSize="@dimen/large_text"
@@ -356,10 +356,10 @@
                             app:srcCompat="@drawable/tr_complete_ico" />
 
                         <TextView
-                            android:id="@+id/textView24"
+                            android:id="@+id/val_success_rent"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="150"
+                            android:text="0"
                             android:textAlignment="center"
                             android:textColor="@color/colorPrimary"
                             android:textSize="@dimen/large_text"
@@ -396,10 +396,10 @@
                             app:srcCompat="@drawable/tr_on_progress_ico" />
 
                         <TextView
-                            android:id="@+id/textView25"
+                            android:id="@+id/val_ongo_rent"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="17"
+                            android:text="0"
                             android:textAlignment="center"
                             android:textColor="@color/colorPrimary"
                             android:textSize="@dimen/large_text"

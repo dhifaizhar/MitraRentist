@@ -39,6 +39,7 @@ public class FormDriverActivity extends AppCompatActivity {
     RadioGroup aGenderGroup;
     RadioButton aGenderButton;
 
+    int genderId;
     String tenant, aId, birthdate;
     TextView name, sim, bdate, gender;
     ImageView profilePic;
@@ -69,8 +70,6 @@ public class FormDriverActivity extends AppCompatActivity {
     private void controlContent() {
         //initialize view
         aGenderGroup = (RadioGroup) findViewById(R.id.dr_rad_gender);
-        int genderId = aGenderGroup.getCheckedRadioButtonId();
-        aGenderButton = (RadioButton) findViewById(genderId);
         profilePic = (ImageView)findViewById(R.id.dr_thumb_driver);
         name = (TextView)findViewById(R.id.dr_driver_name);
         sim = (TextView)findViewById(R.id.dr_sim_number);
@@ -85,13 +84,13 @@ public class FormDriverActivity extends AppCompatActivity {
             name.setText(formDriver.getStringExtra("fullname"));
             sim.setText(formDriver.getStringExtra("no_sim"));
             bdate.setText(formDriver.getStringExtra("birthdate"));
-//            if(formDriver.getStringExtra("gender").equals("male")){
-//                RadioButton aMaleButton = (RadioButton) findViewById(R.id.radioMale);
-//                aMaleButton.setChecked(true);
-//            }else if(formDriver.getStringExtra("gender").equals("female")){
-//                RadioButton aFemaleButton = (RadioButton) findViewById(R.id.radioFemale);
-//                aFemaleButton.setChecked(true);
-//            }
+            if(formDriver.getStringExtra("gender").equals("male")){
+                RadioButton aMaleButton = (RadioButton) findViewById(R.id.radioMale);
+                aMaleButton.setChecked(true);
+            }else if(formDriver.getStringExtra("gender").equals("female")){
+                RadioButton aFemaleButton = (RadioButton) findViewById(R.id.radioFemale);
+                aFemaleButton.setChecked(true);
+            }
         }
 
         // set action
@@ -106,6 +105,8 @@ public class FormDriverActivity extends AppCompatActivity {
     private void formDriverTenant(String tenant, String id) {
         pDialog.setMessage("loading ...");
         showProgress(true);
+        genderId = aGenderGroup.getCheckedRadioButtonId();
+        aGenderButton = (RadioButton) findViewById(genderId);
         if(formDriver.getStringExtra("action").equals("add")){
             new getformDriverAddTask(tenant, id).execute();
         }else if(formDriver.getStringExtra("action").equals("update")){
@@ -206,7 +207,7 @@ public class FormDriverActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... params) {
-            String URL = AppConfig.URL_EDIT_DRIVER + idDriver;
+            String URL = AppConfig.URL_EDIT_DRIVER + mTenant;
             RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
             StringRequest stringRequest = new StringRequest(Request.Method.PUT, URL, new Response.Listener<String>() {
                 @Override
@@ -226,7 +227,7 @@ public class FormDriverActivity extends AppCompatActivity {
                 protected Map<String, String> getParams() {
                     // Posting parameters to url
                     Map<String, String> keys = new HashMap<String, String>();
-                    keys.put("id_tenant", mTenant);
+                    keys.put("id_driver", idDriver);
                     keys.put("fullname", name.getText().toString());
                     keys.put("gender", aGenderButton.getText().toString());
                     keys.put("no_sim", sim.getText().toString());

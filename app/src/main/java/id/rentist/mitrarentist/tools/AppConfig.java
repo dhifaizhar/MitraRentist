@@ -8,6 +8,7 @@ public class AppConfig {
     private static String SERVER = "http://52.221.215.137:1337/";
     public static String URL_LOGIN = SERVER + "login/tenant/";
     public static String URL_ACTIVATION = SERVER + "tenant/active/";
+    public static String URL_DASHBOARD_DATA = SERVER + "dashboard/";
     public static String URL_UPDATE_TENANT = SERVER + "update/mitra/";
     public static  String URL_LIST_MOBIL = SERVER + "list/item/1/";
     public static  String URL_ADD_MOBIL = SERVER + "item/mobil/";

@@ -77,6 +77,7 @@ public class DriverDetailActivity extends AppCompatActivity {
         name = (TextView)findViewById(R.id.det_dr_name);
         sim = (TextView)findViewById(R.id.det_dr_sim);
         bdate = (TextView)findViewById(R.id.det_dr_bdate);
+        gender = (TextView) findViewById(R.id.det_dr_gender);
         fab = (FloatingActionButton) findViewById(R.id.fab);
 
         // set content control value
@@ -93,6 +94,7 @@ public class DriverDetailActivity extends AppCompatActivity {
                 detIntent.putExtra("fullname", name.getText());
                 detIntent.putExtra("no_sim", sim.getText());
                 detIntent.putExtra("birthdate", bdate.getText());
+                detIntent.putExtra("gender", gender.getText());
                 startActivity(detIntent);
             }
         });
@@ -163,7 +165,7 @@ public class DriverDetailActivity extends AppCompatActivity {
                     profilePic.setImageResource(R.drawable.user_ava_man);
                     name.setText(driverObject.getString("fullname"));
                     sim.setText(driverObject.getString("no_sim"));
-//                    gender.setText(driverObject.getString("gender"));
+                    gender.setText(driverObject.getString("gender"));
 
                     birthdate = driverObject.getString("birthdate");
                     // formatter

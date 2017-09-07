@@ -1,7 +1,11 @@
 package id.rentist.mitrarentist;
 
+import android.annotation.TargetApi;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -10,6 +14,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,21 +23,48 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import id.rentist.mitrarentist.tools.AppConfig;
 import id.rentist.mitrarentist.tools.SessionManager;
 
 public class DashboardActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    private AsyncTask mDashboardTask = null;
+    private ProgressDialog pDialog;
     private SessionManager sm;
     private View navHeaderView;
+
+    String tenant;
+    Integer sumAsset, aCar, aBike, aYacht;
+    TextView totAsset, totPoin, totRating, totSaldo, rentName, rentNameDrawer, successRent, ongoRent;
     ImageView rentImgProfile;
-    TextView rentName, rentNameDrawer;
     ImageButton btnNewTrans, btnToSaldo, btnWorkDate;
+
+    private static final String TAG = "DashboardActivity";
+    private static final String TOKEN = "secretissecret";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sm = new SessionManager(getApplicationContext());
         setContentView(R.layout.activity_dashboard);
+
+        sm = new SessionManager(getApplicationContext());
+        pDialog = new ProgressDialog(this);
+        pDialog.setCancelable(false);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -59,11 +91,19 @@ public class DashboardActivity extends AppCompatActivity
         btnNewTrans = (ImageButton) findViewById(R.id.btn_to_det_new_trans);
         btnToSaldo = (ImageButton) findViewById(R.id.btn_to_saldo);
         btnWorkDate = (ImageButton) findViewById(R.id.btn_work_date);
+        totSaldo = (TextView) findViewById(R.id.val_saldo);
+        totAsset = (TextView) findViewById(R.id.val_sum_asset);
+        totPoin = (TextView) findViewById(R.id.val_poin);
+        totRating = (TextView) findViewById(R.id.val_rating);
+        successRent = (TextView) findViewById(R.id.val_success_rent);
+        ongoRent = (TextView) findViewById(R.id.val_ongo_rent);
 
         // set content control value
         rentName.setText(sm.getPreferences("nama_rental"));
         rentNameDrawer.setText(sm.getPreferences("nama"));
         rentImgProfile.setImageResource(sm.getIntPreferences("foto_profil"));
+        tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
+        retrieveDashboardData(tenant);
         btnNewTrans.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,6 +128,111 @@ public class DashboardActivity extends AppCompatActivity
                 startActivity(iWork);
             }
         });
+    }
+
+    private void retrieveDashboardData(String tenant) {
+        pDialog.setMessage("loading ...");
+        showProgress(true);
+        new getDataTask(tenant).execute();
+    }
+
+    private class getDataTask extends AsyncTask<String, String, String>{
+        private final String mTenant;
+        private String errorMsg, responseData;
+
+        private getDataTask(String tenant) {
+            mTenant = tenant;
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            String URL = AppConfig.URL_DASHBOARD_DATA + mTenant;
+            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+            StringRequest stringRequest = new StringRequest(Request.Method.GET, URL, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    responseData = response;
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    errorMsg = error.toString();
+                    Log.e(TAG, "Dashboard Data Fetch Error : " + errorMsg);
+                    Toast.makeText(getApplicationContext(), "Connection error, try again.",
+                            Toast.LENGTH_LONG).show();
+                }
+            }){
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> keys = new HashMap<String, String>();
+                    keys.put("token", TOKEN);
+                    return keys;
+                }
+            };
+
+            try {
+                requestQueue.add(stringRequest);
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            return responseData;
+        }
+
+        @Override
+        protected void onPostExecute(String user) {
+            mDashboardTask = null;
+            showProgress(false);
+
+            if(user != null){
+                try {
+                    JSONObject dataObject = new JSONObject(user);
+                    JSONObject assetObject = new JSONObject(String.valueOf(dataObject.getJSONObject("asset")));
+                    JSONObject saldoObject = new JSONObject(String.valueOf(dataObject.getJSONObject("saldo")));
+                    JSONObject poinObject = new JSONObject(String.valueOf(dataObject.getJSONObject("poin")));
+                    JSONObject ratingObject = new JSONObject(String.valueOf(dataObject.getJSONObject("rating")));
+                    Log.d(TAG, String.valueOf(dataObject));
+
+                    aCar = assetObject.getInt("mobil");
+                    aBike = assetObject.getInt("motor");
+                    aYacht = assetObject.getInt("yacht");
+                    sumAsset = aCar + aBike + aYacht;
+                    totAsset.setText(String.valueOf(sumAsset));
+                    totSaldo.setText(saldoObject.getString("received").equals("null") ? "0 IDR" : saldoObject.getString("received")+" IDR");
+                    totPoin.setText(poinObject.getString("received"));
+                    totRating.setText(ratingObject.getString("rating").equals("null") ? "0" : ratingObject.getString("rating"));
+                    successRent.setText(dataObject.getString("sukses"));
+                    ongoRent.setText(dataObject.getString("berlangsung"));
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Log.d(TAG, "JSON Error : " + e);
+                }
+            }else{
+                Toast.makeText(getApplicationContext(),"Gagal memuat data.", Toast.LENGTH_LONG).show();
+            }
+
+        }
+
+        @Override
+        protected void onCancelled() {
+            mDashboardTask = null;
+            showProgress(false);
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+    private void showProgress(final boolean show) {
+        if(show){
+            if (!pDialog.isShowing()){
+                pDialog.show();
+            }
+        }else{
+            if (pDialog.isShowing()){
+                pDialog.dismiss();
+            }
+        }
     }
 
     @Override

@@ -128,7 +128,7 @@
                     </RelativeLayout>
 
                     <RelativeLayout
-                        android:id="@+id/pr_mail_info"
+                        android:id="@+id/pr_gender_info"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="@dimen/xmin_padding"
@@ -136,7 +136,7 @@
                         tools:ignore="UselessParent">
 
                         <ImageView
-                            android:id="@+id/pr_email_ico"
+                            android:id="@+id/pr_gender_ico"
                             android:layout_width="@dimen/thumb_prop_width"
                             android:layout_height="@dimen/thumb_prop_height"
                             android:layout_marginEnd="@dimen/min_padding"
@@ -144,11 +144,11 @@
                             app:srcCompat="@drawable/ic_email_black_24dp"/>
 
                         <TextView
-                            android:id="@+id/det_dr_email"
+                            android:id="@+id/det_dr_gender"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_toEndOf="@+id/pr_email_ico"
-                            android:text="driver@mail.com"
+                            android:layout_toEndOf="@+id/pr_gender_ico"
+                            android:text="-"
                             android:textSize="@dimen/medium_text" />
 
                     </RelativeLayout>
