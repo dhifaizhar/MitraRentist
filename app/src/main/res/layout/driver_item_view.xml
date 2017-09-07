@@ -32,9 +32,11 @@
                     android:layout_height="@dimen/breadcrumb_height"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
-                    android:layout_marginEnd="@dimen/xmin_padding"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/min_padding"
                     android:layout_marginStart="@dimen/xmin_padding"
                     android:layout_marginTop="@dimen/xmin_padding"
+                    android:background="@drawable/img"
                     android:contentDescription="item Driver"
                     android:foregroundGravity="center_horizontal|center_vertical" />
 
@@ -49,7 +51,7 @@
                         android:id="@+id/dr_nama_driver"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/xmin_padding"
+                        android:padding="@dimen/min_padding"
                         tools:ignore="UselessParent">
 
                         <ImageView
@@ -57,14 +59,14 @@
                             android:layout_width="@dimen/thumb_prop_width"
                             android:layout_height="@dimen/thumb_prop_height"
                             android:layout_marginEnd="@dimen/min_padding"
-                            app:srcCompat="@drawable/ic_person_outline_black_18dp"
-                            android:contentDescription="price"/>
+                            android:contentDescription="price"
+                            app:srcCompat="@drawable/ic_person_outline_black_18dp" />
 
                         <TextView
                             android:id="@+id/dr_nama_info"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_toEndOf="@+id/dr_nama_ico"/>
+                            android:layout_toEndOf="@+id/dr_nama_ico" />
 
                     </RelativeLayout>
 
@@ -72,7 +74,7 @@
                         android:id="@+id/dr_sim_driver"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/xmin_padding"
+                        android:padding="@dimen/min_padding"
                         tools:ignore="UselessParent">
 
                         <ImageView

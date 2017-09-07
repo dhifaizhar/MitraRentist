@@ -10,7 +10,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,7 +57,7 @@ public class DriverDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver_detail);
-        setTitle("Detail Pengemudi");
+        setTitle("");
 
         detIntent = getIntent();
         sm = new SessionManager(getApplicationContext());
@@ -78,26 +79,12 @@ public class DriverDetailActivity extends AppCompatActivity {
         sim = (TextView)findViewById(R.id.det_dr_sim);
         bdate = (TextView)findViewById(R.id.det_dr_bdate);
         gender = (TextView) findViewById(R.id.det_dr_gender);
-        fab = (FloatingActionButton) findViewById(R.id.fab);
 
         // set content control value
         aId = detIntent.getStringExtra("id_driver");
         Log.e(TAG, "Id Tenant Detail User : " + aId);
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
         detUserTenant(tenant, aId);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                detIntent = new Intent(DriverDetailActivity.this, FormDriverActivity.class);
-                detIntent.putExtra("action","update");
-                detIntent.putExtra("id_driver", aId);
-                detIntent.putExtra("fullname", name.getText());
-                detIntent.putExtra("no_sim", sim.getText());
-                detIntent.putExtra("birthdate", bdate.getText());
-                detIntent.putExtra("gender", gender.getText());
-                startActivity(detIntent);
-            }
-        });
     }
 
     private void detUserTenant(String tenant, String id) {
@@ -162,7 +149,9 @@ public class DriverDetailActivity extends AppCompatActivity {
                     JSONObject driverObject = jsonArray.getJSONObject(0);
                     Log.d(TAG, String.valueOf(driverObject));
 
-                    profilePic.setImageResource(R.drawable.user_ava_man);
+                    if(driverObject.getString("profile_pic") != null){
+                        profilePic.setImageResource(R.drawable.user_ava_man);
+                    }
                     name.setText(driverObject.getString("fullname"));
                     sim.setText(driverObject.getString("no_sim"));
                     gender.setText(driverObject.getString("gender"));
@@ -215,6 +204,31 @@ public class DriverDetailActivity extends AppCompatActivity {
         onBackPressed();
         this.finish();
         return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_edit_option, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_edit) {
+            detIntent = new Intent(DriverDetailActivity.this, FormDriverActivity.class);
+            detIntent.putExtra("action","update");
+            detIntent.putExtra("id_driver", aId);
+            detIntent.putExtra("fullname", name.getText());
+            detIntent.putExtra("no_sim", sim.getText());
+            detIntent.putExtra("birthdate", bdate.getText());
+            detIntent.putExtra("gender", gender.getText());
+            startActivity(detIntent);
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 }

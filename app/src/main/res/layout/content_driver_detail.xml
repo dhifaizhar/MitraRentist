@@ -5,15 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="@dimen/xmin_padding"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="id.rentist.mitrarentist.DriverDetailActivity"
     tools:showIn="@layout/activity_driver_detail">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/btn_lmedium_height">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -23,8 +21,19 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
                 android:orientation="vertical"
                 android:padding="@dimen/min_padding">
+
+                <ImageView
+                    android:id="@+id/det_dr_profile_pic"
+                    android:layout_width="@dimen/thumb_med_width"
+                    android:layout_height="@dimen/thumb_med_height"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="false"
+                    android:background="@drawable/img"
+                    android:cropToPadding="false" />
 
                 <TextView
                     android:id="@+id/det_dr_name"
@@ -32,23 +41,20 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/xmin_padding"
                     android:layout_weight="1"
-                    android:text="Nama Driver"
+                    android:padding="@dimen/xmin_padding"
+                    android:text="Nama"
                     android:textAlignment="center"
+                    android:textAllCaps="true"
+                    android:textColor="@color/colorWhite"
                     android:textSize="@dimen/large_text"
                     android:textStyle="bold" />
-
-                <ImageView
-                    android:id="@+id/det_dr_profile_pic"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    app:srcCompat="@drawable/ic_person_black_48dp" />
 
             </LinearLayout>
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_margin="@dimen/med_padding"
                 android:padding="@dimen/xmin_padding">
 
                 <LinearLayout
@@ -57,36 +63,18 @@
                     android:orientation="vertical">
 
                     <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/cardview_dark_background"
-                        android:padding="@dimen/min_padding">
-
-                        <TextView
-                            android:id="@+id/textView4"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentStart="true"
-                            android:layout_centerVertical="true"
-                            android:text="Informasi"
-                            android:textColor="@color/colorWhite"
-                            android:textSize="@dimen/medium_text"
-                            android:textStyle="bold" />
-
-                    </RelativeLayout>
-
-                    <RelativeLayout
                         android:id="@+id/pr_address"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/xmin_padding"
                         android:background="@color/colorPrimarySoft"
+                        android:padding="@dimen/min_padding"
                         tools:ignore="UselessParent">
 
                         <ImageView
                             android:id="@+id/pr_address_ico"
-                            android:layout_width="@dimen/thumb_prop_width"
-                            android:layout_height="@dimen/thumb_prop_height"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_centerVertical="true"
                             android:layout_marginEnd="@dimen/min_padding"
                             android:contentDescription="loaction"
                             app:srcCompat="@drawable/ic_contact_mail_black_24dp" />
@@ -95,10 +83,22 @@
                             android:id="@+id/det_dr_sim"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/xmin_padding"
+                            android:layout_marginLeft="@dimen/xmin_padding"
                             android:layout_toEndOf="@+id/pr_address_ico"
-                            android:text="no SIM"
+                            android:text="-"
                             android:textSize="@dimen/medium_text"
                             android:textStyle="italic" />
+
+                        <TextView
+                            android:id="@+id/textView17"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/det_dr_sim"
+                            android:layout_marginLeft="@dimen/xmin_padding"
+                            android:layout_toEndOf="@+id/pr_address_ico"
+                            android:text="SIM"
+                            android:textSize="12sp" />
 
                     </RelativeLayout>
 
@@ -106,24 +106,37 @@
                         android:id="@+id/pr_no_telp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/xmin_padding"
+                        android:padding="@dimen/min_padding"
                         tools:ignore="UselessParent">
 
                         <ImageView
                             android:id="@+id/pr_telp_ico"
-                            android:layout_width="@dimen/thumb_prop_width"
-                            android:layout_height="@dimen/thumb_prop_height"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_centerVertical="true"
                             android:layout_marginEnd="@dimen/min_padding"
                             android:contentDescription="phone"
-                            app:srcCompat="@drawable/ic_phone_android_black_24dp"/>
+                            app:srcCompat="@drawable/ic_phone_android_black_24dp" />
 
                         <TextView
                             android:id="@+id/det_dr_phone_number"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/xmin_padding"
+                            android:layout_marginLeft="@dimen/xmin_padding"
                             android:layout_toEndOf="@+id/pr_telp_ico"
-                            android:text="081 xxx xxx xxx"
+                            android:text="-"
                             android:textSize="@dimen/medium_text" />
+
+                        <TextView
+                            android:id="@+id/textView18"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/det_dr_phone_number"
+                            android:layout_marginLeft="@dimen/xmin_padding"
+                            android:layout_toEndOf="@+id/pr_telp_ico"
+                            android:text="Nomor Telepon"
+                            android:textSize="12sp" />
 
                     </RelativeLayout>
 
@@ -131,25 +144,39 @@
                         android:id="@+id/pr_gender_info"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/xmin_padding"
                         android:background="@color/colorPrimarySoft"
+                        android:padding="@dimen/min_padding"
                         tools:ignore="UselessParent">
 
                         <ImageView
                             android:id="@+id/pr_gender_ico"
-                            android:layout_width="@dimen/thumb_prop_width"
-                            android:layout_height="@dimen/thumb_prop_height"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_centerVertical="true"
                             android:layout_marginEnd="@dimen/min_padding"
                             android:contentDescription="email"
-                            app:srcCompat="@drawable/ic_email_black_24dp"/>
+                            app:srcCompat="@drawable/ic_data_usage_black_48dp" />
 
                         <TextView
                             android:id="@+id/det_dr_gender"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginBottom="@dimen/xmin_padding"
+                            android:layout_marginLeft="@dimen/xmin_padding"
                             android:layout_toEndOf="@+id/pr_gender_ico"
                             android:text="-"
                             android:textSize="@dimen/medium_text" />
+
+                        <TextView
+                            android:id="@+id/textView19"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/det_dr_gender"
+                            android:layout_marginLeft="@dimen/xmin_padding"
+                            android:layout_toEndOf="@+id/pr_gender_ico"
+                            android:text="Jenis Kelamin"
+                            android:textSize="12sp" />
 
                     </RelativeLayout>
 
@@ -157,15 +184,19 @@
                         android:id="@+id/pr_bdate_info"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/xmin_padding"
                         android:background="@color/colorPrimarySoft"
+                        android:padding="@dimen/min_padding"
                         tools:ignore="UselessParent">
 
                         <ImageView
                             android:id="@+id/pr_bdate_ico"
-                            android:layout_width="@dimen/thumb_prop_width"
-                            android:layout_height="@dimen/thumb_prop_height"
-                            android:layout_marginEnd="@dimen/min_padding"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="false"
+                            android:layout_centerInParent="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/min_padding"
                             android:contentDescription="birthdate"
                             app:srcCompat="@drawable/ic_perm_contact_calendar_black_36dp" />
 
@@ -173,9 +204,21 @@
                             android:id="@+id/det_dr_bdate"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/xmin_padding"
+                            android:layout_marginLeft="@dimen/xmin_padding"
                             android:layout_toEndOf="@+id/pr_bdate_ico"
-                            android:text="01 January 1990"
+                            android:text="-"
                             android:textSize="@dimen/medium_text" />
+
+                        <TextView
+                            android:id="@+id/textView20"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/det_dr_bdate"
+                            android:layout_marginLeft="@dimen/xmin_padding"
+                            android:layout_toEndOf="@+id/pr_bdate_ico"
+                            android:text="Tanggal Lahir"
+                            android:textSize="12sp" />
 
                     </RelativeLayout>
 

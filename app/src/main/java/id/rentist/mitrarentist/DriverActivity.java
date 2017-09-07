@@ -192,8 +192,6 @@ public class DriverActivity extends AppCompatActivity {
                             driverModul.setSIM(aSIM);
                             if(aThumbPhoto != null){
                                 driverModul.setThumbnail(R.drawable.ic_person_black_24dp);
-                            }else{
-                                driverModul.setThumbnail(R.drawable.ic_person_black_24dp);
                             }
                             mDriver.add(driverModul);
                         }

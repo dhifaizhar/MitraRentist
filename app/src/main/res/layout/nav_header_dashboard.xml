@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/nav_header_height"
+    android:layout_height="@dimen/img_width_height"
     android:background="@drawable/side_nav_bar"
     android:gravity="bottom"
     android:orientation="vertical"
@@ -14,18 +14,18 @@
 
     <ImageView
         android:id="@+id/navImageProfile"
-        android:layout_width="@dimen/msg_thumb_width"
-        android:layout_height="@dimen/msg_thumb_height"
+        android:layout_width="@dimen/thumb_med_width"
+        android:layout_height="@dimen/thumb_med_height"
         android:layout_gravity="center"
-        android:layout_marginBottom="@dimen/xmin_padding"
+        android:layout_marginBottom="@dimen/min_padding"
         android:layout_marginTop="@dimen/min_padding"
-        app:srcCompat="@android:drawable/sym_def_app_icon" />
+        android:background="@drawable/img" />
 
     <TextView
         android:id="@+id/navRentName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/xmin_padding"
+        android:layout_marginBottom="@dimen/min_padding"
         android:paddingBottom="@dimen/xmin_padding"
         android:paddingTop="@dimen/xmin_padding"
         android:text="RENTAL SUKSES"
@@ -33,15 +33,5 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textSize="@dimen/medium_text"
         android:textStyle="bold" />
-
-    <com.iarcuschin.simpleratingbar.SimpleRatingBar
-        android:id="@+id/mitra_rating"
-        android:layout_width="wrap_content"
-        android:layout_height="25dp"
-        android:layout_gravity="center"
-        android:layout_marginBottom="@dimen/xmin_padding"
-        app:srb_isIndicator="true"
-        app:srb_rating="4.5"
-        style="@style/CustomRatingBar" />
 
 </LinearLayout>
