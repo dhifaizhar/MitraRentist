@@ -2,11 +2,13 @@ package id.rentist.mitrarentist;
 
 import android.annotation.TargetApi;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -229,6 +231,7 @@ public class FormVoucherActivity extends AppCompatActivity implements View.OnCli
         }
     }
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+
     private void showProgress(final boolean show) {
         if(show){
             if (!pDialog.isShowing()){
@@ -337,7 +340,6 @@ public class FormVoucherActivity extends AppCompatActivity implements View.OnCli
         int id = item.getItemId();
 
         if (id == R.id.action_delete) {
-
             deleteDataVoucher(tenant, vId);
             return true;
         }
@@ -345,10 +347,26 @@ public class FormVoucherActivity extends AppCompatActivity implements View.OnCli
         return super.onOptionsItemSelected(item);
     }
 
-    private void deleteDataVoucher(String tenant, String vId) {
-        pDialog.setMessage("loading ...");
-        showProgress(true);
-        new putDeleteVoucherTask(tenant, vId).execute();
+    private void deleteDataVoucher(final String tenant, final String vId) {
+        AlertDialog.Builder showAlert = new AlertDialog.Builder(this);
+        showAlert.setMessage("Hapus kupon ini ?");
+        showAlert.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1) {
+                pDialog.setMessage("loading ...");
+                showProgress(true);
+                new putDeleteVoucherTask(tenant, vId).execute();
+            }
+        });
+        showAlert.setNegativeButton("Tidak",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // close dialog
+            }
+        });
+
+        AlertDialog alertDialog = showAlert.create();
+        alertDialog.show();
     }
 
     private class putDeleteVoucherTask  extends AsyncTask<String, String, String>{
@@ -426,7 +444,6 @@ public class FormVoucherActivity extends AppCompatActivity implements View.OnCli
         }
 
     }
-
 
     @Override
     public boolean onSupportNavigateUp() {

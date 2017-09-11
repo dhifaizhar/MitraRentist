@@ -97,7 +97,6 @@ public class DriverActivity extends AppCompatActivity {
         new getDriverListTask(tenant).execute();
     }
 
-
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     private void showProgress(final boolean show) {
         if(show){

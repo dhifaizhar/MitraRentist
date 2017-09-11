@@ -76,7 +76,7 @@
                             android:layout_height="24dp"
                             android:layout_centerVertical="true"
                             android:layout_marginEnd="@dimen/min_padding"
-                            android:contentDescription="loaction"
+                            android:contentDescription="location"
                             app:srcCompat="@drawable/ic_contact_mail_black_24dp" />
 
                         <TextView

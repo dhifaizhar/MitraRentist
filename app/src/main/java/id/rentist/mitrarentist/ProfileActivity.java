@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,9 +15,10 @@ import id.rentist.mitrarentist.tools.SessionManager;
 
 public class ProfileActivity extends AppCompatActivity {
     private SessionManager sm;
-    TextView rName, rOwner, rAddress, rEmail, rPhone, vAll;
+    TextView rName, rOwner, rAddress, rEmail, rPhone;
     ImageView profilePhoto;
     Button btnEdit;
+    ImageButton vAll;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,11 +45,11 @@ public class ProfileActivity extends AppCompatActivity {
         rEmail = (TextView) findViewById(R.id.pr_email);
         profilePhoto = (ImageView) findViewById(R.id.pr_thumb);
         btnEdit = (Button) findViewById(R.id.btn_edit_profil);
-        vAll = (TextView) findViewById(R.id.view_testi);
+        vAll = (ImageButton) findViewById(R.id.view_testi);
 
         // set content control value
 //        rName.setText(sm.getPreferences("nama_rental"));
-        rOwner.setText("Pemilik : " + sm.getPreferences("nama_pemilik"));
+        rOwner.setText(sm.getPreferences("nama_pemilik"));
         rAddress.setText(sm.getPreferences("alamat"));
         rPhone.setText(sm.getPreferences("telepon"));
         rEmail.setText(sm.getPreferences("email_rental"));

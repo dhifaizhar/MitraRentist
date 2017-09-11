@@ -2,11 +2,13 @@ package id.rentist.mitrarentist;
 
 import android.annotation.TargetApi;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -226,9 +228,108 @@ public class DriverDetailActivity extends AppCompatActivity {
             detIntent.putExtra("birthdate", bdate.getText());
             detIntent.putExtra("gender", gender.getText());
             startActivity(detIntent);
+        } else if (id == R.id.action_delete){
+            deleteDataDriver(tenant, aId);
         }
 
         return super.onOptionsItemSelected(item);
     }
 
+    private void deleteDataDriver(final String tenant, final String aId) {
+        AlertDialog.Builder showAlert = new AlertDialog.Builder(this);
+        showAlert.setMessage("Hapus pengemudi ini ?");
+        showAlert.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1) {
+                pDialog.setMessage("loading ...");
+                showProgress(true);
+                new putDeleteDriverTask(tenant, aId).execute();
+            }
+        });
+        showAlert.setNegativeButton("Tidak",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // close dialog
+            }
+        });
+
+        AlertDialog alertDialog = showAlert.create();
+        alertDialog.show();
+    }
+
+    private class putDeleteDriverTask  extends AsyncTask<String, String, String>{
+        private final String mTenant;
+        private final String idDriver;
+        private String errorMsg, responseDriver;
+
+        private putDeleteDriverTask(String tenant, String aId) {
+            mTenant = tenant;
+            idDriver = aId;
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+            StringRequest stringRequest = new StringRequest(Request.Method.PUT, AppConfig.URL_DELETE_DRIVER + mTenant, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    responseDriver = response;
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    errorMsg = error.toString();
+                    Log.e(TAG, "Form Driver Fetch Error : " + errorMsg);
+                    Toast.makeText(getApplicationContext(), "Connection error, try again.",
+                            Toast.LENGTH_LONG).show();
+                }
+            }){
+                @Override
+                protected Map<String, String> getParams() {
+                    // Posting parameters to url
+                    Map<String, String> keys = new HashMap<String, String>();
+                    keys.put("id_driver", idDriver);
+                    Log.e(TAG, "Delete Data : " + String.valueOf(keys));
+                    return keys;
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> keys = new HashMap<String, String>();
+                    keys.put("token", TOKEN);
+                    return keys;
+                }
+            };
+
+            try {
+                requestQueue.add(stringRequest);
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            return responseDriver;
+        }
+
+        @Override
+        protected void onPostExecute(String User) {
+            mDetailDriverTask = null;
+            showProgress(false);
+
+            if(User != null){
+                Toast.makeText(getApplicationContext(),"Data berhasil dihapus", Toast.LENGTH_LONG).show();
+                finish();
+            }else{
+                Toast.makeText(getApplicationContext(),"Gagal menghapus data", Toast.LENGTH_LONG).show();
+            }
+
+        }
+
+        @Override
+        protected void onCancelled() {
+            mDetailDriverTask = null;
+            showProgress(false);
+        }
+
+    }
 }
