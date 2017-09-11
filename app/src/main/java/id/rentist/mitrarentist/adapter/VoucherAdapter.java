@@ -35,7 +35,7 @@ public class VoucherAdapter extends RecyclerView.Adapter<VoucherAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(final ViewHolder viewHolder, int i) {
         final VoucherModul vou = mVoucher.get(i);
 
         viewHolder.title.setText(vou.getName());
@@ -61,6 +61,15 @@ public class VoucherAdapter extends RecyclerView.Adapter<VoucherAdapter.ViewHold
                 Intent iVou = new Intent(context, FormVoucherActivity.class);
                 iVou.putExtra("action","update");
                 iVou.putExtra("id_vou", vou.getId());
+                iVou.putExtra("start_date", viewHolder.startDate.getText());
+                iVou.putExtra("end_date", viewHolder.endDate.getText());
+                iVou.putExtra("name", vou.getName());
+                iVou.putExtra("code", vou.getCode());
+                iVou.putExtra("desc", vou.getDesc());
+                iVou.putExtra("type", vou.getType());
+                iVou.putExtra("category", vou.getAsCategory());
+                iVou.putExtra("nominal", vou.getNominal());
+                iVou.putExtra("percent", vou.getPercen());
                 iVou.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(iVou);
             }

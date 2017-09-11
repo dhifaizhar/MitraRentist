@@ -104,6 +104,7 @@ public class DateRangePickerActivity extends AppCompatActivity {
               Toast.makeText(DateRangePickerActivity.this, "Selected: " + rangeDate, LENGTH_SHORT).show();
 
               Intent iFormVou = new Intent(DateRangePickerActivity.this, FormVoucherActivity.class);
+              iFormVou.putExtra("action", "add");
               iFormVou.putExtra("range_date", rangeDate);
               iFormVou.putExtra("start_date", startDate);
               iFormVou.putExtra("end_date", endDate);

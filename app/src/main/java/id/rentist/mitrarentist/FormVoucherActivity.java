@@ -3,6 +3,7 @@ package id.rentist.mitrarentist;
 import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -39,10 +40,10 @@ public class FormVoucherActivity extends AppCompatActivity implements View.OnCli
     private Intent formVoucher;
 //    private CalendarPickerView calendar;
 
-    Integer id;
-    String tenant, vId, vType, vStartDate, vEndDate, nominalV, percentageV;
+    Integer id, category;
+    String tenant, vId, vType, vStartDate, vEndDate, nominalV, percentageV, rangeDate;
     Spinner vCategory;
-    Button btnGetDate,btnAddVoucher;
+    Button btnGetDate,btnSaveVoucher;
     CheckBox vTypeWeb, vTypeMobile;
     EditText vName, vDesc, vCode, vDate, vKuota, vNominal, vPercentage;
 
@@ -71,7 +72,7 @@ public class FormVoucherActivity extends AppCompatActivity implements View.OnCli
 
     private void controlContent() {
         //initialize view
-        btnAddVoucher=(Button)findViewById(R.id.btn_add);
+        btnSaveVoucher=(Button)findViewById(R.id.btn_add);
         btnGetDate=(Button)findViewById(R.id.btn_start_date);
         vName=(EditText)findViewById(R.id.vou_title);
         vCode=(EditText)findViewById(R.id.vou_code);
@@ -87,51 +88,58 @@ public class FormVoucherActivity extends AppCompatActivity implements View.OnCli
         // set content control value
         if(formVoucher.getStringExtra("action").equals("update")) {
             id = formVoucher.getIntExtra("id_vou", 0);
+            rangeDate = formVoucher.getStringExtra("start_date") + "s/d" + formVoucher.getStringExtra("end_date");
+//            category = formVoucher.getIntExtra("category",)
             vId = id.toString();
 
-            Log.e(TAG, "Data Voucher to update : " + formVoucher.getStringExtra("action") + "id_vou" + vId);
+            btnGetDate.setVisibility(View.GONE);
+            vDate.setEnabled(false);
+            vDate.setTextColor(Color.GRAY);
 
+            vDate.setText(rangeDate);
+            vName.setText(formVoucher.getStringExtra("name"));
+            vCode.setText(formVoucher.getStringExtra("code"));
+            vDesc.setText(formVoucher.getStringExtra("desc"));
+            vCategory.setTop(formVoucher.getIntExtra("category", 0));
+            vNominal.setText(formVoucher.getStringExtra("nominal"));
+            vPercentage.setText(formVoucher.getStringExtra("percent"));
+
+            Log.e(TAG, "Data Voucher to update : " + formVoucher.getStringExtra("action") + "id_vou: " + vId + ", Date: " + rangeDate);
+
+        } else if (formVoucher.getStringExtra("action").equals("add")) {
+            vId = null;
+            vDate.setText(formVoucher.getStringExtra("range_date"));
+            vStartDate = formVoucher.getStringExtra("start_date");
+            vEndDate = formVoucher.getStringExtra("end_date");
+
+            if(vTypeWeb.isChecked() && vTypeMobile.isChecked()){
+                vType = "both";
+            }else if(vTypeWeb.isChecked()){
+                vType = "web";
+            }else if(vTypeMobile.isChecked()){
+                vType = "mobile";
+            }
         }
-        vDate.setText(formVoucher.getStringExtra("range_date"));
-        vStartDate = formVoucher.getStringExtra("start_date");
-        vEndDate = formVoucher.getStringExtra("end_date");
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
-        if(vTypeWeb.isChecked() && vTypeMobile.isChecked()){
-            vType = "both";
-        }else if(vTypeWeb.isChecked()){
-            vType = "web";
-        }else if(vTypeMobile.isChecked()){
-            vType = "mobile";
-        }
-
-
-
-//        if(formVoucher.getStringExtra("action").equals("update")){
-//            aId = formVoucher.getStringExtra("id_user");
-//            Log.e(TAG, "Id Tenant Form User : " + aId);
-//            if(formVoucher.getStringExtra("role").equals("SuperAdmin")){
-//                role.setSelection(0);
-//            }else if(formVoucher.getStringExtra("role").equals("Operational")){
-//                role.setSelection(1);
-//            }else if(formVoucher.getStringExtra("role").equals("Executive")){
-//                role.setSelection(2);
-//            }
-//        }
 
         // set action
         btnGetDate.setOnClickListener(this);
-        btnAddVoucher.setOnClickListener(new View.OnClickListener() {
+        btnSaveVoucher.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addDataVoucher(tenant);
+                formVoucher(tenant, vId);
             }
         });
     }
 
-    private void addDataVoucher(String tenant) {
+    private void formVoucher(String tenant, String id) {
         pDialog.setMessage("loading ...");
         showProgress(true);
-        new postVoucherTask(tenant).execute();
+        if(formVoucher.getStringExtra("action").equals("add")){
+            new FormVoucherActivity.postVoucherTask(tenant).execute();
+        }else if(formVoucher.getStringExtra("action").equals("update")){
+            new FormVoucherActivity.putUpdateVoucherTask(tenant, id).execute();
+        }
     }
 
     private class postVoucherTask extends AsyncTask<String, String, String> {
@@ -233,13 +241,95 @@ public class FormVoucherActivity extends AppCompatActivity implements View.OnCli
         }
     }
 
+    private class putUpdateVoucherTask extends AsyncTask<String, String, String>{
+        private final String mTenant;
+        private final String idVoucher;
+        private String errorMsg, responseUser;
+
+        private putUpdateVoucherTask(String tenant, String id) {
+            mTenant = tenant;
+            idVoucher = id;
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            String URL = AppConfig.URL_UPDATE_VOUCHER + mTenant;
+            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+            StringRequest stringRequest = new StringRequest(Request.Method.PUT, URL, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    responseUser = response;
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    errorMsg = error.toString();
+                    Log.e(TAG, "Voucher Fetch Error : " + errorMsg);
+                    Toast.makeText(getApplicationContext(), "Connection error, try again.",
+                            Toast.LENGTH_LONG).show();
+                }
+            }){
+                @Override
+                protected Map<String, String> getParams() {
+                    // Posting parameters to url
+                    Map<String, String> keys = new HashMap<String, String>();
+                    keys.put("id_tenant", mTenant);
+                    keys.put("id_voucher", idVoucher);
+                    keys.put("voucher_name", vName.getText().toString());
+                    keys.put("voucher_code", vCode.getText().toString());
+                    keys.put("description", vDesc.getText().toString());
+                    keys.put("nominal", vNominal.getText().toString());
+                    keys.put("percentage", vPercentage.getText().toString());
+                    Log.e(TAG, "Key Body : " + keys.toString());
+                    return keys;
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> keys = new HashMap<String, String>();
+                    keys.put("token", TOKEN);
+                    return keys;
+                }
+            };
+
+            try {
+                requestQueue.add(stringRequest);
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            return responseUser;
+        }
+
+        @Override
+        protected void onPostExecute(String user) {
+            mFormVoucherTask = null;
+            showProgress(false);
+
+            if(user != null){
+                Toast.makeText(getApplicationContext(),"Sukses mengubah data.", Toast.LENGTH_LONG).show();
+                finish();
+            }else{
+                Toast.makeText(getApplicationContext(),"Gagal memuat data.", Toast.LENGTH_LONG).show();
+            }
+
+        }
+
+        @Override
+        protected void onCancelled() {
+            mFormVoucherTask = null;
+            showProgress(false);
+        }
+
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_delete_option, menu);
 
         return true;
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
