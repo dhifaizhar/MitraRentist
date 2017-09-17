@@ -22,6 +22,6 @@
     <color name="backgoundLighter">#eeeeee</color>
     <color name="colorGreen">#54cf46</color>
     <color name="colorGreenSoft">#9bd996</color>
-    <color name="colorGreenLight">#ff99cc00</color>
+    <color name="colorGreenLight">#99cc00</color>
 
 </resources>

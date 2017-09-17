@@ -10,9 +10,10 @@
         android:id="@+id/card_view_aset"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/xmin_padding"
+        android:layout_marginBottom="@dimen/min_padding"
         android:clickable="true"
         android:foreground="?selectableItemBackground"
+        android:padding="@dimen/xmin_padding"
         app:cardBackgroundColor="@color/colorWhite"
         app:cardElevation="1dp">
 
@@ -20,62 +21,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <!--<LinearLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:orientation="horizontal"-->
-                <!--android:padding="@dimen/xmin_padding"-->
-                <!--android:layout_margin="@dimen/xmin_padding"-->
-                <!--android:gravity="center"-->
-                <!--android:background="@drawable/radius_primary">-->
-                <TextView
-                    android:id="@+id/as_status_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/xmin_padding"
-                    android:text="Status : "
-                    android:textColor="@color/colorBlack87"
-                    android:textSize="@dimen/small_text" />
-
-                <TextView
-                    android:id="@+id/as_status"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/xmin_padding"
-                    android:layout_toEndOf="@+id/as_status_text"
-                    android:text="[ Aktif ]"
-                    android:textAlignment="center"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="@dimen/medium_text"
-                    android:textStyle="bold" />
-
-                <!--</LinearLayout>-->
-
-                <TextView
-                    android:id="@+id/as_rating_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/xmin_padding"
-                    android:layout_marginStart="@dimen/xmin_padding"
-                    android:layout_marginTop="@dimen/min_padding"
-                    android:layout_toLeftOf="@+id/tm_aset_rating"
-                    android:textSize="@dimen/small_text" />
-
-                <com.iarcuschin.simpleratingbar.SimpleRatingBar
-                    android:id="@+id/tm_aset_rating"
-                    style="@style/CustomRatingBar"
-                    android:layout_width="65dp"
-                    android:layout_height="25dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_margin="@dimen/xmin_padding"
-                    app:srb_rating="4.5" />
-
-            </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -87,12 +32,15 @@
                     android:layout_width="@dimen/thumb_width"
                     android:layout_height="@dimen/thumb_height"
                     android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginEnd="@dimen/xmin_padding"
-                    android:layout_marginStart="@dimen/xmin_padding"
-                    android:layout_marginTop="@dimen/xmin_padding"
+                    android:layout_alignParentTop="false"
+                    android:layout_centerHorizontal="false"
+                    android:layout_centerInParent="false"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/xmin_padding"
                     android:contentDescription="itemAset"
-                    android:foregroundGravity="center_horizontal|center_vertical" />
+                    android:foregroundGravity="center_horizontal|center_vertical"
+                    android:padding="@dimen/xmin_padding"
+                    app:srcCompat="@drawable/suv" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -100,140 +48,60 @@
                     android:layout_toEndOf="@+id/as_thumb_aset"
                     android:orientation="vertical">
 
-                    <RelativeLayout
-                        android:id="@+id/as_harga_sewa"
+                    <TextView
+                        android:id="@+id/as_mark_det"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:lines="2"
                         android:padding="@dimen/xmin_padding"
-                        tools:ignore="UselessParent">
+                        android:text="TextView"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        tools:text="SUZUKI ERTIGA" />
 
-                        <ImageView
-                            android:id="@+id/as_harga_thumb"
-                            android:layout_width="@dimen/thumb_prop_width"
-                            android:layout_height="@dimen/thumb_prop_height"
-                            android:layout_marginEnd="@dimen/min_padding"
-                            android:contentDescription="price"
-                            app:srcCompat="@drawable/ic_monetization_on_black_18dp" />
-
-                        <TextView
-                            android:id="@+id/as_harga_det"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_toEndOf="@+id/as_harga_thumb"
-                            android:textColor="@color/colorPrice"
-                            android:textStyle="bold" />
-
-                    </RelativeLayout>
+                    <TextView
+                        android:id="@+id/as_year_det"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@+id/as_harga_thumb"
+                        android:padding="@dimen/xmin_padding"
+                        android:textColor="@color/colorPrice"
+                        android:textSize="@dimen/medium_text"
+                        tools:text="2017" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        android:padding="@dimen/xmin_padding">
+                        android:orientation="horizontal">
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:text="Fitur : " />
-
-                        <GridLayout
-                            android:id="@+id/as_grid_fitur"
+                            android:id="@+id/as_subcat_det"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:columnCount="2"
-                            android:padding="@dimen/xmin_padding">
+                            android:layout_centerVertical="true"
+                            android:layout_weight="1"
+                            android:background="@color/colorPrimarySoft"
+                            android:padding="@dimen/xmin_padding"
+                            android:textAlignment="center"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/calendar_text_small"
+                            tools:text="Classic" />
 
-                            <RelativeLayout
-                                android:id="@+id/as_seat"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginRight="@dimen/min_padding">
+                        <TextView
+                            android:id="@+id/as_status_det"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@+id/as_status_text"
+                            android:layout_weight="1"
+                            android:background="@color/calendar_active_month_bg"
+                            android:padding="@dimen/xmin_padding"
+                            android:text="Aktif"
+                            android:textAlignment="center"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="@dimen/calendar_text_small"
+                            android:textStyle="bold" />
 
-                                <ImageView
-                                    android:id="@+id/as_seat_ico"
-                                    android:layout_width="@dimen/thumb_prop_width"
-                                    android:layout_height="@dimen/thumb_prop_height"
-                                    android:layout_marginEnd="@dimen/xmin_padding"
-                                    android:contentDescription="Kursi"
-                                    app:srcCompat="@drawable/ic_airline_seat_recline_normal_black_18dp" />
-
-                                <TextView
-                                    android:id="@+id/as_seat_det"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_toRightOf="@id/as_seat_ico"
-                                    android:text="0" />
-                            </RelativeLayout>
-
-                            <RelativeLayout
-                                android:id="@+id/as_trans"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginRight="@dimen/min_padding">
-
-                                <ImageView
-                                    android:id="@+id/as_trans_ico"
-                                    android:layout_width="@dimen/thumb_prop_width"
-                                    android:layout_height="@dimen/thumb_prop_height"
-                                    android:layout_marginEnd="@dimen/xmin_padding"
-                                    android:contentDescription="transmission"
-                                    app:srcCompat="@drawable/ic_settings_black_18dp" />
-
-                                <TextView
-                                    android:id="@+id/as_trans_det"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_toRightOf="@id/as_trans_ico"
-                                    android:text="Manual" />
-                            </RelativeLayout>
-
-                            <RelativeLayout
-                                android:id="@+id/as_ac"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginRight="@dimen/min_padding"
-                                android:layout_marginTop="@dimen/xmin_padding">
-
-                                <ImageView
-                                    android:id="@+id/as_ac_ico"
-                                    android:layout_width="@dimen/thumb_prop_width"
-                                    android:layout_height="@dimen/thumb_prop_height"
-                                    android:layout_marginEnd="@dimen/xmin_padding"
-                                    android:contentDescription="AC"
-                                    app:srcCompat="@drawable/ic_ac_unit_black_36dp" />
-
-                                <TextView
-                                    android:id="@+id/as_ac_det"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_toRightOf="@id/as_ac_ico"
-                                    android:text="" />
-                            </RelativeLayout>
-
-                            <RelativeLayout
-                                android:id="@+id/as_driver"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginRight="@dimen/min_padding"
-                                android:layout_marginTop="@dimen/xmin_padding">
-
-                                <ImageView
-                                    android:id="@+id/as_driver_ico"
-                                    android:layout_width="@dimen/thumb_prop_width"
-                                    android:layout_height="@dimen/thumb_prop_height"
-                                    android:layout_marginEnd="@dimen/xmin_padding"
-                                    android:contentDescription="price"
-                                    app:srcCompat="@drawable/ic_person_black_18dp" />
-
-                                <TextView
-                                    android:id="@+id/as_driver_det"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_toRightOf="@id/as_driver_ico"
-                                    android:text="" />
-                            </RelativeLayout>
-
-                        </GridLayout>
                     </LinearLayout>
 
 
@@ -245,17 +113,28 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorPrimaryTrans"
-                android:padding="@dimen/min_padding">
+                android:background="@color/colorPrimaryTrans">
+
+                <ImageButton
+                    android:id="@+id/btn_delete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:background="@android:color/holo_red_dark"
+                    android:padding="@dimen/xmin_padding"
+                    app:srcCompat="@drawable/ic_delete_forever_white_24dp" />
 
                 <TextView
-                    android:id="@+id/as_aset_type"
+                    android:id="@+id/as_aset_plat"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
-                    android:text="Aset Type"
-                    android:textColor="@color/colorWhite"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/xmin_padding"
 
+                    android:padding="@dimen/xmin_padding"
+                    android:text="PLAT NOMOR"
+                    android:textColor="@color/colorWhite"
                     android:textSize="@dimen/medium_text"
                     android:textStyle="bold" />
 

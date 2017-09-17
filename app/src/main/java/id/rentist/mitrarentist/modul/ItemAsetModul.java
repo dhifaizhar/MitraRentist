@@ -5,28 +5,22 @@ package id.rentist.mitrarentist.modul;
  */
 
 public class ItemAsetModul {
-    private int mId, mRatingIco, mThumbnail, mPriceIco, mFeatureIco;
-    private String mMerk, mType, mYear, mColor, mPlat, mFuel, mSeat, mEngCap, mStatus, mTitle, mRating, mPrice, mFeature, mTransm;
+    private int mId, mThumbnail, mPriceIco, mFeatureIco;
+    private String mMerk, mType, mYear, mColor, mPlat, mFuel, mSeat, mEngCap, mStatus, mMark, mSubCat, mPrice, mFeature, mTransm;
     private boolean mAirCon, mAirBag, mDriver;
 
-    public void setTitle(String mTitle) {
-        this.mTitle = mTitle;
+    public void setMark(String mMark) {
+        this.mMark = mMark;
     }
-    public String getTitle() {
-        return mTitle;
+    public String getMark() {
+        return mMark;
     }
 
-    public void setRating(String mRating) {
-        this.mRating = mRating;
+    public void setSubCat(String mSubCat) {
+        this.mSubCat = mSubCat;
     }
-    public String getRating() {
-        return mRating;
-    }
-    public void setRatingIco(int mRatingIco) {
-        this.mRatingIco = mRatingIco;
-    }
-    public int getRatingIco() {
-        return mRatingIco;
+    public String getSubCat() {
+        return mSubCat;
     }
 
     public void setThumbnail(int mThumbnail) {

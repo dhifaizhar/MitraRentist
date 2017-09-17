@@ -48,10 +48,10 @@ public class AsetListActivity extends AppCompatActivity {
     private List<ItemAsetModul> mAset = new ArrayList<>();
     private AsyncTask mAssetTask = null;
     private ProgressDialog pDialog;
-    private SessionManager sm;
-    private Intent iAset;
+    SessionManager sm;
+    Intent iAset;
 
-    String tenant, category;
+    String tenant, category, name_category;
 
     private static final String TAG = "AssetActivity";
     private static final String TOKEN = "secretissecret";
@@ -68,24 +68,15 @@ public class AsetListActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        setTitle("Aset " + iAset.getStringExtra("name_category"));
+        name_category = iAset.getStringExtra("name_category");
+        setTitle("Aset " + name_category);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         // action retrieve data aset
         category = iAset.getStringExtra("id_category");
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
-        //getAssetDataList(tenant);
-
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent iAddAset = new Intent(AsetActivity.this, FormAsetActivity.class);
-//                startActivity(iAddAset);
-//
-//            }
-//        });
+        getAssetDataList(tenant);
     }
 
     private void getAssetDataList(String tenant) {
@@ -152,12 +143,10 @@ public class AsetListActivity extends AppCompatActivity {
         protected void onPostExecute(String aset) {
             mAssetTask = null;
             showProgress(false);
-            String aName, aType, aPlat, aStatus, aSeat, aTransm, aAc, aDriver;
+            String aName, aType, aPlat, aYear, aStatus, aSubCat;
             Integer dataLength, aId;
 
             if (aset != null) {
-                Log.e(TAG, "Asset Result : " + aset);
-
                 try {
                     JSONArray jsonArray = new JSONArray(aset);
                     Log.e(TAG, "Asset : " + jsonArray);
@@ -171,41 +160,36 @@ public class AsetListActivity extends AppCompatActivity {
                             aName = jsonobject.getString("merk");
                             aType = jsonobject.getString("type");
                             aPlat = jsonobject.getString("license_plat");
+                            aYear = jsonobject.getString("year");
                             aStatus = jsonobject.getString("status");
-                            aSeat = jsonobject.getString("seat");
-                            aTransm = jsonobject.getString("transmission");
-                            aAc = jsonobject.getString("air_conditioner");
-                            aDriver = jsonobject.getString("driver_included");
-                            Log.e(TAG, "What Data : " + String.valueOf(jsonobject));
+                            aSubCat = jsonobject.getString("subcategory");
 
                             ItemAsetModul itemModul = new ItemAsetModul();
                             itemModul.setAssetId(aId);
-                            itemModul.setTitle(aName + " " + aType + " | " + aPlat);
+                            itemModul.setMark(aName + " " + aType);
+                            itemModul.setPlat(aPlat);
+                            itemModul.setSubCat(aSubCat);
                             itemModul.setThumbnail(R.drawable.mobil_1);
-                            itemModul.setRating("4/5");
-                            itemModul.setPrice("Rp " + (i*100000) + " /hari");
-                            itemModul.setStatus("[ " + aStatus + " ]");
-                            itemModul.setSeat(aSeat + " kursi");
-                            itemModul.setTransm(aTransm);
-                            itemModul.setAirCon(Boolean.parseBoolean(aAc));
-                            itemModul.setDriver(Boolean.parseBoolean(aDriver));
+                            itemModul.setYear(aYear);
+                            itemModul.setStatus(aStatus);
+                            Log.e(TAG, "What Data : " + String.valueOf(itemModul));
                             mAset.add(itemModul);
                         }
 
                         mRecyclerView = (RecyclerView) findViewById(R.id.as_recyclerView);
                         mLayoutManager = new LinearLayoutManager(getApplicationContext());
-                        mAdapter = new AsetAdapter(getApplicationContext(),mAset);
+                        mAdapter = new AsetAdapter(AsetListActivity.this,mAset,category);
 
                         mRecyclerView.setLayoutManager(mLayoutManager);
                         mRecyclerView.setAdapter(mAdapter);
 
                     }else{
-                        errorMsg = "Anda belum memiliki Aset Mobil";
+                        errorMsg = "Anda belum memiliki Aset " + name_category;
                         Toast.makeText(getApplicationContext(),errorMsg, Toast.LENGTH_LONG).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    errorMsg = "Anda belum memiliki Aset Mobil";
+                    errorMsg = "Anda belum memiliki Aset " + name_category;
                     Toast.makeText(getApplicationContext(),errorMsg, Toast.LENGTH_LONG).show();
                 }
             }

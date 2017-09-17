@@ -28,9 +28,9 @@ public class EditAsetAdapter extends RecyclerView.Adapter<EditAsetAdapter.ViewHo
         ItemAsetModul as;
 
         as = new ItemAsetModul();
-        as.setTitle("Daihatsu Jazz | DC 123 WOW");
+        //as.setTitle("Daihatsu Jazz | DC 123 WOW");
         as.setThumbnail(R.drawable.mobil_1);
-        as.setRating("4/5");
+        //as.setRating("4/5");
         as.setPrice("Rp 300.000 /hari");
 
         mAset.add(as);
@@ -48,7 +48,7 @@ public class EditAsetAdapter extends RecyclerView.Adapter<EditAsetAdapter.ViewHo
         ItemAsetModul as = mAset.get(i);
 
 //        simpan value dalam object
-        viewHolder.type.setText(as.getTitle());
+        //viewHolder.type.setText(as.getTitle());
 //        viewHolder.transmisi.setText(as.getTrans());
 //        viewHolder.platNo.setText(as.get());
 //        viewHolder.pintu.setText(as.getDoor());

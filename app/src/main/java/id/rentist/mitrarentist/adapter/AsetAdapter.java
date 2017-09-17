@@ -1,21 +1,40 @@
 package id.rentist.mitrarentist.adapter;
 
+import android.annotation.TargetApi;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Build;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import id.rentist.mitrarentist.DetailAsetActivity;
 import id.rentist.mitrarentist.R;
 import id.rentist.mitrarentist.modul.ItemAsetModul;
+import id.rentist.mitrarentist.tools.AppConfig;
 
 /**
  * Created by mdhif on 19/06/2017.
@@ -25,12 +44,20 @@ public class AsetAdapter extends RecyclerView.Adapter<AsetAdapter.ViewHolder> {
 
     private final List<ItemAsetModul> mAset;
     private Context context;
+    AlertDialog.Builder showAlert;
+    AlertDialog alertDialog;
+    ProgressDialog pDialog;
     private static final String TAG = "AssetAdapter";
+    private static final String TOKEN = "secretissecret";
+    String category;
 
-    public AsetAdapter(final Context context, final List<ItemAsetModul> mAset){
+    public AsetAdapter(final Context context, final List<ItemAsetModul> mAset, final String category){
         super();
         this.mAset = mAset;
         this.context = context;
+        this.category = category;
+        pDialog = new ProgressDialog(this.context);
+        pDialog.setCancelable(false);
     }
 
     @Override
@@ -46,55 +73,35 @@ public class AsetAdapter extends RecyclerView.Adapter<AsetAdapter.ViewHolder> {
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{
-        private TextView title, rating, price, seat, transmission, status, ac, driver;
+        private TextView mark, year, status, subcat, plat;
         private ImageView imgThumbnail;
+        private ImageButton deleteAsset;
         private CardView cardDetAset;
 
         public ViewHolder(View itemView){
             super(itemView);
-            title = (TextView) itemView.findViewById(R.id.as_aset_type);
+            mark = (TextView) itemView.findViewById(R.id.as_mark_det);
+            plat = (TextView) itemView.findViewById(R.id.as_aset_plat);
+            subcat = (TextView) itemView.findViewById(R.id.as_subcat_det);
             imgThumbnail = (ImageView) itemView.findViewById(R.id.as_thumb_aset);
-            rating = (TextView) itemView.findViewById(R.id.as_rating_text);
-            price = (TextView) itemView.findViewById(R.id.as_harga_det);
-            seat = (TextView) itemView.findViewById(R.id.as_seat_det);
-            transmission = (TextView) itemView.findViewById(R.id.as_trans_det);
-            status = (TextView) itemView.findViewById(R.id.as_status);
-            ac = (TextView) itemView.findViewById(R.id.as_ac_det);
-            driver = (TextView) itemView.findViewById(R.id.as_driver_det);
+            year = (TextView) itemView.findViewById(R.id.as_year_det);
+            status = (TextView) itemView.findViewById(R.id.as_status_det);
             cardDetAset = (CardView) itemView.findViewById(R.id.card_view_aset);
+            deleteAsset = (ImageButton) itemView.findViewById(R.id.btn_delete);
         }
     }
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i ){
         final ItemAsetModul as = mAset.get(i);
-        String ac, driver;
-        Integer id;
-
-        Log.e(TAG, String.format("Data Bind : %s", mAset));
 
 //        simpan value dalam object
-        viewHolder.title.setText(as.getTitle());
+        viewHolder.mark.setText(as.getMark());
         viewHolder.imgThumbnail.setImageResource(as.getThumbnail());
-        viewHolder.rating.setText(as.getRating());
-        viewHolder.price.setText(as.getPrice());
-        viewHolder.seat.setText(as.getSeat());
-        viewHolder.transmission.setText(as.getTransm());
+        viewHolder.year.setText(as.getYear());
         viewHolder.status.setText(as.getStatus());
-        if(as.isAirCon()){
-            ac = "AC - ya";
-            viewHolder.ac.setText(ac);
-        }else{
-            ac = "AC - tidak";
-            viewHolder.ac.setText(ac);
-        }
-        if(as.isDriver()){
-            driver = "driver - ya";
-            viewHolder.driver.setText(driver);
-        }else{
-            driver = "driver - tidak";
-            viewHolder.driver.setText(driver);
-        }
+        viewHolder.subcat.setText(as.getSubCat());
+        viewHolder.plat.setText(as.getPlat());
         viewHolder.cardDetAset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -104,5 +111,117 @@ public class AsetAdapter extends RecyclerView.Adapter<AsetAdapter.ViewHolder> {
                 context.startActivity(iAset);
             }
         });
+        viewHolder.deleteAsset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteAssetItem(as.getAssetId());
+            }
+        });
+    }
+
+    private void deleteAssetItem(final int id) {
+        showAlert = new AlertDialog.Builder(context);
+        showAlert.setMessage("Hapus aset ini ?");
+        showAlert.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1) {
+                pDialog.setMessage("loading ...");
+                showProgress(true);
+                new deleteAssetTask(String.valueOf(id)).execute();
+            }
+        });
+        showAlert.setNegativeButton("Tidak",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // close dialog
+            }
+        });
+
+        alertDialog = showAlert.create();
+        alertDialog.show();
+    }
+
+    private class deleteAssetTask  extends AsyncTask<String, String, String> {
+        private final String mAsset;
+        private String errorMsg, responseAsset;
+
+        private deleteAssetTask(String asset) {
+            mAsset = asset;
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            RequestQueue requestQueue = Volley.newRequestQueue(context);
+            StringRequest stringRequest = new StringRequest(Request.Method.PUT, AppConfig.URL_DELETE_ASSET + category, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    responseAsset = response;
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    errorMsg = error.toString();
+                    Log.e(TAG, "Asset Fetch Error : " + errorMsg);
+                    Toast.makeText(context, "Connection error, try again.",
+                            Toast.LENGTH_LONG).show();
+                }
+            }){
+                @Override
+                protected Map<String, String> getParams() {
+                    // Posting parameters to url
+                    Map<String, String> keys = new HashMap<String, String>();
+                    keys.put("id_item", mAsset);
+                    Log.e(TAG, "Delete Data : " + String.valueOf(keys));
+                    return keys;
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> keys = new HashMap<String, String>();
+                    keys.put("token", TOKEN);
+                    return keys;
+                }
+            };
+
+            try {
+                requestQueue.add(stringRequest);
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            return responseAsset;
+        }
+
+        @Override
+        protected void onPostExecute(String User) {
+            showProgress(false);
+
+            if(User != null){
+                Toast.makeText(context,"Data berhasil dihapus", Toast.LENGTH_LONG).show();
+            }else{
+                Toast.makeText(context,"Gagal menghapus data", Toast.LENGTH_LONG).show();
+            }
+
+        }
+
+        @Override
+        protected void onCancelled() {
+            showProgress(false);
+        }
+
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+    private void showProgress(final boolean show) {
+        if(show){
+            if (!pDialog.isShowing()){
+                pDialog.show();
+            }
+        }else{
+            if (pDialog.isShowing()){
+                pDialog.dismiss();
+            }
+        }
     }
 }

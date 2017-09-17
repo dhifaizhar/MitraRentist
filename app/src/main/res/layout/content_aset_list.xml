@@ -14,7 +14,7 @@
         android:id="@+id/as_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/xmin_padding">
+        android:padding="@dimen/min_padding">
     </android.support.v7.widget.RecyclerView>
 
 </android.support.constraint.ConstraintLayout>
