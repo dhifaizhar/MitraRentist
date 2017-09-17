@@ -128,7 +128,7 @@ public class GridAsetAdapter extends RecyclerView.Adapter<GridAsetAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i ){
         ItemCategoryModul ac = itemCategory.get(i);
-        final String idc = String.valueOf(ac.getId());
+        final String idc = String.valueOf(ac.getId()), cname = ac.getTitle();
 
 //        simpan value dalam object
         viewHolder.title.setText(ac.getTitle());
@@ -138,6 +138,7 @@ public class GridAsetAdapter extends RecyclerView.Adapter<GridAsetAdapter.ViewHo
             public void onClick(View v) {
                 Intent iAset = new Intent(context, AsetListActivity.class);
                 iAset.putExtra("id_category", idc);
+                iAset.putExtra("name_category", cname);
                 iAset.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(iAset);
             }

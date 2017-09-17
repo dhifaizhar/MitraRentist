@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="id.rentist.mitrarentist.AsetActivity"
+    tools:context="id.rentist.mitrarentist.AsetListActivity"
     android:background="@color/colorBackgound"
     tools:showIn="@layout/activity_aset">
 

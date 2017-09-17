@@ -11,6 +11,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -66,14 +68,14 @@ public class AsetListActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        setTitle("Aset Mobil");
+        setTitle("Aset " + iAset.getStringExtra("name_category"));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         // action retrieve data aset
         category = iAset.getStringExtra("id_category");
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
-        getAssetDataList(tenant);
+        //getAssetDataList(tenant);
 
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
@@ -90,25 +92,6 @@ public class AsetListActivity extends AppCompatActivity {
         pDialog.setMessage("loading asset...");
         showProgress(true);
         new getAssetListTask(tenant).execute();
-    }
-
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    private void showProgress(final boolean show) {
-        if(show){
-            if (!pDialog.isShowing()){
-                pDialog.show();
-            }
-        }else{
-            if (pDialog.isShowing()){
-                pDialog.dismiss();
-            }
-        }
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
     }
 
     private class getAssetListTask extends AsyncTask<String, String, String> {
@@ -171,7 +154,6 @@ public class AsetListActivity extends AppCompatActivity {
             showProgress(false);
             String aName, aType, aPlat, aStatus, aSeat, aTransm, aAc, aDriver;
             Integer dataLength, aId;
-
 
             if (aset != null) {
                 Log.e(TAG, "Asset Result : " + aset);
@@ -482,5 +464,45 @@ public class AsetListActivity extends AppCompatActivity {
             mAssetTask = null;
             showProgress(false);
         }
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+    private void showProgress(final boolean show) {
+        if(show){
+            if (!pDialog.isShowing()){
+                pDialog.show();
+            }
+        }else{
+            if (pDialog.isShowing()){
+                pDialog.dismiss();
+            }
+        }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_add_option, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_add) {
+            Intent iAddAset = new Intent(AsetListActivity.this, FormAsetActivity.class);
+            iAddAset.putExtra("id_category", category);
+            iAddAset.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(iAddAset);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
