@@ -20,6 +20,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_aset" />
+    <include layout="@layout/content_aset_list" />
 
 </android.support.design.widget.CoordinatorLayout>

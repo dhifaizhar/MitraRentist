@@ -10,9 +10,10 @@ public class AppConfig {
     public static String URL_ACTIVATION = SERVER + "tenant/active/";
     public static String URL_DASHBOARD_DATA = SERVER + "dashboard/";
 
-    public static  String URL_LIST_MOBIL = SERVER + "list/item/1/";
+    public static  String URL_LIST_ASSET = SERVER + "list/item/";
     public static  String URL_ADD_MOBIL = SERVER + "item/mobil/";
     public static  String URL_EDIT_STATUS_MOBIL = SERVER + "item/status/1/";
+    public static  String URL_LIST_MOBIL = SERVER + "list/item/1/";
     public static  String URL_LIST_MOTOR = SERVER + "list/item/2/";
     public static  String URL_LIST_YACHT = SERVER + "list/item/3/";
 
