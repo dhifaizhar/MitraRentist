@@ -107,6 +107,15 @@ public class AsetAdapter extends RecyclerView.Adapter<AsetAdapter.ViewHolder> {
             public void onClick(View v) {
                 Intent iAset = new Intent(context, DetailAsetActivity.class);
                 iAset.putExtra("id_asset", as.getAssetId());
+                iAset.putExtra("img_thumb", as.getThumbnail());
+                iAset.putExtra("mark", as.getMark());
+                iAset.putExtra("merk", as.getMerk());
+                iAset.putExtra("type", as.getType());
+                iAset.putExtra("year", as.getYear());
+                iAset.putExtra("plat", as.getPlat());
+                iAset.putExtra("cat", category);
+                iAset.putExtra("subcat", as.getSubCat());
+                iAset.putExtra("status", as.getStatus());
                 iAset.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(iAset);
             }

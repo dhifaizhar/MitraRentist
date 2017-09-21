@@ -7,11 +7,12 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CalendarView;
 import android.widget.ImageView;
@@ -42,10 +43,11 @@ public class DetailAsetActivity extends AppCompatActivity {
     private AlertDialog alertDialog;
     private Intent detIntent;
     private CalendarView simpleCalendarView;
+    Intent iAsetEdit;
 
     Integer aId;
-    String changeStatus = "active";
-    TextView rating, price, status;
+    String changeStatus = "active", cat;
+    TextView mark, year, status, subcat, plat;
     ImageView imgThumbnail;
 
     private static final String TAG = "DetailAssetActivity";
@@ -54,9 +56,9 @@ public class DetailAsetActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_asset_detail);
-        setTitle("Daihatsu Jazz | DC 123 WOW");
-
         detIntent = getIntent();
+        setTitle(detIntent.getStringExtra("plat"));
+
         sm = new SessionManager(getApplicationContext());
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
@@ -70,28 +72,27 @@ public class DetailAsetActivity extends AppCompatActivity {
         simpleCalendarView.setFirstDayOfWeek(2);
 
         controlContent();
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_det_aset);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent iAsetEdit = new Intent(DetailAsetActivity.this, FormEditAsetActivity.class);
-                startActivity(iAsetEdit);
-            }
-        });
     }
 
     private void controlContent() {
         //initialize view
-        imgThumbnail = (ImageView)findViewById(R.id.det_as_thumb_aset);
-        rating = (TextView)findViewById(R.id.det_as_rating_text);
-        price = (TextView)findViewById(R.id.det_as_harga_det);
-        status = (TextView)findViewById(R.id.det_status_aset);
+        imgThumbnail = (ImageView)findViewById(R.id.as_thumb_aset);
+        mark = (TextView) findViewById(R.id.as_mark_det);
+        subcat = (TextView) findViewById(R.id.as_subcat_det);
+        year = (TextView) findViewById(R.id.as_year_det);
+        status = (TextView) findViewById(R.id.as_status_det);
 
         // set content control value
-        imgThumbnail.setImageResource(R.drawable.mobil_1);
-        rating.setText("4/5");
-        price.setText("Rp 300.000 /hari");
+        cat = detIntent.getStringExtra("cat");
+        if(cat.equals("1")){
+            imgThumbnail.setImageResource(R.drawable.car_avanza);
+        }else if(cat.equals("2")){
+            imgThumbnail.setImageResource(R.drawable.motorcycle_cbr);
+        }
+        mark.setText(detIntent.getStringExtra("mark"));
+        subcat.setText(detIntent.getStringExtra("subcat"));
+        year.setText(detIntent.getStringExtra("year"));
+        status.setText(detIntent.getStringExtra("status"));
         aId = detIntent.getIntExtra("id_asset", 0);
         status.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -221,5 +222,44 @@ public class DetailAsetActivity extends AppCompatActivity {
         onBackPressed();
         this.finish();
         return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_edit_option, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_edit) {
+            if(cat.equals("1")){
+                iAsetEdit = new Intent(DetailAsetActivity.this, FormCarAsetActivity.class);
+                iAsetEdit.putExtra("action", "update");
+                iAsetEdit.putExtra("id_asset", aId);
+                iAsetEdit.putExtra("merk", detIntent.getStringExtra("merk"));
+                iAsetEdit.putExtra("type", detIntent.getStringExtra("type"));
+                iAsetEdit.putExtra("year", detIntent.getStringExtra("year"));
+                iAsetEdit.putExtra("plat", detIntent.getStringExtra("plat"));
+                iAsetEdit.putExtra("cat", cat);
+                startActivity(iAsetEdit);
+            }else if(cat.equals("2")){
+                iAsetEdit = new Intent(DetailAsetActivity.this, FormMotorcycleAsetActivity.class);
+                iAsetEdit.putExtra("action", "update");
+                iAsetEdit.putExtra("id_asset", aId);
+                iAsetEdit.putExtra("merk", detIntent.getStringExtra("merk"));
+                iAsetEdit.putExtra("type", detIntent.getStringExtra("type"));
+                iAsetEdit.putExtra("year", detIntent.getStringExtra("year"));
+                iAsetEdit.putExtra("plat", detIntent.getStringExtra("plat"));
+                iAsetEdit.putExtra("cat", cat);
+                startActivity(iAsetEdit);
+            }
+        }else if(id == R.id.action_delete){
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

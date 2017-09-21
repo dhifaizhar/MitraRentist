@@ -52,7 +52,7 @@
                         android:id="@+id/as_mark_det"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
+                        android:gravity="bottom"
                         android:lines="2"
                         android:padding="@dimen/xmin_padding"
                         android:text="TextView"

@@ -137,7 +137,10 @@
             android:name=".FormDriverActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".FormAsetActivity"
+            android:name=".FormCarAsetActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".FormMotorcycleAsetActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".OnBoardActivity"
