@@ -32,7 +32,7 @@ import java.util.Map;
 import id.rentist.mitrarentist.tools.AppConfig;
 import id.rentist.mitrarentist.tools.SessionManager;
 
-public class FormAddKebijakanActivity extends AppCompatActivity {
+public class FormKebijakanActivity extends AppCompatActivity {
     private AsyncTask mPolicyTask = null;
     private ProgressDialog pDialog;
     private SessionManager sm;
@@ -94,9 +94,9 @@ public class FormAddKebijakanActivity extends AppCompatActivity {
         pDialog.setMessage("loading ...");
         showProgress(true);
         if(formKebijakan.getStringExtra("action").equals("add")){
-            new FormAddKebijakanActivity.postPolicyTask(tenant).execute();
+            new FormKebijakanActivity.postPolicyTask(tenant).execute();
         }else if(formKebijakan.getStringExtra("action").equals("update")){
-            new FormAddKebijakanActivity.putUpdateKebijakanTask(tenant, id).execute();
+            new FormKebijakanActivity.putUpdateKebijakanTask(tenant, id).execute();
         }
     }
 
@@ -178,7 +178,7 @@ public class FormAddKebijakanActivity extends AppCompatActivity {
             showProgress(false);
 
             if(policy != null){
-//                Intent iPolicy = new Intent(FormAddKebijakanActivity.this, KebijakanActivity.class);
+//                Intent iPolicy = new Intent(FormKebijakanActivity.this, KebijakanActivity.class);
 //                startActivity(iPolicy);
                 Toast.makeText(getApplicationContext(),"Data sukses disimpan", Toast.LENGTH_LONG).show();
                 finish();
@@ -381,7 +381,7 @@ public class FormAddKebijakanActivity extends AppCompatActivity {
             public void onClick(DialogInterface arg0, int arg1) {
                 pDialog.setMessage("loading ...");
                 showProgress(true);
-                new FormAddKebijakanActivity.putDeletePolicyTask(tenant, id).execute();
+                new FormKebijakanActivity.putDeletePolicyTask(tenant, id).execute();
             }
         });
         showAlert.setNegativeButton("Tidak",new DialogInterface.OnClickListener() {

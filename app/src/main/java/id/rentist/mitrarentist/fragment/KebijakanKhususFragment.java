@@ -34,7 +34,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import id.rentist.mitrarentist.FormAddKebijakanActivity;
+import id.rentist.mitrarentist.FormKebijakanActivity;
 import id.rentist.mitrarentist.R;
 import id.rentist.mitrarentist.adapter.KebijakanKhususAdapter;
 import id.rentist.mitrarentist.modul.KebijakanModul;
@@ -87,7 +87,7 @@ public class KebijakanKhususFragment extends Fragment {
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent iAddKebijakan = new Intent(v.getContext(), FormAddKebijakanActivity.class);
+                Intent iAddKebijakan = new Intent(v.getContext(), FormKebijakanActivity.class);
                 v.getContext().startActivity(iAddKebijakan);
             }
         });

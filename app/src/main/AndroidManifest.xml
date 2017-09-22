@@ -106,7 +106,7 @@
             android:name=".TransDetailActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".FormAddKebijakanActivity"
+            android:name=".FormKebijakanActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".VoucherActivity"

@@ -14,8 +14,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import id.rentist.mitrarentist.FormAddKebijakanActivity;
-import id.rentist.mitrarentist.FormVoucherActivity;
+import id.rentist.mitrarentist.FormKebijakanActivity;
 import id.rentist.mitrarentist.R;
 import id.rentist.mitrarentist.modul.KebijakanModul;
 
@@ -47,7 +46,7 @@ public class KebijakanKhususAdapter extends RecyclerView.Adapter<KebijakanKhusus
         viewHolder.btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(context, FormAddKebijakanActivity.class);
+                Intent i = new Intent(context, FormKebijakanActivity.class);
                 i.putExtra("action","update");
                 i.putExtra("id", kbjm.getId());
                 i.putExtra("title", kbjm.getTitle());
