@@ -5,8 +5,17 @@ package id.rentist.mitrarentist.modul;
  */
 
 public class KebijakanModul {
+    private int mId;
+
     private String mTitle;
     private String mDesc;
+
+    public int getId() {
+        return mId;
+    }
+    public void setId(int mId) {
+        this.mId = mId;
+    }
 
     public String getTitle() {
         return mTitle;

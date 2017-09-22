@@ -68,20 +68,35 @@
                 >
 
                 <View
+                    android:id="@+id/line"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@android:color/darker_gray"/>
 
                 <TextView
+                    android:id="@+id/kbj_edit"
+                    android:layout_below="@+id/kbj_desc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/xmin_padding"
+                    android:text="Ubah"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="@dimen/small_text"
+                    android:clickable="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginBottom="@dimen/xmin_padding"
+                    />
+
+                <TextView
                     android:id="@+id/kbj_desc"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/min_padding"
+                    android:layout_marginTop="@dimen/xmin_padding"
                     android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
                     android:text="Deskripsi"
                     android:maxLines="5"
                     android:textSize="@dimen/small_text" />
+
 
             </RelativeLayout>
         </LinearLayout>

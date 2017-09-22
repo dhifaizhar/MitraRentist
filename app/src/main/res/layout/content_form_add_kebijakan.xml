@@ -61,7 +61,7 @@
         android:background="@color/colorPrimaryDark"
         android:textColor="@color/colorWhite"
         android:textSize="@dimen/medium_text"
-        android:text="Tambah"
+        android:text="Simpan"
         android:layout_margin="0dp"
         android:padding="0dp" />
 

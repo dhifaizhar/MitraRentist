@@ -28,6 +28,8 @@ public class AppConfig {
 
     public static  String URL_ONGOING_RENT = SERVER + "order/history/";
     public static  String URL_ADD_POLICY = SERVER + "kebijakan/";
+    public static  String URL_UPDATE_POLICY = SERVER + "update/kebijakan/";
+    public static  String URL_DELETE_POLICY = SERVER + "delete/kebijakan/";
 
     public static  String URL_LIST_VOUCHER = SERVER + "voucher/list/";
     public static  String URL_ADD_VOUCHER = SERVER + "tenant/voucher/";

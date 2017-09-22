@@ -3,6 +3,7 @@ package id.rentist.mitrarentist.adapter;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import id.rentist.mitrarentist.FormAddKebijakanActivity;
+import id.rentist.mitrarentist.FormVoucherActivity;
 import id.rentist.mitrarentist.R;
 import id.rentist.mitrarentist.modul.KebijakanModul;
 
@@ -37,9 +40,23 @@ public class KebijakanKhususAdapter extends RecyclerView.Adapter<KebijakanKhusus
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
-        KebijakanModul kbjm = mKhusus.get(i);
+        final KebijakanModul kbjm = mKhusus.get(i);
         viewHolder.title.setText(kbjm.getTitle());
         viewHolder.desc.setText(kbjm.getDesc());
+
+        viewHolder.btnEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(context, FormAddKebijakanActivity.class);
+                i.putExtra("action","update");
+                i.putExtra("id", kbjm.getId());
+                i.putExtra("title", kbjm.getTitle());
+                i.putExtra("desc", kbjm.getDesc());
+
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(i);
+            }
+        });
     }
 
     @Override
@@ -48,7 +65,7 @@ public class KebijakanKhususAdapter extends RecyclerView.Adapter<KebijakanKhusus
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView title, desc;
+        private TextView title, desc, btnEdit;
         private ImageView btn_expand;
         private RelativeLayout mItemExpand, mItemDescription;
 
@@ -59,6 +76,7 @@ public class KebijakanKhususAdapter extends RecyclerView.Adapter<KebijakanKhusus
             btn_expand = (ImageView) itemView.findViewById(R.id.expandable_toggle_button);
             mItemExpand = (RelativeLayout) itemView.findViewById(R.id.expand);
             mItemDescription = (RelativeLayout) itemView.findViewById(R.id.expandable);
+            btnEdit = (TextView) itemView.findViewById(R.id.kbj_edit);
 
             mItemExpand.setOnClickListener(new View.OnClickListener(){
                 @Override

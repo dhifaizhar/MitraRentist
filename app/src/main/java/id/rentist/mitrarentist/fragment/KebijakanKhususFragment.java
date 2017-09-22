@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -44,6 +45,7 @@ public class KebijakanKhususFragment extends Fragment {
     RecyclerView mRecyclerView;
     RecyclerView.LayoutManager mLayoutManager;
     RecyclerView.Adapter mAdapter;
+    SwipeRefreshLayout mSwipeRefreshLayout;
     FloatingActionButton mFab;
     private List<KebijakanModul> mKebijakan;
     private AsyncTask mKebijakanTask = null;
@@ -66,6 +68,16 @@ public class KebijakanKhususFragment extends Fragment {
         sm = new SessionManager(getActivity());
         pDialog = new ProgressDialog(getActivity());
         pDialog.setCancelable(false);
+
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mKebijakan.clear();
+                getKebijikanList(tenant);
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        });
 
         // action retrieve data kebijakan
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));

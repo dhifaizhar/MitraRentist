@@ -329,7 +329,10 @@ public class FormVoucherActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_delete_option, menu);
+
+        if(formVoucher.getStringExtra("action").equals("update")) {
+            getMenuInflater().inflate(R.menu.menu_delete_option, menu);
+        }
 
         return true;
     }
