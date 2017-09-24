@@ -210,7 +210,7 @@ public class DriverDetailActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_edit_option, menu);
+        getMenuInflater().inflate(R.menu.menu_edit_delete_option, menu);
         return true;
     }
 

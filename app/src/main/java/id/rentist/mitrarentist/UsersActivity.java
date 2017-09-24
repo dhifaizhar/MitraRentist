@@ -6,14 +6,14 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -82,16 +82,6 @@ public class UsersActivity extends AppCompatActivity {
                 mSwipeRefreshLayout.setRefreshing(false);
             }
         });
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                iUserAdd = new Intent(UsersActivity.this, FormUserActivity.class);
-                iUserAdd.putExtra("action","add");
-                startActivity(iUserAdd);
-            }
-        });
     }
 
     private void getUserDataList(String tenant) {
@@ -117,6 +107,26 @@ public class UsersActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_add_option, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_add) {
+            iUserAdd = new Intent(UsersActivity.this, FormUserActivity.class);
+            iUserAdd.putExtra("action","add");
+            startActivity(iUserAdd);
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private class getUserListTask extends AsyncTask<String, String, String> {

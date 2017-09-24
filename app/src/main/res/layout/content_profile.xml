@@ -17,7 +17,6 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/btn_edit_profil"
             android:paddingBottom="@dimen/min_padding">
 
             <LinearLayout
@@ -238,16 +237,6 @@
 
             </LinearLayout>
         </ScrollView>
-
-        <Button
-            android:id="@+id/btn_edit_profil"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/btn_medium_height"
-            android:layout_alignParentBottom="true"
-            android:background="@android:color/holo_green_light"
-            android:text="Ubah Profil"
-            android:textColor="@color/colorWhite"
-            android:textSize="@dimen/medium_text" />
 
     </RelativeLayout>
 

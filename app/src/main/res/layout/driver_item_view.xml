@@ -7,14 +7,14 @@
     android:layout_height="wrap_content">
 
     <android.support.v7.widget.CardView
+        android:id="@+id/card_view_driver"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/card_view_driver"
-        android:layout_marginBottom="@dimen/xmin_padding"
-        app:cardBackgroundColor="@color/colorWhite"
-        app:cardElevation="1dp"
+        android:layout_marginBottom="@dimen/min_padding"
+        android:clickable="true"
         android:foreground="?selectableItemBackground"
-        android:clickable="true">
+        app:cardBackgroundColor="@color/colorWhite"
+        app:cardElevation="1dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -24,7 +24,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="@dimen/xmin_padding">
+                android:padding="@dimen/min_padding">
 
                 <ImageView
                     android:id="@+id/dr_thumb"
@@ -43,9 +43,9 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:layout_centerVertical="true"
-                    android:layout_toEndOf="@+id/dr_thumb">
+                    android:layout_toEndOf="@+id/dr_thumb"
+                    android:orientation="vertical">
 
                     <RelativeLayout
                         android:id="@+id/dr_nama_driver"
@@ -54,42 +54,14 @@
                         android:padding="@dimen/min_padding"
                         tools:ignore="UselessParent">
 
-                        <ImageView
-                            android:id="@+id/dr_nama_ico"
-                            android:layout_width="@dimen/thumb_prop_width"
-                            android:layout_height="@dimen/thumb_prop_height"
-                            android:layout_marginEnd="@dimen/min_padding"
-                            android:contentDescription="price"
-                            app:srcCompat="@drawable/ic_person_outline_black_18dp" />
-
                         <TextView
                             android:id="@+id/dr_nama_info"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_toEndOf="@+id/dr_nama_ico" />
-
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:id="@+id/dr_sim_driver"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="@dimen/min_padding"
-                        tools:ignore="UselessParent">
-
-                        <ImageView
-                            android:id="@+id/dr_sim_ico"
-                            android:layout_width="@dimen/thumb_prop_width"
-                            android:layout_height="@dimen/thumb_prop_height"
-                            android:layout_marginEnd="@dimen/min_padding"
-                            android:contentDescription="phone"
-                            app:srcCompat="@drawable/ic_contact_mail_black_18dp" />
-
-                        <TextView
-                            android:id="@+id/dr_sim_info"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_toEndOf="@+id/dr_sim_ico" />
+                            android:text="Nama"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/medium_text"
+                            android:textStyle="bold" />
 
                     </RelativeLayout>
 

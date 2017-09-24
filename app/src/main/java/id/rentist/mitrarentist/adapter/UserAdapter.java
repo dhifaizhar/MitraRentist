@@ -52,7 +52,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> im
         }else if(user.getRole().equals("Executive")){
             viewHolder.role.setBackgroundColor(0xff33b5e5);
         }
-        viewHolder.phone.setText(user.getPhone());
         viewHolder.cardViewUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,7 +87,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> im
             name = (TextView) itemView.findViewById(R.id.user_name);
             role = (TextView) itemView.findViewById(R.id.user_role);
 //            email = (TextView) itemView.findViewById(R.id.use);
-            phone = (TextView) itemView.findViewById(R.id.user_phone);
             cardViewUser = (CardView) itemView.findViewById(R.id.card_view_user);
 
 

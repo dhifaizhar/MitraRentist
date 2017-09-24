@@ -258,6 +258,7 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/xmin_padding"
                         android:background="@color/colorPrimary"
                         android:padding="@dimen/min_padding">
 
@@ -275,55 +276,92 @@
 
                     </RelativeLayout>
 
-                    <EditText
-                        android:id="@+id/as_fuel"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:hint="Bahan Bakar"
-                        android:inputType="textPersonName"
-                        android:padding="@dimen/min_padding"
-                        android:text="PERTAMAX" />
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="@dimen/xmin_padding"
+                        android:orientation="vertical"
+                        android:padding="@dimen/xmin_padding">
+
+                        <TextView
+                            android:id="@+id/textView31"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Bahan Bakar"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="12sp" />
+
+                        <EditText
+                            android:id="@+id/as_fuel"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorNearWhite"
+                            android:ems="10"
+                            android:hint="Bahan Bakar"
+                            android:inputType="textPersonName"
+                            android:padding="@dimen/min_padding"
+                            android:text="PERTAMAX" />
+                    </LinearLayout>
 
 
-                    <RadioGroup
-                        android:id="@+id/transmission_group"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/min_padding"
-                        android:layout_marginTop="@dimen/med_padding"
-                        android:checkedButton="@+id/r_manual"
-                        android:orientation="horizontal">
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="@dimen/xmin_padding"
+                        android:orientation="vertical"
+                        android:padding="@dimen/xmin_padding">
 
-                        <RadioButton
-                            android:id="@+id/r_manual"
-                            android:layout_width="wrap_content"
+                        <TextView
+                            android:id="@+id/textView35"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp"
-                            android:buttonTint="@color/colorPrimary"
-                            android:checked="true"
-                            android:contextClickable="false"
-                            android:text="manual" />
+                            android:text="Transmisi"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="12sp" />
 
-                        <RadioButton
-                            android:id="@+id/r_automatic"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:buttonTint="@color/colorPrimary"
-                            android:text="automatic" />
+                        <RadioGroup
+                            android:id="@+id/transmission_group"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="@dimen/xmin_padding"
+                            android:checkedButton="@+id/r_manual"
+                            android:orientation="horizontal"
+                            android:padding="@dimen/xmin_padding">
 
-                    </RadioGroup>
+                            <RadioButton
+                                android:id="@+id/r_manual"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="10dp"
+                                android:buttonTint="@color/colorPrimary"
+                                android:checked="true"
+                                android:contextClickable="false"
+                                android:text="manual" />
+
+                            <RadioButton
+                                android:id="@+id/r_automatic"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:buttonTint="@color/colorPrimary"
+                                android:text="automatic" />
+
+                        </RadioGroup>
+                    </LinearLayout>
 
                     <CheckBox
                         android:id="@+id/as_ck_driver"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/xmin_padding"
                         android:layout_weight="1"
+                        android:padding="@dimen/xmin_padding"
                         android:text="Pengemudi" />
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/xmin_padding"
+                        android:padding="@dimen/xmin_padding">
 
                         <CheckBox
                             android:id="@+id/as_ck_assurance"
@@ -343,6 +381,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignBottom="@id/as_ck_assurance"
                             android:layout_toRightOf="@+id/as_ck_assurance"
+                            android:background="@color/colorNearWhite"
                             android:ems="10"
                             android:hint="Harga Asuransi"
                             android:inputType="number"
@@ -382,6 +421,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/xmin_padding"
                     android:gravity="center_horizontal"
                     android:orientation="vertical"
                     android:padding="@dimen/xmin_padding">

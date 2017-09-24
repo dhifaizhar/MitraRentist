@@ -90,9 +90,6 @@
             android:parentActivityName=".ProfileActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".FormEditAsetActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".WithdrawalActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

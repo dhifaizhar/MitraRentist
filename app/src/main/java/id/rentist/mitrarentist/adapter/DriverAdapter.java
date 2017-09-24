@@ -58,7 +58,6 @@ public class DriverAdapter extends RecyclerView.Adapter<DriverAdapter.ViewHolder
             super(itemView);
             nama = (TextView) itemView.findViewById(R.id.dr_nama_info);
             imgThumbnail = (ImageView) itemView.findViewById(R.id.dr_thumb);
-            sim = (TextView) itemView.findViewById(R.id.dr_sim_info);
             cardDetAset = (CardView) itemView.findViewById(R.id.card_view_driver);
         }
     }
@@ -69,7 +68,6 @@ public class DriverAdapter extends RecyclerView.Adapter<DriverAdapter.ViewHolder
 
 //        simpan value dalam object
         viewHolder.nama.setText(driver.getName());
-        viewHolder.sim.setText(driver.getSIM());
         viewHolder.imgThumbnail.setImageResource(driver.getThumbnail());
         viewHolder.cardDetAset.setOnClickListener(new View.OnClickListener() {
             @Override

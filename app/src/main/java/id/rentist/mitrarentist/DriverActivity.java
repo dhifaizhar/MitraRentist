@@ -6,14 +6,14 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -47,6 +47,7 @@ public class DriverActivity extends AppCompatActivity {
     private AsyncTask mDriverTask = null;
     private ProgressDialog pDialog;
     private SessionManager sm;
+    Intent iDriver;
 
     private static final String TAG = "DriverActivity";
     private static final String TOKEN = "secretissecret";
@@ -69,16 +70,6 @@ public class DriverActivity extends AppCompatActivity {
 
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
         getDriverDataList(tenant);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent iDriver = new Intent(DriverActivity.this, FormDriverActivity.class);
-                iDriver.putExtra("action","add");
-                startActivity(iDriver);
-            }
-        });
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -114,6 +105,26 @@ public class DriverActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_add_option, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_add) {
+            iDriver = new Intent(DriverActivity.this, FormDriverActivity.class);
+            iDriver.putExtra("action","add");
+            startActivity(iDriver);
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private class getDriverListTask extends AsyncTask<String, String, String> {
@@ -190,7 +201,7 @@ public class DriverActivity extends AppCompatActivity {
                             driverModul.setName(aName);
                             driverModul.setSIM(aSIM);
                             if(aThumbPhoto != null){
-                                driverModul.setThumbnail(R.drawable.ic_person_black_24dp);
+                                driverModul.setThumbnail(R.drawable.user_ava_man);
                             }
                             mDriver.add(driverModul);
                         }
