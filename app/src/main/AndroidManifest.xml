@@ -171,9 +171,10 @@
         <activity
             android:name=".DropAsetActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".TakeAsetActivity"
+        <activity
+            android:name=".TakeAsetActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-
+        <activity android:name=".Sample"></activity>
     </application>
 
 </manifest>

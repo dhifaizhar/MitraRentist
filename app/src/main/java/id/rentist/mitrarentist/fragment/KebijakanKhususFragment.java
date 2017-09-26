@@ -13,6 +13,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -95,6 +96,14 @@ public class KebijakanKhususFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
     private void getKebijikanList(String tenant) {
         pDialog.setMessage("loading ...");
         showProgress(true);
@@ -174,12 +183,15 @@ public class KebijakanKhususFragment extends Fragment {
                     if(dataLength > 0){
                         for (int i = 0; i < jsonArray.length(); i++) {
                             errorMsg = "-";
-                            KebijakanModul kebijakanModul = new KebijakanModul();
                             JSONObject jsonobject = jsonArray.getJSONObject(i);
                             Log.e(TAG, "Complete Data : " + String.valueOf(jsonobject));
+                            aId = jsonobject.getInt("id");
                             aTitle = jsonobject.getString("title");
                             aDesc = jsonobject.getString("description");
                             aDate = jsonobject.getString("createdAt");
+
+                            KebijakanModul kebijakanModul = new KebijakanModul();
+                            kebijakanModul.setId(aId);
                             kebijakanModul.setTitle(aTitle);
                             kebijakanModul.setDesc(aDesc);
                             mKebijakan.add(kebijakanModul);

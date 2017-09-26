@@ -8,7 +8,7 @@ public class VoucherModul {
     private int mId;
     private String  mTitle, mDiscount, mStartDate, mEndDate,
         mName, mCode, mDesc, mPercen, mNominal,
-        mAmount, mStatus, mAsCategory, mType;
+        mAmount, mStatus, mAsCategory, mType, sId;
 
     public String getTitle() {
         return mTitle;
@@ -106,4 +106,5 @@ public class VoucherModul {
     public void setId(int mId) {
         this.mId = mId;
     }
+
 }

@@ -75,6 +75,7 @@ public class FormKebijakanActivity extends AppCompatActivity {
         if(formKebijakan.getStringExtra("action").equals("update")){
             id = formKebijakan.getIntExtra("id", 0);
             kId = id.toString();
+//            kId = formKebijakan.getStringExtra("id");
             kTitle.setText(formKebijakan.getStringExtra("title"));
             kDesc.setText(formKebijakan.getStringExtra("desc"));
         }
@@ -228,7 +229,7 @@ public class FormKebijakanActivity extends AppCompatActivity {
                     // Posting parameters to url
                     Map<String, String> keys = new HashMap<String, String>();
                     keys.put("id_tenant", mTenant);
-                    keys.put("id_kebijakan", idKebijakan);
+                    keys.put("id_policy", idKebijakan);
                     keys.put("title", kTitle.getText().toString());
                     keys.put("description", kDesc.getText().toString());
                     Log.e(TAG, "Key Body : " + keys.toString());
@@ -315,7 +316,7 @@ public class FormKebijakanActivity extends AppCompatActivity {
                 protected Map<String, String> getParams() {
                     // Posting parameters to url
                     Map<String, String> keys = new HashMap<String, String>();
-                    keys.put("id_kebijakan", idKebijakan);
+                    keys.put("id_policy", idKebijakan);
                     Log.e(TAG, "Delete Data : " + String.valueOf(keys));
                     return keys;
                 }

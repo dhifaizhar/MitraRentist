@@ -276,12 +276,12 @@ public class DashboardActivity extends AppCompatActivity
         } else if(id == R.id.nav_driver){
             Intent iDriver = new Intent(DashboardActivity.this, DriverActivity.class);
             startActivity(iDriver);
-        } else if(id == R.id.nav_drop){
-            Intent iDrop = new Intent(DashboardActivity.this, DropAsetActivity.class);
-            startActivity(iDrop);
-        } else if(id == R.id.nav_take){
-            Intent iTake = new Intent(DashboardActivity.this, DropAsetActivity.class);
-            startActivity(iTake);
+//        } else if(id == R.id.nav_drop){
+//            Intent iDrop = new Intent(DashboardActivity.this, DropAsetActivity.class);
+//            startActivity(iDrop);
+//        } else if(id == R.id.nav_take){
+//            Intent iTake = new Intent(DashboardActivity.this, DropAsetActivity.class);
+//            startActivity(iTake);
         } else if (id == R.id.nav_dompet) {
             Intent iDompet = new Intent(DashboardActivity.this, DompetActivity.class);
             startActivity(iDompet);
@@ -303,6 +303,9 @@ public class DashboardActivity extends AppCompatActivity
         } else if (id == R.id.nav_pengaduan) {
             Intent iKeluh = new Intent(DashboardActivity.this, ComplainActivity.class);
             startActivity(iKeluh);
+        } else if (id == R.id.nav_critic) {
+            Intent i = new Intent(DashboardActivity.this, Sample.class);
+            startActivity(i);
         }else if (id == R.id.nav_panduan) {
             Intent iPanduan = new Intent(this, PanduanActivity.class);
             startActivity(iPanduan);

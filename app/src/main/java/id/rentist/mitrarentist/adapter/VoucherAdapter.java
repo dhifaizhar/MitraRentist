@@ -57,7 +57,7 @@ public class VoucherAdapter extends RecyclerView.Adapter<VoucherAdapter.ViewHold
         viewHolder.btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Integer id = vou.getId();
+//                Integer id = vou.getId();
                 Intent iVou = new Intent(context, FormVoucherActivity.class);
                 iVou.putExtra("action","update");
                 iVou.putExtra("id_vou", vou.getId());

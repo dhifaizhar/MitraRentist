@@ -242,6 +242,7 @@ public class VoucherActivity extends AppCompatActivity {
             iFormVou.putExtra("action","add");
             iFormVou.putExtra("dateStat", "false");
             startActivity(iFormVou);
+
         }
 
         return super.onOptionsItemSelected(item);

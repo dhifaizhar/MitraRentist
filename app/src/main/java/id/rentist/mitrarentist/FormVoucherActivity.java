@@ -332,6 +332,7 @@ public class FormVoucherActivity extends AppCompatActivity implements View.OnCli
 
         if(formVoucher.getStringExtra("action").equals("update")) {
             getMenuInflater().inflate(R.menu.menu_delete_option, menu);
+            getMenuInflater().inflate(R.menu.menu_save_option, menu);
         }
 
         return true;
@@ -341,6 +342,10 @@ public class FormVoucherActivity extends AppCompatActivity implements View.OnCli
     public boolean onOptionsItemSelected(MenuItem item) {
 
         int id = item.getItemId();
+
+        if (id == R.id.action_save) {
+            formVoucher(tenant, vId);
+        }
 
         if (id == R.id.action_delete) {
             deleteDataVoucher(tenant, vId);
