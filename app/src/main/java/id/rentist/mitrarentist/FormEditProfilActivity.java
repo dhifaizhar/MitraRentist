@@ -4,13 +4,17 @@ import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,7 +32,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -45,6 +51,11 @@ public class FormEditProfilActivity extends AppCompatActivity {
     Button btnUploadFoto;
     String tenant, erName, erOwner, erAddress, erEmail, erPhone;
     Resources eprofilePhoto;
+
+    private Bitmap bitmap;
+    String encodedImage, isiimage = "";
+    private int PICK_IMAGE_REQUEST = 1;
+
 
     private static final String TAG = "FormUserActivity";
     private static final String TOKEN = "secretissecret";
@@ -87,11 +98,28 @@ public class FormEditProfilActivity extends AppCompatActivity {
         rAddress.setText(sm.getPreferences("alamat"));
         rPhone.setText(sm.getPreferences("telepon"));
         rEmail.setText(sm.getPreferences("email_rental"));
-        profilePhoto.setImageResource(sm.getIntPreferences("foto_profil"));
+        encodedImage = sm.getPreferences("foto_profil");
+        if (encodedImage.equals("null")){
+            profilePhoto.setImageResource(R.drawable.user_ava_man);
+        } else {
+            byte[] decodedString = Base64.decode(encodedImage, Base64.DEFAULT);
+            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            profilePhoto.setImageBitmap(decodedByte);
+        }//        btnUploadFoto.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                uploadPic();
+//            }
+//        });
+
         btnUploadFoto.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                uploadPic();
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+
             }
         });
     }
@@ -164,6 +192,7 @@ public class FormEditProfilActivity extends AppCompatActivity {
                     keys.put("email", erEmail);
                     keys.put("address", erAddress);
                     keys.put("phone", erPhone);
+                    keys.put("file", isiimage);
                     return keys;
                 }
 
@@ -197,6 +226,8 @@ public class FormEditProfilActivity extends AppCompatActivity {
                 sm.setPreferences("alamat", erAddress);
                 sm.setPreferences("telepon", erPhone);
                 sm.setPreferences("email", erEmail);
+                sm.setPreferences("foto_profil", isiimage);
+                Log.e(TAG, "Prof Pic: " + isiimage);
                 Toast.makeText(getApplicationContext(),"Sukses mengubah data.", Toast.LENGTH_LONG).show();
                 finish();
             }else{
@@ -213,15 +244,15 @@ public class FormEditProfilActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && data != null){
-            Uri selectedImage = data.getData();
-            profilePhoto.setImageURI(selectedImage);
-            Toast.makeText(getApplicationContext(),selectedImage.toString(), Toast.LENGTH_LONG).show();
-        }
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if(requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && data != null){
+//            Uri selectedImage = data.getData();
+//            profilePhoto.setImageURI(selectedImage);
+//            Toast.makeText(getApplicationContext(),selectedImage.toString(), Toast.LENGTH_LONG).show();
+//        }
+//    }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     private void showProgress(final boolean show) {
@@ -260,6 +291,34 @@ public class FormEditProfilActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public String getStringImage(Bitmap bmp){
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] imageBytes = baos.toByteArray();
+        return Base64.encodeToString(imageBytes, Base64.DEFAULT);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null &&
+                data.getData() != null) {
+            Uri filePath = data.getData();
+            try {
+                //Getting the Bitmap from Gallery
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                //Setting the Bitmap to ImageView
+                profilePhoto.setImageBitmap(bitmap);
+                isiimage = getStringImage(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }else{
+            isiimage = "";
+        }
     }
 
 }

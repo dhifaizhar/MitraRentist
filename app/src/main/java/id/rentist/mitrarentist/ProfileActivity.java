@@ -1,9 +1,12 @@
 package id.rentist.mitrarentist;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,6 +25,7 @@ public class ProfileActivity extends AppCompatActivity {
     ImageView profilePhoto;
     Button btnEdit;
     ImageButton vAll;
+    String encodedImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +59,15 @@ public class ProfileActivity extends AppCompatActivity {
         rAddress.setText(sm.getPreferences("alamat"));
         rPhone.setText(sm.getPreferences("telepon"));
         rEmail.setText(sm.getPreferences("email_rental"));
-        profilePhoto.setImageResource(sm.getIntPreferences("foto_profil"));
+//        profilePhoto.setImageResource(sm.getPreferences("foto_profil"));
+        encodedImage = sm.getPreferences("foto_profil");
+        if (encodedImage.equals("null")){
+            profilePhoto.setImageResource(R.drawable.user_ava_man);
+        } else {
+            byte[] decodedString = Base64.decode(encodedImage, Base64.DEFAULT);
+            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            profilePhoto.setImageBitmap(decodedByte);
+    }
 
         vAll.setOnClickListener(new View.OnClickListener() {
             @Override

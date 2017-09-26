@@ -10,6 +10,8 @@ import android.content.Intent;
 import android.content.Loader;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -19,6 +21,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,6 +29,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +44,11 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -64,6 +73,9 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     private ProgressDialog pDialog;
     private JSONObject userObject, tenantObject, responseMessage;
     private String user;
+    private ImageView img;
+
+//    private Bitmap bmp;
 
     private static final String TAG = "LoginActivity";
     private static final String TOKEN = "secretissecret";
@@ -304,8 +316,11 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
         private final String mEmail;
         private final String mPassword;
-        String sEmail, sEmailRental, sNama, sNamaRent, sNamaPem, sTelp, sRole, sAlamat, sStat;
+        private Bitmap bmp;
+        String sEmail, sEmailRental, sNama, sNamaRent, sNamaPem, sTelp, sRole, sAlamat, sStat, sPic, pic;
         Integer sId, sIdTenant, sImg;
+        ImageView img;
+
 
         UserLoginTask(String email, String password) {
             mEmail = email;
@@ -405,6 +420,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                     sEmail = userObject.getString("email");
                     sNama = userObject.getString("name");
                     sRole = userObject.getString("role");
+//                    pic = userObject.getString("profile_pic");
+//                    sPic = pic;
 
                     if(tenantObject.length() > 0){
                         sIdTenant = tenantObject.getInt("id");
@@ -418,7 +435,21 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                         Log.e(TAG, "What Data Detail : " + String.valueOf(tenantObject));
                     }
 
-                    sImg = R.drawable.user_ava_man;
+//                    URL url = new URL("assets.rentist.id/images/dwmCJ.png");
+//                    bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+//
+//                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+//                    connection.setDoInput(true);
+//                    connection.connect();
+//                    InputStream input = connection.getInputStream();
+//                    Bitmap myBitmap = BitmapFactory.decodeStream(input);
+//
+//                    Log.e(TAG, "Prof Pic : " + myBitmap);
+
+//                  sPic.getStringImage(myBitmap);
+
+
+//                  sImg = R.drawable.user_ava_man;
                     sm.setIntPreferences("id", sId);
                     sm.setIntPreferences("id_tenant", sIdTenant);
                     sm.setPreferences("email", sEmail);
@@ -428,7 +459,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                     sm.setPreferences("nama_pemilik", sNamaPem);
                     sm.setPreferences("alamat", sAlamat);
                     sm.setPreferences("telepon", sTelp);
-                    sm.setIntPreferences("foto_profil", sImg);
+//                  sm.setIntPreferences("foto_profil", sImg);
                     sm.setPreferences("role",sRole);
                     sm.setPreferences("status",sStat);
 
@@ -452,6 +483,29 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             showProgress(false);
         }
 
+    }
+
+    public static Bitmap getBitmapFromURL(String src) {
+        try {
+            URL url = new URL(src);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+            return myBitmap;
+        } catch (IOException e) {
+            // Log exception
+            return null;
+        }
+    }
+
+
+    public String getStringImage(Bitmap bmp){
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] imageBytes = baos.toByteArray();
+        return Base64.encodeToString(imageBytes, Base64.DEFAULT);
     }
 }
 

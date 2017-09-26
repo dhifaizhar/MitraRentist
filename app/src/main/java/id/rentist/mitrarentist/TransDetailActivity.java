@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
@@ -35,15 +36,23 @@ public class TransDetailActivity extends AppCompatActivity {
         btnCreatePopup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Toast.makeText(getApplicationContext()," Pilih Driver", Toast.LENGTH_LONG).show();
                 DriverDialogFragment dFrag = new DriverDialogFragment();
                 dFrag.show(getSupportFragmentManager(), "Driver");
             }
 
         });
 
-        Button btnAccept = (Button) findViewById(R.id.btn_accept);
-        btnAccept.setOnClickListener(new View.OnClickListener() {
+        LinearLayout btnContainer = (LinearLayout) findViewById(R.id.btnContainer);
+        Button btnAccept = new Button(this);
+        btnAccept.setText("Terima");
+
+
+        btnContainer.addView(btnAccept);
+
+
+
+        Button btnDrop = (Button) findViewById(R.id.btnDrop);
+        btnDrop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent iDetTrans = new Intent(getApplicationContext(), DashboardActivity.class);

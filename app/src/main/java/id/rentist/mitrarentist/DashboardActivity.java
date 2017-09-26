@@ -4,6 +4,9 @@ import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,6 +17,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,6 +38,8 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.InputStream;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,7 +53,8 @@ public class DashboardActivity extends AppCompatActivity
     private SessionManager sm;
     private View navHeaderView;
 
-    String tenant;
+    String tenant, img, encodedImage;
+//    URL encodedImage;
     Integer sumAsset, aCar, aBike, aYacht;
     TextView totAsset, totPoin, totRating, totSaldo, rentName, rentNameDrawer, successRent, ongoRent;
     ImageView rentImgProfile;
@@ -101,7 +108,20 @@ public class DashboardActivity extends AppCompatActivity
         // set content control value
         rentName.setText(sm.getPreferences("nama_rental"));
         rentNameDrawer.setText(sm.getPreferences("nama"));
-        rentImgProfile.setImageResource(sm.getIntPreferences("foto_profil"));
+
+//      rentImgProfile.setImageResource(sm.getIntPreferences("foto_profil"));
+        encodedImage = sm.getPreferences("foto_profil");
+//      URL encodedImage =  new URL("assets.rentist.id/images/");
+//      Bitmap bmp = BitmapFactory.decodeStream(encodedImage.openConnection().getInputStream());
+
+        if (encodedImage.equals("null")){
+            rentImgProfile.setImageResource(R.drawable.user_ava_man);
+        } else {
+            byte[] decodedString = Base64.decode(encodedImage, Base64.DEFAULT);
+            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            rentImgProfile.setImageBitmap(decodedByte);
+//          rentImgProfile.setImageResource(bmp);
+        }
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
         retrieveDashboardData(tenant);
         btnNewTrans.setOnClickListener(new View.OnClickListener() {
@@ -128,6 +148,16 @@ public class DashboardActivity extends AppCompatActivity
                 startActivity(iWork);
             }
         });
+    }
+
+    public static Drawable LoadImageFromWebOperations(String url) {
+        try {
+            InputStream is = (InputStream) new URL(url).getContent();
+            Drawable d = Drawable.createFromStream(is, "src name");
+            return d;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     private void retrieveDashboardData(String tenant) {
@@ -248,6 +278,7 @@ public class DashboardActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.dashboard, menu);
+        getMenuInflater().inflate(R.menu.menu_refresh_option, menu);
         return true;
     }
 
@@ -257,6 +288,10 @@ public class DashboardActivity extends AppCompatActivity
 
         if (id == R.id.action_logout) {
             logout();
+        }
+
+        if (id == R.id.action_refresh) {
+            retrieveDashboardData(tenant);
         }
 
         return super.onOptionsItemSelected(item);

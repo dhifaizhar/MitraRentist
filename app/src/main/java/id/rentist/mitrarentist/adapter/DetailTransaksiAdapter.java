@@ -70,7 +70,7 @@ public class DetailTransaksiAdapter extends RecyclerView.Adapter<DetailTransaksi
             waktu = (TextView) itemView.findViewById(R.id.tr_waktu_det);
             loca = (TextView) itemView.findViewById(R.id.tr_lokasi_det);
             harga = (TextView) itemView.findViewById(R.id.tr_harga_det);
-            btnAccept = (Button) itemView.findViewById(R.id.btn_accept);
+            btnAccept = (Button) itemView.findViewById(R.id.btnDrop);
         }
 
     }
