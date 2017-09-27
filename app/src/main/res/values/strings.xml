@@ -113,12 +113,21 @@
         <item>Mobil</item>
         <item>Motor</item>
         <item>Yacth</item>
+        <item>Sepeda</item>
     </string-array>
 
     <string-array name="driver_entries">
         <item>Mamat</item>
         <item>Dudung</item>
         <item>Hakim</item>
+    </string-array>
+
+    <string-array name="critic_suggest_entries">
+        <item>Service</item>
+        <item>Feature</item>
+        <item>Design</item>
+        <item>Performance</item>
+        <item>Etc</item>
     </string-array>
 
     <string-array name="role_entries">

@@ -37,7 +37,7 @@ public class DompetActivity extends AppCompatActivity {
     private void controlContent() {
         //initialize view
         credit = (TextView)findViewById(R.id.dm_credit);
-        tunai = (TextView)findViewById(R.id.dm_tunai);
+//        tunai = (TextView)findViewById(R.id.dm_tunai);
         withdrawal = (Button)findViewById(R.id.dm_btn_drawal);
 
         // set content control value

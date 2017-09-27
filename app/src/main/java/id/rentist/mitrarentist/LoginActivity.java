@@ -72,10 +72,9 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     private SessionManager sm;
     private ProgressDialog pDialog;
     private JSONObject userObject, tenantObject, responseMessage;
-    private String user;
-    private ImageView img;
-
+    private String user, pic;
 //    private Bitmap bmp;
+    private ImageView img;
 
     private static final String TAG = "LoginActivity";
     private static final String TOKEN = "secretissecret";
@@ -316,10 +315,12 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
         private final String mEmail;
         private final String mPassword;
-        private Bitmap bmp;
+//        private BitmapAsync bitTask = null;
+
+            //        private Bitmap bmp;
         String sEmail, sEmailRental, sNama, sNamaRent, sNamaPem, sTelp, sRole, sAlamat, sStat, sPic, pic;
         Integer sId, sIdTenant, sImg;
-        ImageView img;
+        Bitmap bmp;
 
 
         UserLoginTask(String email, String password) {
@@ -420,8 +421,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                     sEmail = userObject.getString("email");
                     sNama = userObject.getString("name");
                     sRole = userObject.getString("role");
-//                    pic = userObject.getString("profile_pic");
-//                    sPic = pic;
 
                     if(tenantObject.length() > 0){
                         sIdTenant = tenantObject.getInt("id");
@@ -435,21 +434,20 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                         Log.e(TAG, "What Data Detail : " + String.valueOf(tenantObject));
                     }
 
-//                    URL url = new URL("assets.rentist.id/images/dwmCJ.png");
-//                    bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-//
-//                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-//                    connection.setDoInput(true);
-//                    connection.connect();
-//                    InputStream input = connection.getInputStream();
-//                    Bitmap myBitmap = BitmapFactory.decodeStream(input);
-//
-//                    Log.e(TAG, "Prof Pic : " + myBitmap);
+//                    bitTask = new BitmapAsync();
+//                    bitTask.execute();
+//                    bmp = getBitmapFromURL("assets.rentist.id/images/" + userObject.getString("profil_pic"));
+//                    Log.e(TAG, "Pic Link: " + "assets.rentist.id/images/" + userObject.getString("profil_pic"));
 
-//                  sPic.getStringImage(myBitmap);
+                    if (bmp == (null)){
+                       sPic = "null";
+                    } else {
+                        sPic = getStringImage(bmp);
+                    }
+                    Log.e(TAG, "Pic : " + sPic);
 
+//                    getProfilImg();
 
-//                  sImg = R.drawable.user_ava_man;
                     sm.setIntPreferences("id", sId);
                     sm.setIntPreferences("id_tenant", sIdTenant);
                     sm.setPreferences("email", sEmail);
@@ -459,9 +457,9 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                     sm.setPreferences("nama_pemilik", sNamaPem);
                     sm.setPreferences("alamat", sAlamat);
                     sm.setPreferences("telepon", sTelp);
-//                  sm.setIntPreferences("foto_profil", sImg);
                     sm.setPreferences("role",sRole);
                     sm.setPreferences("status",sStat);
+                    sm.setPreferences("foto_profil",sPic);
 
                     if(sStat.equals("true")){
                         startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
@@ -483,22 +481,82 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             showProgress(false);
         }
 
+        private Bitmap getBitmapFromURL(String src) {
+            try {
+                URL url = new URL(src);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+                InputStream input = connection.getInputStream();
+                return BitmapFactory.decodeStream(input);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+//        private void getProfilImg() {
+//            new AsyncTask<Void, Void, Void>() {
+//                @Override
+//                protected Void doInBackground(Void... params) {
+//                    try {
+//                        InputStream in = new URL("assets.rentist.id/images/dwmCJ.png").openStream();
+//                        bmp = BitmapFactory.decodeStream(in);
+//                    } catch (Exception e) {
+//                        // log error
+//                    }
+//                    return null;
+//                }
+//
+//                @Override
+//                protected void onPostExecute(Void result) {
+//                    if (bmp != null) {
+//                        sPic = getStringImage(bmp);
+//                    } else {
+//                        sPic = null;
+//                    }
+//                    Log.e(TAG, "Pic : " + sPic);
+//
+//                }
+//
+//            }.execute();
+//        }
     }
 
-    public static Bitmap getBitmapFromURL(String src) {
-        try {
-            URL url = new URL(src);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-            InputStream input = connection.getInputStream();
-            Bitmap myBitmap = BitmapFactory.decodeStream(input);
-            return myBitmap;
-        } catch (IOException e) {
-            // Log exception
-            return null;
-        }
-    }
+//    private class BitmapAsync extends AsyncTask<Void, Void, Bitmap>{
+//
+//        @Override
+//        protected Bitmap doInBackground(Void... params) {
+//
+//            try {
+//                URL url = new URL("assets.rentist.id/images/dwmCJ.png");
+//                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+//                connection.setDoInput(true);
+//                connection.connect();
+//                InputStream input = connection.getInputStream();
+//                Bitmap myBitmap = BitmapFactory.decodeStream(input);
+//                return myBitmap;
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//                return null;
+//            }
+//
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Bitmap bmp) {
+//            super.onPostExecute(bmp);
+//
+//            pic = getStringImage(bmp);
+//            if (pic == (null)){
+//                pic = "null";
+//                sm.setPreferences("foto_profil",pic);
+//            } else {
+//                sm.setPreferences("foto_profil",pic);
+//            }
+//
+//        }
+//    }
 
 
     public String getStringImage(Bitmap bmp){
@@ -507,5 +565,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         byte[] imageBytes = baos.toByteArray();
         return Base64.encodeToString(imageBytes, Base64.DEFAULT);
     }
+
+
+
 }
 

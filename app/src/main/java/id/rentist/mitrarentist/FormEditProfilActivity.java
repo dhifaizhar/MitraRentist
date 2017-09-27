@@ -99,6 +99,7 @@ public class FormEditProfilActivity extends AppCompatActivity {
         rPhone.setText(sm.getPreferences("telepon"));
         rEmail.setText(sm.getPreferences("email_rental"));
         encodedImage = sm.getPreferences("foto_profil");
+
         if (encodedImage.equals("null")){
             profilePhoto.setImageResource(R.drawable.user_ava_man);
         } else {
@@ -320,5 +321,6 @@ public class FormEditProfilActivity extends AppCompatActivity {
             isiimage = "";
         }
     }
+
 
 }

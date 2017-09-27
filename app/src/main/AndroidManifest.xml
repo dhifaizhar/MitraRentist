@@ -174,7 +174,9 @@
         <activity
             android:name=".TakeAsetActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Sample"></activity>
+        <activity android:name=".Sample" />
+        <activity android:name=".CriticSuggestionActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

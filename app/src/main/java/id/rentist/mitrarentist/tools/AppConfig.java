@@ -51,4 +51,6 @@ public class AppConfig {
     public static  String URL_HISTORY_TRANS = SERVER + "order/history/";
     public static  String URL_HISTORY_SALDO = SERVER + "finance/history/";
     public static  String URL_LIST_KEBIJAKAN = SERVER + "list/kebijakan/";
+
+    public static  String URL_CRITIC_SUGGESTION = SERVER + "critics/";
 }

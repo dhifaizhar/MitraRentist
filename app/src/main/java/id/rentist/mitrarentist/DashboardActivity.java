@@ -109,10 +109,8 @@ public class DashboardActivity extends AppCompatActivity
         rentName.setText(sm.getPreferences("nama_rental"));
         rentNameDrawer.setText(sm.getPreferences("nama"));
 
-//      rentImgProfile.setImageResource(sm.getIntPreferences("foto_profil"));
         encodedImage = sm.getPreferences("foto_profil");
-//      URL encodedImage =  new URL("assets.rentist.id/images/");
-//      Bitmap bmp = BitmapFactory.decodeStream(encodedImage.openConnection().getInputStream());
+        Log.e(TAG, "Pic : " + encodedImage);
 
         if (encodedImage.equals("null")){
             rentImgProfile.setImageResource(R.drawable.user_ava_man);
@@ -122,6 +120,7 @@ public class DashboardActivity extends AppCompatActivity
             rentImgProfile.setImageBitmap(decodedByte);
 //          rentImgProfile.setImageResource(bmp);
         }
+
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
         retrieveDashboardData(tenant);
         btnNewTrans.setOnClickListener(new View.OnClickListener() {
@@ -339,7 +338,7 @@ public class DashboardActivity extends AppCompatActivity
             Intent iKeluh = new Intent(DashboardActivity.this, ComplainActivity.class);
             startActivity(iKeluh);
         } else if (id == R.id.nav_critic) {
-            Intent i = new Intent(DashboardActivity.this, Sample.class);
+            Intent i = new Intent(DashboardActivity.this, CriticSuggestionActivity.class);
             startActivity(i);
         }else if (id == R.id.nav_panduan) {
             Intent iPanduan = new Intent(this, PanduanActivity.class);
