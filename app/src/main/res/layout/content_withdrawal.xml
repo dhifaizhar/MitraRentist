@@ -22,67 +22,100 @@
             android:orientation="vertical"
             android:padding="@dimen/min_padding">
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
+                android:orientation="vertical"
                 android:padding="@dimen/xmin_padding">
 
                 <TextView
-                    android:id="@+id/rp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/xmin_padding"
-                    android:text="Rp."
-                    android:textColor="@color/colorBlack"
-                    android:textSize="@dimen/huge_text" />
-
-                <EditText
-                    android:id="@+id/wd_credit"
+                    android:id="@+id/textView3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/med_padding"
-                    android:layout_toRightOf="@+id/rp"
-                    android:backgroundTint="@color/colorBlack"
-                    android:cursorVisible="true"
-                    android:inputType="number"
-                    android:paddingStart="@dimen/xmin_padding"
-                    android:textColor="@android:color/black"
-                    android:textCursorDrawable="@null"
-                    android:textSize="@dimen/huge_text" />
+                    android:text="Nominal"
+                    android:textColor="@color/colorBlack" />
 
-                <ImageButton
-                    android:id="@+id/reset_button"
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:background="@color/colorWhite"
-                    android:clickable="true"
-                    app:srcCompat="@drawable/ic_refresh_black_36dp" />
+                    android:background="@color/colorNearWhite"
+                    android:padding="@dimen/xmin_padding">
+
+                    <!--<EditText-->
+                    <!--android:id="@+id/wd_credit"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:layout_marginRight="@dimen/med_padding"-->
+                    <!--android:layout_toRightOf="@+id/rp"-->
+                    <!--android:backgroundTint="@color/colorBlack"-->
+                    <!--android:cursorVisible="true"-->
+                    <!--android:inputType="number"-->
+                    <!--android:paddingStart="@dimen/xmin_padding"-->
+                    <!--android:textColor="@android:color/black"-->
+                    <!--android:textCursorDrawable="@null"-->
+                    <!--android:textSize="@dimen/large_text" />-->
+
+                    <EditText
+                        android:id="@+id/wd_credit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:background="@color/colorNearWhite"
+                        android:ems="10"
+                        android:hint=""
+                        android:inputType="number"
+                        android:padding="@dimen/min_padding"
+                        android:textSize="@dimen/large_text" />
+
+                    <TextView
+                        android:id="@+id/reset_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/xmin_padding"
+                        android:background="@color/colorNearWhite"
+                        android:clickable="true"
+                        android:text="IDR"
+                        android:textSize="@dimen/large_text"
+                        app:srcCompat="@drawable/ic_refresh_black_36dp" />
 
 
-            </RelativeLayout>
+                </RelativeLayout>
 
-            <EditText
-                android:id="@+id/wd_desc"
+
+            </LinearLayout>
+
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="20dp"
-                android:backgroundTint="@color/colorGrey"
-                android:ems="10"
-                android:gravity="start"
-                android:hint="Keterangan"
-                android:inputType="textMultiLine"
-                android:lines="3"
-                android:maxLines="5"
-                android:padding="@dimen/min_padding"
-                android:textColor="@android:color/black"
-                android:textColorHighlight="@color/colorPrimary"
-                android:textCursorDrawable="@null" />
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/xmin_padding"
+                android:orientation="vertical"
+                android:padding="@dimen/xmin_padding">
+
+                <TextView
+                    android:id="@+id/textView23"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Keterangan"
+                    android:textColor="@color/colorBlack" />
+
+                <EditText
+                    android:id="@+id/wd_desc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorNearWhite"
+                    android:ems="10"
+                    android:hint="Keterangan"
+                    android:inputType="textMultiLine"
+                    android:lines="3"
+                    android:maxLines="5"
+                    android:padding="@dimen/min_padding" />
+            </LinearLayout>
+
 
         </LinearLayout>
 

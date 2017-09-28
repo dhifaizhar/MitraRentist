@@ -129,36 +129,37 @@ public class HistorySaldoActivity extends AppCompatActivity {
 
 
             if (saldo != null) {
-                Log.e(TAG, "Saldo Result : " + saldo);
-
                 try {
-                    JSONObject jsonObject = new JSONObject(saldo);
-                    JSONArray jsonArray = new JSONArray(String.valueOf(jsonObject.getJSONArray("Withdrawal")));
-                    Log.e(TAG, "Saldo : " + jsonArray);
+                    JSONArray jsonArray = new JSONArray(saldo);
+//                    JSONArray jsonArray = new JSONArray(String.valueOf(jsonObject.getJSONArray("Withdrawal")));
                     dataLength = jsonArray.length();
-                    if(dataLength > 0){
-                        for (int i = 0; i < jsonArray.length(); i++) {
+                    if( jsonArray.length() > 0){
+                        Log.e(TAG, "Saldo : " + jsonArray);
+
+                        for (int i = 0; i <  jsonArray.length(); i++) {
                             errorMsg = "-";
 
-//                            JSONObject jsonobject = jsonArray.getJSONObject(i);
-//                            aId = jsonobject.getInt("id");
-//                            aName = jsonobject.getString("fullname");
-//                            aCredit = jsonobject.getString("creadit");
+                            JSONObject jsonobject = jsonArray.getJSONObject(i);
+                            aId = jsonobject.getInt("id");
+                            aName = jsonobject.getString("source");
+                            aCredit = jsonobject.getString("nominal") + " IDR";
 //                            aStatus = jsonobject.getString("status");
-//                            aDate = jsonobject.getString("cteatedDate");
-//                            Log.e(TAG, "What Data : " + String.valueOf(jsonobject));
+                            aDate = jsonobject.getString("createdAt");
+                            Log.e(TAG, "What Data : " + String.valueOf(jsonobject));
 
                             DompetModul dm = new DompetModul();
-                            dm.setDate("07 Jul 2017 18:18:18");
-                            dm.setCredit("50.000,00 IDR");
-                            dm.setNama("Kredit");
-                            dm.setStatus("done");
+                            dm.setId(aId.toString());
+                            dm.setDate(aDate);
+                            dm.setCredit(aCredit);
+                            dm.setNama(aName);
+//                            dm.setStatus(aStatus);
                             mSaldo.add(dm);
                         }
 
                         mRecyclerView = (RecyclerView) findViewById(R.id.hsaldo_recyclerView);
                         mLayoutManager = new LinearLayoutManager(getApplicationContext());
                         mAdapter = new HistorySaldoAdapter(getApplicationContext(), mSaldo);
+
                         mRecyclerView.setLayoutManager(mLayoutManager);
                         mRecyclerView.setAdapter(mAdapter);
 
@@ -166,6 +167,7 @@ public class HistorySaldoActivity extends AppCompatActivity {
                         errorMsg = "Anda belum memiliki Transaksi";
                         Toast.makeText(getApplicationContext(),errorMsg, Toast.LENGTH_LONG).show();
                     }
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                     errorMsg = "Anda belum memiliki Transaksi";

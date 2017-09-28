@@ -74,61 +74,208 @@
 
         </android.support.v7.widget.CardView>
 
+        <android.support.v7.widget.CardView
+            android:id="@+id/last_withdrawal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/credit_info"
+            android:layout_margin="@dimen/xmin_padding"
+            android:clickable="true"
+            android:foreground="?selectableItemBackground"
+            app:cardBackgroundColor="@color/colorWhite"
+            app:cardElevation="1dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="@dimen/xmin_padding">
+
+                <TextView
+                    android:id="@+id/textView23"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Pengajuan Withdrawal Terakhir"
+                    android:textColor="@color/colorBlack" />
+
+                <TextView
+                    android:id="@+id/last_with_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="date"
+                    android:gravity="end"
+                    android:textColor="@color/colorGrey" />
+
+                <LinearLayout
+                    android:id="@+id/det_last_withdrawal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/textView23"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="@dimen/xmin_padding"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:id="@+id/pr_address"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorPrimarySoft"
+                            android:padding="@dimen/min_padding"
+                            tools:ignore="UselessParent">
+
+                            <TextView
+                                android:id="@+id/textView17"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="@dimen/xmin_padding"
+                                android:text="Nominal :"
+                                android:textSize="12sp" />
+
+
+                            <TextView
+                                android:id="@+id/last_with_balance"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/min_padding"
+                                android:layout_toEndOf="@+id/textView17"
+                                android:textColor="@color/colorPrice"
+                                android:text="-"
+                                android:textSize="@dimen/medium_text" />
+
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/pr_desc"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorWhite"
+                            android:padding="@dimen/min_padding"
+                            tools:ignore="UselessParent">
+
+                            <TextView
+                                android:id="@+id/a"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="@dimen/xmin_padding"
+                                android:text="Kerangan :"
+                                android:textSize="12sp" />
+
+
+                            <TextView
+                                android:id="@+id/last_with_desc"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/min_padding"
+                                android:layout_toEndOf="@+id/a"
+                                android:text="-"
+                                android:textSize="@dimen/medium_text" />
+
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/pr_stat"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorPrimarySoft"
+                            android:padding="@dimen/min_padding"
+                            tools:ignore="UselessParent">
+
+                            <TextView
+                                android:id="@+id/textVie7"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="@dimen/xmin_padding"
+                                android:text="Status :"
+                                android:textSize="12sp" />
+
+
+                            <TextView
+                                android:id="@+id/last_with_stat"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/min_padding"
+                                android:layout_toEndOf="@+id/textVie7"
+                                android:text="-"
+                                android:textSize="@dimen/medium_text" />
+
+
+                        </RelativeLayout>
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
+
+        </android.support.v7.widget.CardView>
+
         <!--<android.support.v7.widget.CardView-->
-            <!--android:id="@+id/tunai_info"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_below="@+id/credit_info"-->
-            <!--android:layout_margin="@dimen/xmin_padding"-->
-            <!--android:clickable="true"-->
-            <!--android:foreground="?selectableItemBackground"-->
-            <!--app:cardBackgroundColor="@color/colorWhite"-->
-            <!--app:cardElevation="1dp">-->
+        <!--android:id="@+id/tunai_info"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@+id/credit_info"-->
+        <!--android:layout_margin="@dimen/xmin_padding"-->
+        <!--android:clickable="true"-->
+        <!--android:foreground="?selectableItemBackground"-->
+        <!--app:cardBackgroundColor="@color/colorWhite"-->
+        <!--app:cardElevation="1dp">-->
 
-            <!--<RelativeLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:layout_margin="@dimen/min_padding"-->
-                <!--android:padding="@dimen/min_padding">-->
+        <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_margin="@dimen/min_padding"-->
+        <!--android:padding="@dimen/min_padding">-->
 
-                <!--<ImageView-->
-                    <!--android:id="@+id/dm_tunai_ico"-->
-                    <!--android:layout_width="@dimen/thumb_med_width"-->
-                    <!--android:layout_height="@dimen/thumb_med_height"-->
-                    <!--android:layout_centerVertical="true"-->
-                    <!--android:layout_marginEnd="@dimen/min_padding"-->
-                    <!--android:contentDescription="credit"-->
-                    <!--android:src="@drawable/rent_dompet_ico" />-->
+        <!--<ImageView-->
+        <!--android:id="@+id/dm_tunai_ico"-->
+        <!--android:layout_width="@dimen/thumb_med_width"-->
+        <!--android:layout_height="@dimen/thumb_med_height"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:layout_marginEnd="@dimen/min_padding"-->
+        <!--android:contentDescription="credit"-->
+        <!--android:src="@drawable/rent_dompet_ico" />-->
 
-                <!--<LinearLayout-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_centerVertical="true"-->
-                    <!--android:layout_toEndOf="@+id/dm_tunai_ico"-->
-                    <!--android:orientation="vertical">-->
+        <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:layout_toEndOf="@+id/dm_tunai_ico"-->
+        <!--android:orientation="vertical">-->
 
-                    <!--<TextView-->
-                        <!--android:id="@+id/dm_tunai_title"-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:gravity="center_horizontal|center_vertical"-->
-                        <!--android:padding="@dimen/xmin_padding"-->
-                        <!--android:text="Dibayarkan"-->
-                        <!--android:textSize="@dimen/large_text" />-->
+        <!--<TextView-->
+        <!--android:id="@+id/dm_tunai_title"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:gravity="center_horizontal|center_vertical"-->
+        <!--android:padding="@dimen/xmin_padding"-->
+        <!--android:text="Dibayarkan"-->
+        <!--android:textSize="@dimen/large_text" />-->
 
-                    <!--<TextView-->
-                        <!--android:id="@+id/dm_tunai"-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:gravity="center_horizontal|center_vertical"-->
-                        <!--android:padding="@dimen/xmin_padding"-->
-                        <!--android:textColor="@color/colorDanger"-->
-                        <!--android:textSize="@dimen/huge_text"-->
-                        <!--android:textStyle="bold" />-->
+        <!--<TextView-->
+        <!--android:id="@+id/dm_tunai"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:gravity="center_horizontal|center_vertical"-->
+        <!--android:padding="@dimen/xmin_padding"-->
+        <!--android:textColor="@color/colorDanger"-->
+        <!--android:textSize="@dimen/huge_text"-->
+        <!--android:textStyle="bold" />-->
 
-                <!--</LinearLayout>-->
+        <!--</LinearLayout>-->
 
-            <!--</RelativeLayout>-->
+        <!--</RelativeLayout>-->
 
         <!--</android.support.v7.widget.CardView>-->
 

@@ -109,7 +109,7 @@
                                 android:layout_marginLeft="@dimen/xmin_padding"
                                 android:layout_toEndOf="@+id/pr_address_ico"
                                 android:text="-"
-                                android:textSize="@dimen/medium_text"/>
+                                android:textSize="@dimen/medium_text" />
 
                             <TextView
                                 android:id="@+id/textView17"

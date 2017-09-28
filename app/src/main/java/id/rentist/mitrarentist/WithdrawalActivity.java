@@ -2,6 +2,7 @@ package id.rentist.mitrarentist;
 
 import android.annotation.TargetApi;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,6 +35,11 @@ public class WithdrawalActivity extends AppCompatActivity {
     private ProgressDialog pDialog;
     private SessionManager sm;
 
+    private Intent iWithdrawal;
+
+    ArrayList<String> transId = new ArrayList<String>();
+
+    String balance, trans[];
     TextView credit, description;
     Button withdrawal;
     ImageButton reset;
@@ -46,6 +53,7 @@ public class WithdrawalActivity extends AppCompatActivity {
         setContentView(R.layout.activity_withdrawal);
         setTitle("Withdrawal");
 
+        iWithdrawal = getIntent();
         sm = new SessionManager(getApplicationContext());
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
@@ -63,25 +71,33 @@ public class WithdrawalActivity extends AppCompatActivity {
         credit = (TextView)findViewById(R.id.wd_credit);
         description = (TextView)findViewById(R.id.wd_desc);
         withdrawal = (Button)findViewById(R.id.btn_withdrawal);
-        reset = (ImageButton)findViewById(R.id.reset_button);
+//        reset = (ImageButton)findViewById(R.id.reset_button);
+
+        credit.setEnabled(false);
+
+        transId = iWithdrawal.getStringArrayListExtra("transId");
+
+        Log.e(TAG, "Trans id array : " + transId);
 
         // set content control value
-        reset.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                credit.setText("0");
-            }
-        });
+        balance = iWithdrawal.getStringExtra("balance");
+        credit.setText(balance);
+//        reset.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View v) {
+//                credit.setText("0");
+//            }
+//        });
         withdrawal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
-                addYourPolicy(tenant);
+                sendWithdrawal(tenant);
             }
         });
     }
 
-    private void addYourPolicy(String tenant) {
+    private void sendWithdrawal(String tenant) {
         pDialog.setMessage("loading ...");
         showProgress(true);
         new postWithdrawalTask(tenant).execute();
@@ -117,8 +133,22 @@ public class WithdrawalActivity extends AppCompatActivity {
                     // Posting parameters to url
                     Map<String, String> keys = new HashMap<String, String>();
                     keys.put("id_tenant", mTenant);
-                    keys.put("nominal", credit.getText().toString());
+                    keys.put("nominal", iWithdrawal.getStringExtra("balance"));
                     keys.put("description", description.getText().toString());
+//
+                    if (transId.size() > 0) {
+                        for (int i = 0; i < transId.size(); i++) {
+                            keys.put("id_transaksi_detail1", transId.get(i));
+                            keys.put("id_transaksi_detail2", transId.get(i));
+
+                            Log.e(TAG, "id_transaksi_detail : " + transId.get(i));
+
+                        }
+                    }
+
+
+                    Log.e(TAG, "Withdrawal Param : " + keys);
+
                     return keys;
                 }
 

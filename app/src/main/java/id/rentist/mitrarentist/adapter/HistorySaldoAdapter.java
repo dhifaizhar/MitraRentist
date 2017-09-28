@@ -47,7 +47,7 @@ public class HistorySaldoAdapter extends RecyclerView.Adapter<HistorySaldoAdapte
             credit = (TextView) itemView.findViewById(R.id.tr_harga_det);
             nama = (TextView) itemView.findViewById(R.id.tr_member_det);
             date = (TextView) itemView.findViewById(R.id.tr_date);
-            status = (TextView) itemView.findViewById(R.id.tr_status);
+//            status = (TextView) itemView.findViewById(R.id.tr_status);
         }
     }
 
@@ -59,6 +59,6 @@ public class HistorySaldoAdapter extends RecyclerView.Adapter<HistorySaldoAdapte
         viewHolder.credit.setText(dm.getCredit());
         viewHolder.nama.setText(dm.getNama());
         viewHolder.date.setText(dm.getDate());
-        viewHolder.status.setText(dm.getStatus());
+//        viewHolder.status.setText(dm.getStatus());
     }
 }

@@ -39,6 +39,7 @@ public class AppConfig {
     public static  String URL_UPDATE_VOUCHER = SERVER + "update/voucher/";
     public static  String URL_DELETE_VOUCHER = SERVER + "delete/voucher/";
 
+    public static  String URL_DOMPET = SERVER + "list/request/";
     public static  String URL_LIST_TESTIMONY = SERVER + "list/testimony/";
     public static  String URL_WITHDRAWAL = SERVER + "withdrawal/request/";
 
