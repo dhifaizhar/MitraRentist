@@ -3,11 +3,15 @@ package id.rentist.mitrarentist;
 import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,6 +32,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,6 +44,7 @@ public class FormCarAsetActivity extends AppCompatActivity {
     private AsyncTask mAddAssetTask = null;
     private ProgressDialog pDialog;
     private SessionManager sm;
+    private Bitmap bitmap;
     Intent iFormAsset;
 
     ImageView aImg;
@@ -45,12 +52,14 @@ public class FormCarAsetActivity extends AppCompatActivity {
             aEngCap, aFuel, aSeat, aAsuracePrice, aLowPrice,
             aNormalPrice, aHighPrice;
     Integer idAsset;
-    String aLatitude, aLongitude, aAddress, aRentPackage, tenant, category;
+    String aLatitude, aLongitude, aAddress, aRentPackage, tenant, category, encodedImage, isiimage = "";
     CheckBox aAc, aAb, aDriver, aAssurace;
     RadioGroup aTransmisionGroup;
     RadioButton aTransmisionButton;
     Button btnImgUpload;
 
+
+    private int PICK_IMAGE_REQUEST = 1;
     private static final String TAG = "FormAssetActivity";
     private static final String TOKEN = "secretissecret";
 
@@ -78,7 +87,7 @@ public class FormCarAsetActivity extends AppCompatActivity {
         btnImgUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                showFileChooser();
             }
         });
     }
@@ -139,6 +148,42 @@ public class FormCarAsetActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    // IMAGE : pick image
+    private void showFileChooser() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+    }
+
+    // IMAGE : show in frame
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            Uri filePath = data.getData();
+            try {
+                //Getting the Bitmap from Gallery
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                //Setting the Bitmap to ImageView
+                aImg = (ImageView) findViewById(R.id.thumb_aset);
+                aImg.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    // IMAGE : get string for upload
+    public String getStringImage(Bitmap bmp){
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] imageBytes = baos.toByteArray();
+        String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+        return encodedImage;
     }
 
     private void addDataAset(String tenant) {
@@ -202,6 +247,8 @@ public class FormCarAsetActivity extends AppCompatActivity {
             }){
                 @Override
                 protected Map<String, String> getParams() {
+                    String image = getStringImage(bitmap);
+
                     // Posting parameters to url
                     Map<String, String> keys = new HashMap<String, String>();
                     keys.put("id_tenant", mTenant);
