@@ -33,6 +33,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -158,6 +159,18 @@ public class FormCarAsetActivity extends AppCompatActivity {
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
     }
 
+    // IMAGE : get string for upload
+    public String getStringImage(Bitmap bmp){
+        if(bmp != null){
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            byte[] imageBytes = baos.toByteArray();
+            return Base64.encodeToString(imageBytes, Base64.DEFAULT);
+        }else{
+            return null;
+        }
+    }
+
     // IMAGE : show in frame
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -171,19 +184,15 @@ public class FormCarAsetActivity extends AppCompatActivity {
                 //Setting the Bitmap to ImageView
                 aImg = (ImageView) findViewById(R.id.thumb_aset);
                 aImg.setImageBitmap(bitmap);
+                isiimage = getStringImage(bitmap);
+
+                File f = new File(filePath.getPath());
+                String imageName = f.getName();
+                Log.e(TAG, "Image : " + imageName);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-    }
-
-    // IMAGE : get string for upload
-    public String getStringImage(Bitmap bmp){
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        byte[] imageBytes = baos.toByteArray();
-        String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
-        return encodedImage;
     }
 
     private void addDataAset(String tenant) {
