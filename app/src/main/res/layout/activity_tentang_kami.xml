@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/about_logo"
         android:layout_centerHorizontal="true"
-        android:text="Copyright \u00A9 2017 Rentist Indonesia"
+        android:text="\u00A9 PT Rental Spesialis Indonesia 2017"
         android:textColor="@color/colorWhite"
         android:textSize="@dimen/medium_text"/>
 

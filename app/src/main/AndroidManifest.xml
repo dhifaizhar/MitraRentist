@@ -42,7 +42,7 @@
             android:name=".AsetActivity"
             android:label="@string/title_activity_aset"
             android:parentActivityName=".DashboardActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".AsetListActivity"
             android:label="@string/title_activity_aset"
@@ -135,7 +135,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".FormCarAsetActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".FormMotorcycleAsetActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -177,6 +177,9 @@
         <!--<activity android:name=".Sample" />-->
         <activity android:name=".CriticSuggestionActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".HistoryWithdrawalActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        />
     </application>
 
 </manifest>

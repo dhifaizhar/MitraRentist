@@ -111,10 +111,17 @@
                     android:ems="10"
                     android:hint="Keterangan"
                     android:inputType="textMultiLine"
+                    android:imeOptions="actionDone"
                     android:lines="3"
                     android:maxLines="5"
                     android:padding="@dimen/min_padding" />
             </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorGrey"
+                android:text="Note : status pengajuan withdrawal dapat dilihat pada riwayat withdrawal "/>
 
 
         </LinearLayout>

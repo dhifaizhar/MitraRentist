@@ -29,7 +29,6 @@ public class WithdrawalAdapter extends RecyclerView.Adapter<WithdrawalAdapter.Vi
         WithdrawalModul wd;
 
         wd = new WithdrawalModul();
-        wd.setCredit("50000");
 
         mWithdrawal.add(wd);
     }
@@ -46,7 +45,6 @@ public class WithdrawalAdapter extends RecyclerView.Adapter<WithdrawalAdapter.Vi
         WithdrawalModul wd = mWithdrawal.get(i);
 
 //        simpan value dalam object
-        viewHolder.credit.setText(wd.getCredit());
     }
 
     @Override

@@ -53,7 +53,7 @@ public class FormEditProfilActivity extends AppCompatActivity {
     Resources eprofilePhoto;
 
     private Bitmap bitmap;
-    String encodedImage, isiimage = "";
+    String encodedImage, isiimage = "", ext, imgString;
     private int PICK_IMAGE_REQUEST = 1;
 
 
@@ -194,6 +194,9 @@ public class FormEditProfilActivity extends AppCompatActivity {
                     keys.put("address", erAddress);
                     keys.put("phone", erPhone);
                     keys.put("file", isiimage);
+
+                    Log.e(TAG, "IMAGE ; " + imgString);
+
                     return keys;
                 }
 
@@ -308,12 +311,23 @@ public class FormEditProfilActivity extends AppCompatActivity {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null &&
                 data.getData() != null) {
             Uri filePath = data.getData();
+
+
             try {
                 //Getting the Bitmap from Gallery
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+
+                Log.e(TAG, "ext: " + data);
+
+                ext = data.toString();
+
                 //Setting the Bitmap to ImageView
                 profilePhoto.setImageBitmap(bitmap);
                 isiimage = getStringImage(bitmap);
+
+                imgString = ext +"," + isiimage;
+
+
             } catch (IOException e) {
                 e.printStackTrace();
             }

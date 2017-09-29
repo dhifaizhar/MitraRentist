@@ -23,6 +23,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -39,7 +42,7 @@ public class WithdrawalActivity extends AppCompatActivity {
 
     ArrayList<String> transId = new ArrayList<String>();
 
-    String balance, trans[];
+    String balance;//, trans[];
     TextView credit, description;
     Button withdrawal;
     ImageButton reset;
@@ -105,7 +108,8 @@ public class WithdrawalActivity extends AppCompatActivity {
 
     private class postWithdrawalTask extends AsyncTask<String, String, String>{
         private final String mTenant;
-        private String errorMsg, responseWithdrawal;
+        private String errorMsg, responseWithdrawal, msg, trans, resMsg, s;
+
 
         private postWithdrawalTask(String tenant) {
             mTenant = tenant;
@@ -114,7 +118,9 @@ public class WithdrawalActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
             RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.URL_WITHDRAWAL, new Response.Listener<String>() {
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.URL_WITHDRAWAL, new Response.Listener<String>()
+            {
+
                 @Override
                 public void onResponse(String response) {
                     responseWithdrawal = response;
@@ -137,17 +143,19 @@ public class WithdrawalActivity extends AppCompatActivity {
                     keys.put("description", description.getText().toString());
 //
                     if (transId.size() > 0) {
-                        for (int i = 0; i < transId.size(); i++) {
-                            keys.put("id_transaksi_detail1", transId.get(i));
-                            keys.put("id_transaksi_detail2", transId.get(i));
+                        trans = "";
 
-                            Log.e(TAG, "id_transaksi_detail : " + transId.get(i));
+                            for (int i = 0; i < transId.size(); i++) {
+                            trans +=  transId.get(i);
+                                if (i != transId.size()-1){
+                                    trans += ",";
+                                }
 
                         }
+                        Log.e(TAG, "ID TRANS : " + trans);
+                        keys.put("id_transaction_detail", trans);
                     }
-
-
-                    Log.e(TAG, "Withdrawal Param : " + keys);
+                    Log.e(TAG, "Param : " + keys);
 
                     return keys;
                 }
@@ -171,14 +179,30 @@ public class WithdrawalActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(String policy) {
+        protected void onPostExecute(String wd) {
             mAddPolicyTask = null;
             showProgress(false);
 
-            if(policy != null){
+            if(wd != null){
 //                Intent iWd = new Intent(WithdrawalActivity.this, DompetActivity.class);
 //                startActivity(iWd);
-                Toast.makeText(getApplicationContext(),"Data sukses disimpan", Toast.LENGTH_LONG).show();
+                try {
+                    JSONObject wdObject = new JSONObject(wd);
+                    Log.e(TAG, "Response : " + wdObject);
+
+
+                    resMsg = wdObject.getString("response");
+                    if (resMsg.equals("Already Request")){
+                        msg = "Anda sudah melakukan pengajuan";
+                    } else {
+                        msg = "Pengajuan berhasil dilakukan";
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                Toast.makeText(getApplicationContext(),msg, Toast.LENGTH_LONG).show();
                 finish();
             }else{
                 Toast.makeText(getApplicationContext(),"Gagal meyimpan data", Toast.LENGTH_LONG).show();

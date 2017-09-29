@@ -5,27 +5,20 @@ package id.rentist.mitrarentist.modul;
  */
 
 public class WithdrawalModul {
-    private String mCredit, mDebit, mNama, mStatus, mDate;
+    private String mNominal, mDesc, mStatus, mDate;
 
-    public void setNama(String mNama) {
-        this.mNama = mNama;
+    public void setNominal(String mNominal) {
+        this.mNominal = mNominal;
     }
-    public String getNama() {
-        return mNama;
-    }
-
-    public void setCredit(String mCredit) {
-        this.mCredit = mCredit;
-    }
-    public String getCredit() {
-        return mCredit;
+    public String getNominal() {
+        return mNominal;
     }
 
-    public void setDebit(String mDebit) {
-        this.mDebit = mDebit;
+    public void setDesc(String mDesc) {
+        this.mDesc = mDesc;
     }
-    public String getDebit() {
-        return mDebit;
+    public String getDesc() {
+        return mDesc;
     }
 
     public void setDate(String mDate) {

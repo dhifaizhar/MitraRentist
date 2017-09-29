@@ -45,7 +45,7 @@ public class DompetActivity extends AppCompatActivity {
 
     Intent iWithdrawal;
     String tenant, balance;
-    TextView credit, date, nominal, desc, status;
+    TextView credit, note, date, nominal, desc, status, his_wd;
     Button withdrawal;
 
     ArrayList<String> transId = new ArrayList<String>();
@@ -79,6 +79,8 @@ public class DompetActivity extends AppCompatActivity {
         nominal = (TextView)findViewById(R.id.last_with_balance);
         desc = (TextView)findViewById(R.id.last_with_desc);
         status = (TextView)findViewById(R.id.last_with_stat);
+        his_wd = (TextView)findViewById(R.id.btn_history_withdrawal);
+        note = (TextView)findViewById(R.id.note);
 
         // set content control value
 //        credit.setText("7.000.000 IDR");
@@ -95,6 +97,15 @@ public class DompetActivity extends AppCompatActivity {
                 iWithdrawal.putExtra("balance", balance);
                 iWithdrawal.putExtra("transId", transId);
                 startActivity(iWithdrawal);
+            }
+        });
+
+        his_wd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent iHistoryWd = new Intent(DompetActivity.this, HistoryWithdrawalActivity.class);
+                iHistoryWd.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(iHistoryWd);
             }
         });
 
@@ -157,7 +168,6 @@ public class DompetActivity extends AppCompatActivity {
 
             if(user != null){
                 try {
-                    Log.e(TAG, "user not null");
 
                     JSONObject dataObject = new JSONObject(user);
                     JSONArray lastWithdrawalArray = new JSONArray(String.valueOf(dataObject.getJSONArray("last")));
@@ -197,8 +207,11 @@ public class DompetActivity extends AppCompatActivity {
                         }
 
                     } else {
-                        errorMsg = "Riwayat Selesai Tidak Ditemukan";
-                        Toast.makeText(getApplicationContext(),errorMsg, Toast.LENGTH_LONG).show();
+                        errorMsg = "Note : Anda tidak bisa melakukan withdrawal karena semua saldo anda sudah dalam pengajuan withdrawal. Cek pengajuan withdrawal anda";
+                        note.setText(errorMsg);
+                        withdrawal.setEnabled(false);
+//                        withdrawal.setBackgroundColor(R.color.colorButtonDefault);
+//                        Toast.makeText(getApplicationContext(),errorMsg, Toast.LENGTH_LONG).show();
                     }
 
                     balance = dataObject.getString("total");
