@@ -4,8 +4,6 @@ import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -17,13 +15,11 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,12 +28,15 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.HashMap;
@@ -45,6 +44,7 @@ import java.util.Map;
 
 import id.rentist.mitrarentist.tools.AppConfig;
 import id.rentist.mitrarentist.tools.SessionManager;
+import id.rentist.mitrarentist.tools.VolleySingleton;
 
 public class DashboardActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -52,12 +52,14 @@ public class DashboardActivity extends AppCompatActivity
     private ProgressDialog pDialog;
     private SessionManager sm;
     private View navHeaderView;
+//    URL imageUrl;
+    ImageLoader mImageLoader;
 
-    String tenant, img, encodedImage;
-//    URL encodedImage;
+    String tenant, img, encodedImage, imageUrl;
     Integer sumAsset, aCar, aBike, aYacht;
     TextView totAsset, totPoin, totRating, totSaldo, rentName, rentNameDrawer, successRent, ongoRent;
-    ImageView rentImgProfile;
+    //ImageView rentImgProfile;
+    NetworkImageView rentImgProfile;
     ImageButton btnNewTrans, btnToSaldo, btnWorkDate;
 
     private static final String TAG = "DashboardActivity";
@@ -86,15 +88,19 @@ public class DashboardActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         navHeaderView = navigationView.getHeaderView(0);
 
-        controlContent();
+        try {
+            controlContent();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         Toast.makeText(getApplicationContext(),"Selamat Datang Mitra : " + sm.getPreferences("nama"), Toast.LENGTH_LONG).show();
     }
 
-    private void controlContent() {
+    private void controlContent() throws IOException {
         //initialize view
         rentName = (TextView) findViewById(R.id.rentName);
         rentNameDrawer = (TextView) navHeaderView.findViewById(R.id.navRentName);
-        rentImgProfile = (ImageView) navHeaderView.findViewById(R.id.navImageProfile);
+        rentImgProfile = (NetworkImageView) navHeaderView.findViewById(R.id.navImageProfile);
         btnNewTrans = (ImageButton) findViewById(R.id.btn_to_det_new_trans);
         btnToSaldo = (ImageButton) findViewById(R.id.btn_to_saldo);
         btnWorkDate = (ImageButton) findViewById(R.id.btn_work_date);
@@ -108,18 +114,9 @@ public class DashboardActivity extends AppCompatActivity
         // set content control value
         rentName.setText(sm.getPreferences("nama_rental"));
         rentNameDrawer.setText(sm.getPreferences("nama"));
-
-        encodedImage = sm.getPreferences("foto_profil");
-        Log.e(TAG, "Pic : " + encodedImage);
-
-        if (encodedImage.equals("null")){
-            rentImgProfile.setImageResource(R.drawable.user_ava_man);
-        } else {
-            byte[] decodedString = Base64.decode(encodedImage, Base64.DEFAULT);
-            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-            rentImgProfile.setImageBitmap(decodedByte);
-//          rentImgProfile.setImageResource(bmp);
-        }
+        imageUrl = "http://assets.rentist.id/images/" + sm.getPreferences("foto_profil");
+        mImageLoader = new VolleySingleton(getApplicationContext()).getImageUrl();
+        rentImgProfile.setImageUrl(imageUrl,mImageLoader);
 
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
         retrieveDashboardData(tenant);

@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -21,7 +20,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -29,6 +27,8 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -40,6 +40,7 @@ import java.util.Map;
 
 import id.rentist.mitrarentist.tools.AppConfig;
 import id.rentist.mitrarentist.tools.SessionManager;
+import id.rentist.mitrarentist.tools.VolleySingleton;
 
 public class FormEditProfilActivity extends AppCompatActivity {
     private AsyncTask mProfileTask = null;
@@ -47,10 +48,12 @@ public class FormEditProfilActivity extends AppCompatActivity {
     private SessionManager sm;
 
     EditText rName, rOwner, rAddress, rEmail, rPhone;
-    ImageView profilePhoto;
+    NetworkImageView profilePhoto;
     Button btnUploadFoto;
     String tenant, erName, erOwner, erAddress, erEmail, erPhone;
     Resources eprofilePhoto;
+    ImageLoader mImageLoader;
+    String imageUrl;
 
     private Bitmap bitmap;
     String encodedImage, isiimage = "", ext, imgString;
@@ -88,7 +91,7 @@ public class FormEditProfilActivity extends AppCompatActivity {
         rAddress = (EditText) findViewById(R.id.epr_address_name);
         rPhone = (EditText) findViewById(R.id.epr_telp);
         rEmail = (EditText) findViewById(R.id.epr_email);
-        profilePhoto = (ImageView) findViewById(R.id.pr_thumb);
+        profilePhoto = (NetworkImageView) findViewById(R.id.pr_thumb);
         btnUploadFoto = (Button) findViewById(R.id.btnUploadFoto);
 
         // set content control value
@@ -98,20 +101,16 @@ public class FormEditProfilActivity extends AppCompatActivity {
         rAddress.setText(sm.getPreferences("alamat"));
         rPhone.setText(sm.getPreferences("telepon"));
         rEmail.setText(sm.getPreferences("email_rental"));
-        encodedImage = sm.getPreferences("foto_profil");
+        imageUrl = "http://assets.rentist.id/images/" + sm.getPreferences("foto_profil_tenant");
+        mImageLoader = new VolleySingleton(getApplicationContext()).getImageUrl();
+        profilePhoto.setImageUrl(imageUrl,mImageLoader);
 
-        if (encodedImage.equals("null")){
-            profilePhoto.setImageResource(R.drawable.user_ava_man);
-        } else {
-            byte[] decodedString = Base64.decode(encodedImage, Base64.DEFAULT);
-            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-            profilePhoto.setImageBitmap(decodedByte);
-        }//        btnUploadFoto.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                uploadPic();
-//            }
-//        });
+        btnUploadFoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                uploadPic();
+            }
+        });
 
         btnUploadFoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,7 +119,6 @@ public class FormEditProfilActivity extends AppCompatActivity {
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
-
             }
         });
     }
@@ -230,7 +228,7 @@ public class FormEditProfilActivity extends AppCompatActivity {
                 sm.setPreferences("alamat", erAddress);
                 sm.setPreferences("telepon", erPhone);
                 sm.setPreferences("email", erEmail);
-                sm.setPreferences("foto_profil", isiimage);
+                sm.setPreferences("foto_profil_tenant",isiimage);
                 Log.e(TAG, "Prof Pic: " + isiimage);
                 Toast.makeText(getApplicationContext(),"Sukses mengubah data.", Toast.LENGTH_LONG).show();
                 finish();

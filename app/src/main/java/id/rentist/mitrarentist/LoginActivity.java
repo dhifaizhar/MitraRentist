@@ -10,8 +10,6 @@ import android.content.Intent;
 import android.content.Loader;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -21,7 +19,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,7 +26,6 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,11 +40,6 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -73,8 +64,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     private ProgressDialog pDialog;
     private JSONObject userObject, tenantObject, responseMessage;
     private String user, pic;
-//    private Bitmap bmp;
-    private ImageView img;
 
     private static final String TAG = "LoginActivity";
     private static final String TOKEN = "secretissecret";
@@ -315,12 +304,9 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
         private final String mEmail;
         private final String mPassword;
-//        private BitmapAsync bitTask = null;
 
-            //        private Bitmap bmp;
-        String sEmail, sEmailRental, sNama, sNamaRent, sNamaPem, sTelp, sRole, sAlamat, sStat, sPic, pic;
+        String sEmail, sEmailRental, sNama, sNamaRent, sNamaPem, sTelp, sRole, sAlamat, sStat, sPic, tPic;
         Integer sId, sIdTenant, sImg;
-        Bitmap bmp;
 
 
         UserLoginTask(String email, String password) {
@@ -421,6 +407,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                     sEmail = userObject.getString("email");
                     sNama = userObject.getString("name");
                     sRole = userObject.getString("role");
+                    sPic = userObject.getString("profile_pic");
 
                     if(tenantObject.length() > 0){
                         sIdTenant = tenantObject.getInt("id");
@@ -430,23 +417,9 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                         sEmailRental = tenantObject.getString("email");
                         sTelp = tenantObject.getString("phone");
                         sStat = tenantObject.getString("is_activated");
-
+                        tPic = tenantObject.getString("profil_pic");
                         Log.e(TAG, "What Data Detail : " + String.valueOf(tenantObject));
                     }
-
-//                    bitTask = new BitmapAsync();
-//                    bitTask.execute();
-//                    bmp = getBitmapFromURL("assets.rentist.id/images/" + userObject.getString("profil_pic"));
-//                    Log.e(TAG, "Pic Link: " + "assets.rentist.id/images/" + userObject.getString("profil_pic"));
-
-                    if (bmp == (null)){
-                       sPic = "null";
-                    } else {
-                        sPic = getStringImage(bmp);
-                    }
-                    Log.e(TAG, "Pic : " + sPic);
-
-//                    getProfilImg();
 
                     sm.setIntPreferences("id", sId);
                     sm.setIntPreferences("id_tenant", sIdTenant);
@@ -460,6 +433,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                     sm.setPreferences("role",sRole);
                     sm.setPreferences("status",sStat);
                     sm.setPreferences("foto_profil",sPic);
+                    sm.setPreferences("foto_profil_tenant",tPic);
 
                     if(sStat.equals("true")){
                         startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
@@ -480,93 +454,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             mAuthTask = null;
             showProgress(false);
         }
-
-        private Bitmap getBitmapFromURL(String src) {
-            try {
-                URL url = new URL(src);
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setDoInput(true);
-                connection.connect();
-                InputStream input = connection.getInputStream();
-                return BitmapFactory.decodeStream(input);
-            } catch (IOException e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
-
-//        private void getProfilImg() {
-//            new AsyncTask<Void, Void, Void>() {
-//                @Override
-//                protected Void doInBackground(Void... params) {
-//                    try {
-//                        InputStream in = new URL("assets.rentist.id/images/dwmCJ.png").openStream();
-//                        bmp = BitmapFactory.decodeStream(in);
-//                    } catch (Exception e) {
-//                        // log error
-//                    }
-//                    return null;
-//                }
-//
-//                @Override
-//                protected void onPostExecute(Void result) {
-//                    if (bmp != null) {
-//                        sPic = getStringImage(bmp);
-//                    } else {
-//                        sPic = null;
-//                    }
-//                    Log.e(TAG, "Pic : " + sPic);
-//
-//                }
-//
-//            }.execute();
-//        }
     }
-
-//    private class BitmapAsync extends AsyncTask<Void, Void, Bitmap>{
-//
-//        @Override
-//        protected Bitmap doInBackground(Void... params) {
-//
-//            try {
-//                URL url = new URL("assets.rentist.id/images/dwmCJ.png");
-//                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-//                connection.setDoInput(true);
-//                connection.connect();
-//                InputStream input = connection.getInputStream();
-//                Bitmap myBitmap = BitmapFactory.decodeStream(input);
-//                return myBitmap;
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//                return null;
-//            }
-//
-//        }
-//
-//        @Override
-//        protected void onPostExecute(Bitmap bmp) {
-//            super.onPostExecute(bmp);
-//
-//            pic = getStringImage(bmp);
-//            if (pic == (null)){
-//                pic = "null";
-//                sm.setPreferences("foto_profil",pic);
-//            } else {
-//                sm.setPreferences("foto_profil",pic);
-//            }
-//
-//        }
-//    }
-
-
-    public String getStringImage(Bitmap bmp){
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        byte[] imageBytes = baos.toByteArray();
-        return Base64.encodeToString(imageBytes, Base64.DEFAULT);
-    }
-
-
-
 }
 

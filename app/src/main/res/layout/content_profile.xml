@@ -31,29 +31,19 @@
                     android:orientation="vertical"
                     android:padding="@dimen/min_padding">
 
-                    <ImageView
+                    <com.android.volley.toolbox.NetworkImageView
                         android:id="@+id/pr_thumb"
                         android:layout_width="@dimen/thumb_med_width"
                         android:layout_height="@dimen/thumb_med_height"
                         android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="@dimen/xmin_padding"
                         android:layout_weight="1"
                         android:adjustViewBounds="false"
                         android:background="@drawable/img"
                         android:cropToPadding="false" />
 
                     <TextView
-                        android:id="@+id/textViewPemilik"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="@dimen/min_padding"
-                        android:gravity="center_horizontal"
-                        android:text="Pemilik"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="10sp" />
-
-                    <TextView
-                        android:id="@+id/pr_owner_name"
+                        android:id="@+id/pr_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -83,6 +73,45 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:id="@+id/pr_owner"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorPrimarySoft"
+                            android:padding="@dimen/min_padding"
+                            tools:ignore="UselessParent">
+
+                            <ImageView
+                                android:id="@+id/pr_owner_ico"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="@dimen/min_padding"
+                                android:contentDescription="location"
+                                app:srcCompat="@drawable/ic_person_black_24dp" />
+
+                            <TextView
+                                android:id="@+id/pr_owner_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/xmin_padding"
+                                android:layout_marginLeft="@dimen/xmin_padding"
+                                android:layout_toEndOf="@+id/pr_owner_ico"
+                                android:text="-"
+                                android:textSize="@dimen/medium_text" />
+
+                            <TextView
+                                android:id="@+id/textView20"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/pr_owner_name"
+                                android:layout_marginLeft="@dimen/xmin_padding"
+                                android:layout_toEndOf="@+id/pr_owner_ico"
+                                android:text="Pemilik Rental"
+                                android:textSize="12sp" />
+
+                        </RelativeLayout>
 
                         <RelativeLayout
                             android:id="@+id/pr_address"

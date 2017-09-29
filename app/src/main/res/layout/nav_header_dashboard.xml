@@ -12,14 +12,15 @@
     android:paddingTop="@dimen/med_padding"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <ImageView
+    <com.android.volley.toolbox.NetworkImageView
         android:id="@+id/navImageProfile"
         android:layout_width="@dimen/thumb_med_width"
         android:layout_height="@dimen/thumb_med_height"
         android:layout_gravity="center"
         android:layout_marginBottom="@dimen/min_padding"
         android:layout_marginTop="@dimen/min_padding"
-        android:background="@drawable/img" />
+        android:background="@drawable/img"
+        android:scaleType="centerCrop" />
 
     <TextView
         android:id="@+id/navRentName"

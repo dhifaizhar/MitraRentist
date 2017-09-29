@@ -29,9 +29,9 @@
                 android:orientation="vertical"
                 android:padding="@dimen/min_padding">
 
-                <ImageView
+                <com.android.volley.toolbox.NetworkImageView
                     android:id="@+id/pr_thumb"
-                    android:layout_width="@dimen/thumb_width"
+                    android:layout_width="match_parent"
                     android:layout_height="@dimen/thumb_height"
                     android:layout_weight="1"
                     app:srcCompat="@drawable/img" />
