@@ -2,6 +2,7 @@ package id.rentist.mitrarentist.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import id.rentist.mitrarentist.AsetActivity;
 import id.rentist.mitrarentist.AsetListActivity;
 import id.rentist.mitrarentist.R;
 import id.rentist.mitrarentist.modul.ItemCategoryModul;
@@ -126,7 +128,7 @@ public class GridAsetAdapter extends RecyclerView.Adapter<GridAsetAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int i ){
+    public void onBindViewHolder(final ViewHolder viewHolder, int i ){
         ItemCategoryModul ac = itemCategory.get(i);
         final String idc = String.valueOf(ac.getId()), cname = ac.getTitle();
 
@@ -136,11 +138,17 @@ public class GridAsetAdapter extends RecyclerView.Adapter<GridAsetAdapter.ViewHo
         viewHolder.cardDetAset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent iAset = new Intent(context, AsetListActivity.class);
-                iAset.putExtra("id_category", idc);
-                iAset.putExtra("name_category", cname);
-                iAset.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(iAset);
+                if(idc.matches("1|2|3|10")){
+                    Intent iAset = new Intent(context, AsetListActivity.class);
+                    iAset.putExtra("id_category", idc);
+                    iAset.putExtra("name_category", cname);
+                    iAset.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(iAset);
+                    ((AsetActivity)context).finish();
+                }else{
+                    Snackbar snackbar = Snackbar.make(v, "Oops, Sorry ! This Feature Will Online Soon", Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
             }
         });
     }

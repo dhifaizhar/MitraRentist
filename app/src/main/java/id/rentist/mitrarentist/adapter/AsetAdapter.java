@@ -94,6 +94,7 @@ public class AsetAdapter extends RecyclerView.Adapter<AsetAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i ){
         final ItemAsetModul as = mAset.get(i);
+        final int iPosition = i;
 
 //        simpan value dalam object
         viewHolder.mark.setText(as.getMark());
@@ -123,12 +124,12 @@ public class AsetAdapter extends RecyclerView.Adapter<AsetAdapter.ViewHolder> {
         viewHolder.deleteAsset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deleteAssetItem(as.getAssetId());
+                deleteAssetItem(as.getAssetId(), iPosition);
             }
         });
     }
 
-    private void deleteAssetItem(final int id) {
+    private void deleteAssetItem(final int id, final int position) {
         showAlert = new AlertDialog.Builder(context);
         showAlert.setMessage("Hapus aset ini ?");
         showAlert.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
@@ -136,7 +137,7 @@ public class AsetAdapter extends RecyclerView.Adapter<AsetAdapter.ViewHolder> {
             public void onClick(DialogInterface arg0, int arg1) {
                 pDialog.setMessage("loading ...");
                 showProgress(true);
-                new deleteAssetTask(String.valueOf(id)).execute();
+                new deleteAssetTask(String.valueOf(id), position).execute();
             }
         });
         showAlert.setNegativeButton("Tidak",new DialogInterface.OnClickListener() {
@@ -152,10 +153,12 @@ public class AsetAdapter extends RecyclerView.Adapter<AsetAdapter.ViewHolder> {
 
     private class deleteAssetTask  extends AsyncTask<String, String, String> {
         private final String mAsset;
+        private final int mPosition;
         private String errorMsg, responseAsset;
 
-        private deleteAssetTask(String asset) {
+        private deleteAssetTask(String asset, int position) {
             mAsset = asset;
+            mPosition = position;
         }
 
         @Override
@@ -208,6 +211,7 @@ public class AsetAdapter extends RecyclerView.Adapter<AsetAdapter.ViewHolder> {
 
             if(User != null){
                 Toast.makeText(context,"Data berhasil dihapus", Toast.LENGTH_LONG).show();
+                removeAt(mPosition);
             }else{
                 Toast.makeText(context,"Gagal menghapus data", Toast.LENGTH_LONG).show();
             }
@@ -219,6 +223,12 @@ public class AsetAdapter extends RecyclerView.Adapter<AsetAdapter.ViewHolder> {
             showProgress(false);
         }
 
+    }
+
+    private void removeAt(int position) {
+        mAset.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, mAset.size());
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
