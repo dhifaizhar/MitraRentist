@@ -5,6 +5,7 @@
     <color name="colorPrimaryLight">#00bfff</color>
     <color name="colorPrimarySoft">#f8fcfd</color>
     <color name="colorPrimaryTrans">#9d009ddd</color>
+    <color name="colorGrayTrans">#9d7d7f80</color>
     <color name="colorAccent">#55f2dd</color>
     <color name="colorWhite">#ffffff</color>
     <color name="colorNearWhite">#f9f9f9</color>

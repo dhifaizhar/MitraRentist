@@ -10,17 +10,34 @@
     tools:context="id.rentist.mitrarentist.DashboardActivity"
     tools:showIn="@layout/app_bar_dashboard">
 
-    <TextView
-        android:id="@+id/rentName"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/xmin_padding"
-        android:background="@color/colorPrimary"
-        android:gravity="center"
-        android:padding="@dimen/min_padding"
-        android:textColor="@color/colorWhite"
-        android:textSize="@dimen/large_text"
-        android:textStyle="bold" />
+        android:layout_marginBottom="@dimen/xmin_padding">
+
+        <TextView
+            android:id="@+id/rentName"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/btn_lmedium_height"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:padding="@dimen/min_padding"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/large_text"
+            android:textStyle="bold" />
+
+        <com.github.ybq.android.spinkit.SpinKitView
+            android:id="@+id/progressBar"
+            style="@style/SpinKitView.FadingCircle"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/btn_lmedium_height"
+            android:layout_alignParentTop="false"
+            android:layout_centerInParent="true"
+            android:background="@color/colorPrimary"
+            android:padding="@dimen/min_padding"
+            android:visibility="gone"
+            app:SpinKit_Color="@color/colorWhite" />
+    </RelativeLayout>
 
     <!--head breadsrumb-->
     <ScrollView
@@ -93,34 +110,40 @@
                 android:layout_height="@dimen/explorer_item_size"
                 android:background="@color/colorWhite">
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="@dimen/xmin_padding"
-                    android:paddingEnd="@dimen/fab_margin"
-                    android:paddingStart="@dimen/fab_margin"
-                    android:layout_centerVertical="true"
                     android:layout_toStartOf="@+id/btn_to_det_new_trans">
 
-                    <TextView
-                        android:id="@+id/val_new_trans"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="7"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="50sp"
-                        android:textStyle="bold" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerVertical="true"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="@dimen/xmin_padding"
+                        android:paddingEnd="@dimen/fab_margin"
+                        android:paddingStart="@dimen/fab_margin">
 
-                    <TextView
-                        android:id="@+id/new_trans_info"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="PESANAN BARU"
-                        android:textSize="@dimen/medium_text" />
+                        <TextView
+                            android:id="@+id/val_new_trans"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="50sp"
+                            android:textStyle="bold" />
 
-                </LinearLayout>
+                        <TextView
+                            android:id="@+id/new_trans_info"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="PESANAN BARU"
+                            android:textSize="@dimen/medium_text" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
 
                 <ImageButton
                     android:id="@+id/btn_to_det_new_trans"

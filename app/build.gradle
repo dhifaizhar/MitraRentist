@@ -40,6 +40,7 @@ dependencies {
     compile 'com.squareup:android-times-square:1.6.5@aar'
     compile 'com.iarcuschin:simpleratingbar:0.1.5'
     compile 'com.mcxiaoke.volley:library-aar:1.0.1'
+    compile 'com.github.ybq:Android-SpinKit:1.1.0'
     testCompile 'junit:junit:4.12'
 }
 

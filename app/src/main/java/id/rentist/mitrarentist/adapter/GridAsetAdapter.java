@@ -14,7 +14,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import id.rentist.mitrarentist.AsetActivity;
 import id.rentist.mitrarentist.AsetListActivity;
 import id.rentist.mitrarentist.R;
 import id.rentist.mitrarentist.modul.ItemCategoryModul;
@@ -144,7 +143,6 @@ public class GridAsetAdapter extends RecyclerView.Adapter<GridAsetAdapter.ViewHo
                     iAset.putExtra("name_category", cname);
                     iAset.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(iAset);
-                    ((AsetActivity)context).finish();
                 }else{
                     Snackbar snackbar = Snackbar.make(v, "Oops, Sorry ! This Feature Will Online Soon", Snackbar.LENGTH_LONG);
                     snackbar.show();

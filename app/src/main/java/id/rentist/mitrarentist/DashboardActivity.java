@@ -4,7 +4,6 @@ import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -32,13 +31,13 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.github.ybq.android.spinkit.SpinKitView;
+import com.github.ybq.android.spinkit.style.FadingCircle;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,6 +49,7 @@ public class DashboardActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private AsyncTask mDashboardTask = null;
     private ProgressDialog pDialog;
+    private SpinKitView pBar;
     private SessionManager sm;
     private View navHeaderView;
 //    URL imageUrl;
@@ -72,8 +72,12 @@ public class DashboardActivity extends AppCompatActivity
         setContentView(R.layout.activity_dashboard);
 
         sm = new SessionManager(getApplicationContext());
-        pDialog = new ProgressDialog(this);
-        pDialog.setCancelable(false);
+        pBar = (SpinKitView)findViewById(R.id.progressBar);
+        FadingCircle fadingCircle = new FadingCircle();
+        pBar.setIndeterminateDrawable(fadingCircle);
+
+//        pDialog = new ProgressDialog(this);
+//        pDialog.setCancelable(false);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -146,19 +150,20 @@ public class DashboardActivity extends AppCompatActivity
         });
     }
 
-    public static Drawable LoadImageFromWebOperations(String url) {
-        try {
-            InputStream is = (InputStream) new URL(url).getContent();
-            Drawable d = Drawable.createFromStream(is, "src name");
-            return d;
-        } catch (Exception e) {
-            return null;
-        }
-    }
+//    public static Drawable LoadImageFromWebOperations(String url) {
+//        try {
+//            InputStream is = (InputStream) new URL(url).getContent();
+//            Drawable d = Drawable.createFromStream(is, "src name");
+//            return d;
+//        } catch (Exception e) {
+//            return null;
+//        }
+//    }
 
     private void retrieveDashboardData(String tenant) {
-        pDialog.setMessage("loading ...");
-        showProgress(true);
+        pBar.setVisibility(View.VISIBLE);
+//        pDialog.setMessage("loading ...");
+//        showProgress(true);
         new getDataTask(tenant).execute();
     }
 
@@ -209,7 +214,8 @@ public class DashboardActivity extends AppCompatActivity
         @Override
         protected void onPostExecute(String user) {
             mDashboardTask = null;
-            showProgress(false);
+            pBar.setVisibility(View.GONE);
+//            showProgress(false);
 
             if(user != null){
                 try {
@@ -244,7 +250,8 @@ public class DashboardActivity extends AppCompatActivity
         @Override
         protected void onCancelled() {
             mDashboardTask = null;
-            showProgress(false);
+            pBar.setVisibility(View.GONE);
+//            showProgress(false);
         }
     }
 

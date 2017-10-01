@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -23,6 +24,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.github.ybq.android.spinkit.SpinKitView;
+import com.github.ybq.android.spinkit.style.FadingCircle;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -50,6 +53,7 @@ public class AsetListActivity extends AppCompatActivity {
     private List<ItemAsetModul> mAset = new ArrayList<>();
     private AsyncTask mAssetTask = null;
     private ProgressDialog pDialog;
+    private SpinKitView pBar;
     SessionManager sm;
     Intent iAset, iAddAset;
 
@@ -65,8 +69,12 @@ public class AsetListActivity extends AppCompatActivity {
 
         iAset = getIntent();
         sm = new SessionManager(getApplicationContext());
-        pDialog = new ProgressDialog(this);
-        pDialog.setCancelable(false);
+        pBar = (SpinKitView)findViewById(R.id.progressBar);
+        FadingCircle fadingCircle = new FadingCircle();
+        pBar.setIndeterminateDrawable(fadingCircle);
+
+//        pDialog = new ProgressDialog(this);
+//        pDialog.setCancelable(false);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -79,8 +87,8 @@ public class AsetListActivity extends AppCompatActivity {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                mAset.clear();
                 getAssetDataList();
-                mSwipeRefreshLayout.setRefreshing(false);
             }
         });
 
@@ -91,9 +99,9 @@ public class AsetListActivity extends AppCompatActivity {
     }
 
     public void getAssetDataList() {
-        mAset.clear();
-        pDialog.setMessage("loading asset...");
-        showProgress(true);
+        pBar.setVisibility(View.VISIBLE);
+//        pDialog.setMessage("loading asset...");
+//        showProgress(true);
         new getAssetListTask(tenant).execute();
     }
 
@@ -154,7 +162,9 @@ public class AsetListActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String aset) {
             mAssetTask = null;
-            showProgress(false);
+            mSwipeRefreshLayout.setRefreshing(false);
+            pBar.setVisibility(View.GONE);
+//            showProgress(false);
             String aName, aType, aPlat, aYear, aStatus, aSubCat;
             Integer dataLength, aId;
 
@@ -216,7 +226,9 @@ public class AsetListActivity extends AppCompatActivity {
         @Override
         protected void onCancelled() {
             mAssetTask = null;
-            showProgress(false);
+            pBar.setVisibility(View.GONE);
+            mSwipeRefreshLayout.setRefreshing(false);
+//            showProgress(false);
         }
     }
 
@@ -242,8 +254,6 @@ public class AsetListActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        iAset = new Intent(AsetListActivity.this, AsetActivity.class);
-        startActivity(iAset);
         finish();
     }
 
