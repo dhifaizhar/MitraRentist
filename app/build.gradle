@@ -41,9 +41,19 @@ dependencies {
     compile 'com.iarcuschin:simpleratingbar:0.1.5'
     compile 'com.mcxiaoke.volley:library-aar:1.0.1'
     compile 'com.github.ybq:Android-SpinKit:1.1.0'
+    compile 'de.hdodenhof:circleimageview:2.1.0'
+
     testCompile 'junit:junit:4.12'
 }
 
 //apply plugin: 'com.google.gms.google-services'
+
+
+
+
+
+
+
+
 
 
