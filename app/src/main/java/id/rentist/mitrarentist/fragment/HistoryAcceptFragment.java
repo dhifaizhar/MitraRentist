@@ -21,6 +21,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.github.ybq.android.spinkit.SpinKitView;
+import com.github.ybq.android.spinkit.style.FadingCircle;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,6 +46,7 @@ public class HistoryAcceptFragment extends Fragment {
     private List<ItemTransaksiModul> mTrans;
     private AsyncTask mHistoryTask = null;
     private ProgressDialog pDialog;
+    private SpinKitView pBar;
     private SessionManager sm;
     private View view;
 
@@ -61,8 +64,13 @@ public class HistoryAcceptFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_history_accept, container, false);
         mTrans = new ArrayList<ItemTransaksiModul>();
         sm = new SessionManager(getActivity());
-        pDialog = new ProgressDialog(getActivity());
-        pDialog.setCancelable(false);
+        pBar = new SpinKitView(getActivity());
+//        pBar = (SpinKitView) findViewById(R.id.progressBar);
+        FadingCircle fadingCircle = new FadingCircle();
+        pBar.setIndeterminateDrawable(fadingCircle);
+
+//        pDialog = new ProgressDialog(getActivity());
+//        pDialog.setCancelable(false);
 
         // action retrieve data aset
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
@@ -72,8 +80,9 @@ public class HistoryAcceptFragment extends Fragment {
     }
 
     private void getHistoryAccList(String tenant) {
-        pDialog.setMessage("loading ...");
-        showProgress(true);
+        pBar.setVisibility(View.VISIBLE);
+//        pDialog.setMessage("loading ...");
+//        showProgress(true);
         new HistoryAcceptFragment.getHistoryAccListTask(tenant).execute();
     }
 
@@ -138,7 +147,9 @@ public class HistoryAcceptFragment extends Fragment {
         @Override
         protected void onPostExecute(String history) {
             mHistoryTask = null;
-            showProgress(false);
+//            showProgress(false);
+            pBar.setVisibility(View.GONE);
+
             String aIdTrans, aTitle, aMember, aStartDate, aEndDate, aNominal, aAsetName;
             Integer aId, dataLength;
 
@@ -207,7 +218,9 @@ public class HistoryAcceptFragment extends Fragment {
         @Override
         protected void onCancelled() {
             mHistoryTask = null;
-            showProgress(false);
+//            showProgress(false);
+            pBar.setVisibility(View.GONE);
+
         }
     }
 }

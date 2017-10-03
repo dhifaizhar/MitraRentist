@@ -5,7 +5,7 @@
         <item
             android:id="@+id/nav_profile"
             android:icon="@drawable/ic_person_black_24dp"
-            android:title="Profil" />
+            android:title="Profil Rental" />
         <item
             android:id="@+id/nav_users"
             android:icon="@drawable/ic_people_black_24dp"
@@ -18,22 +18,14 @@
             android:id="@+id/nav_driver"
             android:icon="@drawable/ic_person_black_24dp"
             android:title="Pengemudi" />
-        <!--<item-->
-            <!--android:id="@+id/nav_drop"-->
-            <!--android:icon="@drawable/ic_assignment_late_black_24dp"-->
-            <!--android:title="Antar Aset" />-->
-        <!--<item-->
-            <!--android:id="@+id/nav_take"-->
-            <!--android:icon="@drawable/ic_assignment_turned_in_black_24dp"-->
-            <!--android:title="Jemput Aset" />-->
+        <item
+            android:id="@+id/nav_riwayat"
+            android:icon="@drawable/ic_assignment_black_24dp"
+            android:title="Transaksi" />
         <item
             android:id="@+id/nav_dompet"
             android:icon="@drawable/ic_account_balance_wallet_black_24dp"
             android:title="Dompet" />
-        <item
-            android:id="@+id/nav_riwayat"
-            android:icon="@drawable/ic_history_black_24dp"
-            android:title="Riwayat" />
         <item
             android:id="@+id/nav_message"
             android:icon="@drawable/ic_message_black_24dp"

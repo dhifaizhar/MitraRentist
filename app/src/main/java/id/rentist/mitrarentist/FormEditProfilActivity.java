@@ -32,6 +32,7 @@ import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -194,9 +195,9 @@ public class FormEditProfilActivity extends AppCompatActivity {
                     keys.put("email", erEmail);
                     keys.put("address", erAddress);
                     keys.put("phone", erPhone);
-                    keys.put("file", imgString);
+                    keys.put("file", isiimage);
 
-                    Log.e(TAG, "IMAGE ; " + imgString);
+//                    Log.e(TAG, "IMAGE ; " + imgString);
 
                     return keys;
                 }
@@ -232,12 +233,18 @@ public class FormEditProfilActivity extends AppCompatActivity {
                 sm.setPreferences("telepon", erPhone);
                 sm.setPreferences("email", erEmail);
 //                sm.setPreferences("foto_profil_tenant",isiimage);
+                Log.e(TAG, "USer : not null");
 
                 try {
-                    JSONObject respObject = new JSONObject(user);
-                    sm.setPreferences("foto_profil_tenant",respObject.getString("profil_pic"));
+                    JSONArray respArray = new JSONArray(user);
+                    if(respArray.length() > 0){
+                        for (int i = 0; i < respArray.length(); i++) {
+                            JSONObject respObject = respArray.getJSONObject(i);
+                            sm.setPreferences("foto_profil_tenant", respObject.getString("profil_pic"));
+                        }
+                    }
 
-                    Log.e(TAG, "IMAGE ; " + respObject.getString("profil_pic"));
+                    Log.e(TAG, "Response : " + respArray.toString() );
 
                 } catch (JSONException e) {
                     e.printStackTrace();

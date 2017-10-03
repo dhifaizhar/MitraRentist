@@ -155,6 +155,7 @@
                     android:layout_marginLeft="@dimen/min_padding"
                     android:layout_marginRight="@dimen/min_padding"
                     android:layout_toRightOf="@+id/tr_acc_thumb"
+                    android:layout_marginBottom="@dimen/xmin_padding"
                     android:padding="@dimen/small_space">
 
                     <TextView

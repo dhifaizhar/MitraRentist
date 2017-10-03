@@ -20,7 +20,7 @@ public class HistoryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
-        setTitle("Riwayat");
+        setTitle("Transaksi");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -47,7 +47,10 @@ public class HistoryActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_refresh_option, menu);
         getMenuInflater().inflate(R.menu.menu_search_option, menu);
+
+
         return true;
     }
 
@@ -58,6 +61,11 @@ public class HistoryActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_search) {
+            //ubah dengan fungsi
+            return true;
+        }
+
+        if (id == R.id.action_refresh) {
             //ubah dengan fungsi
             return true;
         }
