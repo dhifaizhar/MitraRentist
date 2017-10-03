@@ -7,7 +7,7 @@ android {
         applicationId "id.rentist.mitrarentist"
         minSdkVersion 19
         targetSdkVersion 25
-        versionCode 13
+        versionCode 14
         versionName "1.0"
         vectorDrawables.useSupportLibrary = true
     }
