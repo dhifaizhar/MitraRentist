@@ -6,12 +6,11 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
-import android.widget.ImageView;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -22,6 +21,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -42,8 +42,7 @@ public class FormDriverActivity extends AppCompatActivity {
     int genderId;
     String tenant, aId, birthdate;
     TextView name, sim, bdate, gender;
-    ImageView profilePic;
-    FloatingActionButton fab;
+    NetworkImageView profilePic;
 
     private static final String TAG = "FormDriverActivity";
     private static final String TOKEN = "secretissecret";
@@ -52,7 +51,7 @@ public class FormDriverActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form_driver);
-        setTitle("Driver Aset Form");
+        setTitle("Driver Form");
 
         formDriver = getIntent();
         sm = new SessionManager(getApplicationContext());
@@ -70,11 +69,10 @@ public class FormDriverActivity extends AppCompatActivity {
     private void controlContent() {
         //initialize view
         aGenderGroup = (RadioGroup) findViewById(R.id.dr_rad_gender);
-        profilePic = (ImageView)findViewById(R.id.dr_thumb_driver);
+        profilePic = (NetworkImageView) findViewById(R.id.dr_thumb_driver);
         name = (TextView)findViewById(R.id.dr_driver_name);
         sim = (TextView)findViewById(R.id.dr_sim_number);
         bdate = (TextView)findViewById(R.id.dr_bdate);
-        fab = (FloatingActionButton) findViewById(R.id.fab);
 
         // set content control value
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
@@ -94,12 +92,6 @@ public class FormDriverActivity extends AppCompatActivity {
         }
 
         // set action
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                formDriverTenant(tenant, aId);
-            }
-        });
     }
 
     private void formDriverTenant(String tenant, String id) {
@@ -292,5 +284,23 @@ public class FormDriverActivity extends AppCompatActivity {
         onBackPressed();
         this.finish();
         return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_save_option, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_save) {
+            formDriverTenant(tenant, aId);
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

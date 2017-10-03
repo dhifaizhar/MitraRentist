@@ -4,34 +4,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="@dimen/min_padding"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="id.rentist.mitrarentist.FormUserActivity"
     tools:showIn="@layout/activity_form_user">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="@dimen/xmin_padding"
->
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="@dimen/xmin_padding"
+            android:focusableInTouchMode="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
                 android:padding="@dimen/min_padding">
 
-                <ImageView
+                <com.android.volley.toolbox.NetworkImageView
                     android:id="@+id/fus_thumb"
-                    android:layout_width="@dimen/thumb_width"
+                    android:layout_width="match_parent"
                     android:layout_height="@dimen/thumb_height"
                     android:layout_weight="1"
-                    app:srcCompat="@drawable/blue_android" />
+                    android:background="@drawable/img" />
 
                 <Button
                     android:id="@+id/btnUploadFoto"
@@ -45,58 +47,50 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/colorWhite"
+                android:layout_marginBottom="@dimen/xmin_padding"
                 android:orientation="vertical"
-                android:focusableInTouchMode="true">
+                android:padding="@dimen/xmin_padding">
 
-                <RelativeLayout
+                <TextView
+                    android:id="@+id/textView13"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/cardview_dark_background"
-                    android:padding="@dimen/min_padding">
-
-                    <TextView
-                        android:id="@+id/textView4"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_centerVertical="true"
-                        android:text="Data Pengguna"
-                        android:textAlignment="center"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/medium_text"
-                        android:textStyle="bold" />
-
-                </RelativeLayout>
+                    android:text="Nama"
+                    android:textColor="@color/colorBlack" />
 
                 <EditText
                     android:id="@+id/fus_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@color/colorNearWhite"
                     android:ems="10"
                     android:hint="Nama"
+                    android:inputType="text"
                     android:imeOptions="actionNext"
                     android:padding="@dimen/min_padding" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/xmin_padding"
+                android:orientation="vertical"
+                android:padding="@dimen/xmin_padding">
+
+                <TextView
+                    android:id="@+id/textView12"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Jenis Pengguna"
+                    android:textColor="@color/colorBlack" />
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/min_padding"
-
-                    >
-
-                    <TextView
-                        android:id="@+id/role_txt"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_centerVertical="true"
-                        android:text="Role : "
-                        android:textSize="@dimen/medium_text" />
+                    android:padding="@dimen/min_padding">
 
                     <Spinner
                         android:id="@+id/fus_role"
-                        android:layout_toRightOf="@id/role_txt"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:entries="@array/role_entries"
@@ -106,25 +100,50 @@
 
                     <View
                         android:id="@+id/line"
-                        android:layout_toRightOf="@id/role_txt"
-                        android:layout_alignBottom="@id/fus_role"
                         android:layout_width="match_parent"
-                        android:paddingRight="@dimen/min_padding"
-                        android:paddingLeft="@dimen/min_padding"
                         android:layout_height="1dp"
-                        android:background="@android:color/darker_gray" />
+                        android:layout_alignBottom="@id/fus_role"
+                        android:background="@android:color/darker_gray"
+                        android:paddingLeft="@dimen/min_padding"
+                        android:paddingRight="@dimen/min_padding" />
 
                 </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/xmin_padding"
+                android:orientation="vertical"
+                android:padding="@dimen/xmin_padding">
+
+                <TextView
+                    android:id="@+id/textView36"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Email"
+                    android:textColor="@color/colorBlack" />
 
                 <EditText
                     android:id="@+id/fus_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@color/colorNearWhite"
                     android:ems="10"
                     android:hint="Email"
                     android:imeOptions="actionNext"
-                    android:inputType="text"
+                    android:inputType="textEmailAddress"
                     android:padding="@dimen/min_padding" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorWhite"
+                android:focusableInTouchMode="true"
+                android:orientation="vertical"
+                android:visibility="gone">
+
 
                 <EditText
                     android:id="@+id/fus_password"
@@ -148,7 +167,6 @@
                     android:visibility="gone" />
 
             </LinearLayout>
-
         </LinearLayout>
 
     </ScrollView>

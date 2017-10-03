@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -23,6 +24,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.github.ybq.android.spinkit.SpinKitView;
+import com.github.ybq.android.spinkit.style.FadingCircle;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,6 +49,7 @@ public class DriverActivity extends AppCompatActivity {
     private List<ItemDriverModul> mDriver = new ArrayList<>();
     private AsyncTask mDriverTask = null;
     private ProgressDialog pDialog;
+    private SpinKitView pBar;
     private SessionManager sm;
     Intent iDriver;
 
@@ -60,8 +64,12 @@ public class DriverActivity extends AppCompatActivity {
         setTitle("Pengemudi Terdaftar");
 
         sm = new SessionManager(getApplicationContext());
-        pDialog = new ProgressDialog(this);
-        pDialog.setCancelable(false);
+        pBar = (SpinKitView)findViewById(R.id.progressBar);
+        FadingCircle fadingCircle = new FadingCircle();
+        pBar.setIndeterminateDrawable(fadingCircle);
+
+//        pDialog = new ProgressDialog(this);
+//        pDialog.setCancelable(false);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -77,14 +85,14 @@ public class DriverActivity extends AppCompatActivity {
             public void onRefresh() {
                 mDriver.clear();
                 getDriverDataList(tenant);
-                mSwipeRefreshLayout.setRefreshing(false);
             }
         });
     }
 
     private void getDriverDataList(String tenant) {
-        pDialog.setMessage("loading ...");
-        showProgress(true);
+        pBar.setVisibility(View.VISIBLE);
+//        pDialog.setMessage("loading ...");
+//        showProgress(true);
         new getDriverListTask(tenant).execute();
     }
 
@@ -176,7 +184,9 @@ public class DriverActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String user) {
             mDriverTask = null;
-            showProgress(false);
+            mSwipeRefreshLayout.setRefreshing(false);
+            pBar.setVisibility(View.GONE);
+//            showProgress(false);
             String aId, aName, aSIM, aThumbPhoto;
             Integer dataLength;
 
@@ -228,7 +238,9 @@ public class DriverActivity extends AppCompatActivity {
         @Override
         protected void onCancelled() {
             mDriverTask = null;
-            showProgress(false);
+            mSwipeRefreshLayout.setRefreshing(false);
+            pBar.setVisibility(View.GONE);
+//            showProgress(false);
         }
     }
 }

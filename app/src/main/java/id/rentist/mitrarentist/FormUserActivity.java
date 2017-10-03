@@ -6,12 +6,12 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +21,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -39,8 +40,7 @@ public class FormUserActivity extends AppCompatActivity {
     String tenant, aId;
     TextView nama, email, pass;
     Spinner role;
-    ImageView profilPic;
-    FloatingActionButton fab;
+    NetworkImageView profilPic;
 
     private static final String TAG = "FormUserActivity";
     private static final String TOKEN = "secretissecret";
@@ -66,12 +66,11 @@ public class FormUserActivity extends AppCompatActivity {
 
     private void controlContent() {
         //initialize view
-        profilPic = (ImageView)findViewById(R.id.fus_thumb);
+        profilPic = (NetworkImageView)findViewById(R.id.fus_thumb);
         nama = (TextView)findViewById(R.id.fus_name);
         role = (Spinner) findViewById(R.id.fus_role);
         email = (TextView)findViewById(R.id.fus_email);
         pass = (TextView)findViewById(R.id.fus_password);
-        fab = (FloatingActionButton) findViewById(R.id.fab);
 
         // set content control value
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
@@ -92,12 +91,6 @@ public class FormUserActivity extends AppCompatActivity {
         }
 
         // set action
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                formUserTenant(tenant, aId);
-            }
-        });
     }
 
     private void formUserTenant(String tenant, String id) {
@@ -291,4 +284,21 @@ public class FormUserActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_save_option, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_save) {
+            formUserTenant(tenant, aId);
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 }
