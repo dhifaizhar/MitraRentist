@@ -435,6 +435,13 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                     sm.setPreferences("foto_profil",sPic);
                     sm.setPreferences("foto_profil_tenant",tPic);
 
+//                    String imageUrl = "http://assets.rentist.id/images/" + sm.getPreferences("foto_profil_tenant");
+//                    ImageLoader mImageLoader = new VolleySingleton(getApplicationContext()).getImageUrl();
+//                    NetworkImageView profilePhoto;
+//                    profilePhoto.(imageUrl,mImageLoader);
+
+                    Log.d(TAG, "Image : ");
+
                     if(sStat.equals("true")){
                         startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
                         finish();

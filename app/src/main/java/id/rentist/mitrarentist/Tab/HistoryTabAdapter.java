@@ -6,9 +6,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import id.rentist.mitrarentist.fragment.HistoryOnTransFragment;
+import id.rentist.mitrarentist.fragment.HistoryAcceptFragment;
 import id.rentist.mitrarentist.fragment.HistoryCancelFragment;
 import id.rentist.mitrarentist.fragment.HistoryCompTransFragment;
+import id.rentist.mitrarentist.fragment.HistoryOnTransFragment;
 
 /**
  * Created by mdhif on 07/07/2017.
@@ -16,7 +17,7 @@ import id.rentist.mitrarentist.fragment.HistoryCompTransFragment;
 
 public class HistoryTabAdapter extends FragmentPagerAdapter {
     private Context mContext;
-    private String[] titles={"Berlangsung", "Selesai", "Dibatalkan"};
+    private String[] titles={"Diterima","Berlangsung", "Selesai", "Dibatalkan"};
 
     // CHANGE STARTS HERE
     private int current_position=0;
@@ -36,10 +37,12 @@ public class HistoryTabAdapter extends FragmentPagerAdapter {
         Fragment frag = null;
 
         if(position == 0){
-            frag = new HistoryOnTransFragment();
+            frag = new HistoryAcceptFragment();
         }else if(position == 1){
-            frag = new HistoryCompTransFragment();
+            frag = new HistoryOnTransFragment();
         }else if(position == 2){
+            frag = new HistoryCompTransFragment();
+        }else if(position == 3){
             frag = new HistoryCancelFragment();
         }
 
@@ -58,10 +61,12 @@ public class HistoryTabAdapter extends FragmentPagerAdapter {
 
     public CharSequence getPageTitle(int position){
         if (position == current_position) {
-            return "Berlangsung";
+            return "Diterima";
         }else if(position == current_position+1){
-            return "Selesai";
+            return "Berlangsung";
         }else if(position == current_position+2){
+            return "Selesai";
+        }else if(position == current_position+3){
             return "Dibatalkan";
         }
 

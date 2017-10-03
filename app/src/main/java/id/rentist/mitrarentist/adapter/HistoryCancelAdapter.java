@@ -43,15 +43,19 @@ public class HistoryCancelAdapter extends RecyclerView.Adapter<HistoryCancelAdap
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        TextView title, member, waktu, harga;
+        TextView title, idTrans, member, stardDate, endDate, nominal, asetName;
         CardView cardDetTrans;
 
         public ViewHolder(View itemView){
             super(itemView);
-            title = (TextView) itemView.findViewById(R.id.tr_aset_type);
-            member = (TextView) itemView.findViewById(R.id.tr_member_det);
-            waktu = (TextView) itemView.findViewById(R.id.tr_waktu_det);
-            cardDetTrans = (CardView) itemView.findViewById(R.id.card_view_canceltransaksi);
+//            title = (TextView) itemView.findViewById(R.id.tr_aset_type);
+            idTrans = (TextView) itemView.findViewById(R.id.tr_can_id_trans);
+            member = (TextView) itemView.findViewById(R.id.tr_can_member);
+            nominal = (TextView) itemView.findViewById(R.id.tr_can_nominal);
+            stardDate = (TextView) itemView.findViewById(R.id.tr_can_start_date);
+            endDate = (TextView) itemView.findViewById(R.id.tr_can_end_date);
+            asetName = (TextView) itemView.findViewById(R.id.tr_can_aset);
+            cardDetTrans = (CardView) itemView.findViewById(R.id.card_view_cantransaksi);
         }
     }
 
@@ -60,9 +64,12 @@ public class HistoryCancelAdapter extends RecyclerView.Adapter<HistoryCancelAdap
         ItemTransaksiModul trx = mTransaksi.get(i);
 
 //        simpan value dalam object
-        viewHolder.title.setText(trx.getTitle());
+        viewHolder.idTrans.setText(trx.getIdTrans());
+        viewHolder.nominal.setText(trx.getPrice());
+        viewHolder.asetName.setText(trx.getAsetName());
         viewHolder.member.setText(trx.getMember());
-        viewHolder.waktu.setText(trx.getDate());
+        viewHolder.stardDate.setText(trx.getStartDate());
+        viewHolder.endDate.setText(trx.getEndDate());
         viewHolder.cardDetTrans.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

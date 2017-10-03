@@ -5,16 +5,30 @@ package id.rentist.mitrarentist.modul;
  */
 
 public class ItemTransaksiModul {
-    private String mTitle;
+    private String mTitle, mIdTrans, mAsetName;
     private int mThumbnail;
     private int mMemberIco;
     private String mMember;
     private int mDateIco;
-    private String mDate;
+    private String mDate, mStartDate, mEndDate;
     private int mLocIco;
     private String mLoc;
     private int mPriceIco;
     private String mPrice;
+
+    public String getIdTrans() {
+        return mIdTrans;
+    }
+    public void setIdTrans(String mIdTrans) {
+        this.mIdTrans = mIdTrans;
+    }
+
+    public String getAsetName() {
+        return mAsetName;
+    }
+    public void setAsetName(String mAsetName) {
+        this.mAsetName = mAsetName;
+    }
 
     public String getTitle() {
         return mTitle;
@@ -49,6 +63,20 @@ public class ItemTransaksiModul {
     public int getDateIco() {
         return mDateIco;
     }
+    public void setStartDate(String mStartDate) {
+        this.mStartDate = mStartDate;
+    }
+    public String getStartDate() {
+        return mStartDate;
+    }
+
+    public void setEndDate(String mEndDate) {
+        this.mEndDate = mEndDate;
+    }
+    public String getEndDate() {
+        return mEndDate;
+    }
+
     public void setDate(String mDate) {
         this.mDate = mDate;
     }

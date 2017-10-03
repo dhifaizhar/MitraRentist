@@ -50,8 +50,8 @@ public class HistoryOnTransAdapter extends RecyclerView.Adapter<HistoryOnTransAd
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.tr_aset_type);
             member = (TextView) itemView.findViewById(R.id.tr_member_det);
-            waktu = (TextView) itemView.findViewById(R.id.tr_waktu_det);
-            harga = (TextView) itemView.findViewById(R.id.tr_harga_det);
+            waktu = (TextView) itemView.findViewById(R.id.tr_start_date);
+            harga = (TextView) itemView.findViewById(R.id.tr_nominal);
             cardDetTrans = (CardView) itemView.findViewById(R.id.card_view_ontransaksi);
         }
 
@@ -62,7 +62,7 @@ public class HistoryOnTransAdapter extends RecyclerView.Adapter<HistoryOnTransAd
         ItemTransaksiModul trx = mTransaksi.get(i);
 
 //        simpan value dalam object
-        viewHolder.title.setText(trx.getTitle());
+//        viewHolder.title.setText(trx.getTitle());
         viewHolder.member.setText(trx.getMember());
         viewHolder.waktu.setText(trx.getDate());
         viewHolder.harga.setText(trx.getPrice());
@@ -70,6 +70,7 @@ public class HistoryOnTransAdapter extends RecyclerView.Adapter<HistoryOnTransAd
             @Override
             public void onClick(View v) {
                 Intent iDetTrans = new Intent(context, TransDetailActivity.class);
+                iDetTrans.putExtra("status", "onGoing");
                 iDetTrans.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(iDetTrans);
             }

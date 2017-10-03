@@ -20,12 +20,21 @@
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
         <!--untuk menampilkan tab-->
-        <id.rentist.mitrarentist.Tab.SlidingTabLayout
+        <!--<id.rentist.mitrarentist.Tab.SlidingTabLayout-->
+            <!--android:id="@+id/stl_tab_hs"-->
+            <!--android:layout_below="@+id/toolbar_profile"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--app:tabMode="scrollable">-->
+        <!--</id.rentist.mitrarentist.Tab.SlidingTabLayout>-->
+
+        <android.support.design.widget.TabLayout
             android:id="@+id/stl_tab_hs"
             android:layout_below="@+id/toolbar_profile"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        </id.rentist.mitrarentist.Tab.SlidingTabLayout>
+            android:layout_height="wrap_content"
+            app:tabMode="scrollable">
+        </android.support.design.widget.TabLayout>
 
     </android.support.design.widget.AppBarLayout>
 

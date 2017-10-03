@@ -118,9 +118,16 @@ public class DashboardActivity extends AppCompatActivity
         // set content control value
         rentName.setText(sm.getPreferences("nama_rental"));
         rentNameDrawer.setText(sm.getPreferences("nama"));
-        imageUrl = "http://assets.rentist.id/images/" + sm.getPreferences("foto_profil");
-        mImageLoader = new VolleySingleton(getApplicationContext()).getImageUrl();
-        rentImgProfile.setImageUrl(imageUrl,mImageLoader);
+
+        Log.e(TAG, "Profil Pic : " + sm.getPreferences("foto_profil"));
+        if (sm.getPreferences("foto_profil").equals("null")){
+            rentImgProfile.setDefaultImageResId(R.drawable.user_ava_man);
+
+        } else {
+            imageUrl = "http://assets.rentist.id/images/" + sm.getPreferences("foto_profil");
+            mImageLoader = new VolleySingleton(getApplicationContext()).getImageUrl();
+            rentImgProfile.setImageUrl(imageUrl,mImageLoader);
+        }
 
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
         retrieveDashboardData(tenant);

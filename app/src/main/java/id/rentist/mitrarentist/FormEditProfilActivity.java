@@ -32,6 +32,9 @@ import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -191,7 +194,7 @@ public class FormEditProfilActivity extends AppCompatActivity {
                     keys.put("email", erEmail);
                     keys.put("address", erAddress);
                     keys.put("phone", erPhone);
-                    keys.put("file", isiimage);
+                    keys.put("file", imgString);
 
                     Log.e(TAG, "IMAGE ; " + imgString);
 
@@ -228,8 +231,18 @@ public class FormEditProfilActivity extends AppCompatActivity {
                 sm.setPreferences("alamat", erAddress);
                 sm.setPreferences("telepon", erPhone);
                 sm.setPreferences("email", erEmail);
-                sm.setPreferences("foto_profil_tenant",isiimage);
-                Log.e(TAG, "Prof Pic: " + isiimage);
+//                sm.setPreferences("foto_profil_tenant",isiimage);
+
+                try {
+                    JSONObject respObject = new JSONObject(user);
+                    sm.setPreferences("foto_profil_tenant",respObject.getString("profil_pic"));
+
+                    Log.e(TAG, "IMAGE ; " + respObject.getString("profil_pic"));
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
                 Toast.makeText(getApplicationContext(),"Sukses mengubah data.", Toast.LENGTH_LONG).show();
                 finish();
             }else{
@@ -315,9 +328,10 @@ public class FormEditProfilActivity extends AppCompatActivity {
                 //Getting the Bitmap from Gallery
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
 
-                Log.e(TAG, "ext: " + data);
+                String imgStr = data.toString();
 
-                ext = data.toString();
+                ext = imgStr.substring(imgStr.indexOf("typ")+4, imgStr.indexOf("flg")-1);
+                Log.e(TAG, "ext: " + ext);
 
                 //Setting the Bitmap to ImageView
                 profilePhoto.setImageBitmap(bitmap);

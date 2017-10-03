@@ -32,16 +32,12 @@ import java.util.List;
 import java.util.Map;
 
 import id.rentist.mitrarentist.R;
-import id.rentist.mitrarentist.adapter.HistoryCancelAdapter;
+import id.rentist.mitrarentist.adapter.HistoryAcceptAdapter;
 import id.rentist.mitrarentist.modul.ItemTransaksiModul;
 import id.rentist.mitrarentist.tools.AppConfig;
 import id.rentist.mitrarentist.tools.SessionManager;
 
-/**
- * Created by mdhif on 07/07/2017.
- */
-
-public class HistoryCancelFragment extends Fragment {
+public class HistoryAcceptFragment extends Fragment {
     RecyclerView mRecyclerView;
     RecyclerView.LayoutManager mLayoutManager;
     RecyclerView.Adapter mAdapter;
@@ -55,15 +51,14 @@ public class HistoryCancelFragment extends Fragment {
     private static final String TOKEN = "secretissecret";
     String tenant;
 
-    public HistoryCancelFragment(){
 
+    public HistoryAcceptFragment() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        view = inflater.inflate(R.layout.fragment_history_cancel, container, false);
+        view = inflater.inflate(R.layout.fragment_history_accept, container, false);
         mTrans = new ArrayList<ItemTransaksiModul>();
         sm = new SessionManager(getActivity());
         pDialog = new ProgressDialog(getActivity());
@@ -71,15 +66,15 @@ public class HistoryCancelFragment extends Fragment {
 
         // action retrieve data aset
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
-        getHistoryCanList(tenant);
+        getHistoryAccList(tenant);
 
         return view;
     }
 
-    private void getHistoryCanList(String tenant) {
+    private void getHistoryAccList(String tenant) {
         pDialog.setMessage("loading ...");
         showProgress(true);
-        new getHistoryCanListTask(tenant).execute();
+        new HistoryAcceptFragment.getHistoryAccListTask(tenant).execute();
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
@@ -95,12 +90,12 @@ public class HistoryCancelFragment extends Fragment {
         }
     }
 
-    private class getHistoryCanListTask extends AsyncTask<String, String, String> {
+    public class getHistoryAccListTask extends AsyncTask<String, String, String>{
         private final String mTenant;
         private String errorMsg, responseHistory;
 
-        private getHistoryCanListTask(String tenant) {
-            mTenant = tenant;
+        public getHistoryAccListTask(String tenant) {
+            this.mTenant = tenant;
         }
 
         @Override
@@ -147,7 +142,6 @@ public class HistoryCancelFragment extends Fragment {
             String aIdTrans, aTitle, aMember, aStartDate, aEndDate, aNominal, aAsetName;
             Integer aId, dataLength;
 
-
             if (history != null) {
                 try {
                     JSONObject jsonObject = new JSONObject(history);
@@ -163,23 +157,23 @@ public class HistoryCancelFragment extends Fragment {
                             JSONArray items = transObject.getJSONArray("item");
                             JSONObject item = new JSONObject();
 
+                            aAsetName = "- Item Kosong -";
+
                             if(items.length() > 0){
                                 if (items.length() == 1){
                                     item = items.getJSONObject(0);
-                                } else {
-                                    for (int j = 0; j < items.length(); j++) {
+                                    aAsetName = item.getString("brand") + " " + item.getString("type") + " | " + item.getString("license_plat");
 
-                                    }
+                                } else {
+
                                 }
                             }
 
                             aIdTrans = idTrans.getString("transaction_code");
-                            aNominal = transObject.getString("nominal");
-                            aAsetName = item.getString("brand") + " " + item.getString("type");
+                            aNominal = transObject.getString("nominal") + " IDR";
                             aMember = transObject.getString("firstname") + " " + transObject.getString("lastname");
-                            aStartDate = transObject.getString("start_date").replace("-","/").substring(0,9);
-                            aEndDate = transObject.getString("end_date").replace("-","/").substring(0,9);
-
+                            aStartDate = transObject.getString("start_date").replace("-","/").substring(0,10);
+                            aEndDate = transObject.getString("end_date").replace("-","/").substring(0,10);
 
                             ItemTransaksiModul itemTrans = new ItemTransaksiModul();
                             itemTrans.setIdTrans(aIdTrans);
@@ -187,15 +181,15 @@ public class HistoryCancelFragment extends Fragment {
                             itemTrans.setMember(aMember);
                             itemTrans.setPrice(aNominal);
                             itemTrans.setStartDate(aStartDate);
-                            itemTrans.setStartDate(aEndDate);
+                            itemTrans.setEndDate(aEndDate);
 
                             mTrans.add(itemTrans);
                         }
 
-                        mRecyclerView = (RecyclerView) view.findViewById(R.id.hcancel_recyclerViewFrag);
+                        mRecyclerView = (RecyclerView) view.findViewById(R.id.haccept_recyclerViewFrag);
                         mLayoutManager = new LinearLayoutManager(getActivity());
                         mRecyclerView.setLayoutManager(mLayoutManager);
-                        mAdapter = new HistoryCancelAdapter(getActivity(),mTrans);
+                        mAdapter = new HistoryAcceptAdapter(getActivity(),mTrans);
                         mRecyclerView.setAdapter(mAdapter);
 
                     }else{

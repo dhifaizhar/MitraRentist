@@ -7,7 +7,7 @@
     android:layout_height="wrap_content">
 
     <android.support.v7.widget.CardView
-        android:id="@+id/card_view_cantransaksi"
+        android:id="@+id/card_view_acctransaksi"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="@dimen/xmin_padding"
@@ -29,52 +29,27 @@
                 android:background="@color/colorPrimarySoft">
 
                 <TextView
-                    android:id="@+id/tr_can_id_trans"
+                    android:id="@+id/tr_acc_id_trans"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/xmin_padding"
                     android:layout_marginLeft="@dimen/min_padding"
                     android:text="-"
                     android:textColor="@color/colorPrimaryDark"
-                    android:textSize="@dimen/small_text"
-                    android:textStyle="bold" />
-
-                <!--<TextView-->
-                <!--android:id="@+id/tr_aset_type"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_margin="@dimen/xmin_padding"-->
-                <!--android:layout_marginLeft="@dimen/min_padding"-->
-                <!--android:text="Daihatsu Xenia"-->
-                <!--android:textColor="@color/colorPrimaryDark"-->
-                <!--android:textSize="@dimen/medium_text"-->
-                <!--android:textStyle="bold" />-->
+                    android:textSize="@dimen/small_text" />
 
                 <TextView
-                    android:id="@+id/tr_can_nominal"
+                    android:id="@+id/tr_acc_nominal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
                     android:layout_margin="@dimen/xmin_padding"
                     android:layout_marginRight="@dimen/min_padding"
                     android:padding="@dimen/xmin_padding"
-                    android:textColor="@color/colorPrice"
-                    android:textStyle="bold"
                     android:text="IDR"
-                    android:textSize="@dimen/small_text" />
-
-                <!--<TextView-->
-                <!--android:id="@+id/tr_notif"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="right"-->
-                <!--android:layout_margin="@dimen/xmin_padding"-->
-                <!--android:layout_marginRight="@dimen/min_padding"-->
-                <!--android:background="@color/colorPrimarySoft"-->
-                <!--android:padding="@dimen/xmin_padding"-->
-                <!--android:text="DC 123 WOW"-->
-                <!--android:textColor="@color/colorBlack"-->
-                <!--android:textSize="@dimen/small_text" />-->
+                    android:textColor="@color/colorPrice"
+                    android:textSize="@dimen/small_text"
+                    android:textStyle="bold" />
 
             </GridLayout>
 
@@ -83,29 +58,39 @@
                 android:layout_height="match_parent"
                 android:padding="@dimen/cardview_compat_inset_shadow">
 
+                <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/tr_acc_thumb"
+                    android:layout_width="@dimen/msg_thumb_width"
+                    android:layout_height="@dimen/msg_thumb_width"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/xmin_padding"
+                    android:src="@drawable/user_ava_man"
+                    app:civ_border_color="#FFf"
+                    app:civ_border_width="2dp" />
+
+
                 <RelativeLayout
                     android:id="@+id/tr_aset_con"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/min_padding"
                     android:layout_marginRight="@dimen/min_padding"
-                    android:padding="@dimen/small_space"
-                    >
+                    android:layout_toRightOf="@+id/tr_acc_thumb"
+                    android:padding="@dimen/small_space">
 
                     <TextView
                         android:id="@+id/tr_aset_text"
                         android:layout_width="@dimen/text_label"
                         android:layout_height="wrap_content"
                         android:text="Aset"
-                        android:textSize="@dimen/tiny_text"
-                        />
+                        android:textSize="@dimen/tiny_text" />
 
                     <TextView
-                        android:id="@+id/tr_can_aset"
+                        android:id="@+id/tr_acc_aset"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/tiny_text"
-                        android:layout_toRightOf="@+id/tr_aset_text" />
+                        android:layout_toRightOf="@+id/tr_aset_text"
+                        android:textSize="@dimen/tiny_text" />
 
                 </RelativeLayout>
 
@@ -116,23 +101,22 @@
                     android:layout_below="@+id/tr_aset_con"
                     android:layout_marginLeft="@dimen/min_padding"
                     android:layout_marginRight="@dimen/min_padding"
-                    android:padding="@dimen/small_space"
-                    >
+                    android:layout_toRightOf="@+id/tr_acc_thumb"
+                    android:padding="@dimen/small_space">
 
                     <TextView
                         android:id="@+id/tr_member_name_text"
                         android:layout_width="@dimen/text_label"
                         android:layout_height="wrap_content"
-                        android:text="Penyewa"
-                        android:textSize="@dimen/tiny_text"
-                        />
+                        android:text="Pelanggan"
+                        android:textSize="@dimen/tiny_text" />
 
                     <TextView
-                        android:id="@+id/tr_can_member"
+                        android:id="@+id/tr_acc_member"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/tiny_text"
-                        android:layout_toRightOf="@+id/tr_member_name_text" />
+                        android:layout_toRightOf="@+id/tr_member_name_text"
+                        android:textSize="@dimen/tiny_text" />
 
                 </RelativeLayout>
 
@@ -143,32 +127,23 @@
                     android:layout_below="@id/tr_member"
                     android:layout_marginLeft="@dimen/min_padding"
                     android:layout_marginRight="@dimen/min_padding"
-                    android:layout_toRightOf="@+id/tr_thumb_aset"
+                    android:layout_toRightOf="@+id/tr_acc_thumb"
                     android:padding="@dimen/small_space">
-
-                    <!--<ImageView-->
-                    <!--android:id="@+id/tr_waktu_thumb"-->
-                    <!--android:layout_width="@dimen/thumb_prop_width"-->
-                    <!--android:layout_height="@dimen/thumb_prop_height"-->
-                    <!--android:layout_marginRight="@dimen/activity_horizontal_margin"-->
-                    <!--app:srcCompat="@drawable/ic_perm_contact_calendar_black_18dp" />-->
 
                     <TextView
                         android:id="@+id/tr_start_date_t"
                         android:layout_width="@dimen/text_label"
                         android:layout_height="wrap_content"
                         android:text="Waktu Mulai"
-                        android:textSize="@dimen/tiny_text"
-                        />
+                        android:textSize="@dimen/tiny_text" />
 
 
                     <TextView
-                        android:id="@+id/tr_can_start_date"
+                        android:id="@+id/tr_acc_start_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@+id/tr_start_date_t"
-                        android:textSize="@dimen/tiny_text"
-                        />
+                        android:textSize="@dimen/tiny_text" />
 
                 </RelativeLayout>
 
@@ -179,6 +154,7 @@
                     android:layout_below="@id/tr_waktu_sewa_start"
                     android:layout_marginLeft="@dimen/min_padding"
                     android:layout_marginRight="@dimen/min_padding"
+                    android:layout_toRightOf="@+id/tr_acc_thumb"
                     android:padding="@dimen/small_space">
 
                     <TextView
@@ -186,53 +162,19 @@
                         android:layout_width="@dimen/text_label"
                         android:layout_height="wrap_content"
                         android:text="Waktu Selesai"
-                        android:textSize="@dimen/tiny_text"
-                        />
+                        android:textSize="@dimen/tiny_text" />
 
 
                     <TextView
-                        android:id="@+id/tr_can_end_date"
+                        android:id="@+id/tr_acc_end_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@+id/tr_end_date_t"
-                        android:textSize="@dimen/tiny_text"
-                        />
+                        android:textSize="@dimen/tiny_text" />
 
                 </RelativeLayout>
 
             </RelativeLayout>
-
-            <!--<RelativeLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginBottom="@dimen/xmin_padding"-->
-            <!--android:padding="@dimen/xmin_padding">-->
-
-            <!--<TextView-->
-            <!--android:id="@+id/tr_harga_det"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignParentStart="true"-->
-            <!--android:layout_centerVertical="true"-->
-            <!--android:layout_gravity="center"-->
-            <!--android:layout_marginStart="@dimen/min_padding"-->
-            <!--android:textColor="@color/colorPrimary"-->
-            <!--android:textSize="@dimen/medium_text" />-->
-
-            <!--<com.iarcuschin.simpleratingbar.SimpleRatingBar-->
-            <!--android:id="@+id/aset_rating2"-->
-            <!--android:layout_width="150dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignParentEnd="true"-->
-            <!--android:layout_centerVertical="true"-->
-            <!--android:layout_gravity="center"-->
-            <!--android:layout_marginEnd="@dimen/min_padding"-->
-            <!--android:padding="@dimen/xmin_padding"-->
-            <!--app:srb_isIndicator="true"-->
-            <!--app:srb_rating="4.5"-->
-            <!--style="@style/CustomRatingBar"/>-->
-
-            <!--</RelativeLayout>-->
 
         </LinearLayout>
 
