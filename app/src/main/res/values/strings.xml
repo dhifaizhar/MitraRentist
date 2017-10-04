@@ -116,6 +116,19 @@
         <item>Sepeda</item>
     </string-array>
 
+    <string-array name="asset_subcategory_entries">
+        <item>Classic</item>
+        <item>Family</item>
+        <item>Luxury</item>
+        <item>City</item>
+        <item>Sedan</item>
+        <item>Jeep</item>
+        <item>Pickup</item>
+        <item>Box</item>
+        <item>Truck</item>
+        <item>Bus</item>
+    </string-array>
+
     <string-array name="driver_entries">
         <item>Mamat</item>
         <item>Dudung</item>

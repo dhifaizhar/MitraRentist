@@ -21,6 +21,7 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,8 +34,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -49,16 +50,15 @@ public class FormCarAsetActivity extends AppCompatActivity {
     Intent iFormAsset;
 
     ImageView aImg;
-    TextView aMerk, aType, aPlat, aYear, aColor, aRegNum,
-            aEngCap, aFuel, aSeat, aAsuracePrice, aLowPrice,
-            aNormalPrice, aHighPrice;
+    TextView aName, aMerk, aType, aPlat, aYear, aColor, aRegNum,
+            aEngCap, aFuel, aSeat, aDesc, aRangName, aStartDate, aEndDate, aPrice;
     Integer idAsset;
-    String aLatitude, aLongitude, aAddress, aRentPackage, tenant, category, encodedImage, isiimage = "";
+    String aLatitude, aLongitude, aAddress, aRentPackage, tenant, category, encodedImage, isiimage = "", ext, imgString;
     CheckBox aAc, aAb, aDriver, aAssurace;
     RadioGroup aTransmisionGroup;
     RadioButton aTransmisionButton;
     Button btnImgUpload;
-
+    Spinner subcategory;
 
     private int PICK_IMAGE_REQUEST = 1;
     private static final String TAG = "FormAssetActivity";
@@ -81,9 +81,7 @@ public class FormCarAsetActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        if(iFormAsset.getStringExtra("action").equals("update")){
-            contentcontrol();
-        }
+        contentcontrol();
 
         btnImgUpload.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,17 +92,37 @@ public class FormCarAsetActivity extends AppCompatActivity {
     }
 
     private void contentcontrol() {
+        subcategory = (Spinner) findViewById(R.id.as_subcat_spinner);
+        aName = (TextView) findViewById(R.id.as_name);
         aMerk = (TextView) findViewById(R.id.as_merk);
         aType = (TextView) findViewById(R.id.as_type);
         aPlat = (TextView) findViewById(R.id.as_plat);
         aYear = (TextView) findViewById(R.id.as_year);
         aColor = (TextView) findViewById(R.id.as_colour);
+        aRegNum = (TextView) findViewById(R.id.as_regnum);
+        aEngCap = (TextView) findViewById(R.id.as_engcap);
+        aPlat = (TextView) findViewById(R.id.as_plat);
+        aFuel = (TextView) findViewById(R.id.as_fuel);
+        aSeat = (TextView) findViewById(R.id.as_seat);
+        aTransmisionGroup = (RadioGroup) findViewById(R.id.transmission_group);
+        aAc = (CheckBox) findViewById(R.id.as_ck_ac);
+        aAb = (CheckBox) findViewById(R.id.as_ck_ab);
+        aDriver = (CheckBox) findViewById(R.id.as_ck_driver);
+        aAssurace = (CheckBox) findViewById(R.id.as_ck_assurance);
+        aImg = (ImageView) findViewById(R.id.thumb_aset);
+        aDesc = (TextView) findViewById(R.id.as_desc);
+        aRangName = (TextView) findViewById(R.id.as_range_name);
+        aStartDate = (TextView) findViewById(R.id.as_start_date);
+        aEndDate = (TextView) findViewById(R.id.as_end_date);
+        aPrice = (TextView) findViewById(R.id.as_price);
 
         //set value
-        aMerk.setText(iFormAsset.getStringExtra("merk"));
-        aType.setText(iFormAsset.getStringExtra("type"));
-        aPlat.setText(iFormAsset.getStringExtra("plat"));
-        aYear.setText(iFormAsset.getStringExtra("year"));
+        if(iFormAsset.getStringExtra("action").equals("update")){
+            aMerk.setText(iFormAsset.getStringExtra("merk"));
+            aType.setText(iFormAsset.getStringExtra("type"));
+            aPlat.setText(iFormAsset.getStringExtra("plat"));
+            aYear.setText(iFormAsset.getStringExtra("year"));
+        }
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
@@ -181,14 +199,17 @@ public class FormCarAsetActivity extends AppCompatActivity {
             try {
                 //Getting the Bitmap from Gallery
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                //Setting the Bitmap to ImageView
-                aImg = (ImageView) findViewById(R.id.thumb_aset);
-                aImg.setImageBitmap(bitmap);
-                isiimage = getStringImage(bitmap);
 
-                File f = new File(filePath.getPath());
-                String imageName = f.getName();
-                Log.e(TAG, "Image : " + imageName);
+                //Setting the Bitmap to ImageView
+                aImg.setImageBitmap(bitmap);
+
+                String imgStr = data.toString();
+                ext = imgStr.substring(imgStr.indexOf("typ")+4, imgStr.indexOf("flg")-1);
+
+                isiimage = getStringImage(bitmap);
+                imgString = ext +"," + isiimage;
+                isiimage = imgString;
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -196,28 +217,8 @@ public class FormCarAsetActivity extends AppCompatActivity {
     }
 
     private void addDataAset(String tenant) {
-        aTransmisionGroup = (RadioGroup) findViewById(R.id.transmission_group);
         int transmissionId = aTransmisionGroup.getCheckedRadioButtonId();
         aTransmisionButton = (RadioButton) findViewById(transmissionId);
-        aMerk = (TextView) findViewById(R.id.as_merk);
-        aType = (TextView) findViewById(R.id.as_type);
-        aPlat = (TextView) findViewById(R.id.as_plat);
-        aYear = (TextView) findViewById(R.id.as_year);
-        aColor = (TextView) findViewById(R.id.as_colour);
-        aRegNum = (TextView) findViewById(R.id.as_regnum);
-        aEngCap = (TextView) findViewById(R.id.as_engcap);
-        aPlat = (TextView) findViewById(R.id.as_plat);
-        aFuel = (TextView) findViewById(R.id.as_fuel);
-        aSeat = (TextView) findViewById(R.id.as_seat);
-        aAsuracePrice = (TextView) findViewById(R.id.as_assurance_price);
-        aLowPrice = (TextView) findViewById(R.id.as_lprice);
-        aNormalPrice = (TextView) findViewById(R.id.as_nprice);
-        aHighPrice = (TextView) findViewById(R.id.as_hprice);
-        aAc = (CheckBox) findViewById(R.id.as_ck_ac);
-        aAb = (CheckBox) findViewById(R.id.as_ck_ab);
-        aDriver = (CheckBox) findViewById(R.id.as_ck_driver);
-        aAssurace = (CheckBox) findViewById(R.id.as_ck_assurance);
-        aImg = (ImageView) findViewById(R.id.thumb_aset);
         aAddress = "BALI,INDONESIA";
         aLatitude = "0";
         aLongitude = "0";
@@ -229,7 +230,6 @@ public class FormCarAsetActivity extends AppCompatActivity {
     }
 
     private class addAsetTask extends AsyncTask<String, String, String> {
-
         private final String mTenant;
         private String errorMsg, responseAsset;
 
@@ -256,15 +256,17 @@ public class FormCarAsetActivity extends AppCompatActivity {
             }){
                 @Override
                 protected Map<String, String> getParams() {
-                    String image = getStringImage(bitmap);
-
                     // Posting parameters to url
                     Map<String, String> keys = new HashMap<String, String>();
                     keys.put("id_tenant", mTenant);
+                    keys.put("name", aName.getText().toString());
+                    keys.put("slug", aName.getText().toString().replace(" ","-"));
+                    keys.put("description", aDesc.getText().toString());
+                    keys.put("subcategory", subcategory.getSelectedItem().toString());
                     keys.put("brand", aMerk.getText().toString());
                     keys.put("type", aType.getText().toString());
                     keys.put("year", aYear.getText().toString());
-                    keys.put("no_bpkb", aRegNum.getText().toString());
+                    keys.put("no_stnk", aRegNum.getText().toString());
                     keys.put("colour", aColor.getText().toString());
                     keys.put("engine_capacity", aEngCap.getText().toString());
                     keys.put("license_plat", aPlat.getText().toString());
@@ -274,15 +276,24 @@ public class FormCarAsetActivity extends AppCompatActivity {
                     keys.put("transmission", aTransmisionButton.getText().toString());
                     keys.put("fuel", aFuel.getText().toString());
                     keys.put("insurance", String.valueOf(aAssurace.isChecked()));
-                    keys.put("insurance_price", aAsuracePrice.getText().toString());
-                    keys.put("price_low", aLowPrice.getText().toString());
-                    keys.put("price_normal", aNormalPrice.getText().toString());
-                    keys.put("price_high", aHighPrice.getText().toString());
                     keys.put("driver_included", String.valueOf(aDriver.isChecked()));
                     keys.put("address", aAddress);
                     keys.put("rent_package", aRentPackage);
                     keys.put("latitude", aLatitude);
                     keys.put("longitude", aLongitude);
+                    keys.put("file", isiimage);
+                    ArrayList<String> pricingArray = new ArrayList<String>();
+                    for (int i = 0; i < 1; i++) {
+                        Map<String, String> pricingObject = new HashMap<String, String>();
+                        pricingObject.put("\"range_name\"","\""+aRangName.getText().toString()+"\"");
+                        pricingObject.put("\"start_date\"","\""+aStartDate.getText().toString()+"\"");
+                        pricingObject.put("\"end_date\"","\""+aEndDate.getText().toString()+"\"");
+                        pricingObject.put("\"price\"",aPrice.getText().toString());
+
+                        pricingArray.add(pricingObject.toString().replace("=",":"));
+                    }
+                    keys.put("price", pricingArray.toString());
+                    Log.e(TAG, "Value Object : " + keys.toString());
                     return keys;
                 }
 
