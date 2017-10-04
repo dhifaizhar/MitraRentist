@@ -39,13 +39,12 @@ public class HistoryAcceptAdapter extends RecyclerView.Adapter<HistoryAcceptAdap
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        TextView title, idTrans, member, stardDate, endDate, nominal, asetName;
+        TextView title, idTrans, transCode, member, stardDate, endDate, nominal, asetName;
         CardView cardDetTrans;
 
         public ViewHolder(View itemView){
             super(itemView);
-//            title = (TextView) itemView.findViewById(R.id.tr_aset_type);
-            idTrans = (TextView) itemView.findViewById(R.id.tr_acc_id_trans);
+            transCode = (TextView) itemView.findViewById(R.id.tr_acc_code_trans);
             member = (TextView) itemView.findViewById(R.id.tr_acc_member);
             nominal = (TextView) itemView.findViewById(R.id.tr_acc_nominal);
             stardDate = (TextView) itemView.findViewById(R.id.tr_acc_start_date);
@@ -65,8 +64,8 @@ public class HistoryAcceptAdapter extends RecyclerView.Adapter<HistoryAcceptAdap
         startDate = ": " + trx.getStartDate();
         endDate = ": " + trx.getEndDate();
 
-//        simpan value dalam object
-        viewHolder.idTrans.setText(trx.getIdTrans());
+        //  simpan value dalam object
+        viewHolder.transCode.setText(trx.getCodeTrans());
         viewHolder.nominal.setText(trx.getPrice());
         viewHolder.asetName.setText(aset);
         viewHolder.member.setText(member);
@@ -77,7 +76,8 @@ public class HistoryAcceptAdapter extends RecyclerView.Adapter<HistoryAcceptAdap
             public void onClick(View v) {
                 Intent iDetTrans = new Intent(context, TransDetailActivity.class);
                 iDetTrans.putExtra("status", "accepted");
-                iDetTrans.putExtra("id_trans", viewHolder.idTrans.getText());
+                iDetTrans.putExtra("id_trans", trx.getIdTrans());
+                iDetTrans.putExtra("code_trans", viewHolder.transCode.getText());
                 iDetTrans.putExtra("price", viewHolder.nominal.getText());
                 iDetTrans.putExtra("aset", trx.getAsetName());
                 iDetTrans.putExtra("member", viewHolder.member.getText());

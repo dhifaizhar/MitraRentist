@@ -64,13 +64,13 @@ public class DetailTransaksiAdapter extends RecyclerView.Adapter<DetailTransaksi
 
         public ViewHolder(View itemView){
             super(itemView);
-            title = (TextView) itemView.findViewById(R.id.tr_aset_type);
-            imgThumbnail = (ImageView) itemView.findViewById(R.id.tr_thumb_aset);
-            member = (TextView) itemView.findViewById(R.id.tr_member_det);
-            waktu = (TextView) itemView.findViewById(R.id.tr_waktu_det);
-            loca = (TextView) itemView.findViewById(R.id.tr_lokasi_det);
-            harga = (TextView) itemView.findViewById(R.id.tr_harga_det);
-//            btnAccept = (Button) itemView.findViewById(R.id.btnDrop);
+//            title = (TextView) itemView.findViewById(R.id.tr_aset_type);
+//            imgThumbnail = (ImageView) itemView.findViewById(R.id.tr_thumb_aset);
+//            member = (TextView) itemView.findViewById(R.id.tr_member_det);
+//            waktu = (TextView) itemView.findViewById(R.id.tr_waktu_det);
+//            loca = (TextView) itemView.findViewById(R.id.tr_lokasi_det);
+//            harga = (TextView) itemView.findViewById(R.id.tr_harga_det);
+////            btnAccept = (Button) itemView.findViewById(R.id.btnDrop);
         }
 
     }
@@ -80,12 +80,12 @@ public class DetailTransaksiAdapter extends RecyclerView.Adapter<DetailTransaksi
         ItemTransaksiModul trx = mTransaksi.get(i);
 
 //        simpan value dalam object
-        viewHolder.title.setText(trx.getTitle());
-        viewHolder.imgThumbnail.setImageResource(trx.getThumbnail());
-        viewHolder.member.setText(trx.getMember());
-        viewHolder.waktu.setText(trx.getDate());
-        viewHolder.loca.setText(trx.getLoc());
-        viewHolder.harga.setText(trx.getPrice());
+//        viewHolder.title.setText(trx.getTitle());
+//        viewHolder.imgThumbnail.setImageResource(trx.getThumbnail());
+//        viewHolder.member.setText(trx.getMember());
+//        viewHolder.waktu.setText(trx.getDate());
+//        viewHolder.loca.setText(trx.getLoc());
+//        viewHolder.harga.setText(trx.getPrice());
 
 //        viewHolder.btnAccept.setOnClickListener(new View.OnClickListener() {
 //            @Override

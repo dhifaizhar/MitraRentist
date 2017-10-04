@@ -5,7 +5,7 @@ package id.rentist.mitrarentist.modul;
  */
 
 public class ItemTransaksiModul {
-    private String mTitle, mIdTrans, mAsetName;
+    private String mTitle, mIdTrans, mAsetName, mCodeTrans;
     private int mThumbnail;
     private int mMemberIco;
     private String mMember;
@@ -21,6 +21,13 @@ public class ItemTransaksiModul {
     }
     public void setIdTrans(String mIdTrans) {
         this.mIdTrans = mIdTrans;
+    }
+
+    public String getCodeTrans() {
+        return mCodeTrans;
+    }
+    public void setCodeTrans(String mCodeTrans) {
+        this.mCodeTrans = mCodeTrans;
     }
 
     public String getAsetName() {

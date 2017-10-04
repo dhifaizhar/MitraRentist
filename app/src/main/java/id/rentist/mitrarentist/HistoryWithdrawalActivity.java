@@ -127,12 +127,11 @@ public class HistoryWithdrawalActivity extends AppCompatActivity {
 //            Integer dataLength, aId;
 
             if (withdrawal != null) {
-                Log.e(TAG, "Withdrawal : Not Null");
 
                 try {
                     JSONArray jsonArray = new JSONArray(withdrawal);
                     if( jsonArray.length() > 0){
-                        Log.e(TAG, "Withdrawal : " + jsonArray);
+                        Log.e(TAG, "Withdrawal : " + jsonArray.toString());
 
                         for (int i = 0; i <  jsonArray.length(); i++) {
                             errorMsg = "-";

@@ -150,24 +150,23 @@ public class HistoryAcceptFragment extends Fragment {
 //            showProgress(false);
             pBar.setVisibility(View.GONE);
 
-            String aIdTrans, aTitle, aMember, aStartDate, aEndDate, aNominal, aAsetName;
-            Integer aId, dataLength;
+            String aIdTrans, aCodeTrans, aTitle, aMember, aStartDate, aEndDate, aNominal, aAsetName;
 
             if (history != null) {
                 try {
                     JSONObject jsonObject = new JSONObject(history);
-                    JSONArray jsonArray = new JSONArray(String.valueOf(jsonObject.getJSONArray("canceled")));
-                    dataLength = jsonArray.length();
-                    if(dataLength > 0){
+                    JSONArray jsonArray = new JSONArray(String.valueOf(jsonObject.getJSONArray("accepted")));
+                    if(jsonArray.length() > 0){
                         for (int i = 0; i < jsonArray.length(); i++) {
                             errorMsg = "-";
                             JSONObject transObject = jsonArray.getJSONObject(i);
-                            Log.e(TAG, "Canceled Data : " + String.valueOf(transObject));
+                            Log.e(TAG, "Accepted Data : " + String.valueOf(transObject));
 
                             JSONObject idTrans = transObject.getJSONObject("id_transaction");
                             JSONArray items = transObject.getJSONArray("item");
-                            JSONObject item = new JSONObject();
+                            JSONObject item;
 
+                            aIdTrans = transObject.getString("id");
                             aAsetName = "- Item Kosong -";
 
                             if(items.length() > 0){
@@ -180,7 +179,7 @@ public class HistoryAcceptFragment extends Fragment {
                                 }
                             }
 
-                            aIdTrans = idTrans.getString("transaction_code");
+                            aCodeTrans = idTrans.getString("transaction_code");
                             aNominal = transObject.getString("nominal") + " IDR";
                             aMember = transObject.getString("firstname") + " " + transObject.getString("lastname");
                             aStartDate = transObject.getString("start_date").replace("-","/").substring(0,10);
@@ -188,6 +187,7 @@ public class HistoryAcceptFragment extends Fragment {
 
                             ItemTransaksiModul itemTrans = new ItemTransaksiModul();
                             itemTrans.setIdTrans(aIdTrans);
+                            itemTrans.setCodeTrans(aCodeTrans);
                             itemTrans.setAsetName(aAsetName);
                             itemTrans.setMember(aMember);
                             itemTrans.setPrice(aNominal);

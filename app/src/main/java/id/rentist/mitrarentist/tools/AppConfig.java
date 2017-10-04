@@ -23,6 +23,9 @@ public class AppConfig {
     public static  String URL_UPDATE_ASSET = SERVER + "update/item/";
     public static  String URL_DELETE_ASSET = SERVER + "delete/item/";
 
+    public static String URL_TRANSACTION_NEW = SERVER + "order/received/";
+    public static String URL_TRANSACTION_DROP = SERVER + "transaction/ongoing/";
+
     public static  String URL_LIST_USER = SERVER + "tenant/child/";
     public static  String URL_DETAIL_USER = SERVER + "view/child/";
     public static  String URL_ADD_USER = SERVER + "register/tenant/child/";
@@ -55,7 +58,5 @@ public class AppConfig {
     public static  String URL_LIST_KEBIJAKAN = SERVER + "list/kebijakan/";
 
     public static  String URL_CRITIC_SUGGESTION = SERVER + "critics/";
-
-    public static  String URL_SANDBOX = SERVER + "sandbox/";
 
 }

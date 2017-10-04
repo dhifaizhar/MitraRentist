@@ -42,35 +42,54 @@ public class HistoryOnTransAdapter extends RecyclerView.Adapter<HistoryOnTransAd
         return mTransaksi.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder{
-        TextView title, member, waktu, harga;
+    public class ViewHolder extends RecyclerView.ViewHolder{
+        TextView title, idTrans, transCode, member, stardDate, endDate, nominal, asetName;
         CardView cardDetTrans;
 
         public ViewHolder(View itemView){
             super(itemView);
-            title = (TextView) itemView.findViewById(R.id.tr_aset_type);
-            member = (TextView) itemView.findViewById(R.id.tr_member_det);
-            waktu = (TextView) itemView.findViewById(R.id.tr_start_date);
-            harga = (TextView) itemView.findViewById(R.id.tr_nominal);
-            cardDetTrans = (CardView) itemView.findViewById(R.id.card_view_ontransaksi);
+//          title = (TextView) itemView.findViewById(R.id.tr_aset_type);
+            transCode = (TextView) itemView.findViewById(R.id.tr_ongo_code_trans);
+//            idTrans = (TextView) itemView.findViewById(R.id.tr_ongo_id_trans);
+            member = (TextView) itemView.findViewById(R.id.tr_ongo_member);
+            nominal = (TextView) itemView.findViewById(R.id.tr_ongo_nominal);
+            stardDate = (TextView) itemView.findViewById(R.id.tr_ongo_start_date);
+            endDate = (TextView) itemView.findViewById(R.id.tr_ongo_end_date);
+            asetName = (TextView) itemView.findViewById(R.id.tr_ongo_aset);
+            cardDetTrans = (CardView) itemView.findViewById(R.id.card_view_ongotransaksi);
         }
-
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int i ){
-        ItemTransaksiModul trx = mTransaksi.get(i);
+    public void onBindViewHolder(final HistoryOnTransAdapter.ViewHolder viewHolder, int i ){
+        String aset, member, startDate, endDate;
+        final ItemTransaksiModul trx = mTransaksi.get(i);
+
+        aset = ": " + trx.getAsetName();
+        member = ": " + trx.getMember();
+        startDate = ": " + trx.getStartDate();
+        endDate = ": " + trx.getEndDate();
 
 //        simpan value dalam object
-//        viewHolder.title.setText(trx.getTitle());
-        viewHolder.member.setText(trx.getMember());
-        viewHolder.waktu.setText(trx.getDate());
-        viewHolder.harga.setText(trx.getPrice());
+        viewHolder.transCode.setText(trx.getCodeTrans());
+        viewHolder.nominal.setText(trx.getPrice());
+        viewHolder.asetName.setText(aset);
+        viewHolder.member.setText(member);
+        viewHolder.stardDate.setText(startDate);
+        viewHolder.endDate.setText(endDate);
         viewHolder.cardDetTrans.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent iDetTrans = new Intent(context, TransDetailActivity.class);
-                iDetTrans.putExtra("status", "onGoing");
+                iDetTrans.putExtra("status", "ongoing");
+                iDetTrans.putExtra("id_trans", trx.getIdTrans());
+                iDetTrans.putExtra("code_trans", viewHolder.transCode.getText());
+                iDetTrans.putExtra("price", viewHolder.nominal.getText());
+                iDetTrans.putExtra("aset", trx.getAsetName());
+                iDetTrans.putExtra("member", viewHolder.member.getText());
+                iDetTrans.putExtra("startDate", trx.getStartDate());
+                iDetTrans.putExtra("endDate", trx.getEndDate());
+
                 iDetTrans.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(iDetTrans);
             }
