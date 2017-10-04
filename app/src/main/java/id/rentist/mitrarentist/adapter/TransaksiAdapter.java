@@ -79,7 +79,7 @@ public class TransaksiAdapter extends RecyclerView.Adapter<TransaksiAdapter.View
             @Override
             public void onClick(View v) {
                 Intent iDetTrans = new Intent(context, TransDetailActivity.class);
-                iDetTrans.putExtra("status", "newepted");
+                iDetTrans.putExtra("status", "new");
                 iDetTrans.putExtra("id_trans", trx.getIdTrans());
                 iDetTrans.putExtra("code_trans", viewHolder.transCode.getText());
                 iDetTrans.putExtra("price", viewHolder.nominal.getText());

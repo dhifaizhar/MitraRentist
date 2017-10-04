@@ -3,19 +3,21 @@ package id.rentist.mitrarentist;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -36,10 +38,12 @@ import java.util.Map;
 
 import id.rentist.mitrarentist.fragment.DriverDialogFragment;
 import id.rentist.mitrarentist.tools.AppConfig;
+import id.rentist.mitrarentist.tools.SessionManager;
 
 public class TransDetailActivity extends AppCompatActivity {
     private AsyncTask mTransactionTask = null;
     private ProgressDialog pDialog;
+    private SessionManager sm;
 
     Button btnClosePopup;
     Button btnCreatePopup;
@@ -50,7 +54,7 @@ public class TransDetailActivity extends AppCompatActivity {
     TextView mAset, mPrice, mCodeTrans, mMember, mStartDate, mEndDate;
 
     private static final int CAMERA_REQUEST = 1888;
-    String str64b, imgString, imgExt;
+    String str64b, imgString, imgExt, tenant;
 
     private static final String TAG = "DetailTransActivity";
     private static final String TOKEN = "secretissecret";
@@ -67,10 +71,12 @@ public class TransDetailActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        sm = new SessionManager(getApplicationContext());
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
 
         itransDet = getIntent();
+
 
         controlContent();
     }
@@ -88,28 +94,37 @@ public class TransDetailActivity extends AppCompatActivity {
         int width = display.getWidth();
         double ratio = ((float) (width))/300.0;
         int height = (int)(ratio*50);
+        LinearLayout.LayoutParams endGravity = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.FILL_PARENT);
+        LinearLayout.LayoutParams startGravity = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.FILL_PARENT);
+
+        endGravity.weight = 1.0f;
+        endGravity.gravity = Gravity.END;
+        startGravity.rightMargin = 10;
 
         Button btnAction= new  Button(this);
         btnAction.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
         btnAction.setTextColor(getResources().getColor(R.color.colorWhite));
         btnAction.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-        btnAction.setLayoutParams(new FrameLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT,height));
 
         Button btnAccept = new  Button(this);
         btnAccept.setText("Terima");
         btnAccept.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
         btnAccept.setTextColor(getResources().getColor(R.color.colorWhite));
         btnAccept.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-        btnAccept.setLayoutParams(new FrameLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT,height));
+        btnAccept.setLayoutParams(endGravity);
 
         Button btnCancel = new  Button(this);
         btnCancel.setText("Tolak");
         btnCancel.setBackgroundColor(getResources().getColor(R.color.colorButtonDefault));
         btnCancel.setTextColor(getResources().getColor(R.color.colorBlack87));
         btnCancel.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-        btnCancel.setLayoutParams(new FrameLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT,height));
+        btnCancel.setLayoutParams(startGravity);
 
         // Value
+        tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
+//        Log.e(TAG, "ID tenant : " + sm.getIntPreferences("id_tenant"));
+
+
         transId = itransDet.getStringExtra("id_trans");
         mAset.setText(itransDet.getStringExtra("aset"));
         mPrice.setText(itransDet.getStringExtra("price"));
@@ -160,15 +175,136 @@ public class TransDetailActivity extends AppCompatActivity {
         } else {
             btnContainer.addView(btnCancel);
             btnContainer.addView(btnAccept);
+
+            btnAccept.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    transConfirm(transId, "accepted");
+                }
+            });
+
+            btnCancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    transConfirm(transId, "rejected");
+                }
+            });
+
         }
 
     }
 
-    private void transAction(String transId) {
+    private void transConfirm(final String transId, final String status) {
+        pDialog.setMessage("loading ...");
+        showProgress(true);
+        if (status.equals("accepted")){
+            new TransDetailActivity.postTransConfirmTask(transId, status).execute();
+        } else {
+            AlertDialog.Builder showAlert = new AlertDialog.Builder(this);
+            showAlert.setMessage("Anda yakin menolak transaksi ?");
+            showAlert.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface arg0, int arg1) {
+                    pDialog.setMessage("loading ...");
+                    showProgress(true);
+                    new TransDetailActivity.postTransConfirmTask(transId, status).execute();
+                }
+            });
+            showAlert.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    showProgress(false);
+                }
+            });
+
+            AlertDialog alertDialog = showAlert.create();
+            alertDialog.show();
+        }
+    }
+
+    private void transAction(final String transId) {
         pDialog.setMessage("loading ...");
         showProgress(true);
         if(itransDet.getStringExtra("status").equals("accepted")){
             new TransDetailActivity.postTransDropTask(transId).execute();
+        } else if (itransDet.getStringExtra("status").equals("ongoing")) {
+            new TransDetailActivity.postTransDropTask(transId).execute();
+        }
+    }
+
+    private class postTransConfirmTask extends AsyncTask<String, String, String> {
+        private final String mTransId, mStatus;
+        private String errorMsg, responseTrans;
+
+        private postTransConfirmTask(String transId, String status) {
+            mTransId = transId;
+            mStatus = status;
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.URL_TRANSACTION_CONFIRM + mTransId, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    responseTrans = response;
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    errorMsg = error.toString();
+                    Log.e(TAG, "Transaction Confirm Fetch Error : " + errorMsg);
+                    Toast.makeText(getApplicationContext(), "Connection error, try again.",
+                            Toast.LENGTH_LONG).show();
+                }
+            }){
+                @Override
+                protected Map<String, String> getParams() {
+                    // Posting parameters to url
+                    Map<String, String> keys = new HashMap<String, String>();
+                    keys.put("id_tenant", tenant);
+                    keys.put("status", mStatus);
+
+                    Log.e(TAG, "Post Data : ID = "+ mTransId + "|" + String.valueOf(keys));
+                    return keys;
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> keys = new HashMap<String, String>();
+                    keys.put("token", TOKEN);
+                    return keys;
+                }
+            };
+
+            try {
+                requestQueue.add(stringRequest);
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            return responseTrans;
+        }
+
+        @Override
+        protected void onPostExecute(String transaction) {
+            mTransactionTask = null;
+            showProgress(false);
+
+            if(transaction != null){
+                Toast.makeText(getApplicationContext(),"Transaksi berhasil diterima", Toast.LENGTH_LONG).show();
+                finish();
+            }else{
+                Toast.makeText(getApplicationContext(),"Gagal meyimpan data", Toast.LENGTH_LONG).show();
+            }
+
+        }
+
+        @Override
+        protected void onCancelled() {
+            mTransactionTask = null;
+            showProgress(false);
         }
     }
 

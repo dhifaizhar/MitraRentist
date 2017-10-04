@@ -25,6 +25,7 @@ public class AppConfig {
 
     public static String URL_TRANSACTION_NEW = SERVER + "order/received/";
     public static String URL_TRANSACTION_DROP = SERVER + "transaction/ongoing/";
+    public static String URL_TRANSACTION_CONFIRM = SERVER + "order/confirm/";
 
     public static  String URL_LIST_USER = SERVER + "tenant/child/";
     public static  String URL_DETAIL_USER = SERVER + "view/child/";

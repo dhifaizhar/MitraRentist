@@ -187,7 +187,7 @@ public class TransactionActivity extends AppCompatActivity {
                         mRecyclerView.setAdapter(mAdapter);
 
                     }else{
-                        errorMsg = "Transaksi Dibatalkan Tidak Ditemukan";
+                        errorMsg = "Tidak ada transaksi baru";
                         Toast.makeText(getApplicationContext(),errorMsg, Toast.LENGTH_LONG).show();
                     }
                 } catch (JSONException e) {
