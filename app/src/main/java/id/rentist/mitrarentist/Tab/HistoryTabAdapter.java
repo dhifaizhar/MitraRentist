@@ -10,6 +10,7 @@ import id.rentist.mitrarentist.fragment.HistoryAcceptFragment;
 import id.rentist.mitrarentist.fragment.HistoryCancelFragment;
 import id.rentist.mitrarentist.fragment.HistoryCompTransFragment;
 import id.rentist.mitrarentist.fragment.HistoryOnTransFragment;
+import id.rentist.mitrarentist.fragment.TransactionRejectFragment;
 
 /**
  * Created by mdhif on 07/07/2017.
@@ -17,7 +18,7 @@ import id.rentist.mitrarentist.fragment.HistoryOnTransFragment;
 
 public class HistoryTabAdapter extends FragmentPagerAdapter {
     private Context mContext;
-    private String[] titles={"Diterima","Berlangsung", "Selesai", "Dibatalkan"};
+    private String[] titles={"Diterima","Berlangsung", "Selesai", "Dibatalkan", "Ditolak"};
 
     // CHANGE STARTS HERE
     private int current_position=0;
@@ -36,15 +37,31 @@ public class HistoryTabAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         Fragment frag = null;
 
-        if(position == 0){
-            frag = new HistoryAcceptFragment();
-        }else if(position == 1){
-            frag = new HistoryOnTransFragment();
-        }else if(position == 2){
-            frag = new HistoryCompTransFragment();
-        }else if(position == 3){
-            frag = new HistoryCancelFragment();
+        switch (position){
+            case 0 :
+                frag = new HistoryAcceptFragment(); break;
+            case 1 :
+                frag = new HistoryOnTransFragment(); break;
+            case 2 :
+                frag = new HistoryCompTransFragment(); break;
+            case 3 :
+                frag = new HistoryCancelFragment(); break;
+            case 4 :
+                frag = new TransactionRejectFragment(); break;
+
         }
+
+//        if(position == 0){
+//            frag = new HistoryAcceptFragment();
+//        }else if(position == 1){
+//            frag = new HistoryOnTransFragment();
+//        }else if(position == 2){
+//            frag = new HistoryCompTransFragment();
+//        }else if(position == 3){
+//            frag = new HistoryCancelFragment();
+//        }else if(position == 4){
+//
+//        }
 
         Bundle b = new Bundle();
         b.putInt("position", position);
@@ -68,6 +85,8 @@ public class HistoryTabAdapter extends FragmentPagerAdapter {
             return "Selesai";
         }else if(position == current_position+3){
             return "Dibatalkan";
+        }else if(position == current_position+4){
+            return "Ditolak";
         }
 
         return null;

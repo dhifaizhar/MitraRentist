@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="id.rentist.mitrarentist.fragment.HistoryCompTransFragment">
+    tools:context="id.rentist.mitrarentist.fragment.TransactionRejectFragment">
 
     <LinearLayout
         android:id="@+id/no_trans"
@@ -37,7 +37,7 @@
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/htrans_recyclerViewFrag"
+        android:id="@+id/treject_recyclerViewFrag"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="@dimen/xmin_padding">

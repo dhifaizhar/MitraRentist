@@ -25,31 +25,31 @@
 
             <GridLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:background="@color/colorPrimarySoft">
 
                 <TextView
-                    android:id="@+id/tr_aset_type"
+                    android:id="@+id/tr_comp_code_trans"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/xmin_padding"
                     android:layout_marginLeft="@dimen/min_padding"
-                    android:text="Daihatsu Xenia"
+                    android:text="-"
                     android:textColor="@color/colorPrimaryDark"
-                    android:textSize="@dimen/medium_text"
-                    android:textStyle="bold" />
+                    android:textSize="@dimen/small_text" />
 
                 <TextView
-                    android:id="@+id/tr_notif"
+                    android:id="@+id/tr_comp_nominal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
                     android:layout_margin="@dimen/xmin_padding"
                     android:layout_marginRight="@dimen/min_padding"
-                    android:background="@color/colorPrimarySoft"
                     android:padding="@dimen/xmin_padding"
-                    android:text="DC 123 WOW"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="@dimen/small_text" />
+                    android:text="IDR"
+                    android:textColor="@color/colorPrice"
+                    android:textSize="@dimen/small_text"
+                    android:textStyle="bold" />
 
             </GridLayout>
 
@@ -58,52 +58,120 @@
                 android:layout_height="match_parent"
                 android:padding="@dimen/cardview_compat_inset_shadow">
 
+                <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/tr_comp_thumb"
+                    android:layout_width="@dimen/msg_thumb_width"
+                    android:layout_height="@dimen/msg_thumb_width"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/xmin_padding"
+                    android:src="@drawable/user_ava_man"
+                    app:civ_border_color="#FFf"
+                    app:civ_border_width="2dp" />
+
+
                 <RelativeLayout
-                    android:id="@+id/tr_member"
+                    android:id="@+id/tr_aset_con"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/min_padding"
                     android:layout_marginRight="@dimen/min_padding"
-                    android:layout_toRightOf="@+id/tr_thumb_aset"
-                    android:padding="@dimen/xmin_padding">
-
-                    <ImageView
-                        android:id="@+id/tr_member_thumb"
-                        android:layout_width="@dimen/thumb_prop_width"
-                        android:layout_height="@dimen/thumb_prop_height"
-                        android:layout_marginRight="@dimen/activity_horizontal_margin"
-                        app:srcCompat="@drawable/ic_person_black_18dp" />
+                    android:layout_toRightOf="@+id/tr_comp_thumb"
+                    android:padding="@dimen/small_space">
 
                     <TextView
-                        android:id="@+id/tr_member_det"
+                        android:id="@+id/tr_aset_text"
+                        android:layout_width="@dimen/text_label"
+                        android:layout_height="wrap_content"
+                        android:text="Aset"
+                        android:textSize="@dimen/tiny_text" />
+
+                    <TextView
+                        android:id="@+id/tr_comp_aset"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toRightOf="@+id/tr_member_thumb" />
+                        android:layout_toRightOf="@+id/tr_aset_text"
+                        android:textSize="@dimen/tiny_text" />
 
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:id="@+id/tr_waktu_sewa"
+                    android:id="@+id/tr_member"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tr_aset_con"
+                    android:layout_marginLeft="@dimen/min_padding"
+                    android:layout_marginRight="@dimen/min_padding"
+                    android:layout_toRightOf="@+id/tr_comp_thumb"
+                    android:padding="@dimen/small_space">
+
+                    <TextView
+                        android:id="@+id/tr_member_name_text"
+                        android:layout_width="@dimen/text_label"
+                        android:layout_height="wrap_content"
+                        android:text="Pelanggan"
+                        android:textSize="@dimen/tiny_text" />
+
+                    <TextView
+                        android:id="@+id/tr_comp_member"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/tr_member_name_text"
+                        android:textSize="@dimen/tiny_text" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/tr_waktu_sewa_start"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tr_member"
                     android:layout_marginLeft="@dimen/min_padding"
                     android:layout_marginRight="@dimen/min_padding"
-                    android:layout_toRightOf="@+id/tr_thumb_aset"
-                    android:padding="@dimen/xmin_padding">
-
-                    <ImageView
-                        android:id="@+id/tr_waktu_thumb"
-                        android:layout_width="@dimen/thumb_prop_width"
-                        android:layout_height="@dimen/thumb_prop_height"
-                        android:layout_marginRight="@dimen/activity_horizontal_margin"
-                        app:srcCompat="@drawable/ic_perm_contact_calendar_black_18dp" />
+                    android:layout_toRightOf="@+id/tr_comp_thumb"
+                    android:padding="@dimen/small_space">
 
                     <TextView
-                        android:id="@+id/tr_waktu_det"
+                        android:id="@+id/tr_start_date_t"
+                        android:layout_width="@dimen/text_label"
+                        android:layout_height="wrap_content"
+                        android:text="Waktu Mulai"
+                        android:textSize="@dimen/tiny_text" />
+
+
+                    <TextView
+                        android:id="@+id/tr_comp_start_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toRightOf="@+id/tr_waktu_thumb" />
+                        android:layout_toRightOf="@+id/tr_start_date_t"
+                        android:textSize="@dimen/tiny_text" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/tr_waktu_sewa_end"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tr_waktu_sewa_start"
+                    android:layout_marginBottom="@dimen/xmin_padding"
+                    android:layout_marginLeft="@dimen/min_padding"
+                    android:layout_marginRight="@dimen/min_padding"
+                    android:layout_toRightOf="@+id/tr_comp_thumb"
+                    android:padding="@dimen/small_space">
+
+                    <TextView
+                        android:id="@+id/tr_end_date_t"
+                        android:layout_width="@dimen/text_label"
+                        android:layout_height="wrap_content"
+                        android:text="Waktu Selesai"
+                        android:textSize="@dimen/tiny_text" />
+
+
+                    <TextView
+                        android:id="@+id/tr_comp_end_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/tr_end_date_t"
+                        android:textSize="@dimen/tiny_text" />
 
                 </RelativeLayout>
 
@@ -112,32 +180,37 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/xmin_padding"
-                android:padding="@dimen/xmin_padding">
+                android:paddingEnd="@dimen/min_padding"
+                android:paddingStart="@dimen/min_padding"
+                >
 
                 <TextView
-                    android:id="@+id/tr_harga_det"
+                    android:id="@+id/testi_text"
+                    android:layout_width="@dimen/text_label"
+                    android:layout_height="wrap_content"
+                    android:text="Testimoni :"
+                    android:textStyle="bold"
+                    android:textSize="9sp" />
+
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="center"
+                    android:layout_below="@+id/testi_text"
+                    android:text="Pelayanan oke"
                     android:layout_marginStart="@dimen/min_padding"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/medium_text" />
+                    android:textSize="@dimen/tiny_text"/>
 
                 <com.iarcuschin.simpleratingbar.SimpleRatingBar
-                    android:id="@+id/aset_rating2"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/tm_aset_rating"
+                    style="@style/CustomRatingBar"
+                    android:layout_width="75dp"
+                    android:layout_height="30dp"
                     android:layout_alignParentEnd="true"
+                    android:layout_centerHorizontal="false"
                     android:layout_centerVertical="true"
-                    android:layout_gravity="center"
-                    android:layout_marginEnd="@dimen/min_padding"
-                    android:padding="@dimen/xmin_padding"
+                    android:layout_margin="@dimen/xmin_padding"
                     app:srb_isIndicator="true"
-                    app:srb_rating="4.5"
-                    style="@style/CustomRatingBar"/>
+                    app:srb_rating="4.0" />
 
             </RelativeLayout>
 

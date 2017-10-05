@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -21,6 +23,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.github.ybq.android.spinkit.SpinKitView;
+import com.github.ybq.android.spinkit.style.FadingCircle;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -50,6 +54,10 @@ public class HistoryCompTransFragment extends Fragment {
     private ProgressDialog pDialog;
     private SessionManager sm;
     private View view;
+    private SpinKitView pBar;
+
+    private LinearLayout noTransImage;
+    private TextView noTransText;
 
     private static final String TAG = "HistoryActivity";
     private static final String TOKEN = "secretissecret";
@@ -66,8 +74,15 @@ public class HistoryCompTransFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_history_comp_transaksi, container, false);
         mTrans = new ArrayList<ItemTransaksiModul>();
         sm = new SessionManager(getActivity());
-        pDialog = new ProgressDialog(getActivity());
-        pDialog.setCancelable(false);
+
+        pBar = (SpinKitView) view.findViewById(R.id.progressBar);
+        FadingCircle fadingCircle = new FadingCircle();
+        pBar.setIndeterminateDrawable(fadingCircle);
+
+        noTransImage = (LinearLayout) view.findViewById(R.id.no_trans);
+        noTransText = (TextView) view.findViewById(R.id.no_trans_text);
+//        pDialog = new ProgressDialog(getActivity());
+//        pDialog.setCancelable(false);
 
         // action retrieve data history
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
@@ -77,8 +92,10 @@ public class HistoryCompTransFragment extends Fragment {
     }
 
     private void getHistoryCompList(String tenant) {
-        pDialog.setMessage("loading ...");
-        showProgress(true);
+//        pDialog.setMessage("loading ...");
+//        showProgress(true);
+        pBar.setVisibility(View.VISIBLE);
+
         new getHistoryCompListTask(tenant).execute();
     }
 
@@ -143,30 +160,51 @@ public class HistoryCompTransFragment extends Fragment {
         @Override
         protected void onPostExecute(String history) {
             mHistoryTask = null;
-            showProgress(false);
-            String aTitle, aMember, aDate;
-            Integer aId, dataLength;
+//            showProgress(false);
+            pBar.setVisibility(View.GONE);
 
+            String aIdTrans, aCodeTrans, aTitle, aMember, aStartDate, aEndDate, aNominal, aAsetName;
 
             if (history != null) {
                 try {
                     JSONObject jsonObject = new JSONObject(history);
                     JSONArray jsonArray = new JSONArray(String.valueOf(jsonObject.getJSONArray("completed")));
-                    dataLength = jsonArray.length();
-                    if(dataLength > 0){
+                    if(jsonArray.length() > 0){
                         for (int i = 0; i < jsonArray.length(); i++) {
                             errorMsg = "-";
-                            JSONObject jsonobject = jsonArray.getJSONObject(i);
-                            Log.e(TAG, "Complete Data : " + String.valueOf(jsonobject));
-//                            aTitle = jsonobject.getString("merk") + " " + jsonobject.getString("type");
-                            aMember = jsonobject.getString("firstname") + " " + jsonobject.getString("lastname");
-                            aDate = jsonobject.getString("start_date").replace("-","/") + " - " + jsonobject.getString("end_date").replace("-","/");
+                            JSONObject transObject = jsonArray.getJSONObject(i);
+                            Log.e(TAG, "Completed Data : " + String.valueOf(transObject));
+
+                            JSONObject idTrans = transObject.getJSONObject("id_transaction");
+                            JSONArray items = transObject.getJSONArray("item");
+                            JSONObject item;
+
+                            aIdTrans = transObject.getString("id");
+                            aAsetName = "- Item Kosong -";
+
+                            if(items.length() > 0){
+                                if (items.length() == 1){
+                                    item = items.getJSONObject(0);
+                                    aAsetName = item.getString("brand") + " " + item.getString("type") + " | " + item.getString("license_plat");
+
+                                } else {
+
+                                }
+                            }
+                            aCodeTrans = idTrans.getString("transaction_code");
+                            aNominal = transObject.getString("nominal") + " IDR";
+                            aMember = transObject.getString("firstname") + " " + transObject.getString("lastname");
+                            aStartDate = transObject.getString("start_date").replace("-","/").substring(0,10);
+                            aEndDate = transObject.getString("end_date").replace("-","/").substring(0,10);
 
                             ItemTransaksiModul itemTrans = new ItemTransaksiModul();
-                            itemTrans.setTitle("Daihatsu Xenia");
+                            itemTrans.setIdTrans(aIdTrans);
+                            itemTrans.setCodeTrans(aCodeTrans);
+                            itemTrans.setAsetName(aAsetName);
                             itemTrans.setMember(aMember);
-                            itemTrans.setDate(aDate);
-                            itemTrans.setPrice("900.000 IDR");
+                            itemTrans.setPrice(aNominal);
+                            itemTrans.setStartDate(aStartDate);
+                            itemTrans.setEndDate(aEndDate);
 
                             mTrans.add(itemTrans);
                         }
@@ -178,13 +216,17 @@ public class HistoryCompTransFragment extends Fragment {
                         mRecyclerView.setAdapter(mAdapter);
 
                     }else{
-                        errorMsg = "Riwayat Selesai Tidak Ditemukan";
-                        Toast.makeText(getActivity(),errorMsg, Toast.LENGTH_LONG).show();
+                        errorMsg = "Transaksi Selesai Tidak Ditemukan";
+                        noTransImage.setVisibility(View.VISIBLE);
+                        noTransText.setText(errorMsg);
+//                        Toast.makeText(getActivity(),errorMsg, Toast.LENGTH_LONG).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    errorMsg = "Riwayat Tidak Ditemukan";
-                    Toast.makeText(getActivity(),errorMsg, Toast.LENGTH_LONG).show();
+                    errorMsg = "Transaksi Tidak Ditemukan";
+                    noTransImage.setVisibility(View.VISIBLE);
+                    noTransText.setText(errorMsg);
+//                    Toast.makeText(getActivity(),errorMsg, Toast.LENGTH_LONG).show();
                 }
             }
         }
@@ -192,7 +234,9 @@ public class HistoryCompTransFragment extends Fragment {
         @Override
         protected void onCancelled() {
             mHistoryTask = null;
-            showProgress(false);
+//            showProgress(false);
+            pBar.setVisibility(View.GONE);
+
         }
     }
 }

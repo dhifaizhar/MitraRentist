@@ -16,52 +16,28 @@ import id.rentist.mitrarentist.TransDetailActivity;
 import id.rentist.mitrarentist.modul.ItemTransaksiModul;
 
 /**
- * Created by mdhif on 07/07/2017.
+ * Created by Nugroho Tri Pambud on 10/5/2017.
  */
 
-public class HistoryCompTransAdapter extends RecyclerView.Adapter<HistoryCompTransAdapter.ViewHolder> {
+public class TransactionRejectAdapter extends RecyclerView.Adapter<TransactionRejectAdapter.ViewHolder> {
     private List<ItemTransaksiModul> mTransaksi;
     private Context context;
-    private static final String TAG = "HistoryAdapter";
-
-    public HistoryCompTransAdapter(Context context, List<ItemTransaksiModul> mTransaksi) {
-        super();
+    private static final String TAG = "TransaksiAdapter";
+    
+    public TransactionRejectAdapter(Context context, List<ItemTransaksiModul> mTrans) {super();
         this.mTransaksi = mTransaksi;
         this.context = context;
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i){
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.history_comp_transaksi_view, viewGroup, false);
+    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.transaction_reject_view, viewGroup, false);
         ViewHolder viewHolder = new ViewHolder(v);
         return viewHolder;
     }
 
     @Override
-    public int getItemCount(){
-        return mTransaksi.size();
-    }
-
-    public class ViewHolder extends RecyclerView.ViewHolder{
-        TextView title, idTrans, transCode, member, stardDate, endDate, nominal, asetName;
-        CardView cardDetTrans;
-
-        public ViewHolder(View itemView){
-            super(itemView);
-//          title = (TextView) itemView.findViewById(R.id.tr_aset_type);
-            transCode = (TextView) itemView.findViewById(R.id.tr_comp_code_trans);
-//            idTrans = (TextView) itemView.findViewById(R.id.tr_comp_id_trans);
-            member = (TextView) itemView.findViewById(R.id.tr_comp_member);
-            nominal = (TextView) itemView.findViewById(R.id.tr_comp_nominal);
-            stardDate = (TextView) itemView.findViewById(R.id.tr_comp_start_date);
-            endDate = (TextView) itemView.findViewById(R.id.tr_comp_end_date);
-            asetName = (TextView) itemView.findViewById(R.id.tr_comp_aset);
-            cardDetTrans = (CardView) itemView.findViewById(R.id.card_view_comptransaksi);
-        }
-    }
-
-    @Override
-    public void onBindViewHolder(final HistoryCompTransAdapter.ViewHolder viewHolder, int i ){
+    public void onBindViewHolder(final ViewHolder viewHolder, int i) {
         String aset, member, startDate, endDate;
         final ItemTransaksiModul trx = mTransaksi.get(i);
 
@@ -70,7 +46,7 @@ public class HistoryCompTransAdapter extends RecyclerView.Adapter<HistoryCompTra
         startDate = ": " + trx.getStartDate();
         endDate = ": " + trx.getEndDate();
 
-//        simpan value dalam object
+        //  simpan value dalam object
         viewHolder.transCode.setText(trx.getCodeTrans());
         viewHolder.nominal.setText(trx.getPrice());
         viewHolder.asetName.setText(aset);
@@ -81,7 +57,7 @@ public class HistoryCompTransAdapter extends RecyclerView.Adapter<HistoryCompTra
             @Override
             public void onClick(View v) {
                 Intent iDetTrans = new Intent(context, TransDetailActivity.class);
-                iDetTrans.putExtra("status", "completed");
+                iDetTrans.putExtra("status", "rejepted");
                 iDetTrans.putExtra("id_trans", trx.getIdTrans());
                 iDetTrans.putExtra("code_trans", viewHolder.transCode.getText());
                 iDetTrans.putExtra("price", viewHolder.nominal.getText());
@@ -94,5 +70,29 @@ public class HistoryCompTransAdapter extends RecyclerView.Adapter<HistoryCompTra
                 context.startActivity(iDetTrans);
             }
         });
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder{
+        TextView title, idTrans, transCode, member, stardDate, endDate, nominal, asetName;
+        CardView cardDetTrans;
+
+        public ViewHolder(View itemView){
+            super(itemView);
+            transCode = (TextView) itemView.findViewById(R.id.tr_rej_code_trans);
+            member = (TextView) itemView.findViewById(R.id.tr_rej_member);
+            nominal = (TextView) itemView.findViewById(R.id.tr_rej_nominal);
+            stardDate = (TextView) itemView.findViewById(R.id.tr_rej_start_date);
+            endDate = (TextView) itemView.findViewById(R.id.tr_rej_end_date);
+            asetName = (TextView) itemView.findViewById(R.id.tr_rej_aset);
+            cardDetTrans = (CardView) itemView.findViewById(R.id.card_view_rejtransaksi);
+
+
+        }
+    }
+
+
+    @Override
+    public int getItemCount() {
+        return mTransaksi.size();
     }
 }

@@ -8,11 +8,50 @@
     android:orientation="vertical"
     tools:context="id.rentist.mitrarentist.fragment.HistoryCompTransFragment">
 
+    <LinearLayout
+        android:id="@+id/no_trans"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/status_width"
+        android:orientation="vertical"
+        android:visibility="gone"
+        >
+
+        <ImageView
+            android:layout_width="@dimen/explorer_item_size"
+            android:layout_height="@dimen/explorer_item_size"
+            android:layout_gravity="center|center_vertical"
+            android:src="@drawable/no_transaction"
+            />
+
+        <TextView
+            android:id="@+id/no_trans_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/min_padding"
+            android:textAlignment="center"
+            android:textColor="@color/colorBlack54"
+            android:textStyle="bold"
+            />
+
+    </LinearLayout>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/htranson_recyclerViewFrag"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="@dimen/xmin_padding">
     </android.support.v7.widget.RecyclerView>
+
+    <com.github.ybq.android.spinkit.SpinKitView
+        android:id="@+id/progressBar"
+        style="@style/SpinKitView.FadingCircle"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/btn_lmedium_height"
+        android:layout_marginTop="@dimen/breadcrumb_height"
+        android:background="@android:color/transparent"
+        android:padding="@dimen/min_padding"
+        android:visibility="gone"
+        app:SpinKit_Color="@color/colorWhite" />
 
 </LinearLayout>

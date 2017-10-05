@@ -36,20 +36,15 @@ import java.util.List;
 import java.util.Map;
 
 import id.rentist.mitrarentist.R;
-import id.rentist.mitrarentist.adapter.HistoryCancelAdapter;
+import id.rentist.mitrarentist.adapter.TransactionRejectAdapter;
 import id.rentist.mitrarentist.modul.ItemTransaksiModul;
 import id.rentist.mitrarentist.tools.AppConfig;
 import id.rentist.mitrarentist.tools.SessionManager;
 
-/**
- * Created by mdhif on 07/07/2017.
- */
-
-public class HistoryCancelFragment extends Fragment {
+public class TransactionRejectFragment extends Fragment {
     RecyclerView mRecyclerView;
     RecyclerView.LayoutManager mLayoutManager;
     RecyclerView.Adapter mAdapter;
-
     private List<ItemTransaksiModul> mTrans;
     private AsyncTask mHistoryTask = null;
     private ProgressDialog pDialog;
@@ -64,39 +59,40 @@ public class HistoryCancelFragment extends Fragment {
     private static final String TOKEN = "secretissecret";
     String tenant;
 
-    public HistoryCancelFragment(){
 
+    public TransactionRejectFragment() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        view = inflater.inflate(R.layout.fragment_history_cancel, container, false);
+        view = inflater.inflate(R.layout.fragment_transaction_reject, container, false);
         mTrans = new ArrayList<ItemTransaksiModul>();
         sm = new SessionManager(getActivity());
-//        pDialog = new ProgressDialog(getActivity());
-//        pDialog.setCancelable(false);
 
         pBar = (SpinKitView) view.findViewById(R.id.progressBar);
+//        pBar =  new SpinKitView(getActivity());
         FadingCircle fadingCircle = new FadingCircle();
         pBar.setIndeterminateDrawable(fadingCircle);
 
         noTransImage = (LinearLayout) view.findViewById(R.id.no_trans);
         noTransText = (TextView) view.findViewById(R.id.no_trans_text);
 
+//        pDialog = new ProgressDialog(getActivity());
+//        pDialog.setCancelable(false);
+
         // action retrieve data aset
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
-        getHistoryCanList(tenant);
+        getTransactionRejectList(tenant);
 
         return view;
     }
 
-    private void getHistoryCanList(String tenant) {
+    private void getTransactionRejectList(String tenant) {
+        pBar.setVisibility(View.VISIBLE);
 //        pDialog.setMessage("loading ...");
 //        showProgress(true);
-        pBar.setVisibility(View.VISIBLE);
-        new getHistoryCanListTask(tenant).execute();
+        new TransactionRejectFragment.getTransactionRejectListTask(tenant).execute();
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
@@ -112,12 +108,12 @@ public class HistoryCancelFragment extends Fragment {
         }
     }
 
-    private class getHistoryCanListTask extends AsyncTask<String, String, String> {
+    public class getTransactionRejectListTask extends AsyncTask<String, String, String>{
         private final String mTenant;
         private String errorMsg, responseHistory;
 
-        private getHistoryCanListTask(String tenant) {
-            mTenant = tenant;
+        public getTransactionRejectListTask(String tenant) {
+            this.mTenant = tenant;
         }
 
         @Override
@@ -162,24 +158,22 @@ public class HistoryCancelFragment extends Fragment {
             mHistoryTask = null;
 //            showProgress(false);
             pBar.setVisibility(View.GONE);
-            String aIdTrans, aTitle, aMember, aStartDate, aEndDate, aNominal, aAsetName, aCodeTrans;
-            Integer aId, dataLength;
 
+            String aIdTrans, aCodeTrans, aTitle, aMember, aStartDate, aEndDate, aNominal, aAsetName;
 
             if (history != null) {
                 try {
                     JSONObject jsonObject = new JSONObject(history);
-                    JSONArray jsonArray = new JSONArray(String.valueOf(jsonObject.getJSONArray("canceled")));
-                    dataLength = jsonArray.length();
-                    if(dataLength > 0){
+                    JSONArray jsonArray = new JSONArray(String.valueOf(jsonObject.getJSONArray("rejected")));
+                    if(jsonArray.length() > 0){
                         for (int i = 0; i < jsonArray.length(); i++) {
                             errorMsg = "-";
                             JSONObject transObject = jsonArray.getJSONObject(i);
-                            Log.e(TAG, "Canceled Data : " + String.valueOf(transObject));
+                            Log.e(TAG, "rejected Data : " + String.valueOf(transObject));
 
                             JSONObject idTrans = transObject.getJSONObject("id_transaction");
                             JSONArray items = transObject.getJSONArray("item");
-                            JSONObject item = new JSONObject();
+                            JSONObject item;
 
                             aIdTrans = transObject.getString("id");
                             aAsetName = "- Item Kosong -";
@@ -212,24 +206,24 @@ public class HistoryCancelFragment extends Fragment {
                             mTrans.add(itemTrans);
                         }
 
-                        mRecyclerView = (RecyclerView) view.findViewById(R.id.hcancel_recyclerViewFrag);
+                        mRecyclerView = (RecyclerView) view.findViewById(R.id.treject_recyclerViewFrag);
                         mLayoutManager = new LinearLayoutManager(getActivity());
                         mRecyclerView.setLayoutManager(mLayoutManager);
-                        mAdapter = new HistoryCancelAdapter(getActivity(),mTrans);
+                        mAdapter = new TransactionRejectAdapter(getActivity(),mTrans);
                         mRecyclerView.setAdapter(mAdapter);
 
                     }else{
-                        errorMsg = "Transaksi Dibatalkan Tidak Ditemukan";
+                        errorMsg = "Transaksi Ditolak Tidak Ditemukan";
                         noTransImage.setVisibility(View.VISIBLE);
                         noTransText.setText(errorMsg);
-//                        Toast.makeText(getActivity(),errorMsg, Toast.LENGTH_LONG).show();
+//                      Toast.makeText(getActivity(),errorMsg, Toast.LENGTH_LONG).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                     errorMsg = "Transaksi Tidak Ditemukan";
                     noTransImage.setVisibility(View.VISIBLE);
                     noTransText.setText(errorMsg);
-//                    Toast.makeText(getActivity(),errorMsg, Toast.LENGTH_LONG).show();
+//                  Toast.makeText(getActivity(),errorMsg, Toast.LENGTH_LONG).show();
                 }
             }
         }
@@ -237,9 +231,9 @@ public class HistoryCancelFragment extends Fragment {
         @Override
         protected void onCancelled() {
             mHistoryTask = null;
+//            showProgress(false);
             pBar.setVisibility(View.GONE);
 
-//            showProgress(false);
         }
     }
 }

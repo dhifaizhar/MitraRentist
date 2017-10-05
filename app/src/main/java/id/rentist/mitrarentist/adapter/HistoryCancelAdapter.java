@@ -43,13 +43,13 @@ public class HistoryCancelAdapter extends RecyclerView.Adapter<HistoryCancelAdap
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        TextView title, idTrans, member, stardDate, endDate, nominal, asetName;
+        TextView title, idTrans, transCode, member, stardDate, endDate, nominal, asetName;
         CardView cardDetTrans;
 
         public ViewHolder(View itemView){
             super(itemView);
-//            title = (TextView) itemView.findViewById(R.id.tr_aset_type);
-            idTrans = (TextView) itemView.findViewById(R.id.tr_can_id_trans);
+            transCode = (TextView) itemView.findViewById(R.id.tr_can_code_trans);
+//            idTrans = (TextView) itemView.findViewById(R.id.tr_can_id_trans);
             member = (TextView) itemView.findViewById(R.id.tr_can_member);
             nominal = (TextView) itemView.findViewById(R.id.tr_can_nominal);
             stardDate = (TextView) itemView.findViewById(R.id.tr_can_start_date);
@@ -60,23 +60,39 @@ public class HistoryCancelAdapter extends RecyclerView.Adapter<HistoryCancelAdap
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int i ){
-        ItemTransaksiModul trx = mTransaksi.get(i);
+    public void onBindViewHolder(final ViewHolder viewHolder, int i ){
+        String aset, member, startDate, endDate;
+        final ItemTransaksiModul trx = mTransaksi.get(i);
 
-//        simpan value dalam object
-        viewHolder.idTrans.setText(trx.getIdTrans());
+        aset = ": " + trx.getAsetName();
+        member = ": " + trx.getMember();
+        startDate = ": " + trx.getStartDate();
+        endDate = ": " + trx.getEndDate();
+
+        //  simpan value dalam object
+        viewHolder.transCode.setText(trx.getCodeTrans());
         viewHolder.nominal.setText(trx.getPrice());
-        viewHolder.asetName.setText(trx.getAsetName());
-        viewHolder.member.setText(trx.getMember());
-        viewHolder.stardDate.setText(trx.getStartDate());
-        viewHolder.endDate.setText(trx.getEndDate());
+        viewHolder.asetName.setText(aset);
+        viewHolder.member.setText(member);
+        viewHolder.stardDate.setText(startDate);
+        viewHolder.endDate.setText(endDate);
         viewHolder.cardDetTrans.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent iDetTrans = new Intent(context, TransDetailActivity.class);
+                iDetTrans.putExtra("status", "canepted");
+                iDetTrans.putExtra("id_trans", trx.getIdTrans());
+                iDetTrans.putExtra("code_trans", viewHolder.transCode.getText());
+                iDetTrans.putExtra("price", viewHolder.nominal.getText());
+                iDetTrans.putExtra("aset", trx.getAsetName());
+                iDetTrans.putExtra("member", viewHolder.member.getText());
+                iDetTrans.putExtra("startDate", trx.getStartDate());
+                iDetTrans.putExtra("endDate", trx.getEndDate());
+
                 iDetTrans.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(iDetTrans);
             }
         });
+
     }
 }
