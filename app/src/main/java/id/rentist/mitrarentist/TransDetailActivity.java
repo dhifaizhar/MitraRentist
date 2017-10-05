@@ -105,6 +105,9 @@ public class TransDetailActivity extends AppCompatActivity {
         btnAction.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
         btnAction.setTextColor(getResources().getColor(R.color.colorWhite));
         btnAction.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        btnAction.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT));
 
         Button btnAccept = new  Button(this);
         btnAccept.setText("Terima");
@@ -122,9 +125,6 @@ public class TransDetailActivity extends AppCompatActivity {
 
         // Value
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
-//        Log.e(TAG, "ID tenant : " + sm.getIntPreferences("id_tenant"));
-
-
         transId = itransDet.getStringExtra("id_trans");
         mAset.setText(itransDet.getStringExtra("aset"));
         mPrice.setText(itransDet.getStringExtra("price"));
@@ -172,7 +172,14 @@ public class TransDetailActivity extends AppCompatActivity {
             btnAction.setText("Berhasil Dijemput");
             btnContainer.addView(btnAction);
 
-        } else {
+            btnAction.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    transAction(transId);
+                }
+            });
+
+        } else if(itransDet.getStringExtra("status").equals("new")) {
             btnContainer.addView(btnCancel);
             btnContainer.addView(btnAccept);
 
@@ -228,7 +235,7 @@ public class TransDetailActivity extends AppCompatActivity {
         if(itransDet.getStringExtra("status").equals("accepted")){
             new TransDetailActivity.postTransDropTask(transId).execute();
         } else if (itransDet.getStringExtra("status").equals("ongoing")) {
-            new TransDetailActivity.postTransDropTask(transId).execute();
+            new TransDetailActivity.postTransTakeTask(transId).execute();
         }
     }
 
@@ -368,6 +375,79 @@ public class TransDetailActivity extends AppCompatActivity {
 
             if(voucher != null){
                 Toast.makeText(getApplicationContext(),"Data sukses disimpan", Toast.LENGTH_LONG).show();
+                finish();
+            }else{
+                Toast.makeText(getApplicationContext(),"Gagal meyimpan data", Toast.LENGTH_LONG).show();
+            }
+
+        }
+
+        @Override
+        protected void onCancelled() {
+            mTransactionTask = null;
+            showProgress(false);
+        }
+    }
+
+    private class postTransTakeTask extends AsyncTask<String, String, String> {
+        private final String mTransId;
+        private String errorMsg, responseTrans;
+
+        private postTransTakeTask(String transId) {
+            mTransId = transId;
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.URL_TRANSACTION_TAKE + mTransId, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    responseTrans = response;
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    errorMsg = error.toString();
+                    Log.e(TAG, "Transaction Take Fetch Error : " + errorMsg);
+                    Toast.makeText(getApplicationContext(), "Connection error, try again.",
+                            Toast.LENGTH_LONG).show();
+                }
+            }){
+                @Override
+                protected Map<String, String> getParams() {
+                    // Posting parameters to url
+                    Map<String, String> keys = new HashMap<String, String>();
+
+                    Log.e(TAG, "Post Data Take : ID = "+ mTransId);
+                    return keys;
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> keys = new HashMap<String, String>();
+                    keys.put("token", TOKEN);
+                    return keys;
+                }
+            };
+
+            try {
+                requestQueue.add(stringRequest);
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            return responseTrans;
+        }
+
+        @Override
+        protected void onPostExecute(String voucher) {
+            mTransactionTask = null;
+            showProgress(false);
+
+            if(voucher != null){
+                Toast.makeText(getApplicationContext(),"Transaksi Selesai", Toast.LENGTH_LONG).show();
                 finish();
             }else{
                 Toast.makeText(getApplicationContext(),"Gagal meyimpan data", Toast.LENGTH_LONG).show();

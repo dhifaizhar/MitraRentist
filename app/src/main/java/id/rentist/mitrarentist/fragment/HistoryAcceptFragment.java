@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -46,9 +48,12 @@ public class HistoryAcceptFragment extends Fragment {
     private List<ItemTransaksiModul> mTrans;
     private AsyncTask mHistoryTask = null;
     private ProgressDialog pDialog;
-    private SpinKitView pBar;
     private SessionManager sm;
     private View view;
+    private SpinKitView pBar;
+
+    private LinearLayout noTransImage;
+    private TextView noTransText;
 
     private static final String TAG = "HistoryActivity";
     private static final String TOKEN = "secretissecret";
@@ -64,10 +69,14 @@ public class HistoryAcceptFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_history_accept, container, false);
         mTrans = new ArrayList<ItemTransaksiModul>();
         sm = new SessionManager(getActivity());
-        pBar = new SpinKitView(getActivity());
-//        pBar = (SpinKitView) findViewById(R.id.progressBar);
+
+        pBar = (SpinKitView) view.findViewById(R.id.progressBar);
+//        pBar =  new SpinKitView(getActivity());
         FadingCircle fadingCircle = new FadingCircle();
         pBar.setIndeterminateDrawable(fadingCircle);
+
+        noTransImage = (LinearLayout) view.findViewById(R.id.no_trans);
+        noTransText = (TextView) view.findViewById(R.id.no_trans_text);
 
 //        pDialog = new ProgressDialog(getActivity());
 //        pDialog.setCancelable(false);
@@ -204,13 +213,17 @@ public class HistoryAcceptFragment extends Fragment {
                         mRecyclerView.setAdapter(mAdapter);
 
                     }else{
-                        errorMsg = "Transaksi Dibatalkan Tidak Ditemukan";
-                        Toast.makeText(getActivity(),errorMsg, Toast.LENGTH_LONG).show();
+                        errorMsg = "Transaksi Diterima Tidak Ditemukan";
+                        noTransImage.setVisibility(View.VISIBLE);
+                        noTransText.setText(errorMsg);
+//                      Toast.makeText(getActivity(),errorMsg, Toast.LENGTH_LONG).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    errorMsg = "Riwayat Tidak Ditemukan";
-                    Toast.makeText(getActivity(),errorMsg, Toast.LENGTH_LONG).show();
+                    errorMsg = "Transaksi Tidak Ditemukan";
+                    noTransImage.setVisibility(View.VISIBLE);
+                    noTransText.setText(errorMsg);
+//                  Toast.makeText(getActivity(),errorMsg, Toast.LENGTH_LONG).show();
                 }
             }
         }

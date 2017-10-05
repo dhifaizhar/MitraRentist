@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -43,6 +45,8 @@ public class TransactionActivity extends AppCompatActivity {
     private List<ItemTransaksiModul> mTrans = new ArrayList<>();
     private AsyncTask mTransactionTask = null;
 
+    private LinearLayout noTransImage;
+    private TextView noTransText;
     private SpinKitView pBar;
     private SessionManager sm;
 
@@ -61,6 +65,8 @@ public class TransactionActivity extends AppCompatActivity {
         sm = new SessionManager(getApplicationContext());
         pBar = (SpinKitView)findViewById(R.id.progressBar);
         FadingCircle fadingCircle = new FadingCircle();
+        noTransImage = (LinearLayout) findViewById(R.id.no_trans);
+        noTransText = (TextView) findViewById(R.id.no_trans_text);
         pBar.setIndeterminateDrawable(fadingCircle);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -188,12 +194,17 @@ public class TransactionActivity extends AppCompatActivity {
 
                     }else{
                         errorMsg = "Tidak ada transaksi baru";
-                        Toast.makeText(getApplicationContext(),errorMsg, Toast.LENGTH_LONG).show();
+                        noTransImage.setVisibility(View.VISIBLE);
+                        noTransText.setText(errorMsg);
+//                        Toast.makeText(getApplicationContext(),errorMsg, Toast.LENGTH_LONG).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                     errorMsg = "Transaksi Tidak Ditemukan";
-                    Toast.makeText(getApplicationContext(),errorMsg, Toast.LENGTH_LONG).show();
+                    noTransImage.setVisibility(View.VISIBLE);
+                    noTransText.setText(errorMsg);
+
+//                    Toast.makeText(getApplicationContext(),errorMsg, Toast.LENGTH_LONG).show();
                 }
             }
         }
@@ -220,6 +231,7 @@ public class TransactionActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_refresh) {
+            mTrans.clear();
             getNewTransactionDataList(tenant);
         }
 

@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.github.ybq.android.spinkit.SpinKitView;
+
 import java.util.List;
 
 import id.rentist.mitrarentist.R;
@@ -41,6 +43,7 @@ public class HistoryAcceptAdapter extends RecyclerView.Adapter<HistoryAcceptAdap
     public class ViewHolder extends RecyclerView.ViewHolder{
         TextView title, idTrans, transCode, member, stardDate, endDate, nominal, asetName;
         CardView cardDetTrans;
+        SpinKitView pBar;
 
         public ViewHolder(View itemView){
             super(itemView);
@@ -51,6 +54,8 @@ public class HistoryAcceptAdapter extends RecyclerView.Adapter<HistoryAcceptAdap
             endDate = (TextView) itemView.findViewById(R.id.tr_acc_end_date);
             asetName = (TextView) itemView.findViewById(R.id.tr_acc_aset);
             cardDetTrans = (CardView) itemView.findViewById(R.id.card_view_acctransaksi);
+
+
         }
     }
 
@@ -88,5 +93,6 @@ public class HistoryAcceptAdapter extends RecyclerView.Adapter<HistoryAcceptAdap
                 context.startActivity(iDetTrans);
             }
         });
+
     }
 }
