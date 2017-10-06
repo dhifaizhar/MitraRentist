@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -122,6 +123,18 @@ public class FormCarAsetActivity extends AppCompatActivity {
             aType.setText(iFormAsset.getStringExtra("type"));
             aPlat.setText(iFormAsset.getStringExtra("plat"));
             aYear.setText(iFormAsset.getStringExtra("year"));
+
+            //spinner
+            String compareValue = iFormAsset.getStringExtra("subcat");
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.asset_subcategory_entries, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.select_dialog_item);
+            subcategory.setAdapter(adapter);
+            Log.e(TAG, "Value Sub Cat: " + compareValue);
+            if (!compareValue.equals(null)) {
+                int spinnerPosition = adapter.getPosition(compareValue);
+                subcategory.setSelection(spinnerPosition);
+            }
+
         }
     }
 
@@ -281,7 +294,9 @@ public class FormCarAsetActivity extends AppCompatActivity {
                     keys.put("rent_package", aRentPackage);
                     keys.put("latitude", aLatitude);
                     keys.put("longitude", aLongitude);
-                    keys.put("file", isiimage);
+                    if(!isiimage.isEmpty()){
+                        keys.put("file", isiimage);
+                    }
                     ArrayList<String> pricingArray = new ArrayList<String>();
                     for (int i = 0; i < 1; i++) {
                         Map<String, String> pricingObject = new HashMap<String, String>();
@@ -337,6 +352,13 @@ public class FormCarAsetActivity extends AppCompatActivity {
     }
 
     private void updateDataAset(String category) {
+        int transmissionId = aTransmisionGroup.getCheckedRadioButtonId();
+        aTransmisionButton = (RadioButton) findViewById(transmissionId);
+        aAddress = "BALI,INDONESIA";
+        aLatitude = "0";
+        aLongitude = "0";
+        aRentPackage = "-";
+
         pDialog.setMessage("loading ...");
         showProgress(true);
         new updateAsetTask(category).execute();
@@ -352,7 +374,7 @@ public class FormCarAsetActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... params) {
-            String URL = AppConfig.URL_UPDATE_ASSET + mCategory;
+            String URL = AppConfig.URL_ADD_MOBIL;
             RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
             StringRequest stringRequest = new StringRequest(Request.Method.PUT, URL, new Response.Listener<String>() {
                 @Override
@@ -372,11 +394,43 @@ public class FormCarAsetActivity extends AppCompatActivity {
                 protected Map<String, String> getParams() {
                     // Posting parameters to url
                     Map<String, String> keys = new HashMap<String, String>();
-                    keys.put("id_item", String.valueOf(idAsset));
+                    keys.put("id_asset", String.valueOf(idAsset));
+                    keys.put("name", aName.getText().toString());
+                    keys.put("slug", aName.getText().toString().replace(" ","-"));
+                    keys.put("description", aDesc.getText().toString());
+                    keys.put("subcategory", subcategory.getSelectedItem().toString());
                     keys.put("brand", aMerk.getText().toString());
                     keys.put("type", aType.getText().toString());
                     keys.put("year", aYear.getText().toString());
+                    keys.put("no_stnk", aRegNum.getText().toString());
                     keys.put("colour", aColor.getText().toString());
+                    keys.put("engine_capacity", aEngCap.getText().toString());
+                    keys.put("license_plat", aPlat.getText().toString());
+                    keys.put("seat", aSeat.getText().toString());
+                    keys.put("air_bag", String.valueOf(aAb.isChecked()));
+                    keys.put("air_conditioner", String.valueOf(aAc.isChecked()));
+                    keys.put("transmission", aTransmisionButton.getText().toString());
+                    keys.put("fuel", aFuel.getText().toString());
+                    keys.put("insurance", String.valueOf(aAssurace.isChecked()));
+                    keys.put("driver_included", String.valueOf(aDriver.isChecked()));
+                    keys.put("address", aAddress);
+                    keys.put("rent_package", aRentPackage);
+                    keys.put("latitude", aLatitude);
+                    keys.put("longitude", aLongitude);
+                    if(!isiimage.isEmpty()){
+                        keys.put("file", isiimage);
+                    }
+                    ArrayList<String> pricingArray = new ArrayList<String>();
+                    for (int i = 0; i < 1; i++) {
+                        Map<String, String> pricingObject = new HashMap<String, String>();
+                        pricingObject.put("\"range_name\"","\""+aRangName.getText().toString()+"\"");
+                        pricingObject.put("\"start_date\"","\""+aStartDate.getText().toString()+"\"");
+                        pricingObject.put("\"end_date\"","\""+aEndDate.getText().toString()+"\"");
+                        pricingObject.put("\"price\"",aPrice.getText().toString());
+
+                        pricingArray.add(pricingObject.toString().replace("=",":"));
+                    }
+                    keys.put("price", pricingArray.toString());
                     Log.e(TAG, "Asset Keys: " + String.valueOf(keys));
                     return keys;
                 }

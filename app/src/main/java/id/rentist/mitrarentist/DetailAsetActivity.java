@@ -27,6 +27,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -45,9 +49,9 @@ public class DetailAsetActivity extends AppCompatActivity {
     private CalendarView simpleCalendarView;
     Intent iAsetEdit;
 
-    Integer aId;
-    String changeStatus = "active", cat;
-    TextView mark, year, status, subcat, plat;
+    Integer aId, position;
+    String changeStatus = "active", aName, aType, aPlat, aYear, aStatus, aCat, aSubCat;
+    TextView mark, year, status, subcat;
     ImageView imgThumbnail;
 
     private static final String TAG = "DetailAssetActivity";
@@ -57,7 +61,6 @@ public class DetailAsetActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_asset_detail);
         detIntent = getIntent();
-        setTitle(detIntent.getStringExtra("plat"));
 
         sm = new SessionManager(getApplicationContext());
         pDialog = new ProgressDialog(this);
@@ -83,23 +86,133 @@ public class DetailAsetActivity extends AppCompatActivity {
         status = (TextView) findViewById(R.id.as_status_det);
 
         // set content control value
-        cat = detIntent.getStringExtra("cat");
-        if(cat.equals("1")){
-            imgThumbnail.setImageResource(R.drawable.car_avanza);
-        }else if(cat.equals("2")){
-            imgThumbnail.setImageResource(R.drawable.motorcycle_cbr);
-        }
-        mark.setText(detIntent.getStringExtra("mark"));
-        subcat.setText(detIntent.getStringExtra("subcat"));
-        year.setText(detIntent.getStringExtra("year"));
-        status.setText(detIntent.getStringExtra("status"));
         aId = detIntent.getIntExtra("id_asset", 0);
+        getAssetDataList();
         status.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 changeStatAset();
             }
         });
+
+
+    }
+
+    public void getAssetDataList() {
+        pDialog.setMessage("loading data...");
+        showProgress(true);
+        new getAssetListTask(aId).execute();
+    }
+
+    private class getAssetListTask extends AsyncTask<String, String, String> {
+        private final String id;
+        private String errorMsg, responseAsset;
+
+        private getAssetListTask(int aId) {
+            id = String.valueOf(aId);
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            String URL = AppConfig.URL_VIEW_CAR;
+            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    responseAsset = response;
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    errorMsg = error.toString();
+                    Log.e(TAG, "Asset Fetch Error : " + errorMsg);
+                    Toast.makeText(getApplicationContext(), "Connection error, try again.",
+                            Toast.LENGTH_LONG).show();
+                }
+            }){
+                @Override
+                protected Map<String, String> getParams() {
+                    // Posting parameters to login url
+                    Map<String, String> keys = new HashMap<String, String>();
+                    keys.put("id_item", id);
+                    return keys;
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    // Posting parameters to login url
+                    Map<String, String> keys = new HashMap<String, String>();
+                    keys.put("token", TOKEN);
+                    return keys;
+                }
+            };
+
+            try {
+                requestQueue.add(stringRequest);
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            return responseAsset;
+        }
+
+        @Override
+        protected void onPostExecute(String aset) {
+            mDetailAssetTask = null;
+//            pBar.setVisibility(View.GONE);
+            showProgress(false);
+            Integer dataLength, aId;
+
+            if (aset != null) {
+                try {
+                    JSONArray jsonArray = new JSONArray(aset);
+                    Log.e(TAG, "Asset : " + jsonArray);
+                    dataLength = jsonArray.length();
+                    if(dataLength > 0){
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            errorMsg = "-";
+
+                            JSONObject jsonobject = jsonArray.getJSONObject(i);
+//                            aId = jsonobject.getInt("id");
+                            aName = jsonobject.getString("brand");
+                            aType = jsonobject.getString("type");
+                            aPlat = jsonobject.getString("license_plat");
+                            aYear = jsonobject.getString("year");
+                            aStatus = jsonobject.getString("status");
+                            aSubCat = jsonobject.getString("subcategory");
+                            aCat = jsonobject.getString("id_asset_category");
+
+                            setTitle(aPlat);
+                            mark.setText(aName + " " + aType);
+                            subcat.setText(aSubCat);
+                            year.setText(aYear);
+                            status.setText(aStatus);
+                            if(aCat.equals("1")){
+                                imgThumbnail.setImageResource(R.drawable.car_avanza);
+                            }else if(aCat.equals("2")){
+                                imgThumbnail.setImageResource(R.drawable.motorcycle_cbr);
+                            }
+                        }
+
+                    }else{
+                        errorMsg = "Gagal Memuat Data";
+                        Toast.makeText(getApplicationContext(),errorMsg, Toast.LENGTH_LONG).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    errorMsg = "Gagal Memuat Data";
+                    Toast.makeText(getApplicationContext(),errorMsg, Toast.LENGTH_LONG).show();
+                }
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            mDetailAssetTask = null;
+//            pBar.setVisibility(View.GONE);
+            showProgress(false);
+        }
     }
 
     private void changeStatAset() {
@@ -204,6 +317,100 @@ public class DetailAsetActivity extends AppCompatActivity {
 
     }
 
+    private void deleteAssetItem(final int id) {
+        showAlert = new AlertDialog.Builder(this);
+        showAlert.setMessage("Hapus aset ini ?");
+        showAlert.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1) {
+                pDialog.setMessage("loading ...");
+                showProgress(true);
+                new deleteAssetTask(String.valueOf(id)).execute();
+            }
+        });
+        showAlert.setNegativeButton("Tidak",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // close dialog
+            }
+        });
+
+        alertDialog = showAlert.create();
+        alertDialog.show();
+    }
+
+    private class deleteAssetTask  extends AsyncTask<String, String, String> {
+        private final String mAsset;
+        private String errorMsg, responseAsset;
+
+        private deleteAssetTask(String asset) {
+            mAsset = asset;
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+            StringRequest stringRequest = new StringRequest(Request.Method.DELETE, AppConfig.URL_ADD_MOBIL, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    responseAsset = response;
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    errorMsg = error.toString();
+                    Log.e(TAG, "Asset Fetch Error : " + errorMsg);
+                    Toast.makeText(getApplicationContext(), "Connection error, try again.",
+                            Toast.LENGTH_LONG).show();
+                }
+            }){
+                @Override
+                protected Map<String, String> getParams() {
+                    // Posting parameters to url
+                    Map<String, String> keys = new HashMap<String, String>();
+                    keys.put("id_item", mAsset);
+                    Log.e(TAG, "Delete Data : " + String.valueOf(keys));
+                    return keys;
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> keys = new HashMap<String, String>();
+                    keys.put("token", TOKEN);
+                    return keys;
+                }
+            };
+
+            try {
+                requestQueue.add(stringRequest);
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            return responseAsset;
+        }
+
+        @Override
+        protected void onPostExecute(String User) {
+            showProgress(false);
+
+            if(User != null){
+                Toast.makeText(getApplicationContext(),"Data berhasil dihapus", Toast.LENGTH_LONG).show();
+                finish();
+            }else{
+                Toast.makeText(getApplicationContext(),"Gagal menghapus data", Toast.LENGTH_LONG).show();
+            }
+
+        }
+
+        @Override
+        protected void onCancelled() {
+            showProgress(false);
+        }
+
+    }
+
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     private void showProgress(final boolean show) {
         if(show){
@@ -235,29 +442,31 @@ public class DetailAsetActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_edit) {
-            if(cat.equals("1")){
+            if(aCat.equals("1")){
                 iAsetEdit = new Intent(DetailAsetActivity.this, FormCarAsetActivity.class);
                 iAsetEdit.putExtra("action", "update");
                 iAsetEdit.putExtra("id_asset", aId);
-                iAsetEdit.putExtra("merk", detIntent.getStringExtra("merk"));
-                iAsetEdit.putExtra("type", detIntent.getStringExtra("type"));
-                iAsetEdit.putExtra("year", detIntent.getStringExtra("year"));
-                iAsetEdit.putExtra("plat", detIntent.getStringExtra("plat"));
-                iAsetEdit.putExtra("cat", cat);
+                iAsetEdit.putExtra("merk", aName);
+                iAsetEdit.putExtra("type", aType);
+                iAsetEdit.putExtra("year", aYear);
+                iAsetEdit.putExtra("plat", aPlat);
+                iAsetEdit.putExtra("cat", aCat);
+                iAsetEdit.putExtra("subcat", aSubCat);
                 startActivity(iAsetEdit);
-            }else if(cat.equals("2")){
+            }else if(aCat.equals("2")){
                 iAsetEdit = new Intent(DetailAsetActivity.this, FormMotorcycleAsetActivity.class);
                 iAsetEdit.putExtra("action", "update");
                 iAsetEdit.putExtra("id_asset", aId);
-                iAsetEdit.putExtra("merk", detIntent.getStringExtra("merk"));
-                iAsetEdit.putExtra("type", detIntent.getStringExtra("type"));
-                iAsetEdit.putExtra("year", detIntent.getStringExtra("year"));
-                iAsetEdit.putExtra("plat", detIntent.getStringExtra("plat"));
-                iAsetEdit.putExtra("cat", cat);
+                iAsetEdit.putExtra("merk", aName);
+                iAsetEdit.putExtra("type", aType);
+                iAsetEdit.putExtra("year", aYear);
+                iAsetEdit.putExtra("plat", aPlat);
+                iAsetEdit.putExtra("cat", aCat);
+                iAsetEdit.putExtra("subcat", aSubCat);
                 startActivity(iAsetEdit);
             }
         }else if(id == R.id.action_delete){
-            return true;
+            deleteAssetItem(aId);
         }
 
         return super.onOptionsItemSelected(item);

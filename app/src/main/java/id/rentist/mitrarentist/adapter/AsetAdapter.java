@@ -108,15 +108,6 @@ public class AsetAdapter extends RecyclerView.Adapter<AsetAdapter.ViewHolder> {
             public void onClick(View v) {
                 Intent iAset = new Intent(context, DetailAsetActivity.class);
                 iAset.putExtra("id_asset", as.getAssetId());
-                iAset.putExtra("img_thumb", as.getThumbnail());
-                iAset.putExtra("mark", as.getMark());
-                iAset.putExtra("merk", as.getMerk());
-                iAset.putExtra("type", as.getType());
-                iAset.putExtra("year", as.getYear());
-                iAset.putExtra("plat", as.getPlat());
-                iAset.putExtra("cat", category);
-                iAset.putExtra("subcat", as.getSubCat());
-                iAset.putExtra("status", as.getStatus());
                 iAset.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(iAset);
             }
@@ -164,7 +155,7 @@ public class AsetAdapter extends RecyclerView.Adapter<AsetAdapter.ViewHolder> {
         @Override
         protected String doInBackground(String... params) {
             RequestQueue requestQueue = Volley.newRequestQueue(context);
-            StringRequest stringRequest = new StringRequest(Request.Method.PUT, AppConfig.URL_DELETE_ASSET + category, new Response.Listener<String>() {
+            StringRequest stringRequest = new StringRequest(Request.Method.DELETE, AppConfig.URL_ADD_MOBIL, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     responseAsset = response;
@@ -182,7 +173,7 @@ public class AsetAdapter extends RecyclerView.Adapter<AsetAdapter.ViewHolder> {
                 protected Map<String, String> getParams() {
                     // Posting parameters to url
                     Map<String, String> keys = new HashMap<String, String>();
-                    keys.put("id_item", mAsset);
+                    keys.put("id_asset", mAsset);
                     Log.e(TAG, "Delete Data : " + String.valueOf(keys));
                     return keys;
                 }

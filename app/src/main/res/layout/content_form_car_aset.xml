@@ -80,7 +80,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:entries="@array/asset_subcategory_entries"
-                                android:padding="@dimen/xmin_padding" />
+                                android:padding="@dimen/xmin_padding"
+                                android:spinnerMode="dialog" />
 
                         </LinearLayout>
 
