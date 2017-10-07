@@ -181,8 +181,6 @@ public class AsetListActivity extends AppCompatActivity {
                             aId = jsonobject.getInt("id");
                             aName = jsonobject.getString("brand");
                             aType = jsonobject.getString("type");
-                            aPlat = jsonobject.getString("license_plat");
-                            aYear = jsonobject.getString("year");
                             aStatus = jsonobject.getString("status");
                             aSubCat = jsonobject.getString("subcategory");
 
@@ -191,14 +189,26 @@ public class AsetListActivity extends AppCompatActivity {
                             itemModul.setMark(aName + " " + aType);
                             itemModul.setMerk(aName);
                             itemModul.setType(aType);
-                            itemModul.setPlat(aPlat);
                             itemModul.setSubCat(aSubCat);
-                            if(category.equals("1")){
-                                itemModul.setThumbnail(R.drawable.mobil_1);
-                            }else if(category.equals("2")){
-                                itemModul.setThumbnail(R.drawable.big_bike);
+
+                            if (jsonobject.getInt("id_asset_category") != 10) {
+                                aPlat = jsonobject.getString("license_plat");
+                                aYear = jsonobject.getString("year");
+                                itemModul.setPlat(aPlat);
+                                itemModul.setYear(aYear);
+
                             }
-                            itemModul.setYear(aYear);
+                            switch (category) {
+                                case "1":
+                                    itemModul.setThumbnail(R.drawable.mobil_1);
+                                    break;
+                                case "2":
+                                    itemModul.setThumbnail(R.drawable.big_bike);
+                                    break;
+                                case "10":
+                                    itemModul.setThumbnail(R.drawable.cycle);
+                                    break;
+                            }
                             itemModul.setStatus(aStatus);
                             Log.e(TAG, "What Data : " + String.valueOf(itemModul));
                             mAset.add(itemModul);
@@ -269,18 +279,28 @@ public class AsetListActivity extends AppCompatActivity {
 
         if (id == R.id.action_add) {
             Log.e(TAG, "Kategori Asset : " + category);
-            if(category.equals("1")){
-                iAddAset = new Intent(AsetListActivity.this, FormCarAsetActivity.class);
-                iAddAset.putExtra("action", "add");
-                iAddAset.putExtra("id_category", category);
-                iAddAset.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(iAddAset);
-            }else if(category.equals("2")){
-                iAddAset = new Intent(AsetListActivity.this, FormMotorcycleAsetActivity.class);
-                iAddAset.putExtra("action", "add");
-                iAddAset.putExtra("id_category", category);
-                iAddAset.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(iAddAset);
+            switch (category) {
+                case "1":
+                    iAddAset = new Intent(AsetListActivity.this, FormCarAsetActivity.class);
+                    iAddAset.putExtra("action", "add");
+                    iAddAset.putExtra("id_category", category);
+                    iAddAset.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(iAddAset);
+                    break;
+                case "2":
+                    iAddAset = new Intent(AsetListActivity.this, FormMotorcycleAsetActivity.class);
+                    iAddAset.putExtra("action", "add");
+                    iAddAset.putExtra("id_category", category);
+                    iAddAset.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(iAddAset);
+                    break;
+                case "10":
+                    iAddAset = new Intent(AsetListActivity.this, FormBicycleAsetActivity.class);
+                    iAddAset.putExtra("action", "add");
+                    iAddAset.putExtra("id_category", category);
+                    iAddAset.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(iAddAset);
+                    break;
             }
         }
 

@@ -1,0 +1,602 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorBackgound"
+    android:padding="@dimen/xmin_padding"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="id.rentist.mitrarentist.FormBicycleAsetActivity"
+    tools:showIn="@layout/activity_form_bicycle">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/xmin_padding">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/xmin_padding">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="@dimen/xmin_padding">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="@dimen/xmin_padding"
+                        android:background="@color/colorPrimary"
+                        android:padding="@dimen/min_padding">
+
+                        <TextView
+                            android:id="@+id/textView4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:text="Detail Aset"
+                            android:textAlignment="center"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="@dimen/medium_text"
+                            android:textStyle="bold" />
+
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="@dimen/xmin_padding"
+                        android:orientation="vertical"
+                        android:padding="@dimen/xmin_padding">
+
+                        <TextView
+                            android:id="@+id/textView1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Sub Kategori Aset"
+                            android:textColor="@color/colorBlack" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@color/colorNearWhite"
+                            android:orientation="vertical"
+                            android:padding="@dimen/xmin_padding">
+
+                            <Spinner
+                                android:id="@+id/as_subcat_spinner"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:entries="@array/bicycle_subcategory_entries"
+                                android:padding="@dimen/xmin_padding"
+                                android:spinnerMode="dialog" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="@dimen/xmin_padding"
+                        android:orientation="vertical"
+                        android:padding="@dimen/xmin_padding">
+
+                        <TextView
+                            android:id="@+id/textView2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Nama Aset"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="12sp" />
+
+                        <EditText
+                            android:id="@+id/as_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorNearWhite"
+                            android:elevation="0dp"
+                            android:ems="10"
+                            android:hint="Nama"
+                            android:padding="@dimen/min_padding"
+                            android:text="Sepeda Rental" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="@dimen/xmin_padding"
+                        android:orientation="vertical"
+                        android:padding="@dimen/xmin_padding">
+
+                        <TextView
+                            android:id="@+id/textView23"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Merk"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="12sp" />
+
+                        <EditText
+                            android:id="@+id/as_merk"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorNearWhite"
+                            android:elevation="0dp"
+                            android:ems="10"
+                            android:hint="Brand"
+                            android:padding="@dimen/min_padding"
+                            android:text="POLYGON" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="@dimen/xmin_padding"
+                        android:orientation="vertical"
+                        android:padding="@dimen/xmin_padding">
+
+                        <TextView
+                            android:id="@+id/textView25"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Tipe"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="12sp" />
+
+                        <EditText
+                            android:id="@+id/as_type"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorNearWhite"
+                            android:ems="10"
+                            android:hint="Tipe"
+                            android:padding="@dimen/min_padding"
+                            android:text="MONARCH" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/xmin_padding">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorWhite"
+                    android:orientation="vertical"
+                    android:padding="@dimen/xmin_padding">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/xmin_padding"
+                        android:background="@color/colorPrimary"
+                        android:padding="@dimen/min_padding">
+
+                        <TextView
+                            android:id="@+id/textView8"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:text="Fitur Aset"
+                            android:textAlignment="center"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="@dimen/medium_text"
+                            android:textStyle="bold" />
+
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="@dimen/xmin_padding"
+                        android:orientation="vertical"
+                        android:padding="@dimen/xmin_padding">
+
+                        <TextView
+                            android:id="@+id/textView26"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Minimal Lama Peminjaman"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="12sp" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <EditText
+                                android:id="@+id/as_min_day_rent"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@color/colorNearWhite"
+                                android:ems="10"
+                                android:hint="Hari"
+                                android:padding="@dimen/min_padding"
+                                android:text="3" />
+
+                            <TextView
+                                android:id="@+id/day"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Hari"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:textColor="@color/colorBlack54"
+                                android:layout_marginEnd="@dimen/min_padding"
+                                android:textSize="@dimen/medium_text" />
+
+                        </RelativeLayout>
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/xmin_padding"
+                        android:padding="@dimen/xmin_padding">
+
+                        <CheckBox
+                            android:id="@+id/as_ck_assurance"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginTop="@dimen/xmin_padding"
+                            android:layout_weight="1"
+                            android:checked="false"
+                            android:paddingEnd="@dimen/min_padding"
+                            android:text="Asuransi" />
+
+
+                        <EditText
+                            android:id="@+id/as_assurance_price"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorNearWhite"
+                            android:layout_toEndOf="@id/as_ck_assurance"
+                            android:ems="10"
+                            android:hint="Nominal"
+                            android:padding="@dimen/min_padding"
+                            android:text="0" />
+
+                        <TextView
+                            android:id="@+id/idr"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="IDR"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:textColor="@color/colorBlack54"
+                            android:layout_marginEnd="@dimen/min_padding"
+                            android:textSize="@dimen/medium_text" />
+
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="@dimen/xmin_padding"
+                        android:orientation="vertical"
+                        android:padding="@dimen/xmin_padding">
+
+                        <TextView
+                            android:id="@+id/textView3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Deskripsi"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="12sp" />
+
+                        <EditText
+                            android:id="@+id/as_desc"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorNearWhite"
+                            android:ems="10"
+                            android:gravity="start"
+                            android:hint="Keterangan"
+                            android:inputType="textMultiLine"
+                            android:lines="3"
+                            android:padding="@dimen/min_padding"
+                            android:text="Sekilas Tentang Aset" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/xmin_padding">
+
+                <LinearLayout
+                    android:id="@+id/as_pricing"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorWhite"
+                    android:orientation="vertical"
+                    android:padding="@dimen/xmin_padding">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorPrimary"
+                        android:padding="@dimen/min_padding">
+
+                        <TextView
+                            android:id="@+id/textView11"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:text="Harga Sewa"
+                            android:textAlignment="center"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="@dimen/medium_text"
+                            android:textStyle="bold" />
+
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:padding="@dimen/xmin_padding">
+
+                        <TextView
+                            android:id="@+id/textView21"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Harga Sewa "
+                            android:textColor="@color/colorBlack"
+                            android:textSize="12sp" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <EditText
+                                android:id="@+id/as_price_basic"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@color/colorNearWhite"
+                                android:ems="10"
+                                android:hint="Harga"
+                                android:inputType="number"
+                                android:padding="@dimen/min_padding"
+                                android:text="" />
+
+                            <TextView
+                                android:id="@+id/idra"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="IDR"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:textColor="@color/colorGrey"
+                                android:layout_marginEnd="@dimen/min_padding"
+                                android:textSize="@dimen/medium_text" />
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/con_advance_price"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/xmin_padding"
+                            android:orientation="vertical"
+                            android:padding="@dimen/xmin_padding">
+
+                            <TextView
+                                android:id="@+id/textView12w"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Range Name"
+                                android:textColor="@color/colorBlack"
+                                android:textSize="12sp" />
+
+                            <EditText
+                                android:id="@+id/as_range_name"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@color/colorNearWhite"
+                                android:ems="10"
+                                android:hint="Nama"
+                                android:inputType="textPersonName"
+                                android:padding="@dimen/min_padding"
+                                android:text="High Season" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/xmin_padding"
+                            android:orientation="vertical"
+                            android:padding="@dimen/xmin_padding">
+
+                            <TextView
+                                android:id="@+id/textView13"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Waktu Mulai"
+                                android:textColor="@color/colorBlack"
+                                android:textSize="12sp" />
+
+                            <EditText
+                                android:id="@+id/as_start_date"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@color/colorNearWhite"
+                                android:ems="10"
+                                android:hint="Start Date"
+                                android:inputType="number"
+                                android:padding="@dimen/min_padding"
+                                android:text="2017-10-09" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/xmin_padding"
+                            android:orientation="vertical"
+                            android:padding="@dimen/xmin_padding">
+
+                            <TextView
+                                android:id="@+id/textView14"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Waktu Berakhir"
+                                android:textColor="@color/colorBlack"
+                                android:textSize="12sp" />
+
+                            <EditText
+                                android:id="@+id/as_end_date"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@color/colorNearWhite"
+                                android:ems="10"
+                                android:hint="End Date"
+                                android:inputType="number"
+                                android:padding="@dimen/min_padding"
+                                android:text="2017-12-09" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/xmin_padding"
+                            android:orientation="vertical"
+                            android:padding="@dimen/xmin_padding">
+
+                            <TextView
+                                android:id="@+id/textView12"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Harga "
+                                android:textColor="@color/colorBlack"
+                                android:textSize="12sp" />
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <EditText
+                                    android:id="@+id/as_price_advance"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:background="@color/colorNearWhite"
+                                    android:ems="10"
+                                    android:hint="Harga"
+                                    android:inputType="number"
+                                    android:padding="@dimen/min_padding"
+                                    android:text="" />
+
+                                <TextView
+                                    android:id="@+id/daye"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="IDR"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_centerVertical="true"
+                                    android:textColor="@color/colorGrey"
+                                    android:layout_marginEnd="@dimen/min_padding"
+                                    android:textSize="@dimen/medium_text" />
+
+                            </RelativeLayout>
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/btn_price_advance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="+ Tambah Harga Advance"
+                        android:layout_gravity="end"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/small_text"
+                        android:clickable="true"/>
+
+
+                    <!--<android.support.design.widget.TabLayout-->
+                        <!--android:id="@+id/tab_pricing"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--&gt;-->
+                    <!--</android.support.design.widget.TabLayout>-->
+
+                    <!--&lt;!&ndash;gunanya untuk swipe fragment&ndash;&gt;-->
+                    <!--<android.support.v4.view.ViewPager-->
+                        <!--android:id="@+id/vp_price_tabs"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="match_parent"-->
+                        <!--&gt;-->
+
+                    <!--</android.support.v4.view.ViewPager>-->
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/xmin_padding"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:padding="@dimen/xmin_padding">
+
+                    <ImageView
+                        android:id="@+id/thumb_aset"
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:layout_weight="1"
+                        android:scaleType="fitCenter"
+                        app:srcCompat="@drawable/cycle" />
+
+                    <Button
+                        android:id="@+id/btnUploadFoto"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/xmin_padding"
+                        android:layout_weight="1"
+                        android:text="Pilih Foto" />
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

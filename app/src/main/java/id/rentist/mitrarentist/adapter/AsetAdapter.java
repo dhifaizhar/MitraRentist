@@ -49,7 +49,7 @@ public class AsetAdapter extends RecyclerView.Adapter<AsetAdapter.ViewHolder> {
     ProgressDialog pDialog;
     private static final String TAG = "AssetAdapter";
     private static final String TOKEN = "secretissecret";
-    String category;
+    String category, category_url;
 
     public AsetAdapter(final Context context, final List<ItemAsetModul> mAset, final String category){
         super();
@@ -99,10 +99,14 @@ public class AsetAdapter extends RecyclerView.Adapter<AsetAdapter.ViewHolder> {
 //        simpan value dalam object
         viewHolder.mark.setText(as.getMark());
         viewHolder.imgThumbnail.setImageResource(as.getThumbnail());
-        viewHolder.year.setText(as.getYear());
+
         viewHolder.status.setText(as.getStatus());
         viewHolder.subcat.setText(as.getSubCat());
-        viewHolder.plat.setText(as.getPlat());
+        if (!category.equals("10")){
+            viewHolder.year.setText(as.getYear());
+            viewHolder.plat.setText("Sepeda Rental");
+
+        }
         viewHolder.cardDetAset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -128,7 +132,7 @@ public class AsetAdapter extends RecyclerView.Adapter<AsetAdapter.ViewHolder> {
             public void onClick(DialogInterface arg0, int arg1) {
                 pDialog.setMessage("loading ...");
                 showProgress(true);
-                new deleteAssetTask(String.valueOf(id), position).execute();
+                new AsetAdapter.deleteAssetTask(String.valueOf(id), position).execute();
             }
         });
         showAlert.setNegativeButton("Tidak",new DialogInterface.OnClickListener() {
@@ -155,7 +159,19 @@ public class AsetAdapter extends RecyclerView.Adapter<AsetAdapter.ViewHolder> {
         @Override
         protected String doInBackground(String... params) {
             RequestQueue requestQueue = Volley.newRequestQueue(context);
-            StringRequest stringRequest = new StringRequest(Request.Method.DELETE, AppConfig.URL_ADD_MOBIL, new Response.Listener<String>() {
+            switch (category) {
+                case "1":
+                    category_url = AppConfig.URL_ADD_MOBIL;
+                    break;
+                case "2":
+                    category_url = AppConfig.URL_ADD_MOTOR;
+                    break;
+                case "10":
+                    category_url = AppConfig.URL_ADD_BICYCLE;
+                    break;
+            }
+
+            StringRequest stringRequest = new StringRequest(Request.Method.DELETE, category_url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     responseAsset = response;
@@ -201,6 +217,7 @@ public class AsetAdapter extends RecyclerView.Adapter<AsetAdapter.ViewHolder> {
             showProgress(false);
 
             if(User != null){
+                Log.e(TAG, "Data : " + String.valueOf(User));
                 Toast.makeText(context,"Data berhasil dihapus", Toast.LENGTH_LONG).show();
                 removeAt(mPosition);
             }else{

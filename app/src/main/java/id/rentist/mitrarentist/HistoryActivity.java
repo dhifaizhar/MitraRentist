@@ -41,7 +41,6 @@ public class HistoryActivity extends AppCompatActivity {
         mTabLayout = (TabLayout) findViewById(R.id.stl_tab_hs);
         mTabLayout.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         mTabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.colorWhite));
-//        mTabLayout.(R.layout.tab_view, R.id.tv_tab);
         mTabLayout.setupWithViewPager(mViewPager);
     }
 

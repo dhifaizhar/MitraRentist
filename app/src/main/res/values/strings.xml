@@ -129,6 +129,13 @@
         <item>Bus</item>
     </string-array>
 
+    <string-array name="bicycle_subcategory_entries">
+        <item>Mountain Bike</item>
+        <item>Road Bike</item>
+        <item>Accessories</item>
+        <item>Other</item>
+    </string-array>
+
     <string-array name="driver_entries">
         <item>Mamat</item>
         <item>Dudung</item>
