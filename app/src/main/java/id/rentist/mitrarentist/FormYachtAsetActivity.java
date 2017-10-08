@@ -9,8 +9,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
@@ -44,14 +42,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import id.rentist.mitrarentist.fragment.PricingBasicFragment;
 import id.rentist.mitrarentist.tools.AppConfig;
 import id.rentist.mitrarentist.tools.SessionManager;
 
-public class FormBicycleAsetActivity extends AppCompatActivity {
-    ViewPager mViewPager;
-    TabLayout mTabLayout;
-
+public class FormYachtAsetActivity extends AppCompatActivity {
     private AsyncTask mAddAssetTask = null;
     private ProgressDialog pDialog;
     private SessionManager sm;
@@ -60,24 +54,25 @@ public class FormBicycleAsetActivity extends AppCompatActivity {
 
     LinearLayout conAdvancePrice;
     ImageView aImg;
-    TextView aName, aMerk, aType, aBasicPrice, aMinDayRent, btnAdvancePrice,
+    TextView aName, aSubType, aType, aModel, aGuest, aCrew, aCabin, aLength, aBeam,
+            aDraft, aGrossTon, aCruisingSpeed, aTopSpeed, aBuilder, aNavalArc,
+            aIntDesign, aExtDesign, aBasicPrice, aMinDayRent, btnAdvancePrice,
             aDesc, aRangName, aStartDate, aEndDate, aPriceAdvance, aAssuracePrice;
     Integer idAsset;
-    String aLatitude, aLongitude, aAddress, aRentPackage, tenant, category, encodedImage, isiimage = "", ext, imgString;
+    String aLatitude, aLongitude, aAddress, tenant, category, encodedImage, isiimage = "", ext, imgString;
     CheckBox aAssurace;
     Button btnImgUpload;
     Spinner subcategory;
-
-    PricingBasicFragment basicFragment;
 
     private int PICK_IMAGE_REQUEST = 1;
     private static final String TAG = "FormAssetActivity";
     private static final String TOKEN = "secretissecret";
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_form_bicycle);
+        setContentView(R.layout.activity_form_yacht_aset);
         setTitle("Aset Form");
 
         iFormAsset = getIntent();
@@ -93,14 +88,6 @@ public class FormBicycleAsetActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-//        PricingTabAdapter fragPricing = new PricingTabAdapter(getSupportFragmentManager(),this);
-//        mViewPager = (ViewPager) findViewById(R.id.vp_price_tabs);
-//        mViewPager.setAdapter(fragPricing);
-//
-//        mTabLayout = (TabLayout) findViewById(R.id.tab_pricing);
-//        mTabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.colorPrimaryDark));
-//        mTabLayout.setupWithViewPager(mViewPager);
-
         contentcontrol();
 
         btnImgUpload.setOnClickListener(new View.OnClickListener() {
@@ -113,7 +100,7 @@ public class FormBicycleAsetActivity extends AppCompatActivity {
         btnAdvancePrice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               conAdvancePrice.setVisibility(View.VISIBLE);
+                conAdvancePrice.setVisibility(View.VISIBLE);
             }
         });
 
@@ -122,13 +109,27 @@ public class FormBicycleAsetActivity extends AppCompatActivity {
     private void contentcontrol() {
         subcategory = (Spinner) findViewById(R.id.as_subcat_spinner);
         aName = (TextView) findViewById(R.id.as_name);
-        aMerk = (TextView) findViewById(R.id.as_merk);
         aType = (TextView) findViewById(R.id.as_type);
+        aSubType = (TextView) findViewById(R.id.as_subtype);
+        aModel = (TextView) findViewById(R.id.as_model);
+        aBuilder = (TextView) findViewById(R.id.as_builder);
+        aNavalArc = (TextView) findViewById(R.id.as_naval_architect);
+        aIntDesign = (TextView) findViewById(R.id.as_interior_designer);
+        aExtDesign = (TextView) findViewById(R.id.as_exterior_designer);
+        aGuest = (TextView) findViewById(R.id.as_guest);
+        aCabin = (TextView) findViewById(R.id.as_cabin);
+        aCrew = (TextView) findViewById(R.id.as_crew);
+        aLength = (TextView) findViewById(R.id.as_length);
+        aBeam = (TextView) findViewById(R.id.as_beam);
+        aDraft = (TextView) findViewById(R.id.as_draft);
+        aCruisingSpeed = (TextView) findViewById(R.id.as_cruising_speed);
+        aTopSpeed = (TextView) findViewById(R.id.as_top_speed);
+        aGrossTon = (TextView) findViewById(R.id.as_gross_tonnage);
+        aMinDayRent = (TextView) findViewById(R.id.as_min_day_rent);
         aAssurace = (CheckBox) findViewById(R.id.as_ck_assurance);
         aAssuracePrice = (TextView) findViewById(R.id.as_assurance_price);
         aImg = (ImageView) findViewById(R.id.thumb_aset);
         aDesc = (TextView) findViewById(R.id.as_desc);
-        aMinDayRent = (TextView) findViewById(R.id.as_min_day_rent);
         aRangName = (TextView) findViewById(R.id.as_range_name);
         aStartDate = (TextView) findViewById(R.id.as_start_date);
         aEndDate = (TextView) findViewById(R.id.as_end_date);
@@ -138,7 +139,6 @@ public class FormBicycleAsetActivity extends AppCompatActivity {
 
         //aset value
         if(iFormAsset.getStringExtra("action").equals("update")){
-            aMerk.setText(iFormAsset.getStringExtra("merk"));
             aType.setText(iFormAsset.getStringExtra("type"));
 
             //spinner
@@ -253,7 +253,7 @@ public class FormBicycleAsetActivity extends AppCompatActivity {
 
         pDialog.setMessage("loading ...");
         showProgress(true);
-        new FormBicycleAsetActivity.addAsetTask(tenant).execute();
+        new FormYachtAsetActivity.addAsetTask(tenant).execute();
     }
 
     private class addAsetTask extends AsyncTask<String, String, String> {
@@ -267,7 +267,7 @@ public class FormBicycleAsetActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
             RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.URL_ADD_BICYCLE, new Response.Listener<String>() {
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.URL_ADD_YACHT, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     responseAsset = response;
@@ -290,8 +290,22 @@ public class FormBicycleAsetActivity extends AppCompatActivity {
                     keys.put("slug", aName.getText().toString().replace(" ","-"));
                     keys.put("description", aDesc.getText().toString());
                     keys.put("subcategory", subcategory.getSelectedItem().toString());
-                    keys.put("brand", aMerk.getText().toString());
                     keys.put("type", aType.getText().toString());
+                    keys.put("sub_type", aSubType.getText().toString());
+                    keys.put("model", aModel.getText().toString());
+                    keys.put("guest", aGuest.getText().toString());
+                    keys.put("cabin", aCabin.getText().toString());
+                    keys.put("crew", aCrew.getText().toString());
+                    keys.put("length", aLength.getText().toString());
+                    keys.put("beam", aBeam.getText().toString());
+                    keys.put("gross_tonnage", aGrossTon.getText().toString());
+                    keys.put("draft", aDraft.getText().toString());
+                    keys.put("cruising_speed", aCruisingSpeed.getText().toString());
+                    keys.put("top_speed", aTopSpeed.getText().toString());
+                    keys.put("buider", aBuilder.getText().toString());
+                    keys.put("naval_architect", aNavalArc.getText().toString());
+                    keys.put("interior_design", aIntDesign.getText().toString());
+                    keys.put("exterior_design", aExtDesign.getText().toString());
                     keys.put("insurance", String.valueOf(aAssurace.isChecked()));
                     keys.put("insurance_price", aAssuracePrice.getText().toString());
                     keys.put("min_day_rent", aMinDayRent.getText().toString());
@@ -358,6 +372,7 @@ public class FormBicycleAsetActivity extends AppCompatActivity {
             }else{
                 Toast.makeText(getApplicationContext(),"Gagal meyimpan data", Toast.LENGTH_LONG).show();
             }
+
         }
 
         @Override
@@ -371,11 +386,10 @@ public class FormBicycleAsetActivity extends AppCompatActivity {
         aAddress = "BALI,INDONESIA";
         aLatitude = "0";
         aLongitude = "0";
-        aRentPackage = "-";
 
         pDialog.setMessage("loading ...");
         showProgress(true);
-        new FormBicycleAsetActivity.updateAsetTask(category).execute();
+        new FormYachtAsetActivity.updateAsetTask(category).execute();
     }
 
     private class updateAsetTask extends AsyncTask<String, String, String> {
@@ -413,7 +427,6 @@ public class FormBicycleAsetActivity extends AppCompatActivity {
                     keys.put("slug", aName.getText().toString().replace(" ","-"));
                     keys.put("description", aDesc.getText().toString());
                     keys.put("subcategory", subcategory.getSelectedItem().toString());
-                    keys.put("brand", aMerk.getText().toString());
                     keys.put("type", aType.getText().toString());
                     keys.put("insurance", String.valueOf(aAssurace.isChecked()));
                     keys.put("address", aAddress);

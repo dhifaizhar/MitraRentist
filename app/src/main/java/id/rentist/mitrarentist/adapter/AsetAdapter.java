@@ -102,11 +102,11 @@ public class AsetAdapter extends RecyclerView.Adapter<AsetAdapter.ViewHolder> {
 
         viewHolder.status.setText(as.getStatus());
         viewHolder.subcat.setText(as.getSubCat());
-        if (!category.equals("10")){
+        if (!category.equals("10") && !category.equals("3")){
             viewHolder.year.setText(as.getYear());
-            viewHolder.plat.setText("Sepeda Rental");
-
+            viewHolder.plat.setText(as.getPlat());
         }
+
         viewHolder.cardDetAset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -165,6 +165,9 @@ public class AsetAdapter extends RecyclerView.Adapter<AsetAdapter.ViewHolder> {
                     break;
                 case "2":
                     category_url = AppConfig.URL_ADD_MOTOR;
+                    break;
+                case "3":
+                    category_url = AppConfig.URL_ADD_YACHT;
                     break;
                 case "10":
                     category_url = AppConfig.URL_ADD_BICYCLE;

@@ -182,8 +182,12 @@
             android:name=".HistoryWithdrawalActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         />
-        <activity android:name=".FormBicycleAsetActivity"
+        <activity
+            android:name=".FormBicycleAsetActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".FormYachtAsetActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        />
     </application>
 
 </manifest>

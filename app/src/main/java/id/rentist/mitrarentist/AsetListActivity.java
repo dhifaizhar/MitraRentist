@@ -165,7 +165,7 @@ public class AsetListActivity extends AppCompatActivity {
             mSwipeRefreshLayout.setRefreshing(false);
             pBar.setVisibility(View.GONE);
 //            showProgress(false);
-            String aName, aType, aPlat, aYear, aStatus, aSubCat;
+            String aName, aType, aPlat, aYear, aStatus, aSubCat, aSubType;
             Integer dataLength, aId;
 
             if (aset != null) {
@@ -179,25 +179,33 @@ public class AsetListActivity extends AppCompatActivity {
 
                             JSONObject jsonobject = jsonArray.getJSONObject(i);
                             aId = jsonobject.getInt("id");
-                            aName = jsonobject.getString("brand");
                             aType = jsonobject.getString("type");
                             aStatus = jsonobject.getString("status");
                             aSubCat = jsonobject.getString("subcategory");
 
                             ItemAsetModul itemModul = new ItemAsetModul();
                             itemModul.setAssetId(aId);
-                            itemModul.setMark(aName + " " + aType);
-                            itemModul.setMerk(aName);
                             itemModul.setType(aType);
                             itemModul.setSubCat(aSubCat);
 
-                            if (jsonobject.getInt("id_asset_category") != 10) {
+                            int idCate = jsonobject.getInt("id_asset_category");
+
+                            if (idCate == 1 || idCate == 2 ) {
                                 aPlat = jsonobject.getString("license_plat");
                                 aYear = jsonobject.getString("year");
                                 itemModul.setPlat(aPlat);
                                 itemModul.setYear(aYear);
-
                             }
+
+                            if (idCate != 3){
+                                aName = jsonobject.getString("brand");
+                                itemModul.setMark(aName + " " + aType);
+                                itemModul.setMerk(aName);
+                            } else {
+                                aSubType = jsonobject.getString("sub_type");
+                                itemModul.setMark(aType + " " + aSubType);
+                            }
+
                             switch (category) {
                                 case "1":
                                     itemModul.setThumbnail(R.drawable.mobil_1);
@@ -205,8 +213,11 @@ public class AsetListActivity extends AppCompatActivity {
                                 case "2":
                                     itemModul.setThumbnail(R.drawable.big_bike);
                                     break;
+                                case "3":
+                                    itemModul.setThumbnail(R.drawable.yacht_default);
+                                    break;
                                 case "10":
-                                    itemModul.setThumbnail(R.drawable.cycle);
+                                    itemModul.setThumbnail(R.drawable.bicycle_default);
                                     break;
                             }
                             itemModul.setStatus(aStatus);
@@ -289,6 +300,13 @@ public class AsetListActivity extends AppCompatActivity {
                     break;
                 case "2":
                     iAddAset = new Intent(AsetListActivity.this, FormMotorcycleAsetActivity.class);
+                    iAddAset.putExtra("action", "add");
+                    iAddAset.putExtra("id_category", category);
+                    iAddAset.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(iAddAset);
+                    break;
+                case "3":
+                    iAddAset = new Intent(AsetListActivity.this, FormYachtAsetActivity.class);
                     iAddAset.putExtra("action", "add");
                     iAddAset.putExtra("id_category", category);
                     iAddAset.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

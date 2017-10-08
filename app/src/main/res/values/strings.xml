@@ -129,6 +129,12 @@
         <item>Bus</item>
     </string-array>
 
+    <string-array name="yacht_subcategory_entries">
+        <item>Traditional</item>
+        <item>Modern</item>
+        <item>Other</item>
+    </string-array>
+
     <string-array name="bicycle_subcategory_entries">
         <item>Mountain Bike</item>
         <item>Road Bike</item>

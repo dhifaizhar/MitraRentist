@@ -18,6 +18,7 @@ public class AppConfig {
     public static  String URL_ADD_MOBIL = SERVER + "item/mobil/";
     public static  String URL_ADD_MOTOR = SERVER + "item/motor/";
     public static  String URL_ADD_BICYCLE = SERVER + "item/bicycle/";
+    public static  String URL_ADD_YACHT = SERVER + "item/yacht/";
     public static  String URL_EDIT_STATUS_MOBIL = SERVER + "item/status/1/";
     public static  String URL_LIST_MOBIL = SERVER + "list/item/1/";
     public static  String URL_LIST_MOTOR = SERVER + "list/item/2/";
