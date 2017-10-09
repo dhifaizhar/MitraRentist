@@ -60,9 +60,12 @@ public class ProfileActivity extends AppCompatActivity {
         rAddress.setText(sm.getPreferences("alamat"));
         rPhone.setText(sm.getPreferences("telepon"));
         rEmail.setText(sm.getPreferences("email_rental"));
+
+        //Load image
         imageUrl = "http://assets.rentist.id/images/" + sm.getPreferences("foto_profil_tenant");
         mImageLoader = new VolleySingleton(getApplicationContext()).getImageUrl();
         profilePhoto.setImageUrl(imageUrl,mImageLoader);
+
 
         vAll.setOnClickListener(new View.OnClickListener() {
             @Override

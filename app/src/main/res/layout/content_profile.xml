@@ -42,6 +42,18 @@
                         android:background="@drawable/img"
                         android:cropToPadding="false" />
 
+                    <!--<de.hdodenhof.circleimageview.CircleImageView-->
+                        <!--android:id="@+id/pr_thumb"-->
+                        <!--android:layout_width="@dimen/thumb_med_width"-->
+                        <!--android:layout_height="@dimen/thumb_med_height"-->
+                        <!--android:layout_gravity="center_horizontal"-->
+                        <!--android:layout_marginBottom="@dimen/xmin_padding"-->
+                        <!--android:layout_weight="1"-->
+                        <!--android:adjustViewBounds="false"-->
+                        <!--android:background="@drawable/img"-->
+                        <!--android:cropToPadding="false" />-->
+
+
                     <TextView
                         android:id="@+id/pr_name"
                         android:layout_width="wrap_content"
