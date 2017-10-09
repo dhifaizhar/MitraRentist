@@ -129,11 +129,12 @@
 
                             <TextView
                                 android:id="@+id/textView17"
-                                android:layout_width="wrap_content"
+                                android:layout_width="@dimen/text_label"
                                 android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
                                 android:layout_centerVertical="true"
                                 android:layout_marginLeft="@dimen/xmin_padding"
-                                android:text="Nominal :"
+                                android:text="Nominal"
                                 android:textSize="12sp" />
 
 
@@ -141,6 +142,7 @@
                                 android:id="@+id/last_with_balance"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_alignTop="@+id/textView17"
                                 android:layout_marginLeft="@dimen/min_padding"
                                 android:layout_toEndOf="@+id/textView17"
                                 android:text="-"
@@ -160,11 +162,11 @@
 
                             <TextView
                                 android:id="@+id/a"
-                                android:layout_width="wrap_content"
+                                android:layout_width="@dimen/text_label"
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
                                 android:layout_marginLeft="@dimen/xmin_padding"
-                                android:text="Kerangan :"
+                                android:text="Keterangan"
                                 android:textSize="12sp" />
 
 
@@ -175,8 +177,7 @@
                                 android:layout_marginLeft="@dimen/min_padding"
                                 android:layout_toEndOf="@+id/a"
                                 android:text="-"
-                                android:textSize="@dimen/medium_text" />
-
+                                android:textSize="@dimen/small_text" />
 
                         </RelativeLayout>
 
@@ -190,11 +191,11 @@
 
                             <TextView
                                 android:id="@+id/textVie7"
-                                android:layout_width="wrap_content"
+                                android:layout_width="@dimen/text_label"
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
                                 android:layout_marginLeft="@dimen/xmin_padding"
-                                android:text="Status :"
+                                android:text="Status             "
                                 android:textSize="12sp" />
 
 
@@ -219,12 +220,12 @@
                     android:id="@+id/btn_history_withdrawal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Riwayat Withdrawal>>"
+                    android:layout_below="@+id/det_last_withdrawal"
+                    android:layout_marginTop="@dimen/xmin_padding"
                     android:clickable="true"
                     android:gravity="end"
-                    android:layout_marginTop="@dimen/xmin_padding"
-                    android:layout_below="@+id/det_last_withdrawal"
-                    android:textColor="@color/colorPrimary"/>
+                    android:text="Riwayat Withdrawal>>"
+                    android:textColor="@color/colorPrimary" />
 
 
             </RelativeLayout>
@@ -291,13 +292,12 @@
         <!--</android.support.v7.widget.CardView>-->
 
         <TextView
-            android:layout_margin="@dimen/xmin_padding"
             android:id="@+id/note"
-            android:textSize="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@+id/dm_btn_drawal"
-            />
+            android:layout_margin="@dimen/xmin_padding"
+            android:textSize="8dp" />
 
         <Button
             android:id="@+id/dm_btn_drawal"

@@ -180,19 +180,22 @@ public class DompetActivity extends AppCompatActivity {
 
                             String dt = last.getString("createdAt").substring(0,10);
 
+                            String vNominal = ": " +  last.getString("nominal") + " IDR";
+                            String vDesc = ": " + last.getString("description");
+                            String vStatus = ": " + last.getString("status");
                             date.setText(dt);
-                            nominal.setText(last.getString("nominal"));
-                            desc.setText(last.getString("description"));
-                            status.setText(last.getString("status"));
+                            nominal.setText(vNominal);
+                            desc.setText(vDesc);
+                            status.setText(vStatus);
                         }
 
                     } else {
                         errorMsg = "Anda belum mengajukan withdrawal";
 
-                        date.setText("-");
-                        nominal.setText("-");
-                        desc.setText("-");
-                        status.setText("-");
+                        date.setText(": -");
+                        nominal.setText(": -");
+                        desc.setText(": -");
+                        status.setText(": -");
 
                         Toast.makeText(getApplicationContext(),errorMsg, Toast.LENGTH_LONG).show();
                     }
@@ -210,7 +213,9 @@ public class DompetActivity extends AppCompatActivity {
                         errorMsg = "Note : Anda tidak bisa melakukan withdrawal karena semua saldo anda sudah dalam pengajuan withdrawal. Cek pengajuan withdrawal anda";
                         note.setText(errorMsg);
                         withdrawal.setEnabled(false);
-//                        withdrawal.setBackgroundColor(R.color.colorButtonDefault);
+                        withdrawal.setBackgroundColor(getResources().getColor(R.color.colorButtonDefault));
+                        withdrawal.setTextColor(getResources().getColor(R.color.colorBlack87));
+
 //                        Toast.makeText(getApplicationContext(),errorMsg, Toast.LENGTH_LONG).show();
                     }
 

@@ -12,7 +12,7 @@
             android:title="Pengguna" />
         <item
             android:id="@+id/nav_aset"
-            android:icon="@drawable/ic_directions_car_black_24dp"
+            android:icon="@drawable/aset_box"
             android:title="Aset" />
         <item
             android:id="@+id/nav_driver"

@@ -308,7 +308,7 @@ public class FormYachtAsetActivity extends AppCompatActivity {
                     keys.put("exterior_design", aExtDesign.getText().toString());
                     keys.put("insurance", String.valueOf(aAssurace.isChecked()));
                     keys.put("insurance_price", aAssuracePrice.getText().toString());
-                    keys.put("min_day_rent", aMinDayRent.getText().toString());
+                    keys.put("min_rent_day", aMinDayRent.getText().toString());
                     keys.put("address", aAddress);
                     keys.put("latitude", aLatitude);
                     keys.put("longitude", aLongitude);

@@ -236,7 +236,7 @@ public class DashboardActivity extends AppCompatActivity
                     aCar = assetObject.getInt("mobil");
                     aBike = assetObject.getInt("motor");
                     aYacht = assetObject.getInt("yacht");
-                    sumAsset = aCar + aBike + aYacht;
+                    sumAsset = assetObject.getInt("total");
                     totAsset.setText(String.valueOf(sumAsset));
                     totSaldo.setText(saldoObject.getString("received").equals("null") ? "0 IDR" : saldoObject.getString("received")+" IDR");
                     totPoin.setText(poinObject.getString("received"));

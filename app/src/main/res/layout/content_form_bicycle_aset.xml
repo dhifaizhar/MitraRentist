@@ -583,7 +583,7 @@
                         android:layout_height="150dp"
                         android:layout_weight="1"
                         android:scaleType="fitCenter"
-                        app:srcCompat="@drawable/leisure_1" />
+                        app:srcCompat="@drawable/bicycle_default" />
 
                     <Button
                         android:id="@+id/btnUploadFoto"

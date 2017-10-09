@@ -27,6 +27,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,6 +48,8 @@ public class AsetAdapter extends RecyclerView.Adapter<AsetAdapter.ViewHolder> {
 
     private final List<ItemAsetModul> mAset;
     private Context context;
+    private AsyncTask mAsetTask = null;
+
     AlertDialog.Builder showAlert;
     AlertDialog alertDialog;
     ProgressDialog pDialog;
@@ -161,20 +167,21 @@ public class AsetAdapter extends RecyclerView.Adapter<AsetAdapter.ViewHolder> {
             RequestQueue requestQueue = Volley.newRequestQueue(context);
             switch (category) {
                 case "1":
-                    category_url = AppConfig.URL_MOBIL;
+                    category_url = AppConfig.URL_DELETE_MOBIL;
                     break;
                 case "2":
                     category_url = AppConfig.URL_ADD_MOTOR;
                     break;
                 case "3":
-                    category_url = AppConfig.URL_ADD_YACHT;
+                    category_url = AppConfig.URL_DELETE_YACHT;
                     break;
                 case "10":
-                    category_url = AppConfig.URL_ADD_BICYCLE;
+                    category_url = AppConfig.URL_DELETE_BICYCLE;
                     break;
             }
+            Log.e(TAG, "URL : " + category_url);
 
-            StringRequest stringRequest = new StringRequest(Request.Method.DELETE, category_url, new Response.Listener<String>() {
+            StringRequest stringRequest = new StringRequest(Request.Method.PUT, category_url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     responseAsset = response;
@@ -217,11 +224,28 @@ public class AsetAdapter extends RecyclerView.Adapter<AsetAdapter.ViewHolder> {
         }
 
         @Override
-        protected void onPostExecute(String User) {
+        protected void onPostExecute(String user) {
+            mAsetTask = null;
             showProgress(false);
 
-            if(User != null){
-                Log.e(TAG, "Data : " + String.valueOf(User));
+            if(user != null){
+                try {
+                    JSONArray arr = new JSONArray(user);
+                    Log.e(TAG, "Response Array: " + String.valueOf(arr));
+
+                    if(arr.length() > 0){
+                        for (int i = 0; i < arr.length(); i++) {
+                            JSONObject obj = arr.getJSONObject(i);
+
+                            Log.e(TAG, "Response : " + String.valueOf(obj));
+
+                        }
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 Toast.makeText(context,"Data berhasil dihapus", Toast.LENGTH_LONG).show();
                 removeAt(mPosition);
             }else{
@@ -232,6 +256,7 @@ public class AsetAdapter extends RecyclerView.Adapter<AsetAdapter.ViewHolder> {
 
         @Override
         protected void onCancelled() {
+            mAsetTask = null;
             showProgress(false);
         }
 

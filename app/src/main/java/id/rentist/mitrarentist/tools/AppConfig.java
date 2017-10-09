@@ -25,6 +25,9 @@ public class AppConfig {
     public static  String URL_LIST_YACHT = SERVER + "list/item/3/";
     public static  String URL_UPDATE_ASSET = SERVER + "update/item/";
     public static  String URL_DELETE_ASSET = SERVER + "delete/item/";
+    public static String URL_DELETE_MOBIL =SERVER + "delete/mobil/";
+    public static  String URL_DELETE_YACHT = SERVER + "delete/yacht/";
+    public static  String URL_DELETE_BICYCLE = SERVER + "delete/bicycle/";
 
     public static String URL_TRANSACTION_NEW = SERVER + "order/received/";
     public static String URL_TRANSACTION_CONFIRM = SERVER + "order/confirm/";
