@@ -161,7 +161,7 @@ public class AsetAdapter extends RecyclerView.Adapter<AsetAdapter.ViewHolder> {
             RequestQueue requestQueue = Volley.newRequestQueue(context);
             switch (category) {
                 case "1":
-                    category_url = AppConfig.URL_ADD_MOBIL;
+                    category_url = AppConfig.URL_MOBIL;
                     break;
                 case "2":
                     category_url = AppConfig.URL_ADD_MOTOR;
@@ -194,7 +194,8 @@ public class AsetAdapter extends RecyclerView.Adapter<AsetAdapter.ViewHolder> {
                     Map<String, String> keys = new HashMap<String, String>();
                     keys.put("id_asset", mAsset);
                     Log.e(TAG, "Delete Data : " + String.valueOf(keys));
-                    return keys;
+//                    return keys;
+                    return null;
                 }
 
                 @Override

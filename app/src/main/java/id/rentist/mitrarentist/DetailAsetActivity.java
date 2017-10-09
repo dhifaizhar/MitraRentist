@@ -350,7 +350,7 @@ public class DetailAsetActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
             RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-            StringRequest stringRequest = new StringRequest(Request.Method.DELETE, AppConfig.URL_ADD_MOBIL, new Response.Listener<String>() {
+            StringRequest stringRequest = new StringRequest(Request.Method.DELETE, AppConfig.URL_MOBIL, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     responseAsset = response;
