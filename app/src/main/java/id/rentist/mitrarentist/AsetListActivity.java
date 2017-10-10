@@ -57,7 +57,7 @@ public class AsetListActivity extends AppCompatActivity {
     SessionManager sm;
     Intent iAset, iAddAset;
 
-    String tenant, category, name_category, refresh;
+    String tenant, category, name_category, category_url, refresh;
 
     private static final String TAG = "AssetActivity";
     private static final String TOKEN = "secretissecret";

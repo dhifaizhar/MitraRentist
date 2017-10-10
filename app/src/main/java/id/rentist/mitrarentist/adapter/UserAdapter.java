@@ -11,11 +11,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 import id.rentist.mitrarentist.R;
 import id.rentist.mitrarentist.UserDetailActivity;
 import id.rentist.mitrarentist.modul.UserModul;
+import id.rentist.mitrarentist.tools.CircleTransform;
 
 /**
  * Created by Nugroho Tri Pambud on 8/9/2017.
@@ -44,7 +47,14 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> im
         final UserModul user = mUser.get(i);
         Log.e(TAG, String.format("Data Bind : %s", mUser));
 
-        viewHolder.imgThumbnail.setImageResource(user.getThumbnail());
+//        viewHolder.imgThumbnail.setImageResource(user.getThumbnail());
+        if (user.getThumbnail().equals("null")){
+            viewHolder.imgThumbnail.setImageResource(R.drawable.user_ava_man);
+        }else{
+            String imageUrl = "http://assets.rentist.id/images/" + user.getThumbnail();
+            Picasso.with(context).load(imageUrl).transform(new CircleTransform()).into(viewHolder.imgThumbnail);
+        }
+
         viewHolder.name.setText(user.getName());
         viewHolder.role.setText(user.getRole());
         if(user.getRole().equals("SuperAdmin")){

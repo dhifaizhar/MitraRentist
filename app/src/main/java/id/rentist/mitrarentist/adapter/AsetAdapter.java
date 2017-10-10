@@ -118,6 +118,7 @@ public class AsetAdapter extends RecyclerView.Adapter<AsetAdapter.ViewHolder> {
             public void onClick(View v) {
                 Intent iAset = new Intent(context, DetailAsetActivity.class);
                 iAset.putExtra("id_asset", as.getAssetId());
+                iAset.putExtra("id_asset_category", category);
                 iAset.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(iAset);
             }
@@ -170,7 +171,7 @@ public class AsetAdapter extends RecyclerView.Adapter<AsetAdapter.ViewHolder> {
                     category_url = AppConfig.URL_DELETE_MOBIL;
                     break;
                 case "2":
-                    category_url = AppConfig.URL_ADD_MOTOR;
+                    category_url = AppConfig.URL_DELETE_MOTOR;
                     break;
                 case "3":
                     category_url = AppConfig.URL_DELETE_YACHT;
@@ -179,8 +180,6 @@ public class AsetAdapter extends RecyclerView.Adapter<AsetAdapter.ViewHolder> {
                     category_url = AppConfig.URL_DELETE_BICYCLE;
                     break;
             }
-            Log.e(TAG, "URL : " + category_url);
-
             StringRequest stringRequest = new StringRequest(Request.Method.PUT, category_url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {

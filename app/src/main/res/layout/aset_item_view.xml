@@ -133,7 +133,7 @@
                     android:layout_marginLeft="@dimen/xmin_padding"
 
                     android:padding="@dimen/xmin_padding"
-                    android:text="PLAT NOMOR"
+                    android:text=""
                     android:textColor="@color/colorWhite"
                     android:textSize="@dimen/medium_text"
                     android:textStyle="bold" />

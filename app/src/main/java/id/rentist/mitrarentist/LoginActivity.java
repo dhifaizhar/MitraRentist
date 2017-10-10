@@ -314,7 +314,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         private final String mEmail;
         private final String mPassword;
 
-        String sEmail, sEmailRental, sNama, sNamaRent, sNamaPem, sTelp, sRole, sAlamat, sStat, sPic, tPic;
+        String sEmail, sEmailRental, sNama, sNamaRent, sNamaPem, sTelp, sRole, sAlamat, sStat, sPic, tPic, sVerif;
         Integer sId, sIdTenant, sImg;
 
 
@@ -427,6 +427,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                         sTelp = tenantObject.getString("phone");
                         sStat = tenantObject.getString("is_activated");
                         tPic = tenantObject.getString("profil_pic");
+                        sVerif = tenantObject.getString("verified");
                         Log.e(TAG, "What Data Detail : " + String.valueOf(tenantObject));
                     }
 
@@ -443,6 +444,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                     sm.setPreferences("status",sStat);
                     sm.setPreferences("foto_profil",sPic);
                     sm.setPreferences("foto_profil_tenant",tPic);
+                    sm.setPreferences("verified", sVerif);
 
 //                    String imageUrl = "http://assets.rentist.id/images/" + sm.getPreferences("foto_profil_tenant");
 //                    ImageLoader mImageLoader = new VolleySingleton(getApplicationContext()).getImageUrl();

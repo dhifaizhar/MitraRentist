@@ -24,6 +24,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,6 +33,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import id.rentist.mitrarentist.tools.AppConfig;
+import id.rentist.mitrarentist.tools.CircleTransform;
 import id.rentist.mitrarentist.tools.SessionManager;
 
 public class UserDetailActivity extends AppCompatActivity {
@@ -41,7 +43,7 @@ public class UserDetailActivity extends AppCompatActivity {
     private Intent detIntent;
 
     Integer aId;
-    String changeStatus = "active", tenant;
+    String changeStatus = "active", tenant, profilpicStr;
     TextView nama, email, role;
     ImageView profilPic;
 
@@ -151,7 +153,13 @@ public class UserDetailActivity extends AppCompatActivity {
                     JSONObject userObject = new JSONObject(user);
                     Log.d(TAG, String.valueOf(userObject));
 
-                    profilPic.setImageResource(R.drawable.user_ava_man);
+                    profilpicStr = userObject.getString("profile_pic");
+                    if (profilpicStr.equals("null")){
+                        profilPic.setImageResource(R.drawable.user_ava_man);
+                    }else{
+                        String imageUrl = AppConfig.URL_IMAGE + profilpicStr;
+                        Picasso.with(getApplicationContext()).load(imageUrl).transform(new CircleTransform()).into(profilPic);
+                    }
                     nama.setText(userObject.getString("name"));
                     email.setText(userObject.getString("email"));
                     role.setText(userObject.getString("role"));
@@ -208,6 +216,7 @@ public class UserDetailActivity extends AppCompatActivity {
         if (id == R.id.action_edit) {
             detIntent = new Intent(UserDetailActivity.this, FormUserActivity.class);
             detIntent.putExtra("action","update");
+            detIntent.putExtra("profile_pic", profilpicStr);
             detIntent.putExtra("id_user", aId.toString());
             detIntent.putExtra("name", nama.getText());
             detIntent.putExtra("role", role.getText());

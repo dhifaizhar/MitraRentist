@@ -9,20 +9,23 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.NetworkImageView;
+import com.squareup.picasso.Picasso;
 
+import id.rentist.mitrarentist.tools.AppConfig;
+import id.rentist.mitrarentist.tools.CircleTransform;
 import id.rentist.mitrarentist.tools.SessionManager;
-import id.rentist.mitrarentist.tools.VolleySingleton;
 
 public class ProfileActivity extends AppCompatActivity {
     private SessionManager sm;
     Intent iEditRent;
     TextView rName, rOwner, rAddress, rEmail, rPhone;
-    NetworkImageView profilePhoto;
+//    NetworkImageView profilePhoto;
+    ImageView profilePhoto;
     Button btnEdit;
     ImageButton vAll;
     ImageLoader mImageLoader;
@@ -51,20 +54,25 @@ public class ProfileActivity extends AppCompatActivity {
         rAddress = (TextView) findViewById(R.id.pr_address_name);
         rPhone = (TextView) findViewById(R.id.pr_phone_number);
         rEmail = (TextView) findViewById(R.id.pr_email);
-        profilePhoto = (NetworkImageView) findViewById(R.id.pr_thumb);
+//        profilePhoto = (NetworkImageView) findViewById(R.id.pr_thumb);
+        profilePhoto = (ImageView) findViewById(R.id.pr_thumb);
+
         vAll = (ImageButton) findViewById(R.id.view_testi);
 
         // set content control value
-        rName.setText(sm.getPreferences("nama"));
+        rName.setText(sm.getPreferences("nama_rental"));
         rOwner.setText(sm.getPreferences("nama_pemilik"));
         rAddress.setText(sm.getPreferences("alamat"));
         rPhone.setText(sm.getPreferences("telepon"));
         rEmail.setText(sm.getPreferences("email_rental"));
 
         //Load image
-        imageUrl = "http://assets.rentist.id/images/" + sm.getPreferences("foto_profil_tenant");
-        mImageLoader = new VolleySingleton(getApplicationContext()).getImageUrl();
-        profilePhoto.setImageUrl(imageUrl,mImageLoader);
+        imageUrl = AppConfig.URL_IMAGE + sm.getPreferences("foto_profil_tenant");
+        Picasso.with(getApplicationContext()).load(imageUrl).transform(new CircleTransform()).into(profilePhoto);
+
+//        mImageLoader = new VolleySingleton(getApplicationContext()).getImageUrl();
+//        profilePhoto.setImageUrl(imageUrl,mImageLoader);
+
 
 
         vAll.setOnClickListener(new View.OnClickListener() {

@@ -31,6 +31,6 @@
         android:background="@android:color/transparent"
         android:padding="@dimen/min_padding"
         android:visibility="gone"
-        app:SpinKit_Color="@color/colorWhite" />
+        app:SpinKit_Color="@color/colorPrimary" />
 
 </android.support.design.widget.CoordinatorLayout>

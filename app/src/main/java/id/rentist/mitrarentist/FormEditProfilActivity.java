@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -28,9 +29,9 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,8 +44,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import id.rentist.mitrarentist.tools.AppConfig;
+import id.rentist.mitrarentist.tools.CircleTransform;
 import id.rentist.mitrarentist.tools.SessionManager;
-import id.rentist.mitrarentist.tools.VolleySingleton;
 
 public class FormEditProfilActivity extends AppCompatActivity {
     private AsyncTask mProfileTask = null;
@@ -52,7 +53,8 @@ public class FormEditProfilActivity extends AppCompatActivity {
     private SessionManager sm;
 
     EditText rName, rOwner, rAddress, rEmail, rPhone;
-    NetworkImageView profilePhoto;
+//    NetworkImageView profilePhoto;
+    ImageView profilePhoto;
     Button btnUploadFoto;
     String tenant, erName, erOwner, erAddress, erEmail, erPhone;
     Resources eprofilePhoto;
@@ -95,7 +97,7 @@ public class FormEditProfilActivity extends AppCompatActivity {
         rAddress = (EditText) findViewById(R.id.epr_address_name);
         rPhone = (EditText) findViewById(R.id.epr_telp);
         rEmail = (EditText) findViewById(R.id.epr_email);
-        profilePhoto = (NetworkImageView) findViewById(R.id.pr_thumb);
+        profilePhoto = (ImageView) findViewById(R.id.pr_thumb);
         btnUploadFoto = (Button) findViewById(R.id.btnUploadFoto);
 
         // set content control value
@@ -106,8 +108,10 @@ public class FormEditProfilActivity extends AppCompatActivity {
         rPhone.setText(sm.getPreferences("telepon"));
         rEmail.setText(sm.getPreferences("email_rental"));
         imageUrl = "http://assets.rentist.id/images/" + sm.getPreferences("foto_profil_tenant");
-        mImageLoader = new VolleySingleton(getApplicationContext()).getImageUrl();
-        profilePhoto.setImageUrl(imageUrl,mImageLoader);
+//        mImageLoader = new VolleySingleton(getApplicationContext()).getImageUrl();
+//        profilePhoto.setImageUrl(imageUrl,mImageLoader);
+        Picasso.with(getApplicationContext()).load(imageUrl).transform(new CircleTransform()).into(profilePhoto);
+
 
         btnUploadFoto.setOnClickListener(new View.OnClickListener() {
             @Override

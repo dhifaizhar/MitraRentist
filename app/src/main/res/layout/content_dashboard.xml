@@ -13,18 +13,37 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/xmin_padding">
+        android:layout_marginBottom="@dimen/xmin_padding"
+        android:background="@color/colorPrimary"
+        >
 
-        <TextView
-            android:id="@+id/rentName"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/btn_lmedium_height"
-            android:background="@color/colorPrimary"
-            android:gravity="center"
-            android:padding="@dimen/min_padding"
-            android:textColor="@color/colorWhite"
-            android:textSize="@dimen/large_text"
-            android:textStyle="bold" />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
+            >
+
+            <TextView
+                android:id="@+id/rentName"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/btn_lmedium_height"
+                android:padding="@dimen/min_padding"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/large_text"
+                android:textStyle="bold"
+                />
+
+            <ImageView
+                android:id="@+id/navRentVerif"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@id/rentName"
+                android:src="@drawable/ic_check_circle_white_24dp" />
+
+        </RelativeLayout>
 
         <com.github.ybq.android.spinkit.SpinKitView
             android:id="@+id/progressBar"

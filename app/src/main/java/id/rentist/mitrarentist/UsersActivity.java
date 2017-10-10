@@ -218,11 +218,7 @@ public class UsersActivity extends AppCompatActivity {
                             userModul.setEmail(aEmail);
                             userModul.setPhone("081254674578");
                             userModul.setRole(aRole);
-                            if(aThumbPhoto != null){
-                                userModul.setThumbnail(R.drawable.user_ava_man);
-                            }else{
-                                userModul.setThumbnail(R.drawable.user_ava_man);
-                            }
+                            userModul.setThumbnail(aThumbPhoto);
 
                             if(!Objects.equals(aId, sm.getIntPreferences("id"))){
                                 mUser.add(userModul);

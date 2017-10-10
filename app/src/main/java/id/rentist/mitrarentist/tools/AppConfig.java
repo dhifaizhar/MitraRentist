@@ -7,6 +7,7 @@ package id.rentist.mitrarentist.tools;
 public class AppConfig {
     private static String SERVER = "http://api.rentist.id:1337/";
 //    private static String SERVER = "http://192.168.100.11:1337/";
+    public static String URL_IMAGE = "http://assets.rentist.id/images/";
 
     public static String URL_LOGIN = SERVER + "login/tenant/";
     public static  String URL_REGISTER = SERVER + "register/tenant/";
@@ -16,17 +17,23 @@ public class AppConfig {
 
     public static  String URL_LIST_ASSET = SERVER + "list/item/";
     public static  String URL_VIEW_CAR = SERVER + "view/mobil/";
+    public static  String URL_VIEW_MOTOR = SERVER + "view/motor/";
+    public static  String URL_VIEW_YACHT = SERVER + "view/yacht/";
+    public static  String URL_VIEW_BICYCLE = SERVER + "view/bicycle/";
+
     public static  String URL_MOBIL = SERVER + "item/mobil/";
     public static  String URL_ADD_MOTOR = SERVER + "item/motor/";
-    public static  String URL_ADD_BICYCLE = SERVER + "item/bicycle/";
     public static  String URL_ADD_YACHT = SERVER + "item/yacht/";
+    public static  String URL_ADD_BICYCLE = SERVER + "item/bicycle/";
     public static  String URL_EDIT_STATUS_MOBIL = SERVER + "item/status/1/";
     public static  String URL_LIST_MOBIL = SERVER + "list/item/1/";
     public static  String URL_LIST_MOTOR = SERVER + "list/item/2/";
     public static  String URL_LIST_YACHT = SERVER + "list/item/3/";
     public static  String URL_UPDATE_ASSET = SERVER + "update/item/";
     public static  String URL_DELETE_ASSET = SERVER + "delete/item/";
-    public static String URL_DELETE_MOBIL =SERVER + "delete/mobil/";
+
+    public static  String URL_DELETE_MOBIL =SERVER + "delete/mobil/";
+    public static  String URL_DELETE_MOTOR =SERVER + "delete/motor/";
     public static  String URL_DELETE_YACHT = SERVER + "delete/yacht/";
     public static  String URL_DELETE_BICYCLE = SERVER + "delete/bicycle/";
 

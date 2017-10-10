@@ -3,15 +3,21 @@ package id.rentist.mitrarentist;
 import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,14 +27,17 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import id.rentist.mitrarentist.tools.AppConfig;
+import id.rentist.mitrarentist.tools.CircleTransform;
 import id.rentist.mitrarentist.tools.SessionManager;
 
 public class FormUserActivity extends AppCompatActivity {
@@ -37,10 +46,13 @@ public class FormUserActivity extends AppCompatActivity {
     private SessionManager sm;
     private Intent formUser;
 
-    String tenant, aId;
+    String tenant, aId, imgString;
     TextView nama, email, pass;
     Spinner role;
-    NetworkImageView profilPic;
+    ImageView profilPic;
+    Button btnUploadFoto;
+
+    private int PICK_IMAGE_REQUEST = 1;
 
     private static final String TAG = "FormUserActivity";
     private static final String TOKEN = "secretissecret";
@@ -66,17 +78,25 @@ public class FormUserActivity extends AppCompatActivity {
 
     private void controlContent() {
         //initialize view
-        profilPic = (NetworkImageView)findViewById(R.id.fus_thumb);
+        profilPic = (ImageView)findViewById(R.id.fus_thumb);
         nama = (TextView)findViewById(R.id.fus_name);
         role = (Spinner) findViewById(R.id.fus_role);
         email = (TextView)findViewById(R.id.fus_email);
         pass = (TextView)findViewById(R.id.fus_password);
+        btnUploadFoto = (Button) findViewById(R.id.btnUploadFoto);
 
         // set content control value
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
         if(formUser.getStringExtra("action").equals("update")){
             aId = formUser.getStringExtra("id_user");
             Log.e(TAG, "Id Tenant Form User : " + aId);
+            String profilpicStr = formUser.getStringExtra("profile_pic");
+            if (profilpicStr.equals("null")){
+                profilPic.setImageResource(R.drawable.user_ava_man);
+            }else{
+                String imageUrl = AppConfig.URL_IMAGE + profilpicStr;
+                Picasso.with(getApplicationContext()).load(imageUrl).transform(new CircleTransform()).into(profilPic);
+            }
             nama.setText(formUser.getStringExtra("name"));
             email.setText(formUser.getStringExtra("email"));
             if(formUser.getStringExtra("role").equals("SuperAdmin")){
@@ -91,6 +111,15 @@ public class FormUserActivity extends AppCompatActivity {
         }
 
         // set action
+        btnUploadFoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+            }
+        });
     }
 
     private void formUserTenant(String tenant, String id) {
@@ -140,6 +169,7 @@ public class FormUserActivity extends AppCompatActivity {
                     keys.put("role", role.getSelectedItem().toString());
                     keys.put("password", pass.getText().toString());
                     keys.put("email", email.getText().toString());
+                    keys.put("file", imgString);
                     Log.e(TAG, "Key Body : " + keys.toString());
                     return keys;
                 }
@@ -220,6 +250,7 @@ public class FormUserActivity extends AppCompatActivity {
                     keys.put("name", nama.getText().toString());
                     keys.put("role", role.getSelectedItem().toString());
                     keys.put("email", email.getText().toString());
+                    keys.put("file", imgString);
                     Log.e(TAG, "Key Body : " + keys.toString());
                     return keys;
                 }
@@ -262,6 +293,46 @@ public class FormUserActivity extends AppCompatActivity {
             showProgress(false);
         }
 
+    }
+
+    public String getStringImage(Bitmap bmp){
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] imageBytes = baos.toByteArray();
+        return Base64.encodeToString(imageBytes, Base64.DEFAULT);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null &&
+                data.getData() != null) {
+            Uri filePath = data.getData();
+
+
+            try {
+                //Getting the Bitmap from Gallery
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+
+                String imgStr = data.toString();
+
+                String ext = imgStr.substring(imgStr.indexOf("typ")+4, imgStr.indexOf("flg")-1);
+                Log.e(TAG, "ext: " + ext);
+
+                //Setting the Bitmap to ImageView
+                profilPic.setImageBitmap(bitmap);
+                String isiimage = getStringImage(bitmap);
+
+                imgString = ext +"," + isiimage;
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }else{
+            imgString = "";
+        }
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)

@@ -5,8 +5,8 @@ package id.rentist.mitrarentist.modul;
  */
 
 public class UserModul {
-    private String mName, mPhone, mEmail, mRole;
-    private int mId, mThumbnail;
+    private String mName, mPhone, mEmail, mRole, mThumbnail;
+    private int mId;
 
     public void setName(String mName) {
         this.mName = mName;
@@ -36,10 +36,10 @@ public class UserModul {
         return mRole;
     }
 
-    public void setThumbnail(int mThumbnail) {
+    public void setThumbnail(String mThumbnail) {
         this.mThumbnail = mThumbnail;
     }
-    public int getThumbnail() {
+    public String getThumbnail() {
         return mThumbnail;
     }
 

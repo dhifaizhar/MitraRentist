@@ -50,7 +50,7 @@ public class DetailAsetActivity extends AppCompatActivity {
     Intent iAsetEdit;
 
     Integer aId, position;
-    String changeStatus = "active", aName, aType, aPlat, aYear, aStatus, aCat, aSubCat;
+    String changeStatus = "active", aName, aType, aSubType, aPlat, aYear, aStatus, aCat, aSubCat, category, category_url;
     TextView mark, year, status, subcat;
     ImageView imgThumbnail;
 
@@ -87,6 +87,7 @@ public class DetailAsetActivity extends AppCompatActivity {
 
         // set content control value
         aId = detIntent.getIntExtra("id_asset", 0);
+        category = detIntent.getStringExtra("id_asset_category");
         getAssetDataList();
         status.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,7 +115,21 @@ public class DetailAsetActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... params) {
-            String URL = AppConfig.URL_VIEW_CAR;
+            String URL = "";
+            switch (category) {
+                case "1":
+                    URL = AppConfig.URL_VIEW_CAR;
+                    break;
+                case "2":
+                    URL = AppConfig.URL_VIEW_MOTOR;
+                    break;
+                case "3":
+                    URL = AppConfig.URL_VIEW_YACHT;
+                    break;
+                case "10":
+                    URL = AppConfig.URL_VIEW_BICYCLE;
+                    break;
+            }
             RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
             StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
                 @Override
@@ -172,22 +187,33 @@ public class DetailAsetActivity extends AppCompatActivity {
                     if(dataLength > 0){
                         for (int i = 0; i < jsonArray.length(); i++) {
                             errorMsg = "-";
-
                             JSONObject jsonobject = jsonArray.getJSONObject(i);
-//                            aId = jsonobject.getInt("id");
-                            aName = jsonobject.getString("brand");
                             aType = jsonobject.getString("type");
-                            aPlat = jsonobject.getString("license_plat");
-                            aYear = jsonobject.getString("year");
                             aStatus = jsonobject.getString("status");
                             aSubCat = jsonobject.getString("subcategory");
                             aCat = jsonobject.getString("id_asset_category");
 
-                            setTitle(aPlat);
-                            mark.setText(aName + " " + aType);
+                            if (aCat.equals("1") || aCat.equals("2")) {
+                                aPlat = jsonobject.getString("license_plat");
+                                aYear = jsonobject.getString("year");
+                                setTitle(aPlat);
+                                year.setText(aYear);
+                                mark.setText(aName + " " + aType);
+                            }
+
+                            if (!aCat.equals("3")){
+                                aName = jsonobject.getString("brand");
+                                mark.setText(aName + " " + aType);
+                                setTitle(aName + " " + aType);
+
+                            } else {
+                                aSubType = jsonobject.getString("sub_type");
+                                mark.setText(aType + " " + aSubType);
+                                setTitle(aType + " " + aSubType);
+                            }
                             subcat.setText(aSubCat);
-                            year.setText(aYear);
                             status.setText(aStatus);
+
                             if(aCat.equals("1")){
                                 imgThumbnail.setImageResource(R.drawable.car_avanza);
                             }else if(aCat.equals("2")){
@@ -350,7 +376,21 @@ public class DetailAsetActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
             RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-            StringRequest stringRequest = new StringRequest(Request.Method.DELETE, AppConfig.URL_MOBIL, new Response.Listener<String>() {
+            switch (category) {
+                case "1":
+                    category_url = AppConfig.URL_DELETE_MOBIL;
+                    break;
+                case "2":
+                    category_url = AppConfig.URL_ADD_MOTOR;
+                    break;
+                case "3":
+                    category_url = AppConfig.URL_DELETE_YACHT;
+                    break;
+                case "10":
+                    category_url = AppConfig.URL_DELETE_BICYCLE;
+                    break;
+            }
+            StringRequest stringRequest = new StringRequest(Request.Method.PUT, category_url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     responseAsset = response;
@@ -368,7 +408,7 @@ public class DetailAsetActivity extends AppCompatActivity {
                 protected Map<String, String> getParams() {
                     // Posting parameters to url
                     Map<String, String> keys = new HashMap<String, String>();
-                    keys.put("id_item", mAsset);
+                    keys.put("id_asset", mAsset);
                     Log.e(TAG, "Delete Data : " + String.valueOf(keys));
                     return keys;
                 }

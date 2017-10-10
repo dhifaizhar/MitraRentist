@@ -1,38 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/img_width_height"
     android:background="@drawable/side_nav_bar"
     android:gravity="bottom"
-    android:orientation="vertical"
     android:paddingBottom="@dimen/xmin_padding"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/med_padding"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <com.android.volley.toolbox.NetworkImageView
+    <!--<com.android.volley.toolbox.NetworkImageView-->
+        <!--android:id="@+id/navImageProfile"-->
+        <!--android:layout_width="@dimen/thumb_med_width"-->
+        <!--android:layout_height="@dimen/thumb_med_height"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:layout_marginBottom="@dimen/min_padding"-->
+        <!--android:layout_marginTop="@dimen/min_padding"-->
+        <!--android:background="@drawable/img"-->
+        <!--android:scaleType="centerCrop" />-->
+
+    <ImageView
         android:id="@+id/navImageProfile"
         android:layout_width="@dimen/thumb_med_width"
         android:layout_height="@dimen/thumb_med_height"
-        android:layout_gravity="center"
-        android:layout_marginBottom="@dimen/min_padding"
-        android:layout_marginTop="@dimen/min_padding"
         android:background="@drawable/img"
-        android:scaleType="centerCrop" />
+        android:scaleType="centerCrop"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/min_padding" />
 
-    <TextView
-        android:id="@+id/navRentName"
-        android:layout_width="match_parent"
+    <ImageButton
+        android:id="@+id/btn_prof_pic"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:background="@drawable/roundcorner"
+        android:src="@drawable/ic_camera_alt_white_18dp"
+        android:layout_marginTop="@dimen/xmin_padding"
+        android:layout_alignBottom="@+id/navImageProfile"
+        android:layout_alignEnd="@+id/navImageProfile"/>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/min_padding"
-        android:paddingBottom="@dimen/xmin_padding"
+        android:orientation="horizontal"
+        android:layout_below="@id/navImageProfile"
+        android:paddingBottom="@dimen/min_padding"
         android:paddingTop="@dimen/xmin_padding"
-        android:text="RENTAL SUKSES"
-        android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textSize="@dimen/medium_text"
-        android:textStyle="bold" />
+        android:layout_centerHorizontal="true"
+        >
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/navRentName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="RENTAL SUKSES"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="@dimen/medium_text"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

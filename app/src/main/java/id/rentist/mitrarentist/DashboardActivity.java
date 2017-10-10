@@ -4,9 +4,12 @@ import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -14,11 +17,13 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,22 +33,23 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.github.ybq.android.spinkit.SpinKitView;
 import com.github.ybq.android.spinkit.style.FadingCircle;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import id.rentist.mitrarentist.tools.AppConfig;
+import id.rentist.mitrarentist.tools.CircleTransform;
 import id.rentist.mitrarentist.tools.SessionManager;
-import id.rentist.mitrarentist.tools.VolleySingleton;
 
 public class DashboardActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -52,15 +58,18 @@ public class DashboardActivity extends AppCompatActivity
     private SpinKitView pBar;
     private SessionManager sm;
     private View navHeaderView;
-//    URL imageUrl;
+    private int PICK_IMAGE_REQUEST = 1;
+    private static final int RESULT_LOAD_IMAGE = 1;
+
+    //    URL imageUrl;
     ImageLoader mImageLoader;
 
-    String tenant, img, encodedImage, imageUrl;
+    String tenant, img, encodedImage, imageUrl, imgString;
     Integer sumAsset, aCar, aBike, aYacht;
     TextView totAsset, totPoin, totRating, totSaldo, rentName, rentNameDrawer, successRent, ongoRent;
-    //ImageView rentImgProfile;
-    NetworkImageView rentImgProfile;
-    ImageButton btnNewTrans, btnToSaldo, btnWorkDate;
+    ImageView rentImgProfile, verifIco;
+//    NetworkImageView rentImgProfile;
+    ImageButton btnNewTrans, btnToSaldo, btnWorkDate, btnEditProfpic;
 
     private static final String TAG = "DashboardActivity";
     private static final String TOKEN = "secretissecret";
@@ -104,10 +113,12 @@ public class DashboardActivity extends AppCompatActivity
         //initialize view
         rentName = (TextView) findViewById(R.id.rentName);
         rentNameDrawer = (TextView) navHeaderView.findViewById(R.id.navRentName);
-        rentImgProfile = (NetworkImageView) navHeaderView.findViewById(R.id.navImageProfile);
+        rentImgProfile = (ImageView) navHeaderView.findViewById(R.id.navImageProfile);
+        verifIco = (ImageView) findViewById(R.id.navRentVerif);
         btnNewTrans = (ImageButton) findViewById(R.id.btn_to_det_new_trans);
         btnToSaldo = (ImageButton) findViewById(R.id.btn_to_saldo);
         btnWorkDate = (ImageButton) findViewById(R.id.btn_work_date);
+        btnEditProfpic = (ImageButton) navHeaderView.findViewById(R.id.btn_prof_pic);
         totSaldo = (TextView) findViewById(R.id.val_saldo);
         totAsset = (TextView) findViewById(R.id.val_sum_asset);
         totPoin = (TextView) findViewById(R.id.val_poin);
@@ -119,14 +130,17 @@ public class DashboardActivity extends AppCompatActivity
         rentName.setText(sm.getPreferences("nama_rental"));
         rentNameDrawer.setText(sm.getPreferences("nama"));
 
+//        if (sm.getPreferences("verified").equals("false")){
+////            verifIco.setVisibility(View.GONE);
+//        }
+
         Log.e(TAG, "Profil Pic : " + sm.getPreferences("foto_profil"));
         if (sm.getPreferences("foto_profil").equals("null")){
-            rentImgProfile.setDefaultImageResId(R.drawable.user_ava_man);
-
+            rentImgProfile.setImageResource(R.drawable.user_ava_man);
         } else {
-            imageUrl = "http://assets.rentist.id/images/" + sm.getPreferences("foto_profil");
-            mImageLoader = new VolleySingleton(getApplicationContext()).getImageUrl();
-            rentImgProfile.setImageUrl(imageUrl,mImageLoader);
+            String imageUrl = AppConfig.URL_IMAGE + sm.getPreferences("foto_profil");
+            Picasso.with(getApplicationContext()).load(imageUrl).transform(new CircleTransform()).into(rentImgProfile);
+
         }
 
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
@@ -153,6 +167,16 @@ public class DashboardActivity extends AppCompatActivity
                 Intent iWork = new Intent(DashboardActivity.this, WorkDateActivity.class);
                 iWork.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(iWork);
+            }
+        });
+
+        btnEditProfpic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
             }
         });
     }
@@ -185,6 +209,7 @@ public class DashboardActivity extends AppCompatActivity
         @Override
         protected String doInBackground(String... params) {
             String URL = AppConfig.URL_DASHBOARD_DATA + mTenant;
+            Log.d(TAG, "Request to : "+ URL);
             RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
             StringRequest stringRequest = new StringRequest(Request.Method.GET, URL, new Response.Listener<String>() {
                 @Override
@@ -223,6 +248,7 @@ public class DashboardActivity extends AppCompatActivity
             mDashboardTask = null;
             pBar.setVisibility(View.GONE);
 //            showProgress(false);
+            Log.d(TAG, "response");
 
             if(user != null){
                 try {
@@ -305,6 +331,46 @@ public class DashboardActivity extends AppCompatActivity
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public String getStringImage(Bitmap bmp){
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] imageBytes = baos.toByteArray();
+        return Base64.encodeToString(imageBytes, Base64.DEFAULT);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null &&
+                data.getData() != null) {
+            Uri filePath = data.getData();
+
+
+            try {
+                //Getting the Bitmap from Gallery
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+
+                String imgStr = data.toString();
+
+                String ext = imgStr.substring(imgStr.indexOf("typ")+4, imgStr.indexOf("flg")-1);
+                Log.e(TAG, "ext: " + ext);
+
+                //Setting the Bitmap to ImageView
+                rentImgProfile.setImageBitmap(bitmap);
+                String isiimage = getStringImage(bitmap);
+
+                imgString = ext +"," + isiimage;
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }else{
+            imgString = "";
+        }
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

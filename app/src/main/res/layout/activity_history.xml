@@ -38,8 +38,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_history" />
-
     <com.github.ybq.android.spinkit.SpinKitView
         android:id="@+id/progressBar"
         style="@style/SpinKitView.FadingCircle"
@@ -50,5 +48,7 @@
         android:padding="@dimen/min_padding"
         android:visibility="gone"
         app:SpinKit_Color="@color/colorWhite" />
+
+    <include layout="@layout/content_history" />
 
 </android.support.design.widget.CoordinatorLayout>
