@@ -54,7 +54,7 @@ import static android.Manifest.permission.READ_CONTACTS;
 public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
     public Button mEmailSignInButton;
-    public TextView forgotPassword;
+    public TextView forgotPassword, registerAccount;
 
     private UserLoginTask mAuthTask = null;
     private AutoCompleteTextView mEmailView;
@@ -84,6 +84,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         mPasswordView = (EditText) findViewById(R.id.password);
         mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         forgotPassword = (TextView) findViewById(R.id.forgotPassword);
+        registerAccount = (TextView) findViewById(R.id.registerAccount);
 
         //Perform SIGN IN authentication
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
@@ -98,6 +99,14 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(LoginActivity.this, ForgotPasswordActivity.class));
+            }
+        });
+
+        //Perform REGISTER ACCOUNT
+        registerAccount.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this, RegistrationActivity.class));
             }
         });
 

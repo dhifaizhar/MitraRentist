@@ -167,7 +167,6 @@
         <activity
             android:name=".HistorySaldoActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        />
         <activity
             android:name=".DropAsetActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -181,13 +180,15 @@
         <activity
             android:name=".HistoryWithdrawalActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        />
         <activity
             android:name=".FormBicycleAsetActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".FormYachtAsetActivity"
+        <activity
+            android:name=".FormYachtAsetActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        />
+        <activity
+            android:name=".RegistrationActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>
