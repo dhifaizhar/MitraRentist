@@ -127,9 +127,9 @@ public class RegistrationActivity extends AppCompatActivity {
                     keys.put("email", rEmail.getText().toString());
                     keys.put("password", rPass.getText().toString());
                     keys.put("phone", rPhone.getText().toString());
-                    keys.put("bank_account", rBankRek.getText().toString());
-                    keys.put("bank_name", rBank.getText().toString());
-                    keys.put("account_name", rBankName.getText().toString());
+                    keys.put("bank_account", rBank.getText().toString());
+                    keys.put("bank_name", rBankName.getText().toString());
+                    keys.put("account_name", rBankRek.getText().toString());
                     Log.e(TAG, "Key Body : " + keys.toString());
                     return keys;
                 }
