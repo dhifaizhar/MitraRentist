@@ -130,9 +130,9 @@ public class DashboardActivity extends AppCompatActivity
         rentName.setText(sm.getPreferences("nama_rental"));
         rentNameDrawer.setText(sm.getPreferences("nama"));
 
-//        if (sm.getPreferences("verified").equals("false")){
-////            verifIco.setVisibility(View.GONE);
-//        }
+        if (sm.getPreferences("verified").equals("false")){
+            verifIco.setVisibility(View.GONE);
+        }
 
         Log.e(TAG, "Profil Pic : " + sm.getPreferences("foto_profil"));
         if (sm.getPreferences("foto_profil").equals("null")){

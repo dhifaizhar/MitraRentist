@@ -36,67 +36,67 @@ public class GridAsetAdapter extends RecyclerView.Adapter<GridAsetAdapter.ViewHo
         category = new ItemCategoryModul();
         category.setId(1);
         category.setTitle("Mobil");
-        category.setThumbnail(R.drawable.suv);
+        category.setThumbnail(R.drawable.mobil);
         itemCategory.add(category);
 
         category = new ItemCategoryModul();
         category.setId(2);
         category.setTitle("Motor");
-        category.setThumbnail(R.drawable.motorbiking);
+        category.setThumbnail(R.drawable.motor);
         itemCategory.add(category);
 
         category = new ItemCategoryModul();
         category.setId(3);
         category.setTitle("Yacht");
-        category.setThumbnail(R.drawable.leisure_1);
+        category.setThumbnail(R.drawable.yatch);
         itemCategory.add(category);
 
         category = new ItemCategoryModul();
         category.setId(4);
         category.setTitle("Medical");
-        category.setThumbnail(R.drawable.hospital);
+        category.setThumbnail(R.drawable.medical_equipment);
         itemCategory.add(category);
 
         category = new ItemCategoryModul();
         category.setId(5);
         category.setTitle("Fotografi");
-        category.setThumbnail(R.drawable.photo_camera);
+        category.setThumbnail(R.drawable.camera);
         itemCategory.add(category);
 
         category = new ItemCategoryModul();
         category.setId(6);
         category.setTitle("Mainan Anak");
-        category.setThumbnail(R.drawable.rocking_horse);
+        category.setThumbnail(R.drawable.mainan_anak);
         itemCategory.add(category);
 
         category = new ItemCategoryModul();
         category.setId(7);
-        category.setTitle("Water Sport");
-        category.setThumbnail(R.drawable.surf);
+        category.setTitle("Adventure");
+        category.setThumbnail(R.drawable.adventure);
         itemCategory.add(category);
 
         category = new ItemCategoryModul();
         category.setId(8);
         category.setTitle("Maternity");
-        category.setThumbnail(R.drawable.breast_pump);
+        category.setThumbnail(R.drawable.maternity);
         itemCategory.add(category);
 
         category = new ItemCategoryModul();
         category.setId(9);
         category.setTitle("Elektronik");
-        category.setThumbnail(R.drawable.printer);
+        category.setThumbnail(R.drawable.elektronik);
         itemCategory.add(category);
 
         category = new ItemCategoryModul();
         category.setId(10);
         category.setTitle("Sepeda");
-        category.setThumbnail(R.drawable.cycle);
+        category.setThumbnail(R.drawable.sepeda);
         itemCategory.add(category);
 
         category = new ItemCategoryModul();
         category.setId(11);
         category.setTitle("Kantor");
-        category.setThumbnail(R.drawable.office_material);
+        category.setThumbnail(R.drawable.office_equipmen);
         itemCategory.add(category);
 
     }

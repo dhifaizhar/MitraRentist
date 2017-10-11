@@ -267,7 +267,7 @@ public class FormYachtAsetActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
             RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.URL_ADD_YACHT, new Response.Listener<String>() {
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.URL_YACHT, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     responseAsset = response;

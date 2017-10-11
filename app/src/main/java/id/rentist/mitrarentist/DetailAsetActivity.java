@@ -9,6 +9,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -16,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.CalendarView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,14 +29,19 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import id.rentist.mitrarentist.adapter.PriceAdapter;
+import id.rentist.mitrarentist.modul.PriceModul;
 import id.rentist.mitrarentist.tools.AppConfig;
 import id.rentist.mitrarentist.tools.SessionManager;
 
@@ -49,9 +57,20 @@ public class DetailAsetActivity extends AppCompatActivity {
     private CalendarView simpleCalendarView;
     Intent iAsetEdit;
 
+    private List<PriceModul> mPrice = new ArrayList<>();
+    RecyclerView mRecyclerView;
+    RecyclerView.Adapter mAdapter;
+    RecyclerView.LayoutManager mLayoutManager;
+
     Integer aId, position;
-    String changeStatus = "active", aName, aType, aSubType, aPlat, aYear, aStatus, aCat, aSubCat, category, category_url;
-    TextView mark, year, status, subcat;
+    String changeStatus = "active", aName, aType, aSubType,  aStatus, aCat, aSubCat,
+            aInsurance, aMinRentDay, aDeliveryMethod, category, category_url, aDesc, aMainImage;
+    String aPlat, aYear, aNoStnk, aColor, aTransmission, aEngineCap, aFuel, aSeat, aAirBag, aAirCond, aDriver;
+
+    TextView mark, status, subcat, insurance, min_rent_day, delivery_method, desc;
+    TextView plat, year, no_stnk, color, transmission, engine_cap, fuel, seats, air_bag, air_cond, driver;
+
+    LinearLayout rNoStnk, rColor, rTransmission, rFuel, rDriver, rEngineCap, rSeats, rAirBag, rAirCond ,rDesc;
     ImageView imgThumbnail;
 
     private static final String TAG = "DetailAssetActivity";
@@ -61,6 +80,7 @@ public class DetailAsetActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_asset_detail);
         detIntent = getIntent();
+        setTitle("Detail Aset");
 
         sm = new SessionManager(getApplicationContext());
         pDialog = new ProgressDialog(this);
@@ -82,8 +102,37 @@ public class DetailAsetActivity extends AppCompatActivity {
         imgThumbnail = (ImageView)findViewById(R.id.as_thumb_aset);
         mark = (TextView) findViewById(R.id.as_mark_det);
         subcat = (TextView) findViewById(R.id.as_subcat_det);
-        year = (TextView) findViewById(R.id.as_year_det);
         status = (TextView) findViewById(R.id.as_status_det);
+        insurance = (TextView) findViewById(R.id.as_insurance);
+        min_rent_day = (TextView) findViewById(R.id.as_min_rent_day);
+        delivery_method = (TextView) findViewById(R.id.as_delivery_status);
+        desc = (TextView) findViewById(R.id.as_desc);
+
+        //Row Container
+        rColor = (LinearLayout) findViewById(R.id.row_color);
+        rAirBag = (LinearLayout) findViewById(R.id.row_air_bag);
+        rAirCond = (LinearLayout) findViewById(R.id.row_air_cond);
+        rDriver = (LinearLayout) findViewById(R.id.row_driver);
+        rEngineCap = (LinearLayout) findViewById(R.id.row_engine_cap);
+        rFuel = (LinearLayout) findViewById(R.id.row_fuel);
+        rNoStnk = (LinearLayout) findViewById(R.id.row_no_stnk);
+        rSeats = (LinearLayout) findViewById(R.id.row_seats);
+        rTransmission = (LinearLayout) findViewById(R.id.row_transmission);
+        rDesc= (LinearLayout) findViewById(R.id.row_desc);
+
+        //Car & Motor
+        plat = (TextView) findViewById(R.id.as_plat_det);
+        year = (TextView) findViewById(R.id.as_year_det);
+        no_stnk = (TextView) findViewById(R.id.as_no_stnk);
+        color = (TextView) findViewById(R.id.as_color);
+        transmission = (TextView) findViewById(R.id.as_transmission);
+        engine_cap = (TextView) findViewById(R.id.as_engine_capacity);
+        fuel = (TextView) findViewById(R.id.as_fuel);
+        seats = (TextView) findViewById(R.id.as_seat);
+        air_bag = (TextView) findViewById(R.id.as_air_bag);
+        air_cond = (TextView) findViewById(R.id.as_air_conditioner);
+        driver = (TextView) findViewById(R.id.as_driver);
+
 
         // set content control value
         aId = detIntent.getIntExtra("id_asset", 0);
@@ -118,20 +167,20 @@ public class DetailAsetActivity extends AppCompatActivity {
             String URL = "";
             switch (category) {
                 case "1":
-                    URL = AppConfig.URL_VIEW_CAR;
+                    URL = AppConfig.URL_MOBIL;
                     break;
                 case "2":
-                    URL = AppConfig.URL_VIEW_MOTOR;
+                    URL = AppConfig.URL_MOTOR;
                     break;
                 case "3":
-                    URL = AppConfig.URL_VIEW_YACHT;
+                    URL = AppConfig.URL_YACHT;
                     break;
                 case "10":
-                    URL = AppConfig.URL_VIEW_BICYCLE;
+                    URL = AppConfig.URL_BICYCLE;
                     break;
             }
             RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+            StringRequest stringRequest = new StringRequest(Request.Method.GET, URL + id, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     responseAsset = response;
@@ -145,14 +194,6 @@ public class DetailAsetActivity extends AppCompatActivity {
                             Toast.LENGTH_LONG).show();
                 }
             }){
-                @Override
-                protected Map<String, String> getParams() {
-                    // Posting parameters to login url
-                    Map<String, String> keys = new HashMap<String, String>();
-                    keys.put("id_item", id);
-                    return keys;
-                }
-
                 @Override
                 public Map<String, String> getHeaders() throws AuthFailureError {
                     // Posting parameters to login url
@@ -188,37 +229,110 @@ public class DetailAsetActivity extends AppCompatActivity {
                         for (int i = 0; i < jsonArray.length(); i++) {
                             errorMsg = "-";
                             JSONObject jsonobject = jsonArray.getJSONObject(i);
+                            aName = jsonobject.getString("brand");
                             aType = jsonobject.getString("type");
                             aStatus = jsonobject.getString("status");
                             aSubCat = jsonobject.getString("subcategory");
                             aCat = jsonobject.getString("id_asset_category");
+                            aInsurance = jsonobject.getString("insurance");
+                            aMinRentDay = jsonobject.getString("min_rent_day");
+                            aDeliveryMethod = jsonobject.getString("delivery_method");
+                            aMainImage = jsonobject.getString("main_image");
 
-                            if (aCat.equals("1") || aCat.equals("2")) {
-                                aPlat = jsonobject.getString("license_plat");
-                                aYear = jsonobject.getString("year");
-                                setTitle(aPlat);
-                                year.setText(aYear);
-                                mark.setText(aName + " " + aType);
+                            //Price
+                            JSONArray priceArray = jsonobject.getJSONArray("price");
+                            Log.e(TAG, "Price : " + priceArray);
+
+                            if(priceArray.length() > 0){
+                                for (int j = 0; j < priceArray.length(); j++) {
+                                    JSONObject priceObject = priceArray.getJSONObject(j);
+
+                                    PriceModul priceModul = new PriceModul();
+                                    priceModul.setPrice(priceObject.getString("price") + " IDR");
+                                    priceModul.setRangeName(priceObject.getString("range_name"));
+                                    priceModul.setStartDate(priceObject.getString("start_date"));
+                                    priceModul.setEndDate(priceObject.getString("end_date"));
+                                    mPrice.add(priceModul);
+                                }
                             }
 
-                            if (!aCat.equals("3")){
-                                aName = jsonobject.getString("brand");
-                                mark.setText(aName + " " + aType);
-                                setTitle(aName + " " + aType);
+                            mRecyclerView = (RecyclerView) findViewById(R.id.as_price_recyclerView);
+                            mLayoutManager = new LinearLayoutManager(getApplicationContext());
+                            mAdapter = new PriceAdapter(getApplicationContext(),mPrice);
+                            mRecyclerView.setLayoutManager(mLayoutManager);
+                            mRecyclerView.setAdapter(mAdapter);
 
-                            } else {
-                                aSubType = jsonobject.getString("sub_type");
-                                mark.setText(aType + " " + aSubType);
-                                setTitle(aType + " " + aSubType);
-                            }
+                            String imageUrl = AppConfig.URL_IMAGE + aMainImage;
+                            Picasso.with(getApplicationContext()).load(imageUrl).into(imgThumbnail);
                             subcat.setText(aSubCat);
                             status.setText(aStatus);
+                            delivery_method.setText(aDeliveryMethod);
 
-                            if(aCat.equals("1")){
-                                imgThumbnail.setImageResource(R.drawable.car_avanza);
-                            }else if(aCat.equals("2")){
-                                imgThumbnail.setImageResource(R.drawable.motorcycle_cbr);
+                            if (aInsurance.equals("true")){insurance.setText("Tersedia");
+                            } else {insurance.setText("Tidak Tersedia");}
+
+                            String minHari = aMinRentDay + " Hari";
+                            min_rent_day.setText(minHari);
+
+                            if ((aCat.equals("2")) || (aCat.equals("1"))) {
+                                aPlat = jsonobject.getString("license_plat");
+                                aYear = jsonobject.getString("year");
+                                aNoStnk = jsonobject.getString("no_stnk");
+                                aColor = jsonobject.getString("colour");
+                                aTransmission = jsonobject.getString("transmission");
+                                aEngineCap = jsonobject.getString("engine_capacity");
+                                aFuel = jsonobject.getString("fuel");
+                                aSeat = jsonobject.getString("seat");
+                                aAirBag = jsonobject.getString("air_bag");
+                                aAirCond = jsonobject.getString("air_conditioner");
+                                aDriver = jsonobject.getString("driver_included");
+
+                                rDesc.setVisibility(View.GONE);
+                                plat.setVisibility(View.VISIBLE);
+                                year.setVisibility(View.VISIBLE);
+                                rNoStnk.setVisibility(View.VISIBLE);
+                                rColor.setVisibility(View.VISIBLE);
+                                rTransmission.setVisibility(View.VISIBLE);
+                                rEngineCap.setVisibility(View.VISIBLE);
+                                rFuel.setVisibility(View.VISIBLE);
+                                rSeats.setVisibility(View.VISIBLE);
+                                rAirCond.setVisibility(View.VISIBLE);
+                                rAirBag.setVisibility(View.VISIBLE);
+                                rDriver.setVisibility(View.VISIBLE);
+
+                                mark.setText(aName + " " + aType);
+                                plat.setText(aPlat);
+                                year.setText(aYear);
+                                no_stnk.setText(aNoStnk);
+                                color.setText(aColor);
+                                transmission.setText(aTransmission);
+                                engine_cap.setText(aEngineCap);
+                                fuel.setText(aFuel);
+
+                                if (aCat.equals("1")){
+                                    seats.setText(aSeat);
+                                    if (aAirBag.equals("true")){air_bag.setText("Tersedia");
+                                    } else {air_bag.setText("Tidak Tersedia");}
+
+                                    if (aAirCond.equals("true")){air_cond.setText("Tersedia");
+                                    } else {air_cond.setText("Tidak Tersedia");}
+
+                                    if (aDriver.equals("true")){driver.setText("Tersedia");
+                                    } else {driver.setText("Tidak Tersedia");}
+                                } else {
+                                    rSeats.setVisibility(View.GONE);
+                                    rAirCond.setVisibility(View.GONE);
+                                    rAirBag.setVisibility(View.GONE);
+                                    rDriver.setVisibility(View.GONE);
+                                }
+                            } else {
+                                aDesc = jsonobject.getString("description");
+
+                                desc.setText(aDesc);
+                                mark.setText(aName + " " + aType);
+
                             }
+
                         }
 
                     }else{
@@ -381,7 +495,7 @@ public class DetailAsetActivity extends AppCompatActivity {
                     category_url = AppConfig.URL_DELETE_MOBIL;
                     break;
                 case "2":
-                    category_url = AppConfig.URL_ADD_MOTOR;
+                    category_url = AppConfig.URL_MOTOR;
                     break;
                 case "3":
                     category_url = AppConfig.URL_DELETE_YACHT;

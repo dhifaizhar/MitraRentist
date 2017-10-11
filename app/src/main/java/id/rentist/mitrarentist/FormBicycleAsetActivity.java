@@ -60,8 +60,8 @@ public class FormBicycleAsetActivity extends AppCompatActivity {
 
     LinearLayout conAdvancePrice;
     ImageView aImg;
-    TextView aName, aMerk, aType, aBasicPrice, aMinDayRent, btnAdvancePrice,
-            aDesc, aRangName, aStartDate, aEndDate, aPriceAdvance, aAssuracePrice;
+    TextView aName, aMerk, aType, aAssuracePrice, aMinDayRent, aDesc,
+            aRangName, aStartDate, aEndDate, aPriceAdvance, btnAdvancePrice, aBasicPrice;
     Integer idAsset;
     String aLatitude, aLongitude, aAddress, aRentPackage, tenant, category, encodedImage, isiimage = "", ext, imgString;
     CheckBox aAssurace;
@@ -135,7 +135,6 @@ public class FormBicycleAsetActivity extends AppCompatActivity {
         aPriceAdvance = (TextView) findViewById(R.id.as_price_advance);
         aBasicPrice = (TextView) findViewById(R.id.as_price_basic);
 
-
         //aset value
         if(iFormAsset.getStringExtra("action").equals("update")){
             aMerk.setText(iFormAsset.getStringExtra("merk"));
@@ -151,7 +150,6 @@ public class FormBicycleAsetActivity extends AppCompatActivity {
                 int spinnerPosition = adapter.getPosition(compareValue);
                 subcategory.setSelection(spinnerPosition);
             }
-
         }
     }
 
@@ -267,7 +265,7 @@ public class FormBicycleAsetActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
             RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.URL_ADD_BICYCLE, new Response.Listener<String>() {
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.URL_BICYCLE, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     responseAsset = response;
@@ -301,6 +299,7 @@ public class FormBicycleAsetActivity extends AppCompatActivity {
                     if(!isiimage.isEmpty()){
                         keys.put("file", isiimage);
                     }
+                    //Keys Pricing
                     ArrayList<String> pricingArray = new ArrayList<String>();
                     JSONObject priceBasicObject = new JSONObject();
                     try {
@@ -313,7 +312,6 @@ public class FormBicycleAsetActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
 
                     for (int i = 0; i < 1; i++) {
                         Map<String, String> pricingObject = new HashMap<String, String>();
