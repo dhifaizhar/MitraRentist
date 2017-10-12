@@ -381,6 +381,9 @@ public class DashboardActivity extends AppCompatActivity
         if (id == R.id.nav_aset) {
             Intent iAset = new Intent(DashboardActivity.this, AsetActivity.class);
             startActivity(iAset);
+        } else if (id == R.id.nav_feature) {
+            Intent iFeature = new Intent(DashboardActivity.this, FeatureActivity.class);
+            startActivity(iFeature);
         } else if (id == R.id.nav_users) {
             Intent iPegawai = new Intent(DashboardActivity.this, UsersActivity.class);
             startActivity(iPegawai);

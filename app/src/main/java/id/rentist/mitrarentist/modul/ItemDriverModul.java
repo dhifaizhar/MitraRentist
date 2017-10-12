@@ -39,7 +39,6 @@ public class ItemDriverModul {
     public String getId() {
         return mId;
     }
-
     public void setId(String mId) {
         this.mId = mId;
     }

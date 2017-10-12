@@ -188,7 +188,11 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".RegistrationActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".FeatureActivity"
+            android:label="@string/title_activity_feature"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
