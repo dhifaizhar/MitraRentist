@@ -229,15 +229,16 @@ public class DetailAsetActivity extends AppCompatActivity {
                         for (int i = 0; i < jsonArray.length(); i++) {
                             errorMsg = "-";
                             JSONObject jsonobject = jsonArray.getJSONObject(i);
-                            aName = jsonobject.getString("brand");
+                            aCat = jsonobject.getString("id_asset_category");
                             aType = jsonobject.getString("type");
                             aStatus = jsonobject.getString("status");
                             aSubCat = jsonobject.getString("subcategory");
-                            aCat = jsonobject.getString("id_asset_category");
                             aInsurance = jsonobject.getString("insurance");
                             aMinRentDay = jsonobject.getString("min_rent_day");
                             aDeliveryMethod = jsonobject.getString("delivery_method");
                             aMainImage = jsonobject.getString("main_image");
+                            if(aCat.equals("3")){ aName = jsonobject.getString("sub_type");}
+                            else{aName = jsonobject.getString("brand");}
 
                             //Price
                             JSONArray priceArray = jsonobject.getJSONArray("price");
@@ -282,10 +283,6 @@ public class DetailAsetActivity extends AppCompatActivity {
                                 aTransmission = jsonobject.getString("transmission");
                                 aEngineCap = jsonobject.getString("engine_capacity");
                                 aFuel = jsonobject.getString("fuel");
-                                aSeat = jsonobject.getString("seat");
-                                aAirBag = jsonobject.getString("air_bag");
-                                aAirCond = jsonobject.getString("air_conditioner");
-                                aDriver = jsonobject.getString("driver_included");
 
                                 rDesc.setVisibility(View.GONE);
                                 plat.setVisibility(View.VISIBLE);
@@ -295,10 +292,6 @@ public class DetailAsetActivity extends AppCompatActivity {
                                 rTransmission.setVisibility(View.VISIBLE);
                                 rEngineCap.setVisibility(View.VISIBLE);
                                 rFuel.setVisibility(View.VISIBLE);
-                                rSeats.setVisibility(View.VISIBLE);
-                                rAirCond.setVisibility(View.VISIBLE);
-                                rAirBag.setVisibility(View.VISIBLE);
-                                rDriver.setVisibility(View.VISIBLE);
 
                                 mark.setText(aName + " " + aType);
                                 plat.setText(aPlat);
@@ -310,6 +303,15 @@ public class DetailAsetActivity extends AppCompatActivity {
                                 fuel.setText(aFuel);
 
                                 if (aCat.equals("1")){
+                                    rSeats.setVisibility(View.VISIBLE);
+                                    rAirCond.setVisibility(View.VISIBLE);
+                                    rAirBag.setVisibility(View.VISIBLE);
+                                    rDriver.setVisibility(View.VISIBLE);
+                                    aAirBag = jsonobject.getString("air_bag");
+                                    aAirCond = jsonobject.getString("air_conditioner");
+                                    aDriver = jsonobject.getString("driver_included");
+                                    aSeat = jsonobject.getString("seat");
+
                                     seats.setText(aSeat);
                                     if (aAirBag.equals("true")){air_bag.setText("Tersedia");
                                     } else {air_bag.setText("Tidak Tersedia");}
@@ -325,7 +327,9 @@ public class DetailAsetActivity extends AppCompatActivity {
                                     rAirBag.setVisibility(View.GONE);
                                     rDriver.setVisibility(View.GONE);
                                 }
-                            } else {
+                            } else if(aCat.equals("3")) {
+
+                            }else {
                                 aDesc = jsonobject.getString("description");
 
                                 desc.setText(aDesc);

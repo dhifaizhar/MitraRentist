@@ -26,6 +26,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -104,7 +105,10 @@ public class AsetAdapter extends RecyclerView.Adapter<AsetAdapter.ViewHolder> {
 
 //        simpan value dalam object
         viewHolder.mark.setText(as.getMark());
-        viewHolder.imgThumbnail.setImageResource(as.getThumbnail());
+//        viewHolder.imgThumbnail.setImageResource(as.getThumbnail());
+
+        String imageUrl = AppConfig.URL_IMAGE + as.getThumbnail();
+        Picasso.with(context).load(imageUrl).into(viewHolder.imgThumbnail);
 
         viewHolder.status.setText(as.getStatus());
         viewHolder.subcat.setText(as.getSubCat());

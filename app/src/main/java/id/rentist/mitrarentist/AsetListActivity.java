@@ -165,7 +165,7 @@ public class AsetListActivity extends AppCompatActivity {
             mSwipeRefreshLayout.setRefreshing(false);
             pBar.setVisibility(View.GONE);
 //            showProgress(false);
-            String aName, aType, aPlat, aYear, aStatus, aSubCat, aSubType;
+            String aName, aType, aPlat, aYear, aStatus, aSubCat, aSubType, aThumbnail;
             Integer dataLength, aId;
 
             if (aset != null) {
@@ -182,9 +182,12 @@ public class AsetListActivity extends AppCompatActivity {
                             aType = jsonobject.getString("type");
                             aStatus = jsonobject.getString("status");
                             aSubCat = jsonobject.getString("subcategory");
+                            aThumbnail = jsonobject.getString("main_image");
 
                             ItemAsetModul itemModul = new ItemAsetModul();
                             itemModul.setAssetId(aId);
+                            itemModul.setThumbnail(aThumbnail);
+
                             itemModul.setType(aType);
                             itemModul.setSubCat(aSubCat);
 
@@ -206,20 +209,20 @@ public class AsetListActivity extends AppCompatActivity {
                                 itemModul.setMark(aType + " " + aSubType);
                             }
 
-                            switch (category) {
-                                case "1":
-                                    itemModul.setThumbnail(R.drawable.mobil_1);
-                                    break;
-                                case "2":
-                                    itemModul.setThumbnail(R.drawable.big_bike);
-                                    break;
-                                case "3":
-                                    itemModul.setThumbnail(R.drawable.yacht_default);
-                                    break;
-                                case "10":
-                                    itemModul.setThumbnail(R.drawable.bicycle_default);
-                                    break;
-                            }
+//                            switch (category) {
+//                                case "1":
+//                                    itemModul.setThumbnail(R.drawable.mobil_1);
+//                                    break;
+//                                case "2":
+//                                    itemModul.setThumbnail(R.drawable.big_bike);
+//                                    break;
+//                                case "3":
+//                                    itemModul.setThumbnail(R.drawable.yacht_default);
+//                                    break;
+//                                case "10":
+//                                    itemModul.setThumbnail(R.drawable.bicycle_default);
+//                                    break;
+//                            }
                             itemModul.setStatus(aStatus);
                             Log.e(TAG, "What Data : " + String.valueOf(itemModul));
                             mAset.add(itemModul);

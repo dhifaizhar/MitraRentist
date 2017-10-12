@@ -66,7 +66,7 @@ public class DashboardActivity extends AppCompatActivity
 
     String tenant, img, encodedImage, imageUrl, imgString;
     Integer sumAsset, aCar, aBike, aYacht;
-    TextView totAsset, totPoin, totRating, totSaldo, rentName, rentNameDrawer, successRent, ongoRent;
+    TextView totAsset, totPoin, totRating, totSaldo, rentName, role, rentNameDrawer, successRent, ongoRent;
     ImageView rentImgProfile, verifIco;
 //    NetworkImageView rentImgProfile;
     ImageButton btnNewTrans, btnToSaldo, btnWorkDate, btnEditProfpic;
@@ -114,6 +114,7 @@ public class DashboardActivity extends AppCompatActivity
         rentName = (TextView) findViewById(R.id.rentName);
         rentNameDrawer = (TextView) navHeaderView.findViewById(R.id.navRentName);
         rentImgProfile = (ImageView) navHeaderView.findViewById(R.id.navImageProfile);
+        role = (TextView) navHeaderView.findViewById(R.id.navRole);
         verifIco = (ImageView) findViewById(R.id.navRentVerif);
         btnNewTrans = (ImageButton) findViewById(R.id.btn_to_det_new_trans);
         btnToSaldo = (ImageButton) findViewById(R.id.btn_to_saldo);
@@ -129,6 +130,12 @@ public class DashboardActivity extends AppCompatActivity
         // set content control value
         rentName.setText(sm.getPreferences("nama_rental"));
         rentNameDrawer.setText(sm.getPreferences("nama"));
+        role.setText(sm.getPreferences("role"));;
+        if(sm.getPreferences("role").equals("SuperAdmin")){
+            role.setBackgroundColor(0xff99cc00);
+        }else if(sm.getPreferences("role").equals("SuperAdmin")){
+            role.setBackgroundColor(0xff33b5e5);
+        }
 
         if (sm.getPreferences("verified").equals("false")){
             verifIco.setVisibility(View.GONE);

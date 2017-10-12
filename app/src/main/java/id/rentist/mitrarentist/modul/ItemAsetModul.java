@@ -5,8 +5,8 @@ package id.rentist.mitrarentist.modul;
  */
 
 public class ItemAsetModul {
-    private int mId, mThumbnail, mPriceIco, mFeatureIco;
-    private String mMerk, mType, mYear, mColor, mPlat, mFuel, mSeat, mEngCap, mStatus, mMark, mSubCat, mPrice, mFeature, mTransm;
+    private int mId, mPriceIco, mFeatureIco;
+    private String mThumbnail, mMerk, mType, mYear, mColor, mPlat, mFuel, mSeat, mEngCap, mStatus, mMark, mSubCat, mPrice, mFeature, mTransm;
     private boolean mAirCon, mAirBag, mDriver;
 
     public void setMark(String mMark) {
@@ -23,10 +23,10 @@ public class ItemAsetModul {
         return mSubCat;
     }
 
-    public void setThumbnail(int mThumbnail) {
+    public void setThumbnail(String mThumbnail) {
         this.mThumbnail = mThumbnail;
     }
-    public int getThumbnail() {
+    public String getThumbnail() {
         return mThumbnail;
     }
 
