@@ -68,19 +68,36 @@
                     android:orientation="vertical"
                     android:padding="@dimen/min_padding">
 
-                    <TextView
-                        android:id="@+id/as_mark_det"
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/colorPrimarySoft"
-                        android:gravity="center_vertical"
-                        android:padding="@dimen/xmin_padding"
-                        android:textAlignment="center"
-                        android:textColor="@color/colorPrimaryDark"
-                        android:textSize="24sp"
-                        android:textStyle="bold"
-                        tools:text="Nama Aset"
-                        />
+                        >
+
+                        <TextView
+                            android:id="@+id/as_mark_det"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:padding="@dimen/xmin_padding"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="24sp"
+                            android:textStyle="bold"
+                            tools:text="Nama Aset"
+                            android:layout_alignParentTop="true"
+                            android:layout_centerHorizontal="true" />
+
+                        <ImageView
+                            android:id="@+id/as_verif"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/verif_blue_24"
+                            android:layout_toEndOf="@id/as_mark_det"
+                            android:visibility="gone"/>
+
+                    </RelativeLayout>
+
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -181,24 +198,363 @@
                         android:text="Informasi Aset" />
 
                     <LinearLayout
-                        android:id="@+id/row_no_stnk"
+                        android:id="@+id/con_car_motor"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:background="@color/colorPrimarySoft"
-                        android:layout_marginBottom="@dimen/small_space"
-                        android:padding="@dimen/xmin_padding"
+                        android:orientation="vertical"
                         android:visibility="gone">
+
+                        <LinearLayout
+                            android:id="@+id/row_no_stnk"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:background="@color/colorPrimarySoft"
+                            android:layout_marginBottom="@dimen/small_space"
+                            android:padding="@dimen/xmin_padding"
+                            >
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorBlack54"
+                                android:textSize="@dimen/calendar_text_small"
+                                android:text="Nomor STNK " />
+
+                            <TextView
+                                android:id="@+id/as_no_stnk"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorBlack"
+                                android:textAlignment="textEnd"
+                                android:textSize="@dimen/calendar_text_small"
+                                tools:text="-" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/row_color"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:background="@color/colorPrimarySoft"
+                            android:layout_marginBottom="@dimen/small_space"
+                            android:padding="@dimen/xmin_padding"
+                            >
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorBlack54"
+                                android:textSize="@dimen/calendar_text_small"
+                                android:text="Warna " />
+
+                            <TextView
+                                android:id="@+id/as_color"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorBlack"
+                                android:textAlignment="textEnd"
+                                android:textSize="@dimen/calendar_text_small"
+                                tools:text="blue "/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/row_transmission"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:background="@color/colorPrimarySoft"
+                            android:layout_marginBottom="@dimen/small_space"
+                            android:padding="@dimen/xmin_padding"
+                            >
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorBlack54"
+                                android:textSize="@dimen/calendar_text_small"
+                                android:text="Transmisi " />
+
+                            <TextView
+                                android:id="@+id/as_transmission"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorBlack"
+                                android:textAlignment="textEnd"
+                                android:textSize="@dimen/calendar_text_small"
+                                tools:text="Manual" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/row_engine_cap"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:background="@color/colorPrimarySoft"
+                            android:layout_marginBottom="@dimen/small_space"
+                            android:padding="@dimen/xmin_padding"
+                            >
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorBlack54"
+                                android:textSize="@dimen/calendar_text_small"
+                                android:text="Kapasitas Mesin " />
+
+                            <TextView
+                                android:id="@+id/as_engine_capacity"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorBlack"
+                                android:textAlignment="textEnd"
+                                android:textSize="@dimen/calendar_text_small"
+                                tools:text="1500" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/row_fuel"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:background="@color/colorPrimarySoft"
+                            android:layout_marginBottom="@dimen/small_space"
+                            android:padding="@dimen/xmin_padding"
+                            >
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorBlack54"
+                                android:textSize="@dimen/calendar_text_small"
+                                android:text="Bahan Bakar " />
+
+                            <TextView
+                                android:id="@+id/as_fuel"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorBlack"
+                                android:textAlignment="textEnd"
+                                android:textSize="@dimen/calendar_text_small"
+                                tools:text="Pertamax" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/con_yacht_info"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="gone"
+                        >
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:background="@color/colorPrimarySoft"
+                            android:layout_marginBottom="@dimen/small_space"
+                            android:padding="@dimen/xmin_padding"
+                            >
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorBlack54"
+                                android:textSize="@dimen/calendar_text_small"
+                                android:text="Model" />
+
+                            <TextView
+                                android:id="@+id/as_yacht_model"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorBlack"
+                                android:textAlignment="textEnd"
+                                android:textSize="@dimen/calendar_text_small"
+                                tools:text="-" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:baselineAligned="false">
+
+                            <LinearLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:background="@color/colorPrimarySoft"
+                                android:layout_marginBottom="@dimen/small_space"
+                                android:padding="@dimen/xmin_padding"
+                                android:layout_weight="1"
+                                android:layout_marginEnd="@dimen/small_space"
+                                >
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/colorBlack54"
+                                    android:textSize="@dimen/calendar_text_small"
+                                    android:text="Length" />
+
+                                <TextView
+                                    android:id="@+id/as_yacht_length"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/colorBlack"
+                                    android:textAlignment="textEnd"
+                                    android:textSize="@dimen/calendar_text_small"
+                                    tools:text="-" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:background="@color/colorPrimarySoft"
+                                android:layout_marginBottom="@dimen/small_space"
+                                android:padding="@dimen/xmin_padding"
+                                android:layout_weight="1"
+                                >
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/colorBlack54"
+                                    android:textSize="@dimen/calendar_text_small"
+                                    android:text="Beam" />
+
+                                <TextView
+                                    android:id="@+id/as_yacht_beam"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/colorBlack"
+                                    android:textAlignment="textEnd"
+                                    android:textSize="@dimen/calendar_text_small"
+                                    tools:text="-" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:baselineAligned="false">
+
+                            <LinearLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:background="@color/colorPrimarySoft"
+                                android:layout_marginBottom="@dimen/small_space"
+                                android:padding="@dimen/xmin_padding"
+                                android:layout_weight="1"
+                                android:layout_marginEnd="@dimen/small_space"
+                                >
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/colorBlack54"
+                                    android:textSize="@dimen/calendar_text_small"
+                                    android:text="Draft" />
+
+                                <TextView
+                                    android:id="@+id/as_yacht_draft"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/colorBlack"
+                                    android:textAlignment="textEnd"
+                                    android:textSize="@dimen/calendar_text_small"
+                                    tools:text="-" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:background="@color/colorPrimarySoft"
+                                android:layout_marginBottom="@dimen/small_space"
+                                android:padding="@dimen/xmin_padding"
+                                android:layout_weight="1"
+                                >
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/colorBlack54"
+                                    android:textSize="@dimen/calendar_text_small"
+                                    android:text="Gross Tonnage" />
+
+                                <TextView
+                                    android:id="@+id/as_yacht_gross"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/colorBlack"
+                                    android:textAlignment="textEnd"
+                                    android:textSize="@dimen/calendar_text_small"
+                                    tools:text="-" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:background="@color/colorPrimarySoft"
+                            android:layout_marginBottom="@dimen/small_space"
+                            android:padding="@dimen/xmin_padding"
+                            >
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorBlack54"
+                                android:textSize="@dimen/calendar_text_small"
+                                android:text="Builder" />
+
+                            <TextView
+                                android:id="@+id/as_yacht_builder"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorBlack"
+                                android:textAlignment="textEnd"
+                                android:textSize="@dimen/calendar_text_small"
+                                tools:text="-" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:background="@color/colorPrimarySoft"
+                            android:layout_marginBottom="@dimen/small_space"
+                            android:padding="@dimen/xmin_padding"
+                            >
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/colorBlack54"
                             android:textSize="@dimen/calendar_text_small"
-                            android:text="Nomor STNK " />
+                            android:text="Naval Architect" />
 
                         <TextView
-                            android:id="@+id/as_no_stnk"
+                            android:id="@+id/as_yacht_naval"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textColor="@color/colorBlack"
@@ -208,114 +564,60 @@
 
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:id="@+id/row_color"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:background="@color/colorPrimarySoft"
-                        android:layout_marginBottom="@dimen/small_space"
-                        android:padding="@dimen/xmin_padding"
-                        android:visibility="gone">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/colorBlack54"
-                            android:textSize="@dimen/calendar_text_small"
-                            android:text="Warna " />
-
-                        <TextView
-                            android:id="@+id/as_color"
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/colorBlack"
-                            android:textAlignment="textEnd"
-                            android:textSize="@dimen/calendar_text_small"
-                            tools:text="blue "/>
-                    </LinearLayout>
+                            android:orientation="horizontal"
+                            android:background="@color/colorPrimarySoft"
+                            android:layout_marginBottom="@dimen/small_space"
+                            android:padding="@dimen/xmin_padding"
+                            >
 
-                    <LinearLayout
-                        android:id="@+id/row_transmission"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:background="@color/colorPrimarySoft"
-                        android:layout_marginBottom="@dimen/small_space"
-                        android:padding="@dimen/xmin_padding"
-                        android:visibility="gone">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorBlack54"
+                                android:textSize="@dimen/calendar_text_small"
+                                android:text="Interior Designer" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/colorBlack54"
-                            android:textSize="@dimen/calendar_text_small"
-                            android:text="Transmisi " />
+                            <TextView
+                                android:id="@+id/as_yacht_int_design"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorBlack"
+                                android:textAlignment="textEnd"
+                                android:textSize="@dimen/calendar_text_small"
+                                tools:text="-" />
 
-                        <TextView
-                            android:id="@+id/as_transmission"
+                        </LinearLayout>
+
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/colorBlack"
-                            android:textAlignment="textEnd"
-                            android:textSize="@dimen/calendar_text_small"
-                            tools:text="Manual" />
+                            android:orientation="horizontal"
+                            android:background="@color/colorPrimarySoft"
+                            android:layout_marginBottom="@dimen/small_space"
+                            android:padding="@dimen/xmin_padding"
+                            >
 
-                    </LinearLayout>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorBlack54"
+                                android:textSize="@dimen/calendar_text_small"
+                                android:text="Exterior Designer" />
 
-                    <LinearLayout
-                        android:id="@+id/row_engine_cap"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:background="@color/colorPrimarySoft"
-                        android:layout_marginBottom="@dimen/small_space"
-                        android:padding="@dimen/xmin_padding"
-                        android:visibility="gone">
+                            <TextView
+                                android:id="@+id/as_yacht_ext_design"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorBlack"
+                                android:textAlignment="textEnd"
+                                android:textSize="@dimen/calendar_text_small"
+                                tools:text="-" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/colorBlack54"
-                            android:textSize="@dimen/calendar_text_small"
-                            android:text="Kapasitas Mesin " />
+                        </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/as_engine_capacity"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/colorBlack"
-                            android:textAlignment="textEnd"
-                            android:textSize="@dimen/calendar_text_small"
-                            tools:text="1500" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/row_fuel"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:background="@color/colorPrimarySoft"
-                        android:layout_marginBottom="@dimen/small_space"
-                        android:padding="@dimen/xmin_padding"
-                        android:visibility="gone">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/colorBlack54"
-                            android:textSize="@dimen/calendar_text_small"
-                            android:text="Bahan Bakar " />
-
-                        <TextView
-                            android:id="@+id/as_fuel"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/colorBlack"
-                            android:textAlignment="textEnd"
-                            android:textSize="@dimen/calendar_text_small"
-                            tools:text="Pertamax" />
 
                     </LinearLayout>
 
@@ -359,86 +661,292 @@
                         android:text="Fitur" />
 
                     <LinearLayout
-                        android:id="@+id/row_seats"
+                        android:id="@+id/con_car_only"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:background="@color/colorPrimarySoft"
-                        android:layout_marginBottom="@dimen/small_space"
-                        android:padding="@dimen/xmin_padding"
+                        android:orientation="vertical"
                         android:visibility="gone">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/colorBlack54"
-                            android:textSize="@dimen/calendar_text_small"
-                            android:text="Jumlah Kursi " />
-
-                        <TextView
-                            android:id="@+id/as_seat"
+                        <LinearLayout
+                            android:id="@+id/row_seats"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/colorBlack"
-                            android:textAlignment="textEnd"
-                            android:textSize="@dimen/calendar_text_small"
-                            tools:text="6" />
+                            android:orientation="horizontal"
+                            android:background="@color/colorPrimarySoft"
+                            android:layout_marginBottom="@dimen/small_space"
+                            android:padding="@dimen/xmin_padding"
+                            >
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorBlack54"
+                                android:textSize="@dimen/calendar_text_small"
+                                android:text="Jumlah Kursi " />
+
+                            <TextView
+                                android:id="@+id/as_seat"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorBlack"
+                                android:textAlignment="textEnd"
+                                android:textSize="@dimen/calendar_text_small"
+                                tools:text="6" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/row_air_bag"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:background="@color/colorPrimarySoft"
+                            android:layout_marginBottom="@dimen/small_space"
+                            android:padding="@dimen/xmin_padding"
+                            >
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorBlack54"
+                                android:textSize="@dimen/calendar_text_small"
+                                android:text="Kantung Udara " />
+
+                            <TextView
+                                android:id="@+id/as_air_bag"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorBlack"
+                                android:textAlignment="textEnd"
+                                android:textSize="@dimen/calendar_text_small"
+                                tools:text="Tersedia" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/row_air_cond"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:background="@color/colorPrimarySoft"
+                            android:layout_marginBottom="@dimen/small_space"
+                            android:padding="@dimen/xmin_padding"
+                            >
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorBlack54"
+                                android:textSize="@dimen/calendar_text_small"
+                                android:text="AC " />
+
+                            <TextView
+                                android:id="@+id/as_air_conditioner"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorBlack"
+                                android:textAlignment="textEnd"
+                                android:textSize="@dimen/calendar_text_small"
+                                tools:text="Tersedia" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/row_driver"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:background="@color/colorPrimarySoft"
+                            android:layout_marginBottom="@dimen/small_space"
+                            android:padding="@dimen/xmin_padding"
+                            >
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorBlack54"
+                                android:textSize="@dimen/calendar_text_small"
+                                android:text="Driver " />
+
+                            <TextView
+                                android:id="@+id/as_driver"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorBlack"
+                                android:textAlignment="textEnd"
+                                android:textSize="@dimen/calendar_text_small"
+                                tools:text="Tidak Tersedia" />
+
+                        </LinearLayout>
 
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/row_air_bag"
+                        android:id="@+id/con_yacht_feature"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:background="@color/colorPrimarySoft"
-                        android:layout_marginBottom="@dimen/small_space"
-                        android:padding="@dimen/xmin_padding"
-                        android:visibility="gone">
+                        android:orientation="vertical"
+                        android:visibility="gone"
+                        >
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/colorBlack54"
-                            android:textSize="@dimen/calendar_text_small"
-                            android:text="Kantung Udara " />
-
-                        <TextView
-                            android:id="@+id/as_air_bag"
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/colorBlack"
-                            android:textAlignment="textEnd"
-                            android:textSize="@dimen/calendar_text_small"
-                            tools:text="Tersedia" />
+                            android:orientation="horizontal"
+                            android:baselineAligned="false">
 
-                    </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:background="@color/colorPrimarySoft"
+                                android:layout_marginBottom="@dimen/small_space"
+                                android:padding="@dimen/xmin_padding"
+                                android:layout_weight="1"
+                                android:layout_marginEnd="@dimen/small_space"
+                                >
 
-                    <LinearLayout
-                        android:id="@+id/row_air_cond"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:background="@color/colorPrimarySoft"
-                        android:layout_marginBottom="@dimen/small_space"
-                        android:padding="@dimen/xmin_padding"
-                        android:visibility="gone">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/colorBlack54"
+                                    android:textSize="@dimen/calendar_text_small"
+                                    android:text="Cruising Speed" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/colorBlack54"
-                            android:textSize="@dimen/calendar_text_small"
-                            android:text="AC " />
+                                <TextView
+                                    android:id="@+id/as_yacht_c_speed"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/colorBlack"
+                                    android:textAlignment="textEnd"
+                                    android:textSize="@dimen/calendar_text_small"
+                                    tools:text="-" />
 
-                        <TextView
-                            android:id="@+id/as_air_conditioner"
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:background="@color/colorPrimarySoft"
+                                android:layout_marginBottom="@dimen/small_space"
+                                android:padding="@dimen/xmin_padding"
+                                android:layout_weight="1"
+                                >
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/colorBlack54"
+                                    android:textSize="@dimen/calendar_text_small"
+                                    android:text="Top Speed" />
+
+                                <TextView
+                                    android:id="@+id/as_yacht_t_speed"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/colorBlack"
+                                    android:textAlignment="textEnd"
+                                    android:textSize="@dimen/calendar_text_small"
+                                    tools:text="-" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/colorBlack"
-                            android:textAlignment="textEnd"
-                            android:textSize="@dimen/calendar_text_small"
-                            tools:text="Tersedia" />
+                            android:orientation="horizontal"
+                            android:baselineAligned="false">
+
+                            <LinearLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:background="@color/colorPrimarySoft"
+                                android:layout_marginBottom="@dimen/small_space"
+                                android:padding="@dimen/xmin_padding"
+                                android:layout_weight="1"
+                                android:layout_marginEnd="@dimen/small_space"
+                                >
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/colorBlack54"
+                                    android:textSize="@dimen/calendar_text_small"
+                                    android:text="Guest" />
+
+                                <TextView
+                                    android:id="@+id/as_yacht_guest"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/colorBlack"
+                                    android:textAlignment="textEnd"
+                                    android:textSize="@dimen/calendar_text_small"
+                                    tools:text="-" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:background="@color/colorPrimarySoft"
+                                android:layout_marginBottom="@dimen/small_space"
+                                android:padding="@dimen/xmin_padding"
+                                android:layout_weight="1"
+                                >
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/colorBlack54"
+                                    android:textSize="@dimen/calendar_text_small"
+                                    android:text="Cabin" />
+
+                                <TextView
+                                    android:id="@+id/as_yacht_cabin"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/colorBlack"
+                                    android:textAlignment="textEnd"
+                                    android:textSize="@dimen/calendar_text_small"
+                                    tools:text="-" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:background="@color/colorPrimarySoft"
+                                android:layout_marginBottom="@dimen/small_space"
+                                android:padding="@dimen/xmin_padding"
+                                android:layout_weight="1"
+                                >
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/colorBlack54"
+                                    android:textSize="@dimen/calendar_text_small"
+                                    android:text="Crew" />
+
+                                <TextView
+                                    android:id="@+id/as_yacht_crew"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/colorBlack"
+                                    android:textAlignment="textEnd"
+                                    android:textSize="@dimen/calendar_text_small"
+                                    tools:text="-" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
 
                     </LinearLayout>
 
@@ -465,34 +973,6 @@
                             android:textAlignment="textEnd"
                             android:textSize="@dimen/calendar_text_small"
                             tools:text="Tersedia" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/row_driver"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:background="@color/colorPrimarySoft"
-                        android:layout_marginBottom="@dimen/small_space"
-                        android:padding="@dimen/xmin_padding"
-                        android:visibility="gone">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/colorBlack54"
-                            android:textSize="@dimen/calendar_text_small"
-                            android:text="Driver " />
-
-                        <TextView
-                            android:id="@+id/as_driver"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/colorBlack"
-                            android:textAlignment="textEnd"
-                            android:textSize="@dimen/calendar_text_small"
-                            tools:text="Tidak Tersedia" />
 
                     </LinearLayout>
 

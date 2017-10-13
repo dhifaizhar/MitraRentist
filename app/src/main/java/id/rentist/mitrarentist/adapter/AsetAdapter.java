@@ -80,7 +80,7 @@ public class AsetAdapter extends RecyclerView.Adapter<AsetAdapter.ViewHolder> {
 
     class ViewHolder extends RecyclerView.ViewHolder{
         private TextView mark, year, status, subcat, plat;
-        private ImageView imgThumbnail;
+        private ImageView imgThumbnail, verifIco;
         private ImageButton deleteAsset;
         private CardView cardDetAset;
 
@@ -94,6 +94,7 @@ public class AsetAdapter extends RecyclerView.Adapter<AsetAdapter.ViewHolder> {
             status = (TextView) itemView.findViewById(R.id.as_status_det);
             cardDetAset = (CardView) itemView.findViewById(R.id.card_view_aset);
             deleteAsset = (ImageButton) itemView.findViewById(R.id.btn_delete);
+            verifIco = (ImageView) itemView.findViewById(R.id.as_verif);
         }
     }
 
@@ -106,11 +107,14 @@ public class AsetAdapter extends RecyclerView.Adapter<AsetAdapter.ViewHolder> {
         viewHolder.mark.setText(as.getMark());
 //        viewHolder.imgThumbnail.setImageResource(as.getThumbnail());
 
-        String imageUrl = AppConfig.URL_IMAGE + as.getThumbnail();
+        String imageUrl = AppConfig.URL_IMAGE_ASSETS + as.getThumbnail();
         Picasso.with(context).load(imageUrl).into(viewHolder.imgThumbnail);
 
         viewHolder.status.setText(as.getStatus());
         viewHolder.subcat.setText(as.getSubCat());
+        if(as.getVerif().equals("true")){
+            viewHolder.verifIco.setVisibility(View.VISIBLE);
+        }
         if (!category.equals("10") && !category.equals("3")){
             viewHolder.year.setText(as.getYear());
             viewHolder.plat.setText(as.getPlat());

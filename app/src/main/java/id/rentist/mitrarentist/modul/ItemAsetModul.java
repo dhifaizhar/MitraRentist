@@ -6,7 +6,8 @@ package id.rentist.mitrarentist.modul;
 
 public class ItemAsetModul {
     private int mId, mPriceIco, mFeatureIco;
-    private String mThumbnail, mMerk, mType, mYear, mColor, mPlat, mFuel, mSeat, mEngCap, mStatus, mMark, mSubCat, mPrice, mFeature, mTransm;
+    private String mThumbnail, mMerk, mType, mYear, mColor, mPlat, mFuel, mSeat, mEngCap,
+            mStatus, mMark, mSubCat, mPrice, mFeature, mTransm, mVerif;
     private boolean mAirCon, mAirBag, mDriver;
 
     public void setMark(String mMark) {
@@ -58,6 +59,13 @@ public class ItemAsetModul {
 
     public int getAssetId() {
         return mId;
+    }
+
+    public void setVerif(String mVerif) {
+        this.mVerif = mVerif;
+    }
+    public String getVerif() {
+        return mVerif;
     }
 
     public void setAssetId(int mId) {

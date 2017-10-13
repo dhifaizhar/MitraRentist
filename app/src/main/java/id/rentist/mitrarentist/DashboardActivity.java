@@ -145,7 +145,7 @@ public class DashboardActivity extends AppCompatActivity
         if (sm.getPreferences("foto_profil").equals("null")){
             rentImgProfile.setImageResource(R.drawable.user_ava_man);
         } else {
-            String imageUrl = AppConfig.URL_IMAGE + sm.getPreferences("foto_profil");
+            String imageUrl = AppConfig.URL_IMAGE_PROFIL + sm.getPreferences("foto_profil");
             Picasso.with(getApplicationContext()).load(imageUrl).transform(new CircleTransform()).into(rentImgProfile);
 
         }

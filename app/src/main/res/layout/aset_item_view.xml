@@ -48,17 +48,35 @@
                     android:layout_toEndOf="@+id/as_thumb_aset"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/as_mark_det"
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="bottom"
-                        android:lines="2"
-                        android:padding="@dimen/xmin_padding"
-                        android:text="TextView"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        tools:text="SUZUKI ERTIGA" />
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/as_mark_det"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="bottom"
+                            android:lines="2"
+                            android:padding="@dimen/xmin_padding"
+                            android:text="TextView"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            tools:text="SUZUKI ERTIGA" />
+
+                        <ImageView
+                            android:id="@+id/as_verif"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/verif_blue_24"
+                            android:layout_marginLeft="@dimen/xmin_padding"
+                            android:layout_toEndOf="@id/as_mark_det"
+                            android:layout_alignBottom="@id/as_mark_det"
+                            android:layout_marginBottom="@dimen/min_padding"
+                            android:visibility="gone"
+                            />
+                    </RelativeLayout>
 
                     <TextView
                         android:id="@+id/as_year_det"

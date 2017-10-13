@@ -94,7 +94,7 @@ public class FormUserActivity extends AppCompatActivity {
             if (profilpicStr.equals("null")){
                 profilPic.setImageResource(R.drawable.user_ava_man);
             }else{
-                String imageUrl = AppConfig.URL_IMAGE + profilpicStr;
+                String imageUrl = AppConfig.URL_IMAGE_PROFIL + profilpicStr;
                 Picasso.with(getApplicationContext()).load(imageUrl).transform(new CircleTransform()).into(profilPic);
             }
             nama.setText(formUser.getStringExtra("name"));

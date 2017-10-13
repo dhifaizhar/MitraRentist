@@ -67,7 +67,7 @@ public class ProfileActivity extends AppCompatActivity {
         rEmail.setText(sm.getPreferences("email_rental"));
 
         //Load image
-        imageUrl = AppConfig.URL_IMAGE + sm.getPreferences("foto_profil_tenant");
+        imageUrl = AppConfig.URL_IMAGE_PROFIL + sm.getPreferences("foto_profil_tenant");
         Picasso.with(getApplicationContext()).load(imageUrl).transform(new CircleTransform()).into(profilePhoto);
 
 //        mImageLoader = new VolleySingleton(getApplicationContext()).getImageUrl();

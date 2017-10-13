@@ -63,14 +63,20 @@ public class DetailAsetActivity extends AppCompatActivity {
     RecyclerView.LayoutManager mLayoutManager;
 
     Integer aId, position;
-    String changeStatus = "active", aName, aType, aSubType,  aStatus, aCat, aSubCat,
-            aInsurance, aMinRentDay, aDeliveryMethod, category, category_url, aDesc, aMainImage;
-    String aPlat, aYear, aNoStnk, aColor, aTransmission, aEngineCap, aFuel, aSeat, aAirBag, aAirCond, aDriver;
+    String changeStatus = "active", aName, aType, aSubType,  aStatus, aCat, aSubCat, aVerified,
+            aInsurance, aMinRentDay, aDeliveryMethod, category, category_url, aDesc, aMainImage,
+            //Car&Motor
+            aPlat, aYear, aNoStnk, aColor, aTransmission, aEngineCap, aFuel, aSeat, aAirBag, aAirCond, aDriver,
+            //Yacht
+            aModel, aLength, aBeam, aGrossTon, aDraft, aCruisSpeed, aTopSpeed, aBuilder, aNaval, aIntDesign, aExtDesign,
+            aGuest, aCabin, aCrew;
 
-    TextView mark, status, subcat, insurance, min_rent_day, delivery_method, desc;
-    TextView plat, year, no_stnk, color, transmission, engine_cap, fuel, seats, air_bag, air_cond, driver;
+    TextView mark, status, subcat, insurance, min_rent_day, delivery_method, desc,
+            plat, year, no_stnk, color, transmission, engine_cap, fuel, seats, air_bag, air_cond, driver,
+            model, length, beam, gross_ton, draft, cruise_speed, top_speed, builder, naval, int_design, ext_design,
+            guest, cabin, crew;
 
-    LinearLayout rNoStnk, rColor, rTransmission, rFuel, rDriver, rEngineCap, rSeats, rAirBag, rAirCond ,rDesc;
+    LinearLayout cCarMotor, cCarOnly, cYachtInfo, cYachtFeature, rDesc;
     ImageView imgThumbnail;
 
     private static final String TAG = "DetailAssetActivity";
@@ -98,6 +104,8 @@ public class DetailAsetActivity extends AppCompatActivity {
     }
 
     private void controlContent() {
+        category = detIntent.getStringExtra("id_asset_category");
+
         //initialize view
         imgThumbnail = (ImageView)findViewById(R.id.as_thumb_aset);
         mark = (TextView) findViewById(R.id.as_mark_det);
@@ -109,16 +117,11 @@ public class DetailAsetActivity extends AppCompatActivity {
         desc = (TextView) findViewById(R.id.as_desc);
 
         //Row Container
-        rColor = (LinearLayout) findViewById(R.id.row_color);
-        rAirBag = (LinearLayout) findViewById(R.id.row_air_bag);
-        rAirCond = (LinearLayout) findViewById(R.id.row_air_cond);
-        rDriver = (LinearLayout) findViewById(R.id.row_driver);
-        rEngineCap = (LinearLayout) findViewById(R.id.row_engine_cap);
-        rFuel = (LinearLayout) findViewById(R.id.row_fuel);
-        rNoStnk = (LinearLayout) findViewById(R.id.row_no_stnk);
-        rSeats = (LinearLayout) findViewById(R.id.row_seats);
-        rTransmission = (LinearLayout) findViewById(R.id.row_transmission);
         rDesc= (LinearLayout) findViewById(R.id.row_desc);
+        cCarMotor = (LinearLayout) findViewById(R.id.con_car_motor);
+        cCarOnly = (LinearLayout) findViewById(R.id.con_car_only);
+        cYachtInfo = (LinearLayout) findViewById(R.id.con_yacht_info);
+        cYachtFeature = (LinearLayout) findViewById(R.id.con_yacht_feature);
 
         //Car & Motor
         plat = (TextView) findViewById(R.id.as_plat_det);
@@ -128,15 +131,31 @@ public class DetailAsetActivity extends AppCompatActivity {
         transmission = (TextView) findViewById(R.id.as_transmission);
         engine_cap = (TextView) findViewById(R.id.as_engine_capacity);
         fuel = (TextView) findViewById(R.id.as_fuel);
+
+        //Car Only
         seats = (TextView) findViewById(R.id.as_seat);
         air_bag = (TextView) findViewById(R.id.as_air_bag);
         air_cond = (TextView) findViewById(R.id.as_air_conditioner);
         driver = (TextView) findViewById(R.id.as_driver);
 
+        //Tacht
+        model = (TextView) findViewById(R.id.as_yacht_model);
+        length = (TextView) findViewById(R.id.as_yacht_length);
+        beam = (TextView) findViewById(R.id.as_yacht_beam);
+        gross_ton = (TextView) findViewById(R.id.as_yacht_gross);
+        draft = (TextView) findViewById(R.id.as_yacht_draft);
+        cruise_speed = (TextView) findViewById(R.id.as_yacht_c_speed);
+        top_speed = (TextView) findViewById(R.id.as_yacht_t_speed);
+        builder = (TextView) findViewById(R.id.as_yacht_builder);
+        naval = (TextView) findViewById(R.id.as_yacht_naval);
+        int_design = (TextView) findViewById(R.id.as_yacht_int_design);
+        ext_design = (TextView) findViewById(R.id.as_yacht_ext_design);
+        guest = (TextView) findViewById(R.id.as_yacht_guest);
+        crew = (TextView) findViewById(R.id.as_yacht_crew);
+        cabin = (TextView) findViewById(R.id.as_yacht_cabin);
 
         // set content control value
         aId = detIntent.getIntExtra("id_asset", 0);
-        category = detIntent.getStringExtra("id_asset_category");
         getAssetDataList();
         status.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -232,6 +251,7 @@ public class DetailAsetActivity extends AppCompatActivity {
                             aCat = jsonobject.getString("id_asset_category");
                             aType = jsonobject.getString("type");
                             aStatus = jsonobject.getString("status");
+                            aVerified = jsonobject.getString("verified");
                             aSubCat = jsonobject.getString("subcategory");
                             aInsurance = jsonobject.getString("insurance");
                             aMinRentDay = jsonobject.getString("min_rent_day");
@@ -263,8 +283,12 @@ public class DetailAsetActivity extends AppCompatActivity {
                             mRecyclerView.setLayoutManager(mLayoutManager);
                             mRecyclerView.setAdapter(mAdapter);
 
-                            String imageUrl = AppConfig.URL_IMAGE + aMainImage;
+                            String imageUrl = AppConfig.URL_IMAGE_ASSETS + aMainImage;
                             Picasso.with(getApplicationContext()).load(imageUrl).into(imgThumbnail);
+                            if (aVerified.equals("true")){
+                                ImageView verifIco = (ImageView) findViewById(R.id.as_verif);
+                                verifIco.setVisibility(View.VISIBLE);
+                            }
                             subcat.setText(aSubCat);
                             status.setText(aStatus);
                             delivery_method.setText(aDeliveryMethod);
@@ -275,66 +299,90 @@ public class DetailAsetActivity extends AppCompatActivity {
                             String minHari = aMinRentDay + " Hari";
                             min_rent_day.setText(minHari);
 
-                            if ((aCat.equals("2")) || (aCat.equals("1"))) {
-                                aPlat = jsonobject.getString("license_plat");
-                                aYear = jsonobject.getString("year");
-                                aNoStnk = jsonobject.getString("no_stnk");
-                                aColor = jsonobject.getString("colour");
-                                aTransmission = jsonobject.getString("transmission");
-                                aEngineCap = jsonobject.getString("engine_capacity");
-                                aFuel = jsonobject.getString("fuel");
-
-                                rDesc.setVisibility(View.GONE);
-                                plat.setVisibility(View.VISIBLE);
-                                year.setVisibility(View.VISIBLE);
-                                rNoStnk.setVisibility(View.VISIBLE);
-                                rColor.setVisibility(View.VISIBLE);
-                                rTransmission.setVisibility(View.VISIBLE);
-                                rEngineCap.setVisibility(View.VISIBLE);
-                                rFuel.setVisibility(View.VISIBLE);
-
-                                mark.setText(aName + " " + aType);
-                                plat.setText(aPlat);
-                                year.setText(aYear);
-                                no_stnk.setText(aNoStnk);
-                                color.setText(aColor);
-                                transmission.setText(aTransmission);
-                                engine_cap.setText(aEngineCap);
-                                fuel.setText(aFuel);
-
-                                if (aCat.equals("1")){
-                                    rSeats.setVisibility(View.VISIBLE);
-                                    rAirCond.setVisibility(View.VISIBLE);
-                                    rAirBag.setVisibility(View.VISIBLE);
-                                    rDriver.setVisibility(View.VISIBLE);
+                            switch (aCat) {
+                                case "1":
+                                    cCarOnly.setVisibility(View.VISIBLE);
                                     aAirBag = jsonobject.getString("air_bag");
                                     aAirCond = jsonobject.getString("air_conditioner");
                                     aDriver = jsonobject.getString("driver_included");
                                     aSeat = jsonobject.getString("seat");
 
                                     seats.setText(aSeat);
-                                    if (aAirBag.equals("true")){air_bag.setText("Tersedia");
-                                    } else {air_bag.setText("Tidak Tersedia");}
+                                    if (aAirBag.equals("true")) {air_bag.setText("Tersedia");}
+                                    else {air_bag.setText("Tidak Tersedia");}
 
-                                    if (aAirCond.equals("true")){air_cond.setText("Tersedia");
-                                    } else {air_cond.setText("Tidak Tersedia");}
+                                    if (aAirCond.equals("true")) {air_cond.setText("Tersedia");}
+                                    else {air_cond.setText("Tidak Tersedia");}
 
-                                    if (aDriver.equals("true")){driver.setText("Tersedia");
-                                    } else {driver.setText("Tidak Tersedia");}
-                                } else {
-                                    rSeats.setVisibility(View.GONE);
-                                    rAirCond.setVisibility(View.GONE);
-                                    rAirBag.setVisibility(View.GONE);
-                                    rDriver.setVisibility(View.GONE);
-                                }
-                            } else if(aCat.equals("3")) {
+                                    if (aDriver.equals("true")) {driver.setText("Tersedia");}
+                                    else {driver.setText("Tidak Tersedia");}
+                                case "2":
+                                    aPlat = jsonobject.getString("license_plat");
+                                    aYear = jsonobject.getString("year");
+                                    aNoStnk = jsonobject.getString("no_stnk");
+                                    aColor = jsonobject.getString("colour");
+                                    aTransmission = jsonobject.getString("transmission");
+                                    aEngineCap = jsonobject.getString("engine_capacity");
+                                    aFuel = jsonobject.getString("fuel");
 
-                            }else {
-                                aDesc = jsonobject.getString("description");
+                                    plat.setVisibility(View.VISIBLE);
+                                    year.setVisibility(View.VISIBLE);
+                                    rDesc.setVisibility(View.GONE);
+                                    cCarMotor.setVisibility(View.VISIBLE);
 
-                                desc.setText(aDesc);
-                                mark.setText(aName + " " + aType);
+                                    mark.setText(aName + " " + aType);
+                                    plat.setText(aPlat);
+                                    year.setText(aYear);
+                                    no_stnk.setText(aNoStnk);
+                                    color.setText(aColor);
+                                    transmission.setText(aTransmission);
+                                    engine_cap.setText(aEngineCap);
+                                    fuel.setText(aFuel);
+                                    break;
+                                case "3":
+                                    cYachtInfo.setVisibility(View.VISIBLE);
+                                    cYachtFeature.setVisibility(View.VISIBLE);
+                                    desc.setVisibility(View.GONE);
 
+                                    aSubType = jsonobject.getString("sub_type");
+                                    aModel = jsonobject.getString("model");
+                                    aLength = jsonobject.getString("length");
+                                    aBeam = jsonobject.getString("beam");
+                                    aGrossTon = jsonobject.getString("gross_tonnage");
+                                    aDraft = jsonobject.getString("draft");
+                                    aCruisSpeed = jsonobject.getString("cruising_speed");
+                                    aTopSpeed = jsonobject.getString("top_speed");
+                                    aBuilder = jsonobject.getString("builder");
+                                    aNaval = jsonobject.getString("naval_architect");
+                                    aIntDesign = jsonobject.getString("interior_designer");
+                                    aExtDesign = jsonobject.getString("exterior_designer");
+                                    aGuest = jsonobject.getString("guest");
+                                    aCrew = jsonobject.getString("crew");
+                                    aCabin = jsonobject.getString("cabin");
+
+                                    model.setText(aModel);
+                                    length.setText(aLength);
+                                    beam.setText(aBeam);
+                                    gross_ton.setText(aGrossTon);
+                                    draft.setText(aDraft);
+                                    cruise_speed.setText(aCruisSpeed);
+                                    top_speed.setText(aTopSpeed);
+                                    builder.setText(aBuilder);
+                                    naval.setText(aNaval);
+                                    int_design.setText(aIntDesign);
+                                    ext_design.setText(aExtDesign);
+                                    guest.setText(aGuest);
+                                    crew.setText(aCrew);
+                                    cabin.setText(aCabin);
+                                    mark.setText(aType + " " + aSubType);
+                                    break;
+                                default:
+                                    aDesc = jsonobject.getString("description");
+
+                                    desc.setText(aDesc);
+                                    mark.setText(aName + " " + aType);
+
+                                    break;
                             }
 
                         }
@@ -499,7 +547,7 @@ public class DetailAsetActivity extends AppCompatActivity {
                     category_url = AppConfig.URL_DELETE_MOBIL;
                     break;
                 case "2":
-                    category_url = AppConfig.URL_MOTOR;
+                    category_url = AppConfig.URL_DELETE_MOTOR;
                     break;
                 case "3":
                     category_url = AppConfig.URL_DELETE_YACHT;
@@ -619,6 +667,13 @@ public class DetailAsetActivity extends AppCompatActivity {
                 iAsetEdit.putExtra("type", aType);
                 iAsetEdit.putExtra("year", aYear);
                 iAsetEdit.putExtra("plat", aPlat);
+                iAsetEdit.putExtra("color", aColor);
+                iAsetEdit.putExtra("no_stnk", aNoStnk);
+                iAsetEdit.putExtra("engine_cap", aEngineCap);
+                iAsetEdit.putExtra("fuel", aFuel);
+                iAsetEdit.putExtra("transmission", aTransmission);
+                iAsetEdit.putExtra("min_rent_day", aMinRentDay);
+                iAsetEdit.putExtra("main_image", aMainImage);
                 iAsetEdit.putExtra("cat", aCat);
                 iAsetEdit.putExtra("subcat", aSubCat);
                 startActivity(iAsetEdit);

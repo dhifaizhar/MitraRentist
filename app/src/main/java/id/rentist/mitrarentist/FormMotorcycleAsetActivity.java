@@ -16,12 +16,14 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +34,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -52,16 +55,16 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
     Intent iFormAsset;
 
     ImageView aImg;
-    TextView aMerk, aType, aPlat, aYear, aColor, aRegNum,
-            aEngCap, aFuel, aAsuracePrice,
-            aNormalPrice, aHighPrice, aRangName,
-            aStartDate, aEndDate, aPriceAdvance, btnAdvancePrice, aBasicPrice;;
+    TextView aMerk, aName, aType, aPlat, aYear, aColor, aRegNum,
+            aEngCap, aFuel, aAsuracePrice, aMinDayRent,
+            aRangName, aStartDate, aEndDate, aPriceAdvance, btnAdvancePrice, aBasicPrice;;
     Integer idAsset;
     String aLatitude, aLongitude, aAddress, aRentPackage, tenant, category, imgString;
     CheckBox aDriver, aAssurace;
     RadioGroup aTransmisionGroup;
     RadioButton aTransmisionButton;
     Button btnImgUpload;
+    Spinner subcategory;
     LinearLayout conAdvancePrice;
 
 
@@ -85,15 +88,12 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
         conAdvancePrice = (LinearLayout) findViewById(R.id.con_advance_price);
         aImg = (ImageView) findViewById(R.id.thumb_aset);
 
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        if(iFormAsset.getStringExtra("action").equals("update")){
-            contentcontrol();
-        }
+        contentcontrol();
 
         btnImgUpload.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,17 +111,57 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
     }
 
     private void contentcontrol() {
+        aTransmisionGroup = (RadioGroup) findViewById(R.id.transmission_group);
+        int transmissionId = aTransmisionGroup.getCheckedRadioButtonId();
+        aTransmisionButton = (RadioButton) findViewById(transmissionId);
+        subcategory = (Spinner) findViewById(R.id.as_subcat_spinner);
         aMerk = (TextView) findViewById(R.id.as_merk);
+        aName = (TextView) findViewById(R.id.as_name);
         aType = (TextView) findViewById(R.id.as_type);
         aPlat = (TextView) findViewById(R.id.as_plat);
         aYear = (TextView) findViewById(R.id.as_year);
         aColor = (TextView) findViewById(R.id.as_colour);
+        aRegNum = (TextView) findViewById(R.id.as_regnum);
+        aEngCap = (TextView) findViewById(R.id.as_engcap);
+        aPlat = (TextView) findViewById(R.id.as_plat);
+        aFuel = (TextView) findViewById(R.id.as_fuel);
+        aAsuracePrice = (TextView) findViewById(R.id.as_assurance_price);
+        aMinDayRent = (TextView) findViewById(R.id.as_min_day_rent);
+        aAssurace = (CheckBox) findViewById(R.id.as_ck_assurance);
+        aRangName = (TextView) findViewById(R.id.as_range_name);
+        aStartDate = (TextView) findViewById(R.id.as_start_date);
+        aEndDate = (TextView) findViewById(R.id.as_end_date);
+        aPriceAdvance = (TextView) findViewById(R.id.as_price_advance);
+        aBasicPrice = (TextView) findViewById(R.id.as_price_basic);
 
         //set value
-        aMerk.setText(iFormAsset.getStringExtra("merk"));
-        aType.setText(iFormAsset.getStringExtra("type"));
-        aPlat.setText(iFormAsset.getStringExtra("plat"));
-        aYear.setText(iFormAsset.getStringExtra("year"));
+        if(iFormAsset.getStringExtra("action").equals("update")){
+            aMerk.setText(iFormAsset.getStringExtra("merk"));
+            aType.setText(iFormAsset.getStringExtra("type"));
+            aPlat.setText(iFormAsset.getStringExtra("plat"));
+            aYear.setText(iFormAsset.getStringExtra("year"));
+            aColor.setText(iFormAsset.getStringExtra("color"));
+            aRegNum.setText(iFormAsset.getStringExtra("no_stnk"));
+            aEngCap.setText(iFormAsset.getStringExtra("engine_cap"));
+            aFuel.setText(iFormAsset.getStringExtra("fuel"));
+            aMinDayRent.setText(iFormAsset.getStringExtra("min_rent_day"));
+
+            //Image
+            String imageUrl = AppConfig.URL_IMAGE_ASSETS + iFormAsset.getStringExtra("main_image");
+            Picasso.with(getApplicationContext()).load(imageUrl).into(aImg);
+
+            //spinner
+            String compareValue = iFormAsset.getStringExtra("subcat");
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.motorcycle_subcategory_entries, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.select_dialog_item);
+            subcategory.setAdapter(adapter);
+            Log.e(TAG, "Value Sub Cat: " + compareValue);
+            if (!compareValue.equals(null)) {
+                int spinnerPosition = adapter.getPosition(compareValue);
+                subcategory.setSelection(spinnerPosition);
+            }
+
+        }
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
@@ -159,7 +199,7 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
             category = iFormAsset.getStringExtra("cat");
             idAsset = iFormAsset.getIntExtra("id_asset",0);
             if(iFormAsset.getStringExtra("action").equals("update")){
-                updateDataAset(category);
+                updateDataAset(idAsset.toString());
             }else{
                 addDataAset(tenant);
             }
@@ -216,29 +256,6 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
     }
 
     private void addDataAset(String tenant) {
-        aTransmisionGroup = (RadioGroup) findViewById(R.id.transmission_group);
-        int transmissionId = aTransmisionGroup.getCheckedRadioButtonId();
-        aTransmisionButton = (RadioButton) findViewById(transmissionId);
-        aMerk = (TextView) findViewById(R.id.as_merk);
-        aType = (TextView) findViewById(R.id.as_type);
-        aPlat = (TextView) findViewById(R.id.as_plat);
-        aYear = (TextView) findViewById(R.id.as_year);
-        aColor = (TextView) findViewById(R.id.as_colour);
-        aRegNum = (TextView) findViewById(R.id.as_regnum);
-        aEngCap = (TextView) findViewById(R.id.as_engcap);
-        aPlat = (TextView) findViewById(R.id.as_plat);
-        aFuel = (TextView) findViewById(R.id.as_fuel);
-        aAsuracePrice = (TextView) findViewById(R.id.as_assurance_price);
-//        aNormalPrice = (TextView) findViewById(R.id.as_nprice);
-//        aHighPrice = (TextView) findViewById(R.id.as_hprice);
-        aDriver = (CheckBox) findViewById(R.id.as_ck_driver);
-        aAssurace = (CheckBox) findViewById(R.id.as_ck_assurance);
-        aRangName = (TextView) findViewById(R.id.as_range_name);
-        aStartDate = (TextView) findViewById(R.id.as_start_date);
-        aEndDate = (TextView) findViewById(R.id.as_end_date);
-        aPriceAdvance = (TextView) findViewById(R.id.as_price_advance);
-        aBasicPrice = (TextView) findViewById(R.id.as_price_basic);
-
         aAddress = "BALI,INDONESIA";
         aLatitude = "0";
         aLongitude = "0";
@@ -280,8 +297,11 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
                     // Posting parameters to url
                     Map<String, String> keys = new HashMap<String, String>();
                     keys.put("id_tenant", mTenant);
+                    keys.put("name", aName.getText().toString());
+                    keys.put("slug", aName.getText().toString().replace(" ","-"));
                     keys.put("brand", aMerk.getText().toString());
                     keys.put("type", aType.getText().toString());
+                    keys.put("subcategory", subcategory.getSelectedItem().toString());
                     keys.put("year", aYear.getText().toString());
                     keys.put("no_stnk", aRegNum.getText().toString());
                     keys.put("colour", aColor.getText().toString());
@@ -291,16 +311,13 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
                     keys.put("fuel", aFuel.getText().toString());
                     keys.put("insurance", String.valueOf(aAssurace.isChecked()));
                     keys.put("insurance_price", aAsuracePrice.getText().toString());
-//                    keys.put("price_normal", aNormalPrice.getText().toString());
-//                    keys.put("price_high", aHighPrice.getText().toString());
-                    keys.put("driver_included", String.valueOf(aDriver.isChecked()));
+                    keys.put("min_rent_day", aMinDayRent.getText().toString());
                     keys.put("address", aAddress);
                     keys.put("rent_package", aRentPackage);
                     keys.put("latitude", aLatitude);
                     keys.put("longitude", aLongitude);
-                    if(!imgString.isEmpty()){
-                        keys.put("file", imgString);
-                    }
+                    keys.put("file", imgString);
+
                     //Keys Pricing
                     ArrayList<String> pricingArray = new ArrayList<String>();
                     JSONObject priceBasicObject = new JSONObject();
@@ -315,16 +332,19 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-                    for (int i = 0; i < 1; i++) {
-                        Map<String, String> pricingObject = new HashMap<String, String>();
-                        pricingObject.put("\"range_name\"","\""+aRangName.getText().toString()+"\"");
-                        pricingObject.put("\"start_date\"","\""+aStartDate.getText().toString()+"\"");
-                        pricingObject.put("\"end_date\"","\""+aEndDate.getText().toString()+"\"");
-                        pricingObject.put("\"price\"","\""+aPriceAdvance.getText().toString()+"\"");
+                    if(!aPriceAdvance.getText().toString().equals("null")){
+                        for (int i = 0; i < 1; i++) {
+                            Map<String, String> pricingObject = new HashMap<String, String>();
+                            pricingObject.put("\"range_name\"","\""+aRangName.getText().toString()+"\"");
+                            pricingObject.put("\"start_date\"","\""+aStartDate.getText().toString()+"\"");
+                            pricingObject.put("\"end_date\"","\""+aEndDate.getText().toString()+"\"");
+                            pricingObject.put("\"price\"","\""+aPriceAdvance.getText().toString()+"\"");
 
-                        pricingArray.add(pricingObject.toString().replace("=",":"));
+                            pricingArray.add(pricingObject.toString().replace("=",":"));
+                        }
                     }
                     keys.put("price", pricingArray.toString());
+                    Log.e(TAG, "Post Data : " + keys.toString());
                     return keys;
                 }
 
@@ -367,23 +387,27 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
         }
     }
 
-    private void updateDataAset(String category) {
+    private void updateDataAset(String id) {
+        aAddress = "BALI,INDONESIA";
+        aLatitude = "0";
+        aLongitude = "0";
+        aRentPackage = "-";
         pDialog.setMessage("loading ...");
         showProgress(true);
-        new updateAsetTask(category).execute();
+        new updateAsetTask(id).execute();
     }
 
     private class updateAsetTask extends AsyncTask<String, String, String> {
-        private final String mCategory;
+        private final String mIdAset;
         private String errorMsg, responseAsset;
 
-        private updateAsetTask(String category) {
-            mCategory = category;
+        private updateAsetTask(String id) {
+            mIdAset = id;
         }
 
         @Override
         protected String doInBackground(String... params) {
-            String URL = AppConfig.URL_UPDATE_ASSET + mCategory;
+            String URL = AppConfig.URL_MOTOR;
             RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
             StringRequest stringRequest = new StringRequest(Request.Method.PUT, URL, new Response.Listener<String>() {
                 @Override
@@ -403,12 +427,59 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
                 protected Map<String, String> getParams() {
                     // Posting parameters to url
                     Map<String, String> keys = new HashMap<String, String>();
-                    keys.put("id_item", String.valueOf(idAsset));
+                    keys.put("id_asset", mIdAset);
+                    keys.put("name", aName.getText().toString());
+                    keys.put("slug", aName.getText().toString().replace(" ","-"));
                     keys.put("brand", aMerk.getText().toString());
                     keys.put("type", aType.getText().toString());
+                    keys.put("subcategory", subcategory.getSelectedItem().toString());
                     keys.put("year", aYear.getText().toString());
+                    keys.put("no_stnk", aRegNum.getText().toString());
                     keys.put("colour", aColor.getText().toString());
-                    Log.e(TAG, "Asset Keys: " + String.valueOf(keys));
+                    keys.put("engine_capacity", aEngCap.getText().toString());
+                    keys.put("license_plat", aPlat.getText().toString());
+                    keys.put("transmission", aTransmisionButton.getText().toString());
+                    keys.put("fuel", aFuel.getText().toString());
+                    keys.put("insurance", String.valueOf(aAssurace.isChecked()));
+                    keys.put("insurance_price", aAsuracePrice.getText().toString());
+                    keys.put("min_rent_day", aMinDayRent.getText().toString());
+                    keys.put("address", aAddress);
+                    keys.put("rent_package", aRentPackage);
+                    keys.put("latitude", aLatitude);
+                    keys.put("longitude", aLongitude);
+//                    if(!imgString.isEmpty()){
+                    keys.put("file", imgString);
+//                    }else{
+//                        keys.put("file", "");
+//                    }price
+                    //Keys Pricing
+                    ArrayList<String> pricingArray = new ArrayList<String>();
+                    JSONObject priceBasicObject = new JSONObject();
+                    try {
+                        priceBasicObject.put("price", aBasicPrice.getText().toString());
+                        priceBasicObject.put("range_name","BASECOST");
+                        priceBasicObject.put("start_date","1970-01-01");
+                        priceBasicObject.put("end_date","1970-01-01");
+
+                        pricingArray.add(priceBasicObject.toString().replace("=",":"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    if(!aPriceAdvance.getText().toString().equals("null")){
+                        for (int i = 0; i < 1; i++) {
+                            Map<String, String> pricingObject = new HashMap<String, String>();
+                            pricingObject.put("\"range_name\"","\""+aRangName.getText().toString()+"\"");
+                            pricingObject.put("\"start_date\"","\""+aStartDate.getText().toString()+"\"");
+                            pricingObject.put("\"end_date\"","\""+aEndDate.getText().toString()+"\"");
+                            pricingObject.put("\"price\"","\""+aPriceAdvance.getText().toString()+"\"");
+
+                            pricingArray.add(pricingObject.toString().replace("=",":"));
+                        }
+                    }
+
+                    keys.put("price", pricingArray.toString());
+                    Log.e(TAG, "Post Data : " + keys.toString());
                     return keys;
                 }
 

@@ -64,7 +64,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     private SessionManager sm;
     private ProgressDialog pDialog;
     private JSONObject userObject, tenantObject, responseMessage;
-    private String user, pic;
+    private String user, pic, mToken;
 
     private static final String TAG = "LoginActivity";
     private static final String TOKEN = "secretissecret";
@@ -186,8 +186,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         // Store values at the time of the login attempt.
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
-        String token = FirebaseInstanceId.getInstance().getToken();
-        Log.e("onCreate Token: ",token);
+        mToken = FirebaseInstanceId.getInstance().getToken();
+        Log.e("onCreate Token: ",mToken);
 
         View focusView;
 
@@ -382,6 +382,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                     Map<String, String> keys = new HashMap<String, String>();
                     keys.put("email", mEmail);
                     keys.put("password", mPassword);
+                    keys.put("firebase_token" , mToken);
                     return keys;
                 }
 

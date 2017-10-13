@@ -129,6 +129,13 @@
         <item>Bus</item>
     </string-array>
 
+    <string-array name="motorcycle_subcategory_entries">
+        <item>Scooter</item>
+        <item>Sport</item>
+        <item>Big Bike</item>
+        <item>Harley Davidson</item>
+    </string-array>
+
     <string-array name="yacht_subcategory_entries">
         <item>Traditional</item>
         <item>Modern</item>
@@ -157,7 +164,7 @@
     </string-array>
 
     <string-array name="role_entries">
-        <item>SuperAdmin</item>
+        <!--<item>SuperAdmin</item>-->
         <item>Operational</item>
         <item>Executive</item>
     </string-array>

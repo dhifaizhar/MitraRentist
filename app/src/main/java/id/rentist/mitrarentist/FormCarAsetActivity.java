@@ -20,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -33,6 +34,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -52,7 +56,9 @@ public class FormCarAsetActivity extends AppCompatActivity {
 
     ImageView aImg;
     TextView aName, aMerk, aType, aPlat, aYear, aColor, aRegNum,
-            aEngCap, aFuel, aSeat, aDesc, aRangName, aStartDate, aEndDate, aPrice;
+            aEngCap, aFuel, aSeat, aDesc, aRangName, aStartDate, aEndDate, aPriceAdvance, btnAdvancePrice, aBasicPrice;
+    LinearLayout conAdvancePrice;
+
     Integer idAsset;
     String aLatitude, aLongitude, aAddress, aRentPackage, tenant, category, encodedImage, isiimage = "", ext, imgString;
     CheckBox aAc, aAb, aDriver, aAssurace;
@@ -76,6 +82,8 @@ public class FormCarAsetActivity extends AppCompatActivity {
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
         btnImgUpload = (Button) findViewById(R.id.btnUploadFoto);
+        btnAdvancePrice = (TextView) findViewById(R.id.btn_price_advance);
+        conAdvancePrice = (LinearLayout) findViewById(R.id.con_advance_price);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -88,6 +96,12 @@ public class FormCarAsetActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 showFileChooser();
+            }
+        });
+        btnAdvancePrice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                conAdvancePrice.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -115,7 +129,8 @@ public class FormCarAsetActivity extends AppCompatActivity {
         aRangName = (TextView) findViewById(R.id.as_range_name);
         aStartDate = (TextView) findViewById(R.id.as_start_date);
         aEndDate = (TextView) findViewById(R.id.as_end_date);
-        aPrice = (TextView) findViewById(R.id.as_price);
+        aPriceAdvance = (TextView) findViewById(R.id.as_price_advance);
+        aBasicPrice = (TextView) findViewById(R.id.as_price_basic);
 
         //set value
         if(iFormAsset.getStringExtra("action").equals("update")){
@@ -298,12 +313,24 @@ public class FormCarAsetActivity extends AppCompatActivity {
                         keys.put("file", isiimage);
                     }
                     ArrayList<String> pricingArray = new ArrayList<String>();
+                    JSONObject priceBasicObject = new JSONObject();
+                    try {
+                        priceBasicObject.put("price", aBasicPrice.getText().toString());
+                        priceBasicObject.put("range_name","BASECOST");
+                        priceBasicObject.put("start_date","1970-01-01");
+                        priceBasicObject.put("end_date","1970-01-01");
+
+                        pricingArray.add(priceBasicObject.toString().replace("=",":"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
                     for (int i = 0; i < 1; i++) {
                         Map<String, String> pricingObject = new HashMap<String, String>();
                         pricingObject.put("\"range_name\"","\""+aRangName.getText().toString()+"\"");
                         pricingObject.put("\"start_date\"","\""+aStartDate.getText().toString()+"\"");
                         pricingObject.put("\"end_date\"","\""+aEndDate.getText().toString()+"\"");
-                        pricingObject.put("\"price\"",aPrice.getText().toString());
+                        pricingObject.put("\"price\"","\""+aPriceAdvance.getText().toString()+"\"");
 
                         pricingArray.add(pricingObject.toString().replace("=",":"));
                     }
@@ -421,16 +448,29 @@ public class FormCarAsetActivity extends AppCompatActivity {
                         keys.put("file", isiimage);
                     }
                     ArrayList<String> pricingArray = new ArrayList<String>();
+                    JSONObject priceBasicObject = new JSONObject();
+                    try {
+                        priceBasicObject.put("price", aBasicPrice.getText().toString());
+                        priceBasicObject.put("range_name","BASECOST");
+                        priceBasicObject.put("start_date","1970-01-01");
+                        priceBasicObject.put("end_date","1970-01-01");
+
+                        pricingArray.add(priceBasicObject.toString().replace("=",":"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
                     for (int i = 0; i < 1; i++) {
                         Map<String, String> pricingObject = new HashMap<String, String>();
                         pricingObject.put("\"range_name\"","\""+aRangName.getText().toString()+"\"");
                         pricingObject.put("\"start_date\"","\""+aStartDate.getText().toString()+"\"");
                         pricingObject.put("\"end_date\"","\""+aEndDate.getText().toString()+"\"");
-                        pricingObject.put("\"price\"",aPrice.getText().toString());
+                        pricingObject.put("\"price\"","\""+aPriceAdvance.getText().toString()+"\"");
 
                         pricingArray.add(pricingObject.toString().replace("=",":"));
                     }
                     keys.put("price", pricingArray.toString());
+                    Log.e(TAG, "Value Object : " + keys.toString());
                     Log.e(TAG, "Asset Keys: " + String.valueOf(keys));
                     return keys;
                 }
