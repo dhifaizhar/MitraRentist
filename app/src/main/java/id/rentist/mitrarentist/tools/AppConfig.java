@@ -71,6 +71,7 @@ public class AppConfig {
 
     public static  String URL_LIST_FEATURE = SERVER + "list/feature/";
     public static  String URL_FEATURE = SERVER + "item/feature/";
+    public static  String URL_DELETE_FEATURE = SERVER + "delete/feature/";
 
     public static  String URL_HISTORY_TRANS = SERVER + "order/history/";
     public static  String URL_HISTORY_SALDO = SERVER + "finance/history/";

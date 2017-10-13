@@ -50,7 +50,6 @@ public class AsetAdapter extends RecyclerView.Adapter<AsetAdapter.ViewHolder> {
     private final List<ItemAsetModul> mAset;
     private Context context;
     private AsyncTask mAsetTask = null;
-
     AlertDialog.Builder showAlert;
     AlertDialog alertDialog;
     ProgressDialog pDialog;

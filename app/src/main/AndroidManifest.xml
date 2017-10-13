@@ -19,7 +19,6 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity android:name=".SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,12 +26,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service
-            android:name=".FcmMessagingService">
+
+        <service android:name=".FcmMessagingService">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login" />
@@ -199,6 +199,11 @@
         <activity
             android:name=".FeatureActivity"
             android:label="@string/title_activity_feature"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".FormFeatureActivity"
+            android:label="@string/title_activity_form_feature"
+            android:parentActivityName=".DashboardActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 

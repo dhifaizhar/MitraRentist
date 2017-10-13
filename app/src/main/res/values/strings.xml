@@ -167,6 +167,12 @@
         <item>personal</item>
     </string-array>
 
+    <string-array name="action_edit_delete">
+        <item> </item>
+        <item>Ubah</item>
+        <item>Hapus</item>
+    </string-array>
+
     <string-array name="multi_select_list_preference_default_value" />
 
     <string name="pref_title_system_sync_settings">System sync settings</string>
@@ -198,4 +204,5 @@
     <string name="title_activity_users">UsersActivity</string>
     <string name="title_activity_form_user">FormUserActivity</string>
     <string name="title_activity_feature">FeatureActivity</string>
+    <string name="title_activity_form_feature">FormFeatureActivity</string>
 </resources>

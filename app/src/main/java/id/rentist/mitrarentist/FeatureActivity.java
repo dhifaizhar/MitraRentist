@@ -208,7 +208,7 @@ public class FeatureActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_add) {
-            iFeature = new Intent(FeatureActivity.this, FormDriverActivity.class);
+            iFeature = new Intent(FeatureActivity.this, FormFeatureActivity.class);
             iFeature.putExtra("action","add");
             startActivity(iFeature);
         }

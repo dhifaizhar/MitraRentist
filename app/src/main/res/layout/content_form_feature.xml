@@ -7,8 +7,8 @@
     android:orientation="vertical"
     android:padding="@dimen/min_padding"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="id.rentist.mitrarentist.FormDriverActivity"
-    tools:showIn="@layout/activity_form_driver">
+    tools:context="id.rentist.mitrarentist.FormFeatureActivity"
+    tools:showIn="@layout/activity_form_feature">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -25,29 +25,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center_horizontal"
-                android:orientation="vertical"
-                android:padding="@dimen/min_padding">
-
-                <com.android.volley.toolbox.NetworkImageView
-                    android:id="@+id/dr_thumb_driver"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/thumb_height"
-                    android:layout_weight="1"
-                    android:background="@drawable/img" />
-
-                <Button
-                    android:id="@+id/btnUploadFoto"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/xmin_padding"
-                    android:layout_weight="1"
-                    android:text="Pilih Foto" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
                 android:layout_marginBottom="@dimen/xmin_padding"
                 android:orientation="vertical"
                 android:padding="@dimen/xmin_padding">
@@ -56,11 +33,11 @@
                     android:id="@+id/textView36"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Nama Lengkap"
+                    android:text="Nama Fitur"
                     android:textColor="@color/colorBlack" />
 
                 <EditText
-                    android:id="@+id/dr_driver_name"
+                    android:id="@+id/fr_feature_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/colorNearWhite"
@@ -79,68 +56,19 @@
                 android:padding="@dimen/xmin_padding">
 
                 <TextView
-                    android:id="@+id/textView12"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Gender"
-                    android:textColor="@color/colorBlack" />
-
-                <GridLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:columnCount="2"
-                    android:padding="@dimen/xmin_padding">
-
-                    <RadioGroup
-                        android:id="@+id/dr_rad_gender"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:checkedButton="@+id/radioMale"
-                        android:orientation="horizontal">
-
-                        <RadioButton
-                            android:id="@+id/radioMale"
-                            android:layout_width="0px"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:paddingRight="@dimen/med_padding"
-                            android:text="male" />
-
-                        <RadioButton
-                            android:id="@+id/radioFemale"
-                            android:layout_width="0px"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:padding="@dimen/xmin_padding"
-                            android:paddingRight="@dimen/med_padding"
-                            android:text="female" />
-
-                    </RadioGroup>
-
-                </GridLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="@dimen/xmin_padding"
-                android:orientation="vertical"
-                android:padding="@dimen/xmin_padding">
-
-                <TextView
                     android:id="@+id/textView13"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Nomor SIM"
+                    android:text="Harga Satuan"
                     android:textColor="@color/colorBlack" />
 
                 <EditText
-                    android:id="@+id/dr_sim_number"
+                    android:id="@+id/fr_price"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/colorNearWhite"
                     android:ems="10"
-                    android:hint="SIM"
+                    android:hint="0 IDR"
                     android:imeOptions="actionNext"
                     android:inputType="number"
                     android:padding="@dimen/min_padding" />
@@ -157,17 +85,17 @@
                     android:id="@+id/textView14"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Tanggal Lahir"
+                    android:text="Banyaknya"
                     android:textColor="@color/colorBlack" />
 
                 <EditText
-                    android:id="@+id/dr_bdate"
+                    android:id="@+id/fr_qty"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/colorNearWhite"
                     android:ems="10"
-                    android:hint="YYYY-mm-dd"
-                    android:inputType="date"
+                    android:hint="0"
+                    android:inputType="number"
                     android:padding="@dimen/min_padding" />
             </LinearLayout>
 
