@@ -10,10 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,7 +22,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -33,88 +29,76 @@ import java.util.Map;
 
 import id.rentist.mitrarentist.tools.AppConfig;
 
-public class RegistrationActivity extends AppCompatActivity {
-    public TextView forgotPassword;
-    private AutoCompleteTextView mEmailView;
-    private EditText mPasswordView;
-    private View mRegistFormView;
-    AsyncTask mRegisterTask = null;
+public class CompleteRegistrationActivity extends AppCompatActivity {
+    AsyncTask mCRegisterTask = null;
     ProgressDialog pDialog;
-    JSONObject registOnject, tenantObject, responseMessage;
+    JSONObject tenantObject, responseMessage;
+    private Intent formTenant;
 
-    TextView rName, rOwner, rEmail, rPhone, rAddress, rBank, rBankName, rBankRek, rPass, rConfPass;
-    Spinner rRole;
+    String tenant;
+    TextView rBank, rBankName, rBankRek;
     Button btnSave;
 
-    private static final String TAG = "RegistActivity";
+    private static final String TAG = "CompRegistActivity";
     private static final String TOKEN = "secretissecret";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registration);
-        setTitle("Pendaftaran Mitra");
+        setContentView(R.layout.activity_complete_registration);
+        setTitle("");
 
+        formTenant = getIntent();
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         controlContent();
     }
 
     private void controlContent() {
         //initialize view
-        rRole = (Spinner) findViewById(R.id.reg_role);
-        rName = (TextView)findViewById(R.id.reg_rent_name);
-        rOwner = (TextView)findViewById(R.id.reg_own_name);
-        rPhone = (TextView)findViewById(R.id.reg_phone);
-        rAddress = (TextView)findViewById(R.id.reg_branch);
-        rEmail = (TextView)findViewById(R.id.reg_email);
         rBank = (TextView)findViewById(R.id.reg_bank);
         rBankName = (TextView)findViewById(R.id.reg_bank_name);
         rBankRek = (TextView)findViewById(R.id.reg_bank_rek);
-        rPass = (TextView)findViewById(R.id.reg_pass);
-        rConfPass = (TextView)findViewById(R.id.reg_conf_pass);
         btnSave = (Button) findViewById(R.id.btn_save);
 
         // set content control value
+        tenant = formTenant.getStringExtra("id_tenant");
 
         // set action
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(rPass.getText().toString().equals(rConfPass.getText().toString())){
-                    formRegisterTenant();
-                }else{
-                    Toast.makeText(getApplicationContext(), "Konfirmasi Password tidak sesuai.", Toast.LENGTH_LONG).show();
-                }
+                formCompRegisterTenant(tenant);
             }
         });
     }
 
-    private void formRegisterTenant() {
+    private void formCompRegisterTenant(String tenant) {
         pDialog.setMessage("registering account ...");
         showProgress(true);
-        new postRegisterTask().execute();
+        new compRegisterTask(tenant).execute();
     }
 
-    private class postRegisterTask extends AsyncTask<String, String, String>{
-        private String errorMsg, responseRegist;
+    private class compRegisterTask extends AsyncTask<String, String, String>{
+        private final String mTenant;
+        private String errorMsg, responseComp;
 
-        private postRegisterTask() {}
+        private compRegisterTask(String tenant) {
+            mTenant = tenant;
+        }
 
         @Override
         protected String doInBackground(String... params) {
-            String URL = AppConfig.URL_REGISTER;
+            String URL = AppConfig.URL_UPDATE_TENANT + mTenant;
             RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+            StringRequest stringRequest = new StringRequest(Request.Method.PUT, URL, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                    responseRegist = response;
+                    responseComp = response;
                 }
             }, new Response.ErrorListener() {
                 @Override
@@ -129,13 +113,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 protected Map<String, String> getParams() {
                     // Posting parameters to url
                     Map<String, String> keys = new HashMap<String, String>();
-                    keys.put("rental_name", rName.getText().toString());
-                    keys.put("owner_name", rOwner.getText().toString());
-                    keys.put("rental_type", rRole.getSelectedItem().toString());
-                    keys.put("branch", rAddress.getText().toString());
-                    keys.put("email", rEmail.getText().toString());
-                    keys.put("password", rPass.getText().toString());
-                    keys.put("phone", rPhone.getText().toString());
+                    keys.put("id_tenant", mTenant);
                     keys.put("bank_account", rBank.getText().toString());
                     keys.put("bank_name", rBankName.getText().toString());
                     keys.put("account_name", rBankRek.getText().toString());
@@ -158,43 +136,27 @@ public class RegistrationActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            return responseRegist;
+            return responseComp;
         }
 
         @Override
         protected void onPostExecute(String user) {
-            mRegisterTask = null;
+            mCRegisterTask = null;
             showProgress(false);
-            String aId;
 
             if(user != null){
-                try {
-                    registOnject = new JSONObject(user);
-                    Log.d(TAG, String.valueOf(registOnject));
-                    tenantObject = new JSONObject(registOnject.getString("data"));
-                    Log.d(TAG, String.valueOf(tenantObject));
-
-                    aId = tenantObject.getString("id");
-
-                    Toast.makeText(getApplicationContext(),"Sukses mendaftarkan akun.", Toast.LENGTH_LONG).show();
-                    Intent iComp = new Intent(RegistrationActivity.this, CompleteRegistrationActivity.class);
-                    iComp.putExtra("id_tenant",aId);
-                    startActivity(iComp);
-                    finish();
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    Log.d(TAG, "JSON Error : " + e);
-                }
+                Toast.makeText(getApplicationContext(),"Sukses melengkapi informasi akun.", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(CompleteRegistrationActivity.this, LoginActivity.class));
+                finish();
             }else{
-                Toast.makeText(getApplicationContext(),"Gagal mendaftarkan akun.", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"Gagal menambah indormasi akun.", Toast.LENGTH_LONG).show();
             }
 
         }
 
         @Override
         protected void onCancelled() {
-            mRegisterTask = null;
+            mCRegisterTask = null;
             showProgress(false);
         }
 
@@ -211,13 +173,6 @@ public class RegistrationActivity extends AppCompatActivity {
                 pDialog.dismiss();
             }
         }
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        this.finish();
-        return true;
     }
 
 }

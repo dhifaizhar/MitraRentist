@@ -202,7 +202,8 @@
                 android:layout_height="match_parent"
                 android:layout_marginBottom="@dimen/xmin_padding"
                 android:orientation="vertical"
-                android:padding="@dimen/xmin_padding">
+                android:padding="@dimen/xmin_padding"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/textView5"
@@ -221,7 +222,7 @@
                     android:imeOptions="actionNext"
                     android:inputType="text"
                     android:padding="@dimen/min_padding"
-                    android:text="TIDAK MANDIRI" />
+                    android:text="-" />
             </LinearLayout>
 
             <LinearLayout
@@ -229,7 +230,8 @@
                 android:layout_height="match_parent"
                 android:layout_marginBottom="@dimen/xmin_padding"
                 android:orientation="vertical"
-                android:padding="@dimen/xmin_padding">
+                android:padding="@dimen/xmin_padding"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/textView6"
@@ -248,7 +250,7 @@
                     android:imeOptions="actionNext"
                     android:inputType="text"
                     android:padding="@dimen/min_padding"
-                    android:text="112309871" />
+                    android:text="-" />
             </LinearLayout>
 
             <LinearLayout
@@ -256,7 +258,8 @@
                 android:layout_height="match_parent"
                 android:layout_marginBottom="@dimen/xmin_padding"
                 android:orientation="vertical"
-                android:padding="@dimen/xmin_padding">
+                android:padding="@dimen/xmin_padding"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/textView7"
@@ -275,7 +278,7 @@
                     android:imeOptions="actionNext"
                     android:inputType="text"
                     android:padding="@dimen/min_padding"
-                    android:text="Bajing Oe" />
+                    android:text="-" />
             </LinearLayout>
 
             <LinearLayout
@@ -315,7 +318,7 @@
                     android:id="@+id/textView10"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Nama Pemilik Rekening"
+                    android:text="Konfirmasi Password"
                     android:textColor="@color/colorBlack" />
 
                 <EditText
@@ -325,10 +328,19 @@
                     android:background="@color/colorNearWhite"
                     android:ems="10"
                     android:hint="******"
-                    android:inputType="textPassword"
                     android:imeOptions="actionNext"
+                    android:inputType="textPassword"
                     android:padding="@dimen/min_padding" />
             </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_save"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:text="Daftar"
+                android:textColor="@color/colorWhite"
+                android:textStyle="bold" />
 
 
         </LinearLayout>

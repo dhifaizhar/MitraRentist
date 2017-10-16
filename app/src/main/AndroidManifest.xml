@@ -204,7 +204,11 @@
             android:name=".FormFeatureActivity"
             android:label="@string/title_activity_form_feature"
             android:parentActivityName=".DashboardActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".CompleteRegistrationActivity"
+            android:label="@string/title_activity_complete_registration"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
