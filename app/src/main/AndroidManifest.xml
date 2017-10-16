@@ -194,6 +194,27 @@
             android:name=".FormYachtAsetActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".FormMedicAsetActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".FormPhotographyAsetActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".FormToysAsetActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".FormAdventureAsetActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".FormMaternityAsetActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".FormElectronicAsetActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".FormOfficeAsetActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
             android:name=".RegistrationActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -208,10 +229,9 @@
         <activity
             android:name=".CompleteRegistrationActivity"
             android:label="@string/title_activity_complete_registration"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".SetupCategoryActivity"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
-
 </manifest>

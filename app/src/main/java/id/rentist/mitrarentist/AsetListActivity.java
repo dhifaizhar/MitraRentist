@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -56,6 +57,7 @@ public class AsetListActivity extends AppCompatActivity {
     private SpinKitView pBar;
     SessionManager sm;
     Intent iAset, iAddAset;
+    LinearLayout noAset;
 
     String tenant, category, name_category, category_url, refresh;
 
@@ -75,6 +77,7 @@ public class AsetListActivity extends AppCompatActivity {
 
 //        pDialog = new ProgressDialog(this);
 //        pDialog.setCancelable(false);
+        noAset = (LinearLayout) findViewById(R.id.no_aset);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -223,10 +226,12 @@ public class AsetListActivity extends AppCompatActivity {
 
                     }else{
                         errorMsg = "Anda belum memiliki Aset " + name_category;
+                        noAset.setVisibility(View.VISIBLE);
                         Toast.makeText(getApplicationContext(),errorMsg, Toast.LENGTH_LONG).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    noAset.setVisibility(View.VISIBLE);
                     errorMsg = "Anda belum memiliki Aset " + name_category;
                     Toast.makeText(getApplicationContext(),errorMsg, Toast.LENGTH_LONG).show();
                 }
@@ -301,8 +306,57 @@ public class AsetListActivity extends AppCompatActivity {
                     iAddAset.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(iAddAset);
                     break;
+                case "4":
+                    iAddAset = new Intent(AsetListActivity.this, FormMedicAsetActivity.class);
+                    iAddAset.putExtra("action", "add");
+                    iAddAset.putExtra("id_category", category);
+                    iAddAset.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(iAddAset);
+                    break;
+                case "5":
+                    iAddAset = new Intent(AsetListActivity.this, FormPhotographyAsetActivity.class);
+                    iAddAset.putExtra("action", "add");
+                    iAddAset.putExtra("id_category", category);
+                    iAddAset.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(iAddAset);
+                    break;
+                case "6":
+                    iAddAset = new Intent(AsetListActivity.this, FormToysAsetActivity.class);
+                    iAddAset.putExtra("action", "add");
+                    iAddAset.putExtra("id_category", category);
+                    iAddAset.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(iAddAset);
+                    break;
+                case "7":
+                    iAddAset = new Intent(AsetListActivity.this, FormAdventureAsetActivity.class);
+                    iAddAset.putExtra("action", "add");
+                    iAddAset.putExtra("id_category", category);
+                    iAddAset.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(iAddAset);
+                    break;
+                case "8":
+                    iAddAset = new Intent(AsetListActivity.this, FormMaternityAsetActivity.class);
+                    iAddAset.putExtra("action", "add");
+                    iAddAset.putExtra("id_category", category);
+                    iAddAset.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(iAddAset);
+                    break;
+                case "9":
+                    iAddAset = new Intent(AsetListActivity.this, FormElectronicAsetActivity.class);
+                    iAddAset.putExtra("action", "add");
+                    iAddAset.putExtra("id_category", category);
+                    iAddAset.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(iAddAset);
+                    break;
                 case "10":
                     iAddAset = new Intent(AsetListActivity.this, FormBicycleAsetActivity.class);
+                    iAddAset.putExtra("action", "add");
+                    iAddAset.putExtra("id_category", category);
+                    iAddAset.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(iAddAset);
+                    break;
+                case "11":
+                    iAddAset = new Intent(AsetListActivity.this, FormOfficeAsetActivity.class);
                     iAddAset.putExtra("action", "add");
                     iAddAset.putExtra("id_category", category);
                     iAddAset.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

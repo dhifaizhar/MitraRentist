@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="id.rentist.mitrarentist.AsetActivity">
+    tools:context="id.rentist.mitrarentist.FormMedicAsetActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -20,17 +20,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <com.github.ybq.android.spinkit.SpinKitView
-        android:id="@+id/progressBar"
-        style="@style/SpinKitView.FadingCircle"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/btn_lmedium_height"
-        android:layout_marginTop="@dimen/breadcrumb_height"
-        android:background="@android:color/transparent"
-        android:padding="@dimen/min_padding"
-        android:visibility="gone"
-        app:SpinKit_Color="@color/colorWhite" />
-
-    <include layout="@layout/content_aset_list" />
+    <include layout="@layout/content_form_medic_aset" />
 
 </android.support.design.widget.CoordinatorLayout>

@@ -606,20 +606,20 @@
 
 
             <!--<android.support.design.widget.TabLayout-->
-                        <!--android:id="@+id/tab_pricing"-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--&gt;-->
-                    <!--</android.support.design.widget.TabLayout>-->
+            <!--android:id="@+id/tab_pricing"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--&gt;-->
+            <!--</android.support.design.widget.TabLayout>-->
 
-                    <!--&lt;!&ndash;gunanya untuk swipe fragment&ndash;&gt;-->
-                    <!--<android.support.v4.view.ViewPager-->
-                        <!--android:id="@+id/vp_price_tabs"-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="match_parent"-->
-                        <!--&gt;-->
+            <!--&lt;!&ndash;gunanya untuk swipe fragment&ndash;&gt;-->
+            <!--<android.support.v4.view.ViewPager-->
+            <!--android:id="@+id/vp_price_tabs"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--&gt;-->
 
-                    <!--</android.support.v4.view.ViewPager>-->
+            <!--</android.support.v4.view.ViewPager>-->
 
 
 

@@ -8,8 +8,8 @@
     android:background="@color/colorBackgound"
     android:padding="@dimen/xmin_padding"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="id.rentist.mitrarentist.FormBicycleAsetActivity"
-    tools:showIn="@layout/activity_form_bicycle">
+    tools:context="id.rentist.mitrarentist.FormMaternityAsetActivity"
+    tools:showIn="@layout/activity_form_maternity_aset">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -79,7 +79,7 @@
                                 android:id="@+id/as_subcat_spinner"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:entries="@array/bicycle_subcategory_entries"
+                                android:entries="@array/maternity_subcategory_entries"
                                 android:padding="@dimen/xmin_padding"
                                 android:spinnerMode="dialog" />
 
@@ -113,7 +113,7 @@
                             android:padding="@dimen/min_padding"
                             android:imeOptions="actionNext"
                             android:inputType="text"
-                            android:text="Sepeda Rental" />
+                            android:text="Mainan Rental" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -606,20 +606,20 @@
 
 
             <!--<android.support.design.widget.TabLayout-->
-                        <!--android:id="@+id/tab_pricing"-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--&gt;-->
-                    <!--</android.support.design.widget.TabLayout>-->
+            <!--android:id="@+id/tab_pricing"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--&gt;-->
+            <!--</android.support.design.widget.TabLayout>-->
 
-                    <!--&lt;!&ndash;gunanya untuk swipe fragment&ndash;&gt;-->
-                    <!--<android.support.v4.view.ViewPager-->
-                        <!--android:id="@+id/vp_price_tabs"-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="match_parent"-->
-                        <!--&gt;-->
+            <!--&lt;!&ndash;gunanya untuk swipe fragment&ndash;&gt;-->
+            <!--<android.support.v4.view.ViewPager-->
+            <!--android:id="@+id/vp_price_tabs"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--&gt;-->
 
-                    <!--</android.support.v4.view.ViewPager>-->
+            <!--</android.support.v4.view.ViewPager>-->
 
 
 

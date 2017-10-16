@@ -185,18 +185,17 @@ public class DetailAsetActivity extends AppCompatActivity {
         protected String doInBackground(String... params) {
             String URL = "";
             switch (category) {
-                case "1":
-                    URL = AppConfig.URL_MOBIL;
-                    break;
-                case "2":
-                    URL = AppConfig.URL_MOTOR;
-                    break;
-                case "3":
-                    URL = AppConfig.URL_YACHT;
-                    break;
-                case "10":
-                    URL = AppConfig.URL_BICYCLE;
-                    break;
+                case "1": URL = AppConfig.URL_MOBIL; break;
+                case "2": URL = AppConfig.URL_MOTOR; break;
+                case "3": URL = AppConfig.URL_YACHT; break;
+                case "4": URL = AppConfig.URL_MEDIC; break;
+                case "5": URL = AppConfig.URL_PHOTOGRAPHY; break;
+                case "6": URL = AppConfig.URL_TOYS; break;
+                case "7": URL = AppConfig.URL_ADVENTURE; break;
+                case "8": URL = AppConfig.URL_MATERNITY; break;
+                case "9": URL = AppConfig.URL_ELECTRONIC; break;
+                case "10": URL = AppConfig.URL_BICYCLE; break;
+                case "11": URL = AppConfig.URL_OFFICE; break;
             }
             RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
             StringRequest stringRequest = new StringRequest(Request.Method.GET, URL + id, new Response.Listener<String>() {
@@ -242,7 +241,7 @@ public class DetailAsetActivity extends AppCompatActivity {
             if (aset != null) {
                 try {
                     JSONArray jsonArray = new JSONArray(aset);
-                    Log.e(TAG, "Asset : " + jsonArray);
+                    Log.e(TAG, "Asset Detail : " + jsonArray);
                     dataLength = jsonArray.length();
                     if(dataLength > 0){
                         for (int i = 0; i < jsonArray.length(); i++) {
@@ -543,18 +542,17 @@ public class DetailAsetActivity extends AppCompatActivity {
         protected String doInBackground(String... params) {
             RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
             switch (category) {
-                case "1":
-                    category_url = AppConfig.URL_DELETE_MOBIL;
-                    break;
-                case "2":
-                    category_url = AppConfig.URL_DELETE_MOTOR;
-                    break;
-                case "3":
-                    category_url = AppConfig.URL_DELETE_YACHT;
-                    break;
-                case "10":
-                    category_url = AppConfig.URL_DELETE_BICYCLE;
-                    break;
+                case "1": category_url = AppConfig.URL_DELETE_MOBIL; break;
+                case "2": category_url = AppConfig.URL_DELETE_MOTOR; break;
+                case "3": category_url = AppConfig.URL_DELETE_YACHT; break;
+                case "4": category_url = AppConfig.URL_DELETE_MEDIC; break;
+                case "5": category_url = AppConfig.URL_DELETE_PHOTOGRAPHY; break;
+                case "6": category_url = AppConfig.URL_DELETE_TOYS; break;
+                case "7": category_url = AppConfig.URL_DELETE_ADVENTURE; break;
+                case "8": category_url = AppConfig.URL_DELETE_MATERNITY; break;
+                case "9": category_url = AppConfig.URL_DELETE_ELECTRONIC; break;
+                case "10": category_url = AppConfig.URL_DELETE_BICYCLE; break;
+                case "11": category_url = AppConfig.URL_DELETE_OFFICE; break;
             }
             StringRequest stringRequest = new StringRequest(Request.Method.PUT, category_url, new Response.Listener<String>() {
                 @Override
@@ -648,35 +646,65 @@ public class DetailAsetActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_edit) {
-            if(aCat.equals("1")){
-                iAsetEdit = new Intent(DetailAsetActivity.this, FormCarAsetActivity.class);
-                iAsetEdit.putExtra("action", "update");
-                iAsetEdit.putExtra("id_asset", aId);
-                iAsetEdit.putExtra("merk", aName);
-                iAsetEdit.putExtra("type", aType);
-                iAsetEdit.putExtra("year", aYear);
-                iAsetEdit.putExtra("plat", aPlat);
-                iAsetEdit.putExtra("cat", aCat);
-                iAsetEdit.putExtra("subcat", aSubCat);
-                startActivity(iAsetEdit);
-            }else if(aCat.equals("2")){
-                iAsetEdit = new Intent(DetailAsetActivity.this, FormMotorcycleAsetActivity.class);
-                iAsetEdit.putExtra("action", "update");
-                iAsetEdit.putExtra("id_asset", aId);
-                iAsetEdit.putExtra("merk", aName);
-                iAsetEdit.putExtra("type", aType);
-                iAsetEdit.putExtra("year", aYear);
-                iAsetEdit.putExtra("plat", aPlat);
-                iAsetEdit.putExtra("color", aColor);
-                iAsetEdit.putExtra("no_stnk", aNoStnk);
-                iAsetEdit.putExtra("engine_cap", aEngineCap);
-                iAsetEdit.putExtra("fuel", aFuel);
-                iAsetEdit.putExtra("transmission", aTransmission);
-                iAsetEdit.putExtra("min_rent_day", aMinRentDay);
-                iAsetEdit.putExtra("main_image", aMainImage);
-                iAsetEdit.putExtra("cat", aCat);
-                iAsetEdit.putExtra("subcat", aSubCat);
-                startActivity(iAsetEdit);
+            switch (aCat) {
+                case "1":
+                    iAsetEdit = new Intent(DetailAsetActivity.this, FormCarAsetActivity.class);
+                    iAsetEdit.putExtra("action", "update");
+                    iAsetEdit.putExtra("id_asset", aId);
+                    iAsetEdit.putExtra("merk", aName);
+                    iAsetEdit.putExtra("type", aType);
+                    iAsetEdit.putExtra("year", aYear);
+                    iAsetEdit.putExtra("plat", aPlat);
+                    iAsetEdit.putExtra("color", aColor);
+                    iAsetEdit.putExtra("no_stnk", aNoStnk);
+                    iAsetEdit.putExtra("engine_cap", aEngineCap);
+                    iAsetEdit.putExtra("fuel", aFuel);
+                    iAsetEdit.putExtra("seat", aSeat);
+                    iAsetEdit.putExtra("air_bag", aAirBag);
+                    iAsetEdit.putExtra("air_cond", aAirCond);
+                    iAsetEdit.putExtra("driver", aDriver);
+                    iAsetEdit.putExtra("transmission", aTransmission);
+                    iAsetEdit.putExtra("min_rent_day", aMinRentDay);
+                    iAsetEdit.putExtra("main_image", aMainImage);
+                    iAsetEdit.putExtra("cat", aCat);
+                    iAsetEdit.putExtra("subcat", aSubCat);
+                    startActivity(iAsetEdit);
+                    break;
+                case "2":
+                    iAsetEdit = new Intent(DetailAsetActivity.this, FormMotorcycleAsetActivity.class);
+                    iAsetEdit.putExtra("action", "update");
+                    iAsetEdit.putExtra("id_asset", aId);
+                    iAsetEdit.putExtra("merk", aName);
+                    iAsetEdit.putExtra("type", aType);
+                    iAsetEdit.putExtra("year", aYear);
+                    iAsetEdit.putExtra("plat", aPlat);
+                    iAsetEdit.putExtra("color", aColor);
+                    iAsetEdit.putExtra("no_stnk", aNoStnk);
+                    iAsetEdit.putExtra("engine_cap", aEngineCap);
+                    iAsetEdit.putExtra("fuel", aFuel);
+                    iAsetEdit.putExtra("transmission", aTransmission);
+                    iAsetEdit.putExtra("min_rent_day", aMinRentDay);
+                    iAsetEdit.putExtra("main_image", aMainImage);
+                    iAsetEdit.putExtra("cat", aCat);
+                    iAsetEdit.putExtra("subcat", aSubCat);
+                    startActivity(iAsetEdit);
+                    break;
+                case "3":
+
+                    break;
+                default:
+                    iAsetEdit = new Intent(DetailAsetActivity.this, FormBicycleAsetActivity.class);
+                    iAsetEdit.putExtra("action", "update");
+                    iAsetEdit.putExtra("id_asset", aId);
+                    iAsetEdit.putExtra("min_rent_day", aMinRentDay);
+                    iAsetEdit.putExtra("main_image", aMainImage);
+                    iAsetEdit.putExtra("merk", aName);
+                    iAsetEdit.putExtra("type", aType);
+                    iAsetEdit.putExtra("description", aDesc);
+                    iAsetEdit.putExtra("cat", aCat);
+                    iAsetEdit.putExtra("subcat", aSubCat);
+                    startActivity(iAsetEdit);
+                    break;
             }
         }else if(id == R.id.action_delete){
             deleteAssetItem(aId);

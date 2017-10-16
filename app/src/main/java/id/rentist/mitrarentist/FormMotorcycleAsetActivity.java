@@ -112,8 +112,6 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
 
     private void contentcontrol() {
         aTransmisionGroup = (RadioGroup) findViewById(R.id.transmission_group);
-        int transmissionId = aTransmisionGroup.getCheckedRadioButtonId();
-        aTransmisionButton = (RadioButton) findViewById(transmissionId);
         subcategory = (Spinner) findViewById(R.id.as_subcat_spinner);
         aMerk = (TextView) findViewById(R.id.as_merk);
         aName = (TextView) findViewById(R.id.as_name);
@@ -195,6 +193,8 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_save) {
+            int transmissionId = aTransmisionGroup.getCheckedRadioButtonId();
+            aTransmisionButton = (RadioButton) findViewById(transmissionId);
             tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
             category = iFormAsset.getStringExtra("cat");
             idAsset = iFormAsset.getIntExtra("id_asset",0);
@@ -316,7 +316,9 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
                     keys.put("rent_package", aRentPackage);
                     keys.put("latitude", aLatitude);
                     keys.put("longitude", aLongitude);
-                    keys.put("file", imgString);
+                    if(!imgString.equals("null")){
+                        keys.put("file", imgString);
+                    }
 
                     //Keys Pricing
                     ArrayList<String> pricingArray = new ArrayList<String>();
@@ -447,11 +449,10 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
                     keys.put("rent_package", aRentPackage);
                     keys.put("latitude", aLatitude);
                     keys.put("longitude", aLongitude);
-//                    if(!imgString.isEmpty()){
-                    keys.put("file", imgString);
-//                    }else{
-//                        keys.put("file", "");
-//                    }price
+                    if(!imgString.equals("null")){
+                        keys.put("file", imgString);
+                    }
+
                     //Keys Pricing
                     ArrayList<String> pricingArray = new ArrayList<String>();
                     JSONObject priceBasicObject = new JSONObject();

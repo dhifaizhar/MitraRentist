@@ -63,7 +63,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     private View mLoginFormView;
     private SessionManager sm;
     private ProgressDialog pDialog;
-    private JSONObject userObject, tenantObject, responseMessage;
+    private JSONObject userObject, tenantObject, setCatObject, responseMessage;
     private String user, pic, mToken;
 
     private static final String TAG = "LoginActivity";
@@ -414,6 +414,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 try {
                     userObject = new JSONObject(user);
                     tenantObject = new JSONObject(String.valueOf(userObject.getJSONObject("id_tenant")));
+                    setCatObject = userObject.getJSONObject("data_setup");
                     Log.d(TAG, String.valueOf(userObject));
 
                     sId = userObject.getInt("id");
@@ -449,6 +450,20 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                     sm.setPreferences("foto_profil",sPic);
                     sm.setPreferences("foto_profil_tenant",tPic);
                     sm.setPreferences("verified", sVerif);
+
+                    sm.setPreferences("car", setCatObject.getString("car"));
+                    sm.setPreferences("motorcycle", setCatObject.getString("motorcycle"));
+                    sm.setPreferences("yacht", setCatObject.getString("yacht"));
+                    sm.setPreferences("medical_equipment", setCatObject.getString("medical_equipment"));
+                    sm.setPreferences("photography", setCatObject.getString("photography"));
+                    sm.setPreferences("toys", setCatObject.getString("toys"));
+                    sm.setPreferences("adventure", setCatObject.getString("adventure"));
+                    sm.setPreferences("maternity", setCatObject.getString("maternity"));
+                    sm.setPreferences("electronic", setCatObject.getString("electronic"));
+                    sm.setPreferences("bicycle", setCatObject.getString("bicycle"));
+                    sm.setPreferences("office", setCatObject.getString("office"));
+                    sm.setPreferences("sum_cat", setCatObject.getString("true"));
+
 
 //                    String imageUrl = "http://assets.rentist.id/images/" + sm.getPreferences("foto_profil_tenant");
 //                    ImageLoader mImageLoader = new VolleySingleton(getApplicationContext()).getImageUrl();

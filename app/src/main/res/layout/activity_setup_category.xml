@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackgound"
+    tools:context="id.rentist.mitrarentist.SetupCategoryActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v7.widget.CardView
+        android:layout_marginTop="@dimen/breadcrumb_height"
+        android:layout_marginStart="@dimen/xmin_padding"
+        android:layout_marginEnd="@dimen/xmin_padding"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite"
+            android:orientation="vertical"
+            android:padding="@dimen/xmin_padding">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/xmin_padding"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/small_space"
+                    android:background="@color/colorPrimarySoft"
+                    android:padding="@dimen/xmin_padding">
+
+                    <ImageView
+                        android:id="@+id/ico_car"
+                        android:layout_width="@dimen/med_padding"
+                        android:layout_height="@dimen/med_padding"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/min_padding"
+                        android:src="@drawable/mobil_24" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/min_padding"
+                        android:layout_toEndOf="@id/ico_car"
+                        android:text="Mobil"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/medium_text" />
+
+                    <Switch
+                        android:id="@+id/sw_car"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/small_space"
+                    android:background="@color/colorPrimarySoft"
+                    android:padding="@dimen/xmin_padding">
+
+                    <ImageView
+                        android:id="@+id/ico_motor"
+                        android:layout_width="@dimen/med_padding"
+                        android:layout_height="@dimen/med_padding"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/min_padding"
+                        android:src="@drawable/motor_24" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/min_padding"
+                        android:layout_toEndOf="@id/ico_motor"
+                        android:text="Motor"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/medium_text" />
+
+                    <Switch
+                        android:id="@+id/sw_motorcycle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/small_space"
+                    android:background="@color/colorPrimarySoft"
+                    android:padding="@dimen/xmin_padding">
+
+                    <ImageView
+                        android:id="@+id/ico_yacht"
+                        android:layout_width="@dimen/med_padding"
+                        android:layout_height="@dimen/med_padding"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/min_padding"
+                        android:src="@drawable/yatch_24" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/min_padding"
+                        android:layout_toEndOf="@id/ico_yacht"
+                        android:text="Kapal Pesiar"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/medium_text" />
+
+                    <Switch
+                        android:id="@+id/sw_yacht"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/small_space"
+                    android:background="@color/colorPrimarySoft"
+                    android:padding="@dimen/xmin_padding">
+
+                    <ImageView
+                        android:id="@+id/ico_medic"
+                        android:layout_width="@dimen/med_padding"
+                        android:layout_height="@dimen/med_padding"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/min_padding"
+                        android:src="@drawable/medical_equipment_24" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBaseline="@+id/sw_medic"
+                        android:layout_alignBottom="@+id/sw_medic"
+                        android:layout_toEndOf="@+id/ico_medic"
+                        android:text="Peralatan Medis"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/medium_text" />
+
+                    <Switch
+                        android:id="@+id/sw_medic"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/small_space"
+                    android:background="@color/colorPrimarySoft"
+                    android:padding="@dimen/xmin_padding">
+
+                    <ImageView
+                        android:id="@+id/ico_photo"
+                        android:layout_width="@dimen/med_padding"
+                        android:layout_height="@dimen/med_padding"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/min_padding"
+                        android:src="@drawable/camera_24" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/min_padding"
+                        android:layout_toEndOf="@id/ico_photo"
+                        android:text="Fotografi"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/medium_text" />
+
+                    <Switch
+                        android:id="@+id/sw_photo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/small_space"
+                    android:background="@color/colorPrimarySoft"
+                    android:padding="@dimen/xmin_padding">
+
+                    <ImageView
+                        android:id="@+id/ico_toys"
+                        android:layout_width="@dimen/med_padding"
+                        android:layout_height="@dimen/med_padding"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/min_padding"
+                        android:src="@drawable/mainan_anak_24" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/min_padding"
+                        android:layout_toEndOf="@id/ico_toys"
+                        android:text="Mainan Anak"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/medium_text" />
+
+                    <Switch
+                        android:id="@+id/sw_toys"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/small_space"
+                    android:background="@color/colorPrimarySoft"
+                    android:padding="@dimen/xmin_padding">
+
+                    <ImageView
+                        android:id="@+id/ico_adventure"
+                        android:layout_width="@dimen/med_padding"
+                        android:layout_height="@dimen/med_padding"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/min_padding"
+                        android:src="@drawable/adventure_24" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/min_padding"
+                        android:layout_toEndOf="@id/ico_adventure"
+                        android:text="Olahraga &amp; Petualangan"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/medium_text" />
+
+                    <Switch
+                        android:id="@+id/sw_adventure"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/small_space"
+                    android:background="@color/colorPrimarySoft"
+                    android:padding="@dimen/xmin_padding">
+
+                    <ImageView
+                        android:id="@+id/ico_maternity"
+                        android:layout_width="@dimen/med_padding"
+                        android:layout_height="@dimen/med_padding"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/min_padding"
+                        android:src="@drawable/maternity_24" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Ibu &amp; Anak"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/medium_text"
+                        android:layout_alignBottom="@+id/ico_maternity"
+                        android:layout_toEndOf="@+id/ico_maternity" />
+
+                    <Switch
+                        android:id="@+id/sw_maternity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/small_space"
+                    android:background="@color/colorPrimarySoft"
+                    android:padding="@dimen/xmin_padding">
+
+                    <ImageView
+                        android:id="@+id/ico_electronic"
+                        android:layout_width="@dimen/med_padding"
+                        android:layout_height="@dimen/med_padding"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/min_padding"
+                        android:src="@drawable/elektronik_24" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/min_padding"
+                        android:layout_toEndOf="@id/ico_electronic"
+                        android:text="Elektronik"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/medium_text" />
+
+                    <Switch
+                        android:id="@+id/sw_electronic"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/small_space"
+                    android:background="@color/colorPrimarySoft"
+                    android:padding="@dimen/xmin_padding">
+
+                    <ImageView
+                        android:id="@+id/ico_bicycle"
+                        android:layout_width="@dimen/med_padding"
+                        android:layout_height="@dimen/med_padding"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/min_padding"
+                        android:src="@drawable/sepeda_24" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/min_padding"
+                        android:layout_toEndOf="@id/ico_bicycle"
+                        android:text="Sepeda"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/medium_text" />
+
+                    <Switch
+                        android:id="@+id/sw_bicycle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/small_space"
+                    android:background="@color/colorPrimarySoft"
+                    android:padding="@dimen/xmin_padding">
+
+                    <ImageView
+                        android:id="@+id/ico_office"
+                        android:layout_width="@dimen/med_padding"
+                        android:layout_height="@dimen/med_padding"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/min_padding"
+                        android:src="@drawable/office_equipmen_24" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/min_padding"
+                        android:layout_toEndOf="@id/ico_office"
+                        android:text="Peralatan Kantor"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/medium_text" />
+
+                    <Switch
+                        android:id="@+id/sw_office"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true" />
+                </RelativeLayout>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+</android.support.design.widget.CoordinatorLayout>

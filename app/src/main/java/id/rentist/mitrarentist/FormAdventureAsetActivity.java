@@ -7,11 +7,9 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
@@ -45,15 +43,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import id.rentist.mitrarentist.fragment.PricingBasicFragment;
 import id.rentist.mitrarentist.tools.AppConfig;
 import id.rentist.mitrarentist.tools.SessionManager;
 
-public class FormBicycleAsetActivity extends AppCompatActivity {
-    ViewPager mViewPager;
-    TabLayout mTabLayout;
-    PricingBasicFragment basicFragment;
-
+public class FormAdventureAsetActivity extends AppCompatActivity {
     private AsyncTask mAddAssetTask = null;
     private ProgressDialog pDialog;
     private SessionManager sm;
@@ -73,12 +66,11 @@ public class FormBicycleAsetActivity extends AppCompatActivity {
     private int PICK_IMAGE_REQUEST = 1;
     private static final String TAG = "FormAssetActivity";
     private static final String TOKEN = "secretissecret";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_form_bicycle);
-        setTitle("Aset Form");
+        setContentView(R.layout.activity_form_adventure_aset);
+        setTitle("Form Fotografi");
 
         iFormAsset = getIntent();
         sm = new SessionManager(getApplicationContext());
@@ -93,14 +85,6 @@ public class FormBicycleAsetActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-//        PricingTabAdapter fragPricing = new PricingTabAdapter(getSupportFragmentManager(),this);
-//        mViewPager = (ViewPager) findViewById(R.id.vp_price_tabs);
-//        mViewPager.setAdapter(fragPricing);
-//
-//        mTabLayout = (TabLayout) findViewById(R.id.tab_pricing);
-//        mTabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.colorPrimaryDark));
-//        mTabLayout.setupWithViewPager(mViewPager);
-
         contentcontrol();
 
         btnImgUpload.setOnClickListener(new View.OnClickListener() {
@@ -113,10 +97,9 @@ public class FormBicycleAsetActivity extends AppCompatActivity {
         btnAdvancePrice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               conAdvancePrice.setVisibility(View.VISIBLE);
+                conAdvancePrice.setVisibility(View.VISIBLE);
             }
         });
-
     }
 
     private void contentcontrol() {
@@ -148,7 +131,7 @@ public class FormBicycleAsetActivity extends AppCompatActivity {
 
             //spinner
             String compareValue = iFormAsset.getStringExtra("subcat");
-            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.bicycle_subcategory_entries, android.R.layout.simple_spinner_item);
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.medic_subcategory_entries, android.R.layout.simple_spinner_item);
             adapter.setDropDownViewResource(android.R.layout.select_dialog_item);
             subcategory.setAdapter(adapter);
             Log.e(TAG, "Value Sub Cat: " + compareValue);
@@ -257,7 +240,7 @@ public class FormBicycleAsetActivity extends AppCompatActivity {
 
         pDialog.setMessage("loading ...");
         showProgress(true);
-        new FormBicycleAsetActivity.addAsetTask(tenant).execute();
+        new FormAdventureAsetActivity.addAsetTask(tenant).execute();
     }
 
     private class addAsetTask extends AsyncTask<String, String, String> {
@@ -271,7 +254,7 @@ public class FormBicycleAsetActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
             RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.URL_BICYCLE, new Response.Listener<String>() {
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.URL_ADVENTURE, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     responseAsset = response;
@@ -379,7 +362,7 @@ public class FormBicycleAsetActivity extends AppCompatActivity {
 
         pDialog.setMessage("loading ...");
         showProgress(true);
-        new FormBicycleAsetActivity.updateAsetTask(category).execute();
+        new FormAdventureAsetActivity.updateAsetTask(category).execute();
     }
 
     private class updateAsetTask extends AsyncTask<String, String, String> {
@@ -392,7 +375,7 @@ public class FormBicycleAsetActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... params) {
-            String URL = AppConfig.URL_MOBIL;
+            String URL = AppConfig.URL_ADVENTURE;
             RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
             StringRequest stringRequest = new StringRequest(Request.Method.PUT, URL, new Response.Listener<String>() {
                 @Override
@@ -492,3 +475,4 @@ public class FormBicycleAsetActivity extends AppCompatActivity {
         }
     }
 }
+

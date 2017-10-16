@@ -20,12 +20,39 @@ public class AppConfig {
     public static  String URL_VIEW_CAR = SERVER + "view/mobil/";
     public static  String URL_VIEW_MOTOR = SERVER + "view/motor/";
     public static  String URL_VIEW_YACHT = SERVER + "view/yacht/";
+    public static  String URL_VIEW_MEDIC = SERVER + "view/medical/";
+    public static  String URL_VIEW_PHOTOGRAPHY = SERVER + "view/photography/";
+    public static  String URL_VIEW_TOYS = SERVER + "view/toys/";
+    public static  String URL_VIEW_ADVENTURE = SERVER + "view/watersport/";
+    public static  String URL_VIEW_MATERNITY = SERVER + "view/maternity/";
+    public static  String URL_VIEW_ELECTRONIC = SERVER + "view/electronic/";
     public static  String URL_VIEW_BICYCLE = SERVER + "view/bicycle/";
+    public static  String URL_VIEW_OFFICE = SERVER + "view/officetools/";
 
     public static  String URL_MOBIL = SERVER + "item/mobil/";
     public static  String URL_MOTOR = SERVER + "item/motor/";
     public static  String URL_YACHT = SERVER + "item/yacht/";
+    public static  String URL_MEDIC = SERVER + "item/medical/";
+    public static  String URL_PHOTOGRAPHY = SERVER + "item/photography/";
+    public static  String URL_TOYS = SERVER + "item/toys/";
+    public static  String URL_ADVENTURE = SERVER + "item/watersport/";
+    public static  String URL_MATERNITY = SERVER + "item/maternity/";
+    public static  String URL_ELECTRONIC = SERVER + "item/electronic/";
     public static  String URL_BICYCLE = SERVER + "item/bicycle/";
+    public static  String URL_OFFICE = SERVER + "item/officetools/";
+
+    public static  String URL_DELETE_MOBIL =SERVER + "delete/mobil/";
+    public static  String URL_DELETE_MOTOR =SERVER + "delete/motor/";
+    public static  String URL_DELETE_YACHT = SERVER + "delete/yacht/";
+    public static  String URL_DELETE_MEDIC = SERVER + "delete/medical/";
+    public static  String URL_DELETE_PHOTOGRAPHY = SERVER + "delete/photography/";
+    public static  String URL_DELETE_TOYS = SERVER + "delete/toys/";
+    public static  String URL_DELETE_ADVENTURE = SERVER + "delete/watersport/";
+    public static  String URL_DELETE_MATERNITY = SERVER + "delete/maternity/";
+    public static  String URL_DELETE_ELECTRONIC = SERVER + "delete/electronic/";
+    public static  String URL_DELETE_BICYCLE = SERVER + "delete/bicycle/";
+    public static  String URL_DELETE_OFFICE = SERVER + "delete/officetools/";
+
     public static  String URL_EDIT_STATUS_MOBIL = SERVER + "item/status/1/";
     public static  String URL_LIST_MOBIL = SERVER + "list/item/1/";
     public static  String URL_LIST_MOTOR = SERVER + "list/item/2/";
@@ -33,10 +60,7 @@ public class AppConfig {
     public static  String URL_UPDATE_ASSET = SERVER + "update/item/";
     public static  String URL_DELETE_ASSET = SERVER + "delete/item/";
 
-    public static  String URL_DELETE_MOBIL =SERVER + "delete/mobil/";
-    public static  String URL_DELETE_MOTOR =SERVER + "delete/motor/";
-    public static  String URL_DELETE_YACHT = SERVER + "delete/yacht/";
-    public static  String URL_DELETE_BICYCLE = SERVER + "delete/bicycle/";
+
 
     public static String URL_TRANSACTION_NEW = SERVER + "order/received/";
     public static String URL_TRANSACTION_CONFIRM = SERVER + "order/confirm/";

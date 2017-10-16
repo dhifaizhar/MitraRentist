@@ -142,6 +142,59 @@
         <item>Other</item>
     </string-array>
 
+    <string-array name="medic_subcategory_entries">
+        <item>Paket</item>
+        <item>Satuan</item>
+        <item>Perawat</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="photography_subcategory_entries">
+        <item>Digital Camera</item>
+        <item>Camcorder</item>
+        <item>Lens</item>
+        <item>Accessories</item>
+        <item>Studio</item>
+        <item>Drone</item>
+        <item>Others</item>
+    </string-array>
+
+    <string-array name="toys_subcategory_entries">
+        <item>Bicycle</item>
+        <item>Educational Toys</item>
+        <item>Playhouse</item>
+        <item>Ride On</item>
+        <item>Ourdoor</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="adventure_subcategory_entries">
+        <item>Jetski</item>
+        <item>Parasailing</item>
+        <item>Fly Board</item>
+        <item>Snorkeling</item>
+        <item>Banana Boat</item>
+        <item>Flying Fish</item>
+        <item>Diving</item>
+        <item>Package</item>
+        <item>Others</item>
+    </string-array>
+
+    <string-array name="maternity_subcategory_entries">
+        <item>Corset</item>
+        <item>Breast Pump</item>
+        <item>Frezzer ASI</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="electronic_subcategory_entries">
+        <item>Sound System</item>
+        <item>Air Conditioner</item>
+        <item>Projector</item>
+        <item>TV/Videotron</item>
+        <item>Other</item>
+    </string-array>
+
     <string-array name="bicycle_subcategory_entries">
         <item>Mountain Bike</item>
         <item>Road Bike</item>
