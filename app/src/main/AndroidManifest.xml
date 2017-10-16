@@ -208,7 +208,10 @@
         <activity
             android:name=".CompleteRegistrationActivity"
             android:label="@string/title_activity_complete_registration"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".SetupCategoryActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>
