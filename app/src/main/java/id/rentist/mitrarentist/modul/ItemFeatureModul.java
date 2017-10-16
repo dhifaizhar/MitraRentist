@@ -5,7 +5,7 @@ package id.rentist.mitrarentist.modul;
  */
 
 public class ItemFeatureModul {
-    private String mId, mName, mPrice;
+    private String mId, mName, mPrice, mQty, mUseQty;
 
     public String getId() {
         return mId;
@@ -26,5 +26,21 @@ public class ItemFeatureModul {
     }
     public void setPrice(String mPrice) {
         this.mPrice = mPrice;
+    }
+
+    public String getQty() {
+        return mQty;
+    }
+
+    public void setQty(String mQty) {
+        this.mQty = mQty;
+    }
+
+    public String getUseQty() {
+        return mUseQty;
+    }
+
+    public void setUseQty(String mUseQty) {
+        this.mUseQty = mUseQty;
     }
 }

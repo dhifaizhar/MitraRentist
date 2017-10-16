@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -81,19 +82,22 @@ public class FeatureAdapter extends RecyclerView.Adapter<FeatureAdapter.ViewHold
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{
-        private TextView nama, price;
+        private TextView nama, price, qty;
         private CardView cardView;
         private LinearLayout linearAction;
         private ImageButton editBtn, deleteBtn;
+        private ImageView hideBtn;
 
         public ViewHolder(View itemView){
             super(itemView);
             nama = (TextView) itemView.findViewById(R.id.fr_name);
             price = (TextView) itemView.findViewById(R.id.fr_price);
+            qty = (TextView) itemView.findViewById(R.id.fr_qty);
             cardView = (CardView) itemView.findViewById(R.id.card_view_feature);
             linearAction = (LinearLayout) itemView.findViewById(R.id.action_feature);
             editBtn = (ImageButton) itemView.findViewById(R.id.fr_btn_edit);
             deleteBtn = (ImageButton) itemView.findViewById(R.id.fr_btn_delete);
+            hideBtn = (ImageView) itemView.findViewById(R.id.fr_hide);
         }
     }
 
@@ -104,7 +108,8 @@ public class FeatureAdapter extends RecyclerView.Adapter<FeatureAdapter.ViewHold
 
 //        simpan value dalam object
         viewHolder.nama.setText(feature.getName());
-        viewHolder.price.setText(feature.getPrice());
+        viewHolder.price.setText(feature.getPrice() + " IDR");
+        viewHolder.qty.setText("Stok : " + feature.getQty());
         viewHolder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -112,11 +117,21 @@ public class FeatureAdapter extends RecyclerView.Adapter<FeatureAdapter.ViewHold
                 return true;
             }
         });
+        viewHolder.hideBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewHolder.linearAction.setVisibility(v.GONE);
+            }
+        });
         viewHolder.editBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent iFeature = new Intent(context, FormFeatureActivity.class);
                 iFeature.putExtra("action","update");
+                iFeature.putExtra("id_feature",feature.getId());
+                iFeature.putExtra("fname",feature.getName());
+                iFeature.putExtra("fprice",feature.getPrice());
+                iFeature.putExtra("fqty",feature.getQty());
                 context.startActivity(iFeature);
             }
         });
@@ -182,7 +197,7 @@ public class FeatureAdapter extends RecyclerView.Adapter<FeatureAdapter.ViewHold
                 protected Map<String, String> getParams() {
                     // Posting parameters to url
                     Map<String, String> keys = new HashMap<String, String>();
-                    keys.put("id_item", mFeature);
+                    keys.put("id_feature_item", mFeature);
                     Log.e(TAG, "Delete Data : " + String.valueOf(keys));
 //                    return keys;
                     return null;

@@ -70,7 +70,7 @@ public class AppConfig {
     public static  String URL_EDIT_DRIVER = SERVER + "update/driver/";
     public static  String URL_DELETE_DRIVER = SERVER + "delete/driver/";
 
-    public static  String URL_LIST_FEATURE = SERVER + "list/feature/";
+    public static  String URL_LIST_FEATURE = SERVER + "list/additional/";
     public static  String URL_FEATURE = SERVER + "item/feature/";
     public static  String URL_DELETE_FEATURE = SERVER + "delete/feature/";
 

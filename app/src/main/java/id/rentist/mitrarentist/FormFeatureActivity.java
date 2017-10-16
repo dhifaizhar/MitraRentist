@@ -83,22 +83,20 @@ public class FormFeatureActivity extends AppCompatActivity {
         pDialog.setMessage("loading ...");
         showProgress(true);
         if(formFeature.getStringExtra("action").equals("add")){
-            new featureAddTask(tenant, category, id).execute();
+            new featureAddTask(tenant, category).execute();
         }else if(formFeature.getStringExtra("action").equals("update")){
-            new featureUpdateTask(tenant, category, id).execute();
+            new featureUpdateTask(tenant, id).execute();
         }
     }
 
     private class featureAddTask extends AsyncTask<String, String, String>{
         final String mTenant;
         final String mCategory;
-        final String idFeature;
         private String errorMsg, responseFeature;
 
-        private featureAddTask(String tenant, String category, String id) {
+        private featureAddTask(String tenant, String category) {
             mTenant = tenant;
             mCategory = category;
-            idFeature = id;
         }
 
         @Override
@@ -126,6 +124,7 @@ public class FormFeatureActivity extends AppCompatActivity {
                     keys.put("id_tenant", mTenant);
                     keys.put("feature_name", name.getText().toString());
                     keys.put("price", price.getText().toString());
+                    keys.put("quantity", qty.getText().toString());
                     Log.e(TAG, "Key Body : " + keys.toString());
                     return keys;
                 }
@@ -172,19 +171,17 @@ public class FormFeatureActivity extends AppCompatActivity {
 
     private class featureUpdateTask extends AsyncTask<String, String, String>{
         final String mTenant;
-        final String mCategory;
         final String idFeature;
         private String errorMsg, responseFeature;
 
-        private featureUpdateTask(String tenant, String category, String id) {
+        private featureUpdateTask(String tenant, String id) {
             mTenant = tenant;
-            mCategory = category;
             idFeature = id;
         }
 
         @Override
         protected String doInBackground(String... params) {
-            String URL = AppConfig.URL_FEATURE + mCategory;
+            String URL = AppConfig.URL_FEATURE;
             RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
             StringRequest stringRequest = new StringRequest(Request.Method.PUT, URL, new Response.Listener<String>() {
                 @Override
@@ -204,9 +201,11 @@ public class FormFeatureActivity extends AppCompatActivity {
                 protected Map<String, String> getParams() {
                     // Posting parameters to url
                     Map<String, String> keys = new HashMap<String, String>();
-                    keys.put("id_item", idFeature);
+                    keys.put("id_feature_item", idFeature);
+                    keys.put("id_tenant", mTenant);
                     keys.put("feature_name", name.getText().toString());
                     keys.put("price", price.getText().toString());
+                    keys.put("quantity", qty.getText().toString());
                     Log.e(TAG, "Key Body : " + keys.toString());
                     return keys;
                 }

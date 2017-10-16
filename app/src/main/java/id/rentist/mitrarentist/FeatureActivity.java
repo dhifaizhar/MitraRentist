@@ -43,10 +43,12 @@ public class FeatureActivity extends AppCompatActivity {
     RecyclerView.Adapter mAdapter;
     RecyclerView.LayoutManager mLayoutManager;
     SwipeRefreshLayout mSwipeRefreshLayout;
+    AsyncTask mFeatureTask = null;
     private List<ItemFeatureModul> mFeature = new ArrayList<>();
-    private AsyncTask mFeatureTask = null;
     private SpinKitView pBar;
     private SessionManager sm;
+    JSONObject dataObject, objectFeature, objectFeatureDetail;
+    JSONArray dataArray;
     Intent iFeature;
 
     private static final String TAG = "FeatureActivity";
@@ -98,7 +100,7 @@ public class FeatureActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
             RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-            String newURL = AppConfig.URL_LIST_FEATURE + mTenant + "/1/";
+            String newURL = AppConfig.URL_LIST_FEATURE + mTenant;
             StringRequest stringRequest = new StringRequest(Request.Method.GET, newURL, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
@@ -133,39 +135,52 @@ public class FeatureActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(String user) {
+        protected void onPostExecute(String feature) {
             mFeatureTask = null;
             mSwipeRefreshLayout.setRefreshing(false);
             pBar.setVisibility(View.GONE);
-            String aId, aName, aPrice;
+            String aId, aName, aPrice, aQty, aUseQty;
             Integer dataLength;
 
-            if (user != null) {
+            if (feature != null) {
                 try {
-                    JSONArray jsonArray = new JSONArray(user);
-                    Log.e(TAG, "User : " + jsonArray);
-                    dataLength = jsonArray.length();
+                    dataObject = new JSONObject(feature);
+                    dataArray = new JSONArray(dataObject.getString("data"));
+                    dataLength = dataArray.length();
                     if(dataLength > 0){
-                        for (int i = 0; i < jsonArray.length(); i++) {
+                        for (int i = 0; i < dataArray.length(); i++) {
                             errorMsg = "-";
+                            objectFeature = dataArray.getJSONObject(i);
+                            try {
+                                objectFeatureDetail = new JSONObject(objectFeature.getString("id_additional_feature"));
+                                if(objectFeatureDetail.length() > 0){
+                                    aName = objectFeatureDetail.getString("feature_name");
+                                }else{
+                                    aName = "Unknown Item";
+                                }
+                            }catch (JSONException e){
+                                e.printStackTrace();
+                                aName = "Unknown Item";
+                            }
 
-                            JSONObject jsonobject = jsonArray.getJSONObject(i);
-                            aId = jsonobject.getString("id");
-//                            aName = jsonobject.getString("feature_name");
-                            aName = "NO NAME";
-                            aPrice = jsonobject.getString("price");
-                            Log.e(TAG, "What Data : " + String.valueOf(jsonobject));
+                            aId = objectFeature.getString("id");
+                            aQty = objectFeature.getString("quantity");
+                            aUseQty = objectFeature.getString("used_quantity");
+                            aPrice = objectFeature.getString("price");
+                            Log.e(TAG, "What Data : " + String.valueOf(objectFeature));
 
                             ItemFeatureModul featureModul = new ItemFeatureModul();
                             featureModul.setId(aId);
                             featureModul.setName(aName);
                             featureModul.setPrice(aPrice);
+                            featureModul.setQty(aQty);
+                            featureModul.setUseQty(aUseQty);
                             mFeature.add(featureModul);
                         }
 
                         mRecyclerView = (RecyclerView) findViewById(R.id.fr_recyclerView);
                         mLayoutManager = new LinearLayoutManager(getApplicationContext());
-                        mAdapter = new FeatureAdapter(getApplicationContext(),mFeature);
+                        mAdapter = new FeatureAdapter(FeatureActivity.this,mFeature);
 
                         mRecyclerView.setLayoutManager(mLayoutManager);
                         mRecyclerView.setAdapter(mAdapter);
