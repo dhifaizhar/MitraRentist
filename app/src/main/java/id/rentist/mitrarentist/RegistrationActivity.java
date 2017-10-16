@@ -177,7 +177,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     aId = tenantObject.getString("id");
 
                     Toast.makeText(getApplicationContext(),"Sukses mendaftarkan akun.", Toast.LENGTH_LONG).show();
-                    Intent iComp = new Intent(RegistrationActivity.this, CompleteRegistrationActivity.class);
+                    Intent iComp = new Intent(RegistrationActivity.this, SelectCategoryActivity.class);
                     iComp.putExtra("id_tenant",aId);
                     startActivity(iComp);
                     finish();

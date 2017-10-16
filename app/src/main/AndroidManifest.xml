@@ -211,9 +211,9 @@
         <activity
             android:name=".FormElectronicAsetActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".FormOfficeAsetActivity"
+        <activity
+            android:name=".FormOfficeAsetActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".RegistrationActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -233,5 +233,10 @@
         <activity
             android:name=".SetupCategoryActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".SelectCategoryActivity"
+            android:label="@string/title_activity_select_category"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
+
 </manifest>

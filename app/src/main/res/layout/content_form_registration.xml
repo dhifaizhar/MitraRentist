@@ -333,6 +333,15 @@
                     android:padding="@dimen/min_padding" />
             </LinearLayout>
 
+            <CheckBox
+                android:id="@+id/checkBox8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/xmin_padding"
+                android:padding="@dimen/xmin_padding"
+                android:text="Saya mengerti dengan Kententuan dan Kebijakan yang berlaku."
+                android:textSize="10sp" />
+
             <Button
                 android:id="@+id/btn_save"
                 android:layout_width="match_parent"
