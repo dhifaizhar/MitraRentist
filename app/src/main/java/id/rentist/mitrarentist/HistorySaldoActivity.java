@@ -144,7 +144,7 @@ public class HistorySaldoActivity extends AppCompatActivity {
                             aName = jsonobject.getString("source");
                             aCredit = jsonobject.getString("nominal") + " IDR";
 //                            aStatus = jsonobject.getString("status");
-                            aDate = jsonobject.getString("createdAt");
+                            aDate = jsonobject.getString("createdAt").substring(0,10);
                             Log.e(TAG, "What Data : " + String.valueOf(jsonobject));
 
                             DompetModul dm = new DompetModul();

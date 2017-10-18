@@ -52,7 +52,7 @@ public class FormEditProfilActivity extends AppCompatActivity {
     private ProgressDialog pDialog;
     private SessionManager sm;
 
-    EditText rName, rOwner, rAddress, rEmail, rPhone;
+    EditText rName, rOwner, rAddress, rEmail, rPhone, rBankName, rBankAccount, rAccountOwner;
 //    NetworkImageView profilePhoto;
     ImageView profilePhoto;
     Button btnUploadFoto;
@@ -75,7 +75,7 @@ public class FormEditProfilActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         sm = new SessionManager(getApplicationContext());
         setContentView(R.layout.activity_form_edit_profil);
-        setTitle("Edit Profil Rental");
+        setTitle("Ubah Profil Rental");
 
         sm = new SessionManager(getApplicationContext());
         pDialog = new ProgressDialog(this);
@@ -97,6 +97,9 @@ public class FormEditProfilActivity extends AppCompatActivity {
         rAddress = (EditText) findViewById(R.id.epr_address_name);
         rPhone = (EditText) findViewById(R.id.epr_telp);
         rEmail = (EditText) findViewById(R.id.epr_email);
+        rBankAccount = (EditText) findViewById(R.id.epr_bank_account);
+        rBankName = (EditText) findViewById(R.id.epr_bank_name);
+        rAccountOwner = (EditText) findViewById(R.id.epr_account_name);
         profilePhoto = (ImageView) findViewById(R.id.pr_thumb);
         btnUploadFoto = (Button) findViewById(R.id.btnUploadFoto);
 
@@ -107,11 +110,16 @@ public class FormEditProfilActivity extends AppCompatActivity {
         rAddress.setText(sm.getPreferences("alamat"));
         rPhone.setText(sm.getPreferences("telepon"));
         rEmail.setText(sm.getPreferences("email_rental"));
-        imageUrl = "http://assets.rentist.id/images/" + sm.getPreferences("foto_profil_tenant");
-//        mImageLoader = new VolleySingleton(getApplicationContext()).getImageUrl();
-//        profilePhoto.setImageUrl(imageUrl,mImageLoader);
-        Picasso.with(getApplicationContext()).load(imageUrl).transform(new CircleTransform()).into(profilePhoto);
+        rBankName.setText(sm.getPreferences("bank_name"));
+        rBankAccount.setText(sm.getPreferences("bank_account"));
+        rAccountOwner.setText(sm.getPreferences("account_name"));
 
+        if (sm.getPreferences("foto_profil_tenant").equals("null")){
+            profilePhoto.setImageResource(R.drawable.user_ava_man);
+        } else {
+            imageUrl = AppConfig.URL_IMAGE_PROFIL + sm.getPreferences("foto_profil_tenant");
+            Picasso.with(getApplicationContext()).load(imageUrl).transform(new CircleTransform()).into(profilePhoto);
+        }
 
         btnUploadFoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -196,9 +204,11 @@ public class FormEditProfilActivity extends AppCompatActivity {
                     keys.put("id_tenant", mTenant);
                     keys.put("owner_name", erOwner);
                     keys.put("rental_name", erName);
-                    keys.put("email", erEmail);
                     keys.put("address", erAddress);
                     keys.put("phone", erPhone);
+                    keys.put("bank_name", rBankName.getText().toString());
+                    keys.put("bank_account", rBankAccount.getText().toString());
+                    keys.put("account_name", rAccountOwner.getText().toString());
                     keys.put("file", isiimage);
 
 //                    Log.e(TAG, "IMAGE ; " + imgString);
@@ -236,6 +246,9 @@ public class FormEditProfilActivity extends AppCompatActivity {
                 sm.setPreferences("alamat", erAddress);
                 sm.setPreferences("telepon", erPhone);
                 sm.setPreferences("email", erEmail);
+                sm.setPreferences("bank_name", rBankName.getText().toString());
+                sm.setPreferences("bank_account", rBankAccount.getText().toString());
+                sm.setPreferences("account_name", rAccountOwner.getText().toString());
 //                sm.setPreferences("foto_profil_tenant",isiimage);
                 Log.e(TAG, "USer : not null");
 
@@ -255,7 +268,7 @@ public class FormEditProfilActivity extends AppCompatActivity {
                 }
 
                 Toast.makeText(getApplicationContext(),"Sukses mengubah data.", Toast.LENGTH_LONG).show();
-                finish();
+                FormEditProfilActivity.this.finish();
             }else{
                 Toast.makeText(getApplicationContext(),"Gagal memuat data.", Toast.LENGTH_LONG).show();
             }
@@ -333,8 +346,6 @@ public class FormEditProfilActivity extends AppCompatActivity {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null &&
                 data.getData() != null) {
             Uri filePath = data.getData();
-
-
             try {
                 //Getting the Bitmap from Gallery
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);

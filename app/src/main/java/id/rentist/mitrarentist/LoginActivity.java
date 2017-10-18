@@ -433,6 +433,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                         sStat = tenantObject.getString("is_activated");
                         tPic = tenantObject.getString("profil_pic");
                         sVerif = tenantObject.getString("verified");
+
+                        sm.setPreferences("bank_name", tenantObject.getString("bank_name"));
+                        sm.setPreferences("bank_account", tenantObject.getString("bank_account"));
+                        sm.setPreferences("account_name", tenantObject.getString("account_name"));
                         Log.e(TAG, "What Data Detail : " + String.valueOf(tenantObject));
                     }
 

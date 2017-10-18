@@ -80,7 +80,7 @@ public class GridAsetAdapter extends RecyclerView.Adapter<GridAsetAdapter.ViewHo
             category = new ItemCategoryModul();
             category.setId(6);
             category.setTitle("Mainan Anak");
-            category.setThumbnail(R.drawable.mainan_anak);
+            category.setThumbnail(R.drawable.mianan_anak);
             itemCategory.add(category);
         }
 
@@ -162,7 +162,7 @@ public class GridAsetAdapter extends RecyclerView.Adapter<GridAsetAdapter.ViewHo
         viewHolder.cardDetAset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(idc.matches("1|2|3|4|5|6|7|8|9|10")){
+                if(idc.matches("1|2|3|4|5|6|7|8|9|10|11")){
                     Intent iAset = new Intent(context, AsetListActivity.class);
                     iAset.putExtra("id_category", idc);
                     iAset.putExtra("name_category", cname);

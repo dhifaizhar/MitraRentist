@@ -89,6 +89,7 @@ public class KebijakanKhususFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent iAddKebijakan = new Intent(v.getContext(), FormKebijakanActivity.class);
+                iAddKebijakan.putExtra("action","add");
                 v.getContext().startActivity(iAddKebijakan);
             }
         });

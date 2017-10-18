@@ -25,7 +25,7 @@ public class WorkDateActivity extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_work_date);
-        setTitle("Edit Jadwal Operasional");
+        setTitle("Jadwal Operasional");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

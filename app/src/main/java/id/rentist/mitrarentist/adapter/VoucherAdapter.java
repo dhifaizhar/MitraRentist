@@ -40,19 +40,20 @@ public class VoucherAdapter extends RecyclerView.Adapter<VoucherAdapter.ViewHold
 
         viewHolder.title.setText(vou.getName());
         if(!vou.getNominal().equals("0")){
-            viewHolder.discount.setText(vou.getNominal());
+            viewHolder.discount.setText(vou.getNominal() + " IDR");
         }else{
-            viewHolder.discount.setText(vou.getPercen() + "%");
+            viewHolder.discount.setText(vou.getPercen() + " %");
         }
         viewHolder.startDate.setText(vou.getStartDate());
         viewHolder.endDate.setText(vou.getEndDate());
-//        viewHolder.asCategory.setText(vou.getAsCategory());
-        viewHolder.type.setText(vou.getType());
+        if(vou.getType().equals("both")){
+            viewHolder.type.setText("Mobile, Web");
+        }else{
+            viewHolder.type.setText(vou.getType());
+        }
         viewHolder.code.setText(vou.getCode());
         viewHolder.desc.setText(vou.getDesc());
-
-//        viewHolder.amount.setText(vou.getAmount());
-//        viewHolder.status.setText(vou.getStatus());
+        viewHolder.amount.setText(vou.getAmount());
 
         viewHolder.btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,6 +68,7 @@ public class VoucherAdapter extends RecyclerView.Adapter<VoucherAdapter.ViewHold
                 iVou.putExtra("code", vou.getCode());
                 iVou.putExtra("desc", vou.getDesc());
                 iVou.putExtra("type", vou.getType());
+                iVou.putExtra("quantity", vou.getAmount());
                 iVou.putExtra("category", vou.getAsCategory());
                 iVou.putExtra("nominal", vou.getNominal());
                 iVou.putExtra("percent", vou.getPercen());
@@ -102,10 +104,7 @@ public class VoucherAdapter extends RecyclerView.Adapter<VoucherAdapter.ViewHold
 //            asCategory = (TextView) itemView.findViewById(R.id.vou_as_category);
             type = (TextView) itemView.findViewById(R.id.vou_type);
             btnEdit = (TextView) itemView.findViewById(R.id.vou_edit);
-
-
-
-//            amount = (TextView) itemView.findViewById(R.id.vou_amount);
+            amount = (TextView) itemView.findViewById(R.id.vou_quantity);
 //            status = (TextView) itemView.findViewById(R.id.vou_status);
 
 

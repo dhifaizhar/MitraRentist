@@ -47,7 +47,7 @@ public class FormUserActivity extends AppCompatActivity {
     private Intent formUser;
 
     String tenant, aId, imgString;
-    TextView nama, email, pass;
+    TextView nama, email, pass, phone;
     Spinner role;
     ImageView profilPic;
     Button btnUploadFoto;
@@ -61,7 +61,7 @@ public class FormUserActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form_user);
-        setTitle("User Form");
+        setTitle("Pengguna");
 
         formUser = getIntent();
         sm = new SessionManager(getApplicationContext());
@@ -83,6 +83,7 @@ public class FormUserActivity extends AppCompatActivity {
         role = (Spinner) findViewById(R.id.fus_role);
         email = (TextView)findViewById(R.id.fus_email);
         pass = (TextView)findViewById(R.id.fus_password);
+        phone = (TextView) findViewById(R.id.fus_phone);
         btnUploadFoto = (Button) findViewById(R.id.btnUploadFoto);
 
         // set content control value
@@ -99,13 +100,18 @@ public class FormUserActivity extends AppCompatActivity {
             }
             nama.setText(formUser.getStringExtra("name"));
             email.setText(formUser.getStringExtra("email"));
-            if(formUser.getStringExtra("role").equals("SuperAdmin")){
+            phone.setText(formUser.getStringExtra("phone"));
+
+            if(formUser.getStringExtra("role").equals("Admin")){
                 role.setSelection(0);
-            }else if(formUser.getStringExtra("role").equals("Operational")){
+            }else if(formUser.getStringExtra("role").equals("Operation")){
                 role.setSelection(1);
-            }else if(formUser.getStringExtra("role").equals("Executive")){
+            }else if(formUser.getStringExtra("role").equals("Finance")){
                 role.setSelection(2);
+            }else if(formUser.getStringExtra("role").equals("Delivery")){
+                role.setSelection(3);
             }
+
         } else if(formUser.getStringExtra("action").equals("add")){
             pass.setVisibility(View.VISIBLE);
         }
@@ -169,7 +175,10 @@ public class FormUserActivity extends AppCompatActivity {
                     keys.put("role", role.getSelectedItem().toString());
                     keys.put("password", pass.getText().toString());
                     keys.put("email", email.getText().toString());
-                    keys.put("file", imgString);
+                    keys.put("phone", phone.getText().toString());
+                    if (!imgString.equals("null")){
+                        keys.put("file", imgString);
+                    }
                     Log.e(TAG, "Key Body : " + keys.toString());
                     return keys;
                 }

@@ -172,33 +172,35 @@ public class DompetActivity extends AppCompatActivity {
                     JSONObject dataObject = new JSONObject(user);
                     JSONArray lastWithdrawalArray = new JSONArray(String.valueOf(dataObject.getJSONArray("last")));
                     JSONArray TransArray = new JSONArray(String.valueOf(dataObject.getJSONArray("data")));
+                    JSONArray balanceArray = new JSONArray(String.valueOf(dataObject.getJSONArray("total")));
+
 
                     if(lastWithdrawalArray.length() > 0){
                         errorMsg = "-";
-                        for (int i = 0; i < lastWithdrawalArray.length(); i++) {
-                            JSONObject last = lastWithdrawalArray.getJSONObject(i);
+                    for (int i = 0; i < lastWithdrawalArray.length(); i++) {
+                        JSONObject last = lastWithdrawalArray.getJSONObject(i);
 
-                            String dt = last.getString("createdAt").substring(0,10);
+                        String dt = last.getString("createdAt").substring(0,10);
 
-                            String vNominal = ": " +  last.getString("nominal") + " IDR";
-                            String vDesc = ": " + last.getString("description");
-                            String vStatus = ": " + last.getString("status");
-                            date.setText(dt);
-                            nominal.setText(vNominal);
-                            desc.setText(vDesc);
-                            status.setText(vStatus);
-                        }
-
-                    } else {
-                        errorMsg = "Anda belum mengajukan withdrawal";
-
-                        date.setText(": -");
-                        nominal.setText(": -");
-                        desc.setText(": -");
-                        status.setText(": -");
-
-                        Toast.makeText(getApplicationContext(),errorMsg, Toast.LENGTH_LONG).show();
+                        String vNominal = ": " +  last.getString("nominal") + " IDR";
+                        String vDesc = ": " + last.getString("description");
+                        String vStatus = ": " + last.getString("status");
+                        date.setText(dt);
+                        nominal.setText(vNominal);
+                        desc.setText(vDesc);
+                        status.setText(vStatus);
                     }
+
+                } else {
+                    errorMsg = "Anda belum mengajukan withdrawal";
+
+                    date.setText(": -");
+                    nominal.setText(": -");
+                    desc.setText(": -");
+                    status.setText(": -");
+
+                    Toast.makeText(getApplicationContext(),errorMsg, Toast.LENGTH_LONG).show();
+                }
 
                     if(TransArray.length() > 0){
                         errorMsg = "-";
@@ -219,7 +221,16 @@ public class DompetActivity extends AppCompatActivity {
 //                        Toast.makeText(getApplicationContext(),errorMsg, Toast.LENGTH_LONG).show();
                     }
 
-                    balance = dataObject.getString("total");
+                    if(balanceArray.length() > 0) {
+                        JSONObject balanceObject = balanceArray.getJSONObject(0);
+
+                        if (balanceObject.getString("nominal").equals("null")){
+                            balance = "0";
+                        } else {
+                            balance = balanceObject.getString("nominal");
+                        }
+                    }
+
                     String balanceKurs = balance + " IDR";
 
                     credit.setText(balanceKurs);

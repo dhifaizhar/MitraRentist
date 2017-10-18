@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -23,6 +24,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.github.ybq.android.spinkit.SpinKitView;
+import com.github.ybq.android.spinkit.style.FadingCircle;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,6 +51,8 @@ public class VoucherActivity extends AppCompatActivity {
     private AsyncTask mVoucherTask = null;
     private ProgressDialog pDialog;
     private SessionManager sm;
+    private SpinKitView pBar;
+
     private Intent iVoucherAdd;
 
     private static final String TAG = "VoucherActivity";
@@ -60,16 +65,20 @@ public class VoucherActivity extends AppCompatActivity {
         setContentView(R.layout.activity_voucher);
 
         sm = new SessionManager(getApplicationContext());
-        pDialog = new ProgressDialog(this);
-        pDialog.setCancelable(false);
+        pBar = (SpinKitView)findViewById(R.id.progressBar);
+        FadingCircle fadingCircle = new FadingCircle();
+        pBar.setIndeterminateDrawable(fadingCircle);
+//        pDialog = new ProgressDialog(this);
+//        pDialog.setCancelable(false);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        setTitle("Voucher Anda");
+        setTitle("Kupon");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
+        pBar.setVisibility(View.VISIBLE);
         getVoucherDataList(tenant);
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
@@ -78,14 +87,13 @@ public class VoucherActivity extends AppCompatActivity {
             public void onRefresh() {
                 mVoucher.clear();
                 getVoucherDataList(tenant);
-                mSwipeRefreshLayout.setRefreshing(false);
             }
         });
     }
 
     private void getVoucherDataList(String tenant) {
-        pDialog.setMessage("loading ...");
-        showProgress(true);
+//        pDialog.setMessage("loading ...");
+//        showProgress(true);
         new getVoucherListTask(tenant).execute();
     }
 
@@ -138,7 +146,8 @@ public class VoucherActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String user) {
             mVoucherTask = null;
-            showProgress(false);
+            mSwipeRefreshLayout.setRefreshing(false);
+            pBar.setVisibility(View.GONE);
             int vId;
             String vName,vCode,startDate,endDate,vDesc,vType,vNominal,vPercen, vSdate;
             Integer dataLength;
@@ -170,13 +179,11 @@ public class VoucherActivity extends AppCompatActivity {
                             vModul.setStartDate(startDate.substring(0,10));
                             vModul.setEndDate(endDate.substring(0,10));
                             vModul.setDesc(vDesc);
-                            vModul.setNominal(vNominal + " IDR");
-                            vModul.setPercen(vPercen + "%");
-                            if(vType.equals("both")){
-                                vModul.setType("Mobile, Web");
-                            }else{
-                                vModul.setType(vType);
-                            }
+                            vModul.setAmount(jsonobject.getString("quantity"));
+                            vModul.setNominal(vNominal);
+                            vModul.setPercen(vPercen);
+                            vModul.setType(vType);
+                            vModul.setAsCategory(jsonobject.getString("id_asset_category"));
 
                             mVoucher.add(vModul);
                         }
@@ -203,7 +210,8 @@ public class VoucherActivity extends AppCompatActivity {
         @Override
         protected void onCancelled() {
             mVoucherTask = null;
-            showProgress(false);
+            mSwipeRefreshLayout.setRefreshing(false);
+            pBar.setVisibility(View.GONE);
         }
     }
 

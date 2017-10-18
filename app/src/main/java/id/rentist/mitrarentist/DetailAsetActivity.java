@@ -284,6 +284,7 @@ public class DetailAsetActivity extends AppCompatActivity {
 
                             String imageUrl = AppConfig.URL_IMAGE_ASSETS + aMainImage;
                             Picasso.with(getApplicationContext()).load(imageUrl).into(imgThumbnail);
+
                             if (aVerified.equals("true")){
                                 ImageView verifIco = (ImageView) findViewById(R.id.as_verif);
                                 verifIco.setVisibility(View.VISIBLE);
@@ -690,10 +691,60 @@ public class DetailAsetActivity extends AppCompatActivity {
                     startActivity(iAsetEdit);
                     break;
                 case "3":
+                    iAsetEdit = new Intent(DetailAsetActivity.this, FormYachtAsetActivity.class);
+                    iAsetEdit.putExtra("action", "update");
+                    iAsetEdit.putExtra("id_asset", aId);
+                    iAsetEdit.putExtra("subtype", aSubType);
+                    iAsetEdit.putExtra("type", aType);
+                    iAsetEdit.putExtra("model", aModel);
+                    iAsetEdit.putExtra("length", aLength);
+                    iAsetEdit.putExtra("beam", aBeam);
+                    iAsetEdit.putExtra("gross_tone", aGrossTon);
+                    iAsetEdit.putExtra("draft", aDraft);
+                    iAsetEdit.putExtra("cruising_speed", aCruisSpeed);
+                    iAsetEdit.putExtra("top_speed", aTopSpeed);
+                    iAsetEdit.putExtra("builder", aBuilder);
+                    iAsetEdit.putExtra("naval_architect", aNaval);
+                    iAsetEdit.putExtra("interior_designer", aIntDesign);
+                    iAsetEdit.putExtra("exterior_designer", aExtDesign);
+                    iAsetEdit.putExtra("guest", aGuest);
+                    iAsetEdit.putExtra("crew", aCrew);
+                    iAsetEdit.putExtra("cabin", aCabin);
+                    iAsetEdit.putExtra("min_rent_day", aMinRentDay);
+                    iAsetEdit.putExtra("main_image", aMainImage);
+                    iAsetEdit.putExtra("cat", aCat);
+                    iAsetEdit.putExtra("subcat", aSubCat);
+                    startActivity(iAsetEdit);
 
                     break;
                 default:
-                    iAsetEdit = new Intent(DetailAsetActivity.this, FormBicycleAsetActivity.class);
+                    switch (aCat) {
+                        case "4":
+                            iAsetEdit = new Intent(DetailAsetActivity.this, FormMedicAsetActivity.class);
+                            break;
+                        case "5":
+                            iAsetEdit = new Intent(DetailAsetActivity.this, FormPhotographyAsetActivity.class);
+                            break;
+                        case "6":
+                            iAsetEdit = new Intent(DetailAsetActivity.this, FormToysAsetActivity.class);
+                            break;
+                        case "7":
+                            iAsetEdit = new Intent(DetailAsetActivity.this, FormAdventureAsetActivity.class);
+                            break;
+                        case "8":
+                            iAsetEdit = new Intent(DetailAsetActivity.this, FormMaternityAsetActivity.class);
+                            break;
+                        case "9":
+                            iAsetEdit = new Intent(DetailAsetActivity.this, FormElectronicAsetActivity.class);
+                            break;
+                        case "10":
+                            iAsetEdit = new Intent(DetailAsetActivity.this, FormBicycleAsetActivity.class);
+                            break;
+                        case "11":
+                            iAsetEdit = new Intent(DetailAsetActivity.this, FormOfficeAsetActivity.class);
+                            break;
+                    }
+
                     iAsetEdit.putExtra("action", "update");
                     iAsetEdit.putExtra("id_asset", aId);
                     iAsetEdit.putExtra("min_rent_day", aMinRentDay);

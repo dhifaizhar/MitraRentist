@@ -131,10 +131,19 @@ public class DashboardActivity extends AppCompatActivity
         rentName.setText(sm.getPreferences("nama_rental"));
         rentNameDrawer.setText(sm.getPreferences("nama"));
         role.setText(sm.getPreferences("role"));;
-        if(sm.getPreferences("role").equals("SuperAdmin")){
-            role.setBackgroundColor(0xff99cc00);
-        }else if(sm.getPreferences("role").equals("SuperAdmin")){
-            role.setBackgroundColor(0xff33b5e5);
+        switch (sm.getPreferences("role")) {
+            case "SuperAdmin":
+                role.setBackgroundColor(0xffff2828);
+                break;
+            case "Admin":
+                role.setBackgroundColor(0xff99cc00);
+                break;
+            case "Operation":
+                role.setBackgroundColor(0xff33b5e5);
+                break;
+            case "Finance":
+                role.setBackgroundColor(0xfff19800);
+                break;
         }
 
         if (sm.getPreferences("verified").equals("false")){
@@ -155,7 +164,7 @@ public class DashboardActivity extends AppCompatActivity
         btnNewTrans.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent iTrans = new Intent(DashboardActivity.this, TransactionActivity.class);
+                Intent iTrans = new Intent(DashboardActivity.this, TransactionaNewActivity.class);
                 iTrans.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(iTrans);
             }
@@ -261,7 +270,7 @@ public class DashboardActivity extends AppCompatActivity
                 try {
                     JSONObject dataObject = new JSONObject(user);
                     JSONObject assetObject = new JSONObject(String.valueOf(dataObject.getJSONObject("asset")));
-                    JSONObject saldoObject = new JSONObject(String.valueOf(dataObject.getJSONObject("saldo")));
+                    //JSONObject saldoObject = new JSONObject(String.valueOf(dataObject.getJSONObject("saldo")));
                     JSONObject poinObject = new JSONObject(String.valueOf(dataObject.getJSONObject("poin")));
                     JSONObject ratingObject = new JSONObject(String.valueOf(dataObject.getJSONObject("rating")));
                     Log.d(TAG, String.valueOf(dataObject));
@@ -271,11 +280,14 @@ public class DashboardActivity extends AppCompatActivity
                     aYacht = assetObject.getInt("yacht");
                     sumAsset = assetObject.getInt("total");
                     totAsset.setText(String.valueOf(sumAsset));
-                    totSaldo.setText(saldoObject.getString("received").equals("null") ? "0 IDR" : saldoObject.getString("received")+" IDR");
+//                    totSaldo.setText(saldoObject.getString("received").equals("null") ? "0 IDR" : saldoObject.getString("received")+" IDR");
+                    totSaldo.setText(dataObject.getString("saldo"));
                     totPoin.setText(poinObject.getString("received"));
                     totRating.setText(ratingObject.getString("rating").equals("null") ? "0" : ratingObject.getString("rating"));
                     successRent.setText(dataObject.getString("sukses"));
                     ongoRent.setText(dataObject.getString("berlangsung"));
+
+                    Log.d(TAG, "JSON Error : " + dataObject);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -401,7 +413,7 @@ public class DashboardActivity extends AppCompatActivity
             Intent iDompet = new Intent(DashboardActivity.this, DompetActivity.class);
             startActivity(iDompet);
         } else if (id == R.id.nav_riwayat) {
-            Intent iRiwayat = new Intent(DashboardActivity.this, HistoryActivity.class);
+            Intent iRiwayat = new Intent(DashboardActivity.this, TransactionActivity.class);
             startActivity(iRiwayat);
         } else if (id == R.id.nav_message) {
             Intent iMessage = new Intent(DashboardActivity.this, MessageListActivity.class);

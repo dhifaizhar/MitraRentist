@@ -1,15 +1,12 @@
-package id.rentist.mitrarentist;
+package id.rentist.mitrarentist.Tab;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -20,7 +17,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.github.ybq.android.spinkit.SpinKitView;
-import com.github.ybq.android.spinkit.style.FadingCircle;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,57 +25,74 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import id.rentist.mitrarentist.Tab.SlidingTabLayout;
-import id.rentist.mitrarentist.Tab.TransactionTabAdapter;
+import id.rentist.mitrarentist.fragment.HistoryCancelFragment;
+import id.rentist.mitrarentist.fragment.HistoryCompTransFragment;
+import id.rentist.mitrarentist.fragment.HistoryOnTransFragment;
 import id.rentist.mitrarentist.fragment.TransactionAcceptFragment;
+import id.rentist.mitrarentist.fragment.TransactionRejectFragment;
 import id.rentist.mitrarentist.tools.AppConfig;
 import id.rentist.mitrarentist.tools.SessionManager;
 
-public class TransactionActivity extends AppCompatActivity {
-    ViewPager mViewPager;
-    SlidingTabLayout mSlidingTabLayout;
-    TabLayout mTabLayout;
-    private AsyncTask mTransactionTask = null;
+/**
+ * Created by mdhif on 07/07/2017.
+ */
+
+public class TransactionTabAdapter extends FragmentPagerAdapter {
+    private Context mContext;
+    private String[] titles={"Diterima","Berlangsung", "Selesai", "Dibatalkan", "Ditolak"};
     private SessionManager sm;
     private SpinKitView pBar;
-    String tenant;
+    private AsyncTask mTransactionTask = null;
+
+    private String acceptData;
 
     private static final String TAG = "TransactionActivity";
     private static final String TOKEN = "secretissecret";
 
+    // CHANGE STARTS HERE
+    private int current_position=0;
+
+    public void set_current_position(int i) {
+        current_position = i;
+    }
+    // CHANGE ENDS HERE
+
+    public TransactionTabAdapter(FragmentManager fm, Context c){
+        super(fm);
+        mContext = c;
+    }
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_transaction);
-        setTitle("Transaksi");
+    public Fragment getItem(int position) {
+        Fragment frag = null;
 
-        sm = new SessionManager(getApplicationContext());
-        pBar = (SpinKitView) findViewById(R.id.progressBar);
-        FadingCircle fadingCircle = new FadingCircle();
-        pBar.setIndeterminateDrawable(fadingCircle);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        sm = new SessionManager(mContext);
+        String tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
+//        new getTransactionDataTask(tenant).execute();
 
-        TransactionTabAdapter fragTrans= new TransactionTabAdapter(getSupportFragmentManager(),this);
-        mViewPager = (ViewPager) findViewById(R.id.vp_tabs);
-        mViewPager.setAdapter(fragTrans);
+        switch (position){
+            case 0 :
+                frag = new TransactionAcceptFragment();
+//                Bundle bundle = new Bundle();
+//                bundle.putString("data", acceptData);
+//                frag.setArguments(bundle);
+                break;
+            case 1 :
+                frag = new HistoryOnTransFragment(); break;
+            case 2 :
+                frag = new HistoryCompTransFragment(); break;
+            case 3 :
+                frag = new HistoryCancelFragment(); break;
+            case 4 :
+                frag = new TransactionRejectFragment(); break;
+        }
 
-//        mSlidingTabLayout = (SlidingTabLayout) findViewById(R.id.stl_tab_hs);
-//        mSlidingTabLayout.setDistributeEvenly(true);
-//        mSlidingTabLayout.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-//        mSlidingTabLayout.setSelectedIndicatorColors(getResources().getColor(R.color.colorWhite));
-//        mSlidingTabLayout.setCustomTabView(R.layout.tab_view, R.id.tv_tab);
-//        mSlidingTabLayout.setViewPager(mViewPager);
-
-        mTabLayout = (TabLayout) findViewById(R.id.stl_tab_hs);
-        mTabLayout.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-        mTabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.colorWhite));
-        mTabLayout.setupWithViewPager(mViewPager);
-
-        tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
-//        new getTransactionDataTask(tenant);
+        Bundle b = new Bundle();
+        b.putInt("position", position);
+        if(frag != null){
+            frag.setArguments(b);
+        }
+        return frag;
     }
 
     private class getTransactionDataTask extends AsyncTask<String, String, String> {
@@ -92,7 +105,7 @@ public class TransactionActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... params) {
-            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+            RequestQueue requestQueue = Volley.newRequestQueue(mContext);
             String newURL = AppConfig.URL_TRANSACTION + mTenant;
             StringRequest stringRequest = new StringRequest(Request.Method.GET, newURL, new Response.Listener<String>() {
                 @Override
@@ -104,7 +117,7 @@ public class TransactionActivity extends AppCompatActivity {
                 public void onErrorResponse(VolleyError error) {
                     errorMsg = error.toString();
                     Log.e(TAG, "History Fetch Error : " + errorMsg);
-                    Toast.makeText(getApplicationContext(), "Connection error, try again.",
+                    Toast.makeText(mContext, "Connection error, try again.",
                             Toast.LENGTH_LONG).show();
                 }
             }){
@@ -130,7 +143,7 @@ public class TransactionActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String history) {
             mTransactionTask = null;
-            pBar.setVisibility(View.GONE);
+//            pBar.setVisibility(View.GONE);
 
             String aIdTrans, aCodeTrans, aTitle, aMember, aStartDate, aEndDate, aNominal, aAsetName;
 
@@ -144,18 +157,11 @@ public class TransactionActivity extends AppCompatActivity {
                     JSONArray rejectArray = new JSONArray(String.valueOf(jsonObject.getJSONArray("rejected")));
                     Log.e(TAG, "Transaction Data : " + jsonObject);
 
-                    // Accepted Transaction
-                    Bundle acceptBundle = new Bundle();
-
                     if(acceptArray.length() > 0) {
-                        acceptBundle.putString("data", acceptArray.toString());
+                        acceptData = acceptArray.toString();
                     }else {
-                        acceptBundle.putString("data", "null");
+                        acceptData = "null";
                     }
-
-                    // set Fragmentclass Arguments
-                    TransactionAcceptFragment fragAccept = new TransactionAcceptFragment();
-                    fragAccept.setArguments(acceptBundle);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -169,42 +175,29 @@ public class TransactionActivity extends AppCompatActivity {
         protected void onCancelled() {
             mTransactionTask = null;
 //            showProgress(false);
-            pBar.setVisibility(View.GONE);
+//            pBar.setVisibility(View.GONE);
 
         }
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_refresh_option, menu);
-        getMenuInflater().inflate(R.menu.menu_search_option, menu);
-
-
-        return true;
+    public int getCount() {
+        return titles.length;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_search) {
-            //ubah dengan fungsi
-            return true;
+    public CharSequence getPageTitle(int position){
+        if (position == current_position) {
+            return "Diterima";
+        }else if(position == current_position+1){
+            return "Berlangsung";
+        }else if(position == current_position+2){
+            return "Selesai";
+        }else if(position == current_position+3){
+            return "Dibatalkan";
+        }else if(position == current_position+4){
+            return "Ditolak";
         }
 
-        if (id == R.id.action_refresh) {
-            //ubah dengan fungsi
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
+        return null;
     }
 }

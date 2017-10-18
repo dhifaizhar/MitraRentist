@@ -60,7 +60,7 @@ public class HistoryCancelFragment extends Fragment {
     private LinearLayout noTransImage;
     private TextView noTransText;
 
-    private static final String TAG = "HistoryActivity";
+    private static final String TAG = "TransactionActivity";
     private static final String TOKEN = "secretissecret";
     String tenant;
 
@@ -123,7 +123,7 @@ public class HistoryCancelFragment extends Fragment {
         @Override
         protected String doInBackground(String... params) {
             RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-            String newURL = AppConfig.URL_HISTORY_TRANS + mTenant;
+            String newURL = AppConfig.URL_TRANSACTION + mTenant;
             StringRequest stringRequest = new StringRequest(Request.Method.GET, newURL, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {

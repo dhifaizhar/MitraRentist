@@ -153,7 +153,7 @@ public class WithdrawalActivity extends AppCompatActivity {
 
                         }
                         Log.e(TAG, "ID TRANS : " + trans);
-                        keys.put("id_transaction_detail", trans);
+                        keys.put("id_partition", trans);
                     }
                     Log.e(TAG, "Param : " + keys);
 

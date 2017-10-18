@@ -56,7 +56,7 @@
                         android:layout_centerHorizontal="false"
                         android:layout_centerVertical="false"
                         android:text="Nama User"
-                        android:textColor="@color/colorPrimaryDark"
+                        android:textColor="@color/colorBlack"
                         android:textSize="@dimen/medium_text"
                         android:textStyle="bold" />
 

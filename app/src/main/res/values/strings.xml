@@ -218,13 +218,15 @@
 
     <string-array name="role_entries">
         <!--<item>SuperAdmin</item>-->
-        <item>Operational</item>
-        <item>Executive</item>
+        <item>Admin</item>
+        <item>Operation</item>
+        <item>Finance</item>
+        <item>Delivery</item>
     </string-array>
 
     <string-array name="role_rental">
-        <item>rental</item>
-        <item>personal</item>
+        <item>Corporate</item>
+        <item>Personal</item>
     </string-array>
 
     <string-array name="action_edit_delete">

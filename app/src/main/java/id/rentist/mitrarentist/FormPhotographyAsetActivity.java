@@ -71,7 +71,7 @@ public class FormPhotographyAsetActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form_photography_aset);
-        setTitle("Form Fotografi");
+        setTitle("Aset Fotografi");
 
         iFormAsset = getIntent();
         sm = new SessionManager(getApplicationContext());
@@ -293,7 +293,7 @@ public class FormPhotographyAsetActivity extends AppCompatActivity {
                     ArrayList<String> pricingArray = new ArrayList<String>();
                     JSONObject priceBasicObject = new JSONObject();
                     try {
-                        priceBasicObject.put("price", aBasicPrice.getText().toString());
+                        priceBasicObject.put("price", aBasicPrice.getText());
                         priceBasicObject.put("range_name","BASECOST");
                         priceBasicObject.put("start_date","1970-01-01");
                         priceBasicObject.put("end_date","1970-01-01");
@@ -303,14 +303,16 @@ public class FormPhotographyAsetActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-                    for (int i = 0; i < 1; i++) {
-                        Map<String, String> pricingObject = new HashMap<String, String>();
-                        pricingObject.put("\"range_name\"","\""+aRangName.getText().toString()+"\"");
-                        pricingObject.put("\"start_date\"","\""+aStartDate.getText().toString()+"\"");
-                        pricingObject.put("\"end_date\"","\""+aEndDate.getText().toString()+"\"");
-                        pricingObject.put("\"price\"","\""+aPriceAdvance.getText().toString()+"\"");
+                    if(aPriceAdvance.getText().length() > 0) {
+                        for (int i = 0; i < 1; i++) {
+                            Map<String, String> pricingObject = new HashMap<String, String>();
+                            pricingObject.put("\"range_name\"", "\"" + aRangName.getText().toString() + "\"");
+                            pricingObject.put("\"start_date\"", "\"" + aStartDate.getText().toString() + "\"");
+                            pricingObject.put("\"end_date\"", "\"" + aEndDate.getText().toString() + "\"");
+                            pricingObject.put("\"price\"", "\"" + aPriceAdvance.getText().toString() + "\"");
 
-                        pricingArray.add(pricingObject.toString().replace("=",":"));
+                            pricingArray.add(pricingObject.toString().replace("=", ":"));
+                        }
                     }
                     keys.put("price", pricingArray.toString());
                     Log.e(TAG, "Value Object : " + keys.toString());
@@ -413,7 +415,7 @@ public class FormPhotographyAsetActivity extends AppCompatActivity {
                     ArrayList<String> pricingArray = new ArrayList<String>();
                     JSONObject priceBasicObject = new JSONObject();
                     try {
-                        priceBasicObject.put("price", aBasicPrice.getText().toString());
+                        priceBasicObject.put("price", aBasicPrice.getText());
                         priceBasicObject.put("range_name","BASECOST");
                         priceBasicObject.put("start_date","1970-01-01");
                         priceBasicObject.put("end_date","1970-01-01");
@@ -423,14 +425,16 @@ public class FormPhotographyAsetActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-                    for (int i = 0; i < 1; i++) {
-                        Map<String, String> pricingObject = new HashMap<String, String>();
-                        pricingObject.put("\"range_name\"","\""+aRangName.getText().toString()+"\"");
-                        pricingObject.put("\"start_date\"","\""+aStartDate.getText().toString()+"\"");
-                        pricingObject.put("\"end_date\"","\""+aEndDate.getText().toString()+"\"");
-                        pricingObject.put("\"price\"",aPriceAdvance.getText().toString());
+                    if(aPriceAdvance.getText().length() > 0) {
+                        for (int i = 0; i < 1; i++) {
+                            Map<String, String> pricingObject = new HashMap<String, String>();
+                            pricingObject.put("\"range_name\"", "\"" + aRangName.getText().toString() + "\"");
+                            pricingObject.put("\"start_date\"", "\"" + aStartDate.getText().toString() + "\"");
+                            pricingObject.put("\"end_date\"", "\"" + aEndDate.getText().toString() + "\"");
+                            pricingObject.put("\"price\"", aPriceAdvance.getText().toString());
 
-                        pricingArray.add(pricingObject.toString().replace("=",":"));
+                            pricingArray.add(pricingObject.toString().replace("=", ":"));
+                        }
                     }
                     keys.put("price", pricingArray.toString());
                     Log.e(TAG, "Asset Keys: " + String.valueOf(keys));

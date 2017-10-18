@@ -73,7 +73,7 @@ public class FormYachtAsetActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form_yacht_aset);
-        setTitle("Aset Form");
+        setTitle("Aset Kapal Pesiar");
 
         iFormAsset = getIntent();
         sm = new SessionManager(getApplicationContext());
@@ -140,6 +140,22 @@ public class FormYachtAsetActivity extends AppCompatActivity {
         //aset value
         if(iFormAsset.getStringExtra("action").equals("update")){
             aType.setText(iFormAsset.getStringExtra("type"));
+            aSubType.setText(iFormAsset.getStringExtra("subtype"));
+            aModel.setText(iFormAsset.getStringExtra("model"));
+            aLength.setText(iFormAsset.getStringExtra("length"));
+            aBeam.setText(iFormAsset.getStringExtra("beam"));
+            aGrossTon.setText(iFormAsset.getStringExtra("gross_tone"));
+            aDraft.setText(iFormAsset.getStringExtra("draft"));
+            aCruisingSpeed.setText(iFormAsset.getStringExtra("cruising_speed"));
+            aTopSpeed.setText(iFormAsset.getStringExtra("top_speed"));
+            aBuilder.setText(iFormAsset.getStringExtra("builder"));
+            aNavalArc.setText(iFormAsset.getStringExtra("naval_architect"));
+            aIntDesign.setText(iFormAsset.getStringExtra("aIntDesign"));
+            aExtDesign.setText(iFormAsset.getStringExtra("aExtDesign"));
+            aGuest.setText(iFormAsset.getStringExtra("aGuest"));
+            aCabin.setText(iFormAsset.getStringExtra("aCabin"));
+            aCrew.setText(iFormAsset.getStringExtra("aCrew"));
+            aMinDayRent.setText(iFormAsset.getStringExtra("min_rent_day"));
 
             //spinner
             String compareValue = iFormAsset.getStringExtra("subcat");

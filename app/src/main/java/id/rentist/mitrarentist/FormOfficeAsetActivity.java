@@ -71,7 +71,7 @@ public class FormOfficeAsetActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form_office_aset);
-        setTitle("Form Fotografi");
+        setTitle("Aset Peralatan Kantor");
 
         iFormAsset = getIntent();
         sm = new SessionManager(getApplicationContext());

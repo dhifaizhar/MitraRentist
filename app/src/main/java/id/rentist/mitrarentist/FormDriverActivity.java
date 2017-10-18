@@ -51,7 +51,7 @@ public class FormDriverActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form_driver);
-        setTitle("Driver Form");
+        setTitle("Form Pengemudi");
 
         formDriver = getIntent();
         sm = new SessionManager(getApplicationContext());

@@ -91,6 +91,7 @@ public class AsetListActivity extends AppCompatActivity {
             @Override
             public void onRefresh() {
                 mAset.clear();
+                noAset.setVisibility(View.GONE);
                 getAssetDataList();
             }
         });
@@ -98,11 +99,11 @@ public class AsetListActivity extends AppCompatActivity {
         // action retrieve data aset
         category = iAset.getStringExtra("id_category");
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
+        pBar.setVisibility(View.VISIBLE);
         getAssetDataList();
     }
 
     public void getAssetDataList() {
-        pBar.setVisibility(View.VISIBLE);
 //        pDialog.setMessage("loading asset...");
 //        showProgress(true);
         new getAssetListTask(tenant).execute();

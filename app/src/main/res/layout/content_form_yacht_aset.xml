@@ -111,7 +111,7 @@
                             android:ems="10"
                             android:hint="Nama"
                             android:padding="@dimen/min_padding"
-                            android:text="Yacht Rental" />
+                            android:text="" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -137,7 +137,7 @@
                             android:ems="10"
                             android:hint="Tipe"
                             android:padding="@dimen/min_padding"
-                            android:text="MONARCH" />
+                            android:text="" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -163,7 +163,7 @@
                             android:ems="10"
                             android:hint="Sub-Tipe"
                             android:padding="@dimen/min_padding"
-                            android:text="MONARCH" />
+                            android:text="" />
                     </LinearLayout>
 
 
@@ -190,7 +190,7 @@
                             android:ems="10"
                             android:hint=""
                             android:padding="@dimen/min_padding"
-                            android:text="MONARCH" />
+                            android:text="" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -216,7 +216,7 @@
                             android:ems="10"
                             android:hint=""
                             android:padding="@dimen/min_padding"
-                            android:text="MONARCH" />
+                            android:text="" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -242,7 +242,7 @@
                             android:ems="10"
                             android:hint=""
                             android:padding="@dimen/min_padding"
-                            android:text="MONARCH" />
+                            android:text="" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -268,7 +268,7 @@
                             android:ems="10"
                             android:hint=""
                             android:padding="@dimen/min_padding"
-                            android:text="MONARCH" />
+                            android:text="" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -294,7 +294,7 @@
                             android:ems="10"
                             android:hint=""
                             android:padding="@dimen/min_padding"
-                            android:text="MONARCH" />
+                            android:text="" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -364,7 +364,7 @@
                                 android:ems="10"
                                 android:hint="Hari"
                                 android:padding="@dimen/min_padding"
-                                android:text="10" />
+                                android:text="0" />
 
                             <TextView
                                 android:id="@+id/plp_guest"
@@ -412,7 +412,7 @@
                                 android:ems="10"
                                 android:hint="Cabin"
                                 android:padding="@dimen/min_padding"
-                                android:text="10" />
+                                android:text="0" />
 
                             <TextView
                                 android:id="@+id/plp_cabin"
@@ -460,7 +460,7 @@
                                 android:ems="10"
                                 android:hint="Hari"
                                 android:padding="@dimen/min_padding"
-                                android:text="10" />
+                                android:text="0" />
 
                             <TextView
                                 android:id="@+id/plp_crew"
@@ -508,7 +508,7 @@
                                 android:ems="10"
                                 android:hint="Panjang"
                                 android:padding="@dimen/min_padding"
-                                android:text="75" />
+                                android:text="0" />
 
                             <TextView
                                 android:id="@+id/m_length"
@@ -556,7 +556,7 @@
                                 android:ems="10"
                                 android:hint="Panjang"
                                 android:padding="@dimen/min_padding"
-                                android:text="75" />
+                                android:text="0" />
 
                             <TextView
                                 android:id="@+id/m_beam"
@@ -604,7 +604,7 @@
                                 android:ems="10"
                                 android:hint="Panjang"
                                 android:padding="@dimen/min_padding"
-                                android:text="75" />
+                                android:text="0" />
 
                             <TextView
                                 android:id="@+id/m_draft"
@@ -652,7 +652,7 @@
                                 android:ems="10"
                                 android:hint="Panjang"
                                 android:padding="@dimen/min_padding"
-                                android:text="75" />
+                                android:text="0" />
 
                             <TextView
                                 android:id="@+id/cruising_knots"
@@ -700,7 +700,7 @@
                                 android:ems="10"
                                 android:hint="Panjang"
                                 android:padding="@dimen/min_padding"
-                                android:text="75" />
+                                android:text="0" />
 
                             <TextView
                                 android:id="@+id/max_knots"
@@ -747,7 +747,7 @@
                                 android:ems="10"
                                 android:hint="Gross Tonnage"
                                 android:padding="@dimen/min_padding"
-                                android:text="1000" />
+                                android:text="0" />
 
                         </RelativeLayout>
                     </LinearLayout>
@@ -782,7 +782,7 @@
                                 android:ems="10"
                                 android:hint="Hari"
                                 android:padding="@dimen/min_padding"
-                                android:text="3" />
+                                android:text="0" />
 
                             <TextView
                                 android:id="@+id/day_min"

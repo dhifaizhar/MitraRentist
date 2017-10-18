@@ -36,12 +36,12 @@ import java.util.List;
 import java.util.Map;
 
 import id.rentist.mitrarentist.R;
-import id.rentist.mitrarentist.adapter.HistoryAcceptAdapter;
+import id.rentist.mitrarentist.adapter.TransactionAcceptAdapter;
 import id.rentist.mitrarentist.modul.ItemTransaksiModul;
 import id.rentist.mitrarentist.tools.AppConfig;
 import id.rentist.mitrarentist.tools.SessionManager;
 
-public class HistoryAcceptFragment extends Fragment {
+public class TransactionAcceptFragment extends Fragment {
     RecyclerView mRecyclerView;
     RecyclerView.LayoutManager mLayoutManager;
     RecyclerView.Adapter mAdapter;
@@ -55,35 +55,39 @@ public class HistoryAcceptFragment extends Fragment {
     private LinearLayout noTransImage;
     private TextView noTransText;
 
-    private static final String TAG = "HistoryActivity";
+    private static final String TAG = "TransactionActivity";
     private static final String TOKEN = "secretissecret";
     String tenant;
 
-
-    public HistoryAcceptFragment() {
+    public TransactionAcceptFragment() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_history_accept, container, false);
+        view = inflater.inflate(R.layout.fragment_transaction_accept, container, false);
         mTrans = new ArrayList<ItemTransaksiModul>();
         sm = new SessionManager(getActivity());
 
         pBar = (SpinKitView) view.findViewById(R.id.progressBar);
-//        pBar =  new SpinKitView(getActivity());
         FadingCircle fadingCircle = new FadingCircle();
         pBar.setIndeterminateDrawable(fadingCircle);
 
         noTransImage = (LinearLayout) view.findViewById(R.id.no_trans);
         noTransText = (TextView) view.findViewById(R.id.no_trans_text);
 
-//        pDialog = new ProgressDialog(getActivity());
-//        pDialog.setCancelable(false);
 
         // action retrieve data aset
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
-        getHistoryAccList(tenant);
+
+        String data = getArguments().getString("data");
+        if (data == null){
+            noTransImage.setVisibility(View.VISIBLE);
+            noTransText.setText("Transaksi Diterima Tidak Ditemukan");
+        }
+
+        Log.e(TAG, "Accepted Transaction Data : " + data);
+//        getHistoryAccList(tenant);
 
         return view;
     }
@@ -92,7 +96,7 @@ public class HistoryAcceptFragment extends Fragment {
         pBar.setVisibility(View.VISIBLE);
 //        pDialog.setMessage("loading ...");
 //        showProgress(true);
-        new HistoryAcceptFragment.getHistoryAccListTask(tenant).execute();
+        new TransactionAcceptFragment.getHistoryAccListTask(tenant).execute();
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
@@ -119,7 +123,7 @@ public class HistoryAcceptFragment extends Fragment {
         @Override
         protected String doInBackground(String... params) {
             RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-            String newURL = AppConfig.URL_HISTORY_TRANS + mTenant;
+            String newURL = AppConfig.URL_TRANSACTION + mTenant;
             StringRequest stringRequest = new StringRequest(Request.Method.GET, newURL, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
@@ -209,7 +213,7 @@ public class HistoryAcceptFragment extends Fragment {
                         mRecyclerView = (RecyclerView) view.findViewById(R.id.haccept_recyclerViewFrag);
                         mLayoutManager = new LinearLayoutManager(getActivity());
                         mRecyclerView.setLayoutManager(mLayoutManager);
-                        mAdapter = new HistoryAcceptAdapter(getActivity(),mTrans);
+                        mAdapter = new TransactionAcceptAdapter(getActivity(),mTrans);
                         mRecyclerView.setAdapter(mAdapter);
 
                     }else{

@@ -17,12 +17,12 @@ import id.rentist.mitrarentist.R;
 import id.rentist.mitrarentist.TransDetailActivity;
 import id.rentist.mitrarentist.modul.ItemTransaksiModul;
 
-public class HistoryAcceptAdapter extends RecyclerView.Adapter<HistoryAcceptAdapter.ViewHolder> {
+public class TransactionAcceptAdapter extends RecyclerView.Adapter<TransactionAcceptAdapter.ViewHolder> {
     private List<ItemTransaksiModul> mTransaksi;
     private Context context;
     private static final String TAG = "HistoryAdapter";
 
-    public HistoryAcceptAdapter(Context context, List<ItemTransaksiModul> mTransaksi){
+    public TransactionAcceptAdapter(Context context, List<ItemTransaksiModul> mTransaksi){
         super();
         this.mTransaksi = mTransaksi;
         this.context = context;
@@ -30,7 +30,7 @@ public class HistoryAcceptAdapter extends RecyclerView.Adapter<HistoryAcceptAdap
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i){
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.history_accept_view, viewGroup, false);
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.transaction_accept_view, viewGroup, false);
         ViewHolder viewHolder = new ViewHolder(v);
         return viewHolder;
     }

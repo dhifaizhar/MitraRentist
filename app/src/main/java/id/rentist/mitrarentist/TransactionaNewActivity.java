@@ -1,17 +1,15 @@
-package id.rentist.mitrarentist.fragment;
+package id.rentist.mitrarentist;
 
-import android.annotation.TargetApi;
-import android.app.ProgressDialog;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,102 +33,83 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import id.rentist.mitrarentist.R;
-import id.rentist.mitrarentist.adapter.TransactionRejectAdapter;
+import id.rentist.mitrarentist.adapter.TransaksiAdapter;
 import id.rentist.mitrarentist.modul.ItemTransaksiModul;
 import id.rentist.mitrarentist.tools.AppConfig;
 import id.rentist.mitrarentist.tools.SessionManager;
 
-public class TransactionRejectFragment extends Fragment {
+public class TransactionaNewActivity extends AppCompatActivity {
     RecyclerView mRecyclerView;
-    RecyclerView.LayoutManager mLayoutManager;
     RecyclerView.Adapter mAdapter;
-    private List<ItemTransaksiModul> mTrans;
-    private AsyncTask mHistoryTask = null;
-    private ProgressDialog pDialog;
-    private SessionManager sm;
-    private View view;
-    private SpinKitView pBar;
+    RecyclerView.LayoutManager mLayoutManager;
+    private List<ItemTransaksiModul> mTrans = new ArrayList<>();
+    private AsyncTask mTransactionTask = null;
 
     private LinearLayout noTransImage;
     private TextView noTransText;
+    private SpinKitView pBar;
+    private SessionManager sm;
 
-    private static final String TAG = "TransactionActivity";
+    private static final String TAG = "TransactionaNewActivity";
     private static final String TOKEN = "secretissecret";
     String tenant;
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_transaction_new);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        setTitle("Pesanan Baru");
 
-    public TransactionRejectFragment() {
+        sm = new SessionManager(getApplicationContext());
+        pBar = (SpinKitView)findViewById(R.id.progressBar);
+        FadingCircle fadingCircle = new FadingCircle();
+        noTransImage = (LinearLayout) findViewById(R.id.no_trans);
+        noTransText = (TextView) findViewById(R.id.no_trans_text);
+        pBar.setIndeterminateDrawable(fadingCircle);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
+        getNewTransactionDataList(tenant);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_transaction_reject, container, false);
-        mTrans = new ArrayList<ItemTransaksiModul>();
-        sm = new SessionManager(getActivity());
-
-        pBar = (SpinKitView) view.findViewById(R.id.progressBar);
-//        pBar =  new SpinKitView(getActivity());
-        FadingCircle fadingCircle = new FadingCircle();
-        pBar.setIndeterminateDrawable(fadingCircle);
-
-        noTransImage = (LinearLayout) view.findViewById(R.id.no_trans);
-        noTransText = (TextView) view.findViewById(R.id.no_trans_text);
-
-//        pDialog = new ProgressDialog(getActivity());
-//        pDialog.setCancelable(false);
-
-        // action retrieve data aset
-        tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
-        getTransactionRejectList(tenant);
-
-        return view;
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
-    private void getTransactionRejectList(String tenant) {
+    public void getNewTransactionDataList(String tenant) {
         pBar.setVisibility(View.VISIBLE);
-//        pDialog.setMessage("loading ...");
-//        showProgress(true);
-        new TransactionRejectFragment.getTransactionRejectListTask(tenant).execute();
+        new TransactionaNewActivity.getNewTransactionDataListTask(tenant).execute();
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    private void showProgress(final boolean show) {
-        if(show){
-            if (!pDialog.isShowing()){
-                pDialog.show();
-            }
-        }else{
-            if (pDialog.isShowing()){
-                pDialog.dismiss();
-            }
-        }
-    }
-
-    public class getTransactionRejectListTask extends AsyncTask<String, String, String>{
+    public class getNewTransactionDataListTask extends AsyncTask<String, String, String> {
         private final String mTenant;
-        private String errorMsg, responseHistory;
+        private String errorMsg, responseTrans;
 
-        public getTransactionRejectListTask(String tenant) {
+        public getNewTransactionDataListTask(String tenant) {
             this.mTenant = tenant;
         }
 
         @Override
         protected String doInBackground(String... params) {
-            RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-            String newURL = AppConfig.URL_TRANSACTION + mTenant;
+            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+            String newURL = AppConfig.URL_TRANSACTION_NEW + mTenant;
             StringRequest stringRequest = new StringRequest(Request.Method.GET, newURL, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                    responseHistory = response;
+                    responseTrans = response;
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     errorMsg = error.toString();
-                    Log.e(TAG, "History Fetch Error : " + errorMsg);
-                    Toast.makeText(getActivity(), "Connection error, try again.",
+                    Log.e(TAG, "Transaction Fetch Error : " + errorMsg);
+                    Toast.makeText(getApplicationContext(), "Connection error, try again.",
                             Toast.LENGTH_LONG).show();
                 }
             }){
@@ -150,26 +129,26 @@ public class TransactionRejectFragment extends Fragment {
                 e.printStackTrace();
             }
 
-            return responseHistory;
+            return responseTrans;
         }
 
         @Override
-        protected void onPostExecute(String history) {
-            mHistoryTask = null;
+        protected void onPostExecute(String transaction) {
+            mTransactionTask = null;
 //            showProgress(false);
             pBar.setVisibility(View.GONE);
 
             String aIdTrans, aCodeTrans, aTitle, aMember, aStartDate, aEndDate, aNominal, aAsetName;
 
-            if (history != null) {
+            if (transaction != null) {
                 try {
-                    JSONObject jsonObject = new JSONObject(history);
-                    JSONArray jsonArray = new JSONArray(String.valueOf(jsonObject.getJSONArray("rejected")));
+                    JSONArray jsonArray = new JSONArray(transaction);
+
                     if(jsonArray.length() > 0){
-                        for (int i = 0; i < jsonArray.length(); i++) {
+                        for (int i = 0; i < 1; i++) {
                             errorMsg = "-";
                             JSONObject transObject = jsonArray.getJSONObject(i);
-                            Log.e(TAG, "rejected Data : " + String.valueOf(transObject));
+                            Log.e(TAG, "Transaction Data : " + String.valueOf(transObject));
 
                             JSONObject idTrans = transObject.getJSONObject("id_transaction");
                             JSONArray items = transObject.getJSONArray("item");
@@ -195,8 +174,8 @@ public class TransactionRejectFragment extends Fragment {
                             aEndDate = transObject.getString("end_date").replace("-","/").substring(0,10);
 
                             ItemTransaksiModul itemTrans = new ItemTransaksiModul();
-                            itemTrans.setIdTrans(aIdTrans);
                             itemTrans.setCodeTrans(aCodeTrans);
+                            itemTrans.setIdTrans(aIdTrans);
                             itemTrans.setAsetName(aAsetName);
                             itemTrans.setMember(aMember);
                             itemTrans.setPrice(aNominal);
@@ -206,34 +185,56 @@ public class TransactionRejectFragment extends Fragment {
                             mTrans.add(itemTrans);
                         }
 
-                        mRecyclerView = (RecyclerView) view.findViewById(R.id.treject_recyclerViewFrag);
-                        mLayoutManager = new LinearLayoutManager(getActivity());
+                        mRecyclerView = (RecyclerView) findViewById(R.id.tr_recyclerView);
+                        mLayoutManager = new LinearLayoutManager(getApplicationContext());
+                        mAdapter = new TransaksiAdapter(getApplicationContext(), mTrans);
+
                         mRecyclerView.setLayoutManager(mLayoutManager);
-                        mAdapter = new TransactionRejectAdapter(getActivity(),mTrans);
                         mRecyclerView.setAdapter(mAdapter);
 
                     }else{
-                        errorMsg = "Transaksi Ditolak Tidak Ditemukan";
+                        errorMsg = "Tidak ada pesanan baru";
                         noTransImage.setVisibility(View.VISIBLE);
                         noTransText.setText(errorMsg);
-//                      Toast.makeText(getActivity(),errorMsg, Toast.LENGTH_LONG).show();
+//                        Toast.makeText(getApplicationContext(),errorMsg, Toast.LENGTH_LONG).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                     errorMsg = "Transaksi Tidak Ditemukan";
                     noTransImage.setVisibility(View.VISIBLE);
                     noTransText.setText(errorMsg);
-//                  Toast.makeText(getActivity(),errorMsg, Toast.LENGTH_LONG).show();
+
+//                    Toast.makeText(getApplicationContext(),errorMsg, Toast.LENGTH_LONG).show();
                 }
             }
         }
 
         @Override
         protected void onCancelled() {
-            mHistoryTask = null;
+            mTransactionTask = null;
 //            showProgress(false);
             pBar.setVisibility(View.GONE);
 
         }
+
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_refresh_option, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_refresh) {
+            mTrans.clear();
+            getNewTransactionDataList(tenant);
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

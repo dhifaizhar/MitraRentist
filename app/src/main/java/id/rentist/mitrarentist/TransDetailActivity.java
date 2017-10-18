@@ -76,8 +76,6 @@ public class TransDetailActivity extends AppCompatActivity {
         pDialog.setCancelable(false);
 
         itransDet = getIntent();
-
-
         controlContent();
     }
 
@@ -300,7 +298,7 @@ public class TransDetailActivity extends AppCompatActivity {
             showProgress(false);
 
             if(transaction != null){
-                Toast.makeText(getApplicationContext(),"Transaksi berhasil diterima", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"Transaksi berhasil diterima, Periksa menu transaksi anda", Toast.LENGTH_LONG).show();
                 finish();
             }else{
                 Toast.makeText(getApplicationContext(),"Gagal meyimpan data", Toast.LENGTH_LONG).show();

@@ -39,7 +39,7 @@ public class PricingTabAdapter extends FragmentPagerAdapter {
         }
 
 //        if(position == 0){
-//            frag = new HistoryAcceptFragment();
+//            frag = new TransactionAcceptFragment();
 //        }else if(position == 1){
 //            frag = new HistoryOnTransFragment();
 //        }else if(position == 2){

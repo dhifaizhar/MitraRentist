@@ -58,10 +58,19 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> im
 
         viewHolder.name.setText(user.getName());
         viewHolder.role.setText(user.getRole());
-        if(user.getRole().equals("SuperAdmin")){
-            viewHolder.role.setBackgroundColor(0xff99cc00);
-        }else if(user.getRole().equals("Executive")){
-            viewHolder.role.setBackgroundColor(0xff33b5e5);
+        switch (user.getRole()) {
+            case "SuperAdmin":
+                viewHolder.role.setBackgroundColor(0xffff2828);
+                break;
+            case "Admin":
+                viewHolder.role.setBackgroundColor(0xff99cc00);
+                break;
+            case "Operation":
+                viewHolder.role.setBackgroundColor(0xff33b5e5);
+                break;
+            case "Finance":
+                viewHolder.role.setBackgroundColor(0xfff19800);
+                break;
         }
         viewHolder.cardViewUser.setOnClickListener(new View.OnClickListener() {
             @Override

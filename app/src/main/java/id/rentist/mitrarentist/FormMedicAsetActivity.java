@@ -71,7 +71,7 @@ public class FormMedicAsetActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form_medic_aset);
-        setTitle("Form Peralatan Medis ");
+        setTitle("Aset Peralatan Medis ");
 
         iFormAsset = getIntent();
         sm = new SessionManager(getApplicationContext());
@@ -304,14 +304,16 @@ public class FormMedicAsetActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-                    for (int i = 0; i < 1; i++) {
-                        Map<String, String> pricingObject = new HashMap<String, String>();
-                        pricingObject.put("\"range_name\"","\""+aRangName.getText().toString()+"\"");
-                        pricingObject.put("\"start_date\"","\""+aStartDate.getText().toString()+"\"");
-                        pricingObject.put("\"end_date\"","\""+aEndDate.getText().toString()+"\"");
-                        pricingObject.put("\"price\"","\""+aPriceAdvance.getText().toString()+"\"");
+                    if(aPriceAdvance.getText().length() > 0) {
+                        for (int i = 0; i < 1; i++) {
+                            Map<String, String> pricingObject = new HashMap<String, String>();
+                            pricingObject.put("\"range_name\"", "\"" + aRangName.getText().toString() + "\"");
+                            pricingObject.put("\"start_date\"", "\"" + aStartDate.getText().toString() + "\"");
+                            pricingObject.put("\"end_date\"", "\"" + aEndDate.getText().toString() + "\"");
+                            pricingObject.put("\"price\"", "\"" + aPriceAdvance.getText().toString() + "\"");
 
-                        pricingArray.add(pricingObject.toString().replace("=",":"));
+                            pricingArray.add(pricingObject.toString().replace("=", ":"));
+                        }
                     }
                     keys.put("price", pricingArray.toString());
                     Log.e(TAG, "Value Object : " + keys.toString());

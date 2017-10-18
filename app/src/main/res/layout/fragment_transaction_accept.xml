@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/content_transaction"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/prent_frag"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="id.rentist.mitrarentist.TransactionActivity"
-    tools:showIn="@layout/activity_transaction"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context="id.rentist.mitrarentist.fragment.TransactionAcceptFragment">
 
     <LinearLayout
         android:id="@+id/no_trans"
@@ -39,9 +37,9 @@
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/tr_recyclerView"
+        android:id="@+id/haccept_recyclerViewFrag"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:padding="@dimen/xmin_padding">
     </android.support.v7.widget.RecyclerView>
 
@@ -53,7 +51,6 @@
         android:layout_marginTop="@dimen/breadcrumb_height"
         android:background="@android:color/transparent"
         android:padding="@dimen/min_padding"
-        android:visibility="gone"
         app:SpinKit_Color="@color/colorWhite" />
 
 </LinearLayout>

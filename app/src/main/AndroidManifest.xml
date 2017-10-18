@@ -76,7 +76,7 @@
             android:label="@string/title_activity_dompet"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".HistoryActivity"
+            android:name=".TransactionActivity"
             android:label="@string/title_activity_history"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -103,7 +103,7 @@
             android:name=".AktivasiActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".TransactionActivity"
+            android:name=".TransactionaNewActivity"
             android:parentActivityName=".DashboardActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

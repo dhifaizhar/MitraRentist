@@ -23,7 +23,7 @@ import id.rentist.mitrarentist.tools.SessionManager;
 public class ProfileActivity extends AppCompatActivity {
     private SessionManager sm;
     Intent iEditRent;
-    TextView rName, rOwner, rAddress, rEmail, rPhone;
+    TextView rName, rOwner, rAddress, rEmail, rPhone, rBankAccount, rBankName, rAccountOwner;
 //    NetworkImageView profilePhoto;
     ImageView profilePhoto;
     Button btnEdit;
@@ -54,7 +54,9 @@ public class ProfileActivity extends AppCompatActivity {
         rAddress = (TextView) findViewById(R.id.pr_address_name);
         rPhone = (TextView) findViewById(R.id.pr_phone_number);
         rEmail = (TextView) findViewById(R.id.pr_email);
-//        profilePhoto = (NetworkImageView) findViewById(R.id.pr_thumb);
+        rBankAccount = (TextView) findViewById(R.id.pr_bank_account);
+        rBankName = (TextView) findViewById(R.id.pr_bank_name);
+        rAccountOwner = (TextView) findViewById(R.id.pr_account_name);
         profilePhoto = (ImageView) findViewById(R.id.pr_thumb);
 
         vAll = (ImageButton) findViewById(R.id.view_testi);
@@ -65,15 +67,13 @@ public class ProfileActivity extends AppCompatActivity {
         rAddress.setText(sm.getPreferences("alamat"));
         rPhone.setText(sm.getPreferences("telepon"));
         rEmail.setText(sm.getPreferences("email_rental"));
+        rBankName.setText(sm.getPreferences("bank_name"));
+        rBankAccount.setText(sm.getPreferences("bank_account"));
+        rAccountOwner.setText(sm.getPreferences("account_name"));
 
         //Load image
         imageUrl = AppConfig.URL_IMAGE_PROFIL + sm.getPreferences("foto_profil_tenant");
         Picasso.with(getApplicationContext()).load(imageUrl).transform(new CircleTransform()).into(profilePhoto);
-
-//        mImageLoader = new VolleySingleton(getApplicationContext()).getImageUrl();
-//        profilePhoto.setImageUrl(imageUrl,mImageLoader);
-
-
 
         vAll.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -57,7 +57,7 @@ public class FormVoucherActivity extends AppCompatActivity implements View.OnCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form_voucher);
-        setTitle("Form Voucher");
+        setTitle("Form Kupon");
 
         formVoucher = getIntent();
         sm = new SessionManager(getApplicationContext());
@@ -90,21 +90,30 @@ public class FormVoucherActivity extends AppCompatActivity implements View.OnCli
         // set content control value
         if(formVoucher.getStringExtra("action").equals("update")) {
             id = formVoucher.getIntExtra("id_vou", 0);
-            rangeDate = formVoucher.getStringExtra("start_date") + "s/d" + formVoucher.getStringExtra("end_date");
-//            category = formVoucher.getIntExtra("category",)
+            rangeDate = formVoucher.getStringExtra("start_date") + " s/d " + formVoucher.getStringExtra("end_date");
             vId = id.toString();
 
             btnGetDate.setVisibility(View.GONE);
             vDate.setEnabled(false);
             vDate.setTextColor(Color.GRAY);
-
             vDate.setText(rangeDate);
+
+            if(formVoucher.getStringExtra("name").equals("both")){
+                vTypeWeb.isChecked();
+                vTypeMobile.isChecked();
+            }else if (formVoucher.getStringExtra("name").equals("web")){
+                vTypeWeb.isChecked();
+            }else if (formVoucher.getStringExtra("name").equals("mobile")){
+                vTypeMobile.isChecked();
+            }
+
             vName.setText(formVoucher.getStringExtra("name"));
             vCode.setText(formVoucher.getStringExtra("code"));
             vDesc.setText(formVoucher.getStringExtra("desc"));
             vCategory.setTop(formVoucher.getIntExtra("category", 0));
             vNominal.setText(formVoucher.getStringExtra("nominal"));
             vPercentage.setText(formVoucher.getStringExtra("percent"));
+            vKuota.setText(formVoucher.getStringExtra("quantity"));
 
             Log.e(TAG, "Data Voucher to update : " + formVoucher.getStringExtra("action") + "id_vou: " + vId + ", Date: " + rangeDate);
 
@@ -114,13 +123,7 @@ public class FormVoucherActivity extends AppCompatActivity implements View.OnCli
             vStartDate = formVoucher.getStringExtra("start_date");
             vEndDate = formVoucher.getStringExtra("end_date");
 
-            if(vTypeWeb.isChecked() && vTypeMobile.isChecked()){
-                vType = "both";
-            }else if(vTypeWeb.isChecked()){
-                vType = "web";
-            }else if(vTypeMobile.isChecked()){
-                vType = "mobile";
-            }
+
         }
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
 
@@ -135,6 +138,13 @@ public class FormVoucherActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void formVoucher(String tenant, String id) {
+        if(vTypeWeb.isChecked() && vTypeMobile.isChecked()){
+            vType = "both";
+        }else if(vTypeWeb.isChecked()){
+            vType = "web";
+        }else if(vTypeMobile.isChecked()){
+            vType = "mobile";
+        }
         pDialog.setMessage("loading ...");
         showProgress(true);
         if(formVoucher.getStringExtra("action").equals("add")){
@@ -180,6 +190,7 @@ public class FormVoucherActivity extends AppCompatActivity implements View.OnCli
                     keys.put("start_date", vStartDate);
                     keys.put("end_date", vEndDate);
                     keys.put("type", vType);
+                    keys.put("quantity", vKuota.getText().toString());
                     keys.put("id_asset_category", String.valueOf(vCategory.getSelectedItemId()+1));
                     nominalV = vNominal.getText().toString();
                     percentageV = vPercentage.getText().toString();
@@ -282,6 +293,7 @@ public class FormVoucherActivity extends AppCompatActivity implements View.OnCli
                     keys.put("voucher_code", vCode.getText().toString());
                     keys.put("description", vDesc.getText().toString());
                     keys.put("nominal", vNominal.getText().toString());
+                    keys.put("quantity", vKuota.getText().toString());
                     keys.put("percentage", vPercentage.getText().toString());
                     Log.e(TAG, "Key Body : " + keys.toString());
                     return keys;

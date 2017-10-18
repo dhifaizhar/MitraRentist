@@ -8,8 +8,8 @@
     android:background="@color/colorBackgound"
     android:padding="@dimen/xmin_padding"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="id.rentist.mitrarentist.FormBicycleAsetActivity"
-    tools:showIn="@layout/activity_form_bicycle">
+    tools:context="id.rentist.mitrarentist.FormMedicAsetActivity"
+    tools:showIn="@layout/activity_form_medic_aset">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -79,7 +79,7 @@
                                 android:id="@+id/as_subcat_spinner"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:entries="@array/bicycle_subcategory_entries"
+                                android:entries="@array/medic_subcategory_entries"
                                 android:padding="@dimen/xmin_padding"
                                 android:spinnerMode="dialog" />
 
@@ -113,7 +113,7 @@
                             android:padding="@dimen/min_padding"
                             android:imeOptions="actionNext"
                             android:inputType="text"
-                            android:text="Sepeda Rental" />
+                            android:text="" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -142,7 +142,7 @@
                             android:padding="@dimen/min_padding"
                             android:imeOptions="actionNext"
                             android:inputType="text"
-                            android:text="POLYGON" />
+                            android:text="" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -170,7 +170,7 @@
                             android:padding="@dimen/min_padding"
                             android:imeOptions="actionNext"
                             android:inputType="text"
-                            android:text="MONARCH" />
+                            android:text="" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -238,7 +238,7 @@
                                 android:padding="@dimen/min_padding"
                                 android:imeOptions="actionNext"
                                 android:inputType="number"
-                                android:text="3" />
+                                android:text="0" />
 
                             <TextView
                                 android:id="@+id/day"
@@ -641,7 +641,7 @@
                         android:layout_height="150dp"
                         android:layout_weight="1"
                         android:scaleType="fitCenter"
-                        app:srcCompat="@drawable/bicycle_default" />
+                        app:srcCompat="@drawable/no_image" />
 
                     <Button
                         android:id="@+id/btnUploadFoto"

@@ -71,6 +71,7 @@ public class FormToysAsetActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form_toys_aset);
+        setTitle("Aset Mainan Anak");
 
         iFormAsset = getIntent();
         sm = new SessionManager(getApplicationContext());

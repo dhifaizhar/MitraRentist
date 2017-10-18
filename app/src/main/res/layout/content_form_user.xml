@@ -33,7 +33,8 @@
                     android:layout_width="@dimen/thumb_height"
                     android:layout_height="@dimen/thumb_height"
                     android:layout_weight="1"
-                    android:background="@drawable/img" />
+                    android:src="@drawable/user_ava_man"
+                    />
 
                 <Button
                     android:id="@+id/btnUploadFoto"
@@ -110,6 +111,31 @@
                 android:padding="@dimen/xmin_padding">
 
                 <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Nomor Telepon"
+                    android:textColor="@color/colorBlack" />
+
+                <EditText
+                    android:id="@+id/fus_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorNearWhite"
+                    android:ems="10"
+                    android:hint="Nomor Telepon"
+                    android:imeOptions="actionNext"
+                    android:inputType="textEmailAddress"
+                    android:padding="@dimen/min_padding" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/xmin_padding"
+                android:orientation="vertical"
+                android:padding="@dimen/xmin_padding">
+
+                <TextView
                     android:id="@+id/textView36"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -131,33 +157,53 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/colorWhite"
-                android:focusableInTouchMode="true"
+                android:layout_marginBottom="@dimen/xmin_padding"
                 android:orientation="vertical"
-                android:visibility="gone">
+                android:padding="@dimen/xmin_padding">
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Kata Sandi"
+                    android:textColor="@color/colorBlack" />
 
                 <EditText
                     android:id="@+id/fus_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
+                    android:background="@color/colorNearWhite"
                     android:hint="Kata Sandi"
                     android:imeOptions="actionNext"
                     android:inputType="textPassword"
                     android:padding="@dimen/min_padding"
-                    android:visibility="gone" />
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/xmin_padding"
+                android:orientation="vertical"
+                android:padding="@dimen/xmin_padding">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Ulangi Kata Sandi"
+                    android:textColor="@color/colorBlack" />
 
                 <EditText
                     android:id="@+id/fus_repassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
+                    android:background="@color/colorNearWhite"
                     android:hint="Ulangi Kata Sandi"
+                    android:imeOptions="actionNext"
                     android:inputType="textPassword"
                     android:padding="@dimen/min_padding"
-                    android:visibility="gone" />
-
+                    />
             </LinearLayout>
         </LinearLayout>
 

@@ -60,8 +60,6 @@ public class AppConfig {
     public static  String URL_UPDATE_ASSET = SERVER + "update/item/";
     public static  String URL_DELETE_ASSET = SERVER + "delete/item/";
 
-
-
     public static String URL_TRANSACTION_NEW = SERVER + "order/received/";
     public static String URL_TRANSACTION_CONFIRM = SERVER + "order/confirm/";
     public static String URL_TRANSACTION_DROP = SERVER + "transaction/ongoing/";
@@ -98,7 +96,7 @@ public class AppConfig {
     public static  String URL_FEATURE = SERVER + "item/feature/";
     public static  String URL_DELETE_FEATURE = SERVER + "delete/feature/";
 
-    public static  String URL_HISTORY_TRANS = SERVER + "order/history/";
+    public static  String URL_TRANSACTION = SERVER + "order/history/";
     public static  String URL_HISTORY_SALDO = SERVER + "finance/history/";
     public static  String URL_LIST_KEBIJAKAN = SERVER + "list/kebijakan/";
 

@@ -7,8 +7,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="id.rentist.mitrarentist.HistoryActivity"
-    tools:showIn="@layout/activity_history">
+    tools:context="id.rentist.mitrarentist.TransactionActivity"
+    tools:showIn="@layout/activity_transaction">
 
     <!--gunanya untuk swipe fragment-->
     <android.support.v4.view.ViewPager

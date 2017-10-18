@@ -45,7 +45,7 @@ public class FormFeatureActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form_feature);
-        setTitle("Feature Form");
+        setTitle("Fitur Tambahan");
 
         formFeature = getIntent();
         sm = new SessionManager(getApplicationContext());

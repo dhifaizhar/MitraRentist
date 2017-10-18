@@ -79,6 +79,7 @@ public class UsersActivity extends AppCompatActivity {
 
         // action retrieve data aset
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
+        pBar.setVisibility(View.VISIBLE);
         getUserDataList(tenant);
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
@@ -92,9 +93,7 @@ public class UsersActivity extends AppCompatActivity {
     }
 
     private void getUserDataList(String tenant) {
-        pBar.setVisibility(View.VISIBLE);
-//        pDialog.setMessage("loading ...");
-//        showProgress(true);
+//        pBar.setVisibility(View.VISIBLE);
         new getUserListTask(tenant).execute();
     }
 
@@ -119,7 +118,9 @@ public class UsersActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_add_option, menu);
+        if (sm.getPreferences("role").equals("SuperAdmin")){
+            getMenuInflater().inflate(R.menu.menu_add_option, menu);
+        }
         return true;
     }
 
@@ -189,7 +190,7 @@ public class UsersActivity extends AppCompatActivity {
             mSwipeRefreshLayout.setRefreshing(false);
             pBar.setVisibility(View.GONE);
 //            showProgress(false);
-            String aName, aEmail, aRole, aThumbPhoto;
+            String aName, aEmail, aRole, aThumbPhoto, aPhone;
             Integer aId, dataLength;
 
 
@@ -209,6 +210,7 @@ public class UsersActivity extends AppCompatActivity {
                             aName = jsonobject.getString("name");
                             aEmail = jsonobject.getString("email");
                             aRole = jsonobject.getString("role");
+                            aPhone = jsonobject.getString("phone");
                             aThumbPhoto = jsonobject.getString("profile_pic");
                             Log.e(TAG, "What Data : " + String.valueOf(jsonobject));
 
@@ -216,7 +218,7 @@ public class UsersActivity extends AppCompatActivity {
                             userModul.setId(aId);
                             userModul.setName(aName);
                             userModul.setEmail(aEmail);
-                            userModul.setPhone("081254674578");
+                            userModul.setPhone(aPhone);
                             userModul.setRole(aRole);
                             userModul.setThumbnail(aThumbPhoto);
 

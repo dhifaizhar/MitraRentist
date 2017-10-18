@@ -21,13 +21,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="@dimen/min_padding">
+            android:orientation="vertical">
 
             <GridLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:columnCount="2">
+                android:layout_marginBottom="@dimen/xmin_padding"
+                android:background="@color/colorPrimarySoft"
+                android:columnCount="2"
+                android:padding="@dimen/xmin_padding">
 
                 <TextView
                     android:id="@+id/vou_title"
@@ -47,8 +49,8 @@
                     android:layout_gravity="end"
                     android:background="@drawable/radius_primary"
                     android:paddingBottom="@dimen/xmin_padding"
-                    android:paddingLeft="@dimen/med_padding"
-                    android:paddingRight="@dimen/med_padding"
+                    android:paddingLeft="@dimen/min_padding"
+                    android:paddingRight="@dimen/min_padding"
                     android:paddingTop="@dimen/xmin_padding"
                     android:text="Code"
                     android:textAlignment="center"
@@ -59,111 +61,186 @@
 
             </GridLayout>
 
-            <View
-                android:id="@+id/line"
-                android:layout_width="200dp"
-                android:layout_height="1dp"
-                android:background="@android:color/darker_gray" />
 
-            <GridLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:columnCount="2"
-                android:layout_marginTop="@dimen/min_padding">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingStart="@dimen/min_padding"
+                android:paddingEnd="@dimen/min_padding"
+                android:paddingBottom="@dimen/xmin_padding"
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:layout_column="1"
-                    android:layout_gravity="end">
+                >
 
-                    <TextView
-                        android:id="@+id/vou_type"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Type"
-                        android:textColor="@color/colorBlack"
-                        android:textSize="@dimen/medium_text" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
                     <TextView
-                        android:id="@+id/vou_edit"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/disktext"
+                        android:layout_width="@dimen/text_label"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/xmin_padding"
-                        android:text="Ubah"
-                        android:textColor="@color/colorPrimaryDark"
-                        android:textSize="@dimen/medium_text"
-                        android:clickable="true"
-                        android:layout_gravity="end"
-                      />
-
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:layout_column="0">
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/xmin_padding"
+                        android:text="Diskon"
+                        android:textColor="@color/colorGrey"
+                        android:textSize="@dimen/almost_tiny_text" />
 
                     <TextView
                         android:id="@+id/vou_discount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_toEndOf="@+id/disktext"
                         android:text="10000 IDR"
                         android:textColor="@color/colorPrice"
                         android:textSize="@dimen/medium_text" />
+                </RelativeLayout>
 
-                        <LinearLayout
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/periodtext"
+                        android:layout_width="@dimen/text_label"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/xmin_padding"
+                        android:text="Periode"
+                        android:textColor="@color/colorGrey"
+                        android:textSize="@dimen/almost_tiny_text" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@+id/periodtext"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/vou_date"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            >
+                            android:layout_gravity="center_vertical"
+                            android:text="07 Juli 2017"
+                            android:textColor="@android:color/black"
+                            android:textSize="@dimen/small_text" />
 
-                            <TextView
-                                android:id="@+id/vou_date"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/xmin_padding"
-                                android:text="07 Juli 2017"
-                                android:textColor="@android:color/black"
-                                android:textSize="@dimen/small_text"
-                                />
+                        <TextView
+                            android:id="@+id/vou_sampai"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text=" s/d "
+                            android:textColor="@android:color/darker_gray"
+                            android:textSize="@dimen/small_text" />
 
-                            <TextView
-                                android:id="@+id/vou_sampai"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/xmin_padding"
-                                android:text=" s/d "
-                                android:textColor="@android:color/darker_gray"
-                                android:textSize="@dimen/small_text"
-                                />
+                        <TextView
+                            android:id="@+id/vou_endDate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="21 Juli 2017"
+                            android:textColor="@android:color/black"
+                            android:textSize="@dimen/small_text" />
+                    </LinearLayout>
+                </RelativeLayout>
 
-                            <TextView
-                                android:id="@+id/vou_endDate"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/xmin_padding"
-                                android:text="21 Juli 2017"
-                                android:textColor="@android:color/black"
-                                android:textSize="@dimen/small_text" />
-                        </LinearLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
+                    <TextView
+                        android:id="@+id/tipetext"
+                        android:layout_width="@dimen/text_label"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/xmin_padding"
+                        android:text="Tipe"
+                        android:textColor="@color/colorGrey"
+                        android:textSize="@dimen/almost_tiny_text" />
+
+                    <TextView
+                        android:id="@+id/vou_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@+id/tipetext"
+                        android:text="Mobile, Web"
+                        android:textColor="@color/colorBlack87"
+                        android:textSize="@dimen/small_text" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/sumtext"
+                        android:layout_width="@dimen/text_label"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/xmin_padding"
+                        android:text="Jumlah"
+                        android:textColor="@color/colorGrey"
+                        android:textSize="@dimen/almost_tiny_text" />
+
+                    <TextView
+                        android:id="@+id/vou_quantity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@+id/sumtext"
+                        android:text="124"
+                        android:textColor="@color/colorBlack87"
+                        android:textSize="@dimen/small_text" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:id="@+id/desctext"
+                            android:layout_width="@dimen/text_label"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="@dimen/xmin_padding"
+                            android:text="Deskripsi"
+                            android:textColor="@color/colorGrey"
+                            android:textSize="@dimen/almost_tiny_text" />
+
+                        <TextView
+                            android:id="@+id/vou_desc"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toEndOf="@+id/desctext"
+                            android:text="desc"
+                            android:textColor="@android:color/darker_gray"
+                            android:textSize="@dimen/almost_tiny_text" />
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/vou_edit"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:layout_weight="1"
+                        android:clickable="true"
+                        android:text="Ubah"
+                        android:textAlignment="textEnd"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="@dimen/medium_text" />
 
                 </LinearLayout>
 
-            </GridLayout>
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/vou_desc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/xmin_padding"
-                android:text="desc"
-                android:textColor="@android:color/darker_gray"
-                android:textSize="@dimen/small_text" />
+
 
 
         </LinearLayout>

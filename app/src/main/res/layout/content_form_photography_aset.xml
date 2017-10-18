@@ -113,7 +113,7 @@
                             android:padding="@dimen/min_padding"
                             android:imeOptions="actionNext"
                             android:inputType="text"
-                            android:text="Sepeda Rental" />
+                            android:text="" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -142,7 +142,7 @@
                             android:padding="@dimen/min_padding"
                             android:imeOptions="actionNext"
                             android:inputType="text"
-                            android:text="POLYGON" />
+                            android:text="" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -170,7 +170,7 @@
                             android:padding="@dimen/min_padding"
                             android:imeOptions="actionNext"
                             android:inputType="text"
-                            android:text="MONARCH" />
+                            android:text="" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -238,7 +238,7 @@
                                 android:padding="@dimen/min_padding"
                                 android:imeOptions="actionNext"
                                 android:inputType="number"
-                                android:text="3" />
+                                android:text="0" />
 
                             <TextView
                                 android:id="@+id/day"
@@ -641,7 +641,7 @@
                         android:layout_height="150dp"
                         android:layout_weight="1"
                         android:scaleType="fitCenter"
-                        app:srcCompat="@drawable/bicycle_default" />
+                        app:srcCompat="@drawable/no_image" />
 
                     <Button
                         android:id="@+id/btnUploadFoto"

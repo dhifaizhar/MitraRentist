@@ -44,7 +44,7 @@ public class UserDetailActivity extends AppCompatActivity {
 
     Integer aId;
     String changeStatus = "active", tenant, profilpicStr;
-    TextView nama, email, role;
+    TextView nama, email, role, phone;
     ImageView profilPic;
 
     private static final String TAG = "DetailUserActivity";
@@ -75,6 +75,7 @@ public class UserDetailActivity extends AppCompatActivity {
         nama = (TextView)findViewById(R.id.us_name);
         role = (TextView)findViewById(R.id.us_role_name);
         email = (TextView)findViewById(R.id.us_email);
+        phone = (TextView) findViewById(R.id.us_phone_number);
 
         // set content control value
         aId = detIntent.getIntExtra("id_user", 0);
@@ -163,6 +164,7 @@ public class UserDetailActivity extends AppCompatActivity {
                     nama.setText(userObject.getString("name"));
                     email.setText(userObject.getString("email"));
                     role.setText(userObject.getString("role"));
+                    phone.setText(userObject.getString("phone"));
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -204,7 +206,9 @@ public class UserDetailActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_edit_delete_option, menu);
+        if (sm.getPreferences("role").equals("SuperAdmin")){
+            getMenuInflater().inflate(R.menu.menu_edit_delete_option, menu);
+        }
         return true;
     }
 
@@ -221,6 +225,7 @@ public class UserDetailActivity extends AppCompatActivity {
             detIntent.putExtra("name", nama.getText());
             detIntent.putExtra("role", role.getText());
             detIntent.putExtra("email", email.getText());
+            detIntent.putExtra("phone", phone.getText());
             startActivity(detIntent);
         } else if (id == R.id.action_delete){
             deleteDataUser(tenant, aId);
