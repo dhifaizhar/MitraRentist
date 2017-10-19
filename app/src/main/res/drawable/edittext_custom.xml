@@ -12,5 +12,5 @@
         /> <!-- focused -->
     <item
         android:drawable="@color/colorBlack"
-        /> <!-- default -->
+        /> <!-- default-->
 </selector>

@@ -156,7 +156,8 @@ public class UserDetailActivity extends AppCompatActivity {
 
                     profilpicStr = userObject.getString("profile_pic");
                     if (profilpicStr.equals("null")){
-                        profilPic.setImageResource(R.drawable.user_ava_man);
+                        String imageUrl = AppConfig.URL_IMAGE_PROFIL + "img_default.png";
+                        Picasso.with(getApplicationContext()).load(imageUrl).transform(new CircleTransform()).into(profilPic);
                     }else{
                         String imageUrl = AppConfig.URL_IMAGE_PROFIL + profilpicStr;
                         Picasso.with(getApplicationContext()).load(imageUrl).transform(new CircleTransform()).into(profilPic);
@@ -226,7 +227,7 @@ public class UserDetailActivity extends AppCompatActivity {
             detIntent.putExtra("role", role.getText());
             detIntent.putExtra("email", email.getText());
             detIntent.putExtra("phone", phone.getText());
-            startActivity(detIntent);
+            startActivityForResult(detIntent, 2);
         } else if (id == R.id.action_delete){
             deleteDataUser(tenant, aId);
         }
@@ -317,6 +318,8 @@ public class UserDetailActivity extends AppCompatActivity {
 
             if(User != null){
                 Toast.makeText(getApplicationContext(),"Data berhasil dihapus", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(UserDetailActivity.this,UsersActivity.class);
+                setResult(RESULT_OK, intent);
                 finish();
             }else{
                 Toast.makeText(getApplicationContext(),"Gagal menghapus data", Toast.LENGTH_LONG).show();
@@ -328,6 +331,15 @@ public class UserDetailActivity extends AppCompatActivity {
         protected void onCancelled() {
             mDetailUserTask = null;
             showProgress(false);
+        }
+
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == RESULT_OK) {
+            detUserTenant(tenant, aId);
         }
 
     }

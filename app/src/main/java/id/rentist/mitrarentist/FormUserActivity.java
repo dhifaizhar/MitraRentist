@@ -29,7 +29,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.hbb20.CountryCodePicker;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -46,11 +51,12 @@ public class FormUserActivity extends AppCompatActivity {
     private SessionManager sm;
     private Intent formUser;
 
-    String tenant, aId, imgString;
+    String tenant, aId, imgString = "";
     TextView nama, email, pass, phone;
     Spinner role;
     ImageView profilPic;
     Button btnUploadFoto;
+    CountryCodePicker countryCode;
 
     private int PICK_IMAGE_REQUEST = 1;
 
@@ -85,6 +91,7 @@ public class FormUserActivity extends AppCompatActivity {
         pass = (TextView)findViewById(R.id.fus_password);
         phone = (TextView) findViewById(R.id.fus_phone);
         btnUploadFoto = (Button) findViewById(R.id.btnUploadFoto);
+        countryCode =(CountryCodePicker) findViewById(R.id.country_code);
 
         // set content control value
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
@@ -93,14 +100,15 @@ public class FormUserActivity extends AppCompatActivity {
             Log.e(TAG, "Id Tenant Form User : " + aId);
             String profilpicStr = formUser.getStringExtra("profile_pic");
             if (profilpicStr.equals("null")){
-                profilPic.setImageResource(R.drawable.user_ava_man);
+                String imageUrl = AppConfig.URL_IMAGE_PROFIL + "img_default.png";
+                Picasso.with(getApplicationContext()).load(imageUrl).transform(new CircleTransform()).into(profilPic);
             }else{
                 String imageUrl = AppConfig.URL_IMAGE_PROFIL + profilpicStr;
                 Picasso.with(getApplicationContext()).load(imageUrl).transform(new CircleTransform()).into(profilPic);
             }
             nama.setText(formUser.getStringExtra("name"));
             email.setText(formUser.getStringExtra("email"));
-            phone.setText(formUser.getStringExtra("phone"));
+            phone.setText(formUser.getStringExtra("phone").substring(2));
 
             if(formUser.getStringExtra("role").equals("Admin")){
                 role.setSelection(0);
@@ -175,10 +183,8 @@ public class FormUserActivity extends AppCompatActivity {
                     keys.put("role", role.getSelectedItem().toString());
                     keys.put("password", pass.getText().toString());
                     keys.put("email", email.getText().toString());
-                    keys.put("phone", phone.getText().toString());
-                    if (!imgString.equals("null")){
-                        keys.put("file", imgString);
-                    }
+                    keys.put("phone", countryCode.getSelectedCountryCode()+phone.getText().toString().trim());
+                    keys.put("file", imgString);
                     Log.e(TAG, "Key Body : " + keys.toString());
                     return keys;
                 }
@@ -208,6 +214,8 @@ public class FormUserActivity extends AppCompatActivity {
 
             if(user != null){
                 Toast.makeText(getApplicationContext(),"Sukses mengubah data.", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(FormUserActivity.this,UsersActivity.class);
+                setResult(RESULT_OK, intent);
                 finish();
             }else{
                 Toast.makeText(getApplicationContext(),"Gagal memuat data.", Toast.LENGTH_LONG).show();
@@ -259,7 +267,10 @@ public class FormUserActivity extends AppCompatActivity {
                     keys.put("name", nama.getText().toString());
                     keys.put("role", role.getSelectedItem().toString());
                     keys.put("email", email.getText().toString());
-                    keys.put("file", imgString);
+                    keys.put("phone", countryCode.getSelectedCountryCode()+phone.getText().toString().trim());
+                    if (!imgString.equals("")){
+                        keys.put("file", imgString);
+                    }
                     Log.e(TAG, "Key Body : " + keys.toString());
                     return keys;
                 }
@@ -285,11 +296,32 @@ public class FormUserActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String user) {
             mDetailUserTask = null;
+            int id_user;
             showProgress(false);
 
             if(user != null){
-                Toast.makeText(getApplicationContext(),"Sukses mengubah data.", Toast.LENGTH_LONG).show();
-                finish();
+
+                try {
+                    Log.e(TAG, "Response : " + user);
+                    JSONArray dataArray = new JSONArray(user);
+                    if (dataArray.length() > 0){
+                        JSONObject dataObject = dataArray.getJSONObject(0);
+                        id_user = dataObject.getInt("id");
+
+                    } else {
+                        id_user = 0;
+                    }
+
+                    Toast.makeText(getApplicationContext(),"Sukses mengubah data.", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(FormUserActivity.this,UserDetailActivity.class);
+                    setResult(RESULT_OK, intent);
+                    finish();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
             }else{
                 Toast.makeText(getApplicationContext(),"Gagal memuat data.", Toast.LENGTH_LONG).show();
             }
@@ -376,9 +408,14 @@ public class FormUserActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_save) {
-            formUserTenant(tenant, aId);
+            if (pass.getText().length() == 0 || email.getText().length() == 0){
+                Toast.makeText(getApplicationContext(),"Data Belum Lengkap", Toast.LENGTH_LONG).show();
+            } else {
+                formUserTenant(tenant, aId);
+            }
         }
 
         return super.onOptionsItemSelected(item);
     }
+
 }

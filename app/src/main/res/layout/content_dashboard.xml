@@ -209,7 +209,7 @@
                         android:text="0 IDR"
                         android:textAlignment="textEnd"
                         android:textColor="@color/colorPrice"
-                        android:textSize="30sp"
+                        android:textSize="22sp"
                         android:textStyle="bold" />
 
                 </LinearLayout>

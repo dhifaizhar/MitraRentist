@@ -68,9 +68,6 @@ public class DriverActivity extends AppCompatActivity {
         FadingCircle fadingCircle = new FadingCircle();
         pBar.setIndeterminateDrawable(fadingCircle);
 
-//        pDialog = new ProgressDialog(this);
-//        pDialog.setCancelable(false);
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -129,7 +126,7 @@ public class DriverActivity extends AppCompatActivity {
         if (id == R.id.action_add) {
             iDriver = new Intent(DriverActivity.this, FormDriverActivity.class);
             iDriver.putExtra("action","add");
-            startActivity(iDriver);
+            startActivityForResult(iDriver, 2);
         }
 
         return super.onOptionsItemSelected(item);
@@ -242,5 +239,16 @@ public class DriverActivity extends AppCompatActivity {
             pBar.setVisibility(View.GONE);
 //            showProgress(false);
         }
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == RESULT_OK) {
+            DriverActivity.this.finish();
+            Intent ii = new Intent(DriverActivity.this,DriverActivity.class);
+            startActivity(ii);
+        }
+
     }
 }

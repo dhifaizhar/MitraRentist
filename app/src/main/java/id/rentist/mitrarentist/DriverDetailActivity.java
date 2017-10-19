@@ -227,7 +227,7 @@ public class DriverDetailActivity extends AppCompatActivity {
             detIntent.putExtra("no_sim", sim.getText());
             detIntent.putExtra("birthdate", bdate.getText());
             detIntent.putExtra("gender", gender.getText());
-            startActivity(detIntent);
+            startActivityForResult(detIntent, 2);
         } else if (id == R.id.action_delete){
             deleteDataDriver(tenant, aId);
         }
@@ -329,6 +329,17 @@ public class DriverDetailActivity extends AppCompatActivity {
         protected void onCancelled() {
             mDetailDriverTask = null;
             showProgress(false);
+        }
+
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == RESULT_OK) {
+            DriverDetailActivity.this.finish();
+            Intent ii = new Intent(DriverDetailActivity.this,DriverDetailActivity.class);
+            startActivity(ii);
         }
 
     }

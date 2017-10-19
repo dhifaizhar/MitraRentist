@@ -68,9 +68,6 @@ public class UsersActivity extends AppCompatActivity {
         FadingCircle fadingCircle = new FadingCircle();
         pBar.setIndeterminateDrawable(fadingCircle);
 
-//        pDialog = new ProgressDialog(this);
-//        pDialog.setCancelable(false);
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setTitle("Pengguna");
@@ -93,7 +90,7 @@ public class UsersActivity extends AppCompatActivity {
     }
 
     private void getUserDataList(String tenant) {
-//        pBar.setVisibility(View.VISIBLE);
+//       pBar.setVisibility(View.VISIBLE);
         new getUserListTask(tenant).execute();
     }
 
@@ -132,7 +129,7 @@ public class UsersActivity extends AppCompatActivity {
         if (id == R.id.action_add) {
             iUserAdd = new Intent(UsersActivity.this, FormUserActivity.class);
             iUserAdd.putExtra("action","add");
-            startActivity(iUserAdd);
+            startActivityForResult(iUserAdd, 2);
         }
 
         return super.onOptionsItemSelected(item);
@@ -253,5 +250,16 @@ public class UsersActivity extends AppCompatActivity {
             pBar.setVisibility(View.GONE);
 //            showProgress(false);
         }
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == RESULT_OK) {
+            pBar.setVisibility(View.VISIBLE);
+            mUser.clear();
+            getUserDataList(tenant);
+        }
+
     }
 }

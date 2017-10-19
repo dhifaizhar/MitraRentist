@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -396,9 +396,21 @@
 
             </LinearLayout>
 
-
         </LinearLayout>
 
     </android.support.v7.widget.CardView>
 
-</android.support.design.widget.CoordinatorLayout>
+    <Button
+        android:id="@+id/btn_apply"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/btn_lmedium_height"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:layout_margin="0dp"
+        android:background="@color/colorPrimaryDark"
+        android:padding="0dp"
+        android:text="Terapkan"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/medium_text" />
+
+</RelativeLayout>

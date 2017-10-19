@@ -123,7 +123,6 @@ public class GridAsetAdapter extends RecyclerView.Adapter<GridAsetAdapter.ViewHo
             category.setThumbnail(R.drawable.office_equipmen);
             itemCategory.add(category);
         }
-
     }
 
     @Override
@@ -162,13 +161,13 @@ public class GridAsetAdapter extends RecyclerView.Adapter<GridAsetAdapter.ViewHo
         viewHolder.cardDetAset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(idc.matches("1|2|3|4|5|6|7|8|9|10|11")){
+                if (idc.matches("1|2|3|4|5|6|7|8|9|10|11")) {
                     Intent iAset = new Intent(context, AsetListActivity.class);
                     iAset.putExtra("id_category", idc);
                     iAset.putExtra("name_category", cname);
                     iAset.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(iAset);
-                }else{
+                } else{
                     Snackbar snackbar = Snackbar.make(v, "Oops, Sorry ! This Feature Will Online Soon", Snackbar.LENGTH_LONG);
                     snackbar.show();
                 }

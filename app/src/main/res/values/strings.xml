@@ -36,8 +36,8 @@
 
     <string name="action_logout">Keluar</string>
     <string name="action_search">Cari</string>
-    <string name="action_add">Tambah</string>
-    <string name="action_delete">Hapus</string>
+    <string name="action_add">Cari</string>
+    <string name="action_delete">Cari</string>
     <string name="action_go_home">Go Home Now !</string>
     <string name="action_car">Mobil</string>
     <string name="action_bike">Motor</string>
@@ -109,11 +109,23 @@
         <item>3</item>
     </string-array>
 
+    <string-array name="city_entries">
+        <item>Bali</item>
+        <item>Bogor</item>
+    </string-array>
+
     <string-array name="asset_category_entries">
         <item>Mobil</item>
         <item>Motor</item>
-        <item>Yacth</item>
+        <item>Kapal Pesiar</item>
+        <item>Peralatan Medis</item>
+        <item>Fotografi</item>
+        <item>Mainan Anak</item>
+        <item>Olahraga &amp; Petualangan</item>
+        <item>Ibu &amp; Anak</item>
+        <item>Elektronik</item>
         <item>Sepeda</item>
+        <item>Peralatan Kantor</item>
     </string-array>
 
     <string-array name="asset_subcategory_entries">
@@ -227,6 +239,14 @@
     <string-array name="role_rental">
         <item>Corporate</item>
         <item>Personal</item>
+    </string-array>
+
+    <string-array name="bank_entries">
+        <item>BCA</item>
+        <item>BNI</item>
+        <item>BRI</item>
+        <item>Mandiri</item>
+        <item>Danamon</item>
     </string-array>
 
     <string-array name="action_edit_delete">

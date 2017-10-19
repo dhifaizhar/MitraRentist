@@ -172,6 +172,8 @@ public class FormDriverActivity extends AppCompatActivity {
 
             if(driver != null){
                 Toast.makeText(getApplicationContext(),"Sukses menyimpan data.", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(FormDriverActivity.this,DriverDetailActivity.class);
+                setResult(RESULT_OK, intent);
                 finish();
             }else{
                 Toast.makeText(getApplicationContext(),"Gagal memuat data.", Toast.LENGTH_LONG).show();
@@ -253,6 +255,8 @@ public class FormDriverActivity extends AppCompatActivity {
 
             if(user != null){
                 Toast.makeText(getApplicationContext(),"Sukses mengubah data.", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(FormDriverActivity.this,DriverActivity.class);
+                setResult(RESULT_OK, intent);
                 finish();
             }else{
                 Toast.makeText(getApplicationContext(),"Gagal memuat data.", Toast.LENGTH_LONG).show();

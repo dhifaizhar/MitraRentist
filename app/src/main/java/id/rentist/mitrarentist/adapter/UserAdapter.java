@@ -50,7 +50,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> im
 
 //        viewHolder.imgThumbnail.setImageResource(user.getThumbnail());
         if (user.getThumbnail().equals("null")){
-            viewHolder.imgThumbnail.setImageResource(R.drawable.user_ava_man);
+            String imageUrl = AppConfig.URL_IMAGE_PROFIL + "img_default.png";
+            Picasso.with(context).load(imageUrl).transform(new CircleTransform()).into(viewHolder.imgThumbnail);
         }else{
             String imageUrl = AppConfig.URL_IMAGE_PROFIL + user.getThumbnail();
             Picasso.with(context).load(imageUrl).transform(new CircleTransform()).into(viewHolder.imgThumbnail);

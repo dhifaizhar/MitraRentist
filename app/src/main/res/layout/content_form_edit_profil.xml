@@ -30,11 +30,11 @@
                 android:padding="@dimen/min_padding">
 
                 <!--<com.android.volley.toolbox.NetworkImageView-->
-                    <!--android:id="@+id/pr_thumb"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="@dimen/thumb_height"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:background="@drawable/img" />-->
+                <!--android:id="@+id/pr_thumb"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="@dimen/thumb_height"-->
+                <!--android:layout_weight="1"-->
+                <!--android:background="@drawable/img" />-->
 
                 <ImageView
                     android:id="@+id/pr_thumb"
@@ -100,8 +100,8 @@
                     android:background="@color/colorNearWhite"
                     android:ems="10"
                     android:hint="Nama Rental"
-                    android:inputType="textCapSentences"
                     android:imeOptions="actionNext"
+                    android:inputType="textPersonName|textCapWords"
                     android:padding="@dimen/min_padding" />
             </LinearLayout>
 
@@ -127,7 +127,7 @@
                     android:ems="10"
                     android:hint="Nama Pemilik"
                     android:imeOptions="actionNext"
-                    android:inputType="textCapSentences"
+                    android:inputType="textPersonName|textCapWords"
                     android:padding="@dimen/min_padding" />
             </LinearLayout>
 
@@ -145,17 +145,64 @@
                     android:text="Nomor Telepon"
                     android:textColor="@color/colorBlack" />
 
-                <EditText
-                    android:id="@+id/epr_telp"
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorNearWhite"
-                    android:ems="10"
-                    android:hint="Nomor Telepon"
-                    android:imeOptions="actionNext"
-                    android:inputType="phone"
-                    android:padding="@dimen/min_padding" />
+                    android:background="@color/colorNearWhite">
+
+                    <com.hbb20.CountryCodePicker
+                        android:id="@+id/country_code"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_centerVertical="true"
+                        app:ccp_defaultNameCode="ID"
+                        app:ccp_showFlag="false" />
+
+                    <EditText
+                        android:id="@+id/epr_telp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@+id/country_code"
+                        android:background="@color/colorNearWhite"
+                        android:ems="10"
+                        android:hint="Nomor Telepon"
+                        android:imeOptions="actionNext"
+                        android:inputType="phone"
+                        android:padding="@dimen/min_padding" />
+
+                </RelativeLayout>
             </LinearLayout>
+
+            <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_marginBottom="@dimen/xmin_padding"-->
+                <!--android:orientation="vertical"-->
+                <!--android:padding="@dimen/xmin_padding">-->
+
+                <!--<TextView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="Kota"-->
+                    <!--android:textColor="@color/colorBlack" />-->
+
+                <!--<LinearLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:orientation="vertical"-->
+                    <!--android:background="@color/colorNearWhite"-->
+                    <!--android:padding="@dimen/xmin_padding">-->
+
+                    <!--<Spinner-->
+                        <!--android:id="@+id/epr_city"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:entries="@array/city_entries"-->
+                        <!--android:padding="@dimen/xmin_padding" />-->
+
+                <!--</LinearLayout>-->
+            <!--</LinearLayout>-->
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -179,7 +226,7 @@
                     android:ems="10"
                     android:hint="Alamat"
                     android:imeOptions="actionNext"
-                    android:inputType="textMultiLine"
+                    android:inputType="textMultiLine|textCapSentences"
                     android:lines="3"
                     android:padding="@dimen/min_padding" />
             </LinearLayout>
@@ -218,16 +265,21 @@
                     android:text="Nama Bank"
                     android:textColor="@color/colorBlack" />
 
-                <EditText
-                    android:id="@+id/epr_bank_name"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
                     android:background="@color/colorNearWhite"
-                    android:ems="10"
-                    android:hint="Nama Bank"
-                    android:inputType="textPersonName"
-                    android:imeOptions="actionNext"
-                    android:padding="@dimen/min_padding" />
+                    android:padding="@dimen/xmin_padding">
+
+                    <Spinner
+                        android:id="@+id/epr_bank_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/bank_entries"
+                        android:padding="@dimen/xmin_padding" />
+
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -250,8 +302,8 @@
                     android:background="@color/colorNearWhite"
                     android:ems="10"
                     android:hint="Nomor Rekening"
-                    android:inputType="number"
                     android:imeOptions="actionNext"
+                    android:inputType="number"
                     android:padding="@dimen/min_padding" />
             </LinearLayout>
 
@@ -275,8 +327,8 @@
                     android:background="@color/colorNearWhite"
                     android:ems="10"
                     android:hint="Pemilik Akun"
-                    android:inputType="textCapSentences"
                     android:imeOptions="actionNext"
+                    android:inputType="textPersonName|textCapWords"
                     android:padding="@dimen/min_padding" />
             </LinearLayout>
 

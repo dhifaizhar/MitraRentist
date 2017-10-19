@@ -44,7 +44,9 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.NumberFormat;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import id.rentist.mitrarentist.tools.AppConfig;
@@ -84,9 +86,6 @@ public class DashboardActivity extends AppCompatActivity
         pBar = (SpinKitView)findViewById(R.id.progressBar);
         FadingCircle fadingCircle = new FadingCircle();
         pBar.setIndeterminateDrawable(fadingCircle);
-
-//        pDialog = new ProgressDialog(this);
-//        pDialog.setCancelable(false);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -152,7 +151,8 @@ public class DashboardActivity extends AppCompatActivity
 
         Log.e(TAG, "Profil Pic : " + sm.getPreferences("foto_profil"));
         if (sm.getPreferences("foto_profil").equals("null")){
-            rentImgProfile.setImageResource(R.drawable.user_ava_man);
+            String imageUrl = AppConfig.URL_IMAGE_PROFIL + "default.png";
+            Picasso.with(getApplicationContext()).load(imageUrl).transform(new CircleTransform()).into(rentImgProfile);
         } else {
             String imageUrl = AppConfig.URL_IMAGE_PROFIL + sm.getPreferences("foto_profil");
             Picasso.with(getApplicationContext()).load(imageUrl).transform(new CircleTransform()).into(rentImgProfile);
@@ -281,11 +281,16 @@ public class DashboardActivity extends AppCompatActivity
                     sumAsset = assetObject.getInt("total");
                     totAsset.setText(String.valueOf(sumAsset));
 //                    totSaldo.setText(saldoObject.getString("received").equals("null") ? "0 IDR" : saldoObject.getString("received")+" IDR");
-                    totSaldo.setText(dataObject.getString("saldo"));
-                    totPoin.setText(poinObject.getString("received"));
+                    totPoin.setText(poinObject.getString("received").equals("null") ? "0" : ratingObject.getString("received"));
                     totRating.setText(ratingObject.getString("rating").equals("null") ? "0" : ratingObject.getString("rating"));
                     successRent.setText(dataObject.getString("sukses"));
                     ongoRent.setText(dataObject.getString("berlangsung"));
+
+                    int saldo = dataObject.getInt("berlangsung");
+//                    DecimalFormat formatter = new DecimalFormat("#.###.###");
+                    NumberFormat formatter = NumberFormat.getInstance(Locale.GERMANY);
+                    String currency = "Rp " + formatter.format(531622381) ;
+                    totSaldo.setText(currency);
 
                     Log.d(TAG, "JSON Error : " + dataObject);
 

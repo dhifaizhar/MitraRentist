@@ -434,6 +434,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                         tPic = tenantObject.getString("profil_pic");
                         sVerif = tenantObject.getString("verified");
 
+                        sm.setIntPreferences("city", tenantObject.getInt("id_city"));
                         sm.setPreferences("bank_name", tenantObject.getString("bank_name"));
                         sm.setPreferences("bank_account", tenantObject.getString("bank_account"));
                         sm.setPreferences("account_name", tenantObject.getString("account_name"));
@@ -466,7 +467,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                     sm.setPreferences("electronic", setCatObject.getString("electronic"));
                     sm.setPreferences("bicycle", setCatObject.getString("bicycle"));
                     sm.setPreferences("office", setCatObject.getString("office"));
-                    sm.setPreferences("sum_cat", setCatObject.getString("true"));
+                    sm.setIntPreferences("sum_cat", setCatObject.getInt("true"));
 
 
 //                    String imageUrl = "http://assets.rentist.id/images/" + sm.getPreferences("foto_profil_tenant");

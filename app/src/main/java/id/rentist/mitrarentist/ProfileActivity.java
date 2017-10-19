@@ -72,8 +72,14 @@ public class ProfileActivity extends AppCompatActivity {
         rAccountOwner.setText(sm.getPreferences("account_name"));
 
         //Load image
-        imageUrl = AppConfig.URL_IMAGE_PROFIL + sm.getPreferences("foto_profil_tenant");
-        Picasso.with(getApplicationContext()).load(imageUrl).transform(new CircleTransform()).into(profilePhoto);
+        if (sm.getPreferences("foto_profil_tenant").equals("null")){
+            imageUrl = AppConfig.URL_IMAGE_PROFIL + "img_default.png";
+            Picasso.with(getApplicationContext()).load(imageUrl).transform(new CircleTransform()).into(profilePhoto);
+        } else {
+            imageUrl = AppConfig.URL_IMAGE_PROFIL + sm.getPreferences("foto_profil_tenant");
+            Picasso.with(getApplicationContext()).load(imageUrl).transform(new CircleTransform()).into(profilePhoto);
+        }
+
 
         vAll.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,7 +110,7 @@ public class ProfileActivity extends AppCompatActivity {
         if (id == R.id.action_edit) {
             if(sm.getPreferences("role").equals("SuperAdmin")){
                 iEditRent = new Intent(ProfileActivity.this, FormEditProfilActivity.class);
-                startActivity(iEditRent);
+                startActivityForResult(iEditRent, 2);
             }else{
                 Toast.makeText(getApplicationContext(), "Hanya untuk Administrator",
                         Toast.LENGTH_LONG).show();
@@ -112,5 +118,17 @@ public class ProfileActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == RESULT_OK) {
+            ProfileActivity.this.finish();
+            Intent ii = new Intent(ProfileActivity.this,ProfileActivity.class);
+            startActivity(ii);
+
+        }
+
     }
 }

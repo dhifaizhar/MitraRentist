@@ -21,6 +21,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -31,6 +32,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.hbb20.CountryCodePicker;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -52,14 +54,15 @@ public class FormEditProfilActivity extends AppCompatActivity {
     private ProgressDialog pDialog;
     private SessionManager sm;
 
-    EditText rName, rOwner, rAddress, rEmail, rPhone, rBankName, rBankAccount, rAccountOwner;
-//    NetworkImageView profilePhoto;
+    EditText rName, rOwner, rAddress, rEmail, rPhone, rBankAccount, rAccountOwner;
     ImageView profilePhoto;
     Button btnUploadFoto;
     String tenant, erName, erOwner, erAddress, erEmail, erPhone;
     Resources eprofilePhoto;
     ImageLoader mImageLoader;
     String imageUrl;
+    Spinner rBankName;
+    CountryCodePicker countryCode;
 
     private Bitmap bitmap;
     String encodedImage, isiimage = "", ext, imgString;
@@ -98,24 +101,36 @@ public class FormEditProfilActivity extends AppCompatActivity {
         rPhone = (EditText) findViewById(R.id.epr_telp);
         rEmail = (EditText) findViewById(R.id.epr_email);
         rBankAccount = (EditText) findViewById(R.id.epr_bank_account);
-        rBankName = (EditText) findViewById(R.id.epr_bank_name);
+        rBankName = (Spinner) findViewById(R.id.epr_bank_name);
         rAccountOwner = (EditText) findViewById(R.id.epr_account_name);
         profilePhoto = (ImageView) findViewById(R.id.pr_thumb);
         btnUploadFoto = (Button) findViewById(R.id.btnUploadFoto);
+        countryCode =(CountryCodePicker) findViewById(R.id.country_code);
 
         // set content control value
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
         rName.setText(sm.getPreferences("nama_rental"));
         rOwner.setText(sm.getPreferences("nama_pemilik"));
         rAddress.setText(sm.getPreferences("alamat"));
-        rPhone.setText(sm.getPreferences("telepon"));
+        rPhone.setText(sm.getPreferences("telepon").substring(2));
         rEmail.setText(sm.getPreferences("email_rental"));
-        rBankName.setText(sm.getPreferences("bank_name"));
         rBankAccount.setText(sm.getPreferences("bank_account"));
         rAccountOwner.setText(sm.getPreferences("account_name"));
+        if(sm.getPreferences("bank_name").equals("BCA")){
+            rBankName.setSelection(0);
+        }else if(sm.getPreferences("bank_name").equals("BNI")){
+            rBankName.setSelection(1);
+        }else if(sm.getPreferences("bank_name").equals("BRI")){
+            rBankName.setSelection(2);
+        }else if(sm.getPreferences("bank_name").equals("Mandiri")){
+            rBankName.setSelection(3);
+        }else if(sm.getPreferences("bank_name").equals("Permata")){
+            rBankName.setSelection(4);
+        }
 
         if (sm.getPreferences("foto_profil_tenant").equals("null")){
-            profilePhoto.setImageResource(R.drawable.user_ava_man);
+            imageUrl = AppConfig.URL_IMAGE_PROFIL + "img_default.png";
+            Picasso.with(getApplicationContext()).load(imageUrl).transform(new CircleTransform()).into(profilePhoto);
         } else {
             imageUrl = AppConfig.URL_IMAGE_PROFIL + sm.getPreferences("foto_profil_tenant");
             Picasso.with(getApplicationContext()).load(imageUrl).transform(new CircleTransform()).into(profilePhoto);
@@ -161,7 +176,7 @@ public class FormEditProfilActivity extends AppCompatActivity {
         erName = rName.getText().toString();
         erOwner = rOwner.getText().toString();
         erAddress = rAddress.getText().toString();
-        erPhone = rPhone.getText().toString();
+        erPhone = countryCode.getSelectedCountryCode()+rPhone.getText().toString().trim();
         erEmail = rEmail.getText().toString();
         eprofilePhoto = profilePhoto.getResources();
 
@@ -206,7 +221,7 @@ public class FormEditProfilActivity extends AppCompatActivity {
                     keys.put("rental_name", erName);
                     keys.put("address", erAddress);
                     keys.put("phone", erPhone);
-                    keys.put("bank_name", rBankName.getText().toString());
+                    keys.put("bank_name", rBankName.getSelectedItem().toString());
                     keys.put("bank_account", rBankAccount.getText().toString());
                     keys.put("account_name", rAccountOwner.getText().toString());
                     keys.put("file", isiimage);
@@ -246,10 +261,9 @@ public class FormEditProfilActivity extends AppCompatActivity {
                 sm.setPreferences("alamat", erAddress);
                 sm.setPreferences("telepon", erPhone);
                 sm.setPreferences("email", erEmail);
-                sm.setPreferences("bank_name", rBankName.getText().toString());
+                sm.setPreferences("bank_name", rBankName.getSelectedItem().toString());
                 sm.setPreferences("bank_account", rBankAccount.getText().toString());
                 sm.setPreferences("account_name", rAccountOwner.getText().toString());
-//                sm.setPreferences("foto_profil_tenant",isiimage);
                 Log.e(TAG, "USer : not null");
 
                 try {
@@ -268,7 +282,10 @@ public class FormEditProfilActivity extends AppCompatActivity {
                 }
 
                 Toast.makeText(getApplicationContext(),"Sukses mengubah data.", Toast.LENGTH_LONG).show();
-                FormEditProfilActivity.this.finish();
+//                FormEditProfilActivity.this.finish();
+                Intent intent = new Intent(FormEditProfilActivity.this,ProfileActivity.class);
+                setResult(RESULT_OK, intent);
+                finish();
             }else{
                 Toast.makeText(getApplicationContext(),"Gagal memuat data.", Toast.LENGTH_LONG).show();
             }
