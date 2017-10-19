@@ -1,35 +1,35 @@
 {
   "project_info": {
-    "project_number": "26667351408",
-    "firebase_url": "https://rentistapps.firebaseio.com",
-    "project_id": "rentistapps",
-    "storage_bucket": "rentistapps.appspot.com"
+    "project_number": "302706735851",
+    "firebase_url": "https://rentist-chat.firebaseio.com",
+    "project_id": "rentist-chat",
+    "storage_bucket": "rentist-chat.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:26667351408:android:f217bcef96bf661c",
+        "mobilesdk_app_id": "1:302706735851:android:bb62f849ae0eff55",
         "android_client_info": {
-          "package_name": "id.rentist.rentist"
+          "package_name": "id.rentist.mitrarentist"
         }
       },
       "oauth_client": [
         {
-          "client_id": "26667351408-08dg4p1p0v3orok3snch2ad8tiefuosh.apps.googleusercontent.com",
+          "client_id": "302706735851-vdi0q93j0pjoj9vgns50ii611db8inal.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "id.rentist.rentist",
-            "certificate_hash": "479e7bfa652aef60abea34b09fd4d7d41559b127"
+            "package_name": "id.rentist.mitrarentist",
+            "certificate_hash": "aee685e9215f04bff1707bbc38c7e620b472db05"
           }
         },
         {
-          "client_id": "26667351408-7b71ij4g7ksu58kadb0mr9h7rf8f9f0c.apps.googleusercontent.com",
+          "client_id": "302706735851-qe9sminnfi85nl2389hm2cjgt4s2030s.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCQW69oBC2YupOdmdG6kdUk52WhsasmjhI"
+          "current_key": "AIzaSyA_r5cnPr6kL4J4jDoGZbW7swJ7seCqlCI"
         }
       ],
       "services": {
@@ -40,41 +40,10 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "26667351408-7b71ij4g7ksu58kadb0mr9h7rf8f9f0c.apps.googleusercontent.com",
+              "client_id": "302706735851-qe9sminnfi85nl2389hm2cjgt4s2030s.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
-        },
-        "ads_service": {
-          "status": 2
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:26667351408:android:bb62f849ae0eff55",
-        "android_client_info": {
-          "package_name": "id.rentist.mitrarentist"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "26667351408-7b71ij4g7ksu58kadb0mr9h7rf8f9f0c.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCQW69oBC2YupOdmdG6kdUk52WhsasmjhI"
-        }
-      ],
-      "services": {
-        "analytics_service": {
-          "status": 1
-        },
-        "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
         },
         "ads_service": {
           "status": 2
