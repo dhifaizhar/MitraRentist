@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -47,6 +48,7 @@ public class DompetActivity extends AppCompatActivity {
     String tenant, balance;
     TextView credit, note, date, nominal, desc, status, his_wd;
     Button withdrawal;
+    CardView lastWithdrawal;
 
     ArrayList<String> transId = new ArrayList<String>();
 
@@ -79,8 +81,9 @@ public class DompetActivity extends AppCompatActivity {
         nominal = (TextView)findViewById(R.id.last_with_balance);
         desc = (TextView)findViewById(R.id.last_with_desc);
         status = (TextView)findViewById(R.id.last_with_stat);
-        his_wd = (TextView)findViewById(R.id.btn_history_withdrawal);
         note = (TextView)findViewById(R.id.note);
+        his_wd = (TextView)findViewById(R.id.btn_history_withdrawal);
+        lastWithdrawal = (CardView) findViewById(R.id.last_withdrawal);
 
         // set content control value
 //        credit.setText("7.000.000 IDR");
@@ -177,30 +180,27 @@ public class DompetActivity extends AppCompatActivity {
 
                     if(lastWithdrawalArray.length() > 0){
                         errorMsg = "-";
-                    for (int i = 0; i < lastWithdrawalArray.length(); i++) {
-                        JSONObject last = lastWithdrawalArray.getJSONObject(i);
+                        lastWithdrawal.setVisibility(View.VISIBLE);
 
-                        String dt = last.getString("createdAt").substring(0,10);
+                        for (int i = 0; i < lastWithdrawalArray.length(); i++) {
 
-                        String vNominal = ": " +  last.getString("nominal") + " IDR";
-                        String vDesc = ": " + last.getString("description");
-                        String vStatus = ": " + last.getString("status");
-                        date.setText(dt);
-                        nominal.setText(vNominal);
-                        desc.setText(vDesc);
-                        status.setText(vStatus);
+                            JSONObject last = lastWithdrawalArray.getJSONObject(i);
+
+                            String dt = last.getString("createdAt").substring(0,10);
+
+                            String vNominal = ": " +  last.getString("nominal") + " IDR";
+                            String vDesc = ": " + last.getString("description");
+                            String vStatus = ": " + last.getString("status");
+                            date.setText(dt);
+                            nominal.setText(vNominal);
+                            desc.setText(vDesc);
+                            status.setText(vStatus);
+                        }
+
+                    } else {
+                        errorMsg = "Anda belum mengajukan withdrawal";
+                        Toast.makeText(getApplicationContext(),errorMsg, Toast.LENGTH_LONG).show();
                     }
-
-                } else {
-                    errorMsg = "Anda belum mengajukan withdrawal";
-
-                    date.setText(": -");
-                    nominal.setText(": -");
-                    desc.setText(": -");
-                    status.setText(": -");
-
-                    Toast.makeText(getApplicationContext(),errorMsg, Toast.LENGTH_LONG).show();
-                }
 
                     if(TransArray.length() > 0){
                         errorMsg = "-";
@@ -212,11 +212,12 @@ public class DompetActivity extends AppCompatActivity {
                         }
 
                     } else {
-                        errorMsg = "Note : Anda tidak bisa melakukan withdrawal karena semua saldo anda sudah dalam pengajuan withdrawal. Cek pengajuan withdrawal anda";
+                        errorMsg = "Note : Anda tidak memiliki cukup saldo untuk melakukan withdrawal";
                         note.setText(errorMsg);
                         withdrawal.setEnabled(false);
+//                        withdrawal.setVisibility(View.INVISIBLE);
                         withdrawal.setBackgroundColor(getResources().getColor(R.color.colorButtonDefault));
-                        withdrawal.setTextColor(getResources().getColor(R.color.colorBlack87));
+                        withdrawal.setTextColor(getResources().getColor(R.color.colorBlack54));
 
 //                        Toast.makeText(getApplicationContext(),errorMsg, Toast.LENGTH_LONG).show();
                     }

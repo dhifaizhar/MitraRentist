@@ -249,6 +249,104 @@
         <item>Danamon</item>
     </string-array>
 
+    <string-array name="car_brand_entries">
+        <item>Audi</item>
+        <item>BMW</item>
+        <item>Chevrolet</item>
+        <item>Daihatsu</item>
+        <item>Datsun</item>
+        <item>Honda</item>
+        <item>Hyundai</item>
+        <item>Isuzu</item>
+        <item>KIA</item>
+        <item>Lexus</item>
+        <item>Mazda</item>
+        <item>Mercedes Benz</item>
+        <item>Mini</item>
+        <item>Mitsubishi</item>
+        <item>Nissan</item>
+        <item>Renault</item>
+        <item>Suzuki</item>
+        <item>Toyota</item>
+    </string-array>
+
+    <string-array name="motor_brand_entries">
+        <item>Audi</item>
+        <item>BMW</item>
+        <item>Chevrolet</item>
+        <item>Daihatsu</item>
+        <item>Datsun</item>
+        <item>Honda</item>
+        <item>Hyundai</item>
+        <item>Isuzu</item>
+        <item>KIA</item>
+        <item>Lexus</item>
+        <item>Mazda</item>
+        <item>Mercedes Benz</item>
+        <item>Mini</item>
+        <item>Mitsubishi</item>
+        <item>Nissan</item>
+        <item>Renault</item>
+        <item>Suzuki</item>
+        <item>Toyota</item>
+    </string-array>
+
+    <string-array name="engine_cap_motor_entries">
+        <item>100cc</item>
+        <item>110cc</item>
+        <item>125cc</item>
+        <item>135cc</item>
+        <item>150cc</item>
+        <item>250cc</item>
+        <item>400cc</item>
+        <item>500cc</item>
+        <item>1000cc</item>
+    </string-array>
+
+    <string-array name="engine_cap_car_entries">
+        <item>500cc - 1000cc</item>
+        <item>1001cc - 1500cc</item>
+        <item>1501cc - 2000cc</item>
+        <item>2501cc - 3000cc</item>
+        <item>3001cc - 3500cc</item>
+        <item>4001cc - 4500cc</item>
+        <item>4501cc - 5000cc</item>
+    </string-array>
+
+    <string-array name="engine_cap_entries">
+        <item>Pertamax</item>
+        <item>Pertamax Plus</item>
+        <item>Pertalite</item>
+        <item>Premium</item>
+    </string-array>
+
+    <string-array name="color_entries">
+        <item>Abu-abu</item>
+        <item>Biru</item>
+        <item>Coklat</item>
+        <item>Hitam</item>
+        <item>Kuning</item>
+        <item>Merah</item>
+        <item>Putih</item>
+        <item>Silver</item>
+    </string-array>
+
+    <integer-array name="seats_entries">
+        <item>2</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+    </integer-array>
+
+    <string-array name="fuel_entries">
+        <item>Pertamax</item>
+        <item>Pertamax Plus</item>
+        <item>Pertalite</item>
+        <item>Premium</item>
+    </string-array>
+
     <string-array name="action_edit_delete">
         <item> </item>
         <item>Ubah</item>

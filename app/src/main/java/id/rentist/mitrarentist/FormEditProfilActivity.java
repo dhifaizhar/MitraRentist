@@ -54,14 +54,14 @@ public class FormEditProfilActivity extends AppCompatActivity {
     private ProgressDialog pDialog;
     private SessionManager sm;
 
-    EditText rName, rOwner, rAddress, rEmail, rPhone, rBankAccount, rAccountOwner;
+    EditText rName, rOwner, rAddress, rEmail, rPhone, rBankAccount, rAccountOwner, rBranch;
     ImageView profilePhoto;
     Button btnUploadFoto;
     String tenant, erName, erOwner, erAddress, erEmail, erPhone;
     Resources eprofilePhoto;
     ImageLoader mImageLoader;
     String imageUrl;
-    Spinner rBankName;
+    Spinner rBankName, rCity;
     CountryCodePicker countryCode;
 
     private Bitmap bitmap;
@@ -102,6 +102,8 @@ public class FormEditProfilActivity extends AppCompatActivity {
         rEmail = (EditText) findViewById(R.id.epr_email);
         rBankAccount = (EditText) findViewById(R.id.epr_bank_account);
         rBankName = (Spinner) findViewById(R.id.epr_bank_name);
+        rCity = (Spinner) findViewById(R.id.epr_city);
+        rBranch = (EditText) findViewById(R.id.epr_branch);
         rAccountOwner = (EditText) findViewById(R.id.epr_account_name);
         profilePhoto = (ImageView) findViewById(R.id.pr_thumb);
         btnUploadFoto = (Button) findViewById(R.id.btnUploadFoto);
@@ -115,18 +117,17 @@ public class FormEditProfilActivity extends AppCompatActivity {
         rPhone.setText(sm.getPreferences("telepon").substring(2));
         rEmail.setText(sm.getPreferences("email_rental"));
         rBankAccount.setText(sm.getPreferences("bank_account"));
+        rBranch.setText(sm.getPreferences("branch"));
         rAccountOwner.setText(sm.getPreferences("account_name"));
-        if(sm.getPreferences("bank_name").equals("BCA")){
-            rBankName.setSelection(0);
-        }else if(sm.getPreferences("bank_name").equals("BNI")){
-            rBankName.setSelection(1);
-        }else if(sm.getPreferences("bank_name").equals("BRI")){
-            rBankName.setSelection(2);
-        }else if(sm.getPreferences("bank_name").equals("Mandiri")){
-            rBankName.setSelection(3);
-        }else if(sm.getPreferences("bank_name").equals("Permata")){
-            rBankName.setSelection(4);
+        if(sm.getPreferences("bank_name").equals("BCA")){rBankName.setSelection(0);
+        }else if(sm.getPreferences("bank_name").equals("BNI")){rBankName.setSelection(1);
+        }else if(sm.getPreferences("bank_name").equals("BRI")){rBankName.setSelection(2);
+        }else if(sm.getPreferences("bank_name").equals("Mandiri")){rBankName.setSelection(3);
+        }else if(sm.getPreferences("bank_name").equals("Permata")){rBankName.setSelection(4);
         }
+        Log.e("CItyEDIT", sm.getPreferences("city").toString());
+
+        rCity.setSelection(Integer.parseInt(sm.getPreferences("city"))-1);
 
         if (sm.getPreferences("foto_profil_tenant").equals("null")){
             imageUrl = AppConfig.URL_IMAGE_PROFIL + "img_default.png";
@@ -224,6 +225,8 @@ public class FormEditProfilActivity extends AppCompatActivity {
                     keys.put("bank_name", rBankName.getSelectedItem().toString());
                     keys.put("bank_account", rBankAccount.getText().toString());
                     keys.put("account_name", rAccountOwner.getText().toString());
+                    keys.put("branch", rBranch.getText().toString());
+                    keys.put("id_city", String.valueOf(rCity.getSelectedItemId()+1));
                     keys.put("file", isiimage);
 
 //                    Log.e(TAG, "IMAGE ; " + imgString);
@@ -264,6 +267,9 @@ public class FormEditProfilActivity extends AppCompatActivity {
                 sm.setPreferences("bank_name", rBankName.getSelectedItem().toString());
                 sm.setPreferences("bank_account", rBankAccount.getText().toString());
                 sm.setPreferences("account_name", rAccountOwner.getText().toString());
+                sm.setPreferences("branch", rBranch.getText().toString());
+                sm.setPreferences("city", String.valueOf(rCity.getSelectedItemId()+1));
+
                 Log.e(TAG, "USer : not null");
 
                 try {

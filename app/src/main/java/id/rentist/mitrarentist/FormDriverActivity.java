@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -21,7 +22,6 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -42,7 +42,7 @@ public class FormDriverActivity extends AppCompatActivity {
     int genderId;
     String tenant, aId, birthdate;
     TextView name, sim, bdate, gender;
-    NetworkImageView profilePic;
+    ImageView profilePic;
 
     private static final String TAG = "FormDriverActivity";
     private static final String TOKEN = "secretissecret";
@@ -69,7 +69,7 @@ public class FormDriverActivity extends AppCompatActivity {
     private void controlContent() {
         //initialize view
         aGenderGroup = (RadioGroup) findViewById(R.id.dr_rad_gender);
-        profilePic = (NetworkImageView) findViewById(R.id.dr_thumb_driver);
+        profilePic = (ImageView) findViewById(R.id.dr_thumb_driver);
         name = (TextView)findViewById(R.id.dr_driver_name);
         sim = (TextView)findViewById(R.id.dr_sim_number);
         bdate = (TextView)findViewById(R.id.dr_bdate);

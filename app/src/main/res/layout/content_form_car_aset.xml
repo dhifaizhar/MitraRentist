@@ -110,6 +110,8 @@
                             android:elevation="0dp"
                             android:ems="10"
                             android:hint="Nama"
+                            android:imeOptions="actionNext"
+                            android:inputType="textCapWords|textPersonName"
                             android:padding="@dimen/min_padding"
                             android:text="" />
                     </LinearLayout>
@@ -129,16 +131,23 @@
                             android:textColor="@color/colorBlack"
                             android:textSize="12sp" />
 
-                        <EditText
-                            android:id="@+id/as_merk"
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
                             android:background="@color/colorNearWhite"
-                            android:elevation="0dp"
-                            android:ems="10"
-                            android:hint="Brand"
-                            android:padding="@dimen/min_padding"
-                            android:text="" />
+                            android:padding="@dimen/xmin_padding">
+
+                            <Spinner
+                                android:id="@+id/as_merk"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:entries="@array/car_brand_entries"
+                                android:padding="@dimen/xmin_padding"
+                                android:spinnerMode="dialog" />
+
+                        </LinearLayout>
+
                     </LinearLayout>
 
                     <LinearLayout
@@ -163,6 +172,8 @@
                             android:background="@color/colorNearWhite"
                             android:ems="10"
                             android:hint="Tipe"
+                            android:imeOptions="actionNext"
+                            android:inputType="textCapWords"
                             android:padding="@dimen/min_padding"
                             android:text="" />
                     </LinearLayout>
@@ -182,15 +193,59 @@
                             android:textColor="@color/colorBlack"
                             android:textSize="12sp" />
 
-                        <EditText
-                            android:id="@+id/as_plat"
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@color/colorNearWhite"
-                            android:ems="10"
-                            android:hint="Plat Nomor"
-                            android:padding="@dimen/min_padding"
-                            android:text="" />
+                            android:orientation="horizontal">
+
+                            <EditText
+                                android:id="@+id/as_plat_start"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@color/colorNearWhite"
+                                android:ems="10"
+                                android:layout_weight="2"
+                                android:hint="Kode"
+                                android:textAlignment="center"
+                                android:maxLength="2"
+                                android:imeOptions="actionNext"
+                                android:inputType="textCapCharacters"
+                                android:layout_marginEnd="@dimen/xmin_padding"
+                                android:padding="@dimen/min_padding"
+                                android:text=""
+                                />
+
+                            <EditText
+                                android:id="@+id/as_plat"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@color/colorNearWhite"
+                                android:ems="10"
+                                android:hint="Nomor"
+                                android:imeOptions="actionNext"
+                                android:inputType="number"
+                                android:maxLength="4"
+                                android:padding="@dimen/min_padding"
+                                android:text="" />
+
+                            <EditText
+                                android:id="@+id/as_plat_end"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2"
+                                android:layout_marginStart="@dimen/xmin_padding"
+                                android:background="@color/colorNearWhite"
+                                android:ems="10"
+                                android:textAlignment="center"
+                                android:hint="Kode"
+                                android:maxLength="3"
+                                android:imeOptions="actionNext"
+                                android:inputType="textCapCharacters"
+                                android:padding="@dimen/min_padding"
+                                android:text="" />
+                        </LinearLayout>
+
                     </LinearLayout>
 
                     <LinearLayout
@@ -235,16 +290,22 @@
                             android:textColor="@color/colorBlack"
                             android:textSize="12sp" />
 
-                        <EditText
-                            android:id="@+id/as_colour"
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
                             android:background="@color/colorNearWhite"
-                            android:ems="10"
-                            android:hint="Warna"
-                            android:inputType="textPersonName"
-                            android:padding="@dimen/min_padding"
-                            android:text="" />
+                            android:padding="@dimen/xmin_padding">
+
+                            <Spinner
+                                android:id="@+id/as_colour"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:entries="@array/color_entries"
+                                android:padding="@dimen/xmin_padding"
+                                android:spinnerMode="dialog" />
+
+                        </LinearLayout>
                     </LinearLayout>
 
                     <LinearLayout
@@ -268,39 +329,45 @@
                             android:layout_height="wrap_content"
                             android:background="@color/colorNearWhite"
                             android:ems="10"
-                            android:hint="Nomor BPKB"
+                            android:hint="Nomor STNK"
                             android:inputType="textPersonName"
                             android:padding="@dimen/min_padding"
                             android:text="" />
 
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="@dimen/xmin_padding"
-                        android:orientation="vertical"
-                        android:padding="@dimen/xmin_padding">
+                    <!--<LinearLayout-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="match_parent"-->
+                        <!--android:layout_marginBottom="@dimen/xmin_padding"-->
+                        <!--android:orientation="vertical"-->
+                        <!--android:padding="@dimen/xmin_padding">-->
 
-                        <TextView
-                            android:id="@+id/textView30"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Kapasitas Mesin"
-                            android:textColor="@color/colorBlack"
-                            android:textSize="12sp" />
+                        <!--<TextView-->
+                            <!--android:id="@+id/textView30"-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:text="Kapasitas Mesin"-->
+                            <!--android:textColor="@color/colorBlack"-->
+                            <!--android:textSize="12sp" />-->
 
-                        <EditText
-                            android:id="@+id/as_engcap"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@color/colorNearWhite"
-                            android:ems="10"
-                            android:hint="Kapasitas Mesin"
-                            android:inputType="textPersonName"
-                            android:padding="@dimen/min_padding"
-                            android:text="" />
-                    </LinearLayout>
+                        <!--<LinearLayout-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="match_parent"-->
+                            <!--android:orientation="vertical"-->
+                            <!--android:background="@color/colorNearWhite"-->
+                            <!--android:padding="@dimen/xmin_padding">-->
+
+                            <!--<Spinner-->
+                                <!--android:id="@+id/as_engcap"-->
+                                <!--android:layout_width="match_parent"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:entries="@array/engine_cap_car_entries"-->
+                                <!--android:padding="@dimen/xmin_padding"-->
+                                <!--android:spinnerMode="dialog" />-->
+
+                        <!--</LinearLayout>-->
+                    <!--</LinearLayout>-->
 
                 </LinearLayout>
             </android.support.v7.widget.CardView>
@@ -338,65 +405,76 @@
 
                     </RelativeLayout>
 
+                    <!--<LinearLayout-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="match_parent"-->
+                        <!--android:layout_marginBottom="@dimen/xmin_padding"-->
+                        <!--android:orientation="vertical"-->
+                        <!--android:padding="@dimen/xmin_padding">-->
+
+                        <!--<TextView-->
+                            <!--android:id="@+id/textView33"-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:text="Bahan Bakar"-->
+                            <!--android:textColor="@color/colorBlack"-->
+                            <!--android:textSize="12sp" />-->
+
+                        <!--<LinearLayout-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="match_parent"-->
+                            <!--android:orientation="vertical"-->
+                            <!--android:background="@color/colorNearWhite"-->
+                            <!--android:padding="@dimen/xmin_padding">-->
+
+                            <!--<Spinner-->
+                                <!--android:id="@+id/as_fuel"-->
+                                <!--android:layout_width="match_parent"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:entries="@array/fuel_entries"-->
+                                <!--android:padding="@dimen/xmin_padding"-->
+                                <!--android:spinnerMode="dialog" />-->
+
+                        <!--</LinearLayout>-->
+
+                    <!--</LinearLayout>-->
+
+                    <!--<LinearLayout-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="match_parent"-->
+                        <!--android:layout_marginBottom="@dimen/xmin_padding"-->
+                        <!--android:orientation="vertical"-->
+                        <!--android:padding="@dimen/xmin_padding">-->
+
+                        <!--<TextView-->
+                            <!--android:id="@+id/textView32"-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:text="Kursi"-->
+                            <!--android:textColor="@color/colorBlack"-->
+                            <!--android:textSize="12sp" />-->
+
+                        <!--<LinearLayout-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="match_parent"-->
+                            <!--android:orientation="vertical"-->
+                            <!--android:background="@color/colorNearWhite"-->
+                            <!--android:padding="@dimen/xmin_padding">-->
+
+                            <!--<Spinner-->
+                                <!--android:id="@+id/as_seat"-->
+                                <!--android:layout_width="match_parent"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:entries="@array/seats_entries"-->
+                                <!--android:padding="@dimen/xmin_padding"-->
+                                <!--android:spinnerMode="dialog" />-->
+
+                        <!--</LinearLayout>-->
+                    <!--</LinearLayout>-->
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginBottom="@dimen/xmin_padding"
-                        android:orientation="vertical"
-                        android:padding="@dimen/xmin_padding">
-
-                        <TextView
-                            android:id="@+id/textView33"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Bahan Bakar"
-                            android:textColor="@color/colorBlack"
-                            android:textSize="12sp" />
-
-                        <EditText
-                            android:id="@+id/as_fuel"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@color/colorNearWhite"
-                            android:ems="10"
-                            android:hint="Bahan Bakar"
-                            android:inputType="textPersonName"
-                            android:padding="@dimen/min_padding"
-                            android:text="" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="@dimen/xmin_padding"
-                        android:orientation="vertical"
-                        android:padding="@dimen/xmin_padding">
-
-                        <TextView
-                            android:id="@+id/textView32"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Kursi"
-                            android:textColor="@color/colorBlack"
-                            android:textSize="12sp" />
-
-                        <EditText
-                            android:id="@+id/as_seat"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@color/colorNearWhite"
-                            android:ems="10"
-                            android:hint="Kursi"
-                            android:inputType="number"
-                            android:padding="@dimen/min_padding"
-                            android:text="0" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="@dimen/xmin_padding"
                         android:orientation="vertical"
                         android:padding="@dimen/xmin_padding">
 
@@ -412,8 +490,8 @@
                             android:id="@+id/transmission_group"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_marginBottom="@dimen/xmin_padding"
                             android:checkedButton="@+id/r_manual"
+                            android:background="@color/colorNearWhite"
                             android:orientation="horizontal"
                             android:padding="@dimen/xmin_padding">
 
@@ -439,54 +517,45 @@
                         </RadioGroup>
                     </LinearLayout>
 
-                    <CheckBox
-                        android:id="@+id/as_ck_ac"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/xmin_padding"
-                        android:layout_weight="1"
-                        android:checked="true"
+                        android:orientation="vertical"
                         android:padding="@dimen/xmin_padding"
-                        android:text="AC" />
+                        >
 
-                    <CheckBox
-                        android:id="@+id/as_ck_ab"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/xmin_padding"
-                        android:layout_weight="1"
-                        android:checked="true"
-                        android:padding="@dimen/xmin_padding"
-                        android:text="Air Bag" />
-
-                    <CheckBox
-                        android:id="@+id/as_ck_driver"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/xmin_padding"
-                        android:layout_weight="1"
-                        android:padding="@dimen/xmin_padding"
-                        android:text="Pengemudi" />
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/xmin_padding"
-                        android:padding="@dimen/xmin_padding">
-
-                        <CheckBox
-                            android:id="@+id/as_ck_assurance"
-                            android:layout_width="wrap_content"
+                        <TextView
+                            android:id="@+id/textView147"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentStart="true"
-                            android:layout_alignParentTop="true"
-                            android:layout_marginTop="@dimen/xmin_padding"
-                            android:layout_weight="1"
-                            android:checked="true"
-                            android:paddingEnd="@dimen/min_padding"
-                            android:text="Asuransi" />
+                            android:text="Pengemudi"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="12sp" />
 
-                    </RelativeLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:background="@color/colorNearWhite">
+
+                            <CheckBox
+                                android:id="@+id/as_ck_driver"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:padding="@dimen/xmin_padding"
+                                android:text="Tersedia" />
+
+                            <CheckBox
+                                android:id="@+id/as_ck_no_driver"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:padding="@dimen/xmin_padding"
+                                android:text="Tidak Tersedia" />
+                        </LinearLayout>
+
+                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -496,26 +565,109 @@
                         android:padding="@dimen/xmin_padding">
 
                         <TextView
-                            android:id="@+id/textView3"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Deskripsi"
+                            android:text="Minimal Lama Peminjaman"
                             android:textColor="@color/colorBlack"
                             android:textSize="12sp" />
 
-                        <EditText
-                            android:id="@+id/as_desc"
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <EditText
+                                android:id="@+id/as_min_day_rent"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@color/colorNearWhite"
+                                android:ems="10"
+                                android:hint="Hari"
+                                android:padding="@dimen/min_padding"
+                                android:inputType="number"
+                                android:imeOptions="actionNext"
+                                android:text="" />
+
+                            <TextView
+                                android:id="@+id/day"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Hari"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:textColor="@color/colorBlack54"
+                                android:layout_marginEnd="@dimen/min_padding"
+                                android:textSize="@dimen/medium_text" />
+
+                        </RelativeLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        >
+
+                        <CheckBox
+                            android:id="@+id/as_ck_ac"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@color/colorNearWhite"
-                            android:ems="10"
-                            android:gravity="start"
-                            android:hint="Keterangan"
-                            android:inputType="textMultiLine"
-                            android:lines="3"
-                            android:padding="@dimen/min_padding"
-                            android:text="Sekilas Tentang Aset" />
+                            android:layout_marginTop="@dimen/xmin_padding"
+                            android:layout_weight="1"
+                            android:checked="true"
+                            android:padding="@dimen/xmin_padding"
+                            android:text="AC" />
+
+                        <CheckBox
+                            android:id="@+id/as_ck_ab"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/xmin_padding"
+                            android:layout_weight="1"
+                            android:checked="true"
+                            android:padding="@dimen/xmin_padding"
+                            android:text="Air Bag" />
+
+                        <CheckBox
+                            android:id="@+id/as_ck_assurance"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/xmin_padding"
+                            android:layout_weight="1"
+                            android:checked="true"
+                            android:text="Asuransi" />
+
+
                     </LinearLayout>
+
+                    <!--<LinearLayout-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="match_parent"-->
+                        <!--android:layout_marginBottom="@dimen/xmin_padding"-->
+                        <!--android:orientation="vertical"-->
+                        <!--android:padding="@dimen/xmin_padding">-->
+
+                        <!--<TextView-->
+                            <!--android:id="@+id/textView3"-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:text="Deskripsi"-->
+                            <!--android:textColor="@color/colorBlack"-->
+                            <!--android:textSize="12sp" />-->
+
+                        <!--<EditText-->
+                            <!--android:id="@+id/as_desc"-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:background="@color/colorNearWhite"-->
+                            <!--android:ems="10"-->
+                            <!--android:gravity="start"-->
+                            <!--android:imeOptions="actionNext"-->
+                            <!--android:hint="Keterangan"-->
+                            <!--android:inputType="textMultiLine|textCapSentences"-->
+                            <!--android:lines="3"-->
+                            <!--android:padding="@dimen/min_padding"-->
+                            <!--android:text="Sekilas Tentang Aset" />-->
+                    <!--</LinearLayout>-->
 
                 </LinearLayout>
 
@@ -589,12 +741,38 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="IDR"
-                                android:layout_alignParentEnd="true"
                                 android:layout_centerVertical="true"
+                                android:layout_alignParentEnd="true"
                                 android:textColor="@color/colorGrey"
                                 android:layout_marginEnd="@dimen/min_padding"
                                 android:textSize="@dimen/medium_text" />
+                        </RelativeLayout>
 
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/disptext"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorGrey"
+                                android:layout_marginTop="@dimen/small_space"
+                                android:text="Harga yang ditampilkan pada Member (+20%) :"
+                                android:textSize="@dimen/almost_tiny_text" />
+
+                             <TextView
+                                android:id="@+id/as_price_basic_disp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorPrice"
+                                android:layout_toEndOf="@+id/disptext"
+                                android:layout_alignParentEnd="true"
+                                android:textAlignment="textEnd"
+                                android:layout_marginTop="@dimen/small_space"
+                                android:text="150000 IDR"
+                                android:textSize="@dimen/under_small_text" />
                         </RelativeLayout>
 
                     </LinearLayout>

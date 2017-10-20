@@ -16,8 +16,7 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -32,15 +31,15 @@
                     android:padding="@dimen/min_padding">
 
                     <!--<com.android.volley.toolbox.NetworkImageView-->
-                        <!--android:id="@+id/pr_thumb"-->
-                        <!--android:layout_width="@dimen/thumb_med_width"-->
-                        <!--android:layout_height="@dimen/thumb_med_height"-->
-                        <!--android:layout_gravity="center_horizontal"-->
-                        <!--android:layout_marginBottom="@dimen/xmin_padding"-->
-                        <!--android:layout_weight="1"-->
-                        <!--android:adjustViewBounds="false"-->
-                        <!--android:background="@drawable/img"-->
-                        <!--android:cropToPadding="false" />-->
+                    <!--android:id="@+id/pr_thumb"-->
+                    <!--android:layout_width="@dimen/thumb_med_width"-->
+                    <!--android:layout_height="@dimen/thumb_med_height"-->
+                    <!--android:layout_gravity="center_horizontal"-->
+                    <!--android:layout_marginBottom="@dimen/xmin_padding"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:adjustViewBounds="false"-->
+                    <!--android:background="@drawable/img"-->
+                    <!--android:cropToPadding="false" />-->
 
                     <ImageView
                         android:id="@+id/pr_thumb"
@@ -69,16 +68,26 @@
                         android:textSize="@dimen/medium_text"
                         android:textStyle="bold" />
 
+                    <TextView
+                        android:id="@+id/pr_rental_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/xmin_padding"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="@dimen/almost_tiny_text"
+                         />
+
                 </LinearLayout>
 
                 <android.support.v7.widget.CardView
                     android:id="@+id/card_profile_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:foreground="?selectableItemBackground"
-                    app:cardBackgroundColor="@color/colorWhite"
                     android:layout_margin="@dimen/med_padding"
+                    android:foreground="?selectableItemBackground"
                     android:padding="@dimen/xmin_padding"
+                    app:cardBackgroundColor="@color/colorWhite"
                     app:cardElevation="1dp">
 
                     <LinearLayout
@@ -104,24 +113,27 @@
                                 app:srcCompat="@drawable/ic_person_black_24dp" />
 
                             <TextView
+                                android:id="@+id/ownertext"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/xmin_padding"
+                                android:layout_toEndOf="@+id/pr_owner_ico"
+                                android:layout_marginBottom="@dimen/xmin_padding"
+
+                                android:text="Pemilik Rental"
+                                android:textSize="12sp" />
+
+
+                            <TextView
                                 android:id="@+id/pr_owner_name"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginBottom="@dimen/xmin_padding"
+                                android:layout_below="@+id/ownertext"
                                 android:layout_marginLeft="@dimen/xmin_padding"
                                 android:layout_toEndOf="@+id/pr_owner_ico"
                                 android:text="-"
                                 android:textSize="@dimen/medium_text" />
 
-                            <TextView
-                                android:id="@+id/textView20"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@+id/pr_owner_name"
-                                android:layout_marginLeft="@dimen/xmin_padding"
-                                android:layout_toEndOf="@+id/pr_owner_ico"
-                                android:text="Pemilik Rental"
-                                android:textSize="12sp" />
 
                         </RelativeLayout>
 
@@ -142,24 +154,65 @@
                                 app:srcCompat="@drawable/ic_location_on_black_24dp" />
 
                             <TextView
+                                android:id="@+id/alamattext"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/xmin_padding"
+                                android:layout_toEndOf="@+id/pr_address_ico"
+                                android:layout_marginBottom="@dimen/xmin_padding"
+                                android:text="Alamat"
+                                android:textSize="12sp" />
+
+                            <TextView
                                 android:id="@+id/pr_address_name"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginBottom="@dimen/xmin_padding"
+                                android:layout_below="@+id/alamattext"
                                 android:layout_marginLeft="@dimen/xmin_padding"
                                 android:layout_toEndOf="@+id/pr_address_ico"
                                 android:text="-"
-                                android:textSize="@dimen/medium_text" />
+                                android:textSize="@dimen/small_text" />
+
 
                             <TextView
-                                android:id="@+id/textView17"
+                                android:id="@+id/pr_village"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_below="@+id/pr_address_name"
                                 android:layout_marginLeft="@dimen/xmin_padding"
                                 android:layout_toEndOf="@+id/pr_address_ico"
-                                android:text="Alamat"
-                                android:textSize="12sp" />
+                                android:text=""
+                                android:textSize="@dimen/small_text" />
+
+                            <TextView
+                                android:id="@+id/pr_distric"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/pr_address_name"
+                                android:layout_marginLeft="@dimen/xmin_padding"
+                                android:layout_toEndOf="@+id/pr_village"
+                                android:text=""
+                                android:textSize="@dimen/small_text" />
+
+                            <TextView
+                                android:id="@+id/pr_city"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/pr_village"
+                                android:layout_marginLeft="@dimen/xmin_padding"
+                                android:layout_toEndOf="@+id/pr_address_ico"
+                                android:text=""
+                                android:textSize="@dimen/small_text" />
+
+                            <TextView
+                                android:id="@+id/pr_province"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/pr_village"
+                                android:layout_marginLeft="@dimen/xmin_padding"
+                                android:layout_toEndOf="@+id/pr_city"
+                                android:text=""
+                                android:textSize="@dimen/small_text" />
 
                         </RelativeLayout>
 
@@ -181,24 +234,25 @@
                                 app:srcCompat="@drawable/ic_phone_android_black_24dp" />
 
                             <TextView
-                                android:id="@+id/pr_phone_number"
+                                android:id="@+id/phoetext"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="@dimen/xmin_padding"
                                 android:layout_marginLeft="@dimen/xmin_padding"
                                 android:layout_toEndOf="@+id/pr_telp_ico"
-                                android:text="-"
-                                android:textSize="@dimen/medium_text" />
-
-                            <TextView
-                                android:id="@+id/textView18"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@+id/pr_phone_number"
-                                android:layout_marginLeft="@dimen/xmin_padding"
-                                android:layout_toEndOf="@+id/pr_telp_ico"
                                 android:text="Telepon"
                                 android:textSize="12sp" />
+
+
+                            <TextView
+                                android:id="@+id/pr_phone_number"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/phoetext"
+                                android:layout_marginLeft="@dimen/xmin_padding"
+                                android:layout_toEndOf="@+id/pr_telp_ico"
+                                android:text="-"
+                                android:textSize="@dimen/medium_text" />
 
                         </RelativeLayout>
 
@@ -219,24 +273,24 @@
                                 app:srcCompat="@drawable/ic_email_black_24dp" />
 
                             <TextView
-                                android:id="@+id/pr_email"
+                                android:id="@+id/emailtext"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="@dimen/xmin_padding"
                                 android:layout_marginLeft="@dimen/xmin_padding"
                                 android:layout_toEndOf="@+id/pr_email_ico"
-                                android:text="-"
-                                android:textSize="@dimen/medium_text" />
-
-                            <TextView
-                                android:id="@+id/textView19"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@+id/pr_email"
-                                android:layout_marginLeft="@dimen/xmin_padding"
-                                android:layout_toEndOf="@+id/pr_email_ico"
                                 android:text="Email"
                                 android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/pr_email"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/emailtext"
+                                android:layout_marginLeft="@dimen/xmin_padding"
+                                android:layout_toEndOf="@+id/pr_email_ico"
+                                android:text="-"
+                                android:textSize="@dimen/medium_text" />
 
                         </RelativeLayout>
 
@@ -244,8 +298,8 @@
                             android:id="@+id/pr_bank_info"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:padding="@dimen/min_padding"
                             android:background="@color/colorPrimarySoft"
+                            android:padding="@dimen/min_padding"
                             tools:ignore="UselessParent">
 
                             <ImageView
@@ -258,10 +312,21 @@
                                 app:srcCompat="@drawable/ic_account_balance_black_24dp" />
 
                             <TextView
+                                android:id="@+id/akunbank"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/xmin_padding"
+                                android:layout_marginStart="@dimen/xmin_padding"
+                                android:layout_toEndOf="@+id/pr_bank_ico"
+                                android:text="Akun Bank"
+                                android:textSize="12sp" />
+
+                            <TextView
                                 android:id="@+id/pr_bank_name"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/xmin_padding"
+                                android:layout_below="@+id/akunbank"
+                                android:layout_marginStart="@dimen/xmin_padding"
                                 android:layout_toEndOf="@+id/pr_bank_ico"
                                 android:text="-"
                                 android:textSize="@dimen/medium_text" />
@@ -270,6 +335,7 @@
                                 android:id="@+id/space"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_below="@+id/akunbank"
                                 android:layout_marginLeft="@dimen/xmin_padding"
                                 android:layout_toEndOf="@+id/pr_bank_name"
                                 android:text="|"
@@ -279,6 +345,7 @@
                                 android:id="@+id/pr_bank_account"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_below="@+id/akunbank"
                                 android:layout_marginLeft="@dimen/xmin_padding"
                                 android:layout_toEndOf="@+id/space"
                                 android:text="-"
@@ -288,22 +355,23 @@
                                 android:id="@+id/pr_account_name"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginBottom="@dimen/xmin_padding"
+                                android:layout_below="@+id/pr_bank_name"
                                 android:layout_marginLeft="@dimen/xmin_padding"
                                 android:layout_toEndOf="@+id/pr_bank_ico"
-                                android:layout_below="@+id/pr_bank_name"
                                 android:text="-"
-                                android:textStyle="bold"
-                                android:textSize="@dimen/small_text" />
+                                android:textSize="@dimen/small_text"
+                                android:textStyle="bold" />
 
                             <TextView
+                                android:id="@+id/pr_branch"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_below="@+id/pr_account_name"
                                 android:layout_marginLeft="@dimen/xmin_padding"
                                 android:layout_toEndOf="@+id/pr_bank_ico"
-                                android:text="Akun Bank"
-                                android:textSize="12sp" />
+                                android:text="-"
+                                android:textSize="@dimen/almost_tiny_text"
+                                 />
 
                         </RelativeLayout>
 

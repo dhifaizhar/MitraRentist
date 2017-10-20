@@ -4,16 +4,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.toolbox.ImageLoader;
 import com.squareup.picasso.Picasso;
 
 import id.rentist.mitrarentist.tools.AppConfig;
@@ -23,12 +22,10 @@ import id.rentist.mitrarentist.tools.SessionManager;
 public class ProfileActivity extends AppCompatActivity {
     private SessionManager sm;
     Intent iEditRent;
-    TextView rName, rOwner, rAddress, rEmail, rPhone, rBankAccount, rBankName, rAccountOwner;
-//    NetworkImageView profilePhoto;
+    TextView rName, rOwner, rAddress, rEmail, rPhone, rBankAccount, rBankName,
+            rAccountOwner, rBranch, rCity, rProvince, rVillage, rDistrict, rRentalType;
     ImageView profilePhoto;
-    Button btnEdit;
     ImageButton vAll;
-    ImageLoader mImageLoader;
     String imageUrl;
 
     @Override
@@ -57,6 +54,12 @@ public class ProfileActivity extends AppCompatActivity {
         rBankAccount = (TextView) findViewById(R.id.pr_bank_account);
         rBankName = (TextView) findViewById(R.id.pr_bank_name);
         rAccountOwner = (TextView) findViewById(R.id.pr_account_name);
+        rBranch= (TextView) findViewById(R.id.pr_branch);
+        rProvince = (TextView) findViewById(R.id.pr_province);
+        rCity = (TextView) findViewById(R.id.pr_city);
+        rDistrict = (TextView) findViewById(R.id.pr_distric);
+        rVillage = (TextView) findViewById(R.id.pr_village);
+        rRentalType = (TextView) findViewById(R.id.pr_rental_type);
         profilePhoto = (ImageView) findViewById(R.id.pr_thumb);
 
         vAll = (ImageButton) findViewById(R.id.view_testi);
@@ -70,6 +73,15 @@ public class ProfileActivity extends AppCompatActivity {
         rBankName.setText(sm.getPreferences("bank_name"));
         rBankAccount.setText(sm.getPreferences("bank_account"));
         rAccountOwner.setText(sm.getPreferences("account_name"));
+        rRentalType.setText("Rental " + sm.getPreferences("rental_type"));
+        rBranch.setText("Cabang : " + sm.getPreferences("branch"));
+
+        String[] sCity = getResources().getStringArray(R.array.city_entries);
+        Log.e("City List", sCity.toString());
+
+        String tenantCity = sCity[Integer.parseInt(sm.getPreferences("city"))-1];
+        Log.e("CIty", sm.getPreferences("city") + tenantCity);
+        rCity.setText(tenantCity);
 
         //Load image
         if (sm.getPreferences("foto_profil_tenant").equals("null")){
@@ -79,7 +91,6 @@ public class ProfileActivity extends AppCompatActivity {
             imageUrl = AppConfig.URL_IMAGE_PROFIL + sm.getPreferences("foto_profil_tenant");
             Picasso.with(getApplicationContext()).load(imageUrl).transform(new CircleTransform()).into(profilePhoto);
         }
-
 
         vAll.setOnClickListener(new View.OnClickListener() {
             @Override

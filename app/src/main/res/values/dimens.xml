@@ -18,6 +18,7 @@
     <dimen name="large_text">22sp</dimen>
     <dimen name="medium_text">18sp</dimen>
     <dimen name="small_text">16sp</dimen>
+    <dimen name="under_small_text">13sp</dimen>
     <dimen name="huge_text">32sp</dimen>
     <dimen name="tiny_text">10sp</dimen>
     <dimen name="almost_tiny_text">11sp</dimen>

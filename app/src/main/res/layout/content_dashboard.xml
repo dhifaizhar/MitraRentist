@@ -206,7 +206,7 @@
                         android:id="@+id/val_saldo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="0 IDR"
+                        android:text="0"
                         android:textAlignment="textEnd"
                         android:textColor="@color/colorPrice"
                         android:textSize="22sp"

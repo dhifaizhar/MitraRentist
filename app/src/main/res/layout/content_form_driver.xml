@@ -29,12 +29,12 @@
                 android:orientation="vertical"
                 android:padding="@dimen/min_padding">
 
-                <com.android.volley.toolbox.NetworkImageView
+                <ImageView
                     android:id="@+id/dr_thumb_driver"
-                    android:layout_width="match_parent"
+                    android:layout_width="@dimen/thumb_height"
                     android:layout_height="@dimen/thumb_height"
                     android:layout_weight="1"
-                    android:background="@drawable/img" />
+                    android:background="@drawable/user_ava_man" />
 
                 <Button
                     android:id="@+id/btnUploadFoto"
@@ -67,7 +67,7 @@
                     android:ems="10"
                     android:hint="Nama"
                     android:imeOptions="actionNext"
-                    android:inputType="textPersonName"
+                    android:inputType="textPersonName|textCapWords"
                     android:padding="@dimen/min_padding" />
             </LinearLayout>
 
@@ -88,13 +88,13 @@
                 <GridLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:columnCount="2"
-                    android:padding="@dimen/xmin_padding">
+                    android:columnCount="2">
 
                     <RadioGroup
                         android:id="@+id/dr_rad_gender"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@color/colorNearWhite"
                         android:checkedButton="@+id/radioMale"
                         android:orientation="horizontal">
 
@@ -104,7 +104,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:paddingRight="@dimen/med_padding"
-                            android:text="male" />
+                            android:text="Pria" />
 
                         <RadioButton
                             android:id="@+id/radioFemale"
@@ -113,11 +113,36 @@
                             android:layout_weight="1"
                             android:padding="@dimen/xmin_padding"
                             android:paddingRight="@dimen/med_padding"
-                            android:text="female" />
+                            android:text="Wanita" />
 
                     </RadioGroup>
 
                 </GridLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/xmin_padding"
+                android:orientation="vertical"
+                android:padding="@dimen/xmin_padding">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Nomor Telepon"
+                    android:textColor="@color/colorBlack" />
+
+                <EditText
+                    android:id="@+id/dr_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorNearWhite"
+                    android:ems="10"
+                    android:hint="Nomor Telepon"
+                    android:imeOptions="actionNext"
+                    android:inputType="phone"
+                    android:padding="@dimen/min_padding" />
             </LinearLayout>
 
             <LinearLayout
@@ -160,15 +185,28 @@
                     android:text="Tanggal Lahir"
                     android:textColor="@color/colorBlack" />
 
-                <EditText
+                <!--<EditText-->
+                <!--android:id="@+id/dr_bdate"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:background="@color/colorNearWhite"-->
+                <!--android:ems="10"-->
+                <!--android:hint="YYYY-mm-dd"-->
+                <!--android:inputType="date"-->
+                <!--android:padding="@dimen/min_padding" />-->
+
+                <android.support.v7.widget.AppCompatEditText
                     android:id="@+id/dr_bdate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:alpha="0.87"
                     android:background="@color/colorNearWhite"
-                    android:ems="10"
-                    android:hint="YYYY-mm-dd"
-                    android:inputType="date"
-                    android:padding="@dimen/min_padding" />
+                    android:drawableEnd="@drawable/ic_date_range_black_24dp"
+                    android:editable="false"
+                    android:padding="@dimen/min_padding"
+                    android:text="Tanggal Lahir"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="16sp" />
             </LinearLayout>
 
         </LinearLayout>

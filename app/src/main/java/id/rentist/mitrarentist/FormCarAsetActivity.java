@@ -16,7 +16,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -55,8 +54,9 @@ public class FormCarAsetActivity extends AppCompatActivity {
     Intent iFormAsset;
 
     ImageView aImg;
-    TextView aName, aMerk, aType, aPlat, aYear, aColor, aRegNum,
-            aEngCap, aFuel, aSeat, aDesc, aRangName, aStartDate, aEndDate, aPriceAdvance, btnAdvancePrice, aBasicPrice;
+    TextView aName,  aType, aPlat, aYear,  aRegNum,
+            aDesc, aRangName, aStartDate, aEndDate,
+            aPriceAdvance, btnAdvancePrice, aBasicPrice;
     LinearLayout conAdvancePrice;
 
     Integer idAsset;
@@ -65,7 +65,7 @@ public class FormCarAsetActivity extends AppCompatActivity {
     RadioGroup aTransmisionGroup;
     RadioButton aTransmisionButton;
     Button btnImgUpload;
-    Spinner subcategory;
+    Spinner subcategory, aMerk, aColor, aFuel, aEngCap, aSeat;
 
     private int PICK_IMAGE_REQUEST = 1;
     private static final String TAG = "FormAssetActivity";
@@ -108,49 +108,49 @@ public class FormCarAsetActivity extends AppCompatActivity {
 
     private void contentcontrol() {
         subcategory = (Spinner) findViewById(R.id.as_subcat_spinner);
+        aMerk = (Spinner) findViewById(R.id.as_merk);
+        aColor = (Spinner) findViewById(R.id.as_colour);
+//        aEngCap = (Spinner) findViewById(R.id.as_engcap);
+//        aFuel = (Spinner) findViewById(R.id.as_fuel);
+//        aSeat = (Spinner) findViewById(R.id.as_seat);
         aName = (TextView) findViewById(R.id.as_name);
-        aMerk = (TextView) findViewById(R.id.as_merk);
         aType = (TextView) findViewById(R.id.as_type);
-        aPlat = (TextView) findViewById(R.id.as_plat);
         aYear = (TextView) findViewById(R.id.as_year);
-        aColor = (TextView) findViewById(R.id.as_colour);
         aRegNum = (TextView) findViewById(R.id.as_regnum);
-        aEngCap = (TextView) findViewById(R.id.as_engcap);
         aPlat = (TextView) findViewById(R.id.as_plat);
-        aFuel = (TextView) findViewById(R.id.as_fuel);
-        aSeat = (TextView) findViewById(R.id.as_seat);
         aTransmisionGroup = (RadioGroup) findViewById(R.id.transmission_group);
         aAc = (CheckBox) findViewById(R.id.as_ck_ac);
         aAb = (CheckBox) findViewById(R.id.as_ck_ab);
         aDriver = (CheckBox) findViewById(R.id.as_ck_driver);
         aAssurace = (CheckBox) findViewById(R.id.as_ck_assurance);
         aImg = (ImageView) findViewById(R.id.thumb_aset);
-        aDesc = (TextView) findViewById(R.id.as_desc);
+//        aDesc = (TextView) findViewById(R.id.as_desc);
         aRangName = (TextView) findViewById(R.id.as_range_name);
         aStartDate = (TextView) findViewById(R.id.as_start_date);
         aEndDate = (TextView) findViewById(R.id.as_end_date);
         aPriceAdvance = (TextView) findViewById(R.id.as_price_advance);
         aBasicPrice = (TextView) findViewById(R.id.as_price_basic);
 
-        //set value
-        if(iFormAsset.getStringExtra("action").equals("update")){
-            aMerk.setText(iFormAsset.getStringExtra("merk"));
-            aType.setText(iFormAsset.getStringExtra("type"));
-            aPlat.setText(iFormAsset.getStringExtra("plat"));
-            aYear.setText(iFormAsset.getStringExtra("year"));
+//        set value
+//        if(iFormAsset.getStringExtra("action").equals("update")){
+////          aMerk.setText(iFormAsset.getStringExtra("merk"));
+//            aType.setText(iFormAsset.getStringExtra("type"));
+//            aPlat.setText(iFormAsset.getStringExtra("plat"));
+//            aYear.setText(iFormAsset.getStringExtra("year"));
+//
+//            //spinner
+//            String compareValue = iFormAsset.getStringExtra("subcat");
+//            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.asset_subcategory_entries, android.R.layout.simple_spinner_item);
+//            adapter.setDropDownViewResource(android.R.layout.select_dialog_item);
+//            subcategory.setAdapter(adapter);
+//            Log.e(TAG, "Value Sub Cat: " + compareValue);
+//            if (!compareValue.equals(null)) {
+//                int spinnerPosition = adapter.getPosition(compareValue);
+//                subcategory.setSelection(spinnerPosition);
+//            }
+//
+//        }
 
-            //spinner
-            String compareValue = iFormAsset.getStringExtra("subcat");
-            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.asset_subcategory_entries, android.R.layout.simple_spinner_item);
-            adapter.setDropDownViewResource(android.R.layout.select_dialog_item);
-            subcategory.setAdapter(adapter);
-            Log.e(TAG, "Value Sub Cat: " + compareValue);
-            if (!compareValue.equals(null)) {
-                int spinnerPosition = adapter.getPosition(compareValue);
-                subcategory.setSelection(spinnerPosition);
-            }
-
-        }
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
@@ -289,20 +289,20 @@ public class FormCarAsetActivity extends AppCompatActivity {
                     keys.put("id_tenant", mTenant);
                     keys.put("name", aName.getText().toString());
                     keys.put("slug", aName.getText().toString().replace(" ","-"));
-                    keys.put("description", aDesc.getText().toString());
+//                    keys.put("description", aDesc.getText().toString());
                     keys.put("subcategory", subcategory.getSelectedItem().toString());
-                    keys.put("brand", aMerk.getText().toString());
+                    keys.put("brand", aMerk.getSelectedItem().toString());
                     keys.put("type", aType.getText().toString());
                     keys.put("year", aYear.getText().toString());
                     keys.put("no_stnk", aRegNum.getText().toString());
-                    keys.put("colour", aColor.getText().toString());
-                    keys.put("engine_capacity", aEngCap.getText().toString());
+                    keys.put("colour", aColor.getSelectedItem().toString());
+                    keys.put("engine_capacity", aEngCap.getSelectedItem().toString());
                     keys.put("license_plat", aPlat.getText().toString());
-                    keys.put("seat", aSeat.getText().toString());
+                    keys.put("seat", aSeat.getSelectedItem().toString());
                     keys.put("air_bag", String.valueOf(aAb.isChecked()));
                     keys.put("air_conditioner", String.valueOf(aAc.isChecked()));
                     keys.put("transmission", aTransmisionButton.getText().toString());
-                    keys.put("fuel", aFuel.getText().toString());
+                    keys.put("fuel", aFuel.getSelectedItem().toString());
                     keys.put("insurance", String.valueOf(aAssurace.isChecked()));
                     keys.put("driver_included", String.valueOf(aDriver.isChecked()));
                     keys.put("address", aAddress);
@@ -424,20 +424,20 @@ public class FormCarAsetActivity extends AppCompatActivity {
                     keys.put("id_asset", String.valueOf(idAsset));
                     keys.put("name", aName.getText().toString());
                     keys.put("slug", aName.getText().toString().replace(" ","-"));
-                    keys.put("description", aDesc.getText().toString());
+//                    keys.put("description", aDesc.getText().toString());
                     keys.put("subcategory", subcategory.getSelectedItem().toString());
-                    keys.put("brand", aMerk.getText().toString());
+                    keys.put("brand", aMerk.getSelectedItem().toString());
                     keys.put("type", aType.getText().toString());
                     keys.put("year", aYear.getText().toString());
                     keys.put("no_stnk", aRegNum.getText().toString());
-                    keys.put("colour", aColor.getText().toString());
-                    keys.put("engine_capacity", aEngCap.getText().toString());
+                    keys.put("colour", aColor.getSelectedItem().toString());
+                    keys.put("engine_capacity", aEngCap.getSelectedItem().toString());
                     keys.put("license_plat", aPlat.getText().toString());
-                    keys.put("seat", aSeat.getText().toString());
+                    keys.put("seat", aSeat.getSelectedItem().toString());
                     keys.put("air_bag", String.valueOf(aAb.isChecked()));
                     keys.put("air_conditioner", String.valueOf(aAc.isChecked()));
                     keys.put("transmission", aTransmisionButton.getText().toString());
-                    keys.put("fuel", aFuel.getText().toString());
+                    keys.put("fuel", aFuel.getSelectedItem().toString());
                     keys.put("insurance", String.valueOf(aAssurace.isChecked()));
                     keys.put("driver_included", String.valueOf(aDriver.isChecked()));
                     keys.put("address", aAddress);

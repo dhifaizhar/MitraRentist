@@ -149,7 +149,7 @@ public class DashboardActivity extends AppCompatActivity
             verifIco.setVisibility(View.GONE);
         }
 
-        Log.e(TAG, "Profil Pic : " + sm.getPreferences("foto_profil"));
+        Log.e(TAG, "Profil Pic : " + sm.getPreferences("foto_profil") + ", CITY : " +  sm.getPreferences("city") );
         if (sm.getPreferences("foto_profil").equals("null")){
             String imageUrl = AppConfig.URL_IMAGE_PROFIL + "default.png";
             Picasso.with(getApplicationContext()).load(imageUrl).transform(new CircleTransform()).into(rentImgProfile);
@@ -289,7 +289,7 @@ public class DashboardActivity extends AppCompatActivity
                     int saldo = dataObject.getInt("berlangsung");
 //                    DecimalFormat formatter = new DecimalFormat("#.###.###");
                     NumberFormat formatter = NumberFormat.getInstance(Locale.GERMANY);
-                    String currency = "Rp " + formatter.format(531622381) ;
+                    String currency = formatter.format(saldo) + " IDR" ;
                     totSaldo.setText(currency);
 
                     Log.d(TAG, "JSON Error : " + dataObject);

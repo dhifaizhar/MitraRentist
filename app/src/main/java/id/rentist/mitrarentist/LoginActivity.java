@@ -434,10 +434,16 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                         tPic = tenantObject.getString("profil_pic");
                         sVerif = tenantObject.getString("verified");
 
-                        sm.setIntPreferences("city", tenantObject.getInt("id_city"));
+                        sm.setPreferences("rental_type", tenantObject.getString("rental_type"));
+//                        sm.setIntPreferences("province", tenantObject.getInt("id_province"));
+                        sm.setPreferences("city", String.valueOf(tenantObject.getInt("id_city")));
+//                        sm.setIntPreferences("distric", tenantObject.getInt("id_distric"));
+//                        sm.setIntPreferences("village", tenantObject.getInt("id_village"));
                         sm.setPreferences("bank_name", tenantObject.getString("bank_name"));
                         sm.setPreferences("bank_account", tenantObject.getString("bank_account"));
                         sm.setPreferences("account_name", tenantObject.getString("account_name"));
+                        sm.setPreferences("branch", tenantObject.getString("branch"));
+
                         Log.e(TAG, "What Data Detail : " + String.valueOf(tenantObject));
                     }
 
@@ -469,11 +475,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                     sm.setPreferences("office", setCatObject.getString("office"));
                     sm.setIntPreferences("sum_cat", setCatObject.getInt("true"));
 
-
-//                    String imageUrl = "http://assets.rentist.id/images/" + sm.getPreferences("foto_profil_tenant");
-//                    ImageLoader mImageLoader = new VolleySingleton(getApplicationContext()).getImageUrl();
-//                    NetworkImageView profilePhoto;
-//                    profilePhoto.(imageUrl,mImageLoader);
 
                     Log.d(TAG, "Image : ");
 
