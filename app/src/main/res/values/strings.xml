@@ -291,6 +291,7 @@
         <item>Renault</item>
         <item>Suzuki</item>
         <item>Toyota</item>
+        <item>Lainnya</item>
     </string-array>
 
     <string-array name="engine_cap_motor_entries">
@@ -303,6 +304,7 @@
         <item>400cc</item>
         <item>500cc</item>
         <item>1000cc</item>
+        <item>Lainnya</item>
     </string-array>
 
     <string-array name="engine_cap_car_entries">
@@ -313,6 +315,7 @@
         <item>3001cc - 3500cc</item>
         <item>4001cc - 4500cc</item>
         <item>4501cc - 5000cc</item>
+        <item>Lainnya</item>
     </string-array>
 
     <string-array name="engine_cap_entries">
@@ -320,6 +323,7 @@
         <item>Pertamax Plus</item>
         <item>Pertalite</item>
         <item>Premium</item>
+        <item>Lainnya</item>
     </string-array>
 
     <string-array name="color_entries">
@@ -331,22 +335,26 @@
         <item>Merah</item>
         <item>Putih</item>
         <item>Silver</item>
+        <item>Lainnya</item>
     </string-array>
 
-    <integer-array name="seats_entries">
+    <string-array name="seats_entries">
         <item>2</item>
         <item>4</item>
         <item>5</item>
         <item>6</item>
         <item>7</item>
         <item>8</item>
-    </integer-array>
+        <item>Lainnya</item>
+    </string-array>
 
     <string-array name="fuel_entries">
         <item>Pertamax</item>
         <item>Pertamax Plus</item>
         <item>Pertalite</item>
         <item>Premium</item>
+        <item>Solar</item>
+        <item>Lainnya</item>
     </string-array>
 
     <string-array name="action_edit_delete">
@@ -389,4 +397,5 @@
     <string name="title_activity_form_feature">FormFeatureActivity</string>
     <string name="title_activity_complete_registration">CompleteRegistrationActivity</string>
     <string name="title_activity_select_category">SelectCategoryActivity</string>
+    <string name="title_costum_date_picker_range_activity">DateRangeActivity</string>
 </resources>

@@ -224,6 +224,7 @@ public class UsersActivity extends AppCompatActivity {
                             }
                         }
 
+
                         mRecyclerView = (RecyclerView) findViewById(R.id.user_recyclerView);
                         mLayoutManager = new LinearLayoutManager(getApplicationContext());
                         mAdapter = new UserAdapter(getApplicationContext(),mUser);

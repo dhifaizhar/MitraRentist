@@ -237,6 +237,17 @@
             android:name=".SelectCategoryActivity"
             android:label="@string/title_activity_select_category"
             android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity
+            android:name=".CustomDatePickerRangeActivity"
+            android:configChanges="orientation"
+            android:label="Pilih Tanggal"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.Dialog"
+            >
+
+            <!--  -->
+        </activity>
     </application>
 
 </manifest>

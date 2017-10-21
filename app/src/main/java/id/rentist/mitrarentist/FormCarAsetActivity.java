@@ -1,6 +1,7 @@
 package id.rentist.mitrarentist;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -11,13 +12,18 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -39,8 +45,10 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import id.rentist.mitrarentist.tools.AppConfig;
@@ -53,21 +61,27 @@ public class FormCarAsetActivity extends AppCompatActivity {
     private Bitmap bitmap;
     Intent iFormAsset;
 
-    ImageView aImg;
+    ImageView aImg, aImgSTNK;
+    ImageButton btnCamSTNK, btnFileSTNK;
     TextView aName,  aType, aPlat, aYear,  aRegNum,
             aDesc, aRangName, aStartDate, aEndDate,
-            aPriceAdvance, btnAdvancePrice, aBasicPrice;
+            aPriceAdvance, btnAdvancePrice, aMinRentDay,  aBasicPriceDisp;
+    EditText aBasicPrice;
     LinearLayout conAdvancePrice;
-
     Integer idAsset;
-    String aLatitude, aLongitude, aAddress, aRentPackage, tenant, category, encodedImage, isiimage = "", ext, imgString;
-    CheckBox aAc, aAb, aDriver, aAssurace;
+    String aLatitude, aLongitude, aAddress, aRentPackage, tenant, category, encodedImage,
+            isiimage = "", ext, imgString, imgStringSTNK, aDriverStatus;
+    CheckBox aAc, aAb, aDriver, aNoDriver, aAssurace;
     RadioGroup aTransmisionGroup;
     RadioButton aTransmisionButton;
     Button btnImgUpload;
     Spinner subcategory, aMerk, aColor, aFuel, aEngCap, aSeat;
 
     private int PICK_IMAGE_REQUEST = 1;
+    private int PICK_IMAGE_STNK_REQUEST = 2;
+    private int PICK_DATE_REQUEST = 3;
+    private static final int CAMERA_REQUEST = 1888;
+
     private static final String TAG = "FormAssetActivity";
     private static final String TOKEN = "secretissecret";
 
@@ -81,9 +95,6 @@ public class FormCarAsetActivity extends AppCompatActivity {
         sm = new SessionManager(getApplicationContext());
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
-        btnImgUpload = (Button) findViewById(R.id.btnUploadFoto);
-        btnAdvancePrice = (TextView) findViewById(R.id.btn_price_advance);
-        conAdvancePrice = (LinearLayout) findViewById(R.id.con_advance_price);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -91,28 +102,15 @@ public class FormCarAsetActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         contentcontrol();
-
-        btnImgUpload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showFileChooser();
-            }
-        });
-        btnAdvancePrice.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                conAdvancePrice.setVisibility(View.VISIBLE);
-            }
-        });
     }
 
     private void contentcontrol() {
         subcategory = (Spinner) findViewById(R.id.as_subcat_spinner);
         aMerk = (Spinner) findViewById(R.id.as_merk);
         aColor = (Spinner) findViewById(R.id.as_colour);
-//        aEngCap = (Spinner) findViewById(R.id.as_engcap);
-//        aFuel = (Spinner) findViewById(R.id.as_fuel);
-//        aSeat = (Spinner) findViewById(R.id.as_seat);
+        aEngCap = (Spinner) findViewById(R.id.as_engcap);
+        aFuel = (Spinner) findViewById(R.id.as_fuel_car);
+        aSeat = (Spinner) findViewById(R.id.as_seat_car);
         aName = (TextView) findViewById(R.id.as_name);
         aType = (TextView) findViewById(R.id.as_type);
         aYear = (TextView) findViewById(R.id.as_year);
@@ -122,34 +120,119 @@ public class FormCarAsetActivity extends AppCompatActivity {
         aAc = (CheckBox) findViewById(R.id.as_ck_ac);
         aAb = (CheckBox) findViewById(R.id.as_ck_ab);
         aDriver = (CheckBox) findViewById(R.id.as_ck_driver);
+        aNoDriver = (CheckBox) findViewById(R.id.as_ck_no_driver);
         aAssurace = (CheckBox) findViewById(R.id.as_ck_assurance);
         aImg = (ImageView) findViewById(R.id.thumb_aset);
-//        aDesc = (TextView) findViewById(R.id.as_desc);
+        aImgSTNK = (ImageView) findViewById(R.id.stnk_image);
+        aMinRentDay = (TextView) findViewById(R.id.as_min_rent_day);
         aRangName = (TextView) findViewById(R.id.as_range_name);
         aStartDate = (TextView) findViewById(R.id.as_start_date);
         aEndDate = (TextView) findViewById(R.id.as_end_date);
         aPriceAdvance = (TextView) findViewById(R.id.as_price_advance);
-        aBasicPrice = (TextView) findViewById(R.id.as_price_basic);
+        aBasicPriceDisp = (TextView) findViewById(R.id.as_price_basic_disp);
+        aBasicPrice = (EditText) findViewById(R.id.as_price_basic);
+
+        btnImgUpload = (Button) findViewById(R.id.btnUploadFoto);
+        btnFileSTNK = (ImageButton) findViewById(R.id.btn_photo);
+        btnCamSTNK = (ImageButton) findViewById(R.id.btn_camera);
+        btnAdvancePrice = (TextView) findViewById(R.id.btn_price_advance);
+        conAdvancePrice = (LinearLayout) findViewById(R.id.con_advance_price);
+
+//        aDesc = (TextView) findViewById(R.id.as_desc);\
+
+        btnCamSTNK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(cameraIntent, CAMERA_REQUEST);
+            }
+        });
+
+        btnImgUpload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showFileChooser("asset");
+            }
+        });
+
+        btnFileSTNK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showFileChooser("STNK");
+            }
+        });
+
+        btnAdvancePrice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                conAdvancePrice.setVisibility(View.VISIBLE);
+            }
+        });
+
+        aBasicPrice.addTextChangedListener(new TextWatcher(){
+            @Override
+            public void afterTextChanged(Editable arg0) {
+                if(!aBasicPrice.getText().toString().isEmpty()){
+                    Integer price = Integer.parseInt(aBasicPrice.getText().toString().replace(",",""));
+
+                    Integer priceFee = price + (price/100*20);
+
+                    NumberFormat formatter = NumberFormat.getInstance(Locale.GERMANY);
+                    String currency = formatter.format(priceFee) + " IDR" ;
+
+                    aBasicPriceDisp.setText(currency);
+                } else {
+                    aBasicPriceDisp.setText("0 IDR");
+                }
+
+            }
+            @Override
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+        });
+
+        aEndDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(
+                        getApplicationContext(), CustomDatePickerRangeActivity.class);
+                startActivityForResult(intent,PICK_DATE_REQUEST);
+            }
+        });
+
+        aStartDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(
+                        getApplicationContext(), CustomDatePickerRangeActivity.class);
+                startActivityForResult(intent,PICK_DATE_REQUEST);
+            }
+        });
 
 //        set value
-//        if(iFormAsset.getStringExtra("action").equals("update")){
-////          aMerk.setText(iFormAsset.getStringExtra("merk"));
-//            aType.setText(iFormAsset.getStringExtra("type"));
-//            aPlat.setText(iFormAsset.getStringExtra("plat"));
-//            aYear.setText(iFormAsset.getStringExtra("year"));
-//
-//            //spinner
-//            String compareValue = iFormAsset.getStringExtra("subcat");
-//            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.asset_subcategory_entries, android.R.layout.simple_spinner_item);
-//            adapter.setDropDownViewResource(android.R.layout.select_dialog_item);
-//            subcategory.setAdapter(adapter);
-//            Log.e(TAG, "Value Sub Cat: " + compareValue);
-//            if (!compareValue.equals(null)) {
-//                int spinnerPosition = adapter.getPosition(compareValue);
-//                subcategory.setSelection(spinnerPosition);
-//            }
-//
-//        }
+        if(iFormAsset.getStringExtra("action").equals("update")){
+            aType.setText(iFormAsset.getStringExtra("type"));
+            aPlat.setText(iFormAsset.getStringExtra("plat"));
+            aYear.setText(iFormAsset.getStringExtra("year"));
+//          aMerk.setText(iFormAsset.getStringExtra("merk"));
+
+            //spinner
+            String compareValue = iFormAsset.getStringExtra("subcat");
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.asset_subcategory_entries, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.select_dialog_item);
+            subcategory.setAdapter(adapter);
+            Log.e(TAG, "Value Sub Cat: " + compareValue);
+            if (!compareValue.equals(null)) {
+                int spinnerPosition = adapter.getPosition(compareValue);
+                subcategory.setSelection(spinnerPosition);
+            }
+
+        }
 
     }
 
@@ -187,6 +270,11 @@ public class FormCarAsetActivity extends AppCompatActivity {
             tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
             category = iFormAsset.getStringExtra("cat");
             idAsset = iFormAsset.getIntExtra("id_asset",0);
+
+            if(aDriver.isChecked() && aNoDriver.isChecked()){aDriverStatus = "both";}
+            else if (aDriver.isChecked()){ aDriverStatus = "true";}
+            else if (aNoDriver.isChecked()){ aDriverStatus = "true";}
+
             if(iFormAsset.getStringExtra("action").equals("update")){
                 updateDataAset(category);
             }else{
@@ -198,11 +286,15 @@ public class FormCarAsetActivity extends AppCompatActivity {
     }
 
     // IMAGE : pick image
-    private void showFileChooser() {
+    private void showFileChooser(String action) {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+        if(action.equals("STNK")){
+            startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_STNK_REQUEST);
+        } else {
+            startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+        }
     }
 
     // IMAGE : get string for upload
@@ -240,6 +332,51 @@ public class FormCarAsetActivity extends AppCompatActivity {
 
             } catch (IOException e) {
                 e.printStackTrace();
+            }
+        }
+
+        if (requestCode == PICK_IMAGE_STNK_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            Uri filePath = data.getData();
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                aImgSTNK.setImageBitmap(bitmap);
+                String imgStr = data.toString();
+                ext = imgStr.substring(imgStr.indexOf("typ")+4, imgStr.indexOf("flg")-1);
+
+                isiimage = getStringImage(bitmap);
+                imgStringSTNK = ext +"," + isiimage;
+
+                Log.e(TAG, "Image : " + imgStringSTNK);
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
+            Bitmap photo = (Bitmap) data.getExtras().get("data");
+
+            String str64b = getStringImage(photo);
+            imgStringSTNK = "image/jpeg," + str64b;
+
+            aImgSTNK.setImageBitmap(photo);
+
+            Log.e(TAG, "Image : " + imgStringSTNK);
+        }
+
+
+        if (requestCode == PICK_DATE_REQUEST) {
+            if(resultCode == Activity.RESULT_OK){
+                String resultStart = data.getStringExtra("startDate");
+                String resultEnd = data.getStringExtra("endDate");
+                /*transaction.setStartDate(resultStart);
+                transaction.setEndDate(resultEnd);*/
+                aStartDate.setText(resultStart);
+                aEndDate.setText(resultEnd);
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //Write your code if there's no result
             }
         }
     }
@@ -289,7 +426,7 @@ public class FormCarAsetActivity extends AppCompatActivity {
                     keys.put("id_tenant", mTenant);
                     keys.put("name", aName.getText().toString());
                     keys.put("slug", aName.getText().toString().replace(" ","-"));
-//                    keys.put("description", aDesc.getText().toString());
+//                  keys.put("description", aDesc.getText().toString());
                     keys.put("subcategory", subcategory.getSelectedItem().toString());
                     keys.put("brand", aMerk.getSelectedItem().toString());
                     keys.put("type", aType.getText().toString());
@@ -304,7 +441,8 @@ public class FormCarAsetActivity extends AppCompatActivity {
                     keys.put("transmission", aTransmisionButton.getText().toString());
                     keys.put("fuel", aFuel.getSelectedItem().toString());
                     keys.put("insurance", String.valueOf(aAssurace.isChecked()));
-                    keys.put("driver_included", String.valueOf(aDriver.isChecked()));
+                    keys.put("min_rent_day", aMinRentDay.getText().toString());
+                    keys.put("driver_included", aDriverStatus);
                     keys.put("address", aAddress);
                     keys.put("rent_package", aRentPackage);
                     keys.put("latitude", aLatitude);
@@ -439,7 +577,8 @@ public class FormCarAsetActivity extends AppCompatActivity {
                     keys.put("transmission", aTransmisionButton.getText().toString());
                     keys.put("fuel", aFuel.getSelectedItem().toString());
                     keys.put("insurance", String.valueOf(aAssurace.isChecked()));
-                    keys.put("driver_included", String.valueOf(aDriver.isChecked()));
+                    keys.put("driver_included", aDriverStatus);
+                    keys.put("min_rent_day", aMinRentDay.getText().toString());
                     keys.put("address", aAddress);
                     keys.put("rent_package", aRentPackage);
                     keys.put("latitude", aLatitude);

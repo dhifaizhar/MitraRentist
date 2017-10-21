@@ -319,55 +319,81 @@
                             android:id="@+id/textView29"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="No. STNK Kendaraan"
+                            android:text="STNK Kendaraan"
                             android:textColor="@color/colorBlack"
                             android:textSize="12sp" />
 
-                        <EditText
-                            android:id="@+id/as_regnum"
+                        <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@color/colorNearWhite"
-                            android:ems="10"
-                            android:hint="Nomor STNK"
-                            android:inputType="textPersonName"
-                            android:padding="@dimen/min_padding"
-                            android:text="" />
+                            android:paddingTop="@dimen/xmin_padding"
+                            android:paddingBottom="@dimen/xmin_padding"
+                            >
+
+                            <ImageView
+                                android:id="@+id/stnk_image"
+                                android:layout_width="@dimen/thumb_width"
+                                android:layout_height="@dimen/thumb_width"
+                                android:src="@drawable/no_image"
+                                android:layout_centerHorizontal="true"/>
+
+
+                            <ImageButton
+                                android:id="@+id/btn_camera"
+                                android:layout_toEndOf="@+id/stnk_image"
+                                android:layout_width="@dimen/btn_thumb"
+                                android:layout_height="@dimen/btn_thumb"
+                                android:src="@drawable/ic_camera_alt_black_18dp"
+                                android:clickable="true"
+                                android:layout_marginTop="@dimen/xmin_padding"
+                                />
+
+                            <ImageButton
+                                android:id="@+id/btn_photo"
+                                android:layout_width="@dimen/btn_thumb"
+                                android:layout_height="@dimen/btn_thumb"
+                                android:clickable="true"
+                                android:layout_toEndOf="@+id/stnk_image"
+                                android:layout_below="@+id/btn_camera"
+                                android:src="@drawable/ic_attach_file_black_18dp" />
+                        </RelativeLayout>
+
 
                     </LinearLayout>
 
-                    <!--<LinearLayout-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="match_parent"-->
-                        <!--android:layout_marginBottom="@dimen/xmin_padding"-->
-                        <!--android:orientation="vertical"-->
-                        <!--android:padding="@dimen/xmin_padding">-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="@dimen/xmin_padding"
+                        android:orientation="vertical"
+                        android:padding="@dimen/xmin_padding">
 
-                        <!--<TextView-->
-                            <!--android:id="@+id/textView30"-->
-                            <!--android:layout_width="match_parent"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:text="Kapasitas Mesin"-->
-                            <!--android:textColor="@color/colorBlack"-->
-                            <!--android:textSize="12sp" />-->
+                        <TextView
+                            android:id="@+id/textView30"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Kapasitas Mesin"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="12sp" />
 
-                        <!--<LinearLayout-->
-                            <!--android:layout_width="match_parent"-->
-                            <!--android:layout_height="match_parent"-->
-                            <!--android:orientation="vertical"-->
-                            <!--android:background="@color/colorNearWhite"-->
-                            <!--android:padding="@dimen/xmin_padding">-->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:background="@color/colorNearWhite"
+                            android:padding="@dimen/xmin_padding">
 
-                            <!--<Spinner-->
-                                <!--android:id="@+id/as_engcap"-->
-                                <!--android:layout_width="match_parent"-->
-                                <!--android:layout_height="wrap_content"-->
-                                <!--android:entries="@array/engine_cap_car_entries"-->
-                                <!--android:padding="@dimen/xmin_padding"-->
-                                <!--android:spinnerMode="dialog" />-->
+                            <Spinner
+                                android:id="@+id/as_engcap"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:entries="@array/engine_cap_car_entries"
+                                android:padding="@dimen/xmin_padding"
+                                android:spinnerMode="dialog" />
 
-                        <!--</LinearLayout>-->
-                    <!--</LinearLayout>-->
+                        </LinearLayout>
+                    </LinearLayout>
 
                 </LinearLayout>
             </android.support.v7.widget.CardView>
@@ -405,72 +431,71 @@
 
                     </RelativeLayout>
 
-                    <!--<LinearLayout-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="match_parent"-->
-                        <!--android:layout_marginBottom="@dimen/xmin_padding"-->
-                        <!--android:orientation="vertical"-->
-                        <!--android:padding="@dimen/xmin_padding">-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="@dimen/xmin_padding"
+                        android:orientation="vertical"
+                        android:padding="@dimen/xmin_padding">
 
-                        <!--<TextView-->
-                            <!--android:id="@+id/textView33"-->
-                            <!--android:layout_width="match_parent"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:text="Bahan Bakar"-->
-                            <!--android:textColor="@color/colorBlack"-->
-                            <!--android:textSize="12sp" />-->
+                        <TextView
+                            android:id="@+id/textView33"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Bahan Bakar"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="12sp" />
 
-                        <!--<LinearLayout-->
-                            <!--android:layout_width="match_parent"-->
-                            <!--android:layout_height="match_parent"-->
-                            <!--android:orientation="vertical"-->
-                            <!--android:background="@color/colorNearWhite"-->
-                            <!--android:padding="@dimen/xmin_padding">-->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:background="@color/colorNearWhite"
+                            android:padding="@dimen/xmin_padding">
 
-                            <!--<Spinner-->
-                                <!--android:id="@+id/as_fuel"-->
-                                <!--android:layout_width="match_parent"-->
-                                <!--android:layout_height="wrap_content"-->
-                                <!--android:entries="@array/fuel_entries"-->
-                                <!--android:padding="@dimen/xmin_padding"-->
-                                <!--android:spinnerMode="dialog" />-->
+                            <Spinner
+                                android:id="@+id/as_fuel_car"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:entries="@array/fuel_entries"
+                                android:padding="@dimen/xmin_padding"
+                                android:spinnerMode="dialog" />
 
-                        <!--</LinearLayout>-->
+                        </LinearLayout>
 
-                    <!--</LinearLayout>-->
+                    </LinearLayout>
 
-                    <!--<LinearLayout-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="match_parent"-->
-                        <!--android:layout_marginBottom="@dimen/xmin_padding"-->
-                        <!--android:orientation="vertical"-->
-                        <!--android:padding="@dimen/xmin_padding">-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="@dimen/xmin_padding"
+                        android:orientation="vertical"
+                        android:padding="@dimen/xmin_padding">
 
-                        <!--<TextView-->
-                            <!--android:id="@+id/textView32"-->
-                            <!--android:layout_width="match_parent"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:text="Kursi"-->
-                            <!--android:textColor="@color/colorBlack"-->
-                            <!--android:textSize="12sp" />-->
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Jumlah Kursi"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="12sp" />
 
-                        <!--<LinearLayout-->
-                            <!--android:layout_width="match_parent"-->
-                            <!--android:layout_height="match_parent"-->
-                            <!--android:orientation="vertical"-->
-                            <!--android:background="@color/colorNearWhite"-->
-                            <!--android:padding="@dimen/xmin_padding">-->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:background="@color/colorNearWhite"
+                            android:padding="@dimen/xmin_padding">
 
-                            <!--<Spinner-->
-                                <!--android:id="@+id/as_seat"-->
-                                <!--android:layout_width="match_parent"-->
-                                <!--android:layout_height="wrap_content"-->
-                                <!--android:entries="@array/seats_entries"-->
-                                <!--android:padding="@dimen/xmin_padding"-->
-                                <!--android:spinnerMode="dialog" />-->
+                            <Spinner
+                                android:id="@+id/as_seat_car"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:entries="@array/seats_entries"
+                                android:padding="@dimen/xmin_padding"
+                                android:spinnerMode="dialog" />
 
-                        <!--</LinearLayout>-->
-                    <!--</LinearLayout>-->
+                        </LinearLayout>
+                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -515,6 +540,57 @@
                                 android:text="automatic" />
 
                         </RadioGroup>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="@dimen/xmin_padding"
+                        android:orientation="vertical"
+                        android:padding="@dimen/xmin_padding">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Fitur"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="12sp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:background="@color/colorNearWhite"
+                            >
+
+                            <CheckBox
+                                android:id="@+id/as_ck_ac"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:checked="true"
+                                android:padding="@dimen/xmin_padding"
+                                android:text="AC" />
+
+                            <CheckBox
+                                android:id="@+id/as_ck_ab"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:checked="true"
+                                android:padding="@dimen/xmin_padding"
+                                android:text="Air Bag" />
+
+                            <CheckBox
+                                android:id="@+id/as_ck_assurance"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:checked="true"
+                                android:text="Asuransi" />
+
+
+                        </LinearLayout>
                     </LinearLayout>
 
                     <LinearLayout
@@ -576,12 +652,12 @@
                             android:layout_height="wrap_content">
 
                             <EditText
-                                android:id="@+id/as_min_day_rent"
+                                android:id="@+id/as_min_rent_day"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:background="@color/colorNearWhite"
                                 android:ems="10"
-                                android:hint="Hari"
+                                android:hint="0"
                                 android:padding="@dimen/min_padding"
                                 android:inputType="number"
                                 android:imeOptions="actionNext"
@@ -601,43 +677,6 @@
                         </RelativeLayout>
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        >
-
-                        <CheckBox
-                            android:id="@+id/as_ck_ac"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/xmin_padding"
-                            android:layout_weight="1"
-                            android:checked="true"
-                            android:padding="@dimen/xmin_padding"
-                            android:text="AC" />
-
-                        <CheckBox
-                            android:id="@+id/as_ck_ab"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/xmin_padding"
-                            android:layout_weight="1"
-                            android:checked="true"
-                            android:padding="@dimen/xmin_padding"
-                            android:text="Air Bag" />
-
-                        <CheckBox
-                            android:id="@+id/as_ck_assurance"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/xmin_padding"
-                            android:layout_weight="1"
-                            android:checked="true"
-                            android:text="Asuransi" />
-
-
-                    </LinearLayout>
 
                     <!--<LinearLayout-->
                         <!--android:layout_width="match_parent"-->
@@ -725,16 +764,41 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
-                            <EditText
+                            <!--<EditText-->
+                                <!--android:id="@+id/as_price_basic"-->
+                                <!--android:layout_width="match_parent"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:background="@color/colorNearWhite"-->
+                                <!--android:ems="10"-->
+                                <!--android:hint="0"-->
+                                <!--android:inputType="number"-->
+                                <!--android:padding="@dimen/min_padding"-->
+                                <!--android:text="" />-->
+
+                            <com.aldoapps.autoformatedittext.AutoFormatEditText
                                 android:id="@+id/as_price_basic"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:background="@color/colorNearWhite"
                                 android:ems="10"
-                                android:hint="Harga"
-                                android:inputType="number"
+                                app:isDecimal="false"
+                                android:hint="0"
                                 android:padding="@dimen/min_padding"
-                                android:text="" />
+                                android:background="@color/colorNearWhite"
+                                />
+                            <!--<faranjit.currency.edittext.CurrencyEditText-->
+                                <!--android:id="@+id/as_price_basic"-->
+                                <!--android:ems="10"-->
+                                <!--android:layout_width="match_parent"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:inputType="number"-->
+                                <!--android:padding="@dimen/min_padding"-->
+                                <!--android:background="@color/colorNearWhite"-->
+                                <!--app:monetaryDivider=","-->
+                                <!--android:hint="0"-->
+                                <!--app:groupDivider="."-->
+                                <!--app:locale=""-->
+                                <!--app:showSymbol="false"-->
+                                <!--android:textColor="@android:color/black" />-->
 
                             <TextView
                                 android:id="@+id/idra"
@@ -759,10 +823,10 @@
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/colorGrey"
                                 android:layout_marginTop="@dimen/small_space"
-                                android:text="Harga yang ditampilkan pada Member (+20%) :"
+                                android:text="Harga yang ditampilkan (+20%):"
                                 android:textSize="@dimen/almost_tiny_text" />
 
-                             <TextView
+                            <TextView
                                 android:id="@+id/as_price_basic_disp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -771,7 +835,7 @@
                                 android:layout_alignParentEnd="true"
                                 android:textAlignment="textEnd"
                                 android:layout_marginTop="@dimen/small_space"
-                                android:text="150000 IDR"
+                                android:text="0 IDR"
                                 android:textSize="@dimen/under_small_text" />
                         </RelativeLayout>
 
@@ -782,7 +846,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:visibility="gone">
+                        android:visibility="gone"
+                       >
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -795,7 +860,7 @@
                                 android:id="@+id/textView12w"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Range Name"
+                                android:text="Nama Periode"
                                 android:textColor="@color/colorBlack"
                                 android:textSize="12sp" />
 
@@ -805,10 +870,11 @@
                                 android:layout_height="wrap_content"
                                 android:background="@color/colorNearWhite"
                                 android:ems="10"
-                                android:hint="Nama"
+                                android:hint="Nama Periode"
                                 android:inputType="textPersonName"
                                 android:padding="@dimen/min_padding"
-                                android:text="High Season" />
+                                android:editable="false"
+                                android:text="" />
 
                         </LinearLayout>
 
@@ -833,10 +899,10 @@
                                 android:layout_height="wrap_content"
                                 android:background="@color/colorNearWhite"
                                 android:ems="10"
-                                android:hint="Start Date"
-                                android:inputType="number"
+                                android:drawableEnd="@drawable/ic_date_range_black_24dp"
+                                android:hint="Tanggal Mulai"
                                 android:padding="@dimen/min_padding"
-                                android:text="2017-10-09" />
+                                android:text="" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -860,10 +926,10 @@
                                 android:layout_height="wrap_content"
                                 android:background="@color/colorNearWhite"
                                 android:ems="10"
-                                android:hint="End Date"
-                                android:inputType="number"
+                                android:drawableEnd="@drawable/ic_date_range_black_24dp"
+                                android:hint="Tanggal Akhir"
                                 android:padding="@dimen/min_padding"
-                                android:text="2017-12-09" />
+                                android:text="" />
                         </LinearLayout>
 
                         <LinearLayout
