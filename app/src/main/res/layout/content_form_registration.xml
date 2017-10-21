@@ -23,10 +23,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="@dimen/xmin_padding"
-                android:orientation="vertical"
-                android:padding="@dimen/xmin_padding"
                 android:background="@color/colorWhite"
-                android:focusableInTouchMode="true">
+                android:focusableInTouchMode="true"
+                android:orientation="vertical"
+                android:padding="@dimen/xmin_padding">
+
+                <TextView
+                    android:id="@+id/textView1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/min_padding"
+                    android:padding="@dimen/min_padding"
+                    android:text="Silahkan Lengkapi Informasi Rental Anda"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="16sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -36,11 +47,108 @@
                     android:padding="@dimen/xmin_padding">
 
                     <TextView
-                        android:id="@+id/textView11"
+                        android:id="@+id/textView2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Jenis Rental"
-                        android:textColor="@color/colorBlack" />
+                        android:text="Nama Rental" />
+
+                    <EditText
+                        android:id="@+id/reg_rent_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorNearWhite"
+                        android:ems="10"
+                        android:imeOptions="actionNext"
+                        android:inputType="text"
+                        android:padding="@dimen/min_padding" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/xmin_padding"
+                    android:orientation="vertical"
+                    android:padding="@dimen/xmin_padding">
+
+                    <TextView
+                        android:id="@+id/textView3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Pemilik Rental" />
+
+                    <EditText
+                        android:id="@+id/reg_own_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorNearWhite"
+                        android:ems="10"
+                        android:imeOptions="actionNext"
+                        android:inputType="text"
+                        android:padding="@dimen/min_padding" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/xmin_padding"
+                    android:orientation="vertical"
+                    android:padding="@dimen/xmin_padding">
+
+                    <TextView
+                        android:id="@+id/textView4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Email" />
+
+                    <EditText
+                        android:id="@+id/reg_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorNearWhite"
+                        android:ems="10"
+                        android:hint="your_mail@mail.com"
+                        android:imeOptions="actionNext"
+                        android:inputType="textEmailAddress"
+                        android:padding="@dimen/min_padding" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/xmin_padding"
+                    android:orientation="vertical"
+                    android:padding="@dimen/xmin_padding">
+
+                    <TextView
+                        android:id="@+id/textView5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Nomor Handphone" />
+
+                    <EditText
+                        android:id="@+id/reg_phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorNearWhite"
+                        android:ems="10"
+                        android:hint="08xx xxxx xxxx"
+                        android:imeOptions="actionNext"
+                        android:inputType="phone"
+                        android:padding="@dimen/min_padding" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/xmin_padding"
+                    android:orientation="vertical"
+                    android:padding="@dimen/xmin_padding">
+
+                    <TextView
+                        android:id="@+id/textView6"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Jenis Rental" />
 
                     <RelativeLayout
                         android:layout_width="wrap_content"
@@ -76,230 +184,10 @@
                     android:padding="@dimen/xmin_padding">
 
                     <TextView
-                        android:id="@+id/textView1"
+                        android:id="@+id/textView11"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Nama Rental"
-                        android:textColor="@color/colorBlack" />
-
-                    <EditText
-                        android:id="@+id/reg_rent_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/colorNearWhite"
-                        android:ems="10"
-                        android:hint="Nama Rental"
-                        android:imeOptions="actionNext"
-                        android:inputType="text"
-                        android:padding="@dimen/min_padding"
-                        android:text="BRAINWASH RENTAL" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="@dimen/xmin_padding"
-                    android:orientation="vertical"
-                    android:padding="@dimen/xmin_padding">
-
-                    <TextView
-                        android:id="@+id/textView2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Nama Pemilik"
-                        android:textColor="@color/colorBlack" />
-
-                    <EditText
-                        android:id="@+id/reg_own_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/colorNearWhite"
-                        android:ems="10"
-                        android:hint="Pemilik Rental"
-                        android:imeOptions="actionNext"
-                        android:inputType="text"
-                        android:padding="@dimen/min_padding"
-                        android:text="Bajing" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="@dimen/xmin_padding"
-                    android:orientation="vertical"
-                    android:padding="@dimen/xmin_padding">
-
-                    <TextView
-                        android:id="@+id/textView3"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Email"
-                        android:textColor="@color/colorBlack" />
-
-                    <EditText
-                        android:id="@+id/reg_email"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/colorNearWhite"
-                        android:ems="10"
-                        android:hint="Email"
-                        android:imeOptions="actionNext"
-                        android:inputType="textEmailAddress"
-                        android:padding="@dimen/min_padding"
-                        android:text="bajing@mail.com" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="@dimen/xmin_padding"
-                    android:orientation="vertical"
-                    android:padding="@dimen/xmin_padding">
-
-                    <TextView
-                        android:id="@+id/textView4"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Telepon"
-                        android:textColor="@color/colorBlack" />
-
-                    <EditText
-                        android:id="@+id/reg_phone"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/colorNearWhite"
-                        android:ems="10"
-                        android:hint="Nomor Telepon"
-                        android:imeOptions="actionNext"
-                        android:inputType="phone"
-                        android:padding="@dimen/min_padding"
-                        android:text="021 211 112" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="@dimen/xmin_padding"
-                    android:orientation="vertical"
-                    android:padding="@dimen/xmin_padding"
-                    android:visibility="gone">
-
-                    <TextView
-                        android:id="@+id/textView8"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Alamat Rental"
-                        android:textColor="@color/colorBlack" />
-
-                    <EditText
-                        android:id="@+id/reg_branch"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/colorNearWhite"
-                        android:ems="10"
-                        android:hint="Alamat"
-                        android:imeOptions="actionNext"
-                        android:inputType="text"
-                        android:padding="@dimen/min_padding" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="@dimen/xmin_padding"
-                    android:orientation="vertical"
-                    android:padding="@dimen/xmin_padding"
-                    android:visibility="gone">
-
-                    <TextView
-                        android:id="@+id/textView5"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Bank Yang Digunakan"
-                        android:textColor="@color/colorBlack" />
-
-                    <EditText
-                        android:id="@+id/reg_bank"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/colorNearWhite"
-                        android:ems="10"
-                        android:hint="Nama Bank"
-                        android:imeOptions="actionNext"
-                        android:inputType="text"
-                        android:padding="@dimen/min_padding"
-                        android:text="-" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="@dimen/xmin_padding"
-                    android:orientation="vertical"
-                    android:padding="@dimen/xmin_padding"
-                    android:visibility="gone">
-
-                    <TextView
-                        android:id="@+id/textView6"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Nomor Rekening Bank"
-                        android:textColor="@color/colorBlack" />
-
-                    <EditText
-                        android:id="@+id/reg_bank_rek"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/colorNearWhite"
-                        android:ems="10"
-                        android:hint="Rekening Bank"
-                        android:imeOptions="actionNext"
-                        android:inputType="text"
-                        android:padding="@dimen/min_padding"
-                        android:text="-" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="@dimen/xmin_padding"
-                    android:orientation="vertical"
-                    android:padding="@dimen/xmin_padding"
-                    android:visibility="gone">
-
-                    <TextView
-                        android:id="@+id/textView7"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Nama Pemilik Rekening"
-                        android:textColor="@color/colorBlack" />
-
-                    <EditText
-                        android:id="@+id/reg_bank_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/colorNearWhite"
-                        android:ems="10"
-                        android:hint="Nama Bank"
-                        android:imeOptions="actionNext"
-                        android:inputType="text"
-                        android:padding="@dimen/min_padding"
-                        android:text="-" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="@dimen/xmin_padding"
-                    android:orientation="vertical"
-                    android:padding="@dimen/xmin_padding">
-
-                    <TextView
-                        android:id="@+id/textView9"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Password"
-                        android:textColor="@color/colorBlack" />
+                        android:text="Password" />
 
                     <EditText
                         android:id="@+id/reg_pass"
@@ -308,8 +196,8 @@
                         android:background="@color/colorNearWhite"
                         android:ems="10"
                         android:hint="******"
-                        android:inputType="textPassword"
                         android:imeOptions="actionNext"
+                        android:inputType="textPassword"
                         android:padding="@dimen/min_padding" />
                 </LinearLayout>
 
@@ -321,11 +209,10 @@
                     android:padding="@dimen/xmin_padding">
 
                     <TextView
-                        android:id="@+id/textView10"
+                        android:id="@+id/textView12"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Konfirmasi Password"
-                        android:textColor="@color/colorBlack" />
+                        android:text="Konfirmasi Password" />
 
                     <EditText
                         android:id="@+id/reg_conf_pass"
@@ -334,7 +221,7 @@
                         android:background="@color/colorNearWhite"
                         android:ems="10"
                         android:hint="******"
-                        android:imeOptions="actionNext"
+                        android:imeOptions="actionDone"
                         android:inputType="textPassword"
                         android:padding="@dimen/min_padding" />
                 </LinearLayout>
@@ -344,381 +231,27 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:orientation="horizontal"
                 android:layout_marginBottom="@dimen/xmin_padding"
-                android:background="@color/colorWhite"
-                android:orientation="vertical"
-                android:padding="@dimen/min_padding">
+                android:layout_weight="1">
 
-                <TextView
-                    android:id="@+id/textView42"
-                    android:layout_width="match_parent"
+                <CheckBox
+                    android:id="@+id/checkBoxAgreement"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/min_padding"
-                    android:padding="@dimen/min_padding"
-                    android:text="Pilih kategory aset Rental Anda."
-                    android:textAlignment="center"
-                    android:textSize="12sp" />
-
-                <TableLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" >
-
-                        <LinearLayout
-                            android:id="@+id/lay1"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_margin="@dimen/xmin_padding"
-                            android:layout_weight="1"
-                            android:background="@color/colorBackgound"
-                            android:orientation="vertical"
-                            android:padding="@dimen/xmin_padding">
-
-                            <ImageView
-                                android:id="@+id/cat1"
-                                android:layout_width="50dp"
-                                android:layout_height="50dp"
-                                android:layout_centerInParent="true"
-                                android:layout_gravity="center"
-                                app:srcCompat="@drawable/mobil" />
-
-                            <TextView
-                                android:id="@+id/textView15"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Mobil"
-                                android:textAlignment="center"
-                                android:textSize="12sp" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/lay2"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_margin="@dimen/xmin_padding"
-                            android:layout_weight="1"
-                            android:background="@color/colorBackgound"
-                            android:orientation="vertical"
-                            android:padding="@dimen/xmin_padding">
-
-                            <ImageView
-                                android:id="@+id/cat2"
-                                android:layout_width="50dp"
-                                android:layout_height="50dp"
-                                android:layout_gravity="center"
-                                android:layout_weight="1"
-                                app:srcCompat="@drawable/motor" />
-
-                            <TextView
-                                android:id="@+id/textView16"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Motor"
-                                android:textAlignment="center"
-                                android:textSize="12sp" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/lay3"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_margin="@dimen/xmin_padding"
-                            android:layout_weight="1"
-                            android:background="@color/colorBackgound"
-                            android:orientation="vertical"
-                            android:padding="@dimen/xmin_padding">
-
-                            <ImageView
-                                android:id="@+id/cat3"
-                                android:layout_width="50dp"
-                                android:layout_height="50dp"
-                                android:layout_gravity="center"
-                                android:layout_weight="1"
-                                app:srcCompat="@drawable/yatch" />
-
-                            <TextView
-                                android:id="@+id/textView17"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Yacht"
-                                android:textAlignment="center"
-                                android:textSize="12sp" />
-
-                        </LinearLayout>
-
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" >
-
-                        <LinearLayout
-                            android:id="@+id/lay4"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_margin="@dimen/xmin_padding"
-                            android:layout_weight="1"
-                            android:background="@color/colorBackgound"
-                            android:orientation="vertical"
-                            android:padding="@dimen/xmin_padding">
-
-                            <ImageView
-                                android:id="@+id/cat4"
-                                android:layout_width="50dp"
-                                android:layout_height="50dp"
-                                android:layout_gravity="center"
-                                app:srcCompat="@drawable/medical_equipment" />
-
-                            <TextView
-                                android:id="@+id/textView18"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Medical"
-                                android:textAlignment="center"
-                                android:textSize="12sp" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/lay5"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_margin="@dimen/xmin_padding"
-                            android:layout_weight="1"
-                            android:background="@color/colorBackgound"
-                            android:orientation="vertical"
-                            android:padding="@dimen/xmin_padding">
-
-                            <ImageView
-                                android:id="@+id/cat5"
-                                android:layout_width="50dp"
-                                android:layout_height="50dp"
-                                android:layout_gravity="center"
-                                android:layout_weight="1"
-                                app:srcCompat="@drawable/camera" />
-
-                            <TextView
-                                android:id="@+id/textView19"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Fotografi"
-                                android:textAlignment="center"
-                                android:textSize="12sp" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/lay6"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_margin="@dimen/xmin_padding"
-                            android:layout_weight="1"
-                            android:background="@color/colorBackgound"
-                            android:orientation="vertical"
-                            android:padding="@dimen/xmin_padding">
-
-                            <ImageView
-                                android:id="@+id/cat6"
-                                android:layout_width="50dp"
-                                android:layout_height="50dp"
-                                android:layout_gravity="center"
-                                android:layout_weight="1"
-                                app:srcCompat="@drawable/mainan_anak" />
-
-                            <TextView
-                                android:id="@+id/textView20"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Mainan Anak"
-                                android:textAlignment="center"
-                                android:textSize="12sp" />
-
-                        </LinearLayout>
-
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <LinearLayout
-                            android:id="@+id/lay7"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_margin="@dimen/xmin_padding"
-                            android:layout_weight="1"
-                            android:background="@color/colorBackgound"
-                            android:orientation="vertical"
-                            android:padding="@dimen/xmin_padding">
-
-                            <ImageView
-                                android:id="@+id/cat7"
-                                android:layout_width="50dp"
-                                android:layout_height="50dp"
-                                android:layout_gravity="center"
-                                app:srcCompat="@drawable/adventure" />
-
-                            <TextView
-                                android:id="@+id/textView21"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Adventure"
-                                android:textAlignment="center"
-                                android:textSize="12sp" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/lay8"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_margin="@dimen/xmin_padding"
-                            android:layout_weight="1"
-                            android:background="@color/colorBackgound"
-                            android:orientation="vertical"
-                            android:padding="@dimen/xmin_padding">
-
-                            <ImageView
-                                android:id="@+id/cat8"
-                                android:layout_width="50dp"
-                                android:layout_height="50dp"
-                                android:layout_gravity="center"
-                                android:layout_weight="1"
-                                app:srcCompat="@drawable/maternity" />
-
-                            <TextView
-                                android:id="@+id/textView22"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Maternity"
-                                android:textAlignment="center"
-                                android:textSize="12sp" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/lay9"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_margin="@dimen/xmin_padding"
-                            android:layout_weight="1"
-                            android:background="@color/colorBackgound"
-                            android:orientation="vertical"
-                            android:padding="@dimen/xmin_padding">
-
-                            <ImageView
-                                android:id="@+id/cat9"
-                                android:layout_width="50dp"
-                                android:layout_height="50dp"
-                                android:layout_gravity="center"
-                                android:layout_weight="1"
-                                app:srcCompat="@drawable/elektronik" />
-
-                            <TextView
-                                android:id="@+id/textView23"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Elektronik"
-                                android:textAlignment="center"
-                                android:textSize="12sp" />
-
-                        </LinearLayout>
-
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <LinearLayout
-                            android:id="@+id/lay10"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_margin="@dimen/xmin_padding"
-                            android:layout_weight="1"
-                            android:background="@color/colorBackgound"
-                            android:orientation="vertical"
-                            android:padding="@dimen/xmin_padding">
-
-                            <ImageView
-                                android:id="@+id/cat10"
-                                android:layout_width="50dp"
-                                android:layout_height="50dp"
-                                android:layout_gravity="center"
-                                app:srcCompat="@drawable/sepeda" />
-
-                            <TextView
-                                android:id="@+id/textView24"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Sepeda"
-                                android:textAlignment="center"
-                                android:textSize="12sp" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/lay11"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_margin="@dimen/xmin_padding"
-                            android:layout_weight="1"
-                            android:background="@color/colorBackgound"
-                            android:orientation="vertical"
-                            android:padding="@dimen/xmin_padding">
-
-                            <ImageView
-                                android:id="@+id/cat11"
-                                android:layout_width="50dp"
-                                android:layout_height="50dp"
-                                android:layout_gravity="center"
-                                android:layout_weight="1"
-                                app:srcCompat="@drawable/office_equipmen" />
-
-                            <TextView
-                                android:id="@+id/textView25"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Kantor"
-                                android:textAlignment="center"
-                                android:textSize="12sp" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_margin="@dimen/xmin_padding"
-                            android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:padding="@dimen/xmin_padding"/>
-
-                    </TableRow>
-                </TableLayout>
+                    android:padding="@dimen/xmin_padding"
+                    android:text="Saya mengerti dengan Kententuan dan Kebijakan yang berlaku."
+                    android:textColor="@color/colorWhite"
+                    android:textSize="10sp" />
 
             </LinearLayout>
-
-            <CheckBox
-                android:id="@+id/checkBox8"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/xmin_padding"
-                android:padding="@dimen/xmin_padding"
-                android:text="Saya mengerti dengan Kententuan dan Kebijakan yang berlaku."
-                android:textColor="@color/colorWhite"
-                android:textSize="10sp" />
 
             <Button
                 android:id="@+id/btn_save"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/xmin_padding"
                 android:background="@color/colorWhite"
+                android:padding="@dimen/xmin_padding"
                 android:text="Daftar"
                 android:textColor="@color/colorPrimary"
                 android:textStyle="bold" />

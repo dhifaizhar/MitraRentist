@@ -38,6 +38,7 @@ public class AktivasiActivity extends AppCompatActivity {
     private SessionManager sm;
     private ProgressDialog pDialog;
     private JSONObject userObject, tenantObject, responseMessage;
+    Intent actIntent;
 
     String userMail, activation;
     EditText mCode;
@@ -50,8 +51,9 @@ public class AktivasiActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_aktifasi);
-        setTitle("Aktivasi");
+        setTitle("");
 
+        actIntent = getIntent();
         sm = new SessionManager(getApplicationContext());
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
@@ -63,7 +65,11 @@ public class AktivasiActivity extends AppCompatActivity {
 
         // action retrieve data aset
         aktif_btn = (Button) findViewById(R.id.aktif_button);
-        userMail = sm.getPreferences("email_rental");
+        if(actIntent.getStringExtra("action").equals("registration")){
+            userMail = actIntent.getStringExtra("email_rental");
+        }else{
+            userMail = sm.getPreferences("email_rental");
+        }
         mCode = (EditText)findViewById(R.id.aktif_code);
 
         aktif_btn.setOnClickListener(new View.OnClickListener(){
@@ -112,6 +118,7 @@ public class AktivasiActivity extends AppCompatActivity {
                     Map<String, String> keys = new HashMap<String, String>();
                     keys.put("token", mCode.getText().toString());
                     keys.put("email", mEmail);
+                    Log.e(TAG, "Activated User Fetch Error : " + String.valueOf(keys));
                     return keys;
                 }
 
@@ -150,8 +157,14 @@ public class AktivasiActivity extends AppCompatActivity {
                         mStat = jsonobject.getString("is_activated");
                         sm.setPreferences("status",mStat);
 
-                        startActivity(new Intent(AktivasiActivity.this, DashboardActivity.class));
-                        finish();
+                        Toast.makeText(getApplicationContext(),"Sukses mengaktifkan akun.", Toast.LENGTH_LONG).show();
+                        if(actIntent.getStringExtra("action").equals("registration")){
+                            startActivity(new Intent(AktivasiActivity.this, LoginActivity.class));
+                            finish();
+                        }else{
+                            startActivity(new Intent(AktivasiActivity.this, DashboardActivity.class));
+                            finish();
+                        }
                     }else{
                         errorMsg = "Gagal aktifasi akun";
                         Toast.makeText(getApplicationContext(),errorMsg, Toast.LENGTH_LONG).show();

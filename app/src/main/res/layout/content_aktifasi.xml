@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Kode Aktivasi"
                 android:imeActionId="@+id/aktif"
-                android:inputType="text"
+                android:inputType="number"
                 android:maxLines="1"
                 android:textAlignment="center"
                 android:textColor="@color/colorWhite"

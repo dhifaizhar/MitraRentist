@@ -436,7 +436,9 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
                         sm.setPreferences("rental_type", tenantObject.getString("rental_type"));
 //                        sm.setIntPreferences("province", tenantObject.getInt("id_province"));
-                        sm.setPreferences("city", String.valueOf(tenantObject.getInt("id_city")));
+                        if(!tenantObject.isNull("id_city")){
+                            sm.setPreferences("city", String.valueOf(tenantObject.getInt("id_city")));
+                        }
 //                        sm.setIntPreferences("distric", tenantObject.getInt("id_distric"));
 //                        sm.setIntPreferences("village", tenantObject.getInt("id_village"));
                         sm.setPreferences("bank_name", tenantObject.getString("bank_name"));
