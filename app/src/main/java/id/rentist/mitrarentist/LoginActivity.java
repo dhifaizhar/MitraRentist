@@ -18,7 +18,6 @@ import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -48,6 +47,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import id.rentist.mitrarentist.tools.AppConfig;
+import id.rentist.mitrarentist.tools.FormValidation;
 import id.rentist.mitrarentist.tools.SessionManager;
 
 import static android.Manifest.permission.READ_CONTACTS;
@@ -60,7 +60,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     private UserLoginTask mAuthTask = null;
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
-    private View mLoginFormView;
+    private View mLoginFormView, focusView;
+    private FormValidation formValidation;
     private SessionManager sm;
     private ProgressDialog pDialog;
     private JSONObject userObject, tenantObject, setCatObject, responseMessage;
@@ -75,6 +76,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        formValidation = new FormValidation(LoginActivity.this);
         sm = new SessionManager(getApplicationContext());
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
@@ -189,61 +191,23 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         mToken = FirebaseInstanceId.getInstance().getToken();
         Log.e("onCreate Token: ",mToken);
 
-        View focusView;
-
         // Check for a valid email & password, if the user entered one.
-        if (isEmailValid(email) && isPasswordValid(password)) {
-            pDialog.setMessage("authentication request ...");
-            showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute();
-        } else if(TextUtils.isEmpty(password) || TextUtils.isEmpty(email)) {
-            if(TextUtils.isEmpty(password)){
-                mPasswordView.setError(getString(R.string.error_field_required));
+        if(formValidation.isEmailValid(email)){
+            if(formValidation.isPasswordValid(password)){
+                pDialog.setMessage("authentication request ...");
+                showProgress(true);
+                mAuthTask = new UserLoginTask(email, password);
+                mAuthTask.execute();
+            }else{
+                mPasswordView.setError(getString(R.string.error_invalid_password));
                 focusView = mPasswordView;
                 focusView.requestFocus();
-            } else if(TextUtils.isEmpty(email)){
-                mEmailView.setError(getString(R.string.error_field_required));
-                focusView = mEmailView;
-                focusView.requestFocus();
             }
-            Toast.makeText(getApplicationContext(),"Tidak dapat memproses email atau password yang kosong", Toast.LENGTH_LONG).show();
-        } else if (!isEmailValid(email)) {
+        }else{
             mEmailView.setError(getString(R.string.error_invalid_email));
             focusView = mEmailView;
             focusView.requestFocus();
-            Toast.makeText(getApplicationContext(),"Masukan keliru pada email", Toast.LENGTH_LONG).show();
-        } else if (!isPasswordValid(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
-            focusView = mPasswordView;
-            focusView.requestFocus();
-            Toast.makeText(getApplicationContext(),"Masukan keliru pada password", Toast.LENGTH_LONG).show();
         }
-    }
-
-    private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
-
-        boolean result = false;
-        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
-
-        if(email.matches(emailPattern) && email.length() > 0){
-            result = true;
-        }
-
-        return result;
-    }
-
-    private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
-
-        boolean result = false;
-
-        if(password.length() > 4){
-            result = true;
-        }
-
-        return result;
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
