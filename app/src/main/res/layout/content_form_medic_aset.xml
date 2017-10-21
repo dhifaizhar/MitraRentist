@@ -110,9 +110,9 @@
                             android:elevation="0dp"
                             android:ems="10"
                             android:hint="Nama"
-                            android:padding="@dimen/min_padding"
                             android:imeOptions="actionNext"
                             android:inputType="text|textCapWords"
+                            android:padding="@dimen/min_padding"
                             android:text="" />
                     </LinearLayout>
 
@@ -139,9 +139,9 @@
                             android:elevation="0dp"
                             android:ems="10"
                             android:hint="Brand"
-                            android:padding="@dimen/min_padding"
                             android:imeOptions="actionNext"
                             android:inputType="text|textCapWords"
+                            android:padding="@dimen/min_padding"
                             android:text="" />
                     </LinearLayout>
 
@@ -167,9 +167,9 @@
                             android:background="@color/colorNearWhite"
                             android:ems="10"
                             android:hint="Tipe"
-                            android:padding="@dimen/min_padding"
                             android:imeOptions="actionNext"
                             android:inputType="text|textCapWords"
+                            android:padding="@dimen/min_padding"
                             android:text="" />
                     </LinearLayout>
 
@@ -235,20 +235,20 @@
                                 android:background="@color/colorNearWhite"
                                 android:ems="10"
                                 android:hint="0"
-                                android:padding="@dimen/min_padding"
                                 android:imeOptions="actionNext"
                                 android:inputType="number"
+                                android:padding="@dimen/min_padding"
                                 android:text="" />
 
                             <TextView
                                 android:id="@+id/day"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Hari"
                                 android:layout_alignParentEnd="true"
                                 android:layout_centerVertical="true"
-                                android:textColor="@color/colorBlack54"
                                 android:layout_marginEnd="@dimen/min_padding"
+                                android:text="Hari"
+                                android:textColor="@color/colorBlack54"
                                 android:textSize="@dimen/medium_text" />
 
                         </RelativeLayout>
@@ -271,8 +271,8 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:background="@color/colorNearWhite">
+                            android:background="@color/colorNearWhite"
+                            android:orientation="horizontal">
 
                             <CheckBox
                                 android:id="@+id/as_ck_delivery"
@@ -297,7 +297,6 @@
                         </LinearLayout>
 
 
-
                     </LinearLayout>
 
                     <RelativeLayout
@@ -320,28 +319,28 @@
 
 
                         <!--<EditText-->
-                            <!--android:id="@+id/as_assurance_price"-->
-                            <!--android:layout_width="match_parent"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:background="@color/colorNearWhite"-->
-                            <!--android:layout_toEndOf="@id/as_ck_assurance"-->
-                            <!--android:ems="10"-->
-                            <!--android:hint="Nominal"-->
-                            <!--android:padding="@dimen/min_padding"-->
-                            <!--android:imeOptions="actionNext"-->
-                            <!--android:inputType="number"-->
-                            <!--android:text="0" />-->
+                        <!--android:id="@+id/as_assurance_price"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:background="@color/colorNearWhite"-->
+                        <!--android:layout_toEndOf="@id/as_ck_assurance"-->
+                        <!--android:ems="10"-->
+                        <!--android:hint="Nominal"-->
+                        <!--android:padding="@dimen/min_padding"-->
+                        <!--android:imeOptions="actionNext"-->
+                        <!--android:inputType="number"-->
+                        <!--android:text="0" />-->
 
                         <!--<TextView-->
-                            <!--android:id="@+id/idr"-->
-                            <!--android:layout_width="wrap_content"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:text="IDR"-->
-                            <!--android:layout_alignParentEnd="true"-->
-                            <!--android:layout_centerVertical="true"-->
-                            <!--android:textColor="@color/colorBlack54"-->
-                            <!--android:layout_marginEnd="@dimen/min_padding"-->
-                            <!--android:textSize="@dimen/medium_text" />-->
+                        <!--android:id="@+id/idr"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="IDR"-->
+                        <!--android:layout_alignParentEnd="true"-->
+                        <!--android:layout_centerVertical="true"-->
+                        <!--android:textColor="@color/colorBlack54"-->
+                        <!--android:layout_marginEnd="@dimen/min_padding"-->
+                        <!--android:textSize="@dimen/medium_text" />-->
 
                     </RelativeLayout>
 
@@ -434,23 +433,22 @@
                                 android:id="@+id/as_price_basic"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:ems="10"
-                                app:isDecimal="false"
-                                android:maxLength="13"
-                                android:hint="0"
-                                android:padding="@dimen/min_padding"
                                 android:background="@color/colorNearWhite"
-                                />
+                                android:ems="10"
+                                android:hint="0"
+                                android:maxLength="12"
+                                android:padding="@dimen/min_padding"
+                                app:isDecimal="false" />
 
                             <TextView
                                 android:id="@+id/idra"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="IDR"
-                                android:layout_centerVertical="true"
                                 android:layout_alignParentEnd="true"
-                                android:textColor="@color/colorGrey"
+                                android:layout_centerVertical="true"
                                 android:layout_marginEnd="@dimen/min_padding"
+                                android:text="IDR"
+                                android:textColor="@color/colorGrey"
                                 android:textSize="@dimen/medium_text" />
                         </RelativeLayout>
 
@@ -462,21 +460,21 @@
                                 android:id="@+id/disptext"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textColor="@color/colorGrey"
                                 android:layout_marginTop="@dimen/small_space"
                                 android:text="Harga yang ditampilkan (+20%):"
+                                android:textColor="@color/colorGrey"
                                 android:textSize="@dimen/almost_tiny_text" />
 
                             <TextView
                                 android:id="@+id/as_price_basic_disp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textColor="@color/colorPrice"
-                                android:layout_toEndOf="@+id/disptext"
                                 android:layout_alignParentEnd="true"
-                                android:textAlignment="textEnd"
                                 android:layout_marginTop="@dimen/small_space"
+                                android:layout_toEndOf="@+id/disptext"
                                 android:text="0 IDR"
+                                android:textAlignment="textEnd"
+                                android:textColor="@color/colorPrice"
                                 android:textSize="@dimen/under_small_text" />
                         </RelativeLayout>
 
@@ -487,8 +485,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:visibility="gone"
-                        >
+                        android:visibility="gone">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -538,11 +535,12 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:background="@color/colorNearWhite"
-                                android:ems="10"
-                                android:editable="false"
-                                android:inputType="date|none"
                                 android:drawableEnd="@drawable/ic_date_range_black_24dp"
+                                android:editable="false"
+                                android:ems="10"
                                 android:hint="Tanggal Mulai"
+                                android:clickable="true"
+                                android:inputType="date|none"
                                 android:padding="@dimen/min_padding"
                                 android:text="" />
                         </LinearLayout>
@@ -567,11 +565,12 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:background="@color/colorNearWhite"
-                                android:ems="10"
-                                android:inputType="date|none"
-                                android:editable="false"
                                 android:drawableEnd="@drawable/ic_date_range_black_24dp"
+                                android:editable="false"
+                                android:ems="10"
+                                android:clickable="true"
                                 android:hint="Tanggal Akhir"
+                                android:inputType="date|none"
                                 android:padding="@dimen/min_padding"
                                 android:text="" />
                         </LinearLayout>
@@ -595,38 +594,27 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
 
-                                <!--<EditText-->
-                                <!--android:id="@+id/as_price_advance"-->
-                                <!--android:layout_width="match_parent"-->
-                                <!--android:layout_height="wrap_content"-->
-                                <!--android:background="@color/colorNearWhite"-->
-                                <!--android:ems="10"-->
-                                <!--android:hint="Harga"-->
-                                <!--android:inputType="number"-->
-                                <!--android:padding="@dimen/min_padding"-->
-                                <!--android:text="" />-->
 
                                 <com.aldoapps.autoformatedittext.AutoFormatEditText
                                     android:id="@+id/as_price_advance"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:ems="10"
-                                    android:maxLength="13"
-                                    app:isDecimal="false"
-                                    android:hint="0"
-                                    android:padding="@dimen/min_padding"
                                     android:background="@color/colorNearWhite"
-                                    />
+                                    android:ems="10"
+                                    android:hint="0"
+                                    android:maxLength="12"
+                                    android:padding="@dimen/min_padding"
+                                    app:isDecimal="false" />
 
                                 <TextView
                                     android:id="@+id/daye"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="IDR"
                                     android:layout_alignParentEnd="true"
                                     android:layout_centerVertical="true"
-                                    android:textColor="@color/colorGrey"
                                     android:layout_marginEnd="@dimen/min_padding"
+                                    android:text="IDR"
+                                    android:textColor="@color/colorGrey"
                                     android:textSize="@dimen/medium_text" />
 
                             </RelativeLayout>
@@ -639,21 +627,21 @@
                                     android:id="@+id/disptext2"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:textColor="@color/colorGrey"
                                     android:layout_marginTop="@dimen/small_space"
                                     android:text="Harga yang ditampilkan (+20%):"
+                                    android:textColor="@color/colorGrey"
                                     android:textSize="@dimen/almost_tiny_text" />
 
                                 <TextView
                                     android:id="@+id/as_price_advance_disp"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:textColor="@color/colorPrice"
-                                    android:layout_toEndOf="@+id/disptext2"
                                     android:layout_alignParentEnd="true"
-                                    android:textAlignment="textEnd"
                                     android:layout_marginTop="@dimen/small_space"
+                                    android:layout_toEndOf="@+id/disptext2"
                                     android:text="0 IDR"
+                                    android:textAlignment="textEnd"
+                                    android:textColor="@color/colorPrice"
                                     android:textSize="@dimen/under_small_text" />
                             </RelativeLayout>
                         </LinearLayout>
@@ -664,11 +652,11 @@
                         android:id="@+id/btn_price_advance"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="+ Tambah Harga Advance"
                         android:layout_gravity="end"
+                        android:clickable="true"
+                        android:text="+ Tambah Harga Advance"
                         android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/small_text"
-                        android:clickable="true"/>
+                        android:textSize="@dimen/small_text" />
 
 
                 </LinearLayout>
@@ -691,7 +679,6 @@
             <!--&gt;-->
 
             <!--</android.support.v4.view.ViewPager>-->
-
 
 
             <android.support.v7.widget.CardView

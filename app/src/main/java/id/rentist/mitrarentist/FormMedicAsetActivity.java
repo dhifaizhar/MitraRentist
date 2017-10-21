@@ -1,6 +1,7 @@
 package id.rentist.mitrarentist;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -60,9 +61,9 @@ public class FormMedicAsetActivity extends AppCompatActivity {
 
     LinearLayout conAdvancePrice;
     ImageView aImg;
-    TextView aName, aMerk, aType, aAssuracePrice, aMinDayRent, aDesc,
+    TextView aName, aMerk, aType, aMinDayRent, aDesc,
             aRangName, aStartDate, aEndDate, aPriceAdvance, btnAdvancePrice, aBasicPriceDisp, aAdvancePriceDisp;
-    EditText aBasicPrice, aAdvancePrice;;
+    EditText aBasicPrice, aAdvancePrice;
     Integer idAsset;
     String aLatitude, aLongitude, aAddress, aRentPackage, tenant, category, encodedImage,
             isiimage = "", ext, imgString, aDeliveryMethod;
@@ -70,8 +71,9 @@ public class FormMedicAsetActivity extends AppCompatActivity {
     Button btnImgUpload;
     Spinner subcategory;
 
-
+    private int PICK_DATE_REQUEST = 5;
     private int PICK_IMAGE_REQUEST = 1;
+
     private static final String TAG = "FormAssetActivity";
     private static final String TOKEN = "secretissecret";
 
@@ -126,6 +128,10 @@ public class FormMedicAsetActivity extends AppCompatActivity {
         aEndDate = (TextView) findViewById(R.id.as_end_date);
         aAdvancePrice = (EditText) findViewById(R.id.as_price_advance);
         aBasicPrice = (EditText) findViewById(R.id.as_price_basic);
+        aAdvancePriceDisp = (TextView) findViewById(R.id.as_price_advance_disp);
+        aBasicPriceDisp = (TextView) findViewById(R.id.as_price_basic_disp);
+        aDelivery = (CheckBox) findViewById(R.id.as_ck_delivery);
+        aPickup = (CheckBox) findViewById(R.id.as_ck_pickup);
 
         aBasicPrice.addTextChangedListener(new TextWatcher(){
             @Override
@@ -178,6 +184,24 @@ public class FormMedicAsetActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
+            }
+        });
+
+        aEndDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(
+                        getApplicationContext(), CustomDatePickerRangeActivity.class);
+                startActivityForResult(intent,PICK_DATE_REQUEST);
+            }
+        });
+
+        aStartDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(
+                        getApplicationContext(), CustomDatePickerRangeActivity.class);
+                startActivityForResult(intent,PICK_DATE_REQUEST);
             }
         });
 
@@ -268,6 +292,20 @@ public class FormMedicAsetActivity extends AppCompatActivity {
 
             } catch (IOException e) {
                 e.printStackTrace();
+            }
+        }
+
+        if (requestCode == PICK_DATE_REQUEST) {
+            if(resultCode == Activity.RESULT_OK){
+                String resultStart = data.getStringExtra("startDate");
+                String resultEnd = data.getStringExtra("endDate");
+                /*transaction.setStartDate(resultStart);
+                transaction.setEndDate(resultEnd);*/
+                aStartDate.setText(resultStart);
+                aEndDate.setText(resultEnd);
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //Write your code if there's no result
             }
         }
     }
@@ -365,7 +403,7 @@ public class FormMedicAsetActivity extends AppCompatActivity {
                     ArrayList<String> pricingArray = new ArrayList<String>();
                     JSONObject priceBasicObject = new JSONObject();
                     try {
-                        priceBasicObject.put("price", aBasicPrice.getText().toString());
+                        priceBasicObject.put("price", aBasicPrice.getText().toString().replace(",", ""));
                         priceBasicObject.put("range_name","BASECOST");
                         priceBasicObject.put("start_date","1970-01-01");
                         priceBasicObject.put("end_date","1970-01-01");
@@ -381,7 +419,7 @@ public class FormMedicAsetActivity extends AppCompatActivity {
                             pricingObject.put("\"range_name\"", "\"" + aRangName.getText().toString() + "\"");
                             pricingObject.put("\"start_date\"", "\"" + aStartDate.getText().toString() + "\"");
                             pricingObject.put("\"end_date\"", "\"" + aEndDate.getText().toString() + "\"");
-                            pricingObject.put("\"price\"", "\"" + aAdvancePrice.getText().toString() + "\"");
+                            pricingObject.put("\"price\"", "\"" + aAdvancePrice.getText().toString().replace(",", "") + "\"");
 
                             pricingArray.add(pricingObject.toString().replace("=", ":"));
                         }
@@ -416,6 +454,10 @@ public class FormMedicAsetActivity extends AppCompatActivity {
 
             if(aset != null){
                 Toast.makeText(getApplicationContext(),"Data sukses disimpan", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(FormMedicAsetActivity.this,AsetListActivity.class);
+                intent.putExtra("asset_name", "Peralatan Medis");
+                intent.putExtra("asset_category", 4);
+                setResult(RESULT_OK, intent);
                 finish();
             }else{
                 Toast.makeText(getApplicationContext(),"Gagal meyimpan data", Toast.LENGTH_LONG).show();

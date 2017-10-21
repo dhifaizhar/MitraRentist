@@ -123,6 +123,9 @@ public class GridAsetAdapter extends RecyclerView.Adapter<GridAsetAdapter.ViewHo
             category.setThumbnail(R.drawable.office_equipmen);
             itemCategory.add(category);
         }
+
+//
+
     }
 
     @Override

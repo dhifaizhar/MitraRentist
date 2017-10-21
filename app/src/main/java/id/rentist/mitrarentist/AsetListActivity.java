@@ -86,40 +86,42 @@ public class AsetListActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        // action retrieve data aset
+        category = iAset.getStringExtra("id_category");
+//        tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
+        pBar.setVisibility(View.VISIBLE);
+        getAssetDataList(category);
+
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 mAset.clear();
                 noAset.setVisibility(View.GONE);
-                getAssetDataList();
+                getAssetDataList(category);
             }
         });
 
-        // action retrieve data aset
-        category = iAset.getStringExtra("id_category");
-        tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
-        pBar.setVisibility(View.VISIBLE);
-        getAssetDataList();
     }
 
-    public void getAssetDataList() {
-//        pDialog.setMessage("loading asset...");
-//        showProgress(true);
-        new getAssetListTask(tenant).execute();
+    public void getAssetDataList(String category) {
+        tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
+
+        new getAssetListTask(tenant, category).execute();
     }
 
     private class getAssetListTask extends AsyncTask<String, String, String> {
-        private final String mTenant;
+        private final String mTenant, mCategory;
         private String errorMsg, responseAsset;
 
-        private getAssetListTask(String tenant) {
+        private getAssetListTask(String tenant, String category) {
             mTenant = tenant;
+            mCategory = category;
         }
 
         @Override
         protected String doInBackground(String... params) {
-            String URL = AppConfig.URL_LIST_ASSET + category;
+            String URL = AppConfig.URL_LIST_ASSET + mCategory;
             RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
             StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
                 @Override
@@ -291,7 +293,7 @@ public class AsetListActivity extends AppCompatActivity {
                     iAddAset.putExtra("action", "add");
                     iAddAset.putExtra("id_category", category);
                     iAddAset.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivityForResult(iAddAset, 2);
+                    startActivityForResult(iAddAset, 3);
                     break;
                 case "2":
                     iAddAset = new Intent(AsetListActivity.this, FormMotorcycleAsetActivity.class);
@@ -312,7 +314,7 @@ public class AsetListActivity extends AppCompatActivity {
                     iAddAset.putExtra("action", "add");
                     iAddAset.putExtra("id_category", category);
                     iAddAset.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivityForResult(iAddAset, 2);
+                    startActivityForResult(iAddAset, 3);
                     break;
                 case "5":
                     iAddAset = new Intent(AsetListActivity.this, FormPhotographyAsetActivity.class);
@@ -373,9 +375,11 @@ public class AsetListActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(resultCode == RESULT_OK) {
-            AsetListActivity.this.finish();
-            Intent ii = new Intent(AsetListActivity.this,AsetListActivity.class);
-            startActivity(ii);
+            setTitle("Aset " + data.getStringExtra("asset_name"));
+            mAset.clear();
+            pBar.setVisibility(View.VISIBLE);
+            String cat = data.getStringExtra("asset_category");
+            getAssetDataList(cat);
         }
 
     }

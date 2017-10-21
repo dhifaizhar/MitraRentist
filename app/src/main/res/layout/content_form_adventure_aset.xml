@@ -109,10 +109,10 @@
                             android:background="@color/colorNearWhite"
                             android:elevation="0dp"
                             android:ems="10"
-                            android:hint="Nama Aset"
-                            android:padding="@dimen/min_padding"
+                            android:hint="Nama"
                             android:imeOptions="actionNext"
-                            android:inputType="text"
+                            android:inputType="text|textCapWords"
+                            android:padding="@dimen/min_padding"
                             android:text="" />
                     </LinearLayout>
 
@@ -139,9 +139,9 @@
                             android:elevation="0dp"
                             android:ems="10"
                             android:hint="Brand"
-                            android:padding="@dimen/min_padding"
                             android:imeOptions="actionNext"
-                            android:inputType="text"
+                            android:inputType="text|textCapWords"
+                            android:padding="@dimen/min_padding"
                             android:text="" />
                     </LinearLayout>
 
@@ -167,9 +167,9 @@
                             android:background="@color/colorNearWhite"
                             android:ems="10"
                             android:hint="Tipe"
-                            android:padding="@dimen/min_padding"
                             android:imeOptions="actionNext"
-                            android:inputType="text"
+                            android:inputType="text|textCapWords"
+                            android:padding="@dimen/min_padding"
                             android:text="" />
                     </LinearLayout>
 
@@ -234,21 +234,21 @@
                                 android:layout_height="wrap_content"
                                 android:background="@color/colorNearWhite"
                                 android:ems="10"
-                                android:hint="Hari"
-                                android:padding="@dimen/min_padding"
+                                android:hint="0"
                                 android:imeOptions="actionNext"
                                 android:inputType="number"
-                                android:text="0" />
+                                android:padding="@dimen/min_padding"
+                                android:text="" />
 
                             <TextView
                                 android:id="@+id/day"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Hari"
                                 android:layout_alignParentEnd="true"
                                 android:layout_centerVertical="true"
-                                android:textColor="@color/colorBlack54"
                                 android:layout_marginEnd="@dimen/min_padding"
+                                android:text="Hari"
+                                android:textColor="@color/colorBlack54"
                                 android:textSize="@dimen/medium_text" />
 
                         </RelativeLayout>
@@ -271,8 +271,8 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:background="@color/colorNearWhite">
+                            android:background="@color/colorNearWhite"
+                            android:orientation="horizontal">
 
                             <CheckBox
                                 android:id="@+id/as_ck_delivery"
@@ -282,7 +282,7 @@
                                 android:layout_weight="1"
                                 android:checked="false"
                                 android:paddingEnd="@dimen/min_padding"
-                                android:text="Delivery" />
+                                android:text="Dikirim" />
 
                             <CheckBox
                                 android:id="@+id/as_ck_pickup"
@@ -292,10 +292,9 @@
                                 android:layout_weight="1"
                                 android:checked="false"
                                 android:paddingEnd="@dimen/min_padding"
-                                android:text="Pickup" />
+                                android:text="Dijemput" />
 
                         </LinearLayout>
-
 
 
                     </LinearLayout>
@@ -319,29 +318,29 @@
                             android:text="Asuransi" />
 
 
-                        <EditText
-                            android:id="@+id/as_assurance_price"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@color/colorNearWhite"
-                            android:layout_toEndOf="@id/as_ck_assurance"
-                            android:ems="10"
-                            android:hint="Nominal"
-                            android:padding="@dimen/min_padding"
-                            android:imeOptions="actionNext"
-                            android:inputType="number"
-                            android:text="0" />
+                        <!--<EditText-->
+                        <!--android:id="@+id/as_assurance_price"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:background="@color/colorNearWhite"-->
+                        <!--android:layout_toEndOf="@id/as_ck_assurance"-->
+                        <!--android:ems="10"-->
+                        <!--android:hint="Nominal"-->
+                        <!--android:padding="@dimen/min_padding"-->
+                        <!--android:imeOptions="actionNext"-->
+                        <!--android:inputType="number"-->
+                        <!--android:text="0" />-->
 
-                        <TextView
-                            android:id="@+id/idr"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="IDR"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:textColor="@color/colorBlack54"
-                            android:layout_marginEnd="@dimen/min_padding"
-                            android:textSize="@dimen/medium_text" />
+                        <!--<TextView-->
+                        <!--android:id="@+id/idr"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="IDR"-->
+                        <!--android:layout_alignParentEnd="true"-->
+                        <!--android:layout_centerVertical="true"-->
+                        <!--android:textColor="@color/colorBlack54"-->
+                        <!--android:layout_marginEnd="@dimen/min_padding"-->
+                        <!--android:textSize="@dimen/medium_text" />-->
 
                     </RelativeLayout>
 
@@ -368,7 +367,7 @@
                             android:ems="10"
                             android:gravity="start"
                             android:hint="Keterangan"
-                            android:inputType="textMultiLine"
+                            android:inputType="textMultiLine|textCapSentences"
                             android:lines="3"
                             android:padding="@dimen/min_padding"
                             android:text="Sekilas Tentang Aset" />
@@ -380,7 +379,7 @@
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginBottom="@dimen/xmin_padding">
 
                 <LinearLayout
@@ -394,6 +393,7 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/xmin_padding"
                         android:background="@color/colorPrimary"
                         android:padding="@dimen/min_padding">
 
@@ -429,28 +429,53 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
-                            <EditText
+                            <com.aldoapps.autoformatedittext.AutoFormatEditText
                                 android:id="@+id/as_price_basic"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:background="@color/colorNearWhite"
                                 android:ems="10"
-                                android:hint="Harga"
-                                android:inputType="number"
+                                android:hint="0"
+                                android:maxLength="12"
                                 android:padding="@dimen/min_padding"
-                                android:text="" />
+                                app:isDecimal="false" />
 
                             <TextView
                                 android:id="@+id/idra"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="IDR"
                                 android:layout_alignParentEnd="true"
                                 android:layout_centerVertical="true"
-                                android:textColor="@color/colorGrey"
                                 android:layout_marginEnd="@dimen/min_padding"
+                                android:text="IDR"
+                                android:textColor="@color/colorGrey"
                                 android:textSize="@dimen/medium_text" />
+                        </RelativeLayout>
 
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/disptext"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/small_space"
+                                android:text="Harga yang ditampilkan (+20%):"
+                                android:textColor="@color/colorGrey"
+                                android:textSize="@dimen/almost_tiny_text" />
+
+                            <TextView
+                                android:id="@+id/as_price_basic_disp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_marginTop="@dimen/small_space"
+                                android:layout_toEndOf="@+id/disptext"
+                                android:text="0 IDR"
+                                android:textAlignment="textEnd"
+                                android:textColor="@color/colorPrice"
+                                android:textSize="@dimen/under_small_text" />
                         </RelativeLayout>
 
                     </LinearLayout>
@@ -473,7 +498,7 @@
                                 android:id="@+id/textView12w"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Range Name"
+                                android:text="Nama Periode"
                                 android:textColor="@color/colorBlack"
                                 android:textSize="12sp" />
 
@@ -483,10 +508,10 @@
                                 android:layout_height="wrap_content"
                                 android:background="@color/colorNearWhite"
                                 android:ems="10"
-                                android:hint="Nama"
-                                android:inputType="textPersonName"
+                                android:hint="Nama Periode"
+                                android:inputType="textPersonName|textCapWords"
                                 android:padding="@dimen/min_padding"
-                                android:text="High Season" />
+                                android:text="" />
 
                         </LinearLayout>
 
@@ -510,11 +535,14 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:background="@color/colorNearWhite"
+                                android:drawableEnd="@drawable/ic_date_range_black_24dp"
+                                android:editable="false"
                                 android:ems="10"
-                                android:hint="Start Date"
-                                android:inputType="number"
+                                android:hint="Tanggal Mulai"
+                                android:clickable="true"
+                                android:inputType="date|none"
                                 android:padding="@dimen/min_padding"
-                                android:text="2017-10-09" />
+                                android:text="" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -537,11 +565,14 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:background="@color/colorNearWhite"
+                                android:drawableEnd="@drawable/ic_date_range_black_24dp"
+                                android:editable="false"
                                 android:ems="10"
-                                android:hint="End Date"
-                                android:inputType="number"
+                                android:clickable="true"
+                                android:hint="Tanggal Akhir"
+                                android:inputType="date|none"
                                 android:padding="@dimen/min_padding"
-                                android:text="2017-12-09" />
+                                android:text="" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -563,28 +594,55 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
 
-                                <EditText
+
+                                <com.aldoapps.autoformatedittext.AutoFormatEditText
                                     android:id="@+id/as_price_advance"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="@color/colorNearWhite"
                                     android:ems="10"
-                                    android:hint="Harga"
-                                    android:inputType="number"
+                                    android:hint="0"
+                                    android:maxLength="12"
                                     android:padding="@dimen/min_padding"
-                                    android:text="" />
+                                    app:isDecimal="false" />
 
                                 <TextView
                                     android:id="@+id/daye"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="IDR"
                                     android:layout_alignParentEnd="true"
                                     android:layout_centerVertical="true"
-                                    android:textColor="@color/colorGrey"
                                     android:layout_marginEnd="@dimen/min_padding"
+                                    android:text="IDR"
+                                    android:textColor="@color/colorGrey"
                                     android:textSize="@dimen/medium_text" />
 
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:id="@+id/disptext2"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/small_space"
+                                    android:text="Harga yang ditampilkan (+20%):"
+                                    android:textColor="@color/colorGrey"
+                                    android:textSize="@dimen/almost_tiny_text" />
+
+                                <TextView
+                                    android:id="@+id/as_price_advance_disp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_marginTop="@dimen/small_space"
+                                    android:layout_toEndOf="@+id/disptext2"
+                                    android:text="0 IDR"
+                                    android:textAlignment="textEnd"
+                                    android:textColor="@color/colorPrice"
+                                    android:textSize="@dimen/under_small_text" />
                             </RelativeLayout>
                         </LinearLayout>
 
@@ -594,11 +652,12 @@
                         android:id="@+id/btn_price_advance"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="+ Tambah Harga Advance"
                         android:layout_gravity="end"
+                        android:clickable="true"
+                        android:text="+ Tambah Harga Advance"
                         android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/small_text"
-                        android:clickable="true"/>
+                        android:textSize="@dimen/small_text" />
+
 
                 </LinearLayout>
 
@@ -620,7 +679,6 @@
             <!--&gt;-->
 
             <!--</android.support.v4.view.ViewPager>-->
-
 
 
             <android.support.v7.widget.CardView

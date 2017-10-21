@@ -439,8 +439,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                     sm.setPreferences("electronic", setCatObject.getString("electronic"));
                     sm.setPreferences("bicycle", setCatObject.getString("bicycle"));
                     sm.setPreferences("office", setCatObject.getString("office"));
+//                    sm.setPreferences("fashion", setCatObject.getString("fashion"));
                     sm.setIntPreferences("sum_cat", setCatObject.getInt("true"));
-
 
                     Log.d(TAG, "Image : ");
 

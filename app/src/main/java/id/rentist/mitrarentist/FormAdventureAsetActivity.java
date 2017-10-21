@@ -1,6 +1,7 @@
 package id.rentist.mitrarentist;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -11,6 +12,8 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
@@ -19,6 +22,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -39,8 +43,10 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import id.rentist.mitrarentist.tools.AppConfig;
@@ -55,14 +61,17 @@ public class FormAdventureAsetActivity extends AppCompatActivity {
 
     LinearLayout conAdvancePrice;
     ImageView aImg;
-    TextView aName, aMerk, aType, aAssuracePrice, aMinDayRent, aDesc,
-            aRangName, aStartDate, aEndDate, aPriceAdvance, btnAdvancePrice, aBasicPrice;
+    TextView aName, aMerk, aType, aMinDayRent, aDesc,
+            aRangName, aStartDate, aEndDate, aPriceAdvance, btnAdvancePrice, aBasicPriceDisp, aAdvancePriceDisp;
+    EditText aBasicPrice, aAdvancePrice;
     Integer idAsset;
-    String aLatitude, aLongitude, aAddress, aRentPackage, tenant, category, encodedImage, isiimage = "", ext, imgString;
-    CheckBox aAssurace;
+    String aLatitude, aLongitude, aAddress, aRentPackage, tenant, category, encodedImage,
+            isiimage = "", ext, imgString, aDeliveryMethod;
+    CheckBox aAssurace, aDelivery, aPickup;
     Button btnImgUpload;
     Spinner subcategory;
 
+    private int PICK_DATE_REQUEST = 5;
     private int PICK_IMAGE_REQUEST = 1;
     private static final String TAG = "FormAssetActivity";
     private static final String TOKEN = "secretissecret";
@@ -108,15 +117,90 @@ public class FormAdventureAsetActivity extends AppCompatActivity {
         aMerk = (TextView) findViewById(R.id.as_merk);
         aType = (TextView) findViewById(R.id.as_type);
         aAssurace = (CheckBox) findViewById(R.id.as_ck_assurance);
-        aAssuracePrice = (TextView) findViewById(R.id.as_assurance_price);
         aImg = (ImageView) findViewById(R.id.thumb_aset);
         aDesc = (TextView) findViewById(R.id.as_desc);
         aMinDayRent = (TextView) findViewById(R.id.as_min_day_rent);
         aRangName = (TextView) findViewById(R.id.as_range_name);
         aStartDate = (TextView) findViewById(R.id.as_start_date);
         aEndDate = (TextView) findViewById(R.id.as_end_date);
-        aPriceAdvance = (TextView) findViewById(R.id.as_price_advance);
-        aBasicPrice = (TextView) findViewById(R.id.as_price_basic);
+        aAdvancePrice = (EditText) findViewById(R.id.as_price_advance);
+        aBasicPrice = (EditText) findViewById(R.id.as_price_basic);
+        aAdvancePriceDisp = (TextView) findViewById(R.id.as_price_advance_disp);
+        aBasicPriceDisp = (TextView) findViewById(R.id.as_price_basic_disp);
+        aDelivery = (CheckBox) findViewById(R.id.as_ck_delivery);
+        aPickup = (CheckBox) findViewById(R.id.as_ck_pickup);
+
+        aBasicPrice.addTextChangedListener(new TextWatcher(){
+            @Override
+            public void afterTextChanged(Editable arg0) {
+                if(!aBasicPrice.getText().toString().isEmpty()){
+                    Integer price = Integer.parseInt(aBasicPrice.getText().toString().replace(",",""));
+
+                    Integer priceFee = price + (price/100*20);
+
+                    NumberFormat formatter = NumberFormat.getInstance(Locale.GERMANY);
+                    String currency = formatter.format(priceFee) + " IDR" ;
+
+                    aBasicPriceDisp.setText(currency);
+                } else {
+                    aBasicPriceDisp.setText("0 IDR");
+                }
+
+            }
+            @Override
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+        });
+
+        aAdvancePrice.addTextChangedListener(new TextWatcher(){
+            @Override
+            public void afterTextChanged(Editable arg0) {
+                if(!aAdvancePrice.getText().toString().isEmpty()){
+                    Integer price = Integer.parseInt(aAdvancePrice.getText().toString().replace(",",""));
+
+                    Integer priceFee = price + (price/100*20);
+
+                    NumberFormat formatter = NumberFormat.getInstance(Locale.GERMANY);
+                    String currency = formatter.format(priceFee) + " IDR" ;
+
+                    aAdvancePriceDisp.setText(currency);
+                } else {
+                    aAdvancePriceDisp.setText("0 IDR");
+                }
+
+            }
+            @Override
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+        });
+
+        aEndDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(
+                        getApplicationContext(), CustomDatePickerRangeActivity.class);
+                startActivityForResult(intent,PICK_DATE_REQUEST);
+            }
+        });
+
+        aStartDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(
+                        getApplicationContext(), CustomDatePickerRangeActivity.class);
+                startActivityForResult(intent,PICK_DATE_REQUEST);
+            }
+        });
 
         //aset value
         if(iFormAsset.getStringExtra("action").equals("update")){
@@ -131,7 +215,7 @@ public class FormAdventureAsetActivity extends AppCompatActivity {
 
             //spinner
             String compareValue = iFormAsset.getStringExtra("subcat");
-            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.medic_subcategory_entries, android.R.layout.simple_spinner_item);
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.adventure_subcategory_entries, android.R.layout.simple_spinner_item);
             adapter.setDropDownViewResource(android.R.layout.select_dialog_item);
             subcategory.setAdapter(adapter);
             Log.e(TAG, "Value Sub Cat: " + compareValue);
@@ -207,6 +291,20 @@ public class FormAdventureAsetActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+
+        if (requestCode == PICK_DATE_REQUEST) {
+            if(resultCode == Activity.RESULT_OK){
+                String resultStart = data.getStringExtra("startDate");
+                String resultEnd = data.getStringExtra("endDate");
+                /*transaction.setStartDate(resultStart);
+                transaction.setEndDate(resultEnd);*/
+                aStartDate.setText(resultStart);
+                aEndDate.setText(resultEnd);
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //Write your code if there's no result
+            }
+        }
     }
 
     @Override
@@ -223,10 +321,20 @@ public class FormAdventureAsetActivity extends AppCompatActivity {
             tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
             category = iFormAsset.getStringExtra("cat");
             idAsset = iFormAsset.getIntExtra("id_asset",0);
-            if(iFormAsset.getStringExtra("action").equals("update")){
-                updateDataAset(category);
-            }else{
-                addDataAset(tenant);
+
+            if(aDelivery.isChecked() && aPickup.isChecked()){aDeliveryMethod = "both";}
+            else if (aDelivery.isChecked()){ aDeliveryMethod = "deliver";}
+            else if (aPickup.isChecked()){ aDeliveryMethod = "pickup";}
+            else { aDeliveryMethod = "nodefine";}
+
+            if (aBasicPrice.getText().toString().isEmpty() || aDeliveryMethod.equals("nodefine")){
+                Toast.makeText(getApplicationContext(), "Harap Lengkapi Form",Toast.LENGTH_LONG).show();
+            } else{
+                if(iFormAsset.getStringExtra("action").equals("update")){
+                    updateDataAset(category);
+                }else{
+                    addDataAset(tenant);
+                }
             }
         }
 
@@ -280,8 +388,8 @@ public class FormAdventureAsetActivity extends AppCompatActivity {
                     keys.put("brand", aMerk.getText().toString());
                     keys.put("type", aType.getText().toString());
                     keys.put("insurance", String.valueOf(aAssurace.isChecked()));
-                    keys.put("insurance_price", aAssuracePrice.getText().toString());
                     keys.put("min_rent_day", aMinDayRent.getText().toString());
+                    keys.put("delivery_method", aDeliveryMethod);
                     keys.put("address", aAddress);
                     keys.put("latitude", aLatitude);
                     keys.put("longitude", aLongitude);
@@ -292,7 +400,7 @@ public class FormAdventureAsetActivity extends AppCompatActivity {
                     ArrayList<String> pricingArray = new ArrayList<String>();
                     JSONObject priceBasicObject = new JSONObject();
                     try {
-                        priceBasicObject.put("price", aBasicPrice.getText().toString());
+                        priceBasicObject.put("price", aBasicPrice.getText().toString().replace(",", ""));
                         priceBasicObject.put("range_name","BASECOST");
                         priceBasicObject.put("start_date","1970-01-01");
                         priceBasicObject.put("end_date","1970-01-01");
@@ -302,14 +410,16 @@ public class FormAdventureAsetActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-                    for (int i = 0; i < 1; i++) {
-                        Map<String, String> pricingObject = new HashMap<String, String>();
-                        pricingObject.put("\"range_name\"","\""+aRangName.getText().toString()+"\"");
-                        pricingObject.put("\"start_date\"","\""+aStartDate.getText().toString()+"\"");
-                        pricingObject.put("\"end_date\"","\""+aEndDate.getText().toString()+"\"");
-                        pricingObject.put("\"price\"","\""+aPriceAdvance.getText().toString()+"\"");
+                    if(!aAdvancePrice.getText().toString().isEmpty()) {
+                        for (int i = 0; i < 1; i++) {
+                            Map<String, String> pricingObject = new HashMap<String, String>();
+                            pricingObject.put("\"range_name\"", "\"" + aRangName.getText().toString() + "\"");
+                            pricingObject.put("\"start_date\"", "\"" + aStartDate.getText().toString() + "\"");
+                            pricingObject.put("\"end_date\"", "\"" + aEndDate.getText().toString() + "\"");
+                            pricingObject.put("\"price\"", "\"" + aAdvancePrice.getText().toString().replace(",", "") + "\"");
 
-                        pricingArray.add(pricingObject.toString().replace("=",":"));
+                            pricingArray.add(pricingObject.toString().replace("=", ":"));
+                        }
                     }
                     keys.put("price", pricingArray.toString());
                     Log.e(TAG, "Value Object : " + keys.toString());
@@ -341,6 +451,10 @@ public class FormAdventureAsetActivity extends AppCompatActivity {
 
             if(aset != null){
                 Toast.makeText(getApplicationContext(),"Data sukses disimpan", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(FormAdventureAsetActivity.this,AsetListActivity.class);
+                intent.putExtra("asset_name", "Olahraga & Petualangan");
+                intent.putExtra("asset_category", 7);
+                setResult(RESULT_OK, intent);
                 finish();
             }else{
                 Toast.makeText(getApplicationContext(),"Gagal meyimpan data", Toast.LENGTH_LONG).show();

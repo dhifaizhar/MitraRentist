@@ -6,7 +6,6 @@ package id.rentist.mitrarentist.tools;
 
 public class AppConfig {
     private static String SERVER = "http://api.rentist.id:1337/";
-//    private static String SERVER = "http://192.168.100.11:1337/";
     public static String URL_IMAGE_PROFIL = "http://assets.rentist.id/images/";
     public static String URL_IMAGE_ASSETS = "http://assets.rentist.id/assets/";
 
@@ -41,6 +40,7 @@ public class AppConfig {
     public static  String URL_ELECTRONIC = SERVER + "item/electronic/";
     public static  String URL_BICYCLE = SERVER + "item/bicycle/";
     public static  String URL_OFFICE = SERVER + "item/officetools/";
+    public static  String URL_FASHION = SERVER + "item/fashion/";
 
     public static  String URL_DELETE_MOBIL =SERVER + "delete/mobil/";
     public static  String URL_DELETE_MOTOR =SERVER + "delete/motor/";
@@ -53,6 +53,7 @@ public class AppConfig {
     public static  String URL_DELETE_ELECTRONIC = SERVER + "delete/electronic/";
     public static  String URL_DELETE_BICYCLE = SERVER + "delete/bicycle/";
     public static  String URL_DELETE_OFFICE = SERVER + "delete/officetools/";
+    public static  String URL_DELETE_FASHION = SERVER + "delete/fashion/";
 
     public static  String URL_EDIT_STATUS_MOBIL = SERVER + "item/status/1/";
     public static  String URL_LIST_MOBIL = SERVER + "list/item/1/";
