@@ -11,6 +11,8 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
@@ -19,6 +21,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -39,8 +42,10 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import id.rentist.mitrarentist.tools.AppConfig;
@@ -56,12 +61,15 @@ public class FormMedicAsetActivity extends AppCompatActivity {
     LinearLayout conAdvancePrice;
     ImageView aImg;
     TextView aName, aMerk, aType, aAssuracePrice, aMinDayRent, aDesc,
-            aRangName, aStartDate, aEndDate, aPriceAdvance, btnAdvancePrice, aBasicPrice;
+            aRangName, aStartDate, aEndDate, aPriceAdvance, btnAdvancePrice, aBasicPriceDisp, aAdvancePriceDisp;
+    EditText aBasicPrice, aAdvancePrice;;
     Integer idAsset;
-    String aLatitude, aLongitude, aAddress, aRentPackage, tenant, category, encodedImage, isiimage = "", ext, imgString;
-    CheckBox aAssurace;
+    String aLatitude, aLongitude, aAddress, aRentPackage, tenant, category, encodedImage,
+            isiimage = "", ext, imgString, aDeliveryMethod;
+    CheckBox aAssurace, aDelivery, aPickup;
     Button btnImgUpload;
     Spinner subcategory;
+
 
     private int PICK_IMAGE_REQUEST = 1;
     private static final String TAG = "FormAssetActivity";
@@ -110,15 +118,68 @@ public class FormMedicAsetActivity extends AppCompatActivity {
         aMerk = (TextView) findViewById(R.id.as_merk);
         aType = (TextView) findViewById(R.id.as_type);
         aAssurace = (CheckBox) findViewById(R.id.as_ck_assurance);
-        aAssuracePrice = (TextView) findViewById(R.id.as_assurance_price);
         aImg = (ImageView) findViewById(R.id.thumb_aset);
         aDesc = (TextView) findViewById(R.id.as_desc);
         aMinDayRent = (TextView) findViewById(R.id.as_min_day_rent);
         aRangName = (TextView) findViewById(R.id.as_range_name);
         aStartDate = (TextView) findViewById(R.id.as_start_date);
         aEndDate = (TextView) findViewById(R.id.as_end_date);
-        aPriceAdvance = (TextView) findViewById(R.id.as_price_advance);
-        aBasicPrice = (TextView) findViewById(R.id.as_price_basic);
+        aAdvancePrice = (EditText) findViewById(R.id.as_price_advance);
+        aBasicPrice = (EditText) findViewById(R.id.as_price_basic);
+
+        aBasicPrice.addTextChangedListener(new TextWatcher(){
+            @Override
+            public void afterTextChanged(Editable arg0) {
+                if(!aBasicPrice.getText().toString().isEmpty()){
+                    Integer price = Integer.parseInt(aBasicPrice.getText().toString().replace(",",""));
+
+                    Integer priceFee = price + (price/100*20);
+
+                    NumberFormat formatter = NumberFormat.getInstance(Locale.GERMANY);
+                    String currency = formatter.format(priceFee) + " IDR" ;
+
+                    aBasicPriceDisp.setText(currency);
+                } else {
+                    aBasicPriceDisp.setText("0 IDR");
+                }
+
+            }
+            @Override
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+        });
+
+        aAdvancePrice.addTextChangedListener(new TextWatcher(){
+            @Override
+            public void afterTextChanged(Editable arg0) {
+                if(!aAdvancePrice.getText().toString().isEmpty()){
+                    Integer price = Integer.parseInt(aAdvancePrice.getText().toString().replace(",",""));
+
+                    Integer priceFee = price + (price/100*20);
+
+                    NumberFormat formatter = NumberFormat.getInstance(Locale.GERMANY);
+                    String currency = formatter.format(priceFee) + " IDR" ;
+
+                    aAdvancePriceDisp.setText(currency);
+                } else {
+                    aAdvancePriceDisp.setText("0 IDR");
+                }
+
+            }
+            @Override
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+        });
 
         //aset value
         if(iFormAsset.getStringExtra("action").equals("update")){
@@ -225,10 +286,20 @@ public class FormMedicAsetActivity extends AppCompatActivity {
             tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
             category = iFormAsset.getStringExtra("cat");
             idAsset = iFormAsset.getIntExtra("id_asset",0);
-            if(iFormAsset.getStringExtra("action").equals("update")){
-                updateDataAset(category);
-            }else{
-                addDataAset(tenant);
+
+            if(aDelivery.isChecked() && aPickup.isChecked()){aDeliveryMethod = "both";}
+            else if (aDelivery.isChecked()){ aDeliveryMethod = "deliver";}
+            else if (aPickup.isChecked()){ aDeliveryMethod = "pickup";}
+            else { aDeliveryMethod = "nodefine";}
+
+            if (aBasicPrice.getText().toString().isEmpty() || aDeliveryMethod.equals("nodefine")){
+                Toast.makeText(getApplicationContext(), "Harap Lengkapi Form",Toast.LENGTH_LONG).show();
+            } else{
+                if(iFormAsset.getStringExtra("action").equals("update")){
+                    updateDataAset(category);
+                }else{
+                    addDataAset(tenant);
+                }
             }
         }
 
@@ -282,8 +353,8 @@ public class FormMedicAsetActivity extends AppCompatActivity {
                     keys.put("brand", aMerk.getText().toString());
                     keys.put("type", aType.getText().toString());
                     keys.put("insurance", String.valueOf(aAssurace.isChecked()));
-                    keys.put("insurance_price", aAssuracePrice.getText().toString());
                     keys.put("min_rent_day", aMinDayRent.getText().toString());
+                    keys.put("delivery_method", aDeliveryMethod);
                     keys.put("address", aAddress);
                     keys.put("latitude", aLatitude);
                     keys.put("longitude", aLongitude);
@@ -304,13 +375,13 @@ public class FormMedicAsetActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-                    if(aPriceAdvance.getText().length() > 0) {
+                    if(!aAdvancePrice.getText().toString().isEmpty()) {
                         for (int i = 0; i < 1; i++) {
                             Map<String, String> pricingObject = new HashMap<String, String>();
                             pricingObject.put("\"range_name\"", "\"" + aRangName.getText().toString() + "\"");
                             pricingObject.put("\"start_date\"", "\"" + aStartDate.getText().toString() + "\"");
                             pricingObject.put("\"end_date\"", "\"" + aEndDate.getText().toString() + "\"");
-                            pricingObject.put("\"price\"", "\"" + aPriceAdvance.getText().toString() + "\"");
+                            pricingObject.put("\"price\"", "\"" + aAdvancePrice.getText().toString() + "\"");
 
                             pricingArray.add(pricingObject.toString().replace("=", ":"));
                         }

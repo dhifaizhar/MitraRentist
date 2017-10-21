@@ -35,9 +35,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import id.rentist.mitrarentist.adapter.PriceAdapter;
@@ -66,18 +68,18 @@ public class DetailAsetActivity extends AppCompatActivity {
     String changeStatus = "active", aName, aType, aSubType,  aStatus, aCat, aSubCat, aVerified,
             aInsurance, aMinRentDay, aDeliveryMethod, category, category_url, aDesc, aMainImage,
             //Car&Motor
-            aPlat, aYear, aNoStnk, aColor, aTransmission, aEngineCap, aFuel, aSeat, aAirBag, aAirCond, aDriver,
+            aPlat, aYear, aNoStnk , aColor, aTransmission, aEngineCap, aFuel, aSeat, aAirBag, aAirCond, aDriver,
             //Yacht
             aModel, aLength, aBeam, aGrossTon, aDraft, aCruisSpeed, aTopSpeed, aBuilder, aNaval, aIntDesign, aExtDesign,
             aGuest, aCabin, aCrew;
 
     TextView mark, status, subcat, insurance, min_rent_day, delivery_method, desc,
-            plat, year, no_stnk, color, transmission, engine_cap, fuel, seats, air_bag, air_cond, driver,
+            plat, year,  color, transmission, engine_cap, fuel, seats, air_bag, air_cond, driver,
             model, length, beam, gross_ton, draft, cruise_speed, top_speed, builder, naval, int_design, ext_design,
             guest, cabin, crew;
 
     LinearLayout cCarMotor, cCarOnly, cYachtInfo, cYachtFeature, rDesc;
-    ImageView imgThumbnail;
+    ImageView imgThumbnail, no_stnk;
 
     private static final String TAG = "DetailAssetActivity";
     private static final String TOKEN = "secretissecret";
@@ -126,7 +128,7 @@ public class DetailAsetActivity extends AppCompatActivity {
         //Car & Motor
         plat = (TextView) findViewById(R.id.as_plat_det);
         year = (TextView) findViewById(R.id.as_year_det);
-        no_stnk = (TextView) findViewById(R.id.as_no_stnk);
+        no_stnk = (ImageView) findViewById(R.id.as_no_stnk);
         color = (TextView) findViewById(R.id.as_color);
         transmission = (TextView) findViewById(R.id.as_transmission);
         engine_cap = (TextView) findViewById(R.id.as_engine_capacity);
@@ -163,8 +165,6 @@ public class DetailAsetActivity extends AppCompatActivity {
                 changeStatAset();
             }
         });
-
-
     }
 
     public void getAssetDataList() {
@@ -268,10 +268,15 @@ public class DetailAsetActivity extends AppCompatActivity {
                                     JSONObject priceObject = priceArray.getJSONObject(j);
 
                                     PriceModul priceModul = new PriceModul();
-                                    priceModul.setPrice(priceObject.getString("price") + " IDR");
                                     priceModul.setRangeName(priceObject.getString("range_name"));
                                     priceModul.setStartDate(priceObject.getString("start_date"));
                                     priceModul.setEndDate(priceObject.getString("end_date"));
+
+                                    NumberFormat formatter = NumberFormat.getInstance(Locale.GERMANY);
+                                    String currency = formatter.format(Integer.parseInt(priceObject.getString("price"))) + " IDR" ;
+                                    priceModul.setPrice(currency);
+
+
                                     mPrice.add(priceModul);
                                 }
                             }
@@ -330,10 +335,12 @@ public class DetailAsetActivity extends AppCompatActivity {
                                     rDesc.setVisibility(View.GONE);
                                     cCarMotor.setVisibility(View.VISIBLE);
 
+                                    String stnkUrl = "http://assets.rentist.id/documents/" + aNoStnk;
+                                    Picasso.with(getApplicationContext()).load(stnkUrl).into(no_stnk);
+
                                     mark.setText(aName + " " + aType);
                                     plat.setText(aPlat);
                                     year.setText(aYear);
-                                    no_stnk.setText(aNoStnk);
                                     color.setText(aColor);
                                     transmission.setText(aTransmission);
                                     engine_cap.setText(aEngineCap);

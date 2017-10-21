@@ -202,35 +202,34 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:visibility="gone">
+                        >
 
-                        <LinearLayout
+                        <RelativeLayout
                             android:id="@+id/row_no_stnk"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:background="@color/colorPrimarySoft"
                             android:layout_marginBottom="@dimen/small_space"
-                            android:padding="@dimen/xmin_padding"
-                            >
+                            android:background="@color/colorPrimarySoft"
+                            android:padding="@dimen/xmin_padding">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:text="Nomor STNK "
                                 android:textColor="@color/colorBlack54"
-                                android:textSize="@dimen/calendar_text_small"
-                                android:text="Nomor STNK " />
+                                android:textSize="@dimen/calendar_text_small" />
 
-                            <TextView
+                            <ImageView
                                 android:id="@+id/as_no_stnk"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
+                                android:layout_width="@dimen/thumb_height"
+                                android:layout_height="@dimen/thumb_height"
+                                android:layout_alignParentEnd="true"
                                 android:textColor="@color/colorBlack"
-                                android:textAlignment="textEnd"
                                 android:textSize="@dimen/calendar_text_small"
+                                android:src="@drawable/no_image"
                                 tools:text="-" />
 
-                        </LinearLayout>
+                        </RelativeLayout>
 
                         <LinearLayout
                             android:id="@+id/row_color"

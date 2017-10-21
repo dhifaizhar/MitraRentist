@@ -63,15 +63,16 @@ public class FormCarAsetActivity extends AppCompatActivity {
 
     ImageView aImg, aImgSTNK;
     ImageButton btnCamSTNK, btnFileSTNK;
-    TextView aName,  aType, aPlat, aYear,  aRegNum,
+    TextView aName,  aType, aPlat, aPlatStart, aPlatEnd, aYear,  aRegNum,
             aDesc, aRangName, aStartDate, aEndDate,
-            aPriceAdvance, btnAdvancePrice, aMinRentDay,  aBasicPriceDisp;
-    EditText aBasicPrice;
+            aPriceAdvance, btnAdvancePrice, aMinRentDay,
+            aBasicPriceDisp, aAdvancePriceDisp;
+    EditText aBasicPrice, aAdvancePrice;
     LinearLayout conAdvancePrice;
     Integer idAsset;
     String aLatitude, aLongitude, aAddress, aRentPackage, tenant, category, encodedImage,
-            isiimage = "", ext, imgString, imgStringSTNK, aDriverStatus;
-    CheckBox aAc, aAb, aDriver, aNoDriver, aAssurace;
+            isiimage = "", ext, imgString, imgStringSTNK, aDriverStatus, aDeliveryMethod;
+    CheckBox aAc, aAb, aDriver, aNoDriver, aAssurace, aDelivery, aPickup;
     RadioGroup aTransmisionGroup;
     RadioButton aTransmisionButton;
     Button btnImgUpload;
@@ -116,11 +117,15 @@ public class FormCarAsetActivity extends AppCompatActivity {
         aYear = (TextView) findViewById(R.id.as_year);
         aRegNum = (TextView) findViewById(R.id.as_regnum);
         aPlat = (TextView) findViewById(R.id.as_plat);
+        aPlatStart = (TextView) findViewById(R.id.as_plat_start);
+        aPlatEnd = (TextView) findViewById(R.id.as_plat_end);
         aTransmisionGroup = (RadioGroup) findViewById(R.id.transmission_group);
         aAc = (CheckBox) findViewById(R.id.as_ck_ac);
         aAb = (CheckBox) findViewById(R.id.as_ck_ab);
         aDriver = (CheckBox) findViewById(R.id.as_ck_driver);
         aNoDriver = (CheckBox) findViewById(R.id.as_ck_no_driver);
+        aDelivery = (CheckBox) findViewById(R.id.as_ck_delivery);
+        aPickup = (CheckBox) findViewById(R.id.as_ck_pickup);
         aAssurace = (CheckBox) findViewById(R.id.as_ck_assurance);
         aImg = (ImageView) findViewById(R.id.thumb_aset);
         aImgSTNK = (ImageView) findViewById(R.id.stnk_image);
@@ -128,7 +133,8 @@ public class FormCarAsetActivity extends AppCompatActivity {
         aRangName = (TextView) findViewById(R.id.as_range_name);
         aStartDate = (TextView) findViewById(R.id.as_start_date);
         aEndDate = (TextView) findViewById(R.id.as_end_date);
-        aPriceAdvance = (TextView) findViewById(R.id.as_price_advance);
+        aAdvancePrice = (EditText) findViewById(R.id.as_price_advance);
+        aAdvancePriceDisp = (TextView) findViewById(R.id.as_price_advance_disp);
         aBasicPriceDisp = (TextView) findViewById(R.id.as_price_basic_disp);
         aBasicPrice = (EditText) findViewById(R.id.as_price_basic);
 
@@ -137,8 +143,6 @@ public class FormCarAsetActivity extends AppCompatActivity {
         btnCamSTNK = (ImageButton) findViewById(R.id.btn_camera);
         btnAdvancePrice = (TextView) findViewById(R.id.btn_price_advance);
         conAdvancePrice = (LinearLayout) findViewById(R.id.con_advance_price);
-
-//        aDesc = (TextView) findViewById(R.id.as_desc);\
 
         btnCamSTNK.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -183,6 +187,33 @@ public class FormCarAsetActivity extends AppCompatActivity {
                     aBasicPriceDisp.setText(currency);
                 } else {
                     aBasicPriceDisp.setText("0 IDR");
+                }
+
+            }
+            @Override
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+        });
+
+        aAdvancePrice.addTextChangedListener(new TextWatcher(){
+            @Override
+            public void afterTextChanged(Editable arg0) {
+                if(!aAdvancePrice.getText().toString().isEmpty()){
+                    Integer price = Integer.parseInt(aAdvancePrice.getText().toString().replace(",",""));
+
+                    Integer priceFee = price + (price/100*20);
+
+                    NumberFormat formatter = NumberFormat.getInstance(Locale.GERMANY);
+                    String currency = formatter.format(priceFee) + " IDR" ;
+
+                    aAdvancePriceDisp.setText(currency);
+                } else {
+                    aAdvancePriceDisp.setText("0 IDR");
                 }
 
             }
@@ -273,13 +304,24 @@ public class FormCarAsetActivity extends AppCompatActivity {
 
             if(aDriver.isChecked() && aNoDriver.isChecked()){aDriverStatus = "both";}
             else if (aDriver.isChecked()){ aDriverStatus = "true";}
-            else if (aNoDriver.isChecked()){ aDriverStatus = "true";}
+            else if (aNoDriver.isChecked()){ aDriverStatus = "false";}
+            else { aDriverStatus = "nodefine";}
 
-            if(iFormAsset.getStringExtra("action").equals("update")){
-                updateDataAset(category);
-            }else{
-                addDataAset(tenant);
+            if(aDelivery.isChecked() && aPickup.isChecked()){aDeliveryMethod = "both";}
+            else if (aDelivery.isChecked()){ aDeliveryMethod = "deliver";}
+            else if (aPickup.isChecked()){ aDeliveryMethod = "pickup";}
+            else { aDeliveryMethod = "nodefine";}
+
+            if (aBasicPrice.getText().toString().isEmpty() || aDeliveryMethod.equals("nodefine") || aDriverStatus.equals("nodefine")){
+                Toast.makeText(getApplicationContext(), "Harap Lengkapi Form",Toast.LENGTH_LONG).show();
+            } else{
+                if(iFormAsset.getStringExtra("action").equals("update")){
+                    updateDataAset(category);
+                }else{
+                    addDataAset(tenant);
+                }
             }
+
         }
 
         return super.onOptionsItemSelected(item);
@@ -362,7 +404,7 @@ public class FormCarAsetActivity extends AppCompatActivity {
 
             aImgSTNK.setImageBitmap(photo);
 
-            Log.e(TAG, "Image : " + imgStringSTNK);
+            Log.e(TAG, "Image STNK : " + imgStringSTNK);
         }
 
 
@@ -426,15 +468,13 @@ public class FormCarAsetActivity extends AppCompatActivity {
                     keys.put("id_tenant", mTenant);
                     keys.put("name", aName.getText().toString());
                     keys.put("slug", aName.getText().toString().replace(" ","-"));
-//                  keys.put("description", aDesc.getText().toString());
                     keys.put("subcategory", subcategory.getSelectedItem().toString());
                     keys.put("brand", aMerk.getSelectedItem().toString());
                     keys.put("type", aType.getText().toString());
                     keys.put("year", aYear.getText().toString());
-                    keys.put("no_stnk", aRegNum.getText().toString());
                     keys.put("colour", aColor.getSelectedItem().toString());
                     keys.put("engine_capacity", aEngCap.getSelectedItem().toString());
-                    keys.put("license_plat", aPlat.getText().toString());
+                    keys.put("license_plat", aPlatStart.getText().toString()+" "+aPlat.getText().toString()+" "+aPlatEnd.getText().toString());
                     keys.put("seat", aSeat.getSelectedItem().toString());
                     keys.put("air_bag", String.valueOf(aAb.isChecked()));
                     keys.put("air_conditioner", String.valueOf(aAc.isChecked()));
@@ -443,17 +483,21 @@ public class FormCarAsetActivity extends AppCompatActivity {
                     keys.put("insurance", String.valueOf(aAssurace.isChecked()));
                     keys.put("min_rent_day", aMinRentDay.getText().toString());
                     keys.put("driver_included", aDriverStatus);
+                    keys.put("delivery_method", aDeliveryMethod);
                     keys.put("address", aAddress);
                     keys.put("rent_package", aRentPackage);
                     keys.put("latitude", aLatitude);
                     keys.put("longitude", aLongitude);
+                    if(!isiimage.isEmpty()) {
+                        keys.put("stnk", imgStringSTNK);
+                    }
                     if(!isiimage.isEmpty()){
                         keys.put("file", isiimage);
                     }
                     ArrayList<String> pricingArray = new ArrayList<String>();
                     JSONObject priceBasicObject = new JSONObject();
                     try {
-                        priceBasicObject.put("price", aBasicPrice.getText().toString());
+                        priceBasicObject.put("price", aBasicPrice.getText().toString().replace(",",""));
                         priceBasicObject.put("range_name","BASECOST");
                         priceBasicObject.put("start_date","1970-01-01");
                         priceBasicObject.put("end_date","1970-01-01");
@@ -463,14 +507,16 @@ public class FormCarAsetActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-                    for (int i = 0; i < 1; i++) {
-                        Map<String, String> pricingObject = new HashMap<String, String>();
-                        pricingObject.put("\"range_name\"","\""+aRangName.getText().toString()+"\"");
-                        pricingObject.put("\"start_date\"","\""+aStartDate.getText().toString()+"\"");
-                        pricingObject.put("\"end_date\"","\""+aEndDate.getText().toString()+"\"");
-                        pricingObject.put("\"price\"","\""+aPriceAdvance.getText().toString()+"\"");
+                    if(!aAdvancePrice.getText().toString().isEmpty()) {
+                        for (int i = 0; i < 1; i++) {
+                            Map<String, String> pricingObject = new HashMap<String, String>();
+                            pricingObject.put("\"range_name\"", "\"" + aRangName.getText().toString() + "\"");
+                            pricingObject.put("\"start_date\"", "\"" + aStartDate.getText().toString() + "\"");
+                            pricingObject.put("\"end_date\"", "\"" + aEndDate.getText().toString() + "\"");
+                            pricingObject.put("\"price\"", "\"" + aAdvancePrice.getText().toString().replace(",", "") + "\"");
 
-                        pricingArray.add(pricingObject.toString().replace("=",":"));
+                            pricingArray.add(pricingObject.toString().replace("=", ":"));
+                        }
                     }
                     keys.put("price", pricingArray.toString());
                     Log.e(TAG, "Value Object : " + keys.toString());
@@ -502,6 +548,9 @@ public class FormCarAsetActivity extends AppCompatActivity {
 
             if(aset != null){
                 Toast.makeText(getApplicationContext(),"Data sukses disimpan", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(FormCarAsetActivity.this,AsetListActivity.class);
+                intent.putExtra("id_category", 1);
+                setResult(RESULT_OK, intent);
                 finish();
             }else{
                 Toast.makeText(getApplicationContext(),"Gagal meyimpan data", Toast.LENGTH_LONG).show();

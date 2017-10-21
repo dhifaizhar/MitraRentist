@@ -291,81 +291,92 @@ public class AsetListActivity extends AppCompatActivity {
                     iAddAset.putExtra("action", "add");
                     iAddAset.putExtra("id_category", category);
                     iAddAset.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(iAddAset);
+                    startActivityForResult(iAddAset, 2);
                     break;
                 case "2":
                     iAddAset = new Intent(AsetListActivity.this, FormMotorcycleAsetActivity.class);
                     iAddAset.putExtra("action", "add");
                     iAddAset.putExtra("id_category", category);
                     iAddAset.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(iAddAset);
+                    startActivityForResult(iAddAset, 2);
                     break;
                 case "3":
                     iAddAset = new Intent(AsetListActivity.this, FormYachtAsetActivity.class);
                     iAddAset.putExtra("action", "add");
                     iAddAset.putExtra("id_category", category);
                     iAddAset.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(iAddAset);
+                    startActivityForResult(iAddAset, 2);
                     break;
                 case "4":
                     iAddAset = new Intent(AsetListActivity.this, FormMedicAsetActivity.class);
                     iAddAset.putExtra("action", "add");
                     iAddAset.putExtra("id_category", category);
                     iAddAset.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(iAddAset);
+                    startActivityForResult(iAddAset, 2);
                     break;
                 case "5":
                     iAddAset = new Intent(AsetListActivity.this, FormPhotographyAsetActivity.class);
                     iAddAset.putExtra("action", "add");
                     iAddAset.putExtra("id_category", category);
                     iAddAset.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(iAddAset);
+                    startActivityForResult(iAddAset, 2);
                     break;
                 case "6":
                     iAddAset = new Intent(AsetListActivity.this, FormToysAsetActivity.class);
                     iAddAset.putExtra("action", "add");
                     iAddAset.putExtra("id_category", category);
                     iAddAset.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(iAddAset);
+                    startActivityForResult(iAddAset, 2);
                     break;
                 case "7":
                     iAddAset = new Intent(AsetListActivity.this, FormAdventureAsetActivity.class);
                     iAddAset.putExtra("action", "add");
                     iAddAset.putExtra("id_category", category);
                     iAddAset.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(iAddAset);
+                    startActivityForResult(iAddAset, 2);
                     break;
                 case "8":
                     iAddAset = new Intent(AsetListActivity.this, FormMaternityAsetActivity.class);
                     iAddAset.putExtra("action", "add");
                     iAddAset.putExtra("id_category", category);
                     iAddAset.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(iAddAset);
+                    startActivityForResult(iAddAset, 2);
                     break;
                 case "9":
                     iAddAset = new Intent(AsetListActivity.this, FormElectronicAsetActivity.class);
                     iAddAset.putExtra("action", "add");
                     iAddAset.putExtra("id_category", category);
                     iAddAset.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(iAddAset);
+                    startActivityForResult(iAddAset, 2);
                     break;
                 case "10":
                     iAddAset = new Intent(AsetListActivity.this, FormBicycleAsetActivity.class);
                     iAddAset.putExtra("action", "add");
                     iAddAset.putExtra("id_category", category);
                     iAddAset.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(iAddAset);
+                    startActivityForResult(iAddAset, 2);
                     break;
                 case "11":
                     iAddAset = new Intent(AsetListActivity.this, FormOfficeAsetActivity.class);
                     iAddAset.putExtra("action", "add");
                     iAddAset.putExtra("id_category", category);
                     iAddAset.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(iAddAset);
+                    startActivityForResult(iAddAset, 2);
                     break;
             }
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == RESULT_OK) {
+            AsetListActivity.this.finish();
+            Intent ii = new Intent(AsetListActivity.this,AsetListActivity.class);
+            startActivity(ii);
+        }
+
     }
 }
