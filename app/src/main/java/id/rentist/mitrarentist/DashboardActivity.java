@@ -1,13 +1,11 @@
 package id.rentist.mitrarentist;
 
-import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.NavigationView;
@@ -24,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +38,7 @@ import com.github.ybq.android.spinkit.SpinKitView;
 import com.github.ybq.android.spinkit.style.FadingCircle;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -60,6 +60,7 @@ public class DashboardActivity extends AppCompatActivity
     private SpinKitView pBar;
     private SessionManager sm;
     private View navHeaderView;
+    private Menu navMenuView;
     private int PICK_IMAGE_REQUEST = 1;
     private static final int RESULT_LOAD_IMAGE = 1;
 
@@ -68,10 +69,12 @@ public class DashboardActivity extends AppCompatActivity
 
     String tenant, img, encodedImage, imageUrl, imgString;
     Integer sumAsset, aCar, aBike, aYacht;
-    TextView totAsset, totPoin, totRating, totSaldo, rentName, role, rentNameDrawer, successRent, ongoRent;
+    TextView newTrans, totAsset, totPoin, totRating, totSaldo, rentName, role, rentNameDrawer, successRent, ongoRent, toFormAccount;
     ImageView rentImgProfile, verifIco;
+    LinearLayout accountDataNotif;
 //    NetworkImageView rentImgProfile;
     ImageButton btnNewTrans, btnToSaldo, btnWorkDate, btnEditProfpic;
+    DrawerLayout drawer;
 
     private static final String TAG = "DashboardActivity";
     private static final String TOKEN = "secretissecret";
@@ -90,7 +93,7 @@ public class DashboardActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
@@ -99,6 +102,8 @@ public class DashboardActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navHeaderView = navigationView.getHeaderView(0);
+        navMenuView = navigationView.getMenu();
+        setMenuAccess();
 
         try {
             controlContent();
@@ -110,6 +115,7 @@ public class DashboardActivity extends AppCompatActivity
 
     private void controlContent() throws IOException {
         //initialize view
+        accountDataNotif = (LinearLayout) findViewById(R.id.account_data_notif);
         rentName = (TextView) findViewById(R.id.rentName);
         rentNameDrawer = (TextView) navHeaderView.findViewById(R.id.navRentName);
         rentImgProfile = (ImageView) navHeaderView.findViewById(R.id.navImageProfile);
@@ -119,14 +125,42 @@ public class DashboardActivity extends AppCompatActivity
         btnToSaldo = (ImageButton) findViewById(R.id.btn_to_saldo);
         btnWorkDate = (ImageButton) findViewById(R.id.btn_work_date);
         btnEditProfpic = (ImageButton) navHeaderView.findViewById(R.id.btn_prof_pic);
+        newTrans = (TextView) findViewById(R.id.val_new_trans);
         totSaldo = (TextView) findViewById(R.id.val_saldo);
         totAsset = (TextView) findViewById(R.id.val_sum_asset);
         totPoin = (TextView) findViewById(R.id.val_poin);
         totRating = (TextView) findViewById(R.id.val_rating);
         successRent = (TextView) findViewById(R.id.val_success_rent);
         ongoRent = (TextView) findViewById(R.id.val_ongo_rent);
+        toFormAccount = (TextView) findViewById(R.id.toFormProfile);
 
         // set content control value
+        if(!sm.getPreferences("nama_pemilik").isEmpty() &&
+                !sm.getPreferences("nama_rental").isEmpty() &&
+                !sm.getPreferences("nama").isEmpty() &&
+                !sm.getPreferences("alamat").isEmpty() &&
+                !sm.getPreferences("telepon").isEmpty() &&
+                !sm.getPreferences("email").isEmpty() &&
+                !sm.getPreferences("city").isEmpty() &&
+                !sm.getPreferences("bank_name").isEmpty() &&
+                !sm.getPreferences("bank_account").isEmpty() &&
+                !sm.getPreferences("branch").isEmpty() &&
+                !sm.getPreferences("account_name").isEmpty()){
+            accountDataNotif.setVisibility(View.GONE);
+        }
+
+        toFormAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(sm.getPreferences("role").equals("SuperAdmin")){
+                    Intent iEditRent = new Intent(DashboardActivity.this, FormEditProfilActivity.class);
+                    startActivityForResult(iEditRent, 2);
+                }else{
+                    Toast.makeText(getApplicationContext(), "Hanya untuk Administrator", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
         rentName.setText(sm.getPreferences("nama_rental"));
         rentNameDrawer.setText(sm.getPreferences("nama"));
         role.setText(sm.getPreferences("role"));;
@@ -197,6 +231,44 @@ public class DashboardActivity extends AppCompatActivity
         });
     }
 
+    private void setMenuAccess(){
+        navMenuView.findItem(R.id.nav_pengaturan).setVisible(false);
+        navMenuView.findItem(R.id.nav_users).setVisible(false);
+        navMenuView.findItem(R.id.nav_aset).setVisible(false);
+        navMenuView.findItem(R.id.nav_feature).setVisible(false);
+        navMenuView.findItem(R.id.nav_driver).setVisible(false);
+        navMenuView.findItem(R.id.nav_riwayat).setVisible(false);
+        navMenuView.findItem(R.id.nav_dompet).setVisible(false);
+        navMenuView.findItem(R.id.nav_voucher).setVisible(false);
+
+        if(sm.getPreferences("role").equals("SuperAdmin")){
+            navMenuView.findItem(R.id.nav_users).setVisible(true);
+            navMenuView.findItem(R.id.nav_aset).setVisible(true);
+            navMenuView.findItem(R.id.nav_feature).setVisible(true);
+            navMenuView.findItem(R.id.nav_driver).setVisible(true);
+            navMenuView.findItem(R.id.nav_riwayat).setVisible(true);
+            navMenuView.findItem(R.id.nav_dompet).setVisible(true);
+            navMenuView.findItem(R.id.nav_voucher).setVisible(true);
+        }else if(sm.getPreferences("role").equals("Admin")){
+            navMenuView.findItem(R.id.nav_aset).setVisible(true);
+            navMenuView.findItem(R.id.nav_feature).setVisible(true);
+            navMenuView.findItem(R.id.nav_driver).setVisible(true);
+            navMenuView.findItem(R.id.nav_riwayat).setVisible(true);
+            navMenuView.findItem(R.id.nav_dompet).setVisible(true);
+            navMenuView.findItem(R.id.nav_voucher).setVisible(true);
+        }else if(sm.getPreferences("role").equals("Operation")){
+            navMenuView.findItem(R.id.nav_aset).setVisible(true);
+            navMenuView.findItem(R.id.nav_feature).setVisible(true);
+            navMenuView.findItem(R.id.nav_driver).setVisible(true);
+            navMenuView.findItem(R.id.nav_riwayat).setVisible(true);
+        }else if(sm.getPreferences("role").equals("Finance")){
+            navMenuView.findItem(R.id.nav_dompet).setVisible(true);
+            navMenuView.findItem(R.id.nav_riwayat).setVisible(true);
+        }else if(sm.getPreferences("role").equals("Delivery")){
+            navMenuView.findItem(R.id.nav_riwayat).setVisible(true);
+        }
+    }
+
 //    public static Drawable LoadImageFromWebOperations(String url) {
 //        try {
 //            InputStream is = (InputStream) new URL(url).getContent();
@@ -209,8 +281,6 @@ public class DashboardActivity extends AppCompatActivity
 
     private void retrieveDashboardData(String tenant) {
         pBar.setVisibility(View.VISIBLE);
-//        pDialog.setMessage("loading ...");
-//        showProgress(true);
         new getDataTask(tenant).execute();
     }
 
@@ -263,7 +333,6 @@ public class DashboardActivity extends AppCompatActivity
         protected void onPostExecute(String user) {
             mDashboardTask = null;
             pBar.setVisibility(View.GONE);
-//            showProgress(false);
             Log.d(TAG, "response");
 
             if(user != null){
@@ -279,6 +348,7 @@ public class DashboardActivity extends AppCompatActivity
                     aBike = assetObject.getInt("motor");
                     aYacht = assetObject.getInt("yacht");
                     sumAsset = assetObject.getInt("total");
+                    newTrans.setText(dataObject.getString("paid"));
                     totAsset.setText(String.valueOf(sumAsset));
 //                    totSaldo.setText(saldoObject.getString("received").equals("null") ? "0 IDR" : saldoObject.getString("received")+" IDR");
                     totPoin.setText(poinObject.getString("received").equals("null") ? "0" : ratingObject.getString("received"));
@@ -308,20 +378,6 @@ public class DashboardActivity extends AppCompatActivity
         protected void onCancelled() {
             mDashboardTask = null;
             pBar.setVisibility(View.GONE);
-//            showProgress(false);
-        }
-    }
-
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    private void showProgress(final boolean show) {
-        if(show){
-            if (!pDialog.isShowing()){
-                pDialog.show();
-            }
-        }else{
-            if (pDialog.isShowing()){
-                pDialog.dismiss();
-            }
         }
     }
 
@@ -372,7 +428,6 @@ public class DashboardActivity extends AppCompatActivity
                 data.getData() != null) {
             Uri filePath = data.getData();
 
-
             try {
                 //Getting the Bitmap from Gallery
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
@@ -388,6 +443,7 @@ public class DashboardActivity extends AppCompatActivity
 
                 imgString = ext +"," + isiimage;
 
+                new updatePhotoProfileTask(tenant, String.valueOf(sm.getIntPreferences("id"))).execute();
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -395,6 +451,94 @@ public class DashboardActivity extends AppCompatActivity
         }else{
             imgString = "";
         }
+    }
+
+    private class updatePhotoProfileTask extends AsyncTask<String, String, String>{
+        private final String mTenant;
+        private final String idUser;
+        private String errorMsg, responseUser;
+
+        private updatePhotoProfileTask(String tenant, String id) {
+            mTenant = tenant;
+            idUser = id;
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            String URL = AppConfig.URL_DETAIL_USER + idUser;
+            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+            StringRequest stringRequest = new StringRequest(Request.Method.PUT, URL, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    responseUser = response;
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    errorMsg = error.toString();
+                    Log.e(TAG, "Tenant Update Fetch Error : " + errorMsg);
+                    Toast.makeText(getApplicationContext(), "Connection error, try again.",
+                            Toast.LENGTH_LONG).show();
+                }
+            }){
+                @Override
+                protected Map<String, String> getParams() {
+                    // Posting parameters to url
+                    Map<String, String> keys = new HashMap<String, String>();
+                    keys.put("id_tenant", mTenant);
+                    keys.put("file", imgString);
+
+                    return keys;
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> keys = new HashMap<String, String>();
+                    keys.put("token", TOKEN);
+                    return keys;
+                }
+            };
+
+            try {
+                requestQueue.add(stringRequest);
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            return responseUser;
+        }
+
+        @Override
+        protected void onPostExecute(String user) {
+            if(user != null){
+                // set new preferences
+                try {
+                    JSONArray dataArray = new JSONArray(user);
+                    if (dataArray.length() > 0){
+                        JSONObject dataObject = dataArray.getJSONObject(0);
+                        sm.setPreferences("foto_profil",dataObject.getString("profile_pic"));
+                        sm.setPreferences("nama", dataObject.getString("name"));
+
+                        DashboardActivity.this.finish();
+                        Intent i = new Intent(DashboardActivity.this,DashboardActivity.class);
+                        startActivity(i);
+                    }
+                    Log.e(TAG, "Response : " + dataArray.toString() );
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }else{
+                Toast.makeText(getApplicationContext(),"Gagal merubah foto profil.", Toast.LENGTH_LONG).show();
+            }
+
+        }
+
+        @Override
+        protected void onCancelled() {
+            // do some act when canceled
+        }
+
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

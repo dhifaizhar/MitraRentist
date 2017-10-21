@@ -26,7 +26,7 @@ public class ProfileActivity extends AppCompatActivity {
             rAccountOwner, rBranch, rCity, rProvince, rVillage, rDistrict, rRentalType;
     ImageView profilePhoto;
     ImageButton vAll;
-    String imageUrl;
+    String imageUrl, tenantCity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,21 +67,25 @@ public class ProfileActivity extends AppCompatActivity {
         // set content control value
         rName.setText(sm.getPreferences("nama_rental"));
         rOwner.setText(sm.getPreferences("nama_pemilik"));
-        rAddress.setText(sm.getPreferences("alamat"));
+        rAddress.setText(String.valueOf(sm.getPreferences("alamat").isEmpty()?"-":sm.getPreferences("alamat")));
         rPhone.setText(sm.getPreferences("telepon"));
         rEmail.setText(sm.getPreferences("email_rental"));
-        rBankName.setText(sm.getPreferences("bank_name"));
-        rBankAccount.setText(sm.getPreferences("bank_account"));
+        rBankName.setText(String.valueOf(sm.getPreferences("bank_name").isEmpty()?"-":sm.getPreferences("bank_name")));
+        rBankAccount.setText(String.valueOf(sm.getPreferences("bank_account").isEmpty()?"-":sm.getPreferences("bank_account")));
         rAccountOwner.setText(sm.getPreferences("account_name"));
         rRentalType.setText("Rental " + sm.getPreferences("rental_type"));
-        rBranch.setText("Cabang : " + sm.getPreferences("branch"));
+        rBranch.setText("Cabang : " + String.valueOf(sm.getPreferences("branch").isEmpty()?"-":sm.getPreferences("branch")));
 
         String[] sCity = getResources().getStringArray(R.array.city_entries);
         Log.e("City List", sCity.toString());
 
-        String tenantCity = sCity[Integer.parseInt(sm.getPreferences("city"))-1];
-        Log.e("CIty", sm.getPreferences("city") + tenantCity);
-        rCity.setText(tenantCity);
+        if(!sm.getPreferences("city").isEmpty()){
+            tenantCity = sCity[Integer.parseInt(sm.getPreferences("city"))-1];
+            Log.e("City", sm.getPreferences("city") + tenantCity);
+            rCity.setText(tenantCity);
+        }else{
+            rCity.setText("Kota Belum Dipilih");
+        }
 
         //Load image
         if (sm.getPreferences("foto_profil_tenant").equals("null")){
@@ -123,8 +127,7 @@ public class ProfileActivity extends AppCompatActivity {
                 iEditRent = new Intent(ProfileActivity.this, FormEditProfilActivity.class);
                 startActivityForResult(iEditRent, 2);
             }else{
-                Toast.makeText(getApplicationContext(), "Hanya untuk Administrator",
-                        Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Hanya untuk Administrator", Toast.LENGTH_LONG).show();
             }
         }
 

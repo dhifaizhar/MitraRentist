@@ -27,7 +27,7 @@ public class FormValidation {
     public boolean isPhoneValid(String phone) {
         boolean result = false;
 
-        if(phone.length() > 9 && phone.length() < 13){
+        if(phone.length() > 9 && phone.length() < 14){
             result = true;
         }
 

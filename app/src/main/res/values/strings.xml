@@ -23,7 +23,7 @@
     <string name="login_text">Sign in to your account</string>
     <string name="forgot_password">Forgot Password?</string>
     <string name="help">Help</string>
-    <string name="aktif_text">Masukan kode aktivasi</string>
+    <string name="aktif_text">Masukan kode aktifasi</string>
 
     <string name="title_activity_asset_detail">AssetDetail</string>
 
@@ -398,4 +398,8 @@
     <string name="title_activity_complete_registration">CompleteRegistrationActivity</string>
     <string name="title_activity_select_category">SelectCategoryActivity</string>
     <string name="title_costum_date_picker_range_activity">DateRangeActivity</string>
+
+    <!-- Link -->
+    <string name="perbarui_akun_notif"><u>Perbarui Akun Disini</u></string>
+    <string name="resend_code"><u>KIRIM ULANG</u></string>
 </resources>

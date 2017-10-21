@@ -23,6 +23,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.hbb20.CountryCodePicker;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -42,6 +43,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
     String tenant, email, phone, password, cpassword;
     TextView rName, rOwner, rEmail, rPhone, rPass, rConfPass;
+    CountryCodePicker countryCode;
     Spinner rRole;
     CheckBox checkBoxAgreement;
     Button btnSave;
@@ -78,6 +80,7 @@ public class RegistrationActivity extends AppCompatActivity {
         rConfPass = (TextView)findViewById(R.id.reg_conf_pass);
         checkBoxAgreement = (CheckBox) findViewById(R.id.checkBoxAgreement);
         btnSave = (Button) findViewById(R.id.btn_save);
+        countryCode =(CountryCodePicker) findViewById(R.id.country_code);
 
         // set content control value
 
@@ -102,7 +105,7 @@ public class RegistrationActivity extends AppCompatActivity {
         rConfPass.setError(null);
 
         email = rEmail.getText().toString();
-        phone = rPhone.getText().toString();
+        phone = countryCode.getSelectedCountryCode() +rPhone.getText().toString();
         password = rPass.getText().toString();
         cpassword = rConfPass.getText().toString();
 
@@ -214,6 +217,7 @@ public class RegistrationActivity extends AppCompatActivity {
                         Intent iComp = new Intent(RegistrationActivity.this, AktivasiActivity.class);
                         iComp.putExtra("action","registration");
                         iComp.putExtra("email_rental",tenantObject.getString("email"));
+                        iComp.putExtra("telepon",tenantObject.getString("phone"));
                         iComp.putExtra("id_tenant",aId);
                         startActivity(iComp);
                         finish();

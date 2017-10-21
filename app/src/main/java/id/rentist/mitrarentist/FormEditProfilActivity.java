@@ -13,6 +13,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
@@ -47,24 +48,27 @@ import java.util.Map;
 
 import id.rentist.mitrarentist.tools.AppConfig;
 import id.rentist.mitrarentist.tools.CircleTransform;
+import id.rentist.mitrarentist.tools.FormValidation;
 import id.rentist.mitrarentist.tools.SessionManager;
 
 public class FormEditProfilActivity extends AppCompatActivity {
     private AsyncTask mProfileTask = null;
     private ProgressDialog pDialog;
     private SessionManager sm;
+    private View focusView;
+    private Bitmap bitmap;
 
     EditText rName, rOwner, rAddress, rEmail, rPhone, rBankAccount, rAccountOwner, rBranch;
     ImageView profilePhoto;
     Button btnUploadFoto;
-    String tenant, erName, erOwner, erAddress, erEmail, erPhone;
+    String tenant, erName, erOwner, erAddress, erEmail, erPhone, erBankAccount, erAccountOwner, erBranch;
     Resources eprofilePhoto;
     ImageLoader mImageLoader;
     String imageUrl;
     Spinner rBankName, rCity;
     CountryCodePicker countryCode;
+    FormValidation formValidation;
 
-    private Bitmap bitmap;
     String encodedImage, isiimage = "", ext, imgString;
     private int PICK_IMAGE_REQUEST = 1;
 
@@ -80,6 +84,7 @@ public class FormEditProfilActivity extends AppCompatActivity {
         setContentView(R.layout.activity_form_edit_profil);
         setTitle("Ubah Profil Rental");
 
+        formValidation = new FormValidation(FormEditProfilActivity.this);
         sm = new SessionManager(getApplicationContext());
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
@@ -125,9 +130,11 @@ public class FormEditProfilActivity extends AppCompatActivity {
         }else if(sm.getPreferences("bank_name").equals("Mandiri")){rBankName.setSelection(3);
         }else if(sm.getPreferences("bank_name").equals("Permata")){rBankName.setSelection(4);
         }
-        Log.e("CItyEDIT", sm.getPreferences("city").toString());
+        Log.e("CityEDIT", sm.getPreferences("city").toString());
 
-        rCity.setSelection(Integer.parseInt(sm.getPreferences("city"))-1);
+        if(!sm.getPreferences("city").isEmpty()){
+            rCity.setSelection(Integer.parseInt(sm.getPreferences("city"))-1);
+        }
 
         if (sm.getPreferences("foto_profil_tenant").equals("null")){
             imageUrl = AppConfig.URL_IMAGE_PROFIL + "img_default.png";
@@ -173,18 +180,78 @@ public class FormEditProfilActivity extends AppCompatActivity {
     }
 
     private void updateProfileRent() {
+        rName.setError(null);
+        rOwner.setError(null);
+        rAddress.setError(null);
+        rPhone.setError(null);
+        rEmail.setError(null);
+        rBankAccount.setError(null);
+        rBranch.setError(null);
+        rAccountOwner.setError(null);
+
         //initialize new value
         erName = rName.getText().toString();
         erOwner = rOwner.getText().toString();
         erAddress = rAddress.getText().toString();
-        erPhone = countryCode.getSelectedCountryCode()+rPhone.getText().toString().trim();
+        erPhone = countryCode.getSelectedCountryCode() + rPhone.getText().toString().trim();
         erEmail = rEmail.getText().toString();
+        erBankAccount = rBankAccount.getText().toString();
+        erBranch = rBranch.getText().toString();
+        erAccountOwner = rAccountOwner.getText().toString();
         eprofilePhoto = profilePhoto.getResources();
 
         //some code for post value
-        pDialog.setMessage("loading ...");
-        showProgress(true);
-        new updateProfileTask(tenant).execute();
+        if(!TextUtils.isEmpty(erName)){
+            if(!TextUtils.isEmpty(erOwner)){
+                if(!TextUtils.isEmpty(erAddress)){
+                    if(formValidation.isPhoneValid(erPhone)){
+                        if(!TextUtils.isEmpty(erBankAccount)){
+                            if(!TextUtils.isEmpty(erBankAccount)){
+                                if(!TextUtils.isEmpty(erAccountOwner)){
+                                    if(!TextUtils.isEmpty(erBranch)){
+                                        pDialog.setMessage("loading ...");
+                                        showProgress(true);
+                                        new updateProfileTask(tenant).execute();
+                                    }else{
+                                        rBranch.setError(getString(R.string.error_field_required));
+                                        focusView = rBranch;
+                                        focusView.requestFocus();
+                                    }
+                                }else{
+                                    rAccountOwner.setError(getString(R.string.error_field_required));
+                                    focusView = rAccountOwner;
+                                    focusView.requestFocus();
+                                }
+                            }else{
+                                rBankAccount.setError(getString(R.string.error_field_required));
+                                focusView = rBankAccount;
+                                focusView.requestFocus();
+                            }
+                        }else{
+                            rBankAccount.setError(getString(R.string.error_field_required));
+                            focusView = rBankAccount;
+                            focusView.requestFocus();
+                        }
+                    }else{
+                        rPhone.setError(getString(R.string.error_invalid_phone));
+                        focusView = rPhone;
+                        focusView.requestFocus();
+                    }
+                }else{
+                    rAddress.setError(getString(R.string.error_field_required));
+                    focusView = rAddress;
+                    focusView.requestFocus();
+                }
+            }else{
+                rOwner.setError(getString(R.string.error_field_required));
+                focusView = rOwner;
+                focusView.requestFocus();
+            }
+        }else{
+            rName.setError(getString(R.string.error_field_required));
+            focusView = rName;
+            focusView.requestFocus();
+        }
     }
 
     private class updateProfileTask extends AsyncTask<String, String, String>{
@@ -223,12 +290,11 @@ public class FormEditProfilActivity extends AppCompatActivity {
                     keys.put("address", erAddress);
                     keys.put("phone", erPhone);
                     keys.put("bank_name", rBankName.getSelectedItem().toString());
-                    keys.put("bank_account", rBankAccount.getText().toString());
-                    keys.put("account_name", rAccountOwner.getText().toString());
-                    keys.put("branch", rBranch.getText().toString());
+                    keys.put("bank_account", erBankAccount);
+                    keys.put("account_name", erAccountOwner);
+                    keys.put("branch", erBranch);
                     keys.put("id_city", String.valueOf(rCity.getSelectedItemId()+1));
                     keys.put("file", isiimage);
-
 //                    Log.e(TAG, "IMAGE ; " + imgString);
 
                     return keys;
@@ -265,12 +331,11 @@ public class FormEditProfilActivity extends AppCompatActivity {
                 sm.setPreferences("telepon", erPhone);
                 sm.setPreferences("email", erEmail);
                 sm.setPreferences("bank_name", rBankName.getSelectedItem().toString());
-                sm.setPreferences("bank_account", rBankAccount.getText().toString());
-                sm.setPreferences("account_name", rAccountOwner.getText().toString());
-                sm.setPreferences("branch", rBranch.getText().toString());
+                sm.setPreferences("bank_account", erBankAccount);
+                sm.setPreferences("account_name", erAccountOwner);
+                sm.setPreferences("branch", erBranch);
                 sm.setPreferences("city", String.valueOf(rCity.getSelectedItemId()+1));
-
-                Log.e(TAG, "USer : not null");
+                Log.e(TAG, "User : not null");
 
                 try {
                     JSONArray respArray = new JSONArray(user);
@@ -280,7 +345,6 @@ public class FormEditProfilActivity extends AppCompatActivity {
                             sm.setPreferences("foto_profil_tenant", respObject.getString("profil_pic"));
                         }
                     }
-
                     Log.e(TAG, "Response : " + respArray.toString() );
 
                 } catch (JSONException e) {
@@ -347,7 +411,7 @@ public class FormEditProfilActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_save) {
-            if(sm.getPreferences("role").equals("SuperAdmin")){
+            if(sm.getPreferences("role").equals("SuperAdmin") || sm.getPreferences("role").equals("Admin")){
                 updateProfileRent();
             }
         }
@@ -383,7 +447,6 @@ public class FormEditProfilActivity extends AppCompatActivity {
                 isiimage = getStringImage(bitmap);
 
                 imgString = ext +"," + isiimage;
-
 
             } catch (IOException e) {
                 e.printStackTrace();

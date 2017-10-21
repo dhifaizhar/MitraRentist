@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -33,14 +34,15 @@ import id.rentist.mitrarentist.tools.AppConfig;
 import id.rentist.mitrarentist.tools.SessionManager;
 
 public class AktivasiActivity extends AppCompatActivity {
-    private AsyncTask mActiveTask = null;
+    AsyncTask mActiveTask = null, mResendCodeTask = null;
     private View mLoginFormView;
     private SessionManager sm;
     private ProgressDialog pDialog;
     private JSONObject userObject, tenantObject, responseMessage;
     Intent actIntent;
 
-    String userMail, activation;
+    TextView refresh;
+    String userMail, phone, activation;
     EditText mCode;
     Button aktif_btn;
 
@@ -65,10 +67,13 @@ public class AktivasiActivity extends AppCompatActivity {
 
         // action retrieve data aset
         aktif_btn = (Button) findViewById(R.id.aktif_button);
-        if(actIntent.getStringExtra("action").equals("registration")){
+        refresh = (TextView) findViewById(R.id.getNewCode);
+        if(actIntent.hasExtra("action")){
             userMail = actIntent.getStringExtra("email_rental");
+            phone = actIntent.getStringExtra("email_rental");
         }else{
             userMail = sm.getPreferences("email_rental");
+            phone = sm.getPreferences("telepon");
         }
         mCode = (EditText)findViewById(R.id.aktif_code);
 
@@ -78,6 +83,91 @@ public class AktivasiActivity extends AppCompatActivity {
                 activationUser(userMail);
             }
         });
+        refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                refreshCodeActivation(phone);
+            }
+        });
+    }
+
+    private void refreshCodeActivation(String phone) {
+        pDialog.setMessage("request new code ...");
+        showProgress(true);
+        new requstCodeTask(phone).execute();
+    }
+
+    private class requstCodeTask extends AsyncTask<String, String, String> {
+        private final String mPhone;
+        String errorMsg, responseResendCode;
+
+        requstCodeTask(String phone) {
+            mPhone = phone;
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            String URL = AppConfig.URL_RESEND_CODE;
+            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    responseResendCode = response;
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    errorMsg = error.toString();
+                    Log.e(TAG, "Resend Code User Fetch Error : " + errorMsg);
+                    Toast.makeText(getApplicationContext(), "Connection error, try again.",
+                            Toast.LENGTH_LONG).show();
+                }
+            }){
+                @Override
+                protected Map<String, String> getParams() {
+                    // Posting parameters to url
+                    Map<String, String> keys = new HashMap<String, String>();
+                    keys.put("phone", mPhone);
+                    Log.e(TAG, "Resend Code User Fetch Error : " + String.valueOf(keys));
+                    return keys;
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> keys = new HashMap<String, String>();
+                    keys.put("token", TOKEN);
+                    return keys;
+                }
+            };
+
+            try {
+                requestQueue.add(stringRequest);
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            return responseResendCode;
+        }
+
+        @Override
+        protected void onPostExecute(String code) {
+            mResendCodeTask = null;
+            showProgress(false);
+
+            if(code != null){
+                Toast.makeText(getApplicationContext(),"Sukses meminta kode baru.", Toast.LENGTH_LONG).show();
+            }else{
+                Toast.makeText(getApplicationContext(),"Gagal meminta kode baru", Toast.LENGTH_LONG).show();
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            mResendCodeTask = null;
+            showProgress(false);
+        }
+
     }
 
     private void activationUser(String email) {
@@ -158,7 +248,7 @@ public class AktivasiActivity extends AppCompatActivity {
                         sm.setPreferences("status",mStat);
 
                         Toast.makeText(getApplicationContext(),"Sukses mengaktifkan akun.", Toast.LENGTH_LONG).show();
-                        if(actIntent.getStringExtra("action").equals("registration")){
+                        if(actIntent.hasExtra("action")){
                             startActivity(new Intent(AktivasiActivity.this, LoginActivity.class));
                             finish();
                         }else{

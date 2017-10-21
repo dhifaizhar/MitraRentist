@@ -10,28 +10,26 @@
     tools:context="id.rentist.mitrarentist.AktivasiActivity"
     tools:showIn="@layout/activity_aktifasi">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         android:padding="20dp"
         android:layout_marginTop="@dimen/breadcrumb_height">
 
         <TextView
             android:id="@+id/aktif_text"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
             android:text="@string/aktif_text"
             android:textAlignment="center"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/medium_text" />
 
-
         <android.support.design.widget.TextInputLayout
             android:id="@+id/aktif_text_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/aktif_text"
             android:backgroundTint="@color/colorWhite"
             android:padding="20dp"
             android:textColorHint="@color/colorNearWhite">
@@ -40,9 +38,10 @@
                 android:id="@+id/aktif_code"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Kode Aktivasi"
+                android:hint="Kode Aktifasi"
                 android:imeActionId="@+id/aktif"
                 android:inputType="number"
+                android:maxLength="4"
                 android:maxLines="1"
                 android:textAlignment="center"
                 android:textColor="@color/colorWhite"
@@ -62,8 +61,36 @@
             android:text="AKTIVASI"
             android:textColor="@color/colorPrimary"
             android:textSize="16sp"
-            android:textStyle="bold"
-            android:layout_below="@+id/aktif_text_layout"/>
-    </RelativeLayout>
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/thumb_med_height"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/xmin_padding"
+                android:text="Tidak Menerima Kode Aktifasi?"
+                android:textAlignment="center"
+                android:textColor="@color/colorWhite" />
+
+            <TextView
+                android:id="@+id/getNewCode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/min_padding"
+                android:text="@string/resend_code"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textColor="@color/colorWhite"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </LinearLayout>
 
 </LinearLayout>
