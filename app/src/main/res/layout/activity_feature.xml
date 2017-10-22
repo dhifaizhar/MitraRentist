@@ -27,10 +27,10 @@
         style="@style/SpinKitView.FadingCircle"
         android:layout_width="match_parent"
         android:layout_height="@dimen/btn_lmedium_height"
-        android:layout_marginTop="@dimen/breadcrumb_height"
+        android:layout_marginTop="@dimen/thumb_med_height"
         android:background="@android:color/transparent"
-        android:padding="@dimen/min_padding"
+        android:padding="@dimen/xmin_padding"
         android:visibility="gone"
-        app:SpinKit_Color="@color/colorWhite" />
+        app:SpinKit_Color="@color/colorPrimary" />
 
 </android.support.design.widget.CoordinatorLayout>

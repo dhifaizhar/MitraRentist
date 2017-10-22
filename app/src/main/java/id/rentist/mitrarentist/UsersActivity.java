@@ -1,10 +1,7 @@
 package id.rentist.mitrarentist;
 
-import android.annotation.TargetApi;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -49,10 +46,9 @@ public class UsersActivity extends AppCompatActivity {
     SwipeRefreshLayout mSwipeRefreshLayout;
     private List<UserModul> mUser = new ArrayList<>();
     private AsyncTask mUserTask = null;
-    private ProgressDialog pDialog;
     private SpinKitView pBar;
     private SessionManager sm;
-    private Intent iUserAdd;
+    Intent iUserAdd;
 
     private static final String TAG = "UserActivity";
     private static final String TOKEN = "secretissecret";
@@ -76,63 +72,29 @@ public class UsersActivity extends AppCompatActivity {
 
         // action retrieve data aset
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
-        pBar.setVisibility(View.VISIBLE);
         getUserDataList(tenant);
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mUser.clear();
+                if (mRecyclerView != null) {
+                    mUser.clear();
+                    mRecyclerView.setAdapter(null);
+                }
                 getUserDataList(tenant);
             }
         });
     }
 
     private void getUserDataList(String tenant) {
-//       pBar.setVisibility(View.VISIBLE);
+        pBar.setVisibility(View.VISIBLE);
+
+        if (mUserTask != null) {
+            return;
+        }
+
         new getUserListTask(tenant).execute();
-    }
-
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    private void showProgress(final boolean show) {
-        if(show){
-            if (!pDialog.isShowing()){
-                pDialog.show();
-            }
-        }else{
-            if (pDialog.isShowing()){
-                pDialog.dismiss();
-            }
-        }
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        if (sm.getPreferences("role").equals("SuperAdmin")){
-            getMenuInflater().inflate(R.menu.menu_add_option, menu);
-        }
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_add) {
-            iUserAdd = new Intent(UsersActivity.this, FormUserActivity.class);
-            iUserAdd.putExtra("action","add");
-            startActivityForResult(iUserAdd, 2);
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     private class getUserListTask extends AsyncTask<String, String, String> {
@@ -186,10 +148,8 @@ public class UsersActivity extends AppCompatActivity {
             mUserTask = null;
             mSwipeRefreshLayout.setRefreshing(false);
             pBar.setVisibility(View.GONE);
-//            showProgress(false);
             String aName, aEmail, aRole, aThumbPhoto, aPhone;
             Integer aId, dataLength;
-
 
             if (user != null) {
                 Log.e(TAG, "User Result : " + user);
@@ -224,11 +184,9 @@ public class UsersActivity extends AppCompatActivity {
                             }
                         }
 
-
                         mRecyclerView = (RecyclerView) findViewById(R.id.user_recyclerView);
                         mLayoutManager = new LinearLayoutManager(getApplicationContext());
-                        mAdapter = new UserAdapter(getApplicationContext(),mUser);
-
+                        mAdapter = new UserAdapter(UsersActivity.this,mUser);
                         mRecyclerView.setLayoutManager(mLayoutManager);
                         mRecyclerView.setAdapter(mAdapter);
 
@@ -249,18 +207,46 @@ public class UsersActivity extends AppCompatActivity {
             mUserTask = null;
             mSwipeRefreshLayout.setRefreshing(false);
             pBar.setVisibility(View.GONE);
-//            showProgress(false);
         }
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        this.finish();
+        return true;
+    }
 
-        if(resultCode == RESULT_OK) {
-            pBar.setVisibility(View.VISIBLE);
-            mUser.clear();
-            getUserDataList(tenant);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (sm.getPreferences("role").equals("SuperAdmin")){
+            getMenuInflater().inflate(R.menu.menu_add_option, menu);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_add) {
+            iUserAdd = new Intent(UsersActivity.this, FormUserActivity.class);
+            iUserAdd.putExtra("action","add");
+            startActivity(iUserAdd);
         }
 
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (mRecyclerView != null) {
+            mUser.clear();
+            mRecyclerView.setAdapter(null);
+        }
+        getUserDataList(tenant);
     }
 }

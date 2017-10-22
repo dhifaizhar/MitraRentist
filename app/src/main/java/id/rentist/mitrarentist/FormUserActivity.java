@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
@@ -18,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,6 +45,7 @@ import java.util.Map;
 
 import id.rentist.mitrarentist.tools.AppConfig;
 import id.rentist.mitrarentist.tools.CircleTransform;
+import id.rentist.mitrarentist.tools.FormValidation;
 import id.rentist.mitrarentist.tools.SessionManager;
 
 public class FormUserActivity extends AppCompatActivity {
@@ -50,13 +53,16 @@ public class FormUserActivity extends AppCompatActivity {
     private ProgressDialog pDialog;
     private SessionManager sm;
     private Intent formUser;
+    FormValidation formValidation;
+    View focusView;
 
-    String tenant, aId, imgString = "";
-    TextView nama, email, pass, phone;
+    String tenant, aId, imgString = "", isiimage = "";
+    TextView nama, email, pass, cpass, phone;
     Spinner role;
     ImageView profilPic;
     Button btnUploadFoto;
     CountryCodePicker countryCode;
+    LinearLayout layoutPass, layoutConfirmPass;
 
     private int PICK_IMAGE_REQUEST = 1;
 
@@ -70,6 +76,7 @@ public class FormUserActivity extends AppCompatActivity {
         setTitle("Pengguna");
 
         formUser = getIntent();
+        formValidation = new FormValidation(FormUserActivity.this);
         sm = new SessionManager(getApplicationContext());
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
@@ -89,9 +96,12 @@ public class FormUserActivity extends AppCompatActivity {
         role = (Spinner) findViewById(R.id.fus_role);
         email = (TextView)findViewById(R.id.fus_email);
         pass = (TextView)findViewById(R.id.fus_password);
+        cpass = (TextView)findViewById(R.id.fus_repassword);
         phone = (TextView) findViewById(R.id.fus_phone);
         btnUploadFoto = (Button) findViewById(R.id.btnUploadFoto);
         countryCode =(CountryCodePicker) findViewById(R.id.country_code);
+        layoutPass = (LinearLayout) findViewById(R.id.layout_pass);
+        layoutConfirmPass = (LinearLayout) findViewById(R.id.layout_confirm_pass);
 
         // set content control value
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
@@ -120,8 +130,8 @@ public class FormUserActivity extends AppCompatActivity {
                 role.setSelection(3);
             }
 
-        } else if(formUser.getStringExtra("action").equals("add")){
-            pass.setVisibility(View.VISIBLE);
+            layoutPass.setVisibility(View.GONE);
+            layoutConfirmPass.setVisibility(View.GONE);
         }
 
         // set action
@@ -137,12 +147,55 @@ public class FormUserActivity extends AppCompatActivity {
     }
 
     private void formUserTenant(String tenant, String id) {
-        pDialog.setMessage("loading ...");
-        showProgress(true);
-        if(formUser.getStringExtra("action").equals("add")){
-            new getFormUserAddTask(tenant, id).execute();
-        }else if(formUser.getStringExtra("action").equals("update")){
-            new getFormUserUpdateTask(tenant, id).execute();
+        if (mDetailUserTask != null) {
+            return;
+        }
+
+        // Reset errors.
+        nama.setError(null);
+        email.setError(null);
+        phone.setError(null);
+        pass.setError(null);
+        cpass.setError(null);
+
+        if(!TextUtils.isEmpty(nama.getText().toString())){
+            if(formValidation.isEmailValid(email.getText().toString())){
+                if(formValidation.isPhoneValid(phone.getText().toString())){
+                    if(formUser.getStringExtra("action").equals("add")){
+                        if(formValidation.isPasswordValid(pass.getText().toString())){
+                            if(formValidation.isConfirmPasswordValid(pass.getText().toString(),cpass.getText().toString())){
+                                pDialog.setMessage("loading ...");
+                                showProgress(true);
+                                new getFormUserAddTask(tenant, id).execute();
+                            }else{
+                                cpass.setError(getString(R.string.error_invalid_confirm_password));
+                                focusView = cpass;
+                                focusView.requestFocus();
+                            }
+                        }else{
+                            pass.setError(getString(R.string.error_invalid_password));
+                            focusView = pass;
+                            focusView.requestFocus();
+                        }
+                    }else if(formUser.getStringExtra("action").equals("update")){
+                        pDialog.setMessage("loading ...");
+                        showProgress(true);
+                        new getFormUserUpdateTask(tenant, id).execute();
+                    }
+                }else{
+                    phone.setError(getString(R.string.error_invalid_phone));
+                    focusView = phone;
+                    focusView.requestFocus();
+                }
+            }else{
+                email.setError(getString(R.string.error_invalid_email));
+                focusView = email;
+                focusView.requestFocus();
+            }
+        }else{
+            nama.setError(getString(R.string.error_field_required));
+            focusView = nama;
+            focusView.requestFocus();
         }
     }
 
@@ -213,14 +266,12 @@ public class FormUserActivity extends AppCompatActivity {
             showProgress(false);
 
             if(user != null){
-                Toast.makeText(getApplicationContext(),"Sukses mengubah data.", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(FormUserActivity.this,UsersActivity.class);
-                setResult(RESULT_OK, intent);
+                Toast.makeText(getApplicationContext(),"Sukses menambahkan data.", Toast.LENGTH_LONG).show();
+                new Intent(FormUserActivity.this,UsersActivity.class);
                 finish();
             }else{
                 Toast.makeText(getApplicationContext(),"Gagal memuat data.", Toast.LENGTH_LONG).show();
             }
-
         }
 
         @Override
@@ -228,7 +279,6 @@ public class FormUserActivity extends AppCompatActivity {
             mDetailUserTask = null;
             showProgress(false);
         }
-
     }
 
     private class getFormUserUpdateTask extends AsyncTask<String, String, String>{
@@ -300,14 +350,12 @@ public class FormUserActivity extends AppCompatActivity {
             showProgress(false);
 
             if(user != null){
-
                 try {
                     Log.e(TAG, "Response : " + user);
                     JSONArray dataArray = new JSONArray(user);
                     if (dataArray.length() > 0){
                         JSONObject dataObject = dataArray.getJSONObject(0);
                         id_user = dataObject.getInt("id");
-
                     } else {
                         id_user = 0;
                     }
@@ -320,12 +368,9 @@ public class FormUserActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-
             }else{
                 Toast.makeText(getApplicationContext(),"Gagal memuat data.", Toast.LENGTH_LONG).show();
             }
-
         }
 
         @Override
@@ -351,7 +396,6 @@ public class FormUserActivity extends AppCompatActivity {
                 data.getData() != null) {
             Uri filePath = data.getData();
 
-
             try {
                 //Getting the Bitmap from Gallery
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
@@ -363,11 +407,8 @@ public class FormUserActivity extends AppCompatActivity {
 
                 //Setting the Bitmap to ImageView
                 profilPic.setImageBitmap(bitmap);
-                String isiimage = getStringImage(bitmap);
-
+                isiimage = getStringImage(bitmap);
                 imgString = ext +"," + isiimage;
-
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -408,11 +449,7 @@ public class FormUserActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_save) {
-            if (pass.getText().length() == 0 || email.getText().length() == 0){
-                Toast.makeText(getApplicationContext(),"Data Belum Lengkap", Toast.LENGTH_LONG).show();
-            } else {
-                formUserTenant(tenant, aId);
-            }
+            formUserTenant(tenant, aId);
         }
 
         return super.onOptionsItemSelected(item);

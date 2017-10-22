@@ -89,11 +89,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> im
         return mUser.size();
     }
 
-
     @Override
-    public void onClick(View v) {
-
-    }
+    public void onClick(View v) {}
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView name, role, phone, email;

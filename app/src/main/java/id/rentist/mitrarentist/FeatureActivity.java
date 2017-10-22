@@ -46,7 +46,7 @@ public class FeatureActivity extends AppCompatActivity {
     AsyncTask mFeatureTask = null;
     private List<ItemFeatureModul> mFeature = new ArrayList<>();
     private SpinKitView pBar;
-    private SessionManager sm;
+    SessionManager sm;
     JSONObject dataObject, objectFeature, objectFeatureDetail;
     JSONArray dataArray;
     Intent iFeature;
@@ -78,7 +78,10 @@ public class FeatureActivity extends AppCompatActivity {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mFeature.clear();
+                if (mRecyclerView != null) {
+                    mFeature.clear();
+                    mRecyclerView.setAdapter(null);
+                }
                 getFeatureDataList(tenant);
             }
         });
@@ -86,6 +89,11 @@ public class FeatureActivity extends AppCompatActivity {
 
     private void getFeatureDataList(String tenant) {
         pBar.setVisibility(View.VISIBLE);
+
+        if (mFeatureTask != null) {
+            return;
+        }
+
         new getFeatureListTask(tenant).execute();
     }
 
@@ -208,6 +216,7 @@ public class FeatureActivity extends AppCompatActivity {
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
+        this.finish();
         return true;
     }
 
@@ -229,6 +238,17 @@ public class FeatureActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (mRecyclerView != null) {
+            mFeature.clear();
+            mRecyclerView.setAdapter(null);
+        }
+        getFeatureDataList(tenant);
     }
 
 }
