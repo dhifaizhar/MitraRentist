@@ -65,7 +65,7 @@ public class DetailAsetActivity extends AppCompatActivity {
     RecyclerView.LayoutManager mLayoutManager;
 
     Integer aId, position;
-    String changeStatus = "active", aName, aType, aSubType,  aStatus, aCat, aSubCat, aVerified,
+    String changeStatus = "active",aAsetName, aName, aType, aSubType,  aStatus, aCat, aSubCat, aVerified,
             aInsurance, aMinRentDay, aDeliveryMethod, category, category_url, aDesc, aMainImage,
             //Car&Motor
             aPlat, aYear, aNoStnk , aColor, aTransmission, aEngineCap, aFuel, aSeat, aAirBag, aAirCond, aDriver,
@@ -73,7 +73,7 @@ public class DetailAsetActivity extends AppCompatActivity {
             aModel, aLength, aBeam, aGrossTon, aDraft, aCruisSpeed, aTopSpeed, aBuilder, aNaval, aIntDesign, aExtDesign,
             aGuest, aCabin, aCrew;
 
-    TextView mark, status, subcat, insurance, min_rent_day, delivery_method, desc,
+    TextView aset_name, mark, status, subcat, insurance, min_rent_day, delivery_method, desc,
             plat, year,  color, transmission, engine_cap, fuel, seats, air_bag, air_cond, driver,
             model, length, beam, gross_ton, draft, cruise_speed, top_speed, builder, naval, int_design, ext_design,
             guest, cabin, crew;
@@ -110,6 +110,7 @@ public class DetailAsetActivity extends AppCompatActivity {
 
         //initialize view
         imgThumbnail = (ImageView)findViewById(R.id.as_thumb_aset);
+        aset_name = (TextView) findViewById(R.id.as_aset_name);
         mark = (TextView) findViewById(R.id.as_mark_det);
         subcat = (TextView) findViewById(R.id.as_subcat_det);
         status = (TextView) findViewById(R.id.as_status_det);
@@ -248,6 +249,7 @@ public class DetailAsetActivity extends AppCompatActivity {
                             errorMsg = "-";
                             JSONObject jsonobject = jsonArray.getJSONObject(i);
                             aCat = jsonobject.getString("id_asset_category");
+                            aAsetName = jsonobject.getString("name");
                             aType = jsonobject.getString("type");
                             aStatus = jsonobject.getString("status");
                             aVerified = jsonobject.getString("verified");
@@ -276,7 +278,6 @@ public class DetailAsetActivity extends AppCompatActivity {
                                     String currency = formatter.format(Integer.parseInt(priceObject.getString("price"))) + " IDR" ;
                                     priceModul.setPrice(currency);
 
-
                                     mPrice.add(priceModul);
                                 }
                             }
@@ -294,9 +295,14 @@ public class DetailAsetActivity extends AppCompatActivity {
                                 ImageView verifIco = (ImageView) findViewById(R.id.as_verif);
                                 verifIco.setVisibility(View.VISIBLE);
                             }
+                            aset_name.setText(aAsetName);
                             subcat.setText(aSubCat);
                             status.setText(aStatus);
-                            delivery_method.setText(aDeliveryMethod);
+                            if (aDeliveryMethod.equals("both")){
+                                delivery_method.setText("Dikirim, Dijemput");
+                            }else{
+                                delivery_method.setText(aDeliveryMethod);
+                            }
 
                             if (aInsurance.equals("true")){insurance.setText("Tersedia");
                             } else {insurance.setText("Tidak Tersedia");}
@@ -313,14 +319,14 @@ public class DetailAsetActivity extends AppCompatActivity {
                                     aSeat = jsonobject.getString("seat");
 
                                     seats.setText(aSeat);
-                                    if (aAirBag.equals("true")) {air_bag.setText("Tersedia");}
-                                    else {air_bag.setText("Tidak Tersedia");}
+                                    air_bag.setText(aAirBag.equals("true")?"Tersedia":"Tidak Tersedia");
+                                    air_cond.setText(aAirCond.equals("true")?"Tersedia":"Tidak Tersedia");
 
-                                    if (aAirCond.equals("true")) {air_cond.setText("Tersedia");}
-                                    else {air_cond.setText("Tidak Tersedia");}
-
-                                    if (aDriver.equals("true")) {driver.setText("Tersedia");}
-                                    else {driver.setText("Tidak Tersedia");}
+                                    if (aDriver.equals("both")){
+                                        driver.setText("Tersedia, Tidak Tersedia");
+                                    }else{
+                                        driver.setText(aDriver.equals("true")?"Tersedia":"Tidak Tersedia");
+                                    }
                                 case "2":
                                     aPlat = jsonobject.getString("license_plat");
                                     aYear = jsonobject.getString("year");
@@ -659,10 +665,12 @@ public class DetailAsetActivity extends AppCompatActivity {
                     iAsetEdit = new Intent(DetailAsetActivity.this, FormCarAsetActivity.class);
                     iAsetEdit.putExtra("action", "update");
                     iAsetEdit.putExtra("id_asset", aId);
+                    iAsetEdit.putExtra("name", aAsetName);
                     iAsetEdit.putExtra("merk", aName);
                     iAsetEdit.putExtra("type", aType);
                     iAsetEdit.putExtra("year", aYear);
                     iAsetEdit.putExtra("plat", aPlat);
+                    iAsetEdit.putExtra("stnk", aNoStnk);
                     iAsetEdit.putExtra("color", aColor);
                     iAsetEdit.putExtra("no_stnk", aNoStnk);
                     iAsetEdit.putExtra("engine_cap", aEngineCap);
@@ -671,9 +679,11 @@ public class DetailAsetActivity extends AppCompatActivity {
                     iAsetEdit.putExtra("air_bag", aAirBag);
                     iAsetEdit.putExtra("air_cond", aAirCond);
                     iAsetEdit.putExtra("driver", aDriver);
+                    iAsetEdit.putExtra("assurance", aInsurance);
                     iAsetEdit.putExtra("transmission", aTransmission);
                     iAsetEdit.putExtra("min_rent_day", aMinRentDay);
                     iAsetEdit.putExtra("main_image", aMainImage);
+                    iAsetEdit.putExtra("delivery_method", aDeliveryMethod);
                     iAsetEdit.putExtra("cat", aCat);
                     iAsetEdit.putExtra("subcat", aSubCat);
                     startActivity(iAsetEdit);
@@ -682,17 +692,21 @@ public class DetailAsetActivity extends AppCompatActivity {
                     iAsetEdit = new Intent(DetailAsetActivity.this, FormMotorcycleAsetActivity.class);
                     iAsetEdit.putExtra("action", "update");
                     iAsetEdit.putExtra("id_asset", aId);
+                    iAsetEdit.putExtra("name", aAsetName);
                     iAsetEdit.putExtra("merk", aName);
                     iAsetEdit.putExtra("type", aType);
                     iAsetEdit.putExtra("year", aYear);
                     iAsetEdit.putExtra("plat", aPlat);
+                    iAsetEdit.putExtra("stnk", aNoStnk);
                     iAsetEdit.putExtra("color", aColor);
                     iAsetEdit.putExtra("no_stnk", aNoStnk);
                     iAsetEdit.putExtra("engine_cap", aEngineCap);
                     iAsetEdit.putExtra("fuel", aFuel);
+                    iAsetEdit.putExtra("assurance", aInsurance);
                     iAsetEdit.putExtra("transmission", aTransmission);
                     iAsetEdit.putExtra("min_rent_day", aMinRentDay);
                     iAsetEdit.putExtra("main_image", aMainImage);
+                    iAsetEdit.putExtra("delivery_method", aDeliveryMethod);
                     iAsetEdit.putExtra("cat", aCat);
                     iAsetEdit.putExtra("subcat", aSubCat);
                     startActivity(iAsetEdit);
@@ -702,6 +716,7 @@ public class DetailAsetActivity extends AppCompatActivity {
                     iAsetEdit.putExtra("action", "update");
                     iAsetEdit.putExtra("id_asset", aId);
                     iAsetEdit.putExtra("subtype", aSubType);
+                    iAsetEdit.putExtra("name", aAsetName);
                     iAsetEdit.putExtra("type", aType);
                     iAsetEdit.putExtra("model", aModel);
                     iAsetEdit.putExtra("length", aLength);
@@ -717,8 +732,10 @@ public class DetailAsetActivity extends AppCompatActivity {
                     iAsetEdit.putExtra("guest", aGuest);
                     iAsetEdit.putExtra("crew", aCrew);
                     iAsetEdit.putExtra("cabin", aCabin);
+                    iAsetEdit.putExtra("delivery_method", aDeliveryMethod);
                     iAsetEdit.putExtra("min_rent_day", aMinRentDay);
                     iAsetEdit.putExtra("main_image", aMainImage);
+                    iAsetEdit.putExtra("assurance", aInsurance);
                     iAsetEdit.putExtra("cat", aCat);
                     iAsetEdit.putExtra("subcat", aSubCat);
                     startActivity(iAsetEdit);
@@ -756,12 +773,15 @@ public class DetailAsetActivity extends AppCompatActivity {
                     iAsetEdit.putExtra("id_asset", aId);
                     iAsetEdit.putExtra("min_rent_day", aMinRentDay);
                     iAsetEdit.putExtra("main_image", aMainImage);
+                    iAsetEdit.putExtra("name", aAsetName);
                     iAsetEdit.putExtra("merk", aName);
                     iAsetEdit.putExtra("type", aType);
+                    iAsetEdit.putExtra("assurance", aInsurance);
                     iAsetEdit.putExtra("description", aDesc);
+                    iAsetEdit.putExtra("delivery_method", aDeliveryMethod);
                     iAsetEdit.putExtra("cat", aCat);
                     iAsetEdit.putExtra("subcat", aSubCat);
-                    startActivity(iAsetEdit);
+                    startActivityForResult(iAsetEdit, 2);
                     break;
             }
         }else if(id == R.id.action_delete){
@@ -770,4 +790,16 @@ public class DetailAsetActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//
+//        if(resultCode == RESULT_OK) {
+//            ProfileActivity.this.finish();
+//            Intent ii = new Intent(ProfileActivity.this,ProfileActivity.class);
+//            startActivity(ii);
+//
+//        }
+//
+//    }
 }

@@ -222,6 +222,7 @@
                                 android:layout_weight="1"
                                 android:background="@color/colorNearWhite"
                                 android:ems="10"
+                                android:textAlignment="center"
                                 android:hint="Nomor"
                                 android:imeOptions="actionNext"
                                 android:inputType="number"
@@ -911,7 +912,7 @@
                                 android:textColor="@color/colorBlack"
                                 android:textSize="12sp" />
 
-                            <EditText
+                            <TextView
                                 android:id="@+id/as_start_date"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -940,7 +941,7 @@
                                 android:textColor="@color/colorBlack"
                                 android:textSize="12sp" />
 
-                            <EditText
+                            <TextView
                                 android:id="@+id/as_end_date"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"

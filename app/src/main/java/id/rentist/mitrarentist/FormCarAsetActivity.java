@@ -39,6 +39,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -74,7 +75,7 @@ public class FormCarAsetActivity extends AppCompatActivity {
             isiimage = "", ext, imgString, imgStringSTNK, aDriverStatus, aDeliveryMethod;
     CheckBox aAc, aAb, aDriver, aNoDriver, aAssurace, aDelivery, aPickup;
     RadioGroup aTransmisionGroup;
-    RadioButton aTransmisionButton;
+    RadioButton aTransmisionButton, rManual, rAuto;
     Button btnImgUpload;
     Spinner subcategory, aMerk, aColor, aFuel, aEngCap, aSeat;
 
@@ -115,7 +116,7 @@ public class FormCarAsetActivity extends AppCompatActivity {
         aName = (TextView) findViewById(R.id.as_name);
         aType = (TextView) findViewById(R.id.as_type);
         aYear = (TextView) findViewById(R.id.as_year);
-        aRegNum = (TextView) findViewById(R.id.as_regnum);
+//        aRegNum = (TextView) findViewById(R.id.as_regnum);
         aPlat = (TextView) findViewById(R.id.as_plat);
         aPlatStart = (TextView) findViewById(R.id.as_plat_start);
         aPlatEnd = (TextView) findViewById(R.id.as_plat_end);
@@ -247,10 +248,34 @@ public class FormCarAsetActivity extends AppCompatActivity {
 
 //        set value
         if(iFormAsset.getStringExtra("action").equals("update")){
+            btnCamSTNK.setVisibility(View.GONE);
+            btnFileSTNK.setVisibility(View.GONE);
+
+            aName.setText(iFormAsset.getStringExtra("name"));
             aType.setText(iFormAsset.getStringExtra("type"));
-            aPlat.setText(iFormAsset.getStringExtra("plat"));
             aYear.setText(iFormAsset.getStringExtra("year"));
-//          aMerk.setText(iFormAsset.getStringExtra("merk"));
+            aMinRentDay.setText(iFormAsset.getStringExtra("min_rent_day"));
+
+            String plat = iFormAsset.getStringExtra("plat");
+//            aPlatStart.setText(plat.substring(0, plat.indexOf(" ")));
+//            aPlat.setText(plat.substring(plat.indexOf(" "), plat.indexOf(" ", 2)));
+//            aPlatEnd.setText(plat.substring(plat.indexOf(" ", 2)));
+
+            String a,b,c;
+             a = plat.substring(0, plat.indexOf(" ", 1));
+            if (a.length()>1){
+                b = plat.substring(plat.indexOf(" ")+1, plat.indexOf(" ", 3));
+                c = plat.substring(plat.indexOf(" ", 3));
+            }else{
+                b = plat.substring(plat.indexOf(" "), plat.indexOf(" ", 2));
+                c = plat.substring(plat.indexOf(" ", 2));
+            }
+
+
+            aPlatStart.setText(a);
+            aPlat.setText(b);
+            aPlatEnd.setText(c);
+            Log.e(TAG, "Awal :" + a +" tengah "+ b +" akhir "+ c);
 
             //spinner
             String compareValue = iFormAsset.getStringExtra("subcat");
@@ -263,9 +288,96 @@ public class FormCarAsetActivity extends AppCompatActivity {
                 subcategory.setSelection(spinnerPosition);
             }
 
+            String merkValue = iFormAsset.getStringExtra("merk");
+            ArrayAdapter<CharSequence> merkAdapter = ArrayAdapter.createFromResource(this, R.array.car_brand_entries, android.R.layout.simple_spinner_item);
+            merkAdapter.setDropDownViewResource(android.R.layout.select_dialog_item);
+            aMerk.setAdapter(merkAdapter);
+            Log.e(TAG, "Value Merk: " + merkValue);
+            if (!merkValue.equals(null)) {
+                int merkPosition = merkAdapter.getPosition(merkValue);
+                aMerk.setSelection(merkPosition);
+            }
+
+            String colorValue = iFormAsset.getStringExtra("color");
+            ArrayAdapter<CharSequence> colorAdapter = ArrayAdapter.createFromResource(this, R.array.color_entries, android.R.layout.simple_spinner_item);
+            colorAdapter.setDropDownViewResource(android.R.layout.select_dialog_item);
+            aColor.setAdapter(colorAdapter);
+            if (!colorValue.equals(null)) {
+                int colorPosition = colorAdapter.getPosition(colorValue);
+                aColor.setSelection(colorPosition);
+            }
+
+            String fuelValue = iFormAsset.getStringExtra("fuel");
+            ArrayAdapter<CharSequence> fuelAdapter = ArrayAdapter.createFromResource(this, R.array.fuel_entries, android.R.layout.simple_spinner_item);
+            fuelAdapter.setDropDownViewResource(android.R.layout.select_dialog_item);
+            aFuel.setAdapter(fuelAdapter);
+            if (!fuelValue.equals(null)) {
+                int fuelPosition = fuelAdapter.getPosition(fuelValue);
+                aFuel.setSelection(fuelPosition);
+            }
+
+            String seatValue = iFormAsset.getStringExtra("seat");
+            ArrayAdapter<CharSequence> seatAdapter = ArrayAdapter.createFromResource(this, R.array.seats_entries, android.R.layout.simple_spinner_item);
+            seatAdapter.setDropDownViewResource(android.R.layout.select_dialog_item);
+            aSeat.setAdapter(seatAdapter);
+            if (!seatValue.equals(null)) {
+                int seatPosition = seatAdapter.getPosition(seatValue);
+                aSeat.setSelection(seatPosition);
+            }
+
+            //Image
+            if(!iFormAsset.getStringExtra("main_image").isEmpty()) {
+                String imageUrl = AppConfig.URL_IMAGE_ASSETS + iFormAsset.getStringExtra("main_image");
+                Picasso.with(getApplicationContext()).load(imageUrl).into(aImg);
+            }
+            if(!iFormAsset.getStringExtra("no_stnk").isEmpty()) {
+                String imageSTNKUrl = AppConfig.URL_IMAGE_DOCUMENTS + iFormAsset.getStringExtra("no_stnk");
+                Picasso.with(getApplicationContext()).load(imageSTNKUrl).into(aImgSTNK);
+            }
+
+            if (iFormAsset.getStringExtra("assurance").equals("true")){aAssurace.setChecked(true);}
+            if (iFormAsset.getStringExtra("air_bag").equals("true")){aAb.setChecked(true);}
+            if (iFormAsset.getStringExtra("air_cond").equals("true")){aAc.setChecked(true);}
+
+//            Log.e(TAG, "Transsmision :" + iFormAsset.getStringExtra("transsmision"));
+            if(iFormAsset.getStringExtra("transmission").equals("manual")) {
+//                aTransmisionGroup.check(R.id.r_manual);
+                ((RadioButton)aTransmisionGroup.getChildAt(0)).setChecked(true);
+
+            } else {
+                ((RadioButton)aTransmisionGroup.getChildAt(1)).setChecked(true);
+            }
+//            aTransmisionGroup.check(iFormAsset.getStringExtra("transsmision").equals("manual")?R.id.r_manual:R.id.r_automatic);
+
+            if (iFormAsset.getStringExtra("delivery_method").equals("both")){
+                aPickup.setChecked(true);
+                aDelivery.setChecked(true);
+            }else if (iFormAsset.getStringExtra("delivery_method").equals("pickup")){
+                aPickup.setChecked(true);
+            }else if (iFormAsset.getStringExtra("delivery_method").equals("deliver")){
+                aDelivery.setChecked(true);
+            }
+
+            if (iFormAsset.getStringExtra("driver").equals("both")){
+                aNoDriver.setChecked(true);
+                aDriver.setChecked(true);
+            }else if (iFormAsset.getStringExtra("driver").equals("true")){
+                aDriver.setChecked(true);
+            }else if (iFormAsset.getStringExtra("driver").equals("false")){
+                aNoDriver.setChecked(true);
+            }
+//            ArrayAdapter<CharSequence> colorAdapter = ArrayAdapter.createFromResource(this, R.array.color_entries, android.R.layout.simple_spinner_item);
+//            colorAdapter.setDropDownViewResource(android.R.layout.select_dialog_item);
+//            aColor.setAdapter(colorAdapter);
+//            if (!iFormAsset.getStringExtra("color").equals(null)) {
+//                int spinnerPosition = adapter.getPosition(iFormAsset.getStringExtra("color"));
+//                aColor.setSelection(spinnerPosition);
+//            }
+
         }
 
     }
+
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     private void showProgress(final boolean show) {
@@ -317,11 +429,14 @@ public class FormCarAsetActivity extends AppCompatActivity {
             } else{
                 if(iFormAsset.getStringExtra("action").equals("update")){
                     updateDataAset(category);
-                }else{
-                    addDataAset(tenant);
+                }else {
+                    if (imgStringSTNK.isEmpty()) {
+                        Toast.makeText(getApplicationContext(), "Harap Lengkapi Foto STNK", Toast.LENGTH_LONG).show();
+                    } else
+                        addDataAset(tenant);
+
                 }
             }
-
         }
 
         return super.onOptionsItemSelected(item);
@@ -488,12 +603,13 @@ public class FormCarAsetActivity extends AppCompatActivity {
                     keys.put("rent_package", aRentPackage);
                     keys.put("latitude", aLatitude);
                     keys.put("longitude", aLongitude);
-                    if(!isiimage.isEmpty()) {
+                    if(!imgStringSTNK.isEmpty()) {
                         keys.put("stnk", imgStringSTNK);
                     }
                     if(!isiimage.isEmpty()){
                         keys.put("file", isiimage);
                     }
+
                     ArrayList<String> pricingArray = new ArrayList<String>();
                     JSONObject priceBasicObject = new JSONObject();
                     try {
@@ -611,34 +727,37 @@ public class FormCarAsetActivity extends AppCompatActivity {
                     keys.put("id_asset", String.valueOf(idAsset));
                     keys.put("name", aName.getText().toString());
                     keys.put("slug", aName.getText().toString().replace(" ","-"));
-//                    keys.put("description", aDesc.getText().toString());
                     keys.put("subcategory", subcategory.getSelectedItem().toString());
                     keys.put("brand", aMerk.getSelectedItem().toString());
                     keys.put("type", aType.getText().toString());
                     keys.put("year", aYear.getText().toString());
-                    keys.put("no_stnk", aRegNum.getText().toString());
                     keys.put("colour", aColor.getSelectedItem().toString());
                     keys.put("engine_capacity", aEngCap.getSelectedItem().toString());
-                    keys.put("license_plat", aPlat.getText().toString());
+                    keys.put("license_plat", aPlatStart.getText().toString()+" "+aPlat.getText().toString()+" "+aPlatEnd.getText().toString());
                     keys.put("seat", aSeat.getSelectedItem().toString());
                     keys.put("air_bag", String.valueOf(aAb.isChecked()));
                     keys.put("air_conditioner", String.valueOf(aAc.isChecked()));
                     keys.put("transmission", aTransmisionButton.getText().toString());
                     keys.put("fuel", aFuel.getSelectedItem().toString());
                     keys.put("insurance", String.valueOf(aAssurace.isChecked()));
-                    keys.put("driver_included", aDriverStatus);
                     keys.put("min_rent_day", aMinRentDay.getText().toString());
+                    keys.put("driver_included", aDriverStatus);
+                    keys.put("delivery_method", aDeliveryMethod);
                     keys.put("address", aAddress);
                     keys.put("rent_package", aRentPackage);
                     keys.put("latitude", aLatitude);
                     keys.put("longitude", aLongitude);
+//                    if(!imgStringSTNK.isEmpty()) {
+//                        keys.put("stnk", imgStringSTNK);
+//                    }
                     if(!isiimage.isEmpty()){
                         keys.put("file", isiimage);
                     }
+
                     ArrayList<String> pricingArray = new ArrayList<String>();
                     JSONObject priceBasicObject = new JSONObject();
                     try {
-                        priceBasicObject.put("price", aBasicPrice.getText().toString());
+                        priceBasicObject.put("price", aBasicPrice.getText().toString().replace(",",""));
                         priceBasicObject.put("range_name","BASECOST");
                         priceBasicObject.put("start_date","1970-01-01");
                         priceBasicObject.put("end_date","1970-01-01");
@@ -648,18 +767,17 @@ public class FormCarAsetActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-                    if(aPriceAdvance.getText().length() > 0){
+                    if(!aAdvancePrice.getText().toString().isEmpty()) {
                         for (int i = 0; i < 1; i++) {
                             Map<String, String> pricingObject = new HashMap<String, String>();
-                            pricingObject.put("\"range_name\"","\""+aRangName.getText().toString()+"\"");
-                            pricingObject.put("\"start_date\"","\""+aStartDate.getText().toString()+"\"");
-                            pricingObject.put("\"end_date\"","\""+aEndDate.getText().toString()+"\"");
-                            pricingObject.put("\"price\"","\""+aPriceAdvance.getText().toString()+"\"");
+                            pricingObject.put("\"range_name\"", "\"" + aRangName.getText().toString() + "\"");
+                            pricingObject.put("\"start_date\"", "\"" + aStartDate.getText().toString() + "\"");
+                            pricingObject.put("\"end_date\"", "\"" + aEndDate.getText().toString() + "\"");
+                            pricingObject.put("\"price\"", "\"" + aAdvancePrice.getText().toString().replace(",", "") + "\"");
 
-                            pricingArray.add(pricingObject.toString().replace("=",":"));
+                            pricingArray.add(pricingObject.toString().replace("=", ":"));
                         }
                     }
-
                     keys.put("price", pricingArray.toString());
                     Log.e(TAG, "Value Object : " + keys.toString());
                     Log.e(TAG, "Asset Keys: " + String.valueOf(keys));

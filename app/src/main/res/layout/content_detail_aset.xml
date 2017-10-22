@@ -75,14 +75,13 @@
                         >
 
                         <TextView
-                            android:id="@+id/as_mark_det"
+                            android:id="@+id/as_aset_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical"
                             android:padding="@dimen/xmin_padding"
                             android:textColor="@color/colorPrimary"
-                            android:textSize="24sp"
-                            android:textStyle="bold"
+                            android:textSize="@dimen/small_text"
                             tools:text="Nama Aset"
                             android:layout_alignParentTop="true"
                             android:layout_centerHorizontal="true" />
@@ -93,8 +92,28 @@
                             android:layout_height="24dp"
                             android:layout_centerVertical="true"
                             android:src="@drawable/verif_blue_24"
-                            android:layout_toEndOf="@id/as_mark_det"
+                            android:layout_toEndOf="@id/as_aset_name"
                             android:visibility="gone"/>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        >
+
+                        <TextView
+                            android:id="@+id/as_mark_det"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:padding="@dimen/xmin_padding"
+                            android:textColor="@color/colorBlack87"
+                            android:textSize="22sp"
+                            android:textStyle="bold"
+                            tools:text="Nama Aset"
+                            android:layout_alignParentTop="true"
+                            android:layout_centerHorizontal="true" />
 
                     </RelativeLayout>
 
@@ -102,7 +121,6 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/colorPrimarySoft"
                         android:paddingBottom="@dimen/xmin_padding">
 
                         <RelativeLayout
@@ -963,7 +981,7 @@
                             android:layout_height="wrap_content"
                             android:textColor="@color/colorBlack54"
                             android:textSize="@dimen/calendar_text_small"
-                            android:text="Insurance " />
+                            android:text="Asuransi " />
 
                         <TextView
                             android:id="@+id/as_insurance"

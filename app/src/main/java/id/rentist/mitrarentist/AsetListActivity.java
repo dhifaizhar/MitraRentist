@@ -365,6 +365,13 @@ public class AsetListActivity extends AppCompatActivity {
                     iAddAset.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivityForResult(iAddAset, 2);
                     break;
+                case "12":
+                    iAddAset = new Intent(AsetListActivity.this, FormFashionAsetActivity.class);
+                    iAddAset.putExtra("action", "add");
+                    iAddAset.putExtra("id_category", category);
+                    iAddAset.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivityForResult(iAddAset, 2);
+                    break;
             }
         }
 

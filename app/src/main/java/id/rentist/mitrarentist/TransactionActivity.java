@@ -66,13 +66,6 @@ public class TransactionActivity extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.vp_tabs);
         mViewPager.setAdapter(fragTrans);
 
-//        mSlidingTabLayout = (SlidingTabLayout) findViewById(R.id.stl_tab_hs);
-//        mSlidingTabLayout.setDistributeEvenly(true);
-//        mSlidingTabLayout.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-//        mSlidingTabLayout.setSelectedIndicatorColors(getResources().getColor(R.color.colorWhite));
-//        mSlidingTabLayout.setCustomTabView(R.layout.tab_view, R.id.tv_tab);
-//        mSlidingTabLayout.setViewPager(mViewPager);
-
         mTabLayout = (TabLayout) findViewById(R.id.stl_tab_hs);
         mTabLayout.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         mTabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.colorWhite));

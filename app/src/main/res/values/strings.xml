@@ -216,6 +216,13 @@
         <item>Other</item>
     </string-array>
 
+    <string-array name="fashion_subcategory_entries">
+        <item>Wedding</item>
+        <item>Costume</item>
+        <item>Cosplay</item>
+        <item>Other</item>
+    </string-array>
+
     <string-array name="driver_entries">
         <item>Mamat</item>
         <item>Dudung</item>
@@ -273,25 +280,18 @@
     </string-array>
 
     <string-array name="motor_brand_entries">
-        <item>Audi</item>
         <item>BMW</item>
-        <item>Chevrolet</item>
-        <item>Daihatsu</item>
-        <item>Datsun</item>
+        <item>Bajaj</item>
+        <item>Ducati</item>
+        <item>Harley Davidson</item>
         <item>Honda</item>
-        <item>Hyundai</item>
         <item>Isuzu</item>
-        <item>KIA</item>
-        <item>Lexus</item>
-        <item>Mazda</item>
-        <item>Mercedes Benz</item>
-        <item>Mini</item>
-        <item>Mitsubishi</item>
-        <item>Nissan</item>
-        <item>Renault</item>
+        <item>Kawasaki</item>
         <item>Suzuki</item>
-        <item>Toyota</item>
-        <item>Lainnya</item>
+        <item>TVS</item>
+        <item>Vespa</item>
+        <item>Yamaha</item>
+
     </string-array>
 
     <string-array name="engine_cap_motor_entries">
@@ -308,13 +308,14 @@
     </string-array>
 
     <string-array name="engine_cap_car_entries">
-        <item>500cc - 1000cc</item>
-        <item>1001cc - 1500cc</item>
-        <item>1501cc - 2000cc</item>
-        <item>2501cc - 3000cc</item>
-        <item>3001cc - 3500cc</item>
-        <item>4001cc - 4500cc</item>
-        <item>4501cc - 5000cc</item>
+        <item>500cc</item>
+        <item>1000cc</item>
+        <item>1500cc</item>
+        <item>2500cc</item>
+        <item>3000cc</item>
+        <item>3500cc</item>
+        <item>4000cc</item>
+        <item>4500cc</item>
         <item>Lainnya</item>
     </string-array>
 

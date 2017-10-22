@@ -80,22 +80,21 @@ public class TransactionAcceptFragment extends Fragment {
         // action retrieve data aset
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
 
-        String data = getArguments().getString("data");
-        if (data == null){
-            noTransImage.setVisibility(View.VISIBLE);
-            noTransText.setText("Transaksi Diterima Tidak Ditemukan");
-        }
+//        String data = getArguments().getString("data");
+//        if (data == null){
+//            noTransImage.setVisibility(View.VISIBLE);
+//            noTransText.setText("Transaksi Diterima Tidak Ditemukan");
+//        }
 
-        Log.e(TAG, "Accepted Transaction Data : " + data);
-//        getHistoryAccList(tenant);
+//        Log.e(TAG, "Accepted Transaction Data : " + data);
+        getHistoryAccList(tenant);
 
         return view;
     }
 
     private void getHistoryAccList(String tenant) {
         pBar.setVisibility(View.VISIBLE);
-//        pDialog.setMessage("loading ...");
-//        showProgress(true);
+
         new TransactionAcceptFragment.getHistoryAccListTask(tenant).execute();
     }
 

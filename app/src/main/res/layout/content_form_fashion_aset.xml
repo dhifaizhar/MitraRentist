@@ -8,8 +8,8 @@
     android:background="@color/colorBackgound"
     android:padding="@dimen/xmin_padding"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="id.rentist.mitrarentist.FormAdventureAsetActivity"
-    tools:showIn="@layout/activity_form_adventure_aset">
+    tools:context="id.rentist.mitrarentist.FormMedicAsetActivity"
+    tools:showIn="@layout/activity_form_fashion_aset">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -79,7 +79,7 @@
                                 android:id="@+id/as_subcat_spinner"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:entries="@array/adventure_subcategory_entries"
+                                android:entries="@array/fashion_subcategory_entries"
                                 android:padding="@dimen/xmin_padding"
                                 android:spinnerMode="dialog" />
 

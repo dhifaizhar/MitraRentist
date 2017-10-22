@@ -133,6 +133,7 @@ public class FormMedicAsetActivity extends AppCompatActivity {
         aDelivery = (CheckBox) findViewById(R.id.as_ck_delivery);
         aPickup = (CheckBox) findViewById(R.id.as_ck_pickup);
 
+
         aBasicPrice.addTextChangedListener(new TextWatcher(){
             @Override
             public void afterTextChanged(Editable arg0) {
@@ -207,10 +208,24 @@ public class FormMedicAsetActivity extends AppCompatActivity {
 
         //aset value
         if(iFormAsset.getStringExtra("action").equals("update")){
+            aName.setText(iFormAsset.getStringExtra("name"));
             aMerk.setText(iFormAsset.getStringExtra("merk"));
             aType.setText(iFormAsset.getStringExtra("type"));
             aMinDayRent.setText(iFormAsset.getStringExtra("min_rent_day"));
             aDesc.setText(iFormAsset.getStringExtra("description"));
+
+
+            Log.e(TAG, "Assurance & Delivery :" + iFormAsset.getStringExtra("assurance") + iFormAsset.getStringExtra("delivery_method"));
+            if (iFormAsset.getStringExtra("assurance").equals("true")){aAssurace.setChecked(true);}
+
+            if (iFormAsset.getStringExtra("delivery_method").equals("both")){
+                aPickup.setChecked(true);
+                aDelivery.setChecked(true);
+            }else if (iFormAsset.getStringExtra("delivery_method").equals("pickup")){
+                aPickup.setChecked(true);
+            }else if (iFormAsset.getStringExtra("delivery_method").equals("deliver")){
+                aDelivery.setChecked(true);
+            }
 
             //Image
             String imageUrl = AppConfig.URL_IMAGE_ASSETS + iFormAsset.getStringExtra("main_image");
@@ -520,16 +535,19 @@ public class FormMedicAsetActivity extends AppCompatActivity {
                     keys.put("brand", aMerk.getText().toString());
                     keys.put("type", aType.getText().toString());
                     keys.put("insurance", String.valueOf(aAssurace.isChecked()));
+                    keys.put("min_rent_day", aMinDayRent.getText().toString());
+                    keys.put("delivery_method", aDeliveryMethod);
                     keys.put("address", aAddress);
                     keys.put("latitude", aLatitude);
                     keys.put("longitude", aLongitude);
                     if(!isiimage.isEmpty()){
                         keys.put("file", isiimage);
                     }
+
                     ArrayList<String> pricingArray = new ArrayList<String>();
                     JSONObject priceBasicObject = new JSONObject();
                     try {
-                        priceBasicObject.put("price", aBasicPrice.getText().toString());
+                        priceBasicObject.put("price", aBasicPrice.getText().toString().replace(",", ""));
                         priceBasicObject.put("range_name","BASECOST");
                         priceBasicObject.put("start_date","1970-01-01");
                         priceBasicObject.put("end_date","1970-01-01");
@@ -539,14 +557,16 @@ public class FormMedicAsetActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-                    for (int i = 0; i < 1; i++) {
-                        Map<String, String> pricingObject = new HashMap<String, String>();
-                        pricingObject.put("\"range_name\"","\""+aRangName.getText().toString()+"\"");
-                        pricingObject.put("\"start_date\"","\""+aStartDate.getText().toString()+"\"");
-                        pricingObject.put("\"end_date\"","\""+aEndDate.getText().toString()+"\"");
-                        pricingObject.put("\"price\"",aPriceAdvance.getText().toString());
+                    if(!aAdvancePrice.getText().toString().isEmpty()) {
+                        for (int i = 0; i < 1; i++) {
+                            Map<String, String> pricingObject = new HashMap<String, String>();
+                            pricingObject.put("\"range_name\"", "\"" + aRangName.getText().toString() + "\"");
+                            pricingObject.put("\"start_date\"", "\"" + aStartDate.getText().toString() + "\"");
+                            pricingObject.put("\"end_date\"", "\"" + aEndDate.getText().toString() + "\"");
+                            pricingObject.put("\"price\"", "\"" + aAdvancePrice.getText().toString().replace(",", "") + "\"");
 
-                        pricingArray.add(pricingObject.toString().replace("=",":"));
+                            pricingArray.add(pricingObject.toString().replace("=", ":"));
+                        }
                     }
                     keys.put("price", pricingArray.toString());
                     Log.e(TAG, "Asset Keys: " + String.valueOf(keys));
@@ -578,6 +598,10 @@ public class FormMedicAsetActivity extends AppCompatActivity {
 
             if(aset != null){
                 Toast.makeText(getApplicationContext(),"Data sukses disimpan", Toast.LENGTH_LONG).show();
+//                Intent intent = new Intent(FormMedicAsetActivity.this,AsetListActivity.class);
+//                intent.putExtra("asset_name", "Peralatan Medis");
+//                intent.putExtra("asset_category", 4);
+//                setResult(RESULT_OK, intent);
                 finish();
             }else{
                 Toast.makeText(getApplicationContext(),"Gagal meyimpan data", Toast.LENGTH_LONG).show();

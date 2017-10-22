@@ -6,8 +6,10 @@ package id.rentist.mitrarentist.tools;
 
 public class AppConfig {
     private static String SERVER = "http://api.rentist.id:1337/";
-    public static String URL_IMAGE_PROFIL = "http://assets.rentist.id/images/";
-    public static String URL_IMAGE_ASSETS = "http://assets.rentist.id/assets/";
+    private static String ASSETS_SERVER = "http://assets.rentist.id/";
+    public static String URL_IMAGE_PROFIL = ASSETS_SERVER + "images/";
+    public static String URL_IMAGE_ASSETS = ASSETS_SERVER + "assets/";
+    public static String URL_IMAGE_DOCUMENTS = ASSETS_SERVER + "documents/";
 
     public static String URL_LOGIN = SERVER + "login/tenant/";
     public static  String URL_REGISTER = SERVER + "register/tenant/";

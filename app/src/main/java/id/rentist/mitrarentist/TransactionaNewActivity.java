@@ -145,7 +145,7 @@ public class TransactionaNewActivity extends AppCompatActivity {
                     JSONArray jsonArray = new JSONArray(transaction);
 
                     if(jsonArray.length() > 0){
-                        for (int i = 0; i < 1; i++) {
+                        for (int i = 0; i < jsonArray.length(); i++) {
                             errorMsg = "-";
                             JSONObject transObject = jsonArray.getJSONObject(i);
                             Log.e(TAG, "Transaction Data : " + String.valueOf(transObject));
@@ -181,6 +181,7 @@ public class TransactionaNewActivity extends AppCompatActivity {
                             itemTrans.setPrice(aNominal);
                             itemTrans.setStartDate(aStartDate);
                             itemTrans.setEndDate(aEndDate);
+
 
                             mTrans.add(itemTrans);
                         }

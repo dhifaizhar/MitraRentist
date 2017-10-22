@@ -52,7 +52,7 @@ import java.util.Map;
 import id.rentist.mitrarentist.tools.AppConfig;
 import id.rentist.mitrarentist.tools.SessionManager;
 
-public class FormAdventureAsetActivity extends AppCompatActivity {
+public class FormFashionAsetActivity extends AppCompatActivity {
     private AsyncTask mAddAssetTask = null;
     private ProgressDialog pDialog;
     private SessionManager sm;
@@ -73,13 +73,15 @@ public class FormAdventureAsetActivity extends AppCompatActivity {
 
     private int PICK_DATE_REQUEST = 5;
     private int PICK_IMAGE_REQUEST = 1;
+
     private static final String TAG = "FormAssetActivity";
     private static final String TOKEN = "secretissecret";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_form_adventure_aset);
-        setTitle("Form Fotografi");
+        setContentView(R.layout.activity_form_fashion_aset);
+        setTitle("Aset Pakaian ");
 
         iFormAsset = getIntent();
         sm = new SessionManager(getApplicationContext());
@@ -109,6 +111,7 @@ public class FormAdventureAsetActivity extends AppCompatActivity {
                 conAdvancePrice.setVisibility(View.VISIBLE);
             }
         });
+
     }
 
     private void contentcontrol() {
@@ -210,6 +213,8 @@ public class FormAdventureAsetActivity extends AppCompatActivity {
             aMinDayRent.setText(iFormAsset.getStringExtra("min_rent_day"));
             aDesc.setText(iFormAsset.getStringExtra("description"));
 
+
+            Log.e(TAG, "Assurance & Delivery :" + iFormAsset.getStringExtra("assurance") + iFormAsset.getStringExtra("delivery_method"));
             if (iFormAsset.getStringExtra("assurance").equals("true")){aAssurace.setChecked(true);}
 
             if (iFormAsset.getStringExtra("delivery_method").equals("both")){
@@ -227,7 +232,7 @@ public class FormAdventureAsetActivity extends AppCompatActivity {
 
             //spinner
             String compareValue = iFormAsset.getStringExtra("subcat");
-            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.adventure_subcategory_entries, android.R.layout.simple_spinner_item);
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.fashion_subcategory_entries, android.R.layout.simple_spinner_item);
             adapter.setDropDownViewResource(android.R.layout.select_dialog_item);
             subcategory.setAdapter(adapter);
             Log.e(TAG, "Value Sub Cat: " + compareValue);
@@ -360,7 +365,7 @@ public class FormAdventureAsetActivity extends AppCompatActivity {
 
         pDialog.setMessage("loading ...");
         showProgress(true);
-        new FormAdventureAsetActivity.addAsetTask(tenant).execute();
+        new FormFashionAsetActivity.addAsetTask(tenant).execute();
     }
 
     private class addAsetTask extends AsyncTask<String, String, String> {
@@ -374,7 +379,7 @@ public class FormAdventureAsetActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
             RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.URL_ADVENTURE, new Response.Listener<String>() {
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.URL_FASHION, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     responseAsset = response;
@@ -463,9 +468,9 @@ public class FormAdventureAsetActivity extends AppCompatActivity {
 
             if(aset != null){
                 Toast.makeText(getApplicationContext(),"Data sukses disimpan", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(FormAdventureAsetActivity.this,AsetListActivity.class);
-                intent.putExtra("asset_name", "Olahraga & Petualangan");
-                intent.putExtra("asset_category", 7);
+                Intent intent = new Intent(FormFashionAsetActivity.this,AsetListActivity.class);
+                intent.putExtra("asset_name", "Peralatan Medis");
+                intent.putExtra("asset_category", 4);
                 setResult(RESULT_OK, intent);
                 finish();
             }else{
@@ -488,7 +493,7 @@ public class FormAdventureAsetActivity extends AppCompatActivity {
 
         pDialog.setMessage("loading ...");
         showProgress(true);
-        new FormAdventureAsetActivity.updateAsetTask(category).execute();
+        new FormFashionAsetActivity.updateAsetTask(category).execute();
     }
 
     private class updateAsetTask extends AsyncTask<String, String, String> {
@@ -501,7 +506,7 @@ public class FormAdventureAsetActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... params) {
-            String URL = AppConfig.URL_ADVENTURE;
+            String URL = AppConfig.URL_FASHION;
             RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
             StringRequest stringRequest = new StringRequest(Request.Method.PUT, URL, new Response.Listener<String>() {
                 @Override
@@ -606,4 +611,3 @@ public class FormAdventureAsetActivity extends AppCompatActivity {
         }
     }
 }
-

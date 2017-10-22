@@ -530,17 +530,15 @@
                                 android:textColor="@color/colorBlack"
                                 android:textSize="12sp" />
 
-                            <EditText
+                            <TextView
                                 android:id="@+id/as_start_date"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:background="@color/colorNearWhite"
                                 android:drawableEnd="@drawable/ic_date_range_black_24dp"
-                                android:editable="false"
                                 android:ems="10"
                                 android:hint="Tanggal Mulai"
                                 android:clickable="true"
-                                android:inputType="date|none"
                                 android:padding="@dimen/min_padding"
                                 android:text="" />
                         </LinearLayout>
@@ -560,17 +558,15 @@
                                 android:textColor="@color/colorBlack"
                                 android:textSize="12sp" />
 
-                            <EditText
+                            <TextView
                                 android:id="@+id/as_end_date"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:background="@color/colorNearWhite"
                                 android:drawableEnd="@drawable/ic_date_range_black_24dp"
-                                android:editable="false"
                                 android:ems="10"
                                 android:clickable="true"
                                 android:hint="Tanggal Akhir"
-                                android:inputType="date|none"
                                 android:padding="@dimen/min_padding"
                                 android:text="" />
                         </LinearLayout>

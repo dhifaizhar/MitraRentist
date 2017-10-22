@@ -12,7 +12,8 @@ import id.rentist.mitrarentist.tools.SessionManager;
 
 public class SetupCategoryActivity extends AppCompatActivity {
     private SessionManager sm;
-    Switch car, motorcycle, yacht, medic, photo, toys, adventure, maternity, electronic, bicycle, office;
+    Switch car, motorcycle, yacht, medic, photo, toys, adventure, maternity, electronic,
+            bicycle, office, fashion;
     Button btnApply;
 
     private static final String TAG = "SetupAssetActivity";
@@ -41,6 +42,7 @@ public class SetupCategoryActivity extends AppCompatActivity {
         electronic = (Switch) findViewById(R.id.sw_electronic);
         bicycle = (Switch) findViewById(R.id.sw_bicycle);
         office  = (Switch) findViewById(R.id.sw_office);
+        fashion  = (Switch) findViewById(R.id.sw_fashion);
         btnApply= (Button) findViewById(R.id.btn_apply);
 
         if (sm.getPreferences("car").equals("true")){car.setChecked(true);}
@@ -54,6 +56,7 @@ public class SetupCategoryActivity extends AppCompatActivity {
         if (sm.getPreferences("electronic").equals("true")){electronic.setChecked(true);}
         if (sm.getPreferences("bicycle").equals("true")){bicycle.setChecked(true);}
         if (sm.getPreferences("office").equals("true")){office.setChecked(true);}
+        if (sm.getPreferences("fashion").equals("true")){fashion.setChecked(true);}
 
         btnApply.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,6 +72,7 @@ public class SetupCategoryActivity extends AppCompatActivity {
                 if (electronic.isChecked())sm.setPreferences("electronic","true");else sm.setPreferences("electronic","false");
                 if (bicycle.isChecked())sm.setPreferences("bicycle","true");else sm.setPreferences("bicycle","false");
                 if (office.isChecked())sm.setPreferences("office","true");else sm.setPreferences("office","false");
+                if (fashion.isChecked())sm.setPreferences("fashion","true");else sm.setPreferences("fashion","false");
 
                 int sum_cat = 0;
                 if (sm.getPreferences("car").equals("true")){sum_cat += 1;}
@@ -82,6 +86,7 @@ public class SetupCategoryActivity extends AppCompatActivity {
                 if (sm.getPreferences("electronic").equals("true")){sum_cat += 1;}
                 if (sm.getPreferences("bicycle").equals("true")){sum_cat += 1;}
                 if (sm.getPreferences("office").equals("true")){sum_cat += 1;}
+                if (sm.getPreferences("fashion").equals("true")){sum_cat += 1;}
 
                 sm.setIntPreferences("sum_cat", sum_cat);
                 Intent intent = new Intent(SetupCategoryActivity.this,AsetActivity.class);

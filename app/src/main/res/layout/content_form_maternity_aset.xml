@@ -530,7 +530,7 @@
                                 android:textColor="@color/colorBlack"
                                 android:textSize="12sp" />
 
-                            <EditText
+                            <TextView
                                 android:id="@+id/as_start_date"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -560,7 +560,7 @@
                                 android:textColor="@color/colorBlack"
                                 android:textSize="12sp" />
 
-                            <EditText
+                            <TextView
                                 android:id="@+id/as_end_date"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"

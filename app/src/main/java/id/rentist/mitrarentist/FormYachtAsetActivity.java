@@ -1,6 +1,7 @@
 package id.rentist.mitrarentist;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -11,6 +12,8 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
@@ -19,6 +22,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -38,8 +42,10 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import id.rentist.mitrarentist.tools.AppConfig;
@@ -56,13 +62,16 @@ public class FormYachtAsetActivity extends AppCompatActivity {
     ImageView aImg;
     TextView aName, aSubType, aType, aModel, aGuest, aCrew, aCabin, aLength, aBeam,
             aDraft, aGrossTon, aCruisingSpeed, aTopSpeed, aBuilder, aNavalArc,
-            aIntDesign, aExtDesign, aBasicPrice, aMinDayRent, btnAdvancePrice,
-            aDesc, aRangName, aStartDate, aEndDate, aPriceAdvance, aAssuracePrice;
+            aIntDesign, aExtDesign, aMinDayRent, btnAdvancePrice,
+            aDesc, aRangName, aStartDate, aEndDate, aPriceAdvance, aAssuracePrice,  aBasicPriceDisp, aAdvancePriceDisp;
+    EditText aBasicPrice, aAdvancePrice;;
     Integer idAsset;
-    String aLatitude, aLongitude, aAddress, tenant, category, encodedImage, isiimage = "", ext, imgString;
-    CheckBox aAssurace;
+    String aLatitude, aLongitude, aAddress, tenant, category, encodedImage, isiimage = "", ext, imgString, aDriverStatus, aDeliveryMethod;;
+    CheckBox aAssurace, aDelivery, aPickup;;
     Button btnImgUpload;
     Spinner subcategory;
+
+    private int PICK_DATE_REQUEST = 3;
 
     private int PICK_IMAGE_REQUEST = 1;
     private static final String TAG = "FormAssetActivity";
@@ -125,20 +134,95 @@ public class FormYachtAsetActivity extends AppCompatActivity {
         aCruisingSpeed = (TextView) findViewById(R.id.as_cruising_speed);
         aTopSpeed = (TextView) findViewById(R.id.as_top_speed);
         aGrossTon = (TextView) findViewById(R.id.as_gross_tonnage);
-        aMinDayRent = (TextView) findViewById(R.id.as_min_day_rent);
+        aMinDayRent = (TextView) findViewById(R.id.as_min_rent_day);
         aAssurace = (CheckBox) findViewById(R.id.as_ck_assurance);
-        aAssuracePrice = (TextView) findViewById(R.id.as_assurance_price);
-        aImg = (ImageView) findViewById(R.id.thumb_aset);
-        aDesc = (TextView) findViewById(R.id.as_desc);
+        aDelivery = (CheckBox) findViewById(R.id.as_ck_delivery);
+        aPickup = (CheckBox) findViewById(R.id.as_ck_pickup);
+                                                                                                                                                                                                                                                                                                                                                                     aImg = (ImageView) findViewById(R.id.thumb_aset);
         aRangName = (TextView) findViewById(R.id.as_range_name);
         aStartDate = (TextView) findViewById(R.id.as_start_date);
         aEndDate = (TextView) findViewById(R.id.as_end_date);
-        aPriceAdvance = (TextView) findViewById(R.id.as_price_advance);
-        aBasicPrice = (TextView) findViewById(R.id.as_price_basic);
+//        aPriceAdvance = (TextView) findViewById(R.id.as_price_advance);
+        aAdvancePrice = (EditText) findViewById(R.id.as_price_advance);
+        aAdvancePriceDisp = (TextView) findViewById(R.id.as_price_advance_disp);
+        aBasicPriceDisp = (TextView) findViewById(R.id.as_price_basic_disp);
+        aBasicPrice = (EditText) findViewById(R.id.as_price_basic);
 
+        aBasicPrice.addTextChangedListener(new TextWatcher(){
+            @Override
+            public void afterTextChanged(Editable arg0) {
+                if(!aBasicPrice.getText().toString().isEmpty()){
+                    Integer price = Integer.parseInt(aBasicPrice.getText().toString().replace(",",""));
+
+                    Integer priceFee = price + (price/100*20);
+
+                    NumberFormat formatter = NumberFormat.getInstance(Locale.GERMANY);
+                    String currency = formatter.format(priceFee) + " IDR" ;
+
+                    aBasicPriceDisp.setText(currency);
+                } else {
+                    aBasicPriceDisp.setText("0 IDR");
+                }
+
+            }
+            @Override
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+        });
+
+        aAdvancePrice.addTextChangedListener(new TextWatcher(){
+            @Override
+            public void afterTextChanged(Editable arg0) {
+                if(!aAdvancePrice.getText().toString().isEmpty()){
+                    Integer price = Integer.parseInt(aAdvancePrice.getText().toString().replace(",",""));
+
+                    Integer priceFee = price + (price/100*20);
+
+                    NumberFormat formatter = NumberFormat.getInstance(Locale.GERMANY);
+                    String currency = formatter.format(priceFee) + " IDR" ;
+
+                    aAdvancePriceDisp.setText(currency);
+                } else {
+                    aAdvancePriceDisp.setText("0 IDR");
+                }
+
+            }
+            @Override
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+        });
+
+        aEndDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(
+                        getApplicationContext(), CustomDatePickerRangeActivity.class);
+                startActivityForResult(intent,PICK_DATE_REQUEST);
+            }
+        });
+
+        aStartDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(
+                        getApplicationContext(), CustomDatePickerRangeActivity.class);
+                startActivityForResult(intent,PICK_DATE_REQUEST);
+            }
+        });
 
         //aset value
         if(iFormAsset.getStringExtra("action").equals("update")){
+            aName.setText(iFormAsset.getStringExtra("name"));
             aType.setText(iFormAsset.getStringExtra("type"));
             aSubType.setText(iFormAsset.getStringExtra("subtype"));
             aModel.setText(iFormAsset.getStringExtra("model"));
@@ -150,16 +234,28 @@ public class FormYachtAsetActivity extends AppCompatActivity {
             aTopSpeed.setText(iFormAsset.getStringExtra("top_speed"));
             aBuilder.setText(iFormAsset.getStringExtra("builder"));
             aNavalArc.setText(iFormAsset.getStringExtra("naval_architect"));
-            aIntDesign.setText(iFormAsset.getStringExtra("aIntDesign"));
-            aExtDesign.setText(iFormAsset.getStringExtra("aExtDesign"));
-            aGuest.setText(iFormAsset.getStringExtra("aGuest"));
-            aCabin.setText(iFormAsset.getStringExtra("aCabin"));
-            aCrew.setText(iFormAsset.getStringExtra("aCrew"));
+            aIntDesign.setText(iFormAsset.getStringExtra("interior_designer"));
+            aExtDesign.setText(iFormAsset.getStringExtra("exterior_designer"));
+            aGuest.setText(iFormAsset.getStringExtra("guest"));
+            aCabin.setText(iFormAsset.getStringExtra("cabin"));
+            aCrew.setText(iFormAsset.getStringExtra("crew"));
             aMinDayRent.setText(iFormAsset.getStringExtra("min_rent_day"));
+
+            if (iFormAsset.getStringExtra("assurance").equals("true")){aAssurace.setChecked(true);}
+
+            if (iFormAsset.getStringExtra("delivery_method").equals("both")){
+                aPickup.setChecked(true);
+                aDelivery.setChecked(true);
+            }else if (iFormAsset.getStringExtra("delivery_method").equals("pickup")){
+                aPickup.setChecked(true);
+            }else if (iFormAsset.getStringExtra("delivery_method").equals("deliver")){
+                aDelivery.setChecked(true);
+            }
+
 
             //spinner
             String compareValue = iFormAsset.getStringExtra("subcat");
-            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.asset_subcategory_entries, android.R.layout.simple_spinner_item);
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.yacht_subcategory_entries, android.R.layout.simple_spinner_item);
             adapter.setDropDownViewResource(android.R.layout.select_dialog_item);
             subcategory.setAdapter(adapter);
             Log.e(TAG, "Value Sub Cat: " + compareValue);
@@ -236,6 +332,20 @@ public class FormYachtAsetActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+
+        if (requestCode == PICK_DATE_REQUEST) {
+            if(resultCode == Activity.RESULT_OK){
+                String resultStart = data.getStringExtra("startDate");
+                String resultEnd = data.getStringExtra("endDate");
+                /*transaction.setStartDate(resultStart);
+                transaction.setEndDate(resultEnd);*/
+                aStartDate.setText(resultStart);
+                aEndDate.setText(resultEnd);
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //Write your code if there's no result
+            }
+        }
     }
 
     @Override
@@ -252,10 +362,20 @@ public class FormYachtAsetActivity extends AppCompatActivity {
             tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
             category = iFormAsset.getStringExtra("cat");
             idAsset = iFormAsset.getIntExtra("id_asset",0);
-            if(iFormAsset.getStringExtra("action").equals("update")){
-                updateDataAset(category);
-            }else{
-                addDataAset(tenant);
+
+            if(aDelivery.isChecked() && aPickup.isChecked()){aDeliveryMethod = "both";}
+            else if (aDelivery.isChecked()){ aDeliveryMethod = "deliver";}
+            else if (aPickup.isChecked()){ aDeliveryMethod = "pickup";}
+            else { aDeliveryMethod = "nodefine";}
+
+            if (aBasicPrice.getText().toString().isEmpty() || aDeliveryMethod.equals("nodefine") ){
+                Toast.makeText(getApplicationContext(), "Harap Lengkapi Form",Toast.LENGTH_LONG).show();
+            } else{
+                if(iFormAsset.getStringExtra("action").equals("update")){
+                    updateDataAset(category);
+                }else{
+                    addDataAset(tenant);
+                }
             }
         }
 
@@ -304,7 +424,6 @@ public class FormYachtAsetActivity extends AppCompatActivity {
                     keys.put("id_tenant", mTenant);
                     keys.put("name", aName.getText().toString());
                     keys.put("slug", aName.getText().toString().replace(" ","-"));
-                    keys.put("description", aDesc.getText().toString());
                     keys.put("subcategory", subcategory.getSelectedItem().toString());
                     keys.put("type", aType.getText().toString());
                     keys.put("sub_type", aSubType.getText().toString());
@@ -323,8 +442,8 @@ public class FormYachtAsetActivity extends AppCompatActivity {
                     keys.put("interior_design", aIntDesign.getText().toString());
                     keys.put("exterior_design", aExtDesign.getText().toString());
                     keys.put("insurance", String.valueOf(aAssurace.isChecked()));
-                    keys.put("insurance_price", aAssuracePrice.getText().toString());
                     keys.put("min_rent_day", aMinDayRent.getText().toString());
+                    keys.put("delivery_method", aDeliveryMethod);
                     keys.put("address", aAddress);
                     keys.put("latitude", aLatitude);
                     keys.put("longitude", aLongitude);
@@ -334,7 +453,7 @@ public class FormYachtAsetActivity extends AppCompatActivity {
                     ArrayList<String> pricingArray = new ArrayList<String>();
                     JSONObject priceBasicObject = new JSONObject();
                     try {
-                        priceBasicObject.put("price", aBasicPrice.getText().toString());
+                        priceBasicObject.put("price", aBasicPrice.getText().toString().replace(",",""));
                         priceBasicObject.put("range_name","BASECOST");
                         priceBasicObject.put("start_date","1970-01-01");
                         priceBasicObject.put("end_date","1970-01-01");
@@ -344,15 +463,16 @@ public class FormYachtAsetActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
+                    if(!aAdvancePrice.getText().toString().isEmpty()) {
+                        for (int i = 0; i < 1; i++) {
+                            Map<String, String> pricingObject = new HashMap<String, String>();
+                            pricingObject.put("\"range_name\"", "\"" + aRangName.getText().toString() + "\"");
+                            pricingObject.put("\"start_date\"", "\"" + aStartDate.getText().toString() + "\"");
+                            pricingObject.put("\"end_date\"", "\"" + aEndDate.getText().toString() + "\"");
+                            pricingObject.put("\"price\"", "\"" + aAdvancePrice.getText().toString().replace(",", "") + "\"");
 
-                    for (int i = 0; i < 1; i++) {
-                        Map<String, String> pricingObject = new HashMap<String, String>();
-                        pricingObject.put("\"range_name\"","\""+aRangName.getText().toString()+"\"");
-                        pricingObject.put("\"start_date\"","\""+aStartDate.getText().toString()+"\"");
-                        pricingObject.put("\"end_date\"","\""+aEndDate.getText().toString()+"\"");
-                        pricingObject.put("\"price\"","\""+aPriceAdvance.getText().toString()+"\"");
-
-                        pricingArray.add(pricingObject.toString().replace("=",":"));
+                            pricingArray.add(pricingObject.toString().replace("=", ":"));
+                        }
                     }
                     keys.put("price", pricingArray.toString());
                     Log.e(TAG, "Value Object : " + keys.toString());
@@ -441,10 +561,26 @@ public class FormYachtAsetActivity extends AppCompatActivity {
                     keys.put("id_asset", String.valueOf(idAsset));
                     keys.put("name", aName.getText().toString());
                     keys.put("slug", aName.getText().toString().replace(" ","-"));
-                    keys.put("description", aDesc.getText().toString());
                     keys.put("subcategory", subcategory.getSelectedItem().toString());
                     keys.put("type", aType.getText().toString());
+                    keys.put("sub_type", aSubType.getText().toString());
+                    keys.put("model", aModel.getText().toString());
+                    keys.put("guest", aGuest.getText().toString());
+                    keys.put("cabin", aCabin.getText().toString());
+                    keys.put("crew", aCrew.getText().toString());
+                    keys.put("length", aLength.getText().toString());
+                    keys.put("beam", aBeam.getText().toString());
+                    keys.put("gross_tonnage", aGrossTon.getText().toString());
+                    keys.put("draft", aDraft.getText().toString());
+                    keys.put("cruising_speed", aCruisingSpeed.getText().toString());
+                    keys.put("top_speed", aTopSpeed.getText().toString());
+                    keys.put("buider", aBuilder.getText().toString());
+                    keys.put("naval_architect", aNavalArc.getText().toString());
+                    keys.put("interior_design", aIntDesign.getText().toString());
+                    keys.put("exterior_design", aExtDesign.getText().toString());
                     keys.put("insurance", String.valueOf(aAssurace.isChecked()));
+                    keys.put("min_rent_day", aMinDayRent.getText().toString());
+                    keys.put("delivery_method", aDeliveryMethod);
                     keys.put("address", aAddress);
                     keys.put("latitude", aLatitude);
                     keys.put("longitude", aLongitude);
@@ -454,7 +590,7 @@ public class FormYachtAsetActivity extends AppCompatActivity {
                     ArrayList<String> pricingArray = new ArrayList<String>();
                     JSONObject priceBasicObject = new JSONObject();
                     try {
-                        priceBasicObject.put("price", aBasicPrice.getText().toString());
+                        priceBasicObject.put("price", aBasicPrice.getText().toString().replace(",",""));
                         priceBasicObject.put("range_name","BASECOST");
                         priceBasicObject.put("start_date","1970-01-01");
                         priceBasicObject.put("end_date","1970-01-01");
@@ -464,14 +600,16 @@ public class FormYachtAsetActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-                    for (int i = 0; i < 1; i++) {
-                        Map<String, String> pricingObject = new HashMap<String, String>();
-                        pricingObject.put("\"range_name\"","\""+aRangName.getText().toString()+"\"");
-                        pricingObject.put("\"start_date\"","\""+aStartDate.getText().toString()+"\"");
-                        pricingObject.put("\"end_date\"","\""+aEndDate.getText().toString()+"\"");
-                        pricingObject.put("\"price\"",aPriceAdvance.getText().toString());
+                    if(!aAdvancePrice.getText().toString().isEmpty()) {
+                        for (int i = 0; i < 1; i++) {
+                            Map<String, String> pricingObject = new HashMap<String, String>();
+                            pricingObject.put("\"range_name\"", "\"" + aRangName.getText().toString() + "\"");
+                            pricingObject.put("\"start_date\"", "\"" + aStartDate.getText().toString() + "\"");
+                            pricingObject.put("\"end_date\"", "\"" + aEndDate.getText().toString() + "\"");
+                            pricingObject.put("\"price\"", "\"" + aAdvancePrice.getText().toString().replace(",", "") + "\"");
 
-                        pricingArray.add(pricingObject.toString().replace("=",":"));
+                            pricingArray.add(pricingObject.toString().replace("=", ":"));
+                        }
                     }
                     keys.put("price", pricingArray.toString());
                     Log.e(TAG, "Asset Keys: " + String.valueOf(keys));

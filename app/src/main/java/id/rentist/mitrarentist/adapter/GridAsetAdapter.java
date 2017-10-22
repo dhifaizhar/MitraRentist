@@ -124,6 +124,14 @@ public class GridAsetAdapter extends RecyclerView.Adapter<GridAsetAdapter.ViewHo
             itemCategory.add(category);
         }
 
+        if (sm.getPreferences("fashion").equals("true")) {
+            category = new ItemCategoryModul();
+            category.setId(12);
+            category.setTitle("Pakaian");
+            category.setThumbnail(R.drawable.cloth);
+            itemCategory.add(category);
+        }
+
 //
 
     }
@@ -164,7 +172,7 @@ public class GridAsetAdapter extends RecyclerView.Adapter<GridAsetAdapter.ViewHo
         viewHolder.cardDetAset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (idc.matches("1|2|3|4|5|6|7|8|9|10|11")) {
+                if (idc.matches("1|2|3|4|5|6|7|8|9|10|11|12")) {
                     Intent iAset = new Intent(context, AsetListActivity.class);
                     iAset.putExtra("id_category", idc);
                     iAset.putExtra("name_category", cname);

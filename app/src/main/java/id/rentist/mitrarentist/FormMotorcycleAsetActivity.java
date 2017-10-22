@@ -1,6 +1,7 @@
 package id.rentist.mitrarentist;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -11,6 +12,8 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
@@ -19,6 +22,8 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -41,8 +46,10 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import id.rentist.mitrarentist.tools.AppConfig;
@@ -54,21 +61,30 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
     private SessionManager sm;
     Intent iFormAsset;
 
-    ImageView aImg;
-    TextView aMerk, aName, aType, aPlat, aYear, aColor, aRegNum,
-            aEngCap, aFuel, aAsuracePrice, aMinDayRent,
-            aRangName, aStartDate, aEndDate, aPriceAdvance, btnAdvancePrice, aBasicPrice;;
+    private Bitmap bitmap;
+    ImageView aImg, aImgSTNK;
+    ImageButton btnCamSTNK, btnFileSTNK;
+    TextView aName, aType, aPlat, aYear, aRegNum, aPlatStart, aPlatEnd,
+             aAsuracePrice, aMinDayRent,
+            aRangName, aStartDate, aEndDate, aPriceAdvance, btnAdvancePrice,  aBasicPriceDisp, aAdvancePriceDisp;;//, aBasicPrice;;
+    EditText aBasicPrice, aAdvancePrice;
+
     Integer idAsset;
-    String aLatitude, aLongitude, aAddress, aRentPackage, tenant, category, imgString;
-    CheckBox aDriver, aAssurace;
+    String aLatitude, aLongitude, aAddress, aRentPackage, tenant, category,
+            isiimage = "", ext, imgString, imgStringSTNK, aDeliveryMethod;
+    CheckBox aAssurace, aDelivery, aPickup;
     RadioGroup aTransmisionGroup;
     RadioButton aTransmisionButton;
     Button btnImgUpload;
-    Spinner subcategory;
+    Spinner subcategory, aMerk, aColor, aFuel, aEngCap, aSeat;
     LinearLayout conAdvancePrice;
 
 
     private int PICK_IMAGE_REQUEST = 1;
+    private int PICK_IMAGE_STNK_REQUEST = 2;
+    private int PICK_DATE_REQUEST = 3;
+    private static final int CAMERA_REQUEST = 1888;
+
 
     private static final String TAG = "FormAssetActivity";
     private static final String TOKEN = "secretissecret";
@@ -83,10 +99,6 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
         sm = new SessionManager(getApplicationContext());
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
-        btnImgUpload = (Button) findViewById(R.id.btnUploadFoto);
-        btnAdvancePrice = (TextView) findViewById(R.id.btn_price_advance);
-        conAdvancePrice = (LinearLayout) findViewById(R.id.con_advance_price);
-        aImg = (ImageView) findViewById(R.id.thumb_aset);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -98,7 +110,7 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
         btnImgUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showFileChooser();
+                showFileChooser("asset");
             }
         });
 
@@ -113,44 +125,158 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
     private void contentcontrol() {
         aTransmisionGroup = (RadioGroup) findViewById(R.id.transmission_group);
         subcategory = (Spinner) findViewById(R.id.as_subcat_spinner);
-        aMerk = (TextView) findViewById(R.id.as_merk);
+        aMerk = (Spinner) findViewById(R.id.as_merk);
         aName = (TextView) findViewById(R.id.as_name);
         aType = (TextView) findViewById(R.id.as_type);
         aPlat = (TextView) findViewById(R.id.as_plat);
         aYear = (TextView) findViewById(R.id.as_year);
-        aColor = (TextView) findViewById(R.id.as_colour);
-        aRegNum = (TextView) findViewById(R.id.as_regnum);
-        aEngCap = (TextView) findViewById(R.id.as_engcap);
+        aColor = (Spinner) findViewById(R.id.as_colour);
+//        aRegNum = (TextView) findViewById(R.id.as_regnum);
+        aEngCap = (Spinner) findViewById(R.id.as_engcap);
         aPlat = (TextView) findViewById(R.id.as_plat);
-        aFuel = (TextView) findViewById(R.id.as_fuel);
-        aAsuracePrice = (TextView) findViewById(R.id.as_assurance_price);
-        aMinDayRent = (TextView) findViewById(R.id.as_min_day_rent);
+        aFuel = (Spinner) findViewById(R.id.as_fuel);
+        aPlatStart = (TextView) findViewById(R.id.as_plat_start);
+        aPlatEnd = (TextView) findViewById(R.id.as_plat_end);
+        aMinDayRent = (TextView) findViewById(R.id.as_min_rent_day);
         aAssurace = (CheckBox) findViewById(R.id.as_ck_assurance);
         aRangName = (TextView) findViewById(R.id.as_range_name);
         aStartDate = (TextView) findViewById(R.id.as_start_date);
         aEndDate = (TextView) findViewById(R.id.as_end_date);
-        aPriceAdvance = (TextView) findViewById(R.id.as_price_advance);
-        aBasicPrice = (TextView) findViewById(R.id.as_price_basic);
+//        aPriceAdvance = (TextView) findViewById(R.id.as_price_advance);
+        aAdvancePrice = (EditText) findViewById(R.id.as_price_advance);
+        aAdvancePriceDisp = (TextView) findViewById(R.id.as_price_advance_disp);
+        aBasicPriceDisp = (TextView) findViewById(R.id.as_price_basic_disp);
+        aBasicPrice = (EditText) findViewById(R.id.as_price_basic);
+        aDelivery = (CheckBox) findViewById(R.id.as_ck_delivery);
+        aPickup = (CheckBox) findViewById(R.id.as_ck_pickup);
+
+        btnImgUpload = (Button) findViewById(R.id.btnUploadFoto);
+        btnFileSTNK = (ImageButton) findViewById(R.id.btn_photo);
+        btnCamSTNK = (ImageButton) findViewById(R.id.btn_camera);
+        btnAdvancePrice = (TextView) findViewById(R.id.btn_price_advance);
+        conAdvancePrice = (LinearLayout) findViewById(R.id.con_advance_price);
+        aImg = (ImageView) findViewById(R.id.thumb_aset);
+        aImgSTNK = (ImageView) findViewById(R.id.stnk_image);
+
+        btnCamSTNK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(cameraIntent, CAMERA_REQUEST);
+            }
+        });
+
+        btnImgUpload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showFileChooser("asset");
+            }
+        });
+
+        btnFileSTNK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showFileChooser("STNK");
+            }
+        });
+
+        btnAdvancePrice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                conAdvancePrice.setVisibility(View.VISIBLE);
+            }
+        });
+
+        aBasicPrice.addTextChangedListener(new TextWatcher(){
+            @Override
+            public void afterTextChanged(Editable arg0) {
+                if(!aBasicPrice.getText().toString().isEmpty()){
+                    Integer price = Integer.parseInt(aBasicPrice.getText().toString().replace(",",""));
+
+                    Integer priceFee = price + (price/100*20);
+
+                    NumberFormat formatter = NumberFormat.getInstance(Locale.GERMANY);
+                    String currency = formatter.format(priceFee) + " IDR" ;
+
+                    aBasicPriceDisp.setText(currency);
+                } else {
+                    aBasicPriceDisp.setText("0 IDR");
+                }
+
+            }
+            @Override
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+        });
+
+        aAdvancePrice.addTextChangedListener(new TextWatcher(){
+            @Override
+            public void afterTextChanged(Editable arg0) {
+                if(!aAdvancePrice.getText().toString().isEmpty()){
+                    Integer price = Integer.parseInt(aAdvancePrice.getText().toString().replace(",",""));
+
+                    Integer priceFee = price + (price/100*20);
+
+                    NumberFormat formatter = NumberFormat.getInstance(Locale.GERMANY);
+                    String currency = formatter.format(priceFee) + " IDR" ;
+
+                    aAdvancePriceDisp.setText(currency);
+                } else {
+                    aAdvancePriceDisp.setText("0 IDR");
+                }
+
+            }
+            @Override
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+        });
+
+        aEndDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(
+                        getApplicationContext(), CustomDatePickerRangeActivity.class);
+                startActivityForResult(intent,PICK_DATE_REQUEST);
+            }
+        });
+
+        aStartDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(
+                        getApplicationContext(), CustomDatePickerRangeActivity.class);
+                startActivityForResult(intent,PICK_DATE_REQUEST);
+            }
+        });
 
         //set value
         if(iFormAsset.getStringExtra("action").equals("update")){
-            aMerk.setText(iFormAsset.getStringExtra("merk"));
+          btnCamSTNK.setVisibility(View.GONE);
+            btnFileSTNK.setVisibility(View.GONE);
+
+            aName.setText(iFormAsset.getStringExtra("name"));
             aType.setText(iFormAsset.getStringExtra("type"));
-            aPlat.setText(iFormAsset.getStringExtra("plat"));
             aYear.setText(iFormAsset.getStringExtra("year"));
-            aColor.setText(iFormAsset.getStringExtra("color"));
-            aRegNum.setText(iFormAsset.getStringExtra("no_stnk"));
-            aEngCap.setText(iFormAsset.getStringExtra("engine_cap"));
-            aFuel.setText(iFormAsset.getStringExtra("fuel"));
             aMinDayRent.setText(iFormAsset.getStringExtra("min_rent_day"));
 
-            //Image
-            String imageUrl = AppConfig.URL_IMAGE_ASSETS + iFormAsset.getStringExtra("main_image");
-            Picasso.with(getApplicationContext()).load(imageUrl).into(aImg);
+            String plat = iFormAsset.getStringExtra("plat");
+            aPlatStart.setText(plat.substring(0, plat.indexOf(" ")));
+            aPlat.setText(plat.substring(plat.indexOf(" ")+1, plat.indexOf(" ", 2)));
+            aPlatEnd.setText(plat.substring(plat.indexOf(" ", 2)));
 
             //spinner
             String compareValue = iFormAsset.getStringExtra("subcat");
-            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.motorcycle_subcategory_entries, android.R.layout.simple_spinner_item);
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.asset_subcategory_entries, android.R.layout.simple_spinner_item);
             adapter.setDropDownViewResource(android.R.layout.select_dialog_item);
             subcategory.setAdapter(adapter);
             Log.e(TAG, "Value Sub Cat: " + compareValue);
@@ -158,6 +284,63 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
                 int spinnerPosition = adapter.getPosition(compareValue);
                 subcategory.setSelection(spinnerPosition);
             }
+
+            String merkValue = iFormAsset.getStringExtra("merk");
+            ArrayAdapter<CharSequence> merkAdapter = ArrayAdapter.createFromResource(this, R.array.car_brand_entries, android.R.layout.simple_spinner_item);
+            merkAdapter.setDropDownViewResource(android.R.layout.select_dialog_item);
+            aMerk.setAdapter(merkAdapter);
+            Log.e(TAG, "Value Merk: " + merkValue);
+            if (!merkValue.equals(null)) {
+                int merkPosition = merkAdapter.getPosition(merkValue);
+                aMerk.setSelection(merkPosition);
+            }
+
+            String colorValue = iFormAsset.getStringExtra("color");
+            ArrayAdapter<CharSequence> colorAdapter = ArrayAdapter.createFromResource(this, R.array.color_entries, android.R.layout.simple_spinner_item);
+            colorAdapter.setDropDownViewResource(android.R.layout.select_dialog_item);
+            aColor.setAdapter(colorAdapter);
+            if (!colorValue.equals(null)) {
+                int colorPosition = colorAdapter.getPosition(colorValue);
+                aColor.setSelection(colorPosition);
+            }
+
+            String fuelValue = iFormAsset.getStringExtra("fuel");
+            ArrayAdapter<CharSequence> fuelAdapter = ArrayAdapter.createFromResource(this, R.array.fuel_entries, android.R.layout.simple_spinner_item);
+            fuelAdapter.setDropDownViewResource(android.R.layout.select_dialog_item);
+            aFuel.setAdapter(fuelAdapter);
+            if (!fuelValue.equals(null)) {
+                int fuelPosition = fuelAdapter.getPosition(fuelValue);
+                aFuel.setSelection(fuelPosition);
+            }
+
+            if(iFormAsset.getStringExtra("transmission").equals("manual")) {
+//                aTransmisionGroup.check(R.id.r_manual);
+                ((RadioButton)aTransmisionGroup.getChildAt(0)).setChecked(true);
+
+            } else {
+                ((RadioButton)aTransmisionGroup.getChildAt(1)).setChecked(true);
+            }
+            //Image
+            if(!iFormAsset.getStringExtra("main_image").isEmpty()) {
+                String imageUrl = AppConfig.URL_IMAGE_ASSETS + iFormAsset.getStringExtra("main_image");
+                Picasso.with(getApplicationContext()).load(imageUrl).into(aImg);
+            }
+            if(!iFormAsset.getStringExtra("no_stnk").isEmpty()) {
+                String imageSTNKUrl = AppConfig.URL_IMAGE_DOCUMENTS + iFormAsset.getStringExtra("no_stnk");
+                Picasso.with(getApplicationContext()).load(imageSTNKUrl).into(aImgSTNK);
+            }
+
+            if (iFormAsset.getStringExtra("assurance").equals("true")){aAssurace.setChecked(true);}
+
+            if (iFormAsset.getStringExtra("delivery_method").equals("both")){
+                aPickup.setChecked(true);
+                aDelivery.setChecked(true);
+            }else if (iFormAsset.getStringExtra("delivery_method").equals("pickup")){
+                aPickup.setChecked(true);
+            }else if (iFormAsset.getStringExtra("delivery_method").equals("deliver")){
+                aDelivery.setChecked(true);
+            }
+
 
         }
     }
@@ -198,10 +381,20 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
             tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
             category = iFormAsset.getStringExtra("cat");
             idAsset = iFormAsset.getIntExtra("id_asset",0);
-            if(iFormAsset.getStringExtra("action").equals("update")){
-                updateDataAset(idAsset.toString());
-            }else{
-                addDataAset(tenant);
+
+            if(aDelivery.isChecked() && aPickup.isChecked()){aDeliveryMethod = "both";}
+            else if (aDelivery.isChecked()){ aDeliveryMethod = "deliver";}
+            else if (aPickup.isChecked()){ aDeliveryMethod = "pickup";}
+            else { aDeliveryMethod = "nodefine";}
+
+            if (aBasicPrice.getText().toString().isEmpty() || aDeliveryMethod.equals("nodefine")){
+                Toast.makeText(getApplicationContext(), "Harap Lengkapi Form",Toast.LENGTH_LONG).show();
+            } else{
+                if(iFormAsset.getStringExtra("action").equals("update")){
+                    updateDataAset(category);
+                }else{
+                    addDataAset(tenant);
+                }
             }
         }
 
@@ -209,11 +402,15 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
     }
 
     // IMAGE : pick image
-    private void showFileChooser() {
+    private void showFileChooser(String action) {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+        if(action.equals("STNK")){
+            startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_STNK_REQUEST);
+        } else {
+            startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+        }
     }
 
     // IMAGE : get string for upload
@@ -246,11 +443,57 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
                 String imgStr = data.toString();
                 String ext = imgStr.substring(imgStr.indexOf("typ") + 4, imgStr.indexOf("flg") - 1);
 
-                String isiimage = getStringImage(bitmap);
-                imgString = ext + "," + isiimage;
+                isiimage = getStringImage(bitmap);
+                imgString = ext +"," + isiimage;
+                isiimage = imgString;
 
             } catch (IOException e) {
                 e.printStackTrace();
+            }
+        }
+
+        if (requestCode == PICK_IMAGE_STNK_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            Uri filePath = data.getData();
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                aImgSTNK.setImageBitmap(bitmap);
+                String imgStr = data.toString();
+                ext = imgStr.substring(imgStr.indexOf("typ")+4, imgStr.indexOf("flg")-1);
+
+                isiimage = getStringImage(bitmap);
+                imgStringSTNK = ext +"," + isiimage;
+
+                Log.e(TAG, "Image : " + imgStringSTNK);
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
+            Bitmap photo = (Bitmap) data.getExtras().get("data");
+
+            String str64b = getStringImage(photo);
+            imgStringSTNK = "image/jpeg," + str64b;
+
+            aImgSTNK.setImageBitmap(photo);
+
+            Log.e(TAG, "Image STNK : " + imgStringSTNK);
+        }
+
+
+        if (requestCode == PICK_DATE_REQUEST) {
+            if(resultCode == Activity.RESULT_OK){
+                String resultStart = data.getStringExtra("startDate");
+                String resultEnd = data.getStringExtra("endDate");
+                /*transaction.setStartDate(resultStart);
+                transaction.setEndDate(resultEnd);*/
+                aStartDate.setText(resultStart);
+                aEndDate.setText(resultEnd);
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //Write your code if there's no result
             }
         }
     }
@@ -299,32 +542,34 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
                     keys.put("id_tenant", mTenant);
                     keys.put("name", aName.getText().toString());
                     keys.put("slug", aName.getText().toString().replace(" ","-"));
-                    keys.put("brand", aMerk.getText().toString());
+                    keys.put("brand", aMerk.getSelectedItem().toString());
                     keys.put("type", aType.getText().toString());
                     keys.put("subcategory", subcategory.getSelectedItem().toString());
                     keys.put("year", aYear.getText().toString());
-                    keys.put("no_stnk", aRegNum.getText().toString());
-                    keys.put("colour", aColor.getText().toString());
-                    keys.put("engine_capacity", aEngCap.getText().toString());
-                    keys.put("license_plat", aPlat.getText().toString());
+                    keys.put("colour", aColor.getSelectedItem().toString());
+                    keys.put("engine_capacity", aEngCap.getSelectedItem().toString());
+                    keys.put("license_plat", aPlatStart.getText().toString()+" "+aPlat.getText().toString()+" "+aPlatEnd.getText().toString());
                     keys.put("transmission", aTransmisionButton.getText().toString());
-                    keys.put("fuel", aFuel.getText().toString());
+                    keys.put("fuel", aFuel.getSelectedItem().toString());
                     keys.put("insurance", String.valueOf(aAssurace.isChecked()));
-                    keys.put("insurance_price", aAsuracePrice.getText().toString());
                     keys.put("min_rent_day", aMinDayRent.getText().toString());
+                    keys.put("delivery_method", aDeliveryMethod);
                     keys.put("address", aAddress);
                     keys.put("rent_package", aRentPackage);
                     keys.put("latitude", aLatitude);
                     keys.put("longitude", aLongitude);
-                    if(!imgString.equals("null")){
-                        keys.put("file", imgString);
+                    if(!imgStringSTNK.isEmpty()) {
+                        keys.put("stnk", imgStringSTNK);
+                    }
+                    if(!isiimage.isEmpty()){
+                        keys.put("file", isiimage);
                     }
 
                     //Keys Pricing
                     ArrayList<String> pricingArray = new ArrayList<String>();
                     JSONObject priceBasicObject = new JSONObject();
                     try {
-                        priceBasicObject.put("price", aBasicPrice.getText().toString());
+                        priceBasicObject.put("price", aBasicPrice.getText().toString().replace(",",""));
                         priceBasicObject.put("range_name","BASECOST");
                         priceBasicObject.put("start_date","1970-01-01");
                         priceBasicObject.put("end_date","1970-01-01");
@@ -334,13 +579,13 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-                    if(aPriceAdvance.getText().length() > 0){
+                    if(!aAdvancePrice.getText().toString().isEmpty()) {
                         for (int i = 0; i < 1; i++) {
                             Map<String, String> pricingObject = new HashMap<String, String>();
                             pricingObject.put("\"range_name\"", "\"" + aRangName.getText().toString() + "\"");
                             pricingObject.put("\"start_date\"", "\"" + aStartDate.getText().toString() + "\"");
                             pricingObject.put("\"end_date\"", "\"" + aEndDate.getText().toString() + "\"");
-                            pricingObject.put("\"price\"", "\"" + aPriceAdvance.getText().toString() + "\"");
+                            pricingObject.put("\"price\"", "\"" + aAdvancePrice.getText().toString().replace(",", "") + "\"");
 
                             pricingArray.add(pricingObject.toString().replace("=", ":"));
                         }
@@ -433,32 +678,34 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
                     keys.put("id_asset", mIdAset);
                     keys.put("name", aName.getText().toString());
                     keys.put("slug", aName.getText().toString().replace(" ","-"));
-                    keys.put("brand", aMerk.getText().toString());
+                    keys.put("brand", aMerk.getSelectedItem().toString());
                     keys.put("type", aType.getText().toString());
                     keys.put("subcategory", subcategory.getSelectedItem().toString());
                     keys.put("year", aYear.getText().toString());
-                    keys.put("no_stnk", aRegNum.getText().toString());
-                    keys.put("colour", aColor.getText().toString());
-                    keys.put("engine_capacity", aEngCap.getText().toString());
-                    keys.put("license_plat", aPlat.getText().toString());
+                    keys.put("colour", aColor.getSelectedItem().toString());
+                    keys.put("engine_capacity", aEngCap.getSelectedItem().toString());
+                    keys.put("license_plat", aPlatStart.getText().toString()+" "+aPlat.getText().toString()+" "+aPlatEnd.getText().toString());
                     keys.put("transmission", aTransmisionButton.getText().toString());
-                    keys.put("fuel", aFuel.getText().toString());
+                    keys.put("fuel", aFuel.getSelectedItem().toString());
                     keys.put("insurance", String.valueOf(aAssurace.isChecked()));
-                    keys.put("insurance_price", aAsuracePrice.getText().toString());
                     keys.put("min_rent_day", aMinDayRent.getText().toString());
+                    keys.put("delivery_method", aDeliveryMethod);
                     keys.put("address", aAddress);
                     keys.put("rent_package", aRentPackage);
                     keys.put("latitude", aLatitude);
                     keys.put("longitude", aLongitude);
-                    if(!imgString.equals("null")){
-                        keys.put("file", imgString);
+//                    if(!imgStringSTNK.isEmpty()) {
+//                        keys.put("stnk", imgStringSTNK);
+//                    }
+                    if(!isiimage.isEmpty()){
+                        keys.put("file", isiimage);
                     }
 
                     //Keys Pricing
                     ArrayList<String> pricingArray = new ArrayList<String>();
                     JSONObject priceBasicObject = new JSONObject();
                     try {
-                        priceBasicObject.put("price", aBasicPrice.getText().toString());
+                        priceBasicObject.put("price", aBasicPrice.getText().toString().replace(",",""));
                         priceBasicObject.put("range_name","BASECOST");
                         priceBasicObject.put("start_date","1970-01-01");
                         priceBasicObject.put("end_date","1970-01-01");
@@ -468,18 +715,17 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-                    if(!aPriceAdvance.getText().toString().equals("null")){
+                    if(!aAdvancePrice.getText().toString().isEmpty()) {
                         for (int i = 0; i < 1; i++) {
                             Map<String, String> pricingObject = new HashMap<String, String>();
-                            pricingObject.put("\"range_name\"","\""+aRangName.getText().toString()+"\"");
-                            pricingObject.put("\"start_date\"","\""+aStartDate.getText().toString()+"\"");
-                            pricingObject.put("\"end_date\"","\""+aEndDate.getText().toString()+"\"");
-                            pricingObject.put("\"price\"","\""+aPriceAdvance.getText().toString()+"\"");
+                            pricingObject.put("\"range_name\"", "\"" + aRangName.getText().toString() + "\"");
+                            pricingObject.put("\"start_date\"", "\"" + aStartDate.getText().toString() + "\"");
+                            pricingObject.put("\"end_date\"", "\"" + aEndDate.getText().toString() + "\"");
+                            pricingObject.put("\"price\"", "\"" + aAdvancePrice.getText().toString().replace(",", "") + "\"");
 
-                            pricingArray.add(pricingObject.toString().replace("=",":"));
+                            pricingArray.add(pricingObject.toString().replace("=", ":"));
                         }
                     }
-
                     keys.put("price", pricingArray.toString());
                     Log.e(TAG, "Post Data : " + keys.toString());
                     return keys;
