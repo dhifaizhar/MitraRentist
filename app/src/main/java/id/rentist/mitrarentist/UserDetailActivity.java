@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +25,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.github.ybq.android.spinkit.SpinKitView;
+import com.github.ybq.android.spinkit.style.FadingCircle;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -41,6 +44,7 @@ public class UserDetailActivity extends AppCompatActivity {
     private ProgressDialog pDialog;
     private SessionManager sm;
     private Intent detIntent;
+    private SpinKitView pBar;
 
     Integer aId;
     String changeStatus = "active", tenant, profilpicStr;
@@ -58,6 +62,10 @@ public class UserDetailActivity extends AppCompatActivity {
 
         detIntent = getIntent();
         sm = new SessionManager(getApplicationContext());
+        pBar = (SpinKitView)findViewById(R.id.progressBar);
+        FadingCircle fadingCircle = new FadingCircle();
+        pBar.setIndeterminateDrawable(fadingCircle);
+
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
 
@@ -85,8 +93,7 @@ public class UserDetailActivity extends AppCompatActivity {
     }
 
     private void detUserTenant(String tenant, Integer id) {
-        pDialog.setMessage("loading ...");
-        showProgress(true);
+        pBar.setVisibility(View.VISIBLE);
         new getDetUserTask(tenant, id).execute();
     }
 
@@ -147,7 +154,7 @@ public class UserDetailActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String user) {
             mDetailUserTask = null;
-            showProgress(false);
+            pBar.setVisibility(View.GONE);
 
             if(user != null){
                 try {
@@ -180,7 +187,7 @@ public class UserDetailActivity extends AppCompatActivity {
         @Override
         protected void onCancelled() {
             mDetailUserTask = null;
-            showProgress(false);
+            pBar.setVisibility(View.GONE);
         }
 
     }
@@ -318,13 +325,11 @@ public class UserDetailActivity extends AppCompatActivity {
 
             if(User != null){
                 Toast.makeText(getApplicationContext(),"Data berhasil dihapus", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(UserDetailActivity.this,UsersActivity.class);
-                setResult(RESULT_OK, intent);
+                new Intent(UserDetailActivity.this,UsersActivity.class);
                 finish();
             }else{
                 Toast.makeText(getApplicationContext(),"Gagal menghapus data", Toast.LENGTH_LONG).show();
             }
-
         }
 
         @Override

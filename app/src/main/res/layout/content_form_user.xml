@@ -110,6 +110,32 @@
                 android:padding="@dimen/xmin_padding">
 
                 <TextView
+                    android:id="@+id/textView36"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Email"
+                    android:textColor="@color/colorBlack" />
+
+                <EditText
+                    android:id="@+id/fus_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorNearWhite"
+                    android:ems="10"
+                    android:hint="Email"
+                    android:imeOptions="actionNext"
+                    android:inputType="textEmailAddress"
+                    android:padding="@dimen/min_padding" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/xmin_padding"
+                android:orientation="vertical"
+                android:padding="@dimen/xmin_padding">
+
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Nomor Telepon"
@@ -144,32 +170,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="@dimen/xmin_padding"
-                android:orientation="vertical"
-                android:padding="@dimen/xmin_padding">
-
-                <TextView
-                    android:id="@+id/textView36"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Email"
-                    android:textColor="@color/colorBlack" />
-
-                <EditText
-                    android:id="@+id/fus_email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorNearWhite"
-                    android:ems="10"
-                    android:hint="Email"
-                    android:imeOptions="actionNext"
-                    android:inputType="textEmailAddress"
-                    android:padding="@dimen/min_padding" />
-            </LinearLayout>
-
-            <LinearLayout
+                android:id="@+id/layout_pass"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="@dimen/xmin_padding"
@@ -195,6 +196,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/layout_confirm_pass"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="@dimen/xmin_padding"
@@ -214,7 +216,7 @@
                     android:background="@color/colorNearWhite"
                     android:ems="10"
                     android:hint="Ulangi Kata Sandi"
-                    android:imeOptions="actionNext"
+                    android:imeOptions="actionDone"
                     android:inputType="textPassword"
                     android:padding="@dimen/min_padding" />
             </LinearLayout>

@@ -55,6 +55,7 @@
                         android:layout_alignParentTop="false"
                         android:layout_centerHorizontal="false"
                         android:layout_centerVertical="false"
+                        android:layout_marginBottom="@dimen/xmin_padding"
                         android:text="Nama User"
                         android:textColor="@color/colorBlack"
                         android:textSize="@dimen/medium_text"
@@ -64,15 +65,14 @@
                         android:id="@+id/user_role"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_below="@+id/user_name"
+                        android:layout_marginTop="@dimen/small_space"
                         android:background="@android:color/darker_gray"
                         android:paddingEnd="@dimen/xmin_padding"
                         android:paddingStart="@dimen/xmin_padding"
-                        android:layout_marginTop="@dimen/small_space"
                         android:text="Role User"
                         android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/small_text"
-                        android:layout_below="@+id/user_name"
-                         />
+                        android:textSize="14sp" />
 
                 </RelativeLayout>
 

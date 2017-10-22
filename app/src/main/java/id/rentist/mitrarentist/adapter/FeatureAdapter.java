@@ -54,7 +54,6 @@ public class FeatureAdapter extends RecyclerView.Adapter<FeatureAdapter.ViewHold
     private ProgressDialog pDialog;
     private static final String TAG = "FeatureAdapter";
     private static final String TOKEN = "secretissecret";
-    String feature_url;
 
     public FeatureAdapter(final Context context, final List<ItemFeatureModul> mFeature){
         super();
@@ -77,9 +76,7 @@ public class FeatureAdapter extends RecyclerView.Adapter<FeatureAdapter.ViewHold
     }
 
     @Override
-    public void onClick(View v) {
-
-    }
+    public void onClick(View v) {}
 
     class ViewHolder extends RecyclerView.ViewHolder{
         private TextView nama, price, qty;
@@ -144,7 +141,7 @@ public class FeatureAdapter extends RecyclerView.Adapter<FeatureAdapter.ViewHold
     }
 
     private void deleteFeatureItem(final String id, final int position) {
-        showAlert = new AlertDialog.Builder(context);
+        showAlert = new AlertDialog.Builder(this.context);
         showAlert.setMessage("Hapus fitur tambahan ini ?");
         showAlert.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
             @Override
@@ -177,8 +174,9 @@ public class FeatureAdapter extends RecyclerView.Adapter<FeatureAdapter.ViewHold
 
         @Override
         protected String doInBackground(String... params) {
-            RequestQueue requestQueue = Volley.newRequestQueue(context);
-            feature_url = AppConfig.URL_DELETE_FEATURE;
+            String feature_url = AppConfig.URL_DELETE_FEATURE;
+            Log.e(TAG, "Feature Fetch URL: " + feature_url);
+            RequestQueue requestQueue = Volley.newRequestQueue(context.getApplicationContext());
             StringRequest stringRequest = new StringRequest(Request.Method.PUT, feature_url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
@@ -222,27 +220,28 @@ public class FeatureAdapter extends RecyclerView.Adapter<FeatureAdapter.ViewHold
         }
 
         @Override
-        protected void onPostExecute(String user) {
+        protected void onPostExecute(String feature) {
             mFeatureTask = null;
             showProgress(false);
 
-            if(user != null){
+            if(feature != null){
+                Log.e(TAG, "Response Array: " + String.valueOf(feature));
                 try {
-                    JSONArray arr = new JSONArray(user);
+                    JSONArray arr = new JSONArray(feature);
                     Log.e(TAG, "Response Array: " + String.valueOf(arr));
 
                     if(arr.length() > 0){
                         for (int i = 0; i < arr.length(); i++) {
                             JSONObject obj = arr.getJSONObject(i);
+                            Toast.makeText(context,"Data berhasil dihapus", Toast.LENGTH_LONG).show();
+                            removeAt(mPosition);
                             Log.e(TAG, "Response : " + String.valueOf(obj));
                         }
                     }
-
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    Toast.makeText(context,"Gagal menghapus data", Toast.LENGTH_LONG).show();
                 }
-                Toast.makeText(context,"Data berhasil dihapus", Toast.LENGTH_LONG).show();
-                removeAt(mPosition);
             }else{
                 Toast.makeText(context,"Gagal menghapus data", Toast.LENGTH_LONG).show();
             }
