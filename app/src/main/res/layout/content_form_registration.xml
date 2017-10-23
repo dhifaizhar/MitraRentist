@@ -145,7 +145,7 @@
                             android:layout_toEndOf="@+id/country_code"
                             android:background="@color/colorNearWhite"
                             android:ems="10"
-                            android:hint="08xx xxxx xxxx"
+                            android:hint="8xx xxxx xxxx"
                             android:imeOptions="actionNext"
                             android:inputType="phone"
                             android:padding="@dimen/min_padding" />

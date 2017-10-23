@@ -751,7 +751,7 @@
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/colorGrey"
                                 android:layout_marginTop="@dimen/small_space"
-                                android:text="Harga yang ditampilkan (+20%):"
+                                android:text="Harga yang ditampilkan (+10%):"
                                 android:textSize="@dimen/almost_tiny_text" />
 
                             <TextView
@@ -928,7 +928,7 @@
                                     android:layout_height="wrap_content"
                                     android:textColor="@color/colorGrey"
                                     android:layout_marginTop="@dimen/small_space"
-                                    android:text="Harga yang ditampilkan (+20%):"
+                                    android:text="Harga yang ditampilkan (+10%):"
                                     android:textSize="@dimen/almost_tiny_text" />
 
                                 <TextView

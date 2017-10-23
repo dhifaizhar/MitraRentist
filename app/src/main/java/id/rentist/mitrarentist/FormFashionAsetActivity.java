@@ -139,7 +139,7 @@ public class FormFashionAsetActivity extends AppCompatActivity {
                 if(!aBasicPrice.getText().toString().isEmpty()){
                     Integer price = Integer.parseInt(aBasicPrice.getText().toString().replace(",",""));
 
-                    Integer priceFee = price + (price/100*20);
+                    Integer priceFee = price + (price/100*10);
 
                     NumberFormat formatter = NumberFormat.getInstance(Locale.GERMANY);
                     String currency = formatter.format(priceFee) + " IDR" ;
@@ -166,7 +166,7 @@ public class FormFashionAsetActivity extends AppCompatActivity {
                 if(!aAdvancePrice.getText().toString().isEmpty()){
                     Integer price = Integer.parseInt(aAdvancePrice.getText().toString().replace(",",""));
 
-                    Integer priceFee = price + (price/100*20);
+                    Integer priceFee = price + (price/100*10);
 
                     NumberFormat formatter = NumberFormat.getInstance(Locale.GERMANY);
                     String currency = formatter.format(priceFee) + " IDR" ;

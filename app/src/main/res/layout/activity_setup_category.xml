@@ -62,7 +62,7 @@
                         android:layout_height="@dimen/med_padding"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="@dimen/min_padding"
-                        android:src="@drawable/mobil_24" />
+                        android:src="@drawable/mobil_32" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -94,7 +94,7 @@
                         android:layout_height="@dimen/med_padding"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="@dimen/min_padding"
-                        android:src="@drawable/motor_24" />
+                        android:src="@drawable/motor_32" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -126,7 +126,7 @@
                         android:layout_height="@dimen/med_padding"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="@dimen/min_padding"
-                        android:src="@drawable/yatch_24" />
+                        android:src="@drawable/yatch_32" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -158,7 +158,7 @@
                         android:layout_height="@dimen/med_padding"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="@dimen/min_padding"
-                        android:src="@drawable/medical_equipment_24" />
+                        android:src="@drawable/medical_equipment_32" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -190,7 +190,7 @@
                         android:layout_height="@dimen/med_padding"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="@dimen/min_padding"
-                        android:src="@drawable/camera_24" />
+                        android:src="@drawable/camera_32" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -222,7 +222,7 @@
                         android:layout_height="@dimen/med_padding"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="@dimen/min_padding"
-                        android:src="@drawable/mainan_anak_24" />
+                        android:src="@drawable/mainan_anak_32" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -254,7 +254,7 @@
                         android:layout_height="@dimen/med_padding"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="@dimen/min_padding"
-                        android:src="@drawable/adventure_24" />
+                        android:src="@drawable/adventure_36" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -286,7 +286,7 @@
                         android:layout_height="@dimen/med_padding"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="@dimen/min_padding"
-                        android:src="@drawable/maternity_24" />
+                        android:src="@drawable/maternity_32" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -317,7 +317,7 @@
                         android:layout_height="@dimen/med_padding"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="@dimen/min_padding"
-                        android:src="@drawable/elektronik_24" />
+                        android:src="@drawable/elektronik_36" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -349,7 +349,7 @@
                         android:layout_height="@dimen/med_padding"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="@dimen/min_padding"
-                        android:src="@drawable/sepeda_24" />
+                        android:src="@drawable/sepeda_32" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -381,7 +381,7 @@
                         android:layout_height="@dimen/med_padding"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="@dimen/min_padding"
-                        android:src="@drawable/office_equipmen_24" />
+                        android:src="@drawable/office_equipmen_32" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -413,7 +413,7 @@
                         android:layout_height="@dimen/med_padding"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="@dimen/min_padding"
-                        android:src="@drawable/cloth" />
+                        android:src="@drawable/fashion_36" />
 
                     <TextView
                         android:layout_width="wrap_content"

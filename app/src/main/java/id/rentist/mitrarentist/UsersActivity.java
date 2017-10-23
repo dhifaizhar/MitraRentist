@@ -239,14 +239,14 @@ public class UsersActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        if (mRecyclerView != null) {
-            mUser.clear();
-            mRecyclerView.setAdapter(null);
-        }
-        getUserDataList(tenant);
-    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//
+//        if (mRecyclerView != null) {
+//            mUser.clear();
+//            mRecyclerView.setAdapter(null);
+//        }
+//        getUserDataList(tenant);
+//    }
 }

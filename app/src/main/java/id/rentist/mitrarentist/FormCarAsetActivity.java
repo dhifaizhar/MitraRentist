@@ -64,7 +64,7 @@ public class FormCarAsetActivity extends AppCompatActivity {
 
     ImageView aImg, aImgSTNK;
     ImageButton btnCamSTNK, btnFileSTNK;
-    TextView aName,  aType, aPlat, aPlatStart, aPlatEnd, aYear,  aRegNum,
+    TextView aName,  aType, aPlat, aPlatStart, aPlatEnd, aYear, aSeat, aRegNum,
             aDesc, aRangName, aStartDate, aEndDate,
             aPriceAdvance, btnAdvancePrice, aMinRentDay,
             aBasicPriceDisp, aAdvancePriceDisp;
@@ -72,12 +72,13 @@ public class FormCarAsetActivity extends AppCompatActivity {
     LinearLayout conAdvancePrice;
     Integer idAsset;
     String aLatitude, aLongitude, aAddress, aRentPackage, tenant, category, encodedImage,
-            isiimage = "", ext, imgString, imgStringSTNK, aDriverStatus, aDeliveryMethod;
+            isiimage = "", ext, imgString, imgStringSTNK = "", aDriverStatus, aDeliveryMethod;
     CheckBox aAc, aAb, aDriver, aNoDriver, aAssurace, aDelivery, aPickup;
     RadioGroup aTransmisionGroup;
     RadioButton aTransmisionButton, rManual, rAuto;
     Button btnImgUpload;
-    Spinner subcategory, aMerk, aColor, aFuel, aEngCap, aSeat;
+    Spinner subcategory, aMerk, aColor, aFuel, aEngCap;//, aSeat;
+    String aPrice;
 
     private int PICK_IMAGE_REQUEST = 1;
     private int PICK_IMAGE_STNK_REQUEST = 2;
@@ -112,11 +113,11 @@ public class FormCarAsetActivity extends AppCompatActivity {
         aColor = (Spinner) findViewById(R.id.as_colour);
         aEngCap = (Spinner) findViewById(R.id.as_engcap);
         aFuel = (Spinner) findViewById(R.id.as_fuel_car);
-        aSeat = (Spinner) findViewById(R.id.as_seat_car);
+//        aSeat = (Spinner) findViewById(R.id.as_seat_car);
+        aSeat = (TextView) findViewById(R.id.as_seat);
         aName = (TextView) findViewById(R.id.as_name);
         aType = (TextView) findViewById(R.id.as_type);
         aYear = (TextView) findViewById(R.id.as_year);
-//        aRegNum = (TextView) findViewById(R.id.as_regnum);
         aPlat = (TextView) findViewById(R.id.as_plat);
         aPlatStart = (TextView) findViewById(R.id.as_plat_start);
         aPlatEnd = (TextView) findViewById(R.id.as_plat_end);
@@ -180,7 +181,7 @@ public class FormCarAsetActivity extends AppCompatActivity {
                 if(!aBasicPrice.getText().toString().isEmpty()){
                     Integer price = Integer.parseInt(aBasicPrice.getText().toString().replace(",",""));
 
-                    Integer priceFee = price + (price/100*20);
+                    Integer priceFee = price + (price/100*10);
 
                     NumberFormat formatter = NumberFormat.getInstance(Locale.GERMANY);
                     String currency = formatter.format(priceFee) + " IDR" ;
@@ -207,7 +208,7 @@ public class FormCarAsetActivity extends AppCompatActivity {
                 if(!aAdvancePrice.getText().toString().isEmpty()){
                     Integer price = Integer.parseInt(aAdvancePrice.getText().toString().replace(",",""));
 
-                    Integer priceFee = price + (price/100*20);
+                    Integer priceFee = price + (price/100*10);
 
                     NumberFormat formatter = NumberFormat.getInstance(Locale.GERMANY);
                     String currency = formatter.format(priceFee) + " IDR" ;
@@ -255,12 +256,9 @@ public class FormCarAsetActivity extends AppCompatActivity {
             aType.setText(iFormAsset.getStringExtra("type"));
             aYear.setText(iFormAsset.getStringExtra("year"));
             aMinRentDay.setText(iFormAsset.getStringExtra("min_rent_day"));
+            aSeat.setText(iFormAsset.getStringExtra("seat"));
 
             String plat = iFormAsset.getStringExtra("plat");
-//            aPlatStart.setText(plat.substring(0, plat.indexOf(" ")));
-//            aPlat.setText(plat.substring(plat.indexOf(" "), plat.indexOf(" ", 2)));
-//            aPlatEnd.setText(plat.substring(plat.indexOf(" ", 2)));
-
             String a,b,c;
              a = plat.substring(0, plat.indexOf(" ", 1));
             if (a.length()>1){
@@ -270,7 +268,6 @@ public class FormCarAsetActivity extends AppCompatActivity {
                 b = plat.substring(plat.indexOf(" "), plat.indexOf(" ", 2));
                 c = plat.substring(plat.indexOf(" ", 2));
             }
-
 
             aPlatStart.setText(a);
             aPlat.setText(b);
@@ -316,14 +313,14 @@ public class FormCarAsetActivity extends AppCompatActivity {
                 aFuel.setSelection(fuelPosition);
             }
 
-            String seatValue = iFormAsset.getStringExtra("seat");
-            ArrayAdapter<CharSequence> seatAdapter = ArrayAdapter.createFromResource(this, R.array.seats_entries, android.R.layout.simple_spinner_item);
-            seatAdapter.setDropDownViewResource(android.R.layout.select_dialog_item);
-            aSeat.setAdapter(seatAdapter);
-            if (!seatValue.equals(null)) {
-                int seatPosition = seatAdapter.getPosition(seatValue);
-                aSeat.setSelection(seatPosition);
-            }
+//            String seatValue = iFormAsset.getStringExtra("seat");
+//            ArrayAdapter<CharSequence> seatAdapter = ArrayAdapter.createFromResource(this, R.array.seats_entries, android.R.layout.simple_spinner_item);
+//            seatAdapter.setDropDownViewResource(android.R.layout.select_dialog_item);
+//            aSeat.setAdapter(seatAdapter);
+//            if (!seatValue.equals(null)) {
+//                int seatPosition = seatAdapter.getPosition(seatValue);
+//                aSeat.setSelection(seatPosition);
+//            }
 
             //Image
             if(!iFormAsset.getStringExtra("main_image").isEmpty()) {
@@ -339,15 +336,11 @@ public class FormCarAsetActivity extends AppCompatActivity {
             if (iFormAsset.getStringExtra("air_bag").equals("true")){aAb.setChecked(true);}
             if (iFormAsset.getStringExtra("air_cond").equals("true")){aAc.setChecked(true);}
 
-//            Log.e(TAG, "Transsmision :" + iFormAsset.getStringExtra("transsmision"));
             if(iFormAsset.getStringExtra("transmission").equals("manual")) {
-//                aTransmisionGroup.check(R.id.r_manual);
                 ((RadioButton)aTransmisionGroup.getChildAt(0)).setChecked(true);
-
             } else {
                 ((RadioButton)aTransmisionGroup.getChildAt(1)).setChecked(true);
             }
-//            aTransmisionGroup.check(iFormAsset.getStringExtra("transsmision").equals("manual")?R.id.r_manual:R.id.r_automatic);
 
             if (iFormAsset.getStringExtra("delivery_method").equals("both")){
                 aPickup.setChecked(true);
@@ -366,12 +359,12 @@ public class FormCarAsetActivity extends AppCompatActivity {
             }else if (iFormAsset.getStringExtra("driver").equals("false")){
                 aNoDriver.setChecked(true);
             }
-//            ArrayAdapter<CharSequence> colorAdapter = ArrayAdapter.createFromResource(this, R.array.color_entries, android.R.layout.simple_spinner_item);
-//            colorAdapter.setDropDownViewResource(android.R.layout.select_dialog_item);
-//            aColor.setAdapter(colorAdapter);
-//            if (!iFormAsset.getStringExtra("color").equals(null)) {
-//                int spinnerPosition = adapter.getPosition(iFormAsset.getStringExtra("color"));
-//                aColor.setSelection(spinnerPosition);
+
+//            aPrice = iFormAsset.getStringArrayListExtra("price");
+//            String jsonString = new Gson().toJson(aPrice);
+//            if (aPrice.length()>0){
+//                JSONArray priceArray =  new JSONArray(jsonString);
+//                Log.e(TAG, "Price :" + priceArray.toString());
 //            }
 
         }
@@ -430,7 +423,7 @@ public class FormCarAsetActivity extends AppCompatActivity {
                 if(iFormAsset.getStringExtra("action").equals("update")){
                     updateDataAset(category);
                 }else {
-                    if (imgStringSTNK.isEmpty()) {
+                    if (imgStringSTNK.equals("")) {
                         Toast.makeText(getApplicationContext(), "Harap Lengkapi Foto STNK", Toast.LENGTH_LONG).show();
                     } else
                         addDataAset(tenant);
@@ -590,7 +583,8 @@ public class FormCarAsetActivity extends AppCompatActivity {
                     keys.put("colour", aColor.getSelectedItem().toString());
                     keys.put("engine_capacity", aEngCap.getSelectedItem().toString());
                     keys.put("license_plat", aPlatStart.getText().toString()+" "+aPlat.getText().toString()+" "+aPlatEnd.getText().toString());
-                    keys.put("seat", aSeat.getSelectedItem().toString());
+//                    keys.put("seat", aSeat.getSelectedItem().toString())
+                    keys.put("seat", aSeat.getText().toString());
                     keys.put("air_bag", String.valueOf(aAb.isChecked()));
                     keys.put("air_conditioner", String.valueOf(aAc.isChecked()));
                     keys.put("transmission", aTransmisionButton.getText().toString());
@@ -663,7 +657,7 @@ public class FormCarAsetActivity extends AppCompatActivity {
             showProgress(false);
 
             if(aset != null){
-                Toast.makeText(getApplicationContext(),"Data sukses disimpan", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"Data sukses disimpan, Aset sedang di verifikasi", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(FormCarAsetActivity.this,AsetListActivity.class);
                 intent.putExtra("id_category", 1);
                 setResult(RESULT_OK, intent);
@@ -734,7 +728,7 @@ public class FormCarAsetActivity extends AppCompatActivity {
                     keys.put("colour", aColor.getSelectedItem().toString());
                     keys.put("engine_capacity", aEngCap.getSelectedItem().toString());
                     keys.put("license_plat", aPlatStart.getText().toString()+" "+aPlat.getText().toString()+" "+aPlatEnd.getText().toString());
-                    keys.put("seat", aSeat.getSelectedItem().toString());
+                    keys.put("seat", aSeat.getText().toString());
                     keys.put("air_bag", String.valueOf(aAb.isChecked()));
                     keys.put("air_conditioner", String.valueOf(aAc.isChecked()));
                     keys.put("transmission", aTransmisionButton.getText().toString());

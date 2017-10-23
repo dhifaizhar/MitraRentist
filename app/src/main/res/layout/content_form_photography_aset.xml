@@ -461,7 +461,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/small_space"
-                                android:text="Harga yang ditampilkan (+20%):"
+                                android:text="Harga yang ditampilkan (+10%):"
                                 android:textColor="@color/colorGrey"
                                 android:textSize="@dimen/almost_tiny_text" />
 
@@ -624,7 +624,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="@dimen/small_space"
-                                    android:text="Harga yang ditampilkan (+20%):"
+                                    android:text="Harga yang ditampilkan (+10%):"
                                     android:textColor="@color/colorGrey"
                                     android:textSize="@dimen/almost_tiny_text" />
 

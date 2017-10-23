@@ -216,6 +216,14 @@
         <item>Other</item>
     </string-array>
 
+    <string-array name="office_subcategory_entries">
+        <item>Copy Machine</item>
+        <item>Furniture</item>
+        <item>Computer</item>
+        <item>Printer</item>
+        <item>Other</item>
+    </string-array>
+
     <string-array name="fashion_subcategory_entries">
         <item>Wedding</item>
         <item>Costume</item>
@@ -316,14 +324,6 @@
         <item>3500cc</item>
         <item>4000cc</item>
         <item>4500cc</item>
-        <item>Lainnya</item>
-    </string-array>
-
-    <string-array name="engine_cap_entries">
-        <item>Pertamax</item>
-        <item>Pertamax Plus</item>
-        <item>Pertalite</item>
-        <item>Premium</item>
         <item>Lainnya</item>
     </string-array>
 

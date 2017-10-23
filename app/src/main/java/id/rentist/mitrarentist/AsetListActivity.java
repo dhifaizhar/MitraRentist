@@ -277,6 +277,7 @@ public class AsetListActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_refresh_option, menu);
         getMenuInflater().inflate(R.menu.menu_add_option, menu);
         return true;
     }
@@ -373,6 +374,12 @@ public class AsetListActivity extends AppCompatActivity {
                     startActivityForResult(iAddAset, 2);
                     break;
             }
+        }
+
+        if(id == R.id.action_refresh) {
+            mAset.clear();
+            pBar.setVisibility(View.VISIBLE);
+            getAssetDataList(category);
         }
 
         return super.onOptionsItemSelected(item);

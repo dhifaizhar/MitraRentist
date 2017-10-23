@@ -356,7 +356,7 @@ public class DashboardActivity extends AppCompatActivity
                     successRent.setText(dataObject.getString("sukses"));
                     ongoRent.setText(dataObject.getString("berlangsung"));
 
-                    int saldo = dataObject.getInt("berlangsung");
+                    int saldo = dataObject.getInt("saldo");
 //                    DecimalFormat formatter = new DecimalFormat("#.###.###");
                     NumberFormat formatter = NumberFormat.getInstance(Locale.GERMANY);
                     String currency = formatter.format(saldo) + " IDR" ;
@@ -450,6 +450,10 @@ public class DashboardActivity extends AppCompatActivity
             }
         }else{
             imgString = "";
+        }
+
+        if(resultCode == RESULT_OK) {
+            retrieveDashboardData(tenant);
         }
     }
 
@@ -563,7 +567,7 @@ public class DashboardActivity extends AppCompatActivity
             startActivity(iDompet);
         } else if (id == R.id.nav_riwayat) {
             Intent iRiwayat = new Intent(DashboardActivity.this, TransactionActivity.class);
-            startActivity(iRiwayat);
+            startActivityForResult(iRiwayat, 99);
         } else if (id == R.id.nav_message) {
             Intent iMessage = new Intent(DashboardActivity.this, MessageListActivity.class);
             startActivity(iMessage);

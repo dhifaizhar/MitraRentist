@@ -128,7 +128,7 @@ public class GridAsetAdapter extends RecyclerView.Adapter<GridAsetAdapter.ViewHo
             category = new ItemCategoryModul();
             category.setId(12);
             category.setTitle("Pakaian");
-            category.setThumbnail(R.drawable.cloth);
+            category.setThumbnail(R.drawable.fashion);
             itemCategory.add(category);
         }
 

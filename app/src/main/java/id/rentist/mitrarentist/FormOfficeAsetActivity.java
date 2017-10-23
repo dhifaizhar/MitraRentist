@@ -137,7 +137,7 @@ public class FormOfficeAsetActivity extends AppCompatActivity {
                 if(!aBasicPrice.getText().toString().isEmpty()){
                     Integer price = Integer.parseInt(aBasicPrice.getText().toString().replace(",",""));
 
-                    Integer priceFee = price + (price/100*20);
+                    Integer priceFee = price + (price/100*10);
 
                     NumberFormat formatter = NumberFormat.getInstance(Locale.GERMANY);
                     String currency = formatter.format(priceFee) + " IDR" ;
@@ -164,7 +164,7 @@ public class FormOfficeAsetActivity extends AppCompatActivity {
                 if(!aAdvancePrice.getText().toString().isEmpty()){
                     Integer price = Integer.parseInt(aAdvancePrice.getText().toString().replace(",",""));
 
-                    Integer priceFee = price + (price/100*20);
+                    Integer priceFee = price + (price/100*10);
 
                     NumberFormat formatter = NumberFormat.getInstance(Locale.GERMANY);
                     String currency = formatter.format(priceFee) + " IDR" ;
@@ -230,7 +230,7 @@ public class FormOfficeAsetActivity extends AppCompatActivity {
 
             //spinner
             String compareValue = iFormAsset.getStringExtra("subcat");
-            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.medic_subcategory_entries, android.R.layout.simple_spinner_item);
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.office_subcategory_entries, android.R.layout.simple_spinner_item);
             adapter.setDropDownViewResource(android.R.layout.select_dialog_item);
             subcategory.setAdapter(adapter);
             Log.e(TAG, "Value Sub Cat: " + compareValue);

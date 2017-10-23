@@ -79,7 +79,7 @@ public class FormAdventureAsetActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form_adventure_aset);
-        setTitle("Form Fotografi");
+        setTitle("Form Olahraga & Petualangan");
 
         iFormAsset = getIntent();
         sm = new SessionManager(getApplicationContext());
@@ -136,7 +136,7 @@ public class FormAdventureAsetActivity extends AppCompatActivity {
                 if(!aBasicPrice.getText().toString().isEmpty()){
                     Integer price = Integer.parseInt(aBasicPrice.getText().toString().replace(",",""));
 
-                    Integer priceFee = price + (price/100*20);
+                    Integer priceFee = price + (price/100*10);
 
                     NumberFormat formatter = NumberFormat.getInstance(Locale.GERMANY);
                     String currency = formatter.format(priceFee) + " IDR" ;
@@ -163,7 +163,7 @@ public class FormAdventureAsetActivity extends AppCompatActivity {
                 if(!aAdvancePrice.getText().toString().isEmpty()){
                     Integer price = Integer.parseInt(aAdvancePrice.getText().toString().replace(",",""));
 
-                    Integer priceFee = price + (price/100*20);
+                    Integer priceFee = price + (price/100*10);
 
                     NumberFormat formatter = NumberFormat.getInstance(Locale.GERMANY);
                     String currency = formatter.format(priceFee) + " IDR" ;

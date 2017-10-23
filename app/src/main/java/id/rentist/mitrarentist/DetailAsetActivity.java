@@ -78,6 +78,8 @@ public class DetailAsetActivity extends AppCompatActivity {
             model, length, beam, gross_ton, draft, cruise_speed, top_speed, builder, naval, int_design, ext_design,
             guest, cabin, crew;
 
+    ArrayList aPrice;
+
     LinearLayout cCarMotor, cCarOnly, cYachtInfo, cYachtFeature, rDesc;
     ImageView imgThumbnail, no_stnk;
 
@@ -267,6 +269,7 @@ public class DetailAsetActivity extends AppCompatActivity {
 
                             if(priceArray.length() > 0){
                                 for (int j = 0; j < priceArray.length(); j++) {
+//                                    aPrice.add(priceArray.getString(j));
                                     JSONObject priceObject = priceArray.getJSONObject(j);
 
                                     PriceModul priceModul = new PriceModul();
@@ -349,7 +352,7 @@ public class DetailAsetActivity extends AppCompatActivity {
                                     year.setText(aYear);
                                     color.setText(aColor);
                                     transmission.setText(aTransmission);
-                                    engine_cap.setText(aEngineCap);
+                                    engine_cap.setText(aEngineCap + "cc");
                                     fuel.setText(aFuel);
                                     break;
                                 case "3":
@@ -686,7 +689,7 @@ public class DetailAsetActivity extends AppCompatActivity {
                     iAsetEdit.putExtra("delivery_method", aDeliveryMethod);
                     iAsetEdit.putExtra("cat", aCat);
                     iAsetEdit.putExtra("subcat", aSubCat);
-                    startActivity(iAsetEdit);
+//                    iAsetEdit.putStringArrayListExtra("price", aPrice);                    startActivity(iAsetEdit);
                     break;
                 case "2":
                     iAsetEdit = new Intent(DetailAsetActivity.this, FormMotorcycleAsetActivity.class);

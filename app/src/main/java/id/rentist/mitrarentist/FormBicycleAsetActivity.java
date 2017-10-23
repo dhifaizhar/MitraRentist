@@ -88,7 +88,7 @@ public class FormBicycleAsetActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form_bicycle);
-        setTitle("Aset Form");
+        setTitle("Aset Sepeda");
 
         iFormAsset = getIntent();
         sm = new SessionManager(getApplicationContext());
@@ -521,7 +521,7 @@ public class FormBicycleAsetActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... params) {
-            String URL = AppConfig.URL_MOBIL;
+            String URL = AppConfig.URL_BICYCLE;
             RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
             StringRequest stringRequest = new StringRequest(Request.Method.PUT, URL, new Response.Listener<String>() {
                 @Override

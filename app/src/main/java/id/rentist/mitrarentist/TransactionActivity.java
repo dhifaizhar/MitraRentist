@@ -1,5 +1,6 @@
 package id.rentist.mitrarentist;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -163,7 +164,6 @@ public class TransactionActivity extends AppCompatActivity {
             mTransactionTask = null;
 //            showProgress(false);
             pBar.setVisibility(View.GONE);
-
         }
     }
 
@@ -171,7 +171,6 @@ public class TransactionActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_refresh_option, menu);
         getMenuInflater().inflate(R.menu.menu_search_option, menu);
-
 
         return true;
     }
@@ -198,6 +197,10 @@ public class TransactionActivity extends AppCompatActivity {
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
+        Intent intent = new Intent(TransactionActivity.this,DashboardActivity.class);
+        setResult(RESULT_OK, intent);
+        this.finish();
+
         return true;
     }
 }

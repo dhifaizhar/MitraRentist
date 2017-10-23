@@ -16,6 +16,7 @@ import java.util.List;
 import id.rentist.mitrarentist.R;
 import id.rentist.mitrarentist.TransDetailActivity;
 import id.rentist.mitrarentist.modul.ItemTransaksiModul;
+import id.rentist.mitrarentist.tools.NumberFormater;
 
 public class TransactionAcceptAdapter extends RecyclerView.Adapter<TransactionAcceptAdapter.ViewHolder> {
     private List<ItemTransaksiModul> mTransaksi;
@@ -54,8 +55,6 @@ public class TransactionAcceptAdapter extends RecyclerView.Adapter<TransactionAc
             endDate = (TextView) itemView.findViewById(R.id.tr_acc_end_date);
             asetName = (TextView) itemView.findViewById(R.id.tr_acc_aset);
             cardDetTrans = (CardView) itemView.findViewById(R.id.card_view_acctransaksi);
-
-
         }
     }
 
@@ -71,7 +70,7 @@ public class TransactionAcceptAdapter extends RecyclerView.Adapter<TransactionAc
 
         //  simpan value dalam object
         viewHolder.transCode.setText(trx.getCodeTrans());
-        viewHolder.nominal.setText(trx.getPrice());
+        viewHolder.nominal.setText(NumberFormater.PriceStringFormat(trx.getPrice()));
         viewHolder.asetName.setText(aset);
         viewHolder.member.setText(member);
         viewHolder.stardDate.setText(startDate);
@@ -83,7 +82,7 @@ public class TransactionAcceptAdapter extends RecyclerView.Adapter<TransactionAc
                 iDetTrans.putExtra("status", "accepted");
                 iDetTrans.putExtra("id_trans", trx.getIdTrans());
                 iDetTrans.putExtra("code_trans", viewHolder.transCode.getText());
-                iDetTrans.putExtra("price", viewHolder.nominal.getText());
+                iDetTrans.putExtra("price", trx.getPrice());
                 iDetTrans.putExtra("aset", trx.getAsetName());
                 iDetTrans.putExtra("member", viewHolder.member.getText());
                 iDetTrans.putExtra("startDate", trx.getStartDate());

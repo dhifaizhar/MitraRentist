@@ -215,6 +215,9 @@
             android:name=".FormOfficeAsetActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".FormFashionAsetActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".RegistrationActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

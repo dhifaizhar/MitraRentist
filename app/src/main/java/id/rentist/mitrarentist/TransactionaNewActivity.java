@@ -151,6 +151,7 @@ public class TransactionaNewActivity extends AppCompatActivity {
                             Log.e(TAG, "Transaction Data : " + String.valueOf(transObject));
 
                             JSONObject idTrans = transObject.getJSONObject("id_transaction");
+                            JSONObject memberObject = transObject.getJSONObject("id_member");
                             JSONArray items = transObject.getJSONArray("item");
                             JSONObject item;
 
@@ -162,14 +163,12 @@ public class TransactionaNewActivity extends AppCompatActivity {
                                     item = items.getJSONObject(0);
                                     aAsetName = item.getString("brand") + " " + item.getString("type") + " | " + item.getString("license_plat");
 
-                                } else {
-
                                 }
                             }
 
                             aCodeTrans = idTrans.getString("transaction_code");
-                            aNominal = transObject.getString("nominal") + " IDR";
-                            aMember = transObject.getString("firstname") + " " + transObject.getString("lastname");
+                            aNominal = transObject.getString("nominal");
+                            aMember = memberObject.getString("firstname") + " " + memberObject.getString("lastname");
                             aStartDate = transObject.getString("start_date").replace("-","/").substring(0,10);
                             aEndDate = transObject.getString("end_date").replace("-","/").substring(0,10);
 
@@ -181,7 +180,6 @@ public class TransactionaNewActivity extends AppCompatActivity {
                             itemTrans.setPrice(aNominal);
                             itemTrans.setStartDate(aStartDate);
                             itemTrans.setEndDate(aEndDate);
-
 
                             mTrans.add(itemTrans);
                         }

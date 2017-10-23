@@ -192,7 +192,7 @@ public class TransactionAcceptFragment extends Fragment {
                             }
 
                             aCodeTrans = idTrans.getString("transaction_code");
-                            aNominal = transObject.getString("nominal") + " IDR";
+                            aNominal = transObject.getString("nominal");
                             aMember = transObject.getString("firstname") + " " + transObject.getString("lastname");
                             aStartDate = transObject.getString("start_date").replace("-","/").substring(0,10);
                             aEndDate = transObject.getString("end_date").replace("-","/").substring(0,10);

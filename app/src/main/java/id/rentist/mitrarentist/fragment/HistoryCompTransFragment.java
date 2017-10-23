@@ -81,8 +81,6 @@ public class HistoryCompTransFragment extends Fragment {
 
         noTransImage = (LinearLayout) view.findViewById(R.id.no_trans);
         noTransText = (TextView) view.findViewById(R.id.no_trans_text);
-//        pDialog = new ProgressDialog(getActivity());
-//        pDialog.setCancelable(false);
 
         // action retrieve data history
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));

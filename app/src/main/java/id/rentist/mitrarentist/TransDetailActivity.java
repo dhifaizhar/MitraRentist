@@ -38,6 +38,7 @@ import java.util.Map;
 
 import id.rentist.mitrarentist.fragment.DriverDialogFragment;
 import id.rentist.mitrarentist.tools.AppConfig;
+import id.rentist.mitrarentist.tools.NumberFormater;
 import id.rentist.mitrarentist.tools.SessionManager;
 
 public class TransDetailActivity extends AppCompatActivity {
@@ -54,7 +55,7 @@ public class TransDetailActivity extends AppCompatActivity {
     TextView mAset, mPrice, mCodeTrans, mMember, mStartDate, mEndDate;
 
     private static final int CAMERA_REQUEST = 1888;
-    String str64b, imgString, imgExt, tenant;
+    String str64b, imgString = "", imgExt, tenant;
 
     private static final String TAG = "DetailTransActivity";
     private static final String TOKEN = "secretissecret";
@@ -125,7 +126,7 @@ public class TransDetailActivity extends AppCompatActivity {
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
         transId = itransDet.getStringExtra("id_trans");
         mAset.setText(itransDet.getStringExtra("aset"));
-        mPrice.setText(itransDet.getStringExtra("price"));
+        mPrice.setText(NumberFormater.PriceFormat(Integer.parseInt(itransDet.getStringExtra("price"))));
         mCodeTrans.setText(itransDet.getStringExtra("code_trans"));
         mMember.setText(itransDet.getStringExtra("member"));
         mStartDate.setText(itransDet.getStringExtra("startDate"));
@@ -138,6 +139,7 @@ public class TransDetailActivity extends AppCompatActivity {
 
             btnCamera = (ImageButton) findViewById(R.id.btn_camera);
             btnCreatePopup = (Button) findViewById(R.id.btn_assign_driver);
+
             btnCamera.setVisibility(View.VISIBLE);
             btnCreatePopup.setVisibility(View.VISIBLE);
 
@@ -162,7 +164,11 @@ public class TransDetailActivity extends AppCompatActivity {
             btnAction.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if (imgString.equals("")){
+                        Toast.makeText(getApplicationContext(),"Harap masukan bukti aset berhasil diantar", Toast.LENGTH_LONG).show();
+                    }else{
                     transAction(transId);
+                    }
                 }
             });
 
@@ -231,9 +237,17 @@ public class TransDetailActivity extends AppCompatActivity {
         pDialog.setMessage("loading ...");
         showProgress(true);
         if(itransDet.getStringExtra("status").equals("accepted")){
-            new TransDetailActivity.postTransDropTask(transId).execute();
+            if (imgString.equals("")){
+                Toast.makeText(getApplicationContext(),"Aset berhasil diantar", Toast.LENGTH_LONG).show();
+            } else {
+                new TransDetailActivity.postTransDropTask(transId).execute();
+            }
         } else if (itransDet.getStringExtra("status").equals("ongoing")) {
-            new TransDetailActivity.postTransTakeTask(transId).execute();
+            if (imgString.equals("")){
+                Toast.makeText(getApplicationContext(),"Aset berhasil diambil", Toast.LENGTH_LONG).show();
+            } else {
+                new TransDetailActivity.postTransTakeTask(transId).execute();
+            }
         }
     }
 
@@ -372,7 +386,7 @@ public class TransDetailActivity extends AppCompatActivity {
             showProgress(false);
 
             if(voucher != null){
-                Toast.makeText(getApplicationContext(),"Data sukses disimpan", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"Aset berhasil diantar", Toast.LENGTH_LONG).show();
                 finish();
             }else{
                 Toast.makeText(getApplicationContext(),"Gagal meyimpan data", Toast.LENGTH_LONG).show();

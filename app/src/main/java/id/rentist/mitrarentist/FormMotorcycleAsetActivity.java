@@ -71,7 +71,7 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
 
     Integer idAsset;
     String aLatitude, aLongitude, aAddress, aRentPackage, tenant, category,
-            isiimage = "", ext, imgString, imgStringSTNK, aDeliveryMethod;
+            isiimage = "", ext, imgString, imgStringSTNK = "", aDeliveryMethod;
     CheckBox aAssurace, aDelivery, aPickup;
     RadioGroup aTransmisionGroup;
     RadioButton aTransmisionButton;
@@ -193,7 +193,7 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
                 if(!aBasicPrice.getText().toString().isEmpty()){
                     Integer price = Integer.parseInt(aBasicPrice.getText().toString().replace(",",""));
 
-                    Integer priceFee = price + (price/100*20);
+                    Integer priceFee = price + (price/100*10);
 
                     NumberFormat formatter = NumberFormat.getInstance(Locale.GERMANY);
                     String currency = formatter.format(priceFee) + " IDR" ;
@@ -220,7 +220,7 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
                 if(!aAdvancePrice.getText().toString().isEmpty()){
                     Integer price = Integer.parseInt(aAdvancePrice.getText().toString().replace(",",""));
 
-                    Integer priceFee = price + (price/100*20);
+                    Integer priceFee = price + (price/100*10);
 
                     NumberFormat formatter = NumberFormat.getInstance(Locale.GERMANY);
                     String currency = formatter.format(priceFee) + " IDR" ;
@@ -270,13 +270,19 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
             aMinDayRent.setText(iFormAsset.getStringExtra("min_rent_day"));
 
             String plat = iFormAsset.getStringExtra("plat");
-            aPlatStart.setText(plat.substring(0, plat.indexOf(" ")));
-            aPlat.setText(plat.substring(plat.indexOf(" ")+1, plat.indexOf(" ", 2)));
-            aPlatEnd.setText(plat.substring(plat.indexOf(" ", 2)));
+            String a,b,c;
+            a = plat.substring(0, plat.indexOf(" ", 1));
+            if (a.length()>1){
+                b = plat.substring(plat.indexOf(" ")+1, plat.indexOf(" ", 3));
+                c = plat.substring(plat.indexOf(" ", 3));
+            }else{
+                b = plat.substring(plat.indexOf(" "), plat.indexOf(" ", 2));
+                c = plat.substring(plat.indexOf(" ", 2));
+            }
 
             //spinner
             String compareValue = iFormAsset.getStringExtra("subcat");
-            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.asset_subcategory_entries, android.R.layout.simple_spinner_item);
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.motorcycle_subcategory_entries, android.R.layout.simple_spinner_item);
             adapter.setDropDownViewResource(android.R.layout.select_dialog_item);
             subcategory.setAdapter(adapter);
             Log.e(TAG, "Value Sub Cat: " + compareValue);
@@ -286,7 +292,7 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
             }
 
             String merkValue = iFormAsset.getStringExtra("merk");
-            ArrayAdapter<CharSequence> merkAdapter = ArrayAdapter.createFromResource(this, R.array.car_brand_entries, android.R.layout.simple_spinner_item);
+            ArrayAdapter<CharSequence> merkAdapter = ArrayAdapter.createFromResource(this, R.array.motorcycle_subcategory_entries, android.R.layout.simple_spinner_item);
             merkAdapter.setDropDownViewResource(android.R.layout.select_dialog_item);
             aMerk.setAdapter(merkAdapter);
             Log.e(TAG, "Value Merk: " + merkValue);
@@ -393,7 +399,11 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
                 if(iFormAsset.getStringExtra("action").equals("update")){
                     updateDataAset(category);
                 }else{
-                    addDataAset(tenant);
+                    if (imgStringSTNK.equals("")) {
+                        Toast.makeText(getApplicationContext(), "Harap Lengkapi Foto STNK", Toast.LENGTH_LONG).show();
+                    } else
+                        addDataAset(tenant);
+
                 }
             }
         }
@@ -558,7 +568,7 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
                     keys.put("rent_package", aRentPackage);
                     keys.put("latitude", aLatitude);
                     keys.put("longitude", aLongitude);
-                    if(!imgStringSTNK.isEmpty()) {
+                    if(!imgStringSTNK.equals("")) {
                         keys.put("stnk", imgStringSTNK);
                     }
                     if(!isiimage.isEmpty()){
