@@ -35,16 +35,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import id.rentist.mitrarentist.adapter.PriceAdapter;
 import id.rentist.mitrarentist.modul.PriceModul;
 import id.rentist.mitrarentist.tools.AppConfig;
+import id.rentist.mitrarentist.tools.CostumFormater;
 import id.rentist.mitrarentist.tools.SessionManager;
 
 
@@ -78,7 +77,7 @@ public class DetailAsetActivity extends AppCompatActivity {
             model, length, beam, gross_ton, draft, cruise_speed, top_speed, builder, naval, int_design, ext_design,
             guest, cabin, crew;
 
-    ArrayList aPrice;
+    String aPrice;// = new ArrayList<>();
 
     LinearLayout cCarMotor, cCarOnly, cYachtInfo, cYachtFeature, rDesc;
     ImageView imgThumbnail, no_stnk;
@@ -235,7 +234,7 @@ public class DetailAsetActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(String aset) {
+        protected void onPostExecute(String aset){
             mDetailAssetTask = null;
 //            pBar.setVisibility(View.GONE);
             showProgress(false);
@@ -265,21 +264,20 @@ public class DetailAsetActivity extends AppCompatActivity {
 
                             //Price
                             JSONArray priceArray = jsonobject.getJSONArray("price");
+                            aPrice = priceArray.toString();
                             Log.e(TAG, "Price : " + priceArray);
+
+                            ArrayList<PriceModul> ePrice = new ArrayList<PriceModul>();
 
                             if(priceArray.length() > 0){
                                 for (int j = 0; j < priceArray.length(); j++) {
-//                                    aPrice.add(priceArray.getString(j));
                                     JSONObject priceObject = priceArray.getJSONObject(j);
 
                                     PriceModul priceModul = new PriceModul();
                                     priceModul.setRangeName(priceObject.getString("range_name"));
                                     priceModul.setStartDate(priceObject.getString("start_date"));
                                     priceModul.setEndDate(priceObject.getString("end_date"));
-
-                                    NumberFormat formatter = NumberFormat.getInstance(Locale.GERMANY);
-                                    String currency = formatter.format(Integer.parseInt(priceObject.getString("price"))) + " IDR" ;
-                                    priceModul.setPrice(currency);
+                                    priceModul.setPrice(CostumFormater.PriceStringFormat(priceObject.getString("price")));
 
                                     mPrice.add(priceModul);
                                 }
@@ -689,7 +687,8 @@ public class DetailAsetActivity extends AppCompatActivity {
                     iAsetEdit.putExtra("delivery_method", aDeliveryMethod);
                     iAsetEdit.putExtra("cat", aCat);
                     iAsetEdit.putExtra("subcat", aSubCat);
-//                    iAsetEdit.putStringArrayListExtra("price", aPrice);                    startActivity(iAsetEdit);
+                    iAsetEdit.putExtra("price", aPrice );
+                    startActivity(iAsetEdit);
                     break;
                 case "2":
                     iAsetEdit = new Intent(DetailAsetActivity.this, FormMotorcycleAsetActivity.class);

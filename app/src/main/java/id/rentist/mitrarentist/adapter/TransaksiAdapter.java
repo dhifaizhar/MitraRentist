@@ -14,7 +14,7 @@ import java.util.List;
 import id.rentist.mitrarentist.R;
 import id.rentist.mitrarentist.TransDetailActivity;
 import id.rentist.mitrarentist.modul.ItemTransaksiModul;
-import id.rentist.mitrarentist.tools.NumberFormater;
+import id.rentist.mitrarentist.tools.CostumFormater;
 
 /**
  * Created by mdhif on 18/06/2017.
@@ -71,7 +71,7 @@ public class TransaksiAdapter extends RecyclerView.Adapter<TransaksiAdapter.View
 
         //  simpan value dalam object
         viewHolder.transCode.setText(trx.getCodeTrans());
-        viewHolder.nominal.setText(NumberFormater.PriceStringFormat(trx.getPrice()));
+        viewHolder.nominal.setText(CostumFormater.PriceStringFormat(trx.getPrice()));
         viewHolder.asetName.setText(aset);
         viewHolder.member.setText(member);
         viewHolder.stardDate.setText(startDate);

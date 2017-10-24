@@ -38,7 +38,7 @@ import java.util.Map;
 
 import id.rentist.mitrarentist.fragment.DriverDialogFragment;
 import id.rentist.mitrarentist.tools.AppConfig;
-import id.rentist.mitrarentist.tools.NumberFormater;
+import id.rentist.mitrarentist.tools.CostumFormater;
 import id.rentist.mitrarentist.tools.SessionManager;
 
 public class TransDetailActivity extends AppCompatActivity {
@@ -126,7 +126,7 @@ public class TransDetailActivity extends AppCompatActivity {
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
         transId = itransDet.getStringExtra("id_trans");
         mAset.setText(itransDet.getStringExtra("aset"));
-        mPrice.setText(NumberFormater.PriceFormat(Integer.parseInt(itransDet.getStringExtra("price"))));
+        mPrice.setText(CostumFormater.PriceFormat(Integer.parseInt(itransDet.getStringExtra("price"))));
         mCodeTrans.setText(itransDet.getStringExtra("code_trans"));
         mMember.setText(itransDet.getStringExtra("member"));
         mStartDate.setText(itransDet.getStringExtra("startDate"));

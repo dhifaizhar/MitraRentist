@@ -27,9 +27,6 @@ public class CustomDatePickerRangeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_custom_date_picker);
         calendar = (CalendarPickerView) findViewById(R.id.calendar_view);
-        /*edtStart = (EditText) findViewById(R.id.edt_start);
-        edtEnd = (EditText) findViewById(R.id.edt_end);*/
-
         Calendar nextYear = Calendar.getInstance();
         nextYear.add(Calendar.YEAR, 1);
         Date today = new Date();
