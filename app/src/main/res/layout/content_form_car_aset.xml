@@ -481,34 +481,34 @@
                             android:textColor="@color/colorBlack"
                             android:textSize="12sp" />
 
-                        <EditText
-                            android:id="@+id/as_seat"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@color/colorNearWhite"
-                            android:ems="10"
-                            android:hint="0"
-                            android:imeOptions="actionNext"
-                            android:inputType="number"
-                            android:padding="@dimen/min_padding"
-                            android:text="" />
-
-                        <!--<LinearLayout-->
+                        <!--<EditText-->
+                            <!--android:id="@+id/as_seat"-->
                             <!--android:layout_width="match_parent"-->
-                            <!--android:layout_height="match_parent"-->
-                            <!--android:orientation="vertical"-->
+                            <!--android:layout_height="wrap_content"-->
                             <!--android:background="@color/colorNearWhite"-->
-                            <!--android:padding="@dimen/xmin_padding">-->
+                            <!--android:ems="10"-->
+                            <!--android:hint="0"-->
+                            <!--android:imeOptions="actionNext"-->
+                            <!--android:inputType="number"-->
+                            <!--android:padding="@dimen/min_padding"-->
+                            <!--android:text="" />-->
 
-                            <!--<Spinner-->
-                                <!--android:id="@+id/as_seat_car"-->
-                                <!--android:layout_width="match_parent"-->
-                                <!--android:layout_height="wrap_content"-->
-                                <!--android:entries="@array/seats_entries"-->
-                                <!--android:padding="@dimen/xmin_padding"-->
-                                <!--android:spinnerMode="dialog" />-->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:background="@color/colorNearWhite"
+                            android:padding="@dimen/xmin_padding">
 
-                        <!--</LinearLayout>-->
+                            <Spinner
+                                android:id="@+id/as_seat_car"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:entries="@array/seats_entries"
+                                android:padding="@dimen/xmin_padding"
+                                android:spinnerMode="dialog" />
+
+                        </LinearLayout>
                     </LinearLayout>
 
                     <LinearLayout
@@ -685,7 +685,7 @@
                                 android:layout_weight="1"
                                 android:checked="false"
                                 android:paddingEnd="@dimen/min_padding"
-                                android:text="Dijemput" />
+                                android:text="Diambil" />
                         </LinearLayout>
 
                     </LinearLayout>
@@ -718,7 +718,7 @@
                                 android:padding="@dimen/min_padding"
                                 android:inputType="number"
                                 android:imeOptions="actionNext"
-                                android:text="" />
+                                android:text="1" />
 
                             <TextView
                                 android:id="@+id/day"
@@ -787,7 +787,7 @@
                                 android:id="@+id/textView21"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Harga Sewa "
+                                android:text="Input Harga "
                                 android:textColor="@color/colorBlack"
                                 android:textSize="12sp" />
 
@@ -839,7 +839,7 @@
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/colorGrey"
                                 android:layout_marginTop="@dimen/small_space"
-                                android:text="Harga yang ditampilkan (+10%):"
+                                android:text=""
                                 android:textSize="@dimen/almost_tiny_text" />
 
                             <TextView
@@ -883,16 +883,33 @@
                                 android:textColor="@color/colorBlack"
                                 android:textSize="12sp" />
 
-                            <EditText
-                                android:id="@+id/as_range_name"
+                            <!--<EditText-->
+                                <!--android:id="@+id/as_range_name"-->
+                                <!--android:layout_width="match_parent"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:background="@color/colorNearWhite"-->
+                                <!--android:ems="10"-->
+                                <!--android:hint="Nama Periode"-->
+                                <!--android:inputType="textPersonName|textCapWords"-->
+                                <!--android:padding="@dimen/min_padding"-->
+                                <!--android:text="" />-->
+
+                            <LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"
                                 android:background="@color/colorNearWhite"
-                                android:ems="10"
-                                android:hint="Nama Periode"
-                                android:inputType="textPersonName|textCapWords"
-                                android:padding="@dimen/min_padding"
-                                android:text="" />
+                                android:padding="@dimen/xmin_padding">
+
+                                <Spinner
+                                    android:id="@+id/as_range_name"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:entries="@array/range_name_entries"
+                                    android:padding="@dimen/xmin_padding"
+                                    android:spinnerMode="dropdown" />
+
+                            </LinearLayout>
 
                         </LinearLayout>
 
@@ -965,7 +982,7 @@
                                 android:id="@+id/textView12"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Harga "
+                                android:text="Input Harga"
                                 android:textColor="@color/colorBlack"
                                 android:textSize="12sp" />
 
@@ -1008,7 +1025,7 @@
                                     android:layout_height="wrap_content"
                                     android:textColor="@color/colorGrey"
                                     android:layout_marginTop="@dimen/small_space"
-                                    android:text="Harga yang ditampilkan (+10%):"
+                                    android:text="Harga yang akan anda terima (-10%):"
                                     android:textSize="@dimen/almost_tiny_text" />
 
                                 <TextView
@@ -1053,16 +1070,22 @@
                                 android:textColor="@color/colorBlack"
                                 android:textSize="12sp" />
 
-                            <EditText
-                                android:id="@+id/as_range_name2"
+                            <LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"
                                 android:background="@color/colorNearWhite"
-                                android:ems="10"
-                                android:hint="Nama Periode"
-                                android:inputType="textPersonName|textCapWords"
-                                android:padding="@dimen/min_padding"
-                                android:text="" />
+                                android:padding="@dimen/xmin_padding">
+
+                                <Spinner
+                                    android:id="@+id/as_range_name2"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:entries="@array/range_name_entries"
+                                    android:padding="@dimen/xmin_padding"
+                                    android:spinnerMode="dropdown" />
+
+                            </LinearLayout>
 
                         </LinearLayout>
 
@@ -1132,7 +1155,7 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Harga "
+                                android:text="Input Harga"
                                 android:textColor="@color/colorBlack"
                                 android:textSize="12sp" />
 
@@ -1174,7 +1197,7 @@
                                     android:layout_height="wrap_content"
                                     android:textColor="@color/colorGrey"
                                     android:layout_marginTop="@dimen/small_space"
-                                    android:text="Harga yang ditampilkan (+10%):"
+                                    android:text="Harga yang akan anda terima (-10%):"
                                     android:textSize="@dimen/almost_tiny_text" />
 
                                 <TextView
@@ -1221,16 +1244,23 @@
                                 android:textColor="@color/colorBlack"
                                 android:textSize="12sp" />
 
-                            <EditText
-                                android:id="@+id/as_range_name3"
+                            <LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"
                                 android:background="@color/colorNearWhite"
-                                android:ems="10"
-                                android:hint="Nama Periode"
-                                android:inputType="textPersonName|textCapWords"
-                                android:padding="@dimen/min_padding"
-                                android:text="" />
+                                android:padding="@dimen/xmin_padding">
+
+                                <Spinner
+                                    android:id="@+id/as_range_name3"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:entries="@array/range_name_entries"
+                                    android:padding="@dimen/xmin_padding"
+                                    android:spinnerMode="dropdown" />
+
+                            </LinearLayout>
+
 
                         </LinearLayout>
 
@@ -1300,7 +1330,7 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Harga "
+                                android:text="Input Harga"
                                 android:textColor="@color/colorBlack"
                                 android:textSize="12sp" />
 
@@ -1342,7 +1372,7 @@
                                     android:layout_height="wrap_content"
                                     android:textColor="@color/colorGrey"
                                     android:layout_marginTop="@dimen/small_space"
-                                    android:text="Harga yang ditampilkan (+10%):"
+                                    android:text="Harga yang akan anda terima (-10%):"
                                     android:textSize="@dimen/almost_tiny_text" />
 
                                 <TextView
@@ -1388,16 +1418,22 @@
                                 android:textColor="@color/colorBlack"
                                 android:textSize="12sp" />
 
-                            <EditText
-                                android:id="@+id/as_range_name4"
+                            <LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"
                                 android:background="@color/colorNearWhite"
-                                android:ems="10"
-                                android:hint="Nama Periode"
-                                android:inputType="textPersonName|textCapWords"
-                                android:padding="@dimen/min_padding"
-                                android:text="" />
+                                android:padding="@dimen/xmin_padding">
+
+                                <Spinner
+                                    android:id="@+id/as_range_name4"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:entries="@array/range_name_entries"
+                                    android:padding="@dimen/xmin_padding"
+                                    android:spinnerMode="dropdown" />
+
+                            </LinearLayout>
 
                         </LinearLayout>
 
@@ -1467,7 +1503,7 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Harga "
+                                android:text="Input Harga"
                                 android:textColor="@color/colorBlack"
                                 android:textSize="12sp" />
 
@@ -1509,7 +1545,7 @@
                                     android:layout_height="wrap_content"
                                     android:textColor="@color/colorGrey"
                                     android:layout_marginTop="@dimen/small_space"
-                                    android:text="Harga yang ditampilkan (+10%):"
+                                    android:text="Harga yang akan anda terima (-10%):"
                                     android:textSize="@dimen/almost_tiny_text" />
 
                                 <TextView

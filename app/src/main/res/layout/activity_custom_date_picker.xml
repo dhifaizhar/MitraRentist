@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context="id.rentist.mitrarentist.CustomDatePickerRangeActivity">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -25,11 +25,12 @@
             android:id="@+id/btn_done"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/text_margin"
+            android:layout_margin="@dimen/min_padding"
+            android:layout_below="@+id/calendar_view"
             android:background="@color/colorPrimaryDark"
             android:textColor="@color/colorWhite"
             android:layout_gravity="center"
             android:text="Pilih"/>
 
-    </LinearLayout>
+    </RelativeLayout>
 </RelativeLayout>

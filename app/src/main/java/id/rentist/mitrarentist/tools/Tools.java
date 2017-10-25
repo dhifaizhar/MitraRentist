@@ -44,7 +44,7 @@ public class Tools {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = act.getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(R.color.colorPrimaryDark);
+            window.setStatusBarColor(0xf009ddd);
         }
     }
 
@@ -75,5 +75,25 @@ public class Tools {
         DisplayMetrics displayMetrics = ctx.getResources().getDisplayMetrics();
         int dp = Math.round(px / (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
         return dp;
+    }
+
+    public static String getIdCategoryURL(String category ){
+        String URL = "";
+        switch (category) {
+            case "1": URL = AppConfig.URL_MOBIL; break;
+            case "2": URL = AppConfig.URL_MOTOR; break;
+            case "3": URL = AppConfig.URL_YACHT; break;
+            case "4": URL = AppConfig.URL_MEDIC; break;
+            case "5": URL = AppConfig.URL_PHOTOGRAPHY; break;
+            case "6": URL = AppConfig.URL_TOYS; break;
+            case "7": URL = AppConfig.URL_ADVENTURE; break;
+            case "8": URL = AppConfig.URL_MATERNITY; break;
+            case "9": URL = AppConfig.URL_ELECTRONIC; break;
+            case "10": URL = AppConfig.URL_BICYCLE; break;
+            case "11": URL = AppConfig.URL_OFFICE; break;
+            case "12": URL = AppConfig.URL_OFFICE; break;
+        }
+        return URL;
+
     }
 }

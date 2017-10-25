@@ -45,6 +45,7 @@ import id.rentist.mitrarentist.modul.PriceModul;
 import id.rentist.mitrarentist.tools.AppConfig;
 import id.rentist.mitrarentist.tools.CostumFormater;
 import id.rentist.mitrarentist.tools.SessionManager;
+import id.rentist.mitrarentist.tools.Tools;
 
 
 public class DetailAsetActivity extends AppCompatActivity {
@@ -300,10 +301,13 @@ public class DetailAsetActivity extends AppCompatActivity {
                             subcat.setText(aSubCat);
                             status.setText(aStatus);
                             if (aDeliveryMethod.equals("both")){
-                                delivery_method.setText("Dikirim, Dijemput");
+                                delivery_method.setText("Dikirim, Diambil");
                             }else{
-                                delivery_method.setText(aDeliveryMethod);
-                            }
+                                if (aDeliveryMethod.equals("pickup")){
+                                    delivery_method.setText("Diambil");
+                                } else {
+                                    delivery_method.setText("Dikirim");
+                                }}
 
                             if (aInsurance.equals("true")){insurance.setText("Tersedia");
                             } else {insurance.setText("Tidak Tersedia");}
@@ -457,9 +461,9 @@ public class DetailAsetActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... params) {
-            String URL = AppConfig.URL_EDIT_STATUS_MOBIL;
             RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+            Log.e(TAG, "Change Status URL: " + Tools.getIdCategoryURL(category));
+            StringRequest stringRequest = new StringRequest(Request.Method.PUT, Tools.getIdCategoryURL(category), new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     responseStatus = response;
@@ -478,7 +482,7 @@ public class DetailAsetActivity extends AppCompatActivity {
                     // Posting parameters to url
                     Map<String, String> keys = new HashMap<String, String>();
                     //keys.put("id_tenant", mTenant);
-                    keys.put("id", String.valueOf(aId));
+                    keys.put("id_asset", String.valueOf(aId));
                     keys.put("status", mStatus);
                     Log.e(TAG, "Change Status Fetch KEYS : " + String.valueOf(keys));
                     return keys;
@@ -512,7 +516,6 @@ public class DetailAsetActivity extends AppCompatActivity {
             }else{
                 Toast.makeText(getApplicationContext(),"Gagal meyimpan data", Toast.LENGTH_LONG).show();
             }
-
         }
 
         @Override
@@ -745,30 +748,15 @@ public class DetailAsetActivity extends AppCompatActivity {
                     break;
                 default:
                     switch (aCat) {
-                        case "4":
-                            iAsetEdit = new Intent(DetailAsetActivity.this, FormMedicAsetActivity.class);
-                            break;
-                        case "5":
-                            iAsetEdit = new Intent(DetailAsetActivity.this, FormPhotographyAsetActivity.class);
-                            break;
-                        case "6":
-                            iAsetEdit = new Intent(DetailAsetActivity.this, FormToysAsetActivity.class);
-                            break;
-                        case "7":
-                            iAsetEdit = new Intent(DetailAsetActivity.this, FormAdventureAsetActivity.class);
-                            break;
-                        case "8":
-                            iAsetEdit = new Intent(DetailAsetActivity.this, FormMaternityAsetActivity.class);
-                            break;
-                        case "9":
-                            iAsetEdit = new Intent(DetailAsetActivity.this, FormElectronicAsetActivity.class);
-                            break;
-                        case "10":
-                            iAsetEdit = new Intent(DetailAsetActivity.this, FormBicycleAsetActivity.class);
-                            break;
-                        case "11":
-                            iAsetEdit = new Intent(DetailAsetActivity.this, FormOfficeAsetActivity.class);
-                            break;
+                        case "4": iAsetEdit = new Intent(DetailAsetActivity.this, FormMedicAsetActivity.class); break;
+                        case "5": iAsetEdit = new Intent(DetailAsetActivity.this, FormPhotographyAsetActivity.class); break;
+                        case "6": iAsetEdit = new Intent(DetailAsetActivity.this, FormToysAsetActivity.class); break;
+                        case "7": iAsetEdit = new Intent(DetailAsetActivity.this, FormAdventureAsetActivity.class); break;
+                        case "8": iAsetEdit = new Intent(DetailAsetActivity.this, FormMaternityAsetActivity.class); break;
+                        case "9": iAsetEdit = new Intent(DetailAsetActivity.this, FormElectronicAsetActivity.class); break;
+                        case "10": iAsetEdit = new Intent(DetailAsetActivity.this, FormBicycleAsetActivity.class); break;
+                        case "11": iAsetEdit = new Intent(DetailAsetActivity.this, FormOfficeAsetActivity.class); break;
+                        case "12": iAsetEdit = new Intent(DetailAsetActivity.this, FormFashionAsetActivity.class); break;
                     }
 
                     iAsetEdit.putExtra("action", "update");
@@ -783,6 +771,7 @@ public class DetailAsetActivity extends AppCompatActivity {
                     iAsetEdit.putExtra("delivery_method", aDeliveryMethod);
                     iAsetEdit.putExtra("cat", aCat);
                     iAsetEdit.putExtra("subcat", aSubCat);
+                    iAsetEdit.putExtra("price", aPrice );
                     startActivityForResult(iAsetEdit, 2);
                     break;
             }

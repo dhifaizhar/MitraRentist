@@ -238,7 +238,7 @@
                                 android:imeOptions="actionNext"
                                 android:inputType="number"
                                 android:padding="@dimen/min_padding"
-                                android:text="" />
+                                android:text="1" />
 
                             <TextView
                                 android:id="@+id/day"
@@ -292,7 +292,7 @@
                                 android:layout_weight="1"
                                 android:checked="false"
                                 android:paddingEnd="@dimen/min_padding"
-                                android:text="Dijemput" />
+                                android:text="Diambil" />
 
                         </LinearLayout>
 
@@ -417,13 +417,28 @@
                         android:orientation="vertical"
                         android:padding="@dimen/xmin_padding">
 
-                        <TextView
-                            android:id="@+id/textView21"
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Harga Sewa "
-                            android:textColor="@color/colorBlack"
-                            android:textSize="12sp" />
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/textView21"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Input Harga "
+                                android:textColor="@color/colorBlack"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorGrey"
+                                android:text="*Wajib diisi"
+                                android:layout_marginLeft="@dimen/xmin_padding"
+                                android:textSize="@dimen/almost_tiny_text" />
+
+                        </LinearLayout>
 
                         <RelativeLayout
                             android:layout_width="match_parent"
@@ -433,22 +448,23 @@
                                 android:id="@+id/as_price_basic"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:background="@color/colorNearWhite"
                                 android:ems="10"
+                                app:isDecimal="false"
+                                android:maxLength="13"
                                 android:hint="0"
-                                android:maxLength="12"
                                 android:padding="@dimen/min_padding"
-                                app:isDecimal="false" />
+                                android:background="@color/colorNearWhite"
+                                />
 
                             <TextView
                                 android:id="@+id/idra"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_alignParentEnd="true"
-                                android:layout_centerVertical="true"
-                                android:layout_marginEnd="@dimen/min_padding"
                                 android:text="IDR"
+                                android:layout_centerVertical="true"
+                                android:layout_alignParentEnd="true"
                                 android:textColor="@color/colorGrey"
+                                android:layout_marginEnd="@dimen/min_padding"
                                 android:textSize="@dimen/medium_text" />
                         </RelativeLayout>
 
@@ -460,21 +476,21 @@
                                 android:id="@+id/disptext"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/small_space"
-                                android:text="Harga yang ditampilkan (+20%):"
                                 android:textColor="@color/colorGrey"
+                                android:layout_marginTop="@dimen/small_space"
+                                android:text=""
                                 android:textSize="@dimen/almost_tiny_text" />
 
                             <TextView
                                 android:id="@+id/as_price_basic_disp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_alignParentEnd="true"
-                                android:layout_marginTop="@dimen/small_space"
-                                android:layout_toEndOf="@+id/disptext"
-                                android:text="0 IDR"
-                                android:textAlignment="textEnd"
                                 android:textColor="@color/colorPrice"
+                                android:layout_toEndOf="@+id/disptext"
+                                android:layout_alignParentEnd="true"
+                                android:textAlignment="textEnd"
+                                android:layout_marginTop="@dimen/small_space"
+                                android:text="0 IDR"
                                 android:textSize="@dimen/under_small_text" />
                         </RelativeLayout>
 
@@ -485,7 +501,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:visibility="gone">
+                        android:visibility="gone"
+                        >
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@android:color/darker_gray"/>
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -495,23 +516,28 @@
                             android:padding="@dimen/xmin_padding">
 
                             <TextView
-                                android:id="@+id/textView12w"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="Nama Periode"
                                 android:textColor="@color/colorBlack"
                                 android:textSize="12sp" />
 
-                            <EditText
-                                android:id="@+id/as_range_name"
+                            <LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"
                                 android:background="@color/colorNearWhite"
-                                android:ems="10"
-                                android:hint="Nama Periode"
-                                android:inputType="textPersonName|textCapWords"
-                                android:padding="@dimen/min_padding"
-                                android:text="" />
+                                android:padding="@dimen/xmin_padding">
+
+                                <Spinner
+                                    android:id="@+id/as_range_name"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:entries="@array/range_name_entries"
+                                    android:padding="@dimen/xmin_padding"
+                                    android:spinnerMode="dropdown" />
+
+                            </LinearLayout>
 
                         </LinearLayout>
 
@@ -535,12 +561,11 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:background="@color/colorNearWhite"
-                                android:drawableEnd="@drawable/ic_date_range_black_24dp"
-                                android:editable="false"
                                 android:ems="10"
-                                android:hint="Tanggal Mulai"
-                                android:clickable="true"
+                                android:editable="false"
                                 android:inputType="date|none"
+                                android:drawableEnd="@drawable/ic_date_range_black_24dp"
+                                android:hint="Tanggal Mulai"
                                 android:padding="@dimen/min_padding"
                                 android:text="" />
                         </LinearLayout>
@@ -565,12 +590,11 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:background="@color/colorNearWhite"
-                                android:drawableEnd="@drawable/ic_date_range_black_24dp"
-                                android:editable="false"
                                 android:ems="10"
-                                android:clickable="true"
-                                android:hint="Tanggal Akhir"
                                 android:inputType="date|none"
+                                android:editable="false"
+                                android:drawableEnd="@drawable/ic_date_range_black_24dp"
+                                android:hint="Tanggal Akhir"
                                 android:padding="@dimen/min_padding"
                                 android:text="" />
                         </LinearLayout>
@@ -586,7 +610,7 @@
                                 android:id="@+id/textView12"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Harga "
+                                android:text="Input Harga"
                                 android:textColor="@color/colorBlack"
                                 android:textSize="12sp" />
 
@@ -594,27 +618,27 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
 
-
                                 <com.aldoapps.autoformatedittext.AutoFormatEditText
                                     android:id="@+id/as_price_advance"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:background="@color/colorNearWhite"
                                     android:ems="10"
+                                    android:maxLength="13"
+                                    app:isDecimal="false"
                                     android:hint="0"
-                                    android:maxLength="12"
                                     android:padding="@dimen/min_padding"
-                                    app:isDecimal="false" />
+                                    android:background="@color/colorNearWhite"
+                                    />
 
                                 <TextView
                                     android:id="@+id/daye"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:text="IDR"
                                     android:layout_alignParentEnd="true"
                                     android:layout_centerVertical="true"
-                                    android:layout_marginEnd="@dimen/min_padding"
-                                    android:text="IDR"
                                     android:textColor="@color/colorGrey"
+                                    android:layout_marginEnd="@dimen/min_padding"
                                     android:textSize="@dimen/medium_text" />
 
                             </RelativeLayout>
@@ -627,21 +651,541 @@
                                     android:id="@+id/disptext2"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/small_space"
-                                    android:text="Harga yang ditampilkan (+20%):"
                                     android:textColor="@color/colorGrey"
+                                    android:layout_marginTop="@dimen/small_space"
+                                    android:text="Harga yang akan anda terima (-10%):"
                                     android:textSize="@dimen/almost_tiny_text" />
 
                                 <TextView
                                     android:id="@+id/as_price_advance_disp"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_alignParentEnd="true"
-                                    android:layout_marginTop="@dimen/small_space"
-                                    android:layout_toEndOf="@+id/disptext2"
-                                    android:text="0 IDR"
-                                    android:textAlignment="textEnd"
                                     android:textColor="@color/colorPrice"
+                                    android:layout_toEndOf="@+id/disptext2"
+                                    android:layout_alignParentEnd="true"
+                                    android:textAlignment="textEnd"
+                                    android:layout_marginTop="@dimen/small_space"
+                                    android:text="0 IDR"
+                                    android:textSize="@dimen/under_small_text" />
+                            </RelativeLayout>
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/con_advance_price2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="gone"
+                        >
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@android:color/darker_gray"/>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/xmin_padding"
+                            android:orientation="vertical"
+                            android:padding="@dimen/xmin_padding">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Nama Periode"
+                                android:textColor="@color/colorBlack"
+                                android:textSize="12sp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"
+                                android:background="@color/colorNearWhite"
+                                android:padding="@dimen/xmin_padding">
+
+                                <Spinner
+                                    android:id="@+id/as_range_name2"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:entries="@array/range_name_entries"
+                                    android:padding="@dimen/xmin_padding"
+                                    android:spinnerMode="dropdown" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/xmin_padding"
+                            android:orientation="vertical"
+                            android:padding="@dimen/xmin_padding">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Waktu Mulai"
+                                android:textColor="@color/colorBlack"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/as_start_date2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@color/colorNearWhite"
+                                android:ems="10"
+                                android:editable="false"
+                                android:inputType="date|none"
+                                android:drawableEnd="@drawable/ic_date_range_black_24dp"
+                                android:hint="Tanggal Mulai"
+                                android:padding="@dimen/min_padding"
+                                android:text="" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/xmin_padding"
+                            android:orientation="vertical"
+                            android:padding="@dimen/xmin_padding">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Waktu Berakhir"
+                                android:textColor="@color/colorBlack"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/as_end_date2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@color/colorNearWhite"
+                                android:ems="10"
+                                android:inputType="date|none"
+                                android:editable="false"
+                                android:drawableEnd="@drawable/ic_date_range_black_24dp"
+                                android:hint="Tanggal Akhir"
+                                android:padding="@dimen/min_padding"
+                                android:text="" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/xmin_padding"
+                            android:orientation="vertical"
+                            android:padding="@dimen/xmin_padding">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Input Harga"
+                                android:textColor="@color/colorBlack"
+                                android:textSize="12sp" />
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <com.aldoapps.autoformatedittext.AutoFormatEditText
+                                    android:id="@+id/as_price_advance2"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:ems="10"
+                                    android:maxLength="13"
+                                    app:isDecimal="false"
+                                    android:hint="0"
+                                    android:padding="@dimen/min_padding"
+                                    android:background="@color/colorNearWhite"
+                                    />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="IDR"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_centerVertical="true"
+                                    android:textColor="@color/colorGrey"
+                                    android:layout_marginEnd="@dimen/min_padding"
+                                    android:textSize="@dimen/medium_text" />
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:id="@+id/disptext3"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/colorGrey"
+                                    android:layout_marginTop="@dimen/small_space"
+                                    android:text="Harga yang akan anda terima (-10%):"
+                                    android:textSize="@dimen/almost_tiny_text" />
+
+                                <TextView
+                                    android:id="@+id/as_price_advance_disp2"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/colorPrice"
+                                    android:layout_toEndOf="@+id/disptext3"
+                                    android:layout_alignParentEnd="true"
+                                    android:textAlignment="textEnd"
+                                    android:layout_marginTop="@dimen/small_space"
+                                    android:text="0 IDR"
+                                    android:textSize="@dimen/under_small_text" />
+                            </RelativeLayout>
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/con_advance_price3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="gone"
+                        >
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@android:color/darker_gray"/>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/xmin_padding"
+                            android:orientation="vertical"
+                            android:padding="@dimen/xmin_padding">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Nama Periode"
+                                android:textColor="@color/colorBlack"
+                                android:textSize="12sp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"
+                                android:background="@color/colorNearWhite"
+                                android:padding="@dimen/xmin_padding">
+
+                                <Spinner
+                                    android:id="@+id/as_range_name3"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:entries="@array/range_name_entries"
+                                    android:padding="@dimen/xmin_padding"
+                                    android:spinnerMode="dropdown" />
+
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/xmin_padding"
+                            android:orientation="vertical"
+                            android:padding="@dimen/xmin_padding">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Waktu Mulai"
+                                android:textColor="@color/colorBlack"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/as_start_date3"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@color/colorNearWhite"
+                                android:ems="10"
+                                android:editable="false"
+                                android:inputType="date|none"
+                                android:drawableEnd="@drawable/ic_date_range_black_24dp"
+                                android:hint="Tanggal Mulai"
+                                android:padding="@dimen/min_padding"
+                                android:text="" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/xmin_padding"
+                            android:orientation="vertical"
+                            android:padding="@dimen/xmin_padding">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Waktu Berakhir"
+                                android:textColor="@color/colorBlack"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/as_end_date3"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@color/colorNearWhite"
+                                android:ems="10"
+                                android:inputType="date|none"
+                                android:editable="false"
+                                android:drawableEnd="@drawable/ic_date_range_black_24dp"
+                                android:hint="Tanggal Akhir"
+                                android:padding="@dimen/min_padding"
+                                android:text="" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/xmin_padding"
+                            android:orientation="vertical"
+                            android:padding="@dimen/xmin_padding">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Input Harga"
+                                android:textColor="@color/colorBlack"
+                                android:textSize="12sp" />
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <com.aldoapps.autoformatedittext.AutoFormatEditText
+                                    android:id="@+id/as_price_advance3"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:ems="10"
+                                    android:maxLength="13"
+                                    app:isDecimal="false"
+                                    android:hint="0"
+                                    android:padding="@dimen/min_padding"
+                                    android:background="@color/colorNearWhite"
+                                    />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="IDR"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_centerVertical="true"
+                                    android:textColor="@color/colorGrey"
+                                    android:layout_marginEnd="@dimen/min_padding"
+                                    android:textSize="@dimen/medium_text" />
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:id="@+id/disptext4"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/colorGrey"
+                                    android:layout_marginTop="@dimen/small_space"
+                                    android:text="Harga yang akan anda terima (-10%):"
+                                    android:textSize="@dimen/almost_tiny_text" />
+
+                                <TextView
+                                    android:id="@+id/as_price_advance_disp3"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/colorPrice"
+                                    android:layout_toEndOf="@+id/disptext4"
+                                    android:layout_alignParentEnd="true"
+                                    android:textAlignment="textEnd"
+                                    android:layout_marginTop="@dimen/small_space"
+                                    android:text="0 IDR"
+                                    android:textSize="@dimen/under_small_text" />
+                            </RelativeLayout>
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/con_advance_price4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="gone"
+                        >
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@android:color/darker_gray"/>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/xmin_padding"
+                            android:orientation="vertical"
+                            android:padding="@dimen/xmin_padding">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Nama Periode"
+                                android:textColor="@color/colorBlack"
+                                android:textSize="12sp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"
+                                android:background="@color/colorNearWhite"
+                                android:padding="@dimen/xmin_padding">
+
+                                <Spinner
+                                    android:id="@+id/as_range_name4"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:entries="@array/range_name_entries"
+                                    android:padding="@dimen/xmin_padding"
+                                    android:spinnerMode="dropdown" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/xmin_padding"
+                            android:orientation="vertical"
+                            android:padding="@dimen/xmin_padding">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Waktu Mulai"
+                                android:textColor="@color/colorBlack"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/as_start_date4"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@color/colorNearWhite"
+                                android:ems="10"
+                                android:editable="false"
+                                android:inputType="date|none"
+                                android:drawableEnd="@drawable/ic_date_range_black_24dp"
+                                android:hint="Tanggal Mulai"
+                                android:padding="@dimen/min_padding"
+                                android:text="" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/xmin_padding"
+                            android:orientation="vertical"
+                            android:padding="@dimen/xmin_padding">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Waktu Berakhir"
+                                android:textColor="@color/colorBlack"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/as_end_date4"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@color/colorNearWhite"
+                                android:ems="10"
+                                android:inputType="date|none"
+                                android:editable="false"
+                                android:drawableEnd="@drawable/ic_date_range_black_24dp"
+                                android:hint="Tanggal Akhir"
+                                android:padding="@dimen/min_padding"
+                                android:text="" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/xmin_padding"
+                            android:orientation="vertical"
+                            android:padding="@dimen/xmin_padding">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Input Harga"
+                                android:textColor="@color/colorBlack"
+                                android:textSize="12sp" />
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <com.aldoapps.autoformatedittext.AutoFormatEditText
+                                    android:id="@+id/as_price_advance4"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:ems="10"
+                                    android:maxLength="13"
+                                    app:isDecimal="false"
+                                    android:hint="0"
+                                    android:padding="@dimen/min_padding"
+                                    android:background="@color/colorNearWhite"
+                                    />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="IDR"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_centerVertical="true"
+                                    android:textColor="@color/colorGrey"
+                                    android:layout_marginEnd="@dimen/min_padding"
+                                    android:textSize="@dimen/medium_text" />
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:id="@+id/disptext5"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/colorGrey"
+                                    android:layout_marginTop="@dimen/small_space"
+                                    android:text="Harga yang akan anda terima (-10%):"
+                                    android:textSize="@dimen/almost_tiny_text" />
+
+                                <TextView
+                                    android:id="@+id/as_price_advance_disp4"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/colorPrice"
+                                    android:layout_toEndOf="@+id/disptext5"
+                                    android:layout_alignParentEnd="true"
+                                    android:textAlignment="textEnd"
+                                    android:layout_marginTop="@dimen/small_space"
+                                    android:text="0 IDR"
                                     android:textSize="@dimen/under_small_text" />
                             </RelativeLayout>
                         </LinearLayout>
@@ -658,28 +1202,9 @@
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/small_text" />
 
-
                 </LinearLayout>
 
             </android.support.v7.widget.CardView>
-
-
-            <!--<android.support.design.widget.TabLayout-->
-            <!--android:id="@+id/tab_pricing"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--&gt;-->
-            <!--</android.support.design.widget.TabLayout>-->
-
-            <!--&lt;!&ndash;gunanya untuk swipe fragment&ndash;&gt;-->
-            <!--<android.support.v4.view.ViewPager-->
-            <!--android:id="@+id/vp_price_tabs"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--&gt;-->
-
-            <!--</android.support.v4.view.ViewPager>-->
-
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"

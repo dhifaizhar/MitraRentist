@@ -36,8 +36,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.github.ybq.android.spinkit.SpinKitView;
 import com.github.ybq.android.spinkit.style.FadingCircle;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -46,13 +44,12 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.text.NumberFormat;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 import id.rentist.mitrarentist.tools.AppConfig;
 import id.rentist.mitrarentist.tools.CircleTransform;
+import id.rentist.mitrarentist.tools.CostumFormater;
 import id.rentist.mitrarentist.tools.SessionManager;
 
 public class DashboardActivity extends AppCompatActivity
@@ -63,8 +60,8 @@ public class DashboardActivity extends AppCompatActivity
     private SessionManager sm;
     private View navHeaderView;
     private Menu navMenuView;
-    FirebaseAuth mFirebaseAuth;
-    FirebaseUser mFirebaseUser;
+//    FirebaseAuth mFirebaseAuth;
+//    FirebaseUser mFirebaseUser;
     private int PICK_IMAGE_REQUEST = 1;
     private static final int RESULT_LOAD_IMAGE = 1;
 
@@ -254,6 +251,7 @@ public class DashboardActivity extends AppCompatActivity
             navMenuView.findItem(R.id.nav_dompet).setVisible(true);
             navMenuView.findItem(R.id.nav_voucher).setVisible(true);
         }else if(sm.getPreferences("role").equals("Admin")){
+            navMenuView.findItem(R.id.nav_users).setVisible(true);
             navMenuView.findItem(R.id.nav_aset).setVisible(true);
             navMenuView.findItem(R.id.nav_feature).setVisible(true);
             navMenuView.findItem(R.id.nav_driver).setVisible(true);
@@ -343,10 +341,9 @@ public class DashboardActivity extends AppCompatActivity
                 try {
                     JSONObject dataObject = new JSONObject(user);
                     JSONObject assetObject = new JSONObject(String.valueOf(dataObject.getJSONObject("asset")));
-                    //JSONObject saldoObject = new JSONObject(String.valueOf(dataObject.getJSONObject("saldo")));
                     JSONObject poinObject = new JSONObject(String.valueOf(dataObject.getJSONObject("poin")));
                     JSONObject ratingObject = new JSONObject(String.valueOf(dataObject.getJSONObject("rating")));
-                    Log.d(TAG, String.valueOf(dataObject));
+                    Log.d(TAG, "Response : " + dataObject.toString());
 
                     aCar = assetObject.getInt("mobil");
                     aBike = assetObject.getInt("motor");
@@ -354,17 +351,12 @@ public class DashboardActivity extends AppCompatActivity
                     sumAsset = assetObject.getInt("total");
                     newTrans.setText(dataObject.getString("paid"));
                     totAsset.setText(String.valueOf(sumAsset));
-//                    totSaldo.setText(saldoObject.getString("received").equals("null") ? "0 IDR" : saldoObject.getString("received")+" IDR");
                     totPoin.setText(poinObject.getString("received").equals("null") ? "0" : ratingObject.getString("received"));
-                    totRating.setText(ratingObject.getString("rating").equals("null") ? "0" : ratingObject.getString("rating"));
-                    successRent.setText(dataObject.getString("sukses"));
+//                    totRating.setText(ratingObject.getString("rating").equals("null") ? "0" : ratingObject.getString("rating"));
+                    successRent.setText(String.valueOf(dataObject.getInt("sukses")));
                     ongoRent.setText(dataObject.getString("berlangsung"));
 
-                    int saldo = dataObject.getInt("saldo");
-//                    DecimalFormat formatter = new DecimalFormat("#.###.###");
-                    NumberFormat formatter = NumberFormat.getInstance(Locale.GERMANY);
-                    String currency = formatter.format(saldo) + " IDR" ;
-                    totSaldo.setText(currency);
+                    totSaldo.setText(CostumFormater.PriceFormat(dataObject.getInt("saldo")));
 
                     Log.d(TAG, "JSON Error : " + dataObject);
 
