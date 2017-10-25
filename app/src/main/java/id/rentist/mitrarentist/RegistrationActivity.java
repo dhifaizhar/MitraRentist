@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -23,6 +24,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.firebase.client.Firebase;
 import com.hbb20.CountryCodePicker;
 
 import org.json.JSONException;
@@ -37,11 +39,11 @@ import id.rentist.mitrarentist.tools.FormValidation;
 public class RegistrationActivity extends AppCompatActivity {
     AsyncTask mRegisterTask = null;
     ProgressDialog pDialog;
-    JSONObject registObject, tenantObject, responseMessage;
+    JSONObject registObject, tenantObject, tenantAccObject, responseMessage;
     FormValidation formValidation;
     View focusView;
 
-    String tenant, email, phone, password, cpassword;
+    String tenant, name, owner, email, phone, password, cpassword;
     TextView rName, rOwner, rEmail, rPhone, rPass, rConfPass;
     CountryCodePicker countryCode;
     Spinner rRole;
@@ -65,6 +67,8 @@ public class RegistrationActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        Firebase.setAndroidContext(this);
 
         controlContent();
     }
@@ -99,45 +103,61 @@ public class RegistrationActivity extends AppCompatActivity {
         }
 
         // Reset errors.
+        rName.setError(null);
+        rOwner.setError(null);
         rEmail.setError(null);
         rPhone.setError(null);
         rPass.setError(null);
         rConfPass.setError(null);
 
+        name = rName.getText().toString();
+        owner = rOwner.getText().toString();
         email = rEmail.getText().toString();
-        phone = countryCode.getSelectedCountryCode() +rPhone.getText().toString();
+        phone = countryCode.getSelectedCountryCode() + rPhone.getText().toString();
         password = rPass.getText().toString();
         cpassword = rConfPass.getText().toString();
 
-        if(formValidation.isEmailValid(email)){
-            if(formValidation.isPhoneValid(phone)){
-                if(formValidation.isPasswordValid(password)){
-                    if(formValidation.isConfirmPasswordValid(password,cpassword)){
-                        if(checkBoxAgreement.isChecked()){
-                            pDialog.setMessage("registering account ...");
-                            showProgress(true);
-                            mRegisterTask = new postRegisterTask().execute();
+        if(!TextUtils.isEmpty(name)){
+            if(!TextUtils.isEmpty(owner)){
+                if(formValidation.isEmailValid(email)){
+                    if(formValidation.isPhoneValid(phone)){
+                        if(formValidation.isPasswordValid(password)){
+                            if(formValidation.isConfirmPasswordValid(password,cpassword)){
+                                if(checkBoxAgreement.isChecked()){
+                                    pDialog.setMessage("registering account ...");
+                                    showProgress(true);
+                                    mRegisterTask = new postRegisterTask().execute();
+                                }else{
+                                    Toast.makeText(getApplicationContext(),"Mohon konfirmasi bahwa anda telah membaca Syarat dan Kebijakan Rentist", Toast.LENGTH_LONG).show();
+                                }
+                            }else{
+                                rConfPass.setError(getString(R.string.error_invalid_confirm_password));
+                                focusView = rConfPass;
+                                focusView.requestFocus();
+                            }
                         }else{
-                            Toast.makeText(getApplicationContext(),"Mohon konfirmasi bahwa anda telah membaca Syarat dan Kebijakan Rentist", Toast.LENGTH_LONG).show();
+                            rPass.setError(getString(R.string.error_invalid_password));
+                            focusView = rPass;
+                            focusView.requestFocus();
                         }
                     }else{
-                        rConfPass.setError(getString(R.string.error_invalid_confirm_password));
-                        focusView = rConfPass;
+                        rPhone.setError(getString(R.string.error_invalid_phone));
+                        focusView = rPhone;
                         focusView.requestFocus();
                     }
                 }else{
-                    rPass.setError(getString(R.string.error_invalid_password));
-                    focusView = rPass;
+                    rEmail.setError(getString(R.string.error_invalid_email));
+                    focusView = rEmail;
                     focusView.requestFocus();
                 }
             }else{
-                rPhone.setError(getString(R.string.error_invalid_phone));
-                focusView = rPhone;
+                rOwner.setError(getString(R.string.error_field_required));
+                focusView = rOwner;
                 focusView.requestFocus();
             }
         }else{
-            rEmail.setError(getString(R.string.error_invalid_email));
-            focusView = rEmail;
+            rName.setError(getString(R.string.error_field_required));
+            focusView = rName;
             focusView.requestFocus();
         }
     }
@@ -169,12 +189,12 @@ public class RegistrationActivity extends AppCompatActivity {
                 protected Map<String, String> getParams() {
                     // Posting parameters to url
                     Map<String, String> keys = new HashMap<String, String>();
-                    keys.put("rental_name", rName.getText().toString());
-                    keys.put("owner_name", rOwner.getText().toString());
+                    keys.put("rental_name", name);
+                    keys.put("owner_name", owner);
                     keys.put("rental_type", rRole.getSelectedItem().toString());
-                    keys.put("email", rEmail.getText().toString());
-                    keys.put("password", rPass.getText().toString());
-                    keys.put("phone", rPhone.getText().toString());
+                    keys.put("email", email);
+                    keys.put("password", password);
+                    keys.put("phone", phone);
                     Log.e(TAG, "Key Body : " + keys.toString());
                     return keys;
                 }
@@ -209,10 +229,12 @@ public class RegistrationActivity extends AppCompatActivity {
                     Log.d(TAG, String.valueOf(registObject));
                     try{
                         tenantObject = new JSONObject(registObject.getString("data"));
+                        tenantAccObject = new JSONObject(registObject.getString("tenant_acc"));
                         Log.d(TAG, String.valueOf(tenantObject));
 
                         aId = tenantObject.getString("id");
 
+                        registerFireBase(tenantAccObject.getString("tenant_code") + "-" + tenantAccObject.getString("phone"), tenantAccObject.getString("id"), tenantAccObject.getString("email"), tenantAccObject.getString("password"));
                         Toast.makeText(getApplicationContext(),"Sukses mendaftarkan akun.", Toast.LENGTH_LONG).show();
                         Intent iComp = new Intent(RegistrationActivity.this, AktivasiActivity.class);
                         iComp.putExtra("action","registration");
@@ -248,6 +270,52 @@ public class RegistrationActivity extends AppCompatActivity {
             showProgress(false);
         }
 
+    }
+
+    private void registerFireBase(final String phone, final String id_tenant, final String email, final String password) {
+
+        String url = "https://rentist-chat.firebaseio.com/tenant-user.json";
+
+        StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>(){
+            @Override
+            public void onResponse(String s) {
+                Log.d(TAG, "Firebase Object : " + s);
+                Firebase reference = new Firebase("https://rentist-chat.firebaseio.com/tenant-user");
+
+                if(s.equals("null")) {
+                    reference.child(phone).child("email").setValue(email);
+                    reference.child(phone).child("id_tenant").setValue(id_tenant);
+                    reference.child(phone).child("password").setValue(password);
+                    Log.d(TAG, "Firebase Regist : registration successful");
+                }
+                else {
+                    try {
+                        JSONObject obj = new JSONObject(s);
+
+                        if (!obj.has(phone)) {
+                            reference.child(phone).child("email").setValue(email);
+                            reference.child(phone).child("id_tenant").setValue(id_tenant);
+                            reference.child(phone).child("password").setValue(password);
+                            Log.d(TAG, "Firebase Regist : registration successful");
+                        } else {
+                            Log.d(TAG, "Firebase Regist : username already exists");
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+        },new Response.ErrorListener(){
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                System.out.println("FB " + volleyError );
+            }
+        });
+
+        RequestQueue rQueue = Volley.newRequestQueue(RegistrationActivity.this);
+        rQueue.add(request);
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)

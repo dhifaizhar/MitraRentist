@@ -36,6 +36,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.github.ybq.android.spinkit.SpinKitView;
 import com.github.ybq.android.spinkit.style.FadingCircle;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -61,13 +63,15 @@ public class DashboardActivity extends AppCompatActivity
     private SessionManager sm;
     private View navHeaderView;
     private Menu navMenuView;
+    FirebaseAuth mFirebaseAuth;
+    FirebaseUser mFirebaseUser;
     private int PICK_IMAGE_REQUEST = 1;
     private static final int RESULT_LOAD_IMAGE = 1;
 
     //    URL imageUrl;
     ImageLoader mImageLoader;
 
-    String tenant, img, encodedImage, imageUrl, imgString;
+    String tenant, mUsername, mPhotoUrl, encodedImage, imageUrl, imgString;
     Integer sumAsset, aCar, aBike, aYacht;
     TextView newTrans, totAsset, totPoin, totRating, totSaldo, rentName, role, rentNameDrawer, successRent, ongoRent, toFormAccount;
     ImageView rentImgProfile, verifIco;

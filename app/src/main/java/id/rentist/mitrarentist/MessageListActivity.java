@@ -1,43 +1,193 @@
 package id.rentist.mitrarentist;
 
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.github.ybq.android.spinkit.SpinKitView;
+import com.github.ybq.android.spinkit.style.FadingCircle;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import id.rentist.mitrarentist.adapter.MessageListAdapter;
 import id.rentist.mitrarentist.modul.MessageListModul;
+import id.rentist.mitrarentist.tools.SessionManager;
 
 public class MessageListActivity extends AppCompatActivity {
+    AsyncTask mMessageTask = null;
+    RecyclerView mRecyclerView;
     RecyclerView.Adapter mAdapter;
     RecyclerView.LayoutManager mLayoutManager;
+    SwipeRefreshLayout mSwipeRefreshLayout;
+    Toolbar toolbar;
     private List<MessageListModul> mMsg = new ArrayList<>();
+    private SpinKitView pBar;
+    SessionManager sm;
+    JSONObject dataObject, objectMessage, objectMessageDetail;
+    JSONArray dataArray;
+    Intent iMessage;
+
+    private static final String TAG = "MessageActivity";
+    private static final String TOKEN = "secretissecret";
+    private String tenant;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message_list);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setTitle("Pesan");
+
+        sm = new SessionManager(getApplicationContext());
+        pBar = (SpinKitView)findViewById(R.id.progressBar);
+        FadingCircle fadingCircle = new FadingCircle();
+        pBar.setIndeterminateDrawable(fadingCircle);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        setTitle("Message");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.msg_recyclerView);
-        mLayoutManager = new LinearLayoutManager(getApplicationContext());
-        mAdapter = new MessageListAdapter(getApplicationContext(),mMsg);
+        tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
+        getMessageList();
 
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setAdapter(mAdapter);
-
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if (mRecyclerView != null) {
+                    mMsg.clear();
+                    mRecyclerView.setAdapter(null);
+                }
+                getMessageList();
+            }
+        });
     }
 
+    private void getMessageList() {
+        pBar.setVisibility(View.VISIBLE);
+
+        if (mMessageTask != null) {
+            return;
+        }
+
+        new getMessageListTask().execute();
+    }
+
+    private class getMessageListTask extends AsyncTask<String, String, String> {
+        private String errorMsg, responseMessage;
+
+        private getMessageListTask() {
+
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            String newURL = "https://rentist-chat.firebaseio.com/tenant-user.json";
+            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+            StringRequest stringRequest = new StringRequest(Request.Method.GET, newURL, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    responseMessage = response;
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    errorMsg = error.toString();
+                    Log.e(TAG, "Message Fetch Error : " + errorMsg);
+                    Toast.makeText(getApplicationContext(), "Connection error, try again.",
+                            Toast.LENGTH_LONG).show();
+                }
+            });
+
+            try {
+                requestQueue.add(stringRequest);
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            return responseMessage;
+        }
+
+        @Override
+        protected void onPostExecute(String msg) {
+            mMessageTask = null;
+            mSwipeRefreshLayout.setRefreshing(false);
+            pBar.setVisibility(View.GONE);
+            Integer dataLength;
+
+            if (msg != null) {
+                try {
+                    dataObject = new JSONObject(msg);
+                    dataLength = dataObject.length();
+                    Log.e(TAG, "Message Response : " + msg);
+
+                    if(dataLength > 0){
+                        errorMsg = "-";
+
+                        Iterator<String> keys = dataObject.keys();
+                        while (keys.hasNext())
+                        {
+                            String keyValue = (String)keys.next();
+                            objectMessage = new JSONObject(dataObject.getString(keyValue));
+
+                            if(!objectMessage.getString("email").equals(sm.getPreferences("email"))){
+                                MessageListModul msgModul = new MessageListModul();
+                                msgModul.setTitle(keyValue);
+                                msgModul.setName(objectMessage.getString("email"));
+                                msgModul.setThumbnail(R.drawable.blue_android);
+
+                                mMsg.add(msgModul);
+                            }
+
+                            Log.e(TAG, "User Data : " + keyValue + " | " + objectMessage.getString("email"));
+                        }
+
+                        mRecyclerView = (RecyclerView) findViewById(R.id.msg_recyclerView);
+                        mLayoutManager = new LinearLayoutManager(getApplicationContext());
+                        mAdapter = new MessageListAdapter(getApplicationContext(),mMsg);
+
+                        mRecyclerView.setLayoutManager(mLayoutManager);
+                        mRecyclerView.setAdapter(mAdapter);
+                    }else{
+                        errorMsg = "Tidak ada pesan.";
+                        Toast.makeText(getApplicationContext(),errorMsg, Toast.LENGTH_LONG).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            mMessageTask= null;
+            mSwipeRefreshLayout.setRefreshing(false);
+            pBar.setVisibility(View.GONE);
+        }
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_search_option, menu);
@@ -58,7 +208,6 @@ public class MessageListActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
 
     @Override
     public boolean onSupportNavigateUp() {

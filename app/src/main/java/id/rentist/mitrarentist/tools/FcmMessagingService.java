@@ -1,4 +1,4 @@
-package id.rentist.mitrarentist;
+package id.rentist.mitrarentist.tools;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -15,6 +15,9 @@ import com.google.firebase.messaging.RemoteMessage;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import id.rentist.mitrarentist.DashboardActivity;
+import id.rentist.mitrarentist.R;
 
 /**
  * Created by Gustriana on 10/12/2017.

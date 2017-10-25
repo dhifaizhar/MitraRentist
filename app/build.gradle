@@ -26,7 +26,6 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:design:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
@@ -44,19 +43,20 @@ dependencies {
     compile 'com.github.ybq:Android-SpinKit:1.1.0'
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.google.firebase:firebase-core:9.2.0'
-    compile 'com.google.firebase:firebase-messaging:9.2.0'
+    compile 'com.google.firebase:firebase-core:11.0.4'
+    compile 'com.google.firebase:firebase-messaging:11.0.4'
+    compile 'com.google.firebase:firebase-auth:11.0.4'
     compile 'com.hbb20:ccp:2.0.2'
-//    compile 'com.github.faranjit:currency-edittext:1.0.1'
-//    compile 'com.github.BlacKCaT27:CurrencyEditText:2.0.2'
     compile 'com.aldoapps:autoformatedittext:0.9.3'
-
     testCompile 'junit:junit:4.12'
+    compile 'com.firebase:firebase-client-android:2.5.2'
 }
 
 apply plugin: 'com.google.gms.google-services'
 
-
+//    for depedencies
+//    compile 'com.github.faranjit:currency-edittext:1.0.1'
+//    compile 'com.github.BlacKCaT27:CurrencyEditText:2.0.2'
 
 
 

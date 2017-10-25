@@ -22,14 +22,17 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/msg_recyclerView"
+    <include layout="@layout/content_message_list" />
+
+    <com.github.ybq.android.spinkit.SpinKitView
+        android:id="@+id/progressBar"
+        style="@style/SpinKitView.FadingCircle"
         android:layout_width="match_parent"
-        android:layout_marginTop="@dimen/breadcrumb_height"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="@dimen/xmin_padding"
-        android:layout_marginLeft="@dimen/xmin_padding"
-        android:background="@color/colorWhite">
-    </android.support.v7.widget.RecyclerView>
+        android:layout_height="@dimen/btn_lmedium_height"
+        android:layout_marginTop="@dimen/thumb_med_height"
+        android:background="@android:color/transparent"
+        android:padding="@dimen/xmin_padding"
+        android:visibility="gone"
+        app:SpinKit_Color="@color/colorPrimary" />
 
 </android.support.design.widget.CoordinatorLayout>

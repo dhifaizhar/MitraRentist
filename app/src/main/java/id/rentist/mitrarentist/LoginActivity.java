@@ -189,7 +189,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
         mToken = FirebaseInstanceId.getInstance().getToken();
-        Log.e("onCreate Token: ",mToken);
+        //Log.e("onCreate Token: ",mToken);
 
         // Check for a valid email & password, if the user entered one.
         if(formValidation.isEmailValid(email)){
@@ -281,7 +281,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         private final String mEmail;
         private final String mPassword;
 
-        String sEmail, sEmailRental, sNama, sNamaRent, sNamaPem, sTelp, sRole, sAlamat, sStat, sPic, tPic, sVerif;
+        String sEmail, sEmailRental, sNama, sNamaRent, sNamaPem, sTelp, sRole, sAlamat, sStat, sPic, tCode, tPic, sVerif;
         Integer sId, sIdTenant, sImg;
 
 
@@ -346,7 +346,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                     Map<String, String> keys = new HashMap<String, String>();
                     keys.put("email", mEmail);
                     keys.put("password", mPassword);
-                    keys.put("firebase_token" , mToken);
+                    //keys.put("firebase_token" , mToken);
                     return keys;
                 }
 
@@ -396,6 +396,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                         sTelp = tenantObject.getString("phone");
                         sStat = tenantObject.getString("is_activated");
                         tPic = tenantObject.getString("profil_pic");
+                        tCode = tenantObject.getString("tenant_code");
                         sVerif = tenantObject.getString("verified");
 
                         sm.setPreferences("rental_type", tenantObject.getString("rental_type"));
@@ -415,12 +416,14 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
                     sm.setIntPreferences("id", sId);
                     sm.setIntPreferences("id_tenant", sIdTenant);
+                    sm.setPreferences("tenant_code", tCode);
                     sm.setPreferences("email", sEmail);
                     sm.setPreferences("email_rental", sEmailRental);
                     sm.setPreferences("nama", sNama);
                     sm.setPreferences("nama_rental", sNamaRent);
                     sm.setPreferences("nama_pemilik", sNamaPem);
                     sm.setPreferences("alamat", sAlamat);
+                    sm.setPreferences("hp", userObject.getString("phone"));
                     sm.setPreferences("telepon", sTelp);
                     sm.setPreferences("role",sRole);
                     sm.setPreferences("status",sStat);

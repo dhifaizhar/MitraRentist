@@ -44,6 +44,7 @@ public class FeatureActivity extends AppCompatActivity {
     RecyclerView.LayoutManager mLayoutManager;
     SwipeRefreshLayout mSwipeRefreshLayout;
     AsyncTask mFeatureTask = null;
+    Toolbar toolbar;
     private List<ItemFeatureModul> mFeature = new ArrayList<>();
     private SpinKitView pBar;
     SessionManager sm;
@@ -66,7 +67,7 @@ public class FeatureActivity extends AppCompatActivity {
         FadingCircle fadingCircle = new FadingCircle();
         pBar.setIndeterminateDrawable(fadingCircle);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
