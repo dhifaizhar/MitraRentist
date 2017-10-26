@@ -40,6 +40,7 @@ import id.rentist.mitrarentist.DetailAsetActivity;
 import id.rentist.mitrarentist.R;
 import id.rentist.mitrarentist.modul.ItemAsetModul;
 import id.rentist.mitrarentist.tools.AppConfig;
+import id.rentist.mitrarentist.tools.Tools;
 
 /**
  * Created by mdhif on 19/06/2017.
@@ -105,29 +106,43 @@ public class AsetAdapter extends RecyclerView.Adapter<AsetAdapter.ViewHolder> {
 
 //        simpan value dalam object
         viewHolder.mark.setText(as.getMark());
-//        viewHolder.imgThumbnail.setImageResource(as.getThumbnail());
 
-        String imageUrl = AppConfig.URL_IMAGE_ASSETS + as.getThumbnail();
-        Picasso.with(context).load(imageUrl).into(viewHolder.imgThumbnail);
+        if (as.getThumbnail().equals("add")){
+            viewHolder.imgThumbnail.setImageResource(R.drawable.ic_add_black_48dp);
+            viewHolder.status.setVisibility(View.GONE);
+            viewHolder.plat.setVisibility(View.GONE);
+        }else {
+            String imageUrl = AppConfig.URL_IMAGE_ASSETS + as.getThumbnail();
+            Picasso.with(context).load(imageUrl).into(viewHolder.imgThumbnail);
+            viewHolder.status.setText(as.getStatus());
+            viewHolder.subcat.setText(as.getSubCat());
+            if(as.getVerif().equals("true")){
+                viewHolder.verifIco.setVisibility(View.VISIBLE);
+            }
+            if (!category.equals("10") && !category.equals("3")){
+                viewHolder.year.setText(as.getYear());
+                viewHolder.plat.setText(as.getPlat());
+            }
+        }
 
-        viewHolder.status.setText(as.getStatus());
-        viewHolder.subcat.setText(as.getSubCat());
-        if(as.getVerif().equals("true")){
-            viewHolder.verifIco.setVisibility(View.VISIBLE);
-        }
-        if (!category.equals("10") && !category.equals("3")){
-            viewHolder.year.setText(as.getYear());
-            viewHolder.plat.setText(as.getPlat());
-        }
+
 
         viewHolder.cardDetAset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent iAset = new Intent(context, DetailAsetActivity.class);
-                iAset.putExtra("id_asset", as.getAssetId());
-                iAset.putExtra("id_asset_category", category);
-                iAset.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(iAset);
+                if (as.getThumbnail().equals("add")){
+                    Intent iAddAset = new Intent(context, Tools.getCategoryForm(category));
+                    iAddAset.putExtra("action", "add");
+                    iAddAset.putExtra("id_category", category);
+                    iAddAset.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(iAddAset);
+                } else {
+                    Intent iAset = new Intent(context, DetailAsetActivity.class);
+                    iAset.putExtra("id_asset", as.getAssetId());
+                    iAset.putExtra("id_asset_category", category);
+                    iAset.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(iAset);
+                }
             }
         });
         viewHolder.deleteAsset.setOnClickListener(new View.OnClickListener() {
@@ -244,9 +259,7 @@ public class AsetAdapter extends RecyclerView.Adapter<AsetAdapter.ViewHolder> {
                             JSONObject obj = arr.getJSONObject(i);
 
                             Log.e(TAG, "Response : " + String.valueOf(obj));
-
                         }
-
                     }
 
                 } catch (JSONException e) {

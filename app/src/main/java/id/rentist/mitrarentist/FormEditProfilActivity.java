@@ -119,7 +119,7 @@ public class FormEditProfilActivity extends AppCompatActivity {
         rName.setText(sm.getPreferences("nama_rental"));
         rOwner.setText(sm.getPreferences("nama_pemilik"));
         rAddress.setText(sm.getPreferences("alamat"));
-        rPhone.setText(sm.getPreferences("telepon").substring(1));
+        rPhone.setText(sm.getPreferences("telepon").substring(2));
         rEmail.setText(sm.getPreferences("email_rental"));
         rBankAccount.setText(sm.getPreferences("bank_account"));
         rBranch.setText(sm.getPreferences("branch"));

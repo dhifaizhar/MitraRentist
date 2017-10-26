@@ -778,6 +778,7 @@ public class FormMedicAsetActivity extends AppCompatActivity {
         protected void onPostExecute(String aset) {
             mAddAssetTask = null;
             showProgress(false);
+            Log.e(TAG, "Asset Respone: " + String.valueOf(aset));
 
             if(aset != null){
                 Toast.makeText(getApplicationContext(),"Data sukses disimpan", Toast.LENGTH_LONG).show();
@@ -785,6 +786,7 @@ public class FormMedicAsetActivity extends AppCompatActivity {
 //                intent.putExtra("asset_name", "Peralatan Medis");
 //                intent.putExtra("asset_category", 4);
 //                setResult(RESULT_OK, intent);
+
                 finish();
             }else{
                 Toast.makeText(getApplicationContext(),"Gagal meyimpan data", Toast.LENGTH_LONG).show();

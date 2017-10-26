@@ -228,8 +228,19 @@ public class AsetListActivity extends AppCompatActivity {
                         mRecyclerView.setAdapter(mAdapter);
 
                     }else{
+                        ItemAsetModul itemModul = new ItemAsetModul();
+                        itemModul.setThumbnail("add");
+                        itemModul.setMark("Tambah Aset");
+
+                        mAset.add(itemModul);
+                        mRecyclerView = (RecyclerView) findViewById(R.id.as_recyclerView);
+                        mLayoutManager = new LinearLayoutManager(getApplicationContext());
+                        mAdapter = new AsetAdapter(AsetListActivity.this,mAset,category);
+
+                        mRecyclerView.setLayoutManager(mLayoutManager);
+                        mRecyclerView.setAdapter(mAdapter);
                         errorMsg = "Anda belum memiliki Aset " + name_category;
-                        noAset.setVisibility(View.VISIBLE);
+//                        noAset.setVisibility(View.VISIBLE);
                         Toast.makeText(getApplicationContext(),errorMsg, Toast.LENGTH_LONG).show();
                     }
                 } catch (JSONException e) {

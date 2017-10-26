@@ -189,7 +189,8 @@ public class DriverActivity extends AppCompatActivity {
 
             if (user != null) {
                 try {
-                    JSONArray jsonArray = new JSONArray(user);
+                    JSONObject jsonObject = new JSONObject(user);
+                    JSONArray jsonArray = jsonObject.getJSONArray("driver");
                     Log.e(TAG, "User : " + jsonArray);
                     dataLength = jsonArray.length();
                     if(dataLength > 0){

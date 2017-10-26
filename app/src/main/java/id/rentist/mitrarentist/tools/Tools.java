@@ -10,6 +10,18 @@ import android.view.Display;
 import android.view.Window;
 import android.view.WindowManager;
 
+import id.rentist.mitrarentist.FormAdventureAsetActivity;
+import id.rentist.mitrarentist.FormBicycleAsetActivity;
+import id.rentist.mitrarentist.FormCarAsetActivity;
+import id.rentist.mitrarentist.FormElectronicAsetActivity;
+import id.rentist.mitrarentist.FormFashionAsetActivity;
+import id.rentist.mitrarentist.FormMaternityAsetActivity;
+import id.rentist.mitrarentist.FormMedicAsetActivity;
+import id.rentist.mitrarentist.FormMotorcycleAsetActivity;
+import id.rentist.mitrarentist.FormOfficeAsetActivity;
+import id.rentist.mitrarentist.FormPhotographyAsetActivity;
+import id.rentist.mitrarentist.FormToysAsetActivity;
+import id.rentist.mitrarentist.FormYachtAsetActivity;
 import id.rentist.mitrarentist.R;
 
 public class Tools {
@@ -94,6 +106,24 @@ public class Tools {
             case "12": URL = AppConfig.URL_OFFICE; break;
         }
         return URL;
+    }
 
+    public static Class getCategoryForm(String category ){
+        Class activity = FormCarAsetActivity.class;;
+        switch (category) {
+            case "1": activity = FormCarAsetActivity.class; break;
+            case "2": activity = FormMotorcycleAsetActivity.class; break;
+            case "3": activity = FormYachtAsetActivity.class;  break;
+            case "4": activity = FormMedicAsetActivity.class;  break;
+            case "5": activity = FormPhotographyAsetActivity.class;  break;
+            case "6": activity = FormToysAsetActivity.class;  break;
+            case "7": activity = FormAdventureAsetActivity.class;  break;
+            case "8": activity = FormMaternityAsetActivity.class;  break;
+            case "9": activity = FormElectronicAsetActivity.class;  break;
+            case "10": activity = FormBicycleAsetActivity.class;  break;
+            case "11": activity = FormOfficeAsetActivity.class;  break;
+            case "12": activity = FormFashionAsetActivity.class;  break;
+        }
+        return activity;
     }
 }

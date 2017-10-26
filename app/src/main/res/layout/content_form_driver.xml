@@ -104,7 +104,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:paddingRight="@dimen/med_padding"
-                            android:text="Pria" />
+                            android:text="male" />
 
                         <RadioButton
                             android:id="@+id/radioFemale"
@@ -113,7 +113,7 @@
                             android:layout_weight="1"
                             android:padding="@dimen/xmin_padding"
                             android:paddingRight="@dimen/med_padding"
-                            android:text="Wanita" />
+                            android:text="female" />
 
                     </RadioGroup>
 
@@ -185,28 +185,28 @@
                     android:text="Tanggal Lahir"
                     android:textColor="@color/colorBlack" />
 
-                <!--<EditText-->
-                <!--android:id="@+id/dr_bdate"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:background="@color/colorNearWhite"-->
-                <!--android:ems="10"-->
-                <!--android:hint="YYYY-mm-dd"-->
-                <!--android:inputType="date"-->
-                <!--android:padding="@dimen/min_padding" />-->
+                <EditText
+                android:id="@+id/dr_bdate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorNearWhite"
+                android:ems="10"
+                android:hint="YYYY-mm-dd"
+                android:inputType="date"
+                android:padding="@dimen/min_padding" />
 
-                <android.support.v7.widget.AppCompatEditText
-                    android:id="@+id/dr_bdate"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:alpha="0.87"
-                    android:background="@color/colorNearWhite"
-                    android:drawableEnd="@drawable/ic_date_range_black_24dp"
-                    android:editable="false"
-                    android:padding="@dimen/min_padding"
-                    android:text="Tanggal Lahir"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="16sp" />
+                <!--<android.support.v7.widget.AppCompatEditText-->
+                    <!--android:id="@+id/dr_bdate"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:alpha="0.87"-->
+                    <!--android:background="@color/colorNearWhite"-->
+                    <!--android:drawableEnd="@drawable/ic_date_range_black_24dp"-->
+                    <!--android:editable="false"-->
+                    <!--android:padding="@dimen/min_padding"-->
+                    <!--android:text="Tanggal Lahir"-->
+                    <!--android:textColor="@color/colorBlack"-->
+                    <!--android:textSize="16sp" />-->
             </LinearLayout>
 
         </LinearLayout>

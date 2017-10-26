@@ -36,6 +36,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.github.ybq.android.spinkit.SpinKitView;
 import com.github.ybq.android.spinkit.style.FadingCircle;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -60,8 +62,8 @@ public class DashboardActivity extends AppCompatActivity
     private SessionManager sm;
     private View navHeaderView;
     private Menu navMenuView;
-//    FirebaseAuth mFirebaseAuth;
-//    FirebaseUser mFirebaseUser;
+    FirebaseAuth mFirebaseAuth;
+    FirebaseUser mFirebaseUser;
     private int PICK_IMAGE_REQUEST = 1;
     private static final int RESULT_LOAD_IMAGE = 1;
 
@@ -136,6 +138,9 @@ public class DashboardActivity extends AppCompatActivity
         toFormAccount = (TextView) findViewById(R.id.toFormProfile);
 
         // set content control value
+        Log.e(TAG, "Tenant Data : " + sm.getPreferences("nama_pemilik") +  sm.getPreferences("nama_rental") + sm.getPreferences("nama") +
+                sm.getPreferences("alamat") + sm.getPreferences("telepon") + sm.getPreferences("email") + sm.getPreferences("city") +
+                sm.getPreferences("bank_name") + sm.getPreferences("bank_account") + sm.getPreferences("branch") + sm.getPreferences("account_name"));
         if(!sm.getPreferences("nama_pemilik").isEmpty() &&
                 !sm.getPreferences("nama_rental").isEmpty() &&
                 !sm.getPreferences("nama").isEmpty() &&
@@ -449,7 +454,9 @@ public class DashboardActivity extends AppCompatActivity
         }
 
         if(resultCode == RESULT_OK) {
-            retrieveDashboardData(tenant);
+            DashboardActivity.this.finish();
+            Intent ii = new Intent(DashboardActivity.this,DashboardActivity.class);
+            startActivity(ii);
         }
     }
 
