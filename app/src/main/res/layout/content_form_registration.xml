@@ -273,6 +273,17 @@
                 android:textColor="@color/colorPrimary"
                 android:textStyle="bold" />
 
+            <TextView
+                android:id="@+id/terms_service"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/med_padding"
+                android:padding="@dimen/xmin_padding"
+                android:text="@string/agreement_link"
+                android:textAlignment="center"
+                android:textColor="@color/colorWhite"
+                android:textSize="10sp"/>
+
         </LinearLayout>
 
     </ScrollView>

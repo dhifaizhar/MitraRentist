@@ -219,7 +219,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".RegistrationActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".FeatureActivity"
             android:label="@string/title_activity_feature"
@@ -239,18 +239,16 @@
         <activity
             android:name=".SelectCategoryActivity"
             android:label="@string/title_activity_select_category"
-            android:theme="@style/AppTheme.NoActionBar"/>
-
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".CustomDatePickerRangeActivity"
             android:configChanges="orientation"
             android:label="Pilih Tanggal"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.Dialog"
-            >
-
-            <!--  -->
-        </activity>
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
+        <activity
+            android:name=".TermsPolicyActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

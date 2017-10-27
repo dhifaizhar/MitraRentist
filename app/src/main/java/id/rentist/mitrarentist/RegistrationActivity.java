@@ -44,7 +44,7 @@ public class RegistrationActivity extends AppCompatActivity {
     View focusView;
 
     String tenant, name, owner, email, phone, password, cpassword;
-    TextView rName, rOwner, rEmail, rPhone, rPass, rConfPass;
+    TextView rName, rOwner, rEmail, rPhone, rPass, rConfPass, termsService;
     CountryCodePicker countryCode;
     Spinner rRole;
     CheckBox checkBoxAgreement;
@@ -85,6 +85,8 @@ public class RegistrationActivity extends AppCompatActivity {
         checkBoxAgreement = (CheckBox) findViewById(R.id.checkBoxAgreement);
         btnSave = (Button) findViewById(R.id.btn_save);
         countryCode =(CountryCodePicker) findViewById(R.id.country_code);
+        termsService = (TextView)findViewById(R.id.terms_service);
+
 
         // set content control value
 
@@ -93,6 +95,14 @@ public class RegistrationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 formRegisterTenant();
+            }
+        });
+
+        termsService.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent iTerms = new Intent(RegistrationActivity.this, TermsPolicyActivity.class);
+                startActivity(iTerms);
             }
         });
     }

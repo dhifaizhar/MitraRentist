@@ -410,4 +410,5 @@
     <!-- Link -->
     <string name="perbarui_akun_notif"><u>Perbarui Akun Disini</u></string>
     <string name="resend_code"><u>KIRIM ULANG</u></string>
+    <string name="agreement_link">Dengan DAFTAR, saya setuju dengan <u>Syarat dan Kebijakan</u> yang berlaku.</string>
 </resources>
