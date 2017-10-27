@@ -37,7 +37,7 @@ public class FormValidation {
     public boolean isPasswordValid(String password) {
         boolean result = false;
 
-        if(password.length() > 4){
+        if(password.length() > 6){
             result = true;
         }
 

@@ -9,7 +9,7 @@
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">Gunakan alamat surel yang valid</string>
-    <string name="error_invalid_password">Minimal 5 karakter ( hanya angka atau huruf )</string>
+    <string name="error_invalid_password">Minimal 7 karakter ( hanya angka atau huruf )</string>
     <string name="error_invalid_confirm_password">Konfirmasi Password tidak sesuai</string>
     <string name="error_invalid_phone">Minimal 10 dan miksimal 12 karakter ( hanya angka )</string>
     <string name="error_incorrect_password">Kata kunci tidak sesuai</string>

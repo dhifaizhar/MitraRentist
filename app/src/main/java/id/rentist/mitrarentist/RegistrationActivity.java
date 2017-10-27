@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -25,6 +26,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.firebase.client.Firebase;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.hbb20.CountryCodePicker;
 
 import org.json.JSONException;
@@ -37,6 +43,9 @@ import id.rentist.mitrarentist.tools.AppConfig;
 import id.rentist.mitrarentist.tools.FormValidation;
 
 public class RegistrationActivity extends AppCompatActivity {
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+
     AsyncTask mRegisterTask = null;
     ProgressDialog pDialog;
     JSONObject registObject, tenantObject, tenantAccObject, responseMessage;
@@ -105,6 +114,21 @@ public class RegistrationActivity extends AppCompatActivity {
                 startActivity(iTerms);
             }
         });
+
+        mAuth = FirebaseAuth.getInstance();
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    // User is signed in
+                    Log.d(TAG, "onAuthStateChanged : signed_in: " + user.getUid());
+                } else {
+                    // User is signed out
+                    Log.d(TAG, "onAuthStateChanged : signed_out ");
+                }
+            }
+        };
     }
 
     private void formRegisterTenant() {
@@ -136,7 +160,21 @@ public class RegistrationActivity extends AppCompatActivity {
                                 if(checkBoxAgreement.isChecked()){
                                     pDialog.setMessage("registering account ...");
                                     showProgress(true);
-                                    mRegisterTask = new postRegisterTask().execute();
+
+                                    mAuth.createUserWithEmailAndPassword(email, password)
+                                            .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                                    Log.d(TAG, "createUserWithEmail : onComplete:" + task.isSuccessful());
+
+                                                    if (!task.isSuccessful()) {
+                                                        showProgress(false);
+                                                        Toast.makeText(RegistrationActivity.this, "Gagal mendaftarkan akun", Toast.LENGTH_LONG).show();
+                                                    }else{
+                                                        mRegisterTask = new postRegisterTask().execute();
+                                                    }
+                                                }
+                                            });
                                 }else{
                                     Toast.makeText(getApplicationContext(),"Mohon konfirmasi bahwa anda telah membaca Syarat dan Kebijakan Rentist", Toast.LENGTH_LONG).show();
                                 }
@@ -233,6 +271,7 @@ public class RegistrationActivity extends AppCompatActivity {
             showProgress(false);
             String aId;
 
+            Log.d(TAG + "-user: ", user);
             if(user != null){
                 try {
                     registObject = new JSONObject(user);
@@ -244,7 +283,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
                         aId = tenantObject.getString("id");
 
-                        registerFireBase(tenantAccObject.getString("tenant_code") + "-" + tenantAccObject.getString("phone"), tenantAccObject.getString("id"), tenantAccObject.getString("email"), tenantAccObject.getString("password"));
+                        registerFireBase(tenantAccObject.toString());
                         Toast.makeText(getApplicationContext(),"Sukses mendaftarkan akun.", Toast.LENGTH_LONG).show();
                         Intent iComp = new Intent(RegistrationActivity.this, AktivasiActivity.class);
                         iComp.putExtra("action","registration");
@@ -260,9 +299,11 @@ public class RegistrationActivity extends AppCompatActivity {
                         tenantObject = new JSONObject(user);
                         Log.d(TAG, String.valueOf(tenantObject));
 
-                        rEmail.setError(tenantObject.getString("info"));
-                        focusView = rEmail;
-                        focusView.requestFocus();
+                        if(tenantObject.has("info")){
+                            rEmail.setError(tenantObject.getString("info"));
+                            focusView = rEmail;
+                            focusView.requestFocus();
+                        }
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -282,38 +323,45 @@ public class RegistrationActivity extends AppCompatActivity {
 
     }
 
-    private void registerFireBase(final String phone, final String id_tenant, final String email, final String password) {
-
+    private void registerFireBase(final String akun) {
         String url = "https://rentist-chat.firebaseio.com/tenant-user.json";
-
         StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>(){
             @Override
             public void onResponse(String s) {
                 Log.d(TAG, "Firebase Object : " + s);
                 Firebase reference = new Firebase("https://rentist-chat.firebaseio.com/tenant-user");
 
-                if(s.equals("null")) {
-                    reference.child(phone).child("email").setValue(email);
-                    reference.child(phone).child("id_tenant").setValue(id_tenant);
-                    reference.child(phone).child("password").setValue(password);
-                    Log.d(TAG, "Firebase Regist : registration successful");
-                }
-                else {
-                    try {
-                        JSONObject obj = new JSONObject(s);
+                try {
+                    JSONObject akunObject = new JSONObject(akun);
+                    Log.d(TAG, "Firebase Object : " + akun);
 
-                        if (!obj.has(phone)) {
-                            reference.child(phone).child("email").setValue(email);
-                            reference.child(phone).child("id_tenant").setValue(id_tenant);
-                            reference.child(phone).child("password").setValue(password);
-                            Log.d(TAG, "Firebase Regist : registration successful");
-                        } else {
-                            Log.d(TAG, "Firebase Regist : username already exists");
-                        }
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                    if(s.equals("null")) {
+                        reference.child(akunObject.getString("phone")).child("email").setValue(akunObject.getString("email"));
+                        reference.child(akunObject.getString("phone")).child("id_tenant").setValue(akunObject.getString("id_tenant"));
+                        reference.child(akunObject.getString("phone")).child("password").setValue(akunObject.getString("password"));
+                        Log.d(TAG, "Firebase Regist : registration successful");
                     }
+                    else {
+                        try {
+                            JSONObject obj = new JSONObject(s);
+
+                            if (!obj.has(phone)) {
+                                reference.child(akunObject.getString("phone")).child("email").setValue(akunObject.getString("email"));
+                                reference.child(akunObject.getString("phone")).child("id_tenant").setValue(akunObject.getString("id_tenant"));
+                                reference.child(akunObject.getString("phone")).child("password").setValue(akunObject.getString("password"));
+                                Log.d(TAG, "Firebase Regist : registration successful");
+                            } else {
+                                Log.d(TAG, "Firebase Regist : username already exists");
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Log.d(TAG, "JSON Firebase Error : " + e);
                 }
             }
 
@@ -338,6 +386,20 @@ public class RegistrationActivity extends AppCompatActivity {
             if (pDialog.isShowing()){
                 pDialog.dismiss();
             }
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mAuth.addAuthStateListener(mAuthListener);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mAuthListener != null) {
+            mAuth.removeAuthStateListener(mAuthListener);
         }
     }
 
