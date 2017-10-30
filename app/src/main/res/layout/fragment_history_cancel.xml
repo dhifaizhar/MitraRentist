@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="id.rentist.mitrarentist.fragment.HistoryCancelFragment">
+    tools:context="id.rentist.mitrarentist.fragment.TransactionCanceledFragment">
 
     <LinearLayout
         android:id="@+id/no_trans"

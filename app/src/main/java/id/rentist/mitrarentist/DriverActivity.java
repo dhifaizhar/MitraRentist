@@ -183,7 +183,6 @@ public class DriverActivity extends AppCompatActivity {
             mDriverTask = null;
             mSwipeRefreshLayout.setRefreshing(false);
             pBar.setVisibility(View.GONE);
-//            showProgress(false);
             String aId, aName, aSIM, aThumbPhoto;
             Integer dataLength;
 

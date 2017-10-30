@@ -43,7 +43,7 @@ import java.util.Map;
 import id.rentist.mitrarentist.adapter.PriceAdapter;
 import id.rentist.mitrarentist.modul.PriceModul;
 import id.rentist.mitrarentist.tools.AppConfig;
-import id.rentist.mitrarentist.tools.CostumFormater;
+import id.rentist.mitrarentist.tools.PricingTools;
 import id.rentist.mitrarentist.tools.SessionManager;
 import id.rentist.mitrarentist.tools.Tools;
 
@@ -278,7 +278,7 @@ public class DetailAsetActivity extends AppCompatActivity {
                                     priceModul.setRangeName(priceObject.getString("range_name"));
                                     priceModul.setStartDate(priceObject.getString("start_date"));
                                     priceModul.setEndDate(priceObject.getString("end_date"));
-                                    priceModul.setPrice(CostumFormater.PriceStringFormat(priceObject.getString("price")));
+                                    priceModul.setPrice(PricingTools.PriceStringFormat(priceObject.getString("price")));
 
                                     mPrice.add(priceModul);
                                 }
@@ -484,6 +484,7 @@ public class DetailAsetActivity extends AppCompatActivity {
                     //keys.put("id_tenant", mTenant);
                     keys.put("id_asset", String.valueOf(aId));
                     keys.put("status", mStatus);
+                    keys.put("price", aPrice);
                     Log.e(TAG, "Change Status Fetch KEYS : " + String.valueOf(keys));
                     return keys;
                 }

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    android:padding="@dimen/xmin_padding"
+    android:orientation="vertical"
+    tools:context="id.rentist.mitrarentist.TestimonyAddActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/xmin_padding">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Kebersihan"
+            android:textColor="@color/colorBlack"
+            android:textSize="12sp"
+            android:textAlignment="center"
+            />
+
+        <com.iarcuschin.simpleratingbar.SimpleRatingBar
+            android:id="@+id/t_cleanliness_rating"
+            style="@style/CustomRatingBar"
+            android:layout_width="wrap_content"
+            app:srb_starSize="@dimen/star_size"
+            android:layout_height="30dp"
+            android:layout_gravity="center_horizontal"
+            app:srb_isIndicator="true"
+            app:srb_rating="0" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/xmin_padding">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Kerapihan"
+            android:textAlignment="center"
+            android:textColor="@color/colorBlack"
+            android:textSize="12sp" />
+
+        <com.iarcuschin.simpleratingbar.SimpleRatingBar
+            android:id="@+id/t_neatness_rating"
+            style="@style/CustomRatingBar"
+            android:layout_width="wrap_content"
+            app:srb_starSize="@dimen/star_size"
+            android:layout_height="30dp"
+            android:layout_gravity="center_horizontal"
+            app:srb_isIndicator="true"
+            app:srb_rating="0" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/xmin_padding">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Kejujuran"
+            android:textAlignment="center"
+            android:textColor="@color/colorBlack"
+            android:textSize="12sp" />
+
+        <com.iarcuschin.simpleratingbar.SimpleRatingBar
+            android:id="@+id/t_honesty_rating"
+            style="@style/CustomRatingBar"
+            android:layout_width="wrap_content"
+            app:srb_starSize="@dimen/star_size"
+            android:layout_height="30dp"
+            android:layout_gravity="center_horizontal"
+            app:srb_isIndicator="true"
+            app:srb_rating="0"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/xmin_padding"
+        android:orientation="vertical"
+        android:padding="@dimen/xmin_padding">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Komunikasi"
+            android:textAlignment="center"
+            android:textColor="@color/colorBlack"
+            android:textSize="12sp" />
+
+        <com.iarcuschin.simpleratingbar.SimpleRatingBar
+            android:id="@+id/t_comunication_rating"
+            style="@style/CustomRatingBar"
+            android:layout_width="wrap_content"
+            app:srb_starSize="@dimen/star_size"
+            android:layout_height="30dp"
+            android:layout_gravity="center_horizontal"
+            app:srb_isIndicator="true"
+            app:srb_rating="0" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/xmin_padding"
+        android:orientation="vertical"
+        android:padding="@dimen/xmin_padding">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pesan"
+            android:textAlignment="center"
+            android:textColor="@color/colorBlack"
+            android:textSize="12sp" />
+
+        <EditText
+            android:id="@+id/t_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Tulis testimoni anda"
+            android:imeOptions="actionNext"
+            android:inputType="textCapSentences|textMultiLine"
+            android:maxLines="5"
+            android:padding="@dimen/min_padding"
+            android:text="" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_submit"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:layout_margin="0dp"
+        android:background="@color/colorPrimaryDark"
+        android:padding="0dp"
+        android:text="Kirim"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/medium_text" />
+
+
+</LinearLayout>

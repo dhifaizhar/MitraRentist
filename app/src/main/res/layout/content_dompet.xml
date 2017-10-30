@@ -228,7 +228,7 @@
             android:id="@+id/btn_history_withdrawal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/credit_info"
+            android:layout_below="@+id/last_withdrawal"
             android:background="@drawable/radius_primary"
             android:clickable="true"
             android:layout_alignParentEnd="true"

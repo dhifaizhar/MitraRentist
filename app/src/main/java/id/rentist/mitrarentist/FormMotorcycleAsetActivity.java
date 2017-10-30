@@ -51,8 +51,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import id.rentist.mitrarentist.tools.AppConfig;
-import id.rentist.mitrarentist.tools.CostumFormater;
+import id.rentist.mitrarentist.tools.PricingTools;
 import id.rentist.mitrarentist.tools.SessionManager;
+import id.rentist.mitrarentist.tools.Tools;
 
 public class FormMotorcycleAsetActivity extends AppCompatActivity {
     private AsyncTask mAddAssetTask = null;
@@ -64,7 +65,7 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
     private Bitmap bitmap;
     ImageView aImg, aImgSTNK;
     ImageButton btnCamSTNK, btnFileSTNK;
-    TextView aName, aType, aPlat, aYear, aPlatStart, aPlatEnd, aMinDayRent;
+    TextView aName, aType, aPlat, aPlatStart, aPlatEnd, aMinDayRent;//, aYear;
     Integer idAsset;
     String aLatitude, aLongitude, aAddress, aRentPackage, tenant, category,
             isiimage = "", ext, imgString, imgStringSTNK = "", aDeliveryMethod;
@@ -72,12 +73,12 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
     RadioGroup aTransmisionGroup;
     RadioButton aTransmisionButton;
     Button btnImgUpload;
-    Spinner subcategory, aMerk, aColor, aFuel, aEngCap, aSeat;
+    Spinner subcategory, aMerk, aColor, aFuel, aEngCap, aYear;
 
     // Price Initial
     ArrayList<String> pricingArray = new ArrayList<String>();
-    String aFeeMsg;
-    private int fee = 20, ap = 0;
+    String aFeeMsg, priceStatus="";
+    private int fee = 0, ap = 0;
     EditText aBasicPrice, aAdvancePrice, aAdvancePrice2, aAdvancePrice3, aAdvancePrice4;
     TextView  btnAdvancePrice, aBasicPriceDisp, aAdvancePriceDisp, aAdvancePriceDisp2, aAdvancePriceDisp3, aAdvancePriceDisp4,
             aStartDate, aStartDate2, aStartDate3, aStartDate4,
@@ -124,7 +125,7 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
         aName = (TextView) findViewById(R.id.as_name);
         aType = (TextView) findViewById(R.id.as_type);
         aPlat = (TextView) findViewById(R.id.as_plat);
-        aYear = (TextView) findViewById(R.id.as_year);
+        aYear = (Spinner) findViewById(R.id.as_year);
         aColor = (Spinner) findViewById(R.id.as_colour);
         aEngCap = (Spinner) findViewById(R.id.as_engcap);
         aPlat = (TextView) findViewById(R.id.as_plat);
@@ -177,6 +178,8 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
         aDispText4 = (TextView) findViewById(R.id.disptext4);
         aDispText5 = (TextView) findViewById(R.id.disptext5);
 
+        fee = Integer.parseInt(sm.getPreferences("fee_motor"));
+
         aFeeMsg = "Harga yang akan anda terima (-" + fee + "%):";
         aDispText.setText(aFeeMsg);
         aDispText2.setText(aFeeMsg);
@@ -215,7 +218,7 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
             public void afterTextChanged(Editable arg0) {
                 if(!aBasicPrice.getText().toString().isEmpty()){
                     Integer price = Integer.parseInt(aBasicPrice.getText().toString().replace(",",""));
-                    aBasicPriceDisp.setText(CostumFormater.PriceFormat(CostumFormater.PriceMinFee(price, fee)));
+                    aBasicPriceDisp.setText(PricingTools.PriceFormat(PricingTools.PriceMinFee(price, fee)));
                 } else {
                     aBasicPriceDisp.setText("0 IDR");
                 }
@@ -235,7 +238,7 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
             public void afterTextChanged(Editable arg0) {
                 if(!aAdvancePrice.getText().toString().isEmpty()){
                     Integer price = Integer.parseInt(aAdvancePrice.getText().toString().replace(",",""));
-                    aAdvancePriceDisp.setText(CostumFormater.PriceFormat(CostumFormater.PriceMinFee(price, fee)));
+                    aAdvancePriceDisp.setText(PricingTools.PriceFormat(PricingTools.PriceMinFee(price, fee)));
                 } else {
                     aAdvancePriceDisp.setText("0 IDR");
                 }
@@ -255,7 +258,7 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
             public void afterTextChanged(Editable arg0) {
                 if(!aAdvancePrice2.getText().toString().isEmpty()){
                     Integer price = Integer.parseInt(aAdvancePrice2.getText().toString().replace(",",""));
-                    aAdvancePriceDisp2.setText(CostumFormater.PriceFormat(CostumFormater.PriceMinFee(price, fee)));
+                    aAdvancePriceDisp2.setText(PricingTools.PriceFormat(PricingTools.PriceMinFee(price, fee)));
                 } else {
                     aAdvancePriceDisp2.setText("0 IDR");
                 }
@@ -275,7 +278,7 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
             public void afterTextChanged(Editable arg0) {
                 if(!aAdvancePrice3.getText().toString().isEmpty()){
                     Integer price = Integer.parseInt(aAdvancePrice3.getText().toString().replace(",",""));
-                    aAdvancePriceDisp3.setText(CostumFormater.PriceFormat(CostumFormater.PriceMinFee(price, fee)));
+                    aAdvancePriceDisp3.setText(PricingTools.PriceFormat(PricingTools.PriceMinFee(price, fee)));
                 } else {
                     aAdvancePriceDisp3.setText("0 IDR");
                 }
@@ -295,7 +298,7 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
             public void afterTextChanged(Editable arg0) {
                 if(!aAdvancePrice4.getText().toString().isEmpty()){
                     Integer price = Integer.parseInt(aAdvancePrice4.getText().toString().replace(",",""));
-                    aAdvancePriceDisp4.setText(CostumFormater.PriceFormat(CostumFormater.PriceMinFee(price, fee)));
+                    aAdvancePriceDisp4.setText(PricingTools.PriceFormat(PricingTools.PriceMinFee(price, fee)));
                 } else {
                     aAdvancePriceDisp4.setText("0 IDR");
                 }
@@ -412,7 +415,7 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
 
             aName.setText(iFormAsset.getStringExtra("name"));
             aType.setText(iFormAsset.getStringExtra("type"));
-            aYear.setText(iFormAsset.getStringExtra("year"));
+//            aYear.setText(iFormAsset.getStringExtra("year"));
             aMinDayRent.setText(iFormAsset.getStringExtra("min_rent_day"));
 
             String plat = iFormAsset.getStringExtra("plat");
@@ -427,10 +430,11 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
             }
 
             //spinner
-            CostumFormater.setSpinnerValue(iFormAsset.getStringExtra("subcat"), subcategory, R.array.motorcycle_subcategory_entries, getApplicationContext());
-            CostumFormater.setSpinnerValue(iFormAsset.getStringExtra("merk"), subcategory, R.array.motor_brand_entries, getApplicationContext());
-            CostumFormater.setSpinnerValue(iFormAsset.getStringExtra("color"), subcategory, R.array.color_entries, getApplicationContext());
-            CostumFormater.setSpinnerValue(iFormAsset.getStringExtra("fuel"), subcategory, R.array.fuel_entries, getApplicationContext());
+            Tools.setSpinnerValue(iFormAsset.getStringExtra("subcat"), subcategory, R.array.motorcycle_subcategory_entries, getApplicationContext());
+            Tools.setSpinnerValue(iFormAsset.getStringExtra("merk"), subcategory, R.array.motor_brand_entries, getApplicationContext());
+            Tools.setSpinnerValue(iFormAsset.getStringExtra("color"), subcategory, R.array.color_entries, getApplicationContext());
+            Tools.setSpinnerValue(iFormAsset.getStringExtra("fuel"), subcategory, R.array.fuel_entries, getApplicationContext());
+            Tools.setSpinnerValue(iFormAsset.getStringExtra("year"), aYear, R.array.year_entries, getApplicationContext());
 
             if(iFormAsset.getStringExtra("transmission").equals("manual")) {
                 ((RadioButton)aTransmisionGroup.getChildAt(0)).setChecked(true);
@@ -459,7 +463,7 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
             }
 
             // Parsing data price
-            JSONArray priceArray = new JSONArray(CostumFormater.PriceStringToArray(iFormAsset.getStringExtra("price")));
+            JSONArray priceArray = new JSONArray(PricingTools.PriceStringToArray(iFormAsset.getStringExtra("price")));
             Log.e(TAG, "PRICE ARRAY :" + priceArray.toString());
             if (priceArray.length() > 0){
                 try {
@@ -470,25 +474,25 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
                 if(priceArray.length() > 1){
                     try {
                         JSONObject priceObject = priceArray.getJSONObject(1);
-                        CostumFormater.setSpinnerValue(priceObject.getString("range_name"), aRangName, R.array.range_name_entries, getApplicationContext());
+                        Tools.setSpinnerValue(priceObject.getString("range_name"), aRangName, R.array.range_name_entries, getApplicationContext());
                         aAdvancePrice.setText(priceObject.getString("price"));
                         aStartDate.setText(priceObject.getString("start_date"));
                         aEndDate.setText(priceObject.getString("end_date"));
                         if (priceArray.length() > 2){
                             JSONObject priceObject2 = priceArray.getJSONObject(2);
-                            CostumFormater.setSpinnerValue(priceObject2.getString("range_name"), aRangName2, R.array.range_name_entries, getApplicationContext());
+                            Tools.setSpinnerValue(priceObject2.getString("range_name"), aRangName2, R.array.range_name_entries, getApplicationContext());
                             aAdvancePrice2.setText(priceObject2.getString("price"));
                             aStartDate2.setText(priceObject2.getString("start_date"));
                             aEndDate2.setText(priceObject2.getString("end_date"));
                             if (priceArray.length() > 3){
                                 JSONObject priceObject3 = priceArray.getJSONObject(3);
-                                CostumFormater.setSpinnerValue(priceObject3.getString("range_name"), aRangName3, R.array.range_name_entries, getApplicationContext());
+                                Tools.setSpinnerValue(priceObject3.getString("range_name"), aRangName3, R.array.range_name_entries, getApplicationContext());
                                 aAdvancePrice3.setText(priceObject3.getString("price"));
                                 aStartDate3.setText(priceObject3.getString("start_date"));
                                 aEndDate3.setText(priceObject3.getString("end_date"));
                                 if (priceArray.length() > 4) {
                                     JSONObject priceObject4 = priceArray.getJSONObject(4);
-                                    CostumFormater.setSpinnerValue(priceObject4.getString("range_name"), aRangName4, R.array.range_name_entries, getApplicationContext());
+                                    Tools.setSpinnerValue(priceObject4.getString("range_name"), aRangName4, R.array.range_name_entries, getApplicationContext());
                                     aAdvancePrice4.setText(priceObject4.getString("price"));
                                     aStartDate4.setText(priceObject4.getString("start_date"));
                                     aEndDate4.setText(priceObject4.getString("end_date"));
@@ -547,17 +551,24 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
             else if (aPickup.isChecked()){ aDeliveryMethod = "pickup";}
             else { aDeliveryMethod = "nodefine";}
 
-            if (aBasicPrice.getText().toString().isEmpty() || aDeliveryMethod.equals("nodefine")){
+            if (aBasicPrice.getText().toString().isEmpty() || aDeliveryMethod.equals("nodefine") ||
+                    aType.toString().isEmpty() || aPlat.toString().isEmpty() || aPlatStart.toString().isEmpty() || aPlatEnd.toString().isEmpty()){
+
                 Toast.makeText(getApplicationContext(), "Harap Lengkapi Form",Toast.LENGTH_LONG).show();
             } else{
-                if(iFormAsset.getStringExtra("action").equals("update")){
-                    updateDataAset(category);
-                }else{
-                    if (imgStringSTNK.equals("")) {
-                        Toast.makeText(getApplicationContext(), "Harap Lengkapi Foto STNK", Toast.LENGTH_LONG).show();
-                    } else
-                        addDataAset(tenant);
+                pricingArray.clear();
+                getPrice();
+                postPriceCheck(pricingArray.toString());
 
+                if(priceStatus.equals("OK")){
+                    if(iFormAsset.getStringExtra("action").equals("update")){
+                        updateDataAset(category);
+                    }else {
+                        if (imgStringSTNK.equals("")) {
+                            Toast.makeText(getApplicationContext(), "Harap Lengkapi Foto STNK", Toast.LENGTH_LONG).show();
+                        } else
+                            addDataAset(tenant);
+                    }
                 }
             }
         }
@@ -741,7 +752,7 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
                     keys.put("brand", aMerk.getSelectedItem().toString());
                     keys.put("type", aType.getText().toString());
                     keys.put("subcategory", subcategory.getSelectedItem().toString());
-                    keys.put("year", aYear.getText().toString());
+                    keys.put("year", aYear.getSelectedItem().toString());
                     keys.put("colour", aColor.getSelectedItem().toString());
                     keys.put("engine_capacity", aEngCap.getSelectedItem().toString());
                     keys.put("license_plat", aPlatStart.getText().toString()+" "+aPlat.getText().toString()+" "+aPlatEnd.getText().toString());
@@ -852,7 +863,7 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
                     keys.put("brand", aMerk.getSelectedItem().toString());
                     keys.put("type", aType.getText().toString());
                     keys.put("subcategory", subcategory.getSelectedItem().toString());
-                    keys.put("year", aYear.getText().toString());
+                    keys.put("year", aYear.getSelectedItem().toString());
                     keys.put("colour", aColor.getSelectedItem().toString());
                     keys.put("engine_capacity", aEngCap.getSelectedItem().toString());
                     keys.put("license_plat", aPlatStart.getText().toString()+" "+aPlat.getText().toString()+" "+aPlatEnd.getText().toString());
@@ -971,4 +982,56 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
             pricingArray.add(pricingObject.toString().replace("=", ":"));
         }
     }
+    public void postPriceCheck(final String price) {
+        final String URL_PRICE_CHECK = AppConfig.URL_PRICE_CHECK ;
+
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        StringRequest strReq = new StringRequest(Request.Method.POST, URL_PRICE_CHECK, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.e("Price Check Response : ", response);
+
+                try {
+                    JSONObject responseObj = new JSONObject(response);
+
+                    priceStatus = responseObj.getString("status");
+                    if(priceStatus.equals("OVERLAP")){
+                        Toast.makeText(getApplicationContext(), responseObj.getString("message"), Toast.LENGTH_LONG).show();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(), "Json error: " + e.getMessage(),
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "Price Check Fetch Error : " +  error.toString());
+                Toast.makeText(getApplicationContext(), "Connection error, try again.",
+                        Toast.LENGTH_LONG).show();
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                // Posting parameters to url
+                Map<String, String> keys = new HashMap<String, String>();
+                keys.put("price", price);
+
+                Log.e(TAG, URL_PRICE_CHECK + " With Key Body : " + keys.toString());
+                return keys;
+            }
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("token", TOKEN);
+
+                return params;
+            }
+        };
+
+        queue.add(strReq);
+    }
+
 }

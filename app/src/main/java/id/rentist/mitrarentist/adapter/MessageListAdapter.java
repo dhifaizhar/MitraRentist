@@ -46,12 +46,13 @@ public class MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter.
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
         final MessageListModul msg = mMsg.get(i);
 
-        viewHolder.title.setText(msg.getTitle());
+        viewHolder.title.setText(msg.getName());
         viewHolder.cardViewMessageList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, MessageDetailActivity.class);
                 intent.putExtra("key",msg.getTitle());
+                intent.putExtra("phone", msg.getName());
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }

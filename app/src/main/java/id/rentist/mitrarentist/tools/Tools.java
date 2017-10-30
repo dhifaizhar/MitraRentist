@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.Display;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import id.rentist.mitrarentist.FormAdventureAsetActivity;
 import id.rentist.mitrarentist.FormBicycleAsetActivity;
@@ -125,5 +127,15 @@ public class Tools {
             case "12": activity = FormFashionAsetActivity.class;  break;
         }
         return activity;
+    }
+
+    public static void setSpinnerValue(String value, Spinner spinner, int entries, Context c){
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(c, entries, R.layout.spinner_item);
+        adapter.setDropDownViewResource(R.layout.select_dialog_item);
+        spinner.setAdapter(adapter);
+        if (!value.equals(null)) {
+            int position = adapter.getPosition(value);
+            spinner.setSelection(position);
+        }
     }
 }

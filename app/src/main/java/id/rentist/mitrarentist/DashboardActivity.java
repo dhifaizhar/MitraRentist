@@ -45,12 +45,13 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import id.rentist.mitrarentist.tools.AppConfig;
 import id.rentist.mitrarentist.tools.CircleTransform;
-import id.rentist.mitrarentist.tools.CostumFormater;
+import id.rentist.mitrarentist.tools.PricingTools;
 import id.rentist.mitrarentist.tools.SessionManager;
 
 public class DashboardActivity extends AppCompatActivity
@@ -361,9 +362,38 @@ public class DashboardActivity extends AppCompatActivity
                     successRent.setText(String.valueOf(dataObject.getInt("sukses")));
                     ongoRent.setText(dataObject.getString("berlangsung"));
 
-                    totSaldo.setText(CostumFormater.PriceFormat(dataObject.getInt("saldo")));
+                    totSaldo.setText(PricingTools.PriceFormat(dataObject.getInt("saldo")));
 
-                    Log.d(TAG, "JSON Error : " + dataObject);
+                    ArrayList<String> feeArray = new ArrayList<String>();
+                    JSONArray feeObject = new JSONArray(String.valueOf(dataObject.getJSONArray("percentage")));
+                    JSONObject categoryCar = feeObject.getJSONObject(0);
+                    JSONObject categoryMotor = feeObject.getJSONObject(1);
+                    JSONObject categoryYacht= feeObject.getJSONObject(2);
+                    JSONObject categoryMedic = feeObject.getJSONObject(0);
+                    JSONObject categoryPhotography = feeObject.getJSONObject(0);
+                    JSONObject categoryToys = feeObject.getJSONObject(0);
+                    JSONObject categoryAdventure = feeObject.getJSONObject(0);
+                    JSONObject categoryMaternity = feeObject.getJSONObject(0);
+                    JSONObject categoryElectronic = feeObject.getJSONObject(0);
+                    JSONObject categoryBicycle = feeObject.getJSONObject(0);
+                    JSONObject categoryOffice = feeObject.getJSONObject(0);
+                    JSONObject categoryFashion = feeObject.getJSONObject(0);
+
+                    sm.setPreferences("fee_car", categoryCar.getString("percentage"));
+                    sm.setPreferences("fee_motor", categoryMotor.getString("percentage"));
+                    sm.setPreferences("fee_yacht", categoryYacht.getString("percentage"));
+                    sm.setPreferences("fee_medic", categoryMedic.getString("percentage"));
+                    sm.setPreferences("fee_photography", categoryPhotography.getString("percentage"));
+                    sm.setPreferences("fee_toys", categoryToys.getString("percentage"));
+                    sm.setPreferences("fee_adventure", categoryAdventure.getString("percentage"));
+                    sm.setPreferences("fee_maternity", categoryMaternity.getString("percentage"));
+                    sm.setPreferences("fee_electronic", categoryElectronic.getString("percentage"));
+                    sm.setPreferences("fee_bicycle", categoryBicycle.getString("percentage"));
+                    sm.setPreferences("fee_office", categoryOffice.getString("percentage"));
+                    sm.setPreferences("fee_fashion", categoryFashion.getString("percentage"));
+
+                    Log.e(TAG, "fee_percentage : " + sm.getPreferences("fee_percentage"));
+
 
                 } catch (JSONException e) {
                     e.printStackTrace();

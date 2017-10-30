@@ -36,7 +36,7 @@ import java.util.Map;
 
 import id.rentist.mitrarentist.modul.DompetModul;
 import id.rentist.mitrarentist.tools.AppConfig;
-import id.rentist.mitrarentist.tools.CostumFormater;
+import id.rentist.mitrarentist.tools.PricingTools;
 import id.rentist.mitrarentist.tools.SessionManager;
 
 public class DompetActivity extends AppCompatActivity {
@@ -229,7 +229,7 @@ public class DompetActivity extends AppCompatActivity {
                         if (balanceObject.getString("nominal").equals("null")){
                             balance = "0";
                         } else {
-                            balance = CostumFormater.PriceStringFormat(balanceObject.getString("nominal"));
+                            balance = PricingTools.PriceStringFormat(balanceObject.getString("nominal"));
                         }
                     }
                     credit.setText(balance);

@@ -31,6 +31,8 @@ public class AppConfig {
     public static  String URL_VIEW_BICYCLE = SERVER + "view/bicycle/";
     public static  String URL_VIEW_OFFICE = SERVER + "view/officetools/";
 
+    public static  String URL_PRICE_CHECK = SERVER + "price/check/";
+
     public static  String URL_MOBIL = SERVER + "item/mobil/";
     public static  String URL_MOTOR = SERVER + "item/motor/";
     public static  String URL_YACHT = SERVER + "item/yacht/";
@@ -95,6 +97,7 @@ public class AppConfig {
     public static  String URL_ADD_DRIVER = SERVER + "tenant/driver/";
     public static  String URL_EDIT_DRIVER = SERVER + "update/driver/";
     public static  String URL_DELETE_DRIVER = SERVER + "delete/driver/";
+    public static  String URL_ASSIGN_DRIVER = SERVER + "assign/driver/";
 
     public static  String URL_LIST_FEATURE = SERVER + "list/additional/";
     public static  String URL_FEATURE = SERVER + "item/feature/";

@@ -36,9 +36,8 @@ import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import id.rentist.mitrarentist.fragment.DriverDialogFragment;
 import id.rentist.mitrarentist.tools.AppConfig;
-import id.rentist.mitrarentist.tools.CostumFormater;
+import id.rentist.mitrarentist.tools.PricingTools;
 import id.rentist.mitrarentist.tools.SessionManager;
 
 public class TransDetailActivity extends AppCompatActivity {
@@ -47,15 +46,16 @@ public class TransDetailActivity extends AppCompatActivity {
     private SessionManager sm;
 
     Button btnClosePopup;
-    Button btnCreatePopup;
+    Button btnDriver;
     ImageButton btnCamera;
     private PopupWindow pwindow;
     private Intent itransDet;
 
-    TextView mAset, mPrice, mCodeTrans, mMember, mStartDate, mEndDate;
+    TextView mAset, mPrice, mCodeTrans, mMember, mStartDate, mEndDate, mDriver;
 
+    private static int PICK_DRIVER_REQUEST = 3;
     private static final int CAMERA_REQUEST = 1888;
-    String str64b, imgString = "", imgExt, tenant;
+    String str64b, imgString = "", imgExt, tenant, mDriverID;
 
     private static final String TAG = "DetailTransActivity";
     private static final String TOKEN = "secretissecret";
@@ -87,6 +87,7 @@ public class TransDetailActivity extends AppCompatActivity {
         mMember = (TextView) findViewById(R.id.detTrans_member);
         mStartDate = (TextView) findViewById(R.id.detTrans_startDate);
         mEndDate = (TextView) findViewById(R.id.detTrans_endDate);
+        mDriver = (TextView) findViewById(R.id.driver);
 
         LinearLayout btnContainer = (LinearLayout) findViewById(R.id.btnContainer);
         Display display = getWindowManager().getDefaultDisplay();
@@ -126,11 +127,16 @@ public class TransDetailActivity extends AppCompatActivity {
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
         transId = itransDet.getStringExtra("id_trans");
         mAset.setText(itransDet.getStringExtra("aset"));
-        mPrice.setText(CostumFormater.PriceFormat(Integer.parseInt(itransDet.getStringExtra("price"))));
+        mPrice.setText(PricingTools.PriceFormat(Integer.parseInt(itransDet.getStringExtra("price"))));
         mCodeTrans.setText(itransDet.getStringExtra("code_trans"));
         mMember.setText(itransDet.getStringExtra("member"));
         mStartDate.setText(itransDet.getStringExtra("startDate"));
         mEndDate.setText(itransDet.getStringExtra("endDate"));
+
+        if(itransDet.getBooleanExtra("driver", false)){
+            mDriver.setVisibility(View.VISIBLE);
+            mDriver.setText("Pengemudi : " + itransDet.getStringExtra("driver_name"));
+        }
 
         // Button Action Configure
         if (itransDet.getStringExtra("status").equals("accepted")){
@@ -138,19 +144,22 @@ public class TransDetailActivity extends AppCompatActivity {
             btnContainer.addView(btnAction);
 
             btnCamera = (ImageButton) findViewById(R.id.btn_camera);
-            btnCreatePopup = (Button) findViewById(R.id.btn_assign_driver);
+            btnDriver = (Button) findViewById(R.id.btn_assign_driver);
 
             btnCamera.setVisibility(View.VISIBLE);
-            btnCreatePopup.setVisibility(View.VISIBLE);
+
+//            Boolean driverStat = itransDet.getBooleanExtra("driver");
+            if(itransDet.getBooleanExtra("driver", false)){
+                btnDriver.setVisibility(View.VISIBLE);
+            }
 
             // Capture button clicks
-            btnCreatePopup.setOnClickListener(new View.OnClickListener() {
+            btnDriver.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-
-                    DriverDialogFragment dFrag = new DriverDialogFragment();
-                    dFrag.show(getSupportFragmentManager(), "Driver");
+                    Intent iDriver = new Intent(TransDetailActivity.this, DriverAssignActivity.class);
+                    iDriver.putExtra("id_transaction", transId);
+                    startActivityForResult(iDriver, PICK_DRIVER_REQUEST);
                 }
 
             });
@@ -175,7 +184,7 @@ public class TransDetailActivity extends AppCompatActivity {
             });
 
         } else if(itransDet.getStringExtra("status").equals("ongoing")){
-            btnAction.setText("Berhasil Dijemput");
+            btnAction.setText("Berhasil Diambil");
             btnContainer.addView(btnAction);
 
             btnAction.setOnClickListener(new View.OnClickListener() {
@@ -245,11 +254,11 @@ public class TransDetailActivity extends AppCompatActivity {
                 new TransDetailActivity.postTransDropTask(transId).execute();
             }
         } else if (itransDet.getStringExtra("status").equals("ongoing")) {
-            if (imgString.equals("")){
-                Toast.makeText(getApplicationContext(),"Aset berhasil diambil", Toast.LENGTH_LONG).show();
-            } else {
+//            if (imgString.equals("")){
+//                Toast.makeText(getApplicationContext(),"Aset berhasil diambil", Toast.LENGTH_LONG).show();
+//            } else {
                 new TransDetailActivity.postTransTakeTask(transId).execute();
-            }
+//            }
         }
     }
 
@@ -456,12 +465,18 @@ public class TransDetailActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(String voucher) {
+        protected void onPostExecute(String trans) {
             mTransactionTask = null;
             showProgress(false);
 
-            if(voucher != null){
+            if(trans != null){
+//                sm.setPreferences("testi", "false");
+                Log.e(TAG, "PTrans Data = "+ trans);
+
                 Toast.makeText(getApplicationContext(),"Transaksi Selesai", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(TransDetailActivity.this,TestimonyAddActivity.class);
+//                intent.putExtra();
+                startActivity(intent);
                 finish();
             }else{
                 Toast.makeText(getApplicationContext(),"Gagal meyimpan data", Toast.LENGTH_LONG).show();
@@ -475,6 +490,7 @@ public class TransDetailActivity extends AppCompatActivity {
             showProgress(false);
         }
     }
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
             Bitmap photo = (Bitmap) data.getExtras().get("data");
@@ -485,11 +501,14 @@ public class TransDetailActivity extends AppCompatActivity {
             btnCamera.setImageBitmap(photo);
 
             Log.e(TAG, "Image : " + imgString);
+        }
 
-
+        if (requestCode == PICK_DRIVER_REQUEST && resultCode == Activity.RESULT_OK) {
+            mDriverID = data.getStringExtra("id_driver");
+            String driver_name = "Pengemudi : " + data.getStringExtra("driver_name");
+            mDriver.setText(driver_name);
         }
     }
-
 
     public String getStringImage(Bitmap bmp){
         ByteArrayOutputStream baos = new ByteArrayOutputStream();

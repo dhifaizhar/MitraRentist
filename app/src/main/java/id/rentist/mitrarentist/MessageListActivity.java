@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -28,11 +29,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import id.rentist.mitrarentist.adapter.MessageListAdapter;
 import id.rentist.mitrarentist.modul.MessageListModul;
+import id.rentist.mitrarentist.tools.AppConfig;
 import id.rentist.mitrarentist.tools.SessionManager;
 
 public class MessageListActivity extends AppCompatActivity {
@@ -43,6 +47,7 @@ public class MessageListActivity extends AppCompatActivity {
     SwipeRefreshLayout mSwipeRefreshLayout;
     Toolbar toolbar;
     private List<MessageListModul> mMsg = new ArrayList<>();
+    private List<String> mTrans = new ArrayList<>();
     private SpinKitView pBar;
     SessionManager sm;
     JSONObject dataObject, objectMessage, objectMessageDetail;
@@ -70,6 +75,10 @@ public class MessageListActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
+
+        getTransaction();
+        getTransactionNew();
+
         getMessageList();
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
@@ -83,6 +92,109 @@ public class MessageListActivity extends AppCompatActivity {
                 getMessageList();
             }
         });
+    }
+
+
+    private void getTransaction() {
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        StringRequest strReq = new StringRequest(Request.Method.GET, AppConfig.URL_TRANSACTION + tenant, new
+                Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            JSONArray acceptArray = new JSONArray(String.valueOf(jsonObject.getJSONArray("accepted")));
+                            JSONArray ongoArray = new JSONArray(String.valueOf(jsonObject.getJSONArray("ongoing")));
+
+                            if(acceptArray.length() > 0) {
+                                for (int i = 0; i < acceptArray.length(); i++) {
+                                    JSONObject transObject = acceptArray.getJSONObject(i);
+                                    JSONObject memberObject = transObject.getJSONObject("id_member");
+
+                                    mTrans.add(memberObject.getString("phone"));
+                                }
+                            }
+
+                            if(ongoArray.length() > 0) {
+                                for (int i = 0; i < ongoArray.length(); i++) {
+                                    JSONObject transObject = ongoArray.getJSONObject(i);
+                                    JSONObject memberObject = transObject.getJSONObject("id_member");
+
+                                    mTrans.add(memberObject.getString("phone"));
+                                }
+                            }
+
+                            Log.e(TAG, "Transaction Data Add: " + mTrans);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "Get Driver Fetch Error : " +  error.toString());
+                Toast.makeText(getApplicationContext(), "Connection error, try again.",
+                        Toast.LENGTH_LONG).show();
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("token", TOKEN);
+
+                return params;
+            }
+        };
+//        pBar.setVisibility(View.GONE);
+        queue.add(strReq);
+    }
+
+    private void getTransactionNew() {
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        StringRequest strReq = new StringRequest(Request.Method.GET, AppConfig.URL_TRANSACTION_NEW + tenant, new
+                Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONArray jsonArray = new JSONArray(response);
+
+                            if(jsonArray.length() > 0) {
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject transObject = jsonArray.getJSONObject(i);
+//                                    JSONObject memberObject = transObject.getJSONObject("id_member");
+
+                                    mTrans.add(transObject.getString("id"));
+                                }
+                            }
+
+
+                            Log.e(TAG, "Transaction Data Add:  " + mTrans);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "Get Driver Fetch Error : " +  error.toString());
+                Toast.makeText(getApplicationContext(), "Connection error, try again.",
+                        Toast.LENGTH_LONG).show();
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("token", TOKEN);
+
+                return params;
+            }
+        };
+//        pBar.setVisibility(View.GONE);
+        queue.add(strReq);
     }
 
     private void getMessageList() {
@@ -152,11 +264,29 @@ public class MessageListActivity extends AppCompatActivity {
                         {
                             String keyValue = (String)keys.next();
 
-                            MessageListModul msgModul = new MessageListModul();
-                            msgModul.setTitle(keyValue);
+                            if (mTrans.contains(keyValue)){
 
-                            mMsg.add(msgModul);
+                                JSONObject user = dataObject.getJSONObject(keyValue);
+
+                                Iterator<String> userKeys = user.keys();
+                                while (userKeys.hasNext()) {
+                                    String phone = (String)userKeys.next();
+
+                                    if (!phone.equals(sm.getPreferences("hp"))){
+                                        MessageListModul msgModul = new MessageListModul();
+                                        msgModul.setTitle(keyValue);
+                                        msgModul.setName(phone);
+
+                                        mMsg.add(msgModul);
+                                        Log.e(TAG, "Ku ingin tahu : " + phone);
+                                    }
+
+                                }
+
+                            }
+
                         }
+
 
                         mRecyclerView = (RecyclerView) findViewById(R.id.msg_recyclerView);
                         mLayoutManager = new LinearLayoutManager(getApplicationContext());

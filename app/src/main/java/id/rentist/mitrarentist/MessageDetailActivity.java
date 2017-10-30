@@ -48,7 +48,7 @@ public class MessageDetailActivity extends AppCompatActivity {
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        setTitle(detIntent.getStringExtra("key"));
+        setTitle(detIntent.getStringExtra("phone"));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
@@ -61,7 +61,7 @@ public class MessageDetailActivity extends AppCompatActivity {
 
         final String member_phone = "6283819964917", nama1 = "Dhifaizhar", nama2 = "Riski";
         reference1 = new Firebase("https://rentistid-174904.firebaseio.com/messages/" + detIntent.getStringExtra("key") + "/" + sm.getPreferences("hp"));
-        reference2 = new Firebase("https://rentistid-174904.firebaseio.com/messages/" + detIntent.getStringExtra("key") + "/" + member_phone);
+        reference2 = new Firebase("https://rentistid-174904.firebaseio.com/messages/" + detIntent.getStringExtra("key") + "/" + detIntent.getStringExtra("phone"));
 
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,7 +89,7 @@ public class MessageDetailActivity extends AppCompatActivity {
                 String message = map.get("message").toString();
                 String read = map.get("read").toString();
 
-                addMessageBox(nama1 + " :\n" + message, 1);
+                addMessageBox(sm.getPreferences("nama_rental") + " :\n" + message, 1);
             }
 
             @Override
@@ -122,7 +122,7 @@ public class MessageDetailActivity extends AppCompatActivity {
                 String message = map.get("message").toString();
                 String read = map.get("read").toString();
 
-                addMessageBox(nama2 + ":-\n" + message, 2);
+                addMessageBox(detIntent.getStringExtra("phone") + ":\n" + message, 2);
             }
 
             @Override

@@ -36,8 +36,8 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@color/colorPrimary"
                         android:layout_marginBottom="@dimen/xmin_padding"
+                        android:background="@color/colorPrimary"
                         android:padding="@dimen/min_padding">
 
                         <TextView
@@ -71,8 +71,8 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:orientation="vertical"
                             android:background="@color/colorNearWhite"
+                            android:orientation="vertical"
                             android:padding="@dimen/xmin_padding">
 
                             <Spinner
@@ -134,8 +134,8 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:orientation="vertical"
                             android:background="@color/colorNearWhite"
+                            android:orientation="vertical"
                             android:padding="@dimen/xmin_padding">
 
                             <Spinner
@@ -202,18 +202,17 @@
                                 android:id="@+id/as_plat_start"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_marginEnd="@dimen/xmin_padding"
+                                android:layout_weight="2"
                                 android:background="@color/colorNearWhite"
                                 android:ems="10"
-                                android:layout_weight="2"
                                 android:hint="Kode"
-                                android:textAlignment="center"
-                                android:maxLength="2"
                                 android:imeOptions="actionNext"
                                 android:inputType="textCapCharacters"
-                                android:layout_marginEnd="@dimen/xmin_padding"
+                                android:maxLength="2"
                                 android:padding="@dimen/min_padding"
                                 android:text=""
-                                />
+                                android:textAlignment="center" />
 
                             <EditText
                                 android:id="@+id/as_plat"
@@ -222,29 +221,29 @@
                                 android:layout_weight="1"
                                 android:background="@color/colorNearWhite"
                                 android:ems="10"
-                                android:textAlignment="center"
                                 android:hint="Nomor"
                                 android:imeOptions="actionNext"
                                 android:inputType="number"
                                 android:maxLength="4"
                                 android:padding="@dimen/min_padding"
-                                android:text="" />
+                                android:text=""
+                                android:textAlignment="center" />
 
                             <EditText
                                 android:id="@+id/as_plat_end"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="2"
                                 android:layout_marginStart="@dimen/xmin_padding"
+                                android:layout_weight="2"
                                 android:background="@color/colorNearWhite"
                                 android:ems="10"
-                                android:textAlignment="center"
                                 android:hint="Kode"
-                                android:maxLength="3"
                                 android:imeOptions="actionNext"
                                 android:inputType="textCapCharacters"
+                                android:maxLength="3"
                                 android:padding="@dimen/min_padding"
-                                android:text="" />
+                                android:text=""
+                                android:textAlignment="center" />
                         </LinearLayout>
 
                     </LinearLayout>
@@ -264,17 +263,34 @@
                             android:textColor="@color/colorBlack"
                             android:textSize="12sp" />
 
-                        <EditText
-                            android:id="@+id/as_year"
+                        <!--<EditText-->
+                            <!--android:id="@+id/as_year"-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:background="@color/colorNearWhite"-->
+                            <!--android:ems="10"-->
+                            <!--android:hint="Tahun Produksi"-->
+                            <!--android:inputType="date"-->
+                            <!--android:padding="@dimen/min_padding"-->
+                            <!--android:text="" />-->
+
+
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:background="@color/colorNearWhite"
-                            android:ems="10"
-                            android:hint="Tahun Produksi"
-                            android:inputType="number"
-                            android:maxLength="4"
-                            android:padding="@dimen/min_padding"
-                            android:text="" />
+                            android:orientation="vertical"
+                            android:padding="@dimen/xmin_padding">
+
+                            <Spinner
+                                android:id="@+id/as_year"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:entries="@array/year_entries"
+                                android:padding="@dimen/xmin_padding"
+                                android:spinnerMode="dropdown" />
+
+                        </LinearLayout>
                     </LinearLayout>
 
                     <LinearLayout
@@ -295,8 +311,8 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:orientation="vertical"
                             android:background="@color/colorNearWhite"
+                            android:orientation="vertical"
                             android:padding="@dimen/xmin_padding">
 
                             <Spinner
@@ -329,35 +345,33 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@color/colorNearWhite"
-                            android:paddingTop="@dimen/xmin_padding"
                             android:paddingBottom="@dimen/xmin_padding"
-                            >
+                            android:paddingTop="@dimen/xmin_padding">
 
                             <ImageView
                                 android:id="@+id/stnk_image"
                                 android:layout_width="@dimen/thumb_width"
                                 android:layout_height="@dimen/thumb_width"
-                                android:src="@drawable/no_image"
-                                android:layout_centerHorizontal="true"/>
+                                android:layout_centerHorizontal="true"
+                                android:src="@drawable/no_image" />
 
 
                             <ImageButton
                                 android:id="@+id/btn_camera"
-                                android:layout_toEndOf="@+id/stnk_image"
                                 android:layout_width="@dimen/btn_thumb"
                                 android:layout_height="@dimen/btn_thumb"
-                                android:src="@drawable/ic_camera_alt_black_18dp"
-                                android:clickable="true"
                                 android:layout_marginTop="@dimen/xmin_padding"
-                                />
+                                android:layout_toEndOf="@+id/stnk_image"
+                                android:clickable="true"
+                                android:src="@drawable/ic_camera_alt_black_18dp" />
 
                             <ImageButton
                                 android:id="@+id/btn_photo"
                                 android:layout_width="@dimen/btn_thumb"
                                 android:layout_height="@dimen/btn_thumb"
-                                android:clickable="true"
-                                android:layout_toEndOf="@+id/stnk_image"
                                 android:layout_below="@+id/btn_camera"
+                                android:layout_toEndOf="@+id/stnk_image"
+                                android:clickable="true"
                                 android:src="@drawable/ic_attach_file_black_18dp" />
                         </RelativeLayout>
 
@@ -382,8 +396,8 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:orientation="vertical"
                             android:background="@color/colorNearWhite"
+                            android:orientation="vertical"
                             android:padding="@dimen/xmin_padding">
 
                             <Spinner
@@ -451,8 +465,8 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:orientation="vertical"
                             android:background="@color/colorNearWhite"
+                            android:orientation="vertical"
                             android:padding="@dimen/xmin_padding">
 
                             <Spinner
@@ -482,22 +496,22 @@
                             android:textSize="12sp" />
 
                         <!--<EditText-->
-                            <!--android:id="@+id/as_seat"-->
-                            <!--android:layout_width="match_parent"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:background="@color/colorNearWhite"-->
-                            <!--android:ems="10"-->
-                            <!--android:hint="0"-->
-                            <!--android:imeOptions="actionNext"-->
-                            <!--android:inputType="number"-->
-                            <!--android:padding="@dimen/min_padding"-->
-                            <!--android:text="" />-->
+                        <!--android:id="@+id/as_seat"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:background="@color/colorNearWhite"-->
+                        <!--android:ems="10"-->
+                        <!--android:hint="0"-->
+                        <!--android:imeOptions="actionNext"-->
+                        <!--android:inputType="number"-->
+                        <!--android:padding="@dimen/min_padding"-->
+                        <!--android:text="" />-->
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:orientation="vertical"
                             android:background="@color/colorNearWhite"
+                            android:orientation="vertical"
                             android:padding="@dimen/xmin_padding">
 
                             <Spinner
@@ -529,8 +543,8 @@
                             android:id="@+id/transmission_group"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:checkedButton="@+id/r_manual"
                             android:background="@color/colorNearWhite"
+                            android:checkedButton="@+id/r_manual"
                             android:orientation="horizontal"
                             android:padding="@dimen/xmin_padding">
 
@@ -539,9 +553,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="10dp"
+                                android:layout_weight="1"
                                 android:buttonTint="@color/colorPrimary"
                                 android:checked="true"
-                                android:layout_weight="1"
                                 android:contextClickable="false"
                                 android:text="manual" />
 
@@ -573,9 +587,8 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
                             android:background="@color/colorNearWhite"
-                            >
+                            android:orientation="horizontal">
 
                             <CheckBox
                                 android:id="@+id/as_ck_ac"
@@ -611,8 +624,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:padding="@dimen/xmin_padding"
-                        >
+                        android:padding="@dimen/xmin_padding">
 
                         <TextView
                             android:id="@+id/textView147"
@@ -625,8 +637,8 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:background="@color/colorNearWhite">
+                            android:background="@color/colorNearWhite"
+                            android:orientation="horizontal">
 
                             <CheckBox
                                 android:id="@+id/as_ck_driver"
@@ -651,8 +663,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:padding="@dimen/xmin_padding"
-                        >
+                        android:padding="@dimen/xmin_padding">
 
                         <TextView
                             android:layout_width="match_parent"
@@ -664,8 +675,8 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:background="@color/colorNearWhite">
+                            android:background="@color/colorNearWhite"
+                            android:orientation="horizontal">
 
                             <CheckBox
                                 android:id="@+id/as_ck_delivery"
@@ -715,20 +726,20 @@
                                 android:background="@color/colorNearWhite"
                                 android:ems="10"
                                 android:hint="0"
-                                android:padding="@dimen/min_padding"
-                                android:inputType="number"
                                 android:imeOptions="actionNext"
+                                android:inputType="number"
+                                android:padding="@dimen/min_padding"
                                 android:text="1" />
 
                             <TextView
                                 android:id="@+id/day"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Hari"
                                 android:layout_alignParentEnd="true"
                                 android:layout_centerVertical="true"
-                                android:textColor="@color/colorBlack54"
                                 android:layout_marginEnd="@dimen/min_padding"
+                                android:text="Hari"
+                                android:textColor="@color/colorBlack54"
                                 android:textSize="@dimen/medium_text" />
 
                         </RelativeLayout>
@@ -794,9 +805,9 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textColor="@color/colorGrey"
-                                android:text="*Wajib diisi"
                                 android:layout_marginLeft="@dimen/xmin_padding"
+                                android:text="*Wajib diisi"
+                                android:textColor="@color/colorGrey"
                                 android:textSize="@dimen/almost_tiny_text" />
 
                         </LinearLayout>
@@ -809,23 +820,22 @@
                                 android:id="@+id/as_price_basic"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:ems="10"
-                                app:isDecimal="false"
-                                android:maxLength="13"
-                                android:hint="0"
-                                android:padding="@dimen/min_padding"
                                 android:background="@color/colorNearWhite"
-                                />
+                                android:ems="10"
+                                android:hint="0"
+                                android:maxLength="13"
+                                android:padding="@dimen/min_padding"
+                                app:isDecimal="false" />
 
                             <TextView
                                 android:id="@+id/idra"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="IDR"
-                                android:layout_centerVertical="true"
                                 android:layout_alignParentEnd="true"
-                                android:textColor="@color/colorGrey"
+                                android:layout_centerVertical="true"
                                 android:layout_marginEnd="@dimen/min_padding"
+                                android:text="IDR"
+                                android:textColor="@color/colorGrey"
                                 android:textSize="@dimen/medium_text" />
                         </RelativeLayout>
 
@@ -837,21 +847,21 @@
                                 android:id="@+id/disptext"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textColor="@color/colorGrey"
                                 android:layout_marginTop="@dimen/small_space"
                                 android:text=""
+                                android:textColor="@color/colorGrey"
                                 android:textSize="@dimen/almost_tiny_text" />
 
                             <TextView
                                 android:id="@+id/as_price_basic_disp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textColor="@color/colorPrice"
-                                android:layout_toEndOf="@+id/disptext"
                                 android:layout_alignParentEnd="true"
-                                android:textAlignment="textEnd"
                                 android:layout_marginTop="@dimen/small_space"
+                                android:layout_toEndOf="@+id/disptext"
                                 android:text="0 IDR"
+                                android:textAlignment="textEnd"
+                                android:textColor="@color/colorPrice"
                                 android:textSize="@dimen/under_small_text" />
                         </RelativeLayout>
 
@@ -862,12 +872,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:visibility="gone"
-                       >
+                        android:visibility="gone">
+
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:background="@android:color/darker_gray"/>
+                            android:background="@android:color/darker_gray" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -884,21 +894,21 @@
                                 android:textSize="12sp" />
 
                             <!--<EditText-->
-                                <!--android:id="@+id/as_range_name"-->
-                                <!--android:layout_width="match_parent"-->
-                                <!--android:layout_height="wrap_content"-->
-                                <!--android:background="@color/colorNearWhite"-->
-                                <!--android:ems="10"-->
-                                <!--android:hint="Nama Periode"-->
-                                <!--android:inputType="textPersonName|textCapWords"-->
-                                <!--android:padding="@dimen/min_padding"-->
-                                <!--android:text="" />-->
+                            <!--android:id="@+id/as_range_name"-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:background="@color/colorNearWhite"-->
+                            <!--android:ems="10"-->
+                            <!--android:hint="Nama Periode"-->
+                            <!--android:inputType="textPersonName|textCapWords"-->
+                            <!--android:padding="@dimen/min_padding"-->
+                            <!--android:text="" />-->
 
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:orientation="vertical"
                                 android:background="@color/colorNearWhite"
+                                android:orientation="vertical"
                                 android:padding="@dimen/xmin_padding">
 
                                 <Spinner
@@ -933,11 +943,11 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:background="@color/colorNearWhite"
-                                android:ems="10"
-                                android:editable="false"
-                                android:inputType="date|none"
                                 android:drawableEnd="@drawable/ic_date_range_black_24dp"
+                                android:editable="false"
+                                android:ems="10"
                                 android:hint="Tanggal Mulai"
+                                android:inputType="date|none"
                                 android:padding="@dimen/min_padding"
                                 android:text="" />
                         </LinearLayout>
@@ -962,11 +972,11 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:background="@color/colorNearWhite"
-                                android:ems="10"
-                                android:inputType="date|none"
-                                android:editable="false"
                                 android:drawableEnd="@drawable/ic_date_range_black_24dp"
+                                android:editable="false"
+                                android:ems="10"
                                 android:hint="Tanggal Akhir"
+                                android:inputType="date|none"
                                 android:padding="@dimen/min_padding"
                                 android:text="" />
                         </LinearLayout>
@@ -994,23 +1004,22 @@
                                     android:id="@+id/as_price_advance"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:ems="10"
-                                    android:maxLength="13"
-                                    app:isDecimal="false"
-                                    android:hint="0"
-                                    android:padding="@dimen/min_padding"
                                     android:background="@color/colorNearWhite"
-                                    />
+                                    android:ems="10"
+                                    android:hint="0"
+                                    android:maxLength="13"
+                                    android:padding="@dimen/min_padding"
+                                    app:isDecimal="false" />
 
                                 <TextView
                                     android:id="@+id/daye"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="IDR"
                                     android:layout_alignParentEnd="true"
                                     android:layout_centerVertical="true"
-                                    android:textColor="@color/colorGrey"
                                     android:layout_marginEnd="@dimen/min_padding"
+                                    android:text="IDR"
+                                    android:textColor="@color/colorGrey"
                                     android:textSize="@dimen/medium_text" />
 
                             </RelativeLayout>
@@ -1023,21 +1032,21 @@
                                     android:id="@+id/disptext2"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:textColor="@color/colorGrey"
                                     android:layout_marginTop="@dimen/small_space"
                                     android:text="Harga yang akan anda terima (-10%):"
+                                    android:textColor="@color/colorGrey"
                                     android:textSize="@dimen/almost_tiny_text" />
 
                                 <TextView
                                     android:id="@+id/as_price_advance_disp"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:textColor="@color/colorPrice"
-                                    android:layout_toEndOf="@+id/disptext2"
                                     android:layout_alignParentEnd="true"
-                                    android:textAlignment="textEnd"
                                     android:layout_marginTop="@dimen/small_space"
+                                    android:layout_toEndOf="@+id/disptext2"
                                     android:text="0 IDR"
+                                    android:textAlignment="textEnd"
+                                    android:textColor="@color/colorPrice"
                                     android:textSize="@dimen/under_small_text" />
                             </RelativeLayout>
                         </LinearLayout>
@@ -1049,12 +1058,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:visibility="gone"
-                        >
+                        android:visibility="gone">
+
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:background="@android:color/darker_gray"/>
+                            android:background="@android:color/darker_gray" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -1073,8 +1082,8 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:orientation="vertical"
                                 android:background="@color/colorNearWhite"
+                                android:orientation="vertical"
                                 android:padding="@dimen/xmin_padding">
 
                                 <Spinner
@@ -1108,11 +1117,11 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:background="@color/colorNearWhite"
-                                android:ems="10"
-                                android:editable="false"
-                                android:inputType="date|none"
                                 android:drawableEnd="@drawable/ic_date_range_black_24dp"
+                                android:editable="false"
+                                android:ems="10"
                                 android:hint="Tanggal Mulai"
+                                android:inputType="date|none"
                                 android:padding="@dimen/min_padding"
                                 android:text="" />
                         </LinearLayout>
@@ -1136,11 +1145,11 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:background="@color/colorNearWhite"
-                                android:ems="10"
-                                android:inputType="date|none"
-                                android:editable="false"
                                 android:drawableEnd="@drawable/ic_date_range_black_24dp"
+                                android:editable="false"
+                                android:ems="10"
                                 android:hint="Tanggal Akhir"
+                                android:inputType="date|none"
                                 android:padding="@dimen/min_padding"
                                 android:text="" />
                         </LinearLayout>
@@ -1167,22 +1176,21 @@
                                     android:id="@+id/as_price_advance2"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:ems="10"
-                                    android:maxLength="13"
-                                    app:isDecimal="false"
-                                    android:hint="0"
-                                    android:padding="@dimen/min_padding"
                                     android:background="@color/colorNearWhite"
-                                    />
+                                    android:ems="10"
+                                    android:hint="0"
+                                    android:maxLength="13"
+                                    android:padding="@dimen/min_padding"
+                                    app:isDecimal="false" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="IDR"
                                     android:layout_alignParentEnd="true"
                                     android:layout_centerVertical="true"
-                                    android:textColor="@color/colorGrey"
                                     android:layout_marginEnd="@dimen/min_padding"
+                                    android:text="IDR"
+                                    android:textColor="@color/colorGrey"
                                     android:textSize="@dimen/medium_text" />
 
                             </RelativeLayout>
@@ -1195,21 +1203,21 @@
                                     android:id="@+id/disptext3"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:textColor="@color/colorGrey"
                                     android:layout_marginTop="@dimen/small_space"
                                     android:text="Harga yang akan anda terima (-10%):"
+                                    android:textColor="@color/colorGrey"
                                     android:textSize="@dimen/almost_tiny_text" />
 
                                 <TextView
                                     android:id="@+id/as_price_advance_disp2"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:textColor="@color/colorPrice"
-                                    android:layout_toEndOf="@+id/disptext3"
                                     android:layout_alignParentEnd="true"
-                                    android:textAlignment="textEnd"
                                     android:layout_marginTop="@dimen/small_space"
+                                    android:layout_toEndOf="@+id/disptext3"
                                     android:text="0 IDR"
+                                    android:textAlignment="textEnd"
+                                    android:textColor="@color/colorPrice"
                                     android:textSize="@dimen/under_small_text" />
                             </RelativeLayout>
                         </LinearLayout>
@@ -1221,13 +1229,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:visibility="gone"
-                        >
+                        android:visibility="gone">
 
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:background="@android:color/darker_gray"/>
+                            android:background="@android:color/darker_gray" />
 
 
                         <LinearLayout
@@ -1247,8 +1254,8 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:orientation="vertical"
                                 android:background="@color/colorNearWhite"
+                                android:orientation="vertical"
                                 android:padding="@dimen/xmin_padding">
 
                                 <Spinner
@@ -1283,11 +1290,11 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:background="@color/colorNearWhite"
-                                android:ems="10"
-                                android:editable="false"
-                                android:inputType="date|none"
                                 android:drawableEnd="@drawable/ic_date_range_black_24dp"
+                                android:editable="false"
+                                android:ems="10"
                                 android:hint="Tanggal Mulai"
+                                android:inputType="date|none"
                                 android:padding="@dimen/min_padding"
                                 android:text="" />
                         </LinearLayout>
@@ -1311,11 +1318,11 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:background="@color/colorNearWhite"
-                                android:ems="10"
-                                android:inputType="date|none"
-                                android:editable="false"
                                 android:drawableEnd="@drawable/ic_date_range_black_24dp"
+                                android:editable="false"
+                                android:ems="10"
                                 android:hint="Tanggal Akhir"
+                                android:inputType="date|none"
                                 android:padding="@dimen/min_padding"
                                 android:text="" />
                         </LinearLayout>
@@ -1342,22 +1349,21 @@
                                     android:id="@+id/as_price_advance3"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:ems="10"
-                                    android:maxLength="13"
-                                    app:isDecimal="false"
-                                    android:hint="0"
-                                    android:padding="@dimen/min_padding"
                                     android:background="@color/colorNearWhite"
-                                    />
+                                    android:ems="10"
+                                    android:hint="0"
+                                    android:maxLength="13"
+                                    android:padding="@dimen/min_padding"
+                                    app:isDecimal="false" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="IDR"
                                     android:layout_alignParentEnd="true"
                                     android:layout_centerVertical="true"
-                                    android:textColor="@color/colorGrey"
                                     android:layout_marginEnd="@dimen/min_padding"
+                                    android:text="IDR"
+                                    android:textColor="@color/colorGrey"
                                     android:textSize="@dimen/medium_text" />
 
                             </RelativeLayout>
@@ -1370,21 +1376,21 @@
                                     android:id="@+id/disptext4"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:textColor="@color/colorGrey"
                                     android:layout_marginTop="@dimen/small_space"
                                     android:text="Harga yang akan anda terima (-10%):"
+                                    android:textColor="@color/colorGrey"
                                     android:textSize="@dimen/almost_tiny_text" />
 
                                 <TextView
                                     android:id="@+id/as_price_advance_disp3"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:textColor="@color/colorPrice"
-                                    android:layout_toEndOf="@+id/disptext4"
                                     android:layout_alignParentEnd="true"
-                                    android:textAlignment="textEnd"
                                     android:layout_marginTop="@dimen/small_space"
+                                    android:layout_toEndOf="@+id/disptext4"
                                     android:text="0 IDR"
+                                    android:textAlignment="textEnd"
+                                    android:textColor="@color/colorPrice"
                                     android:textSize="@dimen/under_small_text" />
                             </RelativeLayout>
                         </LinearLayout>
@@ -1396,13 +1402,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:visibility="gone"
-                        >
+                        android:visibility="gone">
 
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:background="@android:color/darker_gray"/>
+                            android:background="@android:color/darker_gray" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -1421,8 +1426,8 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:orientation="vertical"
                                 android:background="@color/colorNearWhite"
+                                android:orientation="vertical"
                                 android:padding="@dimen/xmin_padding">
 
                                 <Spinner
@@ -1456,11 +1461,11 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:background="@color/colorNearWhite"
-                                android:ems="10"
-                                android:editable="false"
-                                android:inputType="date|none"
                                 android:drawableEnd="@drawable/ic_date_range_black_24dp"
+                                android:editable="false"
+                                android:ems="10"
                                 android:hint="Tanggal Mulai"
+                                android:inputType="date|none"
                                 android:padding="@dimen/min_padding"
                                 android:text="" />
                         </LinearLayout>
@@ -1484,11 +1489,11 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:background="@color/colorNearWhite"
-                                android:ems="10"
-                                android:inputType="date|none"
-                                android:editable="false"
                                 android:drawableEnd="@drawable/ic_date_range_black_24dp"
+                                android:editable="false"
+                                android:ems="10"
                                 android:hint="Tanggal Akhir"
+                                android:inputType="date|none"
                                 android:padding="@dimen/min_padding"
                                 android:text="" />
                         </LinearLayout>
@@ -1515,22 +1520,21 @@
                                     android:id="@+id/as_price_advance4"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:ems="10"
-                                    android:maxLength="13"
-                                    app:isDecimal="false"
-                                    android:hint="0"
-                                    android:padding="@dimen/min_padding"
                                     android:background="@color/colorNearWhite"
-                                    />
+                                    android:ems="10"
+                                    android:hint="0"
+                                    android:maxLength="13"
+                                    android:padding="@dimen/min_padding"
+                                    app:isDecimal="false" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="IDR"
                                     android:layout_alignParentEnd="true"
                                     android:layout_centerVertical="true"
-                                    android:textColor="@color/colorGrey"
                                     android:layout_marginEnd="@dimen/min_padding"
+                                    android:text="IDR"
+                                    android:textColor="@color/colorGrey"
                                     android:textSize="@dimen/medium_text" />
 
                             </RelativeLayout>
@@ -1543,21 +1547,21 @@
                                     android:id="@+id/disptext5"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:textColor="@color/colorGrey"
                                     android:layout_marginTop="@dimen/small_space"
                                     android:text="Harga yang akan anda terima (-10%):"
+                                    android:textColor="@color/colorGrey"
                                     android:textSize="@dimen/almost_tiny_text" />
 
                                 <TextView
                                     android:id="@+id/as_price_advance_disp4"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:textColor="@color/colorPrice"
-                                    android:layout_toEndOf="@+id/disptext5"
                                     android:layout_alignParentEnd="true"
-                                    android:textAlignment="textEnd"
                                     android:layout_marginTop="@dimen/small_space"
+                                    android:layout_toEndOf="@+id/disptext5"
                                     android:text="0 IDR"
+                                    android:textAlignment="textEnd"
+                                    android:textColor="@color/colorPrice"
                                     android:textSize="@dimen/under_small_text" />
                             </RelativeLayout>
                         </LinearLayout>
@@ -1580,7 +1584,7 @@
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" >
+                android:layout_height="match_parent">
 
                 <LinearLayout
                     android:layout_width="match_parent"

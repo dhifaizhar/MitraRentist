@@ -5,8 +5,9 @@ package id.rentist.mitrarentist.modul;
  */
 
 public class ItemTransaksiModul {
-    private String mTitle, mIdTrans, mAsetName, mCodeTrans;
-    private int mThumbnail;
+    private String mTitle, mIdTrans, mAsetName, mCodeTrans, mThumbnail, mDriverName;
+    private Boolean mDriverIncluded;
+//    private int mThumbnail;
     private int mMemberIco;
     private String mMember;
     private int mDateIco;
@@ -44,10 +45,10 @@ public class ItemTransaksiModul {
         this.mTitle = mTitle;
     }
 
-    public int getThumbnail() {
+    public String getThumbnail() {
         return mThumbnail;
     }
-    public void setThumbnail(int mThumbnail) {
+    public void setThumbnail(String mThumbnail) {
         this.mThumbnail = mThumbnail;
     }
 
@@ -115,5 +116,19 @@ public class ItemTransaksiModul {
     }
     public String getPrice() {
         return mPrice;
+    }
+
+    public void setDriverName(String mDriverName) {
+        this.mDriverName = mDriverName;
+    }
+    public String getDriverName() {
+        return mDriverName;
+    }
+
+    public Boolean getDriverIncluded() {
+        return mDriverIncluded;
+    }
+    public void setDriverIncluded(Boolean mDriverIncluded) {
+        this.mDriverIncluded = mDriverIncluded;
     }
 }

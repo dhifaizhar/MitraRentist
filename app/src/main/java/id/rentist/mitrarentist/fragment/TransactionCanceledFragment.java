@@ -36,15 +36,20 @@ import java.util.List;
 import java.util.Map;
 
 import id.rentist.mitrarentist.R;
-import id.rentist.mitrarentist.adapter.TransactionRejectAdapter;
+import id.rentist.mitrarentist.adapter.TransactionCancelAdapter;
 import id.rentist.mitrarentist.modul.ItemTransaksiModul;
 import id.rentist.mitrarentist.tools.AppConfig;
 import id.rentist.mitrarentist.tools.SessionManager;
 
-public class TransactionRejectFragment extends Fragment {
+/**
+ * Created by mdhif on 07/07/2017.
+ */
+
+public class TransactionCanceledFragment extends Fragment {
     RecyclerView mRecyclerView;
     RecyclerView.LayoutManager mLayoutManager;
     RecyclerView.Adapter mAdapter;
+
     private List<ItemTransaksiModul> mTrans;
     private AsyncTask mHistoryTask = null;
     private ProgressDialog pDialog;
@@ -59,14 +64,15 @@ public class TransactionRejectFragment extends Fragment {
     private static final String TOKEN = "secretissecret";
     String tenant;
 
+    public TransactionCanceledFragment(){
 
-    public TransactionRejectFragment() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_transaction_reject, container, false);
+
+        view = inflater.inflate(R.layout.fragment_history_cancel, container, false);
         mTrans = new ArrayList<ItemTransaksiModul>();
         sm = new SessionManager(getActivity());
 
@@ -76,7 +82,6 @@ public class TransactionRejectFragment extends Fragment {
 
         noTransImage = (LinearLayout) view.findViewById(R.id.no_trans);
         noTransText = (TextView) view.findViewById(R.id.no_trans_text);
-
 
         // action retrieve data aset
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
@@ -97,7 +102,7 @@ public class TransactionRejectFragment extends Fragment {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e(TAG, "Get Driver Fetch Error : " + error.toString());
+                Log.e(TAG, "Get Driver Fetch Error : " +  error.toString());
                 Toast.makeText(getActivity(), "Connection error, try again.",
                         Toast.LENGTH_LONG).show();
             }
@@ -120,8 +125,8 @@ public class TransactionRejectFragment extends Fragment {
 
         try {
             JSONObject jsonObject = new JSONObject(responseJson);
-            JSONArray jsonArray = new JSONArray(String.valueOf(jsonObject.getJSONArray("rejected")));
-            if (jsonArray.length() > 0) {
+            JSONArray jsonArray = new JSONArray(String.valueOf(jsonObject.getJSONArray("canceled")));
+            if(jsonArray.length() > 0){
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject transObject = jsonArray.getJSONObject(i);
                     ItemTransaksiModul itemTrans = new ItemTransaksiModul();
@@ -136,14 +141,15 @@ public class TransactionRejectFragment extends Fragment {
                     aIdTrans = transObject.getString("id");
                     aAsetName = "- Item Kosong -";
 
-                    if (items.length() > 0) {
-                        if (items.length() == 1) {
+                    if(items.length() > 0){
+                        if (items.length() == 1){
                             item = items.getJSONObject(0);
                             if (item.getString("id_asset_category").equals("3")){
                                 aAsetName = item.getString("type") + " " + item.getString("subtype");
                             }else {
                                 aAsetName = item.getString("brand") + " " + item.getString("type");
                             }
+
                         } else {
 
                         }
@@ -153,8 +159,8 @@ public class TransactionRejectFragment extends Fragment {
                     aNominal = transObject.getString("nominal");
                     aMember = memberObject.getString("firstname") + " " + memberObject.getString("lastname");
                     aThumb = memberObject.getString("profil_pic");
-                    aStartDate = transObject.getString("start_date").replace("-", "/").substring(0, 10);
-                    aEndDate = transObject.getString("end_date").replace("-", "/").substring(0, 10);
+                    aStartDate = transObject.getString("start_date").replace("-","/").substring(0,10);
+                    aEndDate = transObject.getString("end_date").replace("-","/").substring(0,10);
 
                     itemTrans.setIdTrans(aIdTrans);
                     itemTrans.setCodeTrans(aCodeTrans);
@@ -164,20 +170,22 @@ public class TransactionRejectFragment extends Fragment {
                     itemTrans.setPrice(aNominal);
                     itemTrans.setStartDate(aStartDate);
                     itemTrans.setEndDate(aEndDate);
+//
 
                     mTrans.add(itemTrans);
                 }
 
-                mRecyclerView = (RecyclerView) view.findViewById(R.id.treject_recyclerViewFrag);
+                mRecyclerView = (RecyclerView) view.findViewById(R.id.hcancel_recyclerViewFrag);
                 mLayoutManager = new LinearLayoutManager(getActivity());
                 mRecyclerView.setLayoutManager(mLayoutManager);
-                mAdapter = new TransactionRejectAdapter(getActivity(), mTrans);
+                mAdapter = new TransactionCancelAdapter(getActivity(),mTrans);
                 mRecyclerView.setAdapter(mAdapter);
 
-            } else {
-                errorMsg = "Tidak Ada Transaksi Ditolak";
+            }else{
+                errorMsg = "Tidak Ada Transaksi Dibatalkan";
                 noTransImage.setVisibility(View.VISIBLE);
                 noTransText.setText(errorMsg);
+//                      Toast.makeText(getActivity(),errorMsg, Toast.LENGTH_LONG).show();
             }
 
             Log.e(TAG, "TAB Transaction Data : " + jsonObject);
@@ -188,17 +196,17 @@ public class TransactionRejectFragment extends Fragment {
 
     }
 
-
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     private void showProgress(final boolean show) {
-        if (show) {
-            if (!pDialog.isShowing()) {
+        if(show){
+            if (!pDialog.isShowing()){
                 pDialog.show();
             }
-        } else {
-            if (pDialog.isShowing()) {
+        }else{
+            if (pDialog.isShowing()){
                 pDialog.dismiss();
             }
         }
     }
+
 }

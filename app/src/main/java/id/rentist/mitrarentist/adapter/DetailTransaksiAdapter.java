@@ -33,9 +33,9 @@ public class DetailTransaksiAdapter extends RecyclerView.Adapter<DetailTransaksi
         tr = new ItemTransaksiModul();
         tr.setTitle("Daihatsu Jazz | DC 123 WOW");
         if(j%2==0){
-            tr.setThumbnail(R.drawable.mobil_1);
+//            tr.setThumbnail(R.drawable.mobil_1);
         }else{
-            tr.setThumbnail(R.drawable.mobil_2);
+//            tr.setThumbnail(R.drawable.mobil_2);
         }
         tr.setMember("Pengguna Jasa Sewa " + j);
         tr.setDate("10 Mei (10:00) - 13 Mei (10:00) ");

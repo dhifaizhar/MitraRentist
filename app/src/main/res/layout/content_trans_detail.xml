@@ -124,7 +124,7 @@
                                         android:id="@+id/tr_member_name_text"
                                         android:layout_width="@dimen/text_label"
                                         android:layout_height="wrap_content"
-                                        android:text="Nama "
+                                        android:text="Pemesan"
                                         />
 
                                     <TextView
@@ -226,8 +226,9 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:padding="@dimen/xmin_padding"
-                                    android:text="Driver "
-                                    android:layout_centerVertical="true"/>
+                                    android:text="Pengemudi : -"
+                                    android:layout_centerVertical="true"
+                                    android:visibility="gone"/>
 
                                 <Button
                                     android:id="@+id/btn_assign_driver"
@@ -244,12 +245,12 @@
                             </RelativeLayout>
 
 
-                            <TextView
-                                    android:id="@+id/textView16"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:padding="@dimen/xmin_padding"
-                                    android:text="Asuransi : tidak" />
+                            <!--<TextView-->
+                                    <!--android:id="@+id/textView16"-->
+                                    <!--android:layout_width="match_parent"-->
+                                    <!--android:layout_height="wrap_content"-->
+                                    <!--android:padding="@dimen/xmin_padding"-->
+                                    <!--android:text="Asuransi : tidak" />-->
 
 
                         </LinearLayout>

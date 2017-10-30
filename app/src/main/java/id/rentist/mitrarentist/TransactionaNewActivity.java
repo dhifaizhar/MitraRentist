@@ -138,7 +138,7 @@ public class TransactionaNewActivity extends AppCompatActivity {
 //            showProgress(false);
             pBar.setVisibility(View.GONE);
 
-            String aIdTrans, aCodeTrans, aTitle, aMember, aStartDate, aEndDate, aNominal, aAsetName;
+            String aIdTrans, aCodeTrans, aTitle, aThumb, aMember, aStartDate, aEndDate, aNominal, aAsetName, aNote;
 
             if (transaction != null) {
                 try {
@@ -161,7 +161,11 @@ public class TransactionaNewActivity extends AppCompatActivity {
                             if(items.length() > 0){
                                 if (items.length() == 1){
                                     item = items.getJSONObject(0);
-                                    aAsetName = item.getString("brand") + " " + item.getString("type") + " | " + item.getString("license_plat");
+                                    if (item.getString("id_asset_category").equals("3")){
+                                        aAsetName = item.getString("type") + " " + item.getString("subtype");
+                                    }else {
+                                        aAsetName = item.getString("brand") + " " + item.getString("type");
+                                    }
 
                                 }
                             }
@@ -171,6 +175,7 @@ public class TransactionaNewActivity extends AppCompatActivity {
                             aMember = memberObject.getString("firstname") + " " + memberObject.getString("lastname");
                             aStartDate = transObject.getString("start_date").replace("-","/").substring(0,10);
                             aEndDate = transObject.getString("end_date").replace("-","/").substring(0,10);
+                            aThumb = memberObject.getString("profil_pic");
 
                             ItemTransaksiModul itemTrans = new ItemTransaksiModul();
                             itemTrans.setCodeTrans(aCodeTrans);
@@ -178,6 +183,7 @@ public class TransactionaNewActivity extends AppCompatActivity {
                             itemTrans.setAsetName(aAsetName);
                             itemTrans.setMember(aMember);
                             itemTrans.setPrice(aNominal);
+                            itemTrans.setThumbnail(aThumb);
                             itemTrans.setStartDate(aStartDate);
                             itemTrans.setEndDate(aEndDate);
 

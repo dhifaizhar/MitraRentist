@@ -41,11 +41,11 @@ public class PricingTabAdapter extends FragmentPagerAdapter {
 //        if(position == 0){
 //            frag = new TransactionAcceptFragment();
 //        }else if(position == 1){
-//            frag = new HistoryOnTransFragment();
+//            frag = new TransactionOnGoingFragment();
 //        }else if(position == 2){
-//            frag = new HistoryCompTransFragment();
+//            frag = new TransactionCompletedFragment();
 //        }else if(position == 3){
-//            frag = new HistoryCancelFragment();
+//            frag = new TransactionCanceledFragment();
 //        }else if(position == 4){
 //
 //        }

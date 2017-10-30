@@ -7,16 +7,20 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.ybq.android.spinkit.SpinKitView;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 import id.rentist.mitrarentist.R;
 import id.rentist.mitrarentist.TransDetailActivity;
 import id.rentist.mitrarentist.modul.ItemTransaksiModul;
-import id.rentist.mitrarentist.tools.CostumFormater;
+import id.rentist.mitrarentist.tools.AppConfig;
+import id.rentist.mitrarentist.tools.CircleTransform;
+import id.rentist.mitrarentist.tools.PricingTools;
 
 public class TransactionAcceptAdapter extends RecyclerView.Adapter<TransactionAcceptAdapter.ViewHolder> {
     private List<ItemTransaksiModul> mTransaksi;
@@ -44,6 +48,7 @@ public class TransactionAcceptAdapter extends RecyclerView.Adapter<TransactionAc
     public class ViewHolder extends RecyclerView.ViewHolder{
         TextView title, idTrans, transCode, member, stardDate, endDate, nominal, asetName;
         CardView cardDetTrans;
+        ImageView thumb;
         SpinKitView pBar;
 
         public ViewHolder(View itemView){
@@ -54,6 +59,7 @@ public class TransactionAcceptAdapter extends RecyclerView.Adapter<TransactionAc
             stardDate = (TextView) itemView.findViewById(R.id.tr_acc_start_date);
             endDate = (TextView) itemView.findViewById(R.id.tr_acc_end_date);
             asetName = (TextView) itemView.findViewById(R.id.tr_acc_aset);
+            thumb = (ImageView) itemView.findViewById(R.id.tr_acc_thumb);
             cardDetTrans = (CardView) itemView.findViewById(R.id.card_view_acctransaksi);
         }
     }
@@ -68,13 +74,22 @@ public class TransactionAcceptAdapter extends RecyclerView.Adapter<TransactionAc
         startDate = ": " + trx.getStartDate();
         endDate = ": " + trx.getEndDate();
 
-        //  simpan value dalam object
+        //  simpan value dalam objec
         viewHolder.transCode.setText(trx.getCodeTrans());
-        viewHolder.nominal.setText(CostumFormater.PriceStringFormat(trx.getPrice()));
+        viewHolder.nominal.setText(PricingTools.PriceStringFormat(trx.getPrice()));
         viewHolder.asetName.setText(aset);
         viewHolder.member.setText(member);
         viewHolder.stardDate.setText(startDate);
         viewHolder.endDate.setText(endDate);
+
+        if (trx.getThumbnail().equals("null")){
+            String imageUrl = AppConfig.URL_IMAGE_PROFIL + "default.png";
+            Picasso.with(context).load(imageUrl).transform(new CircleTransform()).into(viewHolder.thumb);
+        }else{
+            String imageUrl = AppConfig.URL_IMAGE_PROFIL + trx.getThumbnail();
+            Picasso.with(context).load(imageUrl).transform(new CircleTransform()).into(viewHolder.thumb);
+        }
+
         viewHolder.cardDetTrans.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,6 +102,8 @@ public class TransactionAcceptAdapter extends RecyclerView.Adapter<TransactionAc
                 iDetTrans.putExtra("member", viewHolder.member.getText());
                 iDetTrans.putExtra("startDate", trx.getStartDate());
                 iDetTrans.putExtra("endDate", trx.getEndDate());
+                iDetTrans.putExtra("driver", trx.getDriverIncluded());
+                iDetTrans.putExtra("driver_name", trx.getDriverName());
 
                 iDetTrans.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(iDetTrans);
