@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -48,13 +47,10 @@ public class MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter.
         final MessageListModul msg = mMsg.get(i);
 
         viewHolder.title.setText(msg.getTitle());
-        viewHolder.imgThumbnail.setImageResource(msg.getThumbnail());
-        viewHolder.name.setText(msg.getName());
         viewHolder.cardViewMessageList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, MessageDetailActivity.class);
-                intent.putExtra("email",msg.getName());
                 intent.putExtra("key",msg.getTitle());
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
@@ -71,16 +67,11 @@ public class MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter.
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView title;
-        private TextView name;
-        private ImageView imgThumbnail;
         private CardView cardViewMessageList;
-
 
         public ViewHolder(View itemView) {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.msg_title);
-            imgThumbnail = (ImageView) itemView.findViewById(R.id.msg_thumb);
-            name = (TextView) itemView.findViewById(R.id.msg_name);
             cardViewMessageList = (CardView) itemView.findViewById(R.id.card_view_msgList);
         }
     }

@@ -324,12 +324,12 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     private void registerFireBase(final String akun) {
-        String url = "https://rentist-chat.firebaseio.com/tenant-user.json";
+        String url = "https://rentistid-174904.firebaseio.com/mitra-rentist.json";
         StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>(){
             @Override
             public void onResponse(String s) {
                 Log.d(TAG, "Firebase Object : " + s);
-                Firebase reference = new Firebase("https://rentist-chat.firebaseio.com/tenant-user");
+                Firebase reference = new Firebase("https://rentistid-174904.firebaseio.com/mitra-rentist");
 
                 try {
                     JSONObject akunObject = new JSONObject(akun);
@@ -338,7 +338,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     if(s.equals("null")) {
                         reference.child(akunObject.getString("phone")).child("email").setValue(akunObject.getString("email"));
                         reference.child(akunObject.getString("phone")).child("id_tenant").setValue(akunObject.getString("id_tenant"));
-                        reference.child(akunObject.getString("phone")).child("password").setValue(akunObject.getString("password"));
+                        reference.child(akunObject.getString("phone")).child("nama_user").setValue(akunObject.getString("name"));
                         Log.d(TAG, "Firebase Regist : registration successful");
                     }
                     else {
@@ -348,7 +348,7 @@ public class RegistrationActivity extends AppCompatActivity {
                             if (!obj.has(phone)) {
                                 reference.child(akunObject.getString("phone")).child("email").setValue(akunObject.getString("email"));
                                 reference.child(akunObject.getString("phone")).child("id_tenant").setValue(akunObject.getString("id_tenant"));
-                                reference.child(akunObject.getString("phone")).child("password").setValue(akunObject.getString("password"));
+                                reference.child(akunObject.getString("phone")).child("nama_user").setValue(akunObject.getString("name"));
                                 Log.d(TAG, "Firebase Regist : registration successful");
                             } else {
                                 Log.d(TAG, "Firebase Regist : username already exists");

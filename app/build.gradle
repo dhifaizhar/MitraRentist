@@ -48,8 +48,8 @@ dependencies {
     compile 'com.google.firebase:firebase-auth:11.0.4'
     compile 'com.hbb20:ccp:2.0.2'
     compile 'com.aldoapps:autoformatedittext:0.9.3'
-    testCompile 'junit:junit:4.12'
     compile 'com.firebase:firebase-client-android:2.5.2'
+    testCompile 'junit:junit:4.12'
 }
 
 apply plugin: 'com.google.gms.google-services'

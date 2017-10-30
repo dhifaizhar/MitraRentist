@@ -60,12 +60,12 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     private UserLoginTask mAuthTask = null;
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
-    private View mLoginFormView, focusView;
     private FormValidation formValidation;
     private SessionManager sm;
     private ProgressDialog pDialog;
-    private JSONObject userObject, tenantObject, setCatObject, responseMessage;
-    private String user, pic, mToken;
+    View mLoginFormView, focusView;
+    JSONObject userObject, tenantObject, setCatObject, responseMessage;
+    String user, pic, mToken;
 
     private static final String TAG = "LoginActivity";
     private static final String TOKEN = "secretissecret";
@@ -112,7 +112,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 startActivity(new Intent(LoginActivity.this, RegistrationActivity.class));
             }
         });
-
     }
 
     @Override
@@ -399,18 +398,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                         tCode = tenantObject.getString("tenant_code");
                         sVerif = tenantObject.getString("verified");
 
-                        sm.setPreferences("rental_type", tenantObject.getString("rental_type"));
-//                        sm.setIntPreferences("province", tenantObject.getInt("id_province"));
-                        if(!tenantObject.isNull("id_city")){
-                            sm.setPreferences("city", String.valueOf(tenantObject.getInt("id_city")));
-                        }
-//                        sm.setIntPreferences("distric", tenantObject.getInt("id_distric"));
-//                        sm.setIntPreferences("village", tenantObject.getInt("id_village"));
-                        sm.setPreferences("bank_name", tenantObject.getString("bank_name"));
-                        sm.setPreferences("bank_account", tenantObject.getString("bank_account"));
-                        sm.setPreferences("account_name", tenantObject.getString("account_name"));
-                        sm.setPreferences("branch", tenantObject.getString("branch"));
-
                         Log.e(TAG, "What Data Detail : " + String.valueOf(tenantObject));
                     }
 
@@ -430,6 +417,19 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                     sm.setPreferences("foto_profil",sPic);
                     sm.setPreferences("foto_profil_tenant",tPic);
                     sm.setPreferences("verified", sVerif);
+
+
+                    sm.setPreferences("rental_type", tenantObject.getString("rental_type"));
+//                        sm.setIntPreferences("province", tenantObject.getInt("id_province"));
+                    if(!tenantObject.isNull("id_city")){
+                        sm.setPreferences("city", String.valueOf(tenantObject.getInt("id_city")));
+                    }
+//                        sm.setIntPreferences("distric", tenantObject.getInt("id_distric"));
+//                        sm.setIntPreferences("village", tenantObject.getInt("id_village"));
+                    sm.setPreferences("bank_name", tenantObject.getString("bank_name"));
+                    sm.setPreferences("bank_account", tenantObject.getString("bank_account"));
+                    sm.setPreferences("account_name", tenantObject.getString("account_name"));
+                    sm.setPreferences("branch", tenantObject.getString("branch"));
 
                     sm.setPreferences("car", setCatObject.getString("car"));
                     sm.setPreferences("motorcycle", setCatObject.getString("motorcycle"));

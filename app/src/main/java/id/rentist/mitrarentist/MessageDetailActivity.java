@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -47,8 +48,7 @@ public class MessageDetailActivity extends AppCompatActivity {
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        setTitle(detIntent.getStringExtra("nama"));
-        getSupportActionBar().setSubtitle(detIntent.getStringExtra("title"));
+        setTitle(detIntent.getStringExtra("key"));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
@@ -58,8 +58,10 @@ public class MessageDetailActivity extends AppCompatActivity {
         scrollView = (ScrollView)findViewById(R.id.scrollView);
 
         Firebase.setAndroidContext(this);
-        reference1 = new Firebase("https://rentist-chat.firebaseio.com/tenant-user-message/" + sm.getPreferences("tenant_code") + "-" + sm.getPreferences("hp") + "_" +detIntent.getStringExtra("key"));
-        reference2 = new Firebase("https://rentist-chat.firebaseio.com/tenant-user-message/" + detIntent.getStringExtra("key") + "_" + sm.getPreferences("tenant_code") + "-" + sm.getPreferences("hp"));
+
+        final String member_phone = "6283819964917", nama1 = "Dhifaizhar", nama2 = "Riski";
+        reference1 = new Firebase("https://rentistid-174904.firebaseio.com/messages/" + detIntent.getStringExtra("key") + "/" + sm.getPreferences("hp"));
+        reference2 = new Firebase("https://rentistid-174904.firebaseio.com/messages/" + detIntent.getStringExtra("key") + "/" + member_phone);
 
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,11 +70,11 @@ public class MessageDetailActivity extends AppCompatActivity {
 
                 if(!messageText.equals("")){
                     Map<String, String> map = new HashMap<String, String>();
-                    map.put("date", DateFormat.getDateTimeInstance().format(new Date()));
-                    map.put("email", sm.getPreferences("email"));
+                    map.put("id", String.valueOf(sm.getIntPreferences("id")));
+                    map.put("date_send", DateFormat.getDateTimeInstance().format(new Date()));
                     map.put("message", messageText);
+                    map.put("read", "0");
                     reference1.push().setValue(map);
-                    reference2.push().setValue(map);
                 }
             }
         });
@@ -81,15 +83,13 @@ public class MessageDetailActivity extends AppCompatActivity {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Map map = dataSnapshot.getValue(Map.class);
-                String date = map.get("date").toString();
+                Log.e(TAG, "Map Message Response : " + String.valueOf(map));
+                String id = map.get("id").toString();
+                String date = map.get("date_send").toString();
                 String message = map.get("message").toString();
-                String userName = map.get("email").toString();
+                String read = map.get("read").toString();
 
-                if(userName.equals(sm.getPreferences("email"))){
-                    addMessageBox("You:-\n" + message, 1);
-                } else{
-                    addMessageBox(detIntent.getStringExtra("email") + ":-\n" + message, 2);
-                }
+                addMessageBox(nama1 + " :\n" + message, 1);
             }
 
             @Override
@@ -112,6 +112,40 @@ public class MessageDetailActivity extends AppCompatActivity {
 
             }
         });
+        reference2.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Map map = dataSnapshot.getValue(Map.class);
+                Log.e(TAG, "Map Message Response : " + String.valueOf(map));
+                String id = map.get("id").toString();
+                String date = map.get("date_send").toString();
+                String message = map.get("message").toString();
+                String read = map.get("read").toString();
+
+                addMessageBox(nama2 + ":-\n" + message, 2);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+
     }
 
     public void addMessageBox(String message, int type){

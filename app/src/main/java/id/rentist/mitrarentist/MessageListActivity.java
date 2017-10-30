@@ -104,7 +104,7 @@ public class MessageListActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... params) {
-            String newURL = "https://rentist-chat.firebaseio.com/tenant-user.json";
+            String newURL = "https://rentistid-174904.firebaseio.com/messages.json";
             RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
             StringRequest stringRequest = new StringRequest(Request.Method.GET, newURL, new Response.Listener<String>() {
                 @Override
@@ -151,18 +151,11 @@ public class MessageListActivity extends AppCompatActivity {
                         while (keys.hasNext())
                         {
                             String keyValue = (String)keys.next();
-                            objectMessage = new JSONObject(dataObject.getString(keyValue));
 
-                            if(!objectMessage.getString("email").equals(sm.getPreferences("email"))){
-                                MessageListModul msgModul = new MessageListModul();
-                                msgModul.setTitle(keyValue);
-                                msgModul.setName(objectMessage.getString("email"));
-                                msgModul.setThumbnail(R.drawable.blue_android);
+                            MessageListModul msgModul = new MessageListModul();
+                            msgModul.setTitle(keyValue);
 
-                                mMsg.add(msgModul);
-                            }
-
-                            Log.e(TAG, "User Data : " + keyValue + " | " + objectMessage.getString("email"));
+                            mMsg.add(msgModul);
                         }
 
                         mRecyclerView = (RecyclerView) findViewById(R.id.msg_recyclerView);

@@ -1,35 +1,35 @@
 {
   "project_info": {
-    "project_number": "302706735851",
-    "firebase_url": "https://rentist-chat.firebaseio.com",
-    "project_id": "rentist-chat",
-    "storage_bucket": "rentist-chat.appspot.com"
+    "project_number": "972236557470",
+    "firebase_url": "https://rentistid-174904.firebaseio.com",
+    "project_id": "rentistid-174904",
+    "storage_bucket": "rentistid-174904.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:302706735851:android:bb62f849ae0eff55",
+        "mobilesdk_app_id": "1:972236557470:android:f217bcef96bf661c",
         "android_client_info": {
-          "package_name": "id.rentist.mitrarentist"
+          "package_name": "id.rentist.rentist"
         }
       },
       "oauth_client": [
         {
-          "client_id": "302706735851-vdi0q93j0pjoj9vgns50ii611db8inal.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "id.rentist.mitrarentist",
-            "certificate_hash": "aee685e9215f04bff1707bbc38c7e620b472db05"
-          }
+          "client_id": "972236557470-8h77nu5kev09gc9apiq3vgqetgugui43.apps.googleusercontent.com",
+          "client_type": 3
         },
         {
-          "client_id": "302706735851-qe9sminnfi85nl2389hm2cjgt4s2030s.apps.googleusercontent.com",
-          "client_type": 3
+          "client_id": "972236557470-5gl234tsvtnb2ea2i9m4gj5qgm4cp3al.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "id.rentist.rentist",
+            "certificate_hash": "5ebfa74e850b07dac94188963c645d13da4ea53c"
+          }
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyA_r5cnPr6kL4J4jDoGZbW7swJ7seCqlCI"
+          "current_key": "AIzaSyB2DKsI03ZSEtadvWuPwO2AM5z_Xa0Cl5s"
         }
       ],
       "services": {
@@ -40,7 +40,82 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "302706735851-qe9sminnfi85nl2389hm2cjgt4s2030s.apps.googleusercontent.com",
+              "client_id": "972236557470-8h77nu5kev09gc9apiq3vgqetgugui43.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:972236557470:android:5920de3503a2d18c",
+        "android_client_info": {
+          "package_name": "com.google.firebase.quickstart.fcm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "972236557470-8h77nu5kev09gc9apiq3vgqetgugui43.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2DKsI03ZSEtadvWuPwO2AM5z_Xa0Cl5s"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:972236557470:android:bb62f849ae0eff55",
+        "android_client_info": {
+          "package_name": "id.rentist.mitrarentist"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "972236557470-eblmba38hqqm4oscsblmkjo5hhp71vjq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "id.rentist.mitrarentist",
+            "certificate_hash": "aee685e9215f04bff1707bbc38c7e620b472db05"
+          }
+        },
+        {
+          "client_id": "972236557470-8h77nu5kev09gc9apiq3vgqetgugui43.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2DKsI03ZSEtadvWuPwO2AM5z_Xa0Cl5s"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "972236557470-8h77nu5kev09gc9apiq3vgqetgugui43.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

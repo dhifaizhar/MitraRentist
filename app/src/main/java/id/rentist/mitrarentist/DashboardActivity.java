@@ -37,7 +37,6 @@ import com.android.volley.toolbox.Volley;
 import com.github.ybq.android.spinkit.SpinKitView;
 import com.github.ybq.android.spinkit.style.FadingCircle;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -62,8 +61,9 @@ public class DashboardActivity extends AppCompatActivity
     private SessionManager sm;
     private View navHeaderView;
     private Menu navMenuView;
-    FirebaseAuth mFirebaseAuth;
-    FirebaseUser mFirebaseUser;
+
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
     private int PICK_IMAGE_REQUEST = 1;
     private static final int RESULT_LOAD_IMAGE = 1;
 
@@ -113,7 +113,7 @@ public class DashboardActivity extends AppCompatActivity
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Toast.makeText(getApplicationContext(),"Selamat Datang Mitra : " + sm.getPreferences("nama"), Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(),"Selamat Datang Mitra : " + sm.getPreferences("nama"), Toast.LENGTH_LONG).show();
     }
 
     private void controlContent() throws IOException {
