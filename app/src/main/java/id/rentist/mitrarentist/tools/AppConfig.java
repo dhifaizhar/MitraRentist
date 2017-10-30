@@ -103,6 +103,7 @@ public class AppConfig {
     public static  String URL_FEATURE = SERVER + "item/feature/";
     public static  String URL_DELETE_FEATURE = SERVER + "delete/feature/";
 
+    public static  String URL_TESTIMONY_SUBMIT = SERVER + "testimony/submit/";
     public static  String URL_TRANSACTION = SERVER + "order/history/";
     public static  String URL_HISTORY_SALDO = SERVER + "finance/history/";
     public static  String URL_LIST_KEBIJAKAN = SERVER + "list/kebijakan/";

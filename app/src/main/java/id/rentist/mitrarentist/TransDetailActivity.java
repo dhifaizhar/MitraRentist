@@ -32,6 +32,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 import java.util.Map;
@@ -470,14 +474,32 @@ public class TransDetailActivity extends AppCompatActivity {
             showProgress(false);
 
             if(trans != null){
-//                sm.setPreferences("testi", "false");
+                try {
+                    JSONArray jsonArray = new JSONArray(trans);
+                    JSONObject transObject = jsonArray.getJSONObject(0);
+                    String tenant, member, trans_det;
+
+                    tenant = transObject.getString("id_tenant");
+                    member = transObject.getString("id_member");
+                    trans_det = transObject.getString("id");
+
+                    Toast.makeText(getApplicationContext(),"Transaksi Selesai", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(TransDetailActivity.this,TestimonyAddActivity.class);
+                    intent.putExtra("id_tenant", tenant);
+                    intent.putExtra("id", trans_det);
+                    intent.putExtra("id_member", member);
+                    startActivity(intent);
+                    finish();
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
                 Log.e(TAG, "PTrans Data = "+ trans);
 
-                Toast.makeText(getApplicationContext(),"Transaksi Selesai", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(TransDetailActivity.this,TestimonyAddActivity.class);
-//                intent.putExtra();
-                startActivity(intent);
-                finish();
+
+
             }else{
                 Toast.makeText(getApplicationContext(),"Gagal meyimpan data", Toast.LENGTH_LONG).show();
             }

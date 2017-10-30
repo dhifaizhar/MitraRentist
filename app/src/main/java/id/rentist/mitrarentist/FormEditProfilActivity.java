@@ -58,10 +58,11 @@ public class FormEditProfilActivity extends AppCompatActivity {
     private View focusView;
     private Bitmap bitmap;
 
-    EditText rName, rOwner, rAddress, rEmail, rPhone, rBankAccount, rAccountOwner, rBranch;
+    EditText rName, rOwner, rAddress, rEmail, rPhone, rBankAccount, rAccountOwner, rBranch, rPostalCode;
     ImageView profilePhoto;
     Button btnUploadFoto;
-    String tenant, erName, erOwner, erAddress, erEmail, erPhone, erBankAccount, erAccountOwner, erBranch;
+    String tenant, erName, erOwner, erAddress, erEmail, erPhone, erBankAccount, erAccountOwner,
+            erBranch, erPostalCode;
     Resources eprofilePhoto;
     ImageLoader mImageLoader;
     String imageUrl;
@@ -113,6 +114,7 @@ public class FormEditProfilActivity extends AppCompatActivity {
         profilePhoto = (ImageView) findViewById(R.id.pr_thumb);
         btnUploadFoto = (Button) findViewById(R.id.btnUploadFoto);
         countryCode =(CountryCodePicker) findViewById(R.id.country_code);
+        rPostalCode = (EditText) findViewById(R.id.epr_postal_code);
 
         // set content control value
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
@@ -124,6 +126,7 @@ public class FormEditProfilActivity extends AppCompatActivity {
         rBankAccount.setText(sm.getPreferences("bank_account"));
         rBranch.setText(sm.getPreferences("branch"));
         rAccountOwner.setText(sm.getPreferences("account_name"));
+        rPostalCode.setText(sm.getPreferences("kode_pos"));
         if(sm.getPreferences("bank_name").equals("BCA")){rBankName.setSelection(0);
         }else if(sm.getPreferences("bank_name").equals("BNI")){rBankName.setSelection(1);
         }else if(sm.getPreferences("bank_name").equals("BRI")){rBankName.setSelection(2);
@@ -198,28 +201,35 @@ public class FormEditProfilActivity extends AppCompatActivity {
         erBankAccount = rBankAccount.getText().toString();
         erBranch = rBranch.getText().toString();
         erAccountOwner = rAccountOwner.getText().toString();
+        erPostalCode = rPostalCode.getText().toString();
         eprofilePhoto = profilePhoto.getResources();
 
         //some code for post value
         if(!TextUtils.isEmpty(erName)){
             if(!TextUtils.isEmpty(erOwner)){
                 if(!TextUtils.isEmpty(erAddress)){
-                    if(formValidation.isPhoneValid(erPhone)){
-                        if(!TextUtils.isEmpty(erBankAccount)){
+                    if(!TextUtils.isEmpty(erPostalCode)){
+                        if(formValidation.isPhoneValid(erPhone)){
                             if(!TextUtils.isEmpty(erBankAccount)){
-                                if(!TextUtils.isEmpty(erAccountOwner)){
-                                    if(!TextUtils.isEmpty(erBranch)){
-                                        pDialog.setMessage("loading ...");
-                                        showProgress(true);
-                                        new updateProfileTask(tenant).execute();
+                                if(!TextUtils.isEmpty(erBankAccount)){
+                                    if(!TextUtils.isEmpty(erAccountOwner)){
+                                        if(!TextUtils.isEmpty(erBranch)){
+                                            pDialog.setMessage("loading ...");
+                                            showProgress(true);
+                                            new updateProfileTask(tenant).execute();
+                                        }else{
+                                            rBranch.setError(getString(R.string.error_field_required));
+                                            focusView = rBranch;
+                                            focusView.requestFocus();
+                                        }
                                     }else{
-                                        rBranch.setError(getString(R.string.error_field_required));
-                                        focusView = rBranch;
+                                        rAccountOwner.setError(getString(R.string.error_field_required));
+                                        focusView = rAccountOwner;
                                         focusView.requestFocus();
                                     }
                                 }else{
-                                    rAccountOwner.setError(getString(R.string.error_field_required));
-                                    focusView = rAccountOwner;
+                                    rBankAccount.setError(getString(R.string.error_field_required));
+                                    focusView = rBankAccount;
                                     focusView.requestFocus();
                                 }
                             }else{
@@ -228,13 +238,13 @@ public class FormEditProfilActivity extends AppCompatActivity {
                                 focusView.requestFocus();
                             }
                         }else{
-                            rBankAccount.setError(getString(R.string.error_field_required));
-                            focusView = rBankAccount;
+                            rPhone.setError(getString(R.string.error_invalid_phone));
+                            focusView = rPhone;
                             focusView.requestFocus();
                         }
                     }else{
-                        rPhone.setError(getString(R.string.error_invalid_phone));
-                        focusView = rPhone;
+                        rAddress.setError(getString(R.string.error_field_required));
+                        focusView = rPostalCode;
                         focusView.requestFocus();
                     }
                 }else{
@@ -288,6 +298,7 @@ public class FormEditProfilActivity extends AppCompatActivity {
                     keys.put("owner_name", erOwner);
                     keys.put("rental_name", erName);
                     keys.put("address", erAddress);
+//                    keys.put("postal_code", erPostalCode);
                     keys.put("phone", erPhone);
                     keys.put("bank_name", rBankName.getSelectedItem().toString());
                     keys.put("bank_account", erBankAccount);
