@@ -197,12 +197,11 @@
                         android:id="@+id/epr_province"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:entries="@array/city_entries"
-                        android:padding="@dimen/xmin_padding" />
+                        android:padding="@dimen/xmin_padding"
+                        android:spinnerMode="dialog" />
 
                 </LinearLayout>
             </LinearLayout>
-
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -229,7 +228,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:entries="@array/city_entries"
-                        android:padding="@dimen/xmin_padding" />
+                        android:padding="@dimen/xmin_padding"
+                        android:spinnerMode="dialog" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -259,7 +259,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:entries="@array/city_entries"
-                        android:padding="@dimen/xmin_padding" />
+                        android:padding="@dimen/xmin_padding"
+                        android:spinnerMode="dialog" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -290,7 +291,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:entries="@array/city_entries"
-                        android:padding="@dimen/xmin_padding" />
+                        android:padding="@dimen/xmin_padding"
+                        android:spinnerMode="dialog" />
 
                 </LinearLayout>
             </LinearLayout>

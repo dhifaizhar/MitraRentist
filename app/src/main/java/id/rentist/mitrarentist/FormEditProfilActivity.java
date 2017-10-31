@@ -43,20 +43,26 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import id.rentist.mitrarentist.tools.AdministrationArea;
 import id.rentist.mitrarentist.tools.AppConfig;
 import id.rentist.mitrarentist.tools.CircleTransform;
 import id.rentist.mitrarentist.tools.FormValidation;
 import id.rentist.mitrarentist.tools.SessionManager;
 
 public class FormEditProfilActivity extends AppCompatActivity {
-    private AsyncTask mProfileTask = null;
+    AsyncTask mProfileTask = null;
     private ProgressDialog pDialog;
     private SessionManager sm;
-    private View focusView;
-    private Bitmap bitmap;
+    private ArrayList<String> provinceList;
+    View focusView;
+    Bitmap bitmap;
+    CountryCodePicker countryCode;
+    FormValidation formValidation;
+    AdministrationArea administrationArea;
 
     EditText rName, rOwner, rAddress, rEmail, rPhone, rBankAccount, rAccountOwner, rBranch, rPostalCode;
     ImageView profilePhoto;
@@ -65,14 +71,11 @@ public class FormEditProfilActivity extends AppCompatActivity {
             erBranch, erPostalCode;
     Resources eprofilePhoto;
     ImageLoader mImageLoader;
-    String imageUrl;
-    Spinner rBankName, rCity;
-    CountryCodePicker countryCode;
-    FormValidation formValidation;
+    String imageUrl, province;
+    Spinner rBankName, rProvince, rCity;
 
     String encodedImage, isiimage = "", ext, imgString;
     private int PICK_IMAGE_REQUEST = 1;
-
 
     private static final String TAG = "FormUserActivity";
     private static final String TOKEN = "secretissecret";
@@ -85,6 +88,7 @@ public class FormEditProfilActivity extends AppCompatActivity {
         setContentView(R.layout.activity_form_edit_profil);
         setTitle("Ubah Profil Rental");
 
+        administrationArea = new AdministrationArea(FormEditProfilActivity.this);
         formValidation = new FormValidation(FormEditProfilActivity.this);
         sm = new SessionManager(getApplicationContext());
         pDialog = new ProgressDialog(this);
@@ -108,6 +112,7 @@ public class FormEditProfilActivity extends AppCompatActivity {
         rEmail = (EditText) findViewById(R.id.epr_email);
         rBankAccount = (EditText) findViewById(R.id.epr_bank_account);
         rBankName = (Spinner) findViewById(R.id.epr_bank_name);
+        rProvince = (Spinner) findViewById(R.id.epr_province);
         rCity = (Spinner) findViewById(R.id.epr_city);
         rBranch = (EditText) findViewById(R.id.epr_branch);
         rAccountOwner = (EditText) findViewById(R.id.epr_account_name);
@@ -115,6 +120,9 @@ public class FormEditProfilActivity extends AppCompatActivity {
         btnUploadFoto = (Button) findViewById(R.id.btnUploadFoto);
         countryCode =(CountryCodePicker) findViewById(R.id.country_code);
         rPostalCode = (EditText) findViewById(R.id.epr_postal_code);
+
+        // Get Area
+        administrationArea.getProvince(rProvince);
 
         // set content control value
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
@@ -163,6 +171,7 @@ public class FormEditProfilActivity extends AppCompatActivity {
                 startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
             }
         });
+
     }
 
     private void uploadPic() {
@@ -466,6 +475,5 @@ public class FormEditProfilActivity extends AppCompatActivity {
             isiimage = "";
         }
     }
-
 
 }

@@ -12,7 +12,7 @@ public class AppConfig {
     public static String URL_IMAGE_DOCUMENTS = ASSETS_SERVER + "documents/";
 
     public static String URL_LOGIN = SERVER + "login/tenant/";
-    public static  String URL_REGISTER = SERVER + "register/tenant/";
+    public static String URL_REGISTER = SERVER + "register/tenant/";
     public static String URL_RESET_PASSWORD = SERVER + "reset/mitra/";
     public static String URL_ACTIVATION = SERVER + "tenant/active/";
     public static String URL_RESEND_CODE = SERVER + "mitra/resend/";
@@ -109,5 +109,10 @@ public class AppConfig {
     public static  String URL_LIST_KEBIJAKAN = SERVER + "list/kebijakan/";
 
     public static  String URL_CRITIC_SUGGESTION = SERVER + "critics/";
+
+    public static  String URL_PROVINCE = SERVER + "place/province/";
+    public static  String URL_CITY = SERVER + "place/city/";
+    public static  String URL_DISTRIC = SERVER + "place/distric/";
+    public static  String URL_VILLAGE = SERVER + "place/village/";
 
 }
