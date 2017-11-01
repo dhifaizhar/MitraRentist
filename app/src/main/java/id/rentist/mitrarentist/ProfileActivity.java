@@ -23,7 +23,7 @@ public class ProfileActivity extends AppCompatActivity {
     private SessionManager sm;
     Intent iEditRent;
     TextView rName, rOwner, rAddress, rEmail, rPhone, rBankAccount, rBankName,
-            rAccountOwner, rBranch, rCity, rProvince, rVillage, rDistrict, rRentalType;
+            rAccountOwner, rBranch, rCity, rProvince, rVillage, rDistrict, rRentalType, rPostalCode;
     ImageView profilePhoto;
     ImageButton vAll;
     String imageUrl, tenantCity;
@@ -61,6 +61,7 @@ public class ProfileActivity extends AppCompatActivity {
         rVillage = (TextView) findViewById(R.id.pr_village);
         rRentalType = (TextView) findViewById(R.id.pr_rental_type);
         profilePhoto = (ImageView) findViewById(R.id.pr_thumb);
+        rPostalCode = (TextView) findViewById(R.id.pr_postal_code);
 
         vAll = (ImageButton) findViewById(R.id.view_testi);
 
@@ -75,14 +76,15 @@ public class ProfileActivity extends AppCompatActivity {
         rAccountOwner.setText(sm.getPreferences("account_name"));
         rRentalType.setText("Rental " + sm.getPreferences("rental_type"));
         rBranch.setText("Cabang : " + String.valueOf(sm.getPreferences("branch").isEmpty()?"-":sm.getPreferences("branch")));
+        rPostalCode.setText(sm.getPreferences("kode_pos"));
 
         String[] sCity = getResources().getStringArray(R.array.city_entries);
         Log.e("City List", sCity.toString());
 
         if(!sm.getPreferences("city").isEmpty()){
-            tenantCity = sCity[Integer.parseInt(sm.getPreferences("city"))-1];
-            Log.e("City", sm.getPreferences("city") + tenantCity);
-            rCity.setText(tenantCity);
+//            tenantCity = sCity[Integer.parseInt(sm.getPreferences("city"))-1];
+//            Log.e("City", sm.getPreferences("city") + tenantCity);
+            rCity.setText("Bogor");
         }else{
             rCity.setText("Kota Belum Dipilih");
         }

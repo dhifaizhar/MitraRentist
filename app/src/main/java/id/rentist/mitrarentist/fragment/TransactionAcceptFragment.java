@@ -80,8 +80,40 @@ public class TransactionAcceptFragment extends Fragment {
         // action retrieve data aset
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
         getTransaction();
+
+//        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mMessageReceiver,
+//                new IntentFilter("transaction-accept"));
         return view;
     }
+
+//    public BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+//        @Override
+//        public void onReceive(Context context, Intent i) {
+//            // Get extra data included in the Intent
+//            Intent iTrans = new Intent(getActivity(), TransDetailActivity.class);
+//            iTrans.putExtra("status", "accepted");
+//            iTrans.putExtra("id_trans", i.getStringExtra("id_trans"));
+//            iTrans.putExtra("code_trans", i.getStringExtra("code_trans"));
+//            iTrans.putExtra("price", i.getStringExtra("price"));
+//            iTrans.putExtra("aset", i.getStringExtra("aset"));
+//            iTrans.putExtra("member", i.getStringExtra("member"));
+//            iTrans.putExtra("startDate", i.getStringExtra("startDate"));
+//            iTrans.putExtra("endDate", i.getStringExtra("endDate"));
+//            iTrans.putExtra("driver",  i.getStringExtra("driver"));
+//            iTrans.putExtra("driver_name",  i.getStringExtra("driver_name"));
+//            startActivityForResult(iTrans, 2);
+//        }
+//    };
+
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//
+//        if(resultCode == RESULT_OK) {
+//            mTrans.clear();
+//            getTransaction();
+//        }
+//
+//    }
 
     private void getHistoryAccList(String tenant) {
         pBar.setVisibility(View.VISIBLE);

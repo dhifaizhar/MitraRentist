@@ -17,19 +17,18 @@
         <com.squareup.timessquare.CalendarPickerView
             android:id="@+id/calendar_view"
             android:layout_width="match_parent"
-            android:layout_height="420dp"
-            android:layout_margin="@dimen/min_padding"/>
-
+            android:layout_height="wrap_content"
+            />
 
         <Button
             android:id="@+id/btn_done"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/min_padding"
-            android:layout_below="@+id/calendar_view"
+            android:layout_margin="@dimen/xmin_padding"
             android:background="@color/colorPrimaryDark"
             android:textColor="@color/colorWhite"
             android:layout_gravity="center"
+            android:layout_alignBottom="@+id/calendar_view"
             android:text="Pilih"/>
 
     </RelativeLayout>

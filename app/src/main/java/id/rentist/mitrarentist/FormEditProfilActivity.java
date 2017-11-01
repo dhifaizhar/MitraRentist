@@ -43,11 +43,9 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import id.rentist.mitrarentist.tools.AdministrationArea;
 import id.rentist.mitrarentist.tools.AppConfig;
 import id.rentist.mitrarentist.tools.CircleTransform;
 import id.rentist.mitrarentist.tools.FormValidation;
@@ -57,12 +55,12 @@ public class FormEditProfilActivity extends AppCompatActivity {
     AsyncTask mProfileTask = null;
     private ProgressDialog pDialog;
     private SessionManager sm;
-    private ArrayList<String> provinceList;
+//    private ArrayList<String> provinceList;
     View focusView;
     Bitmap bitmap;
     CountryCodePicker countryCode;
     FormValidation formValidation;
-    AdministrationArea administrationArea;
+//    AdministrationArea administrationArea;
 
     EditText rName, rOwner, rAddress, rEmail, rPhone, rBankAccount, rAccountOwner, rBranch, rPostalCode;
     ImageView profilePhoto;
@@ -88,7 +86,7 @@ public class FormEditProfilActivity extends AppCompatActivity {
         setContentView(R.layout.activity_form_edit_profil);
         setTitle("Ubah Profil Rental");
 
-        administrationArea = new AdministrationArea(FormEditProfilActivity.this);
+//        administrationArea = new AdministrationArea(FormEditProfilActivity.this);
         formValidation = new FormValidation(FormEditProfilActivity.this);
         sm = new SessionManager(getApplicationContext());
         pDialog = new ProgressDialog(this);
@@ -122,7 +120,7 @@ public class FormEditProfilActivity extends AppCompatActivity {
         rPostalCode = (EditText) findViewById(R.id.epr_postal_code);
 
         // Get Area
-        administrationArea.getProvince(rProvince);
+//        administrationArea.getProvince(rProvince);
 
         // set content control value
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
@@ -143,12 +141,12 @@ public class FormEditProfilActivity extends AppCompatActivity {
         }
         Log.e("CityEDIT", sm.getPreferences("city").toString());
 
-        if(!sm.getPreferences("city").isEmpty()){
-            rCity.setSelection(Integer.parseInt(sm.getPreferences("city"))-1);
-        }
+//        if(!sm.getPreferences("city").isEmpty()){
+//            rCity.setSelection(Integer.parseInt(sm.getPreferences("city"))-1);
+//        }
 
         if (sm.getPreferences("foto_profil_tenant").equals("null")){
-            imageUrl = AppConfig.URL_IMAGE_PROFIL + "img_default.png";
+            imageUrl = AppConfig.URL_IMAGE_PROFIL + "default.png";
             Picasso.with(getApplicationContext()).load(imageUrl).transform(new CircleTransform()).into(profilePhoto);
         } else {
             imageUrl = AppConfig.URL_IMAGE_PROFIL + sm.getPreferences("foto_profil_tenant");
@@ -196,6 +194,7 @@ public class FormEditProfilActivity extends AppCompatActivity {
         rOwner.setError(null);
         rAddress.setError(null);
         rPhone.setError(null);
+        rPostalCode.setError(null);
         rEmail.setError(null);
         rBankAccount.setError(null);
         rBranch.setError(null);
@@ -307,13 +306,13 @@ public class FormEditProfilActivity extends AppCompatActivity {
                     keys.put("owner_name", erOwner);
                     keys.put("rental_name", erName);
                     keys.put("address", erAddress);
-//                    keys.put("postal_code", erPostalCode);
+                    keys.put("postal_code", erPostalCode);
                     keys.put("phone", erPhone);
                     keys.put("bank_name", rBankName.getSelectedItem().toString());
                     keys.put("bank_account", erBankAccount);
                     keys.put("account_name", erAccountOwner);
                     keys.put("branch", erBranch);
-                    keys.put("id_city", String.valueOf(rCity.getSelectedItemId()+1));
+                    keys.put("id_city", "148");//String.valueOf(rCity.getSelectedItemId()+1));
                     keys.put("file", isiimage);
 //                    Log.e(TAG, "IMAGE ; " + imgString);
 
@@ -354,7 +353,7 @@ public class FormEditProfilActivity extends AppCompatActivity {
                 sm.setPreferences("bank_account", erBankAccount);
                 sm.setPreferences("account_name", erAccountOwner);
                 sm.setPreferences("branch", erBranch);
-                sm.setPreferences("city", String.valueOf(rCity.getSelectedItemId()+1));
+                sm.setPreferences("city", "148");//String.valueOf(rCity.getSelectedItemId()+1));
                 Log.e(TAG, "User : not null");
 
                 try {

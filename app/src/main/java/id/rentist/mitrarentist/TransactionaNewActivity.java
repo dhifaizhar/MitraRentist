@@ -1,7 +1,12 @@
 package id.rentist.mitrarentist;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -74,7 +79,27 @@ public class TransactionaNewActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
         getNewTransactionDataList(tenant);
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
+                new IntentFilter("transaction-new"));
     }
+
+    public BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent i) {
+            // Get extra data included in the Intent
+            Intent iTrans = new Intent(TransactionaNewActivity.this, TransDetailActivity.class);
+            iTrans.putExtra("status", "new");
+            iTrans.putExtra("id_trans", i.getStringExtra("id_trans"));
+            iTrans.putExtra("code_trans", i.getStringExtra("code_trans"));
+            iTrans.putExtra("price", i.getStringExtra("price"));
+            iTrans.putExtra("aset", i.getStringExtra("aset"));
+            iTrans.putExtra("member", i.getStringExtra("member"));
+            iTrans.putExtra("startDate", i.getStringExtra("startDate"));
+            iTrans.putExtra("endDate", i.getStringExtra("endDate"));
+            startActivityForResult(iTrans, 2);
+        }
+    };
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -217,11 +242,18 @@ public class TransactionaNewActivity extends AppCompatActivity {
         @Override
         protected void onCancelled() {
             mTransactionTask = null;
-//            showProgress(false);
             pBar.setVisibility(View.GONE);
 
         }
+    }
 
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == RESULT_OK) {
+            mTrans.clear();
+            getNewTransactionDataList(tenant);
+        }
 
     }
 

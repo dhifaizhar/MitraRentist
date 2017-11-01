@@ -211,6 +211,7 @@ public class FormCarAsetActivity extends AppCompatActivity {
         aDispText4 = (TextView) findViewById(R.id.disptext4);
         aDispText5 = (TextView) findViewById(R.id.disptext5);
 
+        Log.e(TAG, sm.getPreferences("fee_car") );
         fee = Integer.parseInt(sm.getPreferences("fee_car"));
 
         aFeeMsg = "Harga yang akan anda terima (-" + fee + "%):";

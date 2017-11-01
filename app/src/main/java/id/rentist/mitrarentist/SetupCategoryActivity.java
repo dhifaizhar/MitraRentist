@@ -91,7 +91,7 @@ public class SetupCategoryActivity extends AppCompatActivity {
                 sm.setIntPreferences("sum_cat", sum_cat);
                 Intent intent = new Intent(SetupCategoryActivity.this,AsetActivity.class);
                 setResult(RESULT_OK, intent);
-                finish();
+                SetupCategoryActivity.this.finish();
             }
         });
 

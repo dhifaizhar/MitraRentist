@@ -329,7 +329,7 @@
                     android:layout_height="@dimen/breadcrumb_height"
                     android:layout_marginBottom="@dimen/xmin_padding">
 
-                    <LinearLayout
+                    <RelativeLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_column="0"
@@ -337,37 +337,170 @@
                         android:layout_weight="1"
                         android:background="@color/colorWhite"
                         android:orientation="vertical"
-                        android:padding="@dimen/med_padding">
+                        android:padding="@dimen/min_padding">
 
-                        <TextView
-                            android:id="@+id/stat_info_1"
+                        <RelativeLayout
+                            android:id="@+id/nilaitext"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/stat_info_1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/xmin_padding"
+                                android:layout_centerHorizontal="true"
+                                android:text="Nilai"
+                                android:layout_centerVertical="true"
+                                android:textSize="@dimen/small_text" />
+
+                            <ImageView
+                                android:id="@+id/img_stat_1"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_toStartOf="@id/stat_info_1"
+                                android:layout_marginBottom="@dimen/xmin_padding"
+                                android:layout_marginTop="@dimen/xmin_padding"
+                                android:layout_marginEnd="@dimen/xmin_padding"
+                                app:srcCompat="@drawable/rating_ico" />
+
+                            <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_toEndOf="@id/stat_info_1"
+                                android:layout_marginBottom="@dimen/xmin_padding"
+                                android:layout_marginTop="@dimen/xmin_padding"
+                                android:layout_marginStart="@dimen/xmin_padding"
+                                app:srcCompat="@drawable/rating_ico" />
+
+                        </RelativeLayout>
+
+                        <LinearLayout
+                            android:id="@+id/rating_1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/xmin_padding"
-                            android:gravity="center"
-                            android:text="Nilai"
-                            android:textSize="@dimen/small_text" />
+                            android:orientation="horizontal"
+                            android:layout_below="@+id/nilaitext"
+                            android:layout_alignParentStart="true">
 
-                        <ImageView
-                            android:id="@+id/img_stat_1"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/btn_medium_height"
-                            android:layout_marginBottom="@dimen/xmin_padding"
-                            android:layout_marginTop="@dimen/xmin_padding"
-                            app:srcCompat="@drawable/rating_ico" />
+                            <TextView
+                                android:id="@+id/kebersihan"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/xmin_padding"
+                                android:text="Kebersihan"
+                                android:textAlignment="center"
+                                android:layout_weight="1"
+                                android:textSize="@dimen/under_small_text" />
 
-                        <TextView
-                            android:id="@+id/val_rating"
+                            <TextView
+                                android:id="@+id/kerapihan"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/xmin_padding"
+                                android:text="Kerapihan"
+                                android:layout_weight="1"
+                                android:textAlignment="center"
+                                android:textSize="@dimen/under_small_text" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/rating_2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:text="0"
-                            android:textAlignment="center"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/large_text"
-                            android:textStyle="bold" />
+                            android:orientation="horizontal"
+                            android:layout_below="@+id/rating_1"
+                            android:layout_alignParentStart="true">
 
-                    </LinearLayout>
+                            <TextView
+                                android:id="@+id/cleanliness_rating"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/small_space"
+                                android:text="0"
+                                android:textStyle="bold"
+                                android:textColor="@color/colorPrimary"
+                                android:textAlignment="center"
+                                android:layout_weight="1"
+                                android:textSize="@dimen/small_text" />
+
+                            <TextView
+                                android:id="@+id/neatness_rating"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/small_space"
+                                android:text="0"
+                                android:textStyle="bold"
+                                android:textColor="@color/colorPrimary"
+                                android:textAlignment="center"
+                                android:layout_weight="1"
+                                android:textSize="@dimen/small_text" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/rating_3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_below="@+id/rating_2"
+                            android:layout_alignParentStart="true">
+                            <TextView
+                                android:id="@+id/kejujuran"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/xmin_padding"
+                                android:text="Kejujuran"
+                                android:textAlignment="center"
+                                android:layout_weight="1"
+                                android:textSize="@dimen/under_small_text" />
+
+                            <TextView
+                                android:id="@+id/komunikasi"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/xmin_padding"
+                                android:text="Komunikasi"
+                                android:textAlignment="center"
+                                android:layout_weight="1"
+                                android:textSize="@dimen/under_small_text" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/rating_4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_below="@+id/rating_3"
+                            android:layout_alignParentStart="true">
+
+                            <TextView
+                                android:id="@+id/honesty_rating"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/small_space"
+                                android:text="0"
+                                android:textStyle="bold"
+                                android:textColor="@color/colorPrimary"
+                                android:textAlignment="center"
+                                android:layout_weight="1"
+                                android:textSize="@dimen/small_text" />
+
+                            <TextView
+                                android:id="@+id/comunication_rating"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/small_space"
+                                android:text="0"
+                                android:textStyle="bold"
+                                android:textColor="@color/colorPrimary"
+                                android:textAlignment="center"
+                                android:layout_weight="1"
+                                android:textSize="@dimen/small_text" />
+                        </LinearLayout>
+
+
+                    </RelativeLayout>
 
                     <LinearLayout
                         android:layout_width="0dp"

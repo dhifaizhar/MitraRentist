@@ -328,7 +328,9 @@ public class TransDetailActivity extends AppCompatActivity {
 
             if(transaction != null){
                 Toast.makeText(getApplicationContext(),"Transaksi berhasil diterima, Periksa menu transaksi anda", Toast.LENGTH_LONG).show();
-                finish();
+                Intent intent = new Intent(TransDetailActivity.this,TransactionaNewActivity.class);
+                setResult(RESULT_OK, intent);
+                TransDetailActivity.this.finish();
             }else{
                 Toast.makeText(getApplicationContext(),"Gagal meyimpan data", Toast.LENGTH_LONG).show();
             }

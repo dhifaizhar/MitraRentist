@@ -173,12 +173,21 @@
                                 android:text="-"
                                 android:textSize="@dimen/small_text" />
 
+                            <TextView
+                                android:id="@+id/pr_postal_code"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/pr_address_name"
+                                android:layout_marginLeft="@dimen/xmin_padding"
+                                android:layout_toEndOf="@+id/pr_address_ico"
+                                android:text="-"
+                                android:textSize="@dimen/small_text" />
 
                             <TextView
                                 android:id="@+id/pr_village"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_below="@+id/pr_address_name"
+                                android:layout_below="@+id/pr_postal_code"
                                 android:layout_marginLeft="@dimen/xmin_padding"
                                 android:layout_toEndOf="@+id/pr_address_ico"
                                 android:text=""
@@ -188,7 +197,7 @@
                                 android:id="@+id/pr_distric"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_below="@+id/pr_address_name"
+                                android:layout_below="@+id/pr_postal_code"
                                 android:layout_marginLeft="@dimen/xmin_padding"
                                 android:layout_toEndOf="@+id/pr_village"
                                 android:text=""

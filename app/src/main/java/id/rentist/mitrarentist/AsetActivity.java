@@ -1,16 +1,18 @@
 package id.rentist.mitrarentist;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import id.rentist.mitrarentist.adapter.GridAsetAdapter;
 import id.rentist.mitrarentist.tools.SessionManager;
@@ -21,7 +23,7 @@ public class AsetActivity extends AppCompatActivity {
     RecyclerView.LayoutManager mLayoutManager;
     private SessionManager sm;
 
-    CardView addAset;
+//    CardView addAset;
     String tenant;
 
     @Override
@@ -35,23 +37,36 @@ public class AsetActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         sm = new SessionManager(getApplicationContext());
-        addAset = (CardView) findViewById(R.id.add_aset);
+//       addAset = (CardView) findViewById(R.id.add_aset);
+
+
 
         Log.e("ASET","SumCat : " + sm.getIntPreferences("sum_cat").toString());
-        if (sm.getIntPreferences("sum_cat")< 1){
-            addAset.setVisibility(View.VISIBLE);
-            addAset.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent iSetup = new Intent(AsetActivity.this, SetupCategoryActivity.class);
-                    startActivityForResult(iSetup, 2);
-                }
-            });
-        }else{
+//        if (sm.getIntPreferences("sum_cat")< 1){
+//            addAset.setVisibility(View.VISIBLE);
+//            addAset.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    Intent iSetup = new Intent(AsetActivity.this, SetupCategoryActivity.class);
+//                    startActivityForResult(iSetup, 2);
+//                }
+//            });
+//        }else{
             getGridAset();
-        }
+            LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
+                    new IntentFilter("add-asset"));
+//        }
 
     }
+
+    public BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Get extra data included in the Intent
+            Intent iSetup = new Intent(AsetActivity.this, SetupCategoryActivity.class);
+            startActivityForResult(iSetup, 2);
+        }
+    };
 
     public void getGridAset() {
         mRecyclerView = (RecyclerView) findViewById(R.id.ac_recyclerView);
@@ -96,20 +111,20 @@ public class AsetActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(resultCode == RESULT_OK) {
-            if (sm.getIntPreferences("sum_cat")<1){
-                addAset.setVisibility(View.VISIBLE);
+//            if (sm.getIntPreferences("sum_cat")<1){
+//                addAset.setVisibility(View.VISIBLE);
+//                getGridAset();
+//                addAset.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        Intent iSetup = new Intent(AsetActivity.this, SetupCategoryActivity.class);
+//                        startActivityForResult(iSetup, 2);
+//                    }
+//                });
+//            }else{
+//                addAset.setVisibility(View.GONE);
                 getGridAset();
-                addAset.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent iSetup = new Intent(AsetActivity.this, SetupCategoryActivity.class);
-                        startActivityForResult(iSetup, 2);
-                    }
-                });
-            }else{
-                addAset.setVisibility(View.GONE);
-                getGridAset();
-            }
+//            }
         }
 
     }

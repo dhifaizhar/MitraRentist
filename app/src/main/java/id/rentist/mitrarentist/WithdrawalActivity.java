@@ -139,7 +139,7 @@ public class WithdrawalActivity extends AppCompatActivity {
                     // Posting parameters to url
                     Map<String, String> keys = new HashMap<String, String>();
                     keys.put("id_tenant", mTenant);
-                    keys.put("nominal", iWithdrawal.getStringExtra("balance"));
+                    keys.put("nominal", iWithdrawal.getStringExtra("balance").replace(".",""));
                     keys.put("description", description.getText().toString());
 //
                     if (transId.size() > 0) {

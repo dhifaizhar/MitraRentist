@@ -111,8 +111,12 @@
         <item>3</item>
     </string-array>
 
+    <string-array name="province_entries">
+        <item>Jawa Barat</item>
+    </string-array>
+
     <string-array name="city_entries">
-        <item>Bali</item>
+        <!--<item>Bali</item>-->
         <item>Bogor</item>
     </string-array>
 

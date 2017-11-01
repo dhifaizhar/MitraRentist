@@ -45,7 +45,6 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -73,7 +72,8 @@ public class DashboardActivity extends AppCompatActivity
 
     String tenant, mUsername, mPhotoUrl, encodedImage, imageUrl, imgString;
     Integer sumAsset, aCar, aBike, aYacht;
-    TextView newTrans, totAsset, totPoin, totRating, totSaldo, rentName, role, rentNameDrawer, successRent, ongoRent, toFormAccount;
+    TextView newTrans, totAsset, totPoin, totRating, totSaldo, rentName, role, rentNameDrawer,
+            successRent, ongoRent, toFormAccount, ratCleanliness, ratNeatness, ratHonesty, ratComunication;
     ImageView rentImgProfile, verifIco;
     LinearLayout accountDataNotif;
 //    NetworkImageView rentImgProfile;
@@ -133,10 +133,15 @@ public class DashboardActivity extends AppCompatActivity
         totSaldo = (TextView) findViewById(R.id.val_saldo);
         totAsset = (TextView) findViewById(R.id.val_sum_asset);
         totPoin = (TextView) findViewById(R.id.val_poin);
-        totRating = (TextView) findViewById(R.id.val_rating);
+//        totRating = (TextView) findViewById(R.id.val_rating);
         successRent = (TextView) findViewById(R.id.val_success_rent);
         ongoRent = (TextView) findViewById(R.id.val_ongo_rent);
         toFormAccount = (TextView) findViewById(R.id.toFormProfile);
+        ratCleanliness = (TextView) findViewById(R.id.cleanliness_rating);
+        ratNeatness= (TextView) findViewById(R.id.neatness_rating);
+        ratHonesty = (TextView) findViewById(R.id.honesty_rating);
+        ratComunication = (TextView) findViewById(R.id.comunication_rating);
+
 
         // set content control value
         Log.e(TAG, "Tenant Data : " + sm.getPreferences("nama_pemilik") +  sm.getPreferences("nama_rental") + sm.getPreferences("nama") +
@@ -364,20 +369,19 @@ public class DashboardActivity extends AppCompatActivity
 
                     totSaldo.setText(PricingTools.PriceFormat(dataObject.getInt("saldo")));
 
-                    ArrayList<String> feeArray = new ArrayList<String>();
                     JSONArray feeObject = new JSONArray(String.valueOf(dataObject.getJSONArray("percentage")));
                     JSONObject categoryCar = feeObject.getJSONObject(0);
                     JSONObject categoryMotor = feeObject.getJSONObject(1);
                     JSONObject categoryYacht= feeObject.getJSONObject(2);
-                    JSONObject categoryMedic = feeObject.getJSONObject(0);
-                    JSONObject categoryPhotography = feeObject.getJSONObject(0);
-                    JSONObject categoryToys = feeObject.getJSONObject(0);
-                    JSONObject categoryAdventure = feeObject.getJSONObject(0);
-                    JSONObject categoryMaternity = feeObject.getJSONObject(0);
-                    JSONObject categoryElectronic = feeObject.getJSONObject(0);
-                    JSONObject categoryBicycle = feeObject.getJSONObject(0);
-                    JSONObject categoryOffice = feeObject.getJSONObject(0);
-                    JSONObject categoryFashion = feeObject.getJSONObject(0);
+                    JSONObject categoryMedic = feeObject.getJSONObject(3);
+                    JSONObject categoryPhotography = feeObject.getJSONObject(4);
+                    JSONObject categoryToys = feeObject.getJSONObject(5);
+                    JSONObject categoryAdventure = feeObject.getJSONObject(6);
+                    JSONObject categoryMaternity = feeObject.getJSONObject(7);
+                    JSONObject categoryElectronic = feeObject.getJSONObject(8);
+                    JSONObject categoryBicycle = feeObject.getJSONObject(9);
+                    JSONObject categoryOffice = feeObject.getJSONObject(10);
+                    JSONObject categoryFashion = feeObject.getJSONObject(11);
 
                     sm.setPreferences("fee_car", categoryCar.getString("percentage"));
                     sm.setPreferences("fee_motor", categoryMotor.getString("percentage"));
@@ -392,8 +396,17 @@ public class DashboardActivity extends AppCompatActivity
                     sm.setPreferences("fee_office", categoryOffice.getString("percentage"));
                     sm.setPreferences("fee_fashion", categoryFashion.getString("percentage"));
 
-                    Log.e(TAG, "fee_percentage : " + sm.getPreferences("fee_percentage"));
+                    Float clean = Float.parseFloat(ratingObject.getString("cleanliness"))/ratingObject.getInt("counts");
+                    Float neat = Float.parseFloat(ratingObject.getString("neatness"))/ratingObject.getInt("counts");
+                    Float honest = Float.parseFloat(ratingObject.getString("honesty"))/ratingObject.getInt("counts");
+                    Float com = Float.parseFloat(ratingObject.getString("communication"))/ratingObject.getInt("counts");
 
+                    ratCleanliness.setText(clean > 0 ? String.format("%.1f", clean) : "0");
+                    ratNeatness.setText(neat > 0 ? String.format("%.1f", neat) : "0");
+                    ratHonesty.setText(honest > 0 ? String.format("%.1f", honest) : "0");
+                    ratComunication.setText(com > 0 ? String.format("%.1f", com) : "0");
+
+                    Log.e(TAG, "ku ingin tahu : " + clean );
 
                 } catch (JSONException e) {
                     e.printStackTrace();

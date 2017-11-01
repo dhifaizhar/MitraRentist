@@ -117,12 +117,6 @@ public class FormElectronicAsetActivity extends AppCompatActivity {
             }
         });
 
-        btnAdvancePrice.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                conAdvancePrice.setVisibility(View.VISIBLE);
-            }
-        });
     }
 
     private void contentcontrol() {

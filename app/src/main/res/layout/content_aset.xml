@@ -11,44 +11,44 @@
     android:background="@color/colorBackgound"
     tools:showIn="@layout/activity_aset">
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/add_aset"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/min_padding"
-        android:visibility="gone"
-        android:clickable="true"
-        >
+    <!--<android.support.v7.widget.CardView-->
+        <!--android:id="@+id/add_aset"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_margin="@dimen/min_padding"-->
+        <!--android:visibility="gone"-->
+        <!--android:clickable="true"-->
+        <!--&gt;-->
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/xmin_padding"
-            android:paddingLeft="@dimen/med_padding"
-            android:paddingRight="@dimen/med_padding"
-            android:paddingTop="@dimen/xmin_padding">
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:gravity="center_horizontal"-->
+            <!--android:orientation="vertical"-->
+            <!--android:paddingBottom="@dimen/xmin_padding"-->
+            <!--android:paddingLeft="@dimen/med_padding"-->
+            <!--android:paddingRight="@dimen/med_padding"-->
+            <!--android:paddingTop="@dimen/xmin_padding">-->
 
-            <ImageView
-                android:layout_width="@dimen/msg_thumb_width"
-                android:layout_height="@dimen/msg_thumb_height"
-                android:layout_marginTop="@dimen/xmin_padding"
-                android:contentDescription="category image"
-                android:src="@drawable/ic_add_black_48dp" />
+            <!--<ImageView-->
+                <!--android:layout_width="@dimen/msg_thumb_width"-->
+                <!--android:layout_height="@dimen/msg_thumb_height"-->
+                <!--android:layout_marginTop="@dimen/xmin_padding"-->
+                <!--android:contentDescription="category image"-->
+                <!--android:src="@drawable/ic_add_black_48dp" />-->
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:lines="2"
-                android:padding="@dimen/xmin_padding"
-                android:text="Tambah Aset"
-                android:textAlignment="center"
-                android:textSize="10sp" />
-        </LinearLayout>
+            <!--<TextView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:gravity="center"-->
+                <!--android:lines="2"-->
+                <!--android:padding="@dimen/xmin_padding"-->
+                <!--android:text="Tambah Aset"-->
+                <!--android:textAlignment="center"-->
+                <!--android:textSize="10sp" />-->
+        <!--</LinearLayout>-->
 
-    </android.support.v7.widget.CardView>
+    <!--</android.support.v7.widget.CardView>-->
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/ac_recyclerView"

@@ -2,6 +2,7 @@ package id.rentist.mitrarentist.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,7 +16,6 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import id.rentist.mitrarentist.R;
-import id.rentist.mitrarentist.TransDetailActivity;
 import id.rentist.mitrarentist.modul.ItemTransaksiModul;
 import id.rentist.mitrarentist.tools.AppConfig;
 import id.rentist.mitrarentist.tools.CircleTransform;
@@ -95,7 +95,9 @@ public class TransaksiAdapter extends RecyclerView.Adapter<TransaksiAdapter.View
         viewHolder.cardDetTrans.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent iDetTrans = new Intent(context, TransDetailActivity.class);
+//                Intent iDetTrans = new Intent(context, TransDetailActivity.class);
+                Intent iDetTrans = new Intent("transaction-new");
+
                 iDetTrans.putExtra("status", "new");
                 iDetTrans.putExtra("id_trans", trx.getIdTrans());
                 iDetTrans.putExtra("code_trans", viewHolder.transCode.getText());
@@ -105,8 +107,10 @@ public class TransaksiAdapter extends RecyclerView.Adapter<TransaksiAdapter.View
                 iDetTrans.putExtra("startDate", trx.getStartDate());
                 iDetTrans.putExtra("endDate", trx.getEndDate());
 
-                iDetTrans.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(iDetTrans);
+                LocalBroadcastManager.getInstance(context).sendBroadcast(iDetTrans);
+
+//                iDetTrans.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                context.startActivity(iDetTrans);
             }
         });
     }

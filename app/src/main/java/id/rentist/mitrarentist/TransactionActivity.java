@@ -56,10 +56,12 @@ public class TransactionActivity extends AppCompatActivity {
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
     }
 
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_refresh_option, menu);
-        getMenuInflater().inflate(R.menu.menu_search_option, menu);
+//        getMenuInflater().inflate(R.menu.menu_refresh_option, menu);
+//        getMenuInflater().inflate(R.menu.menu_search_option, menu);
 
         return true;
     }
