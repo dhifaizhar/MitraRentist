@@ -422,13 +422,13 @@
     <string name="title_activity_complain_detail">ComplainDetailActivity</string>
 
     <string name="slide_1_title">Rentist</string>
-    <string name="slide_1_desc">The best way to rent cars and motorbikes</string>
-    <string name="slide_2_title">More Friend</string>
-    <string name="slide_2_desc">Connecting owner and renter</string>
-    <string name="slide_3_title">Great Experience</string>
-    <string name="slide_3_desc">Explore your favorites cars and motobikes to rent</string>
-    <string name="slide_4_title">Best Deal</string>
-    <string name="slide_4_desc">Find the best cars and motorbikes with the best price</string>
+    <string name="slide_1_desc">Solusi Mitra Rental</string>
+    <string name="slide_2_title">Trusted User</string>
+    <string name="slide_2_desc">Lengkapi Informasi Akun Diri dan Rental Anda</string>
+    <string name="slide_3_title">Your Own Policy</string>
+    <string name="slide_3_desc">Tambahkan Syarat dan Ketentuan pada Aset Rental Anda</string>
+    <string name="slide_4_title">Up To Date Information</string>
+    <string name="slide_4_desc">Selalu Perbarui Informasi Aset Anda</string>
     <string name="title_activity_settings">Settings</string>
     <string name="title_activity_users">UsersActivity</string>
     <string name="title_activity_form_user">FormUserActivity</string>

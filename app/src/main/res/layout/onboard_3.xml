@@ -8,34 +8,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        android:layout_margin="@dimen/min_padding"
         android:gravity="center_horizontal"
-        android:orientation="vertical">
-
-        <ImageView
-            android:layout_width="@dimen/img_width_height"
-            android:layout_height="@dimen/img_width_height"
-            android:layout_margin="@dimen/spacing_middle"
-            android:src="@drawable/ic_help_coffe"/>
+        android:orientation="vertical"
+        android:padding="@dimen/min_padding">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/slide_3_title"
-            android:textColor="@android:color/white"
-            android:layout_marginTop="@dimen/text_margin"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/slight_margin"
-            android:paddingLeft="@dimen/text_margin"
-            android:paddingRight="@dimen/text_margin"
-            android:text="@string/slide_3_desc"
+            android:layout_marginTop="@dimen/xmin_padding"
+            android:padding="@dimen/min_padding"
+            android:text="@string/slide_4_desc"
             android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
             android:textColor="@android:color/white"
-            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 </RelativeLayout>

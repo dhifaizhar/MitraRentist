@@ -41,8 +41,7 @@ public class OnBoardActivity extends AppCompatActivity {
         layouts = new int[]{
                 R.layout.onboard_1,
                 R.layout.onboard_2,
-                R.layout.onboard_3,
-                R.layout.onboard_4};
+                R.layout.onboard_3};
 
         // adding bottom dots
         addBottomDots(0);
