@@ -76,7 +76,6 @@ public class TransactionaNewActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
         getNewTransactionDataList(tenant);
 
@@ -94,6 +93,7 @@ public class TransactionaNewActivity extends AppCompatActivity {
             iTrans.putExtra("code_trans", i.getStringExtra("code_trans"));
             iTrans.putExtra("price", i.getStringExtra("price"));
             iTrans.putExtra("aset", i.getStringExtra("aset"));
+            iTrans.putExtra("id_member", i.getStringExtra("id_member"));
             iTrans.putExtra("member", i.getStringExtra("member"));
             iTrans.putExtra("startDate", i.getStringExtra("startDate"));
             iTrans.putExtra("endDate", i.getStringExtra("endDate"));
@@ -163,7 +163,8 @@ public class TransactionaNewActivity extends AppCompatActivity {
 //            showProgress(false);
             pBar.setVisibility(View.GONE);
 
-            String aIdTrans, aCodeTrans, aTitle, aThumb, aMember, aStartDate, aEndDate, aNominal, aAsetName, aNote;
+            String aIdTrans, aCodeTrans, aTitle, aThumb, aMember, aStartDate, aEndDate, aNominal,
+                    aAsetName, aNote, aIdMember;
 
             if (transaction != null) {
                 try {
@@ -191,12 +192,12 @@ public class TransactionaNewActivity extends AppCompatActivity {
                                     }else {
                                         aAsetName = item.getString("brand") + " " + item.getString("type");
                                     }
-
                                 }
                             }
 
                             aCodeTrans = idTrans.getString("transaction_code");
                             aNominal = transObject.getString("nominal");
+                            aIdMember = memberObject.getString("id");
                             aMember = memberObject.getString("firstname") + " " + memberObject.getString("lastname");
                             aStartDate = transObject.getString("start_date").replace("-","/").substring(0,10);
                             aEndDate = transObject.getString("end_date").replace("-","/").substring(0,10);
@@ -206,6 +207,7 @@ public class TransactionaNewActivity extends AppCompatActivity {
                             itemTrans.setCodeTrans(aCodeTrans);
                             itemTrans.setIdTrans(aIdTrans);
                             itemTrans.setAsetName(aAsetName);
+                            itemTrans.setIdMember(aIdMember);
                             itemTrans.setMember(aMember);
                             itemTrans.setPrice(aNominal);
                             itemTrans.setThumbnail(aThumb);

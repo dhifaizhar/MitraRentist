@@ -158,6 +158,15 @@ public class DriverAssignActivity extends AppCompatActivity {
             }
         }) {
             @Override
+            protected Map<String, String> getParams() {
+            Map<String, String> keys = new HashMap<String, String>();
+                keys.put("start_date", iDriver.getStringExtra("start_date"));
+                keys.put("end_date", iDriver.getStringExtra("end_date"));
+
+                Log.e(TAG, "Key : " + keys);
+            return keys;
+        }
+            @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("token", TOKEN);

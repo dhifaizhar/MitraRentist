@@ -7,9 +7,8 @@ package id.rentist.mitrarentist.modul;
 public class ItemTransaksiModul {
     private String mTitle, mIdTrans, mAsetName, mCodeTrans, mThumbnail, mDriverName;
     private Boolean mDriverIncluded;
-//    private int mThumbnail;
     private int mMemberIco;
-    private String mMember;
+    private String mIdMember, mMember;
     private int mDateIco;
     private String mDate, mStartDate, mEndDate;
     private int mLocIco;
@@ -58,6 +57,14 @@ public class ItemTransaksiModul {
     public int getMemberIco() {
         return mMemberIco;
     }
+
+    public String getIdMember() {
+        return mIdMember;
+    }
+    public void setIdMember(String mIdMember) {
+        this.mIdMember = mIdMember;
+    }
+
     public void setMember(String mMember) {
         this.mMember = mMember;
     }

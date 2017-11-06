@@ -572,6 +572,7 @@ public class DetailAsetActivity extends AppCompatActivity {
                 case "9": category_url = AppConfig.URL_DELETE_ELECTRONIC; break;
                 case "10": category_url = AppConfig.URL_DELETE_BICYCLE; break;
                 case "11": category_url = AppConfig.URL_DELETE_OFFICE; break;
+                case "12": category_url = AppConfig.URL_DELETE_FASHION; break;
             }
             StringRequest stringRequest = new StringRequest(Request.Method.PUT, category_url, new Response.Listener<String>() {
                 @Override

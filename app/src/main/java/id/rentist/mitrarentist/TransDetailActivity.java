@@ -137,6 +137,15 @@ public class TransDetailActivity extends AppCompatActivity {
         mStartDate.setText(itransDet.getStringExtra("startDate"));
         mEndDate.setText(itransDet.getStringExtra("endDate"));
 
+        mMember.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent iMember = new Intent(TransDetailActivity.this, MemberProfileActivity.class);
+                iMember.putExtra("id_member", itransDet.getStringExtra("id_member"));
+                startActivity(iMember);
+            }
+        });
+
         if(itransDet.getBooleanExtra("driver", false)){
             mDriver.setVisibility(View.VISIBLE);
             mDriver.setText("Pengemudi : " + itransDet.getStringExtra("driver_name"));
@@ -152,7 +161,6 @@ public class TransDetailActivity extends AppCompatActivity {
 
             btnCamera.setVisibility(View.VISIBLE);
 
-//            Boolean driverStat = itransDet.getBooleanExtra("driver");
             if(itransDet.getBooleanExtra("driver", false)){
                 btnDriver.setVisibility(View.VISIBLE);
             }
@@ -163,6 +171,8 @@ public class TransDetailActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     Intent iDriver = new Intent(TransDetailActivity.this, DriverAssignActivity.class);
                     iDriver.putExtra("id_transaction", transId);
+                    iDriver.putExtra("start_date", itransDet.getStringExtra("startDate"));
+                    iDriver.putExtra("end_date", itransDet.getStringExtra("endDate"));
                     startActivityForResult(iDriver, PICK_DRIVER_REQUEST);
                 }
 

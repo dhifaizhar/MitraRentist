@@ -101,6 +101,7 @@ public class TransactionCompleteAdapter extends RecyclerView.Adapter<Transaction
                 iDetTrans.putExtra("code_trans", viewHolder.transCode.getText());
                 iDetTrans.putExtra("price", trx.getPrice());
                 iDetTrans.putExtra("aset", trx.getAsetName());
+                iDetTrans.putExtra("id_member", trx.getIdMember());
                 iDetTrans.putExtra("member", viewHolder.member.getText());
                 iDetTrans.putExtra("startDate", trx.getStartDate());
                 iDetTrans.putExtra("endDate", trx.getEndDate());

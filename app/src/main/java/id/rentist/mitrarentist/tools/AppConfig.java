@@ -67,6 +67,7 @@ public class AppConfig {
     public static  String URL_DELETE_ASSET = SERVER + "delete/item/";
 
     public static String URL_TRANSACTION_NEW = SERVER + "order/received/";
+    public static String URL_TRANSACTION = SERVER + "order/history/";
     public static String URL_TRANSACTION_CONFIRM = SERVER + "order/confirm/";
     public static String URL_TRANSACTION_DROP = SERVER + "transaction/ongoing/";
     public static String URL_TRANSACTION_TAKE = SERVER + "transaction/completed/";
@@ -75,7 +76,8 @@ public class AppConfig {
     public static  String URL_DETAIL_USER = SERVER + "view/child/";
     public static  String URL_ADD_USER = SERVER + "register/tenant/child/";
     public static String URL_UPDATE_TENANT = SERVER + "update/mitra/";
-    public static  String URL_DELETE_USER = SERVER + "delete/child/";
+    public static String URL_DELETE_USER = SERVER + "delete/child/";
+    public static String URL_MEMBER_PROFILE = SERVER + "detail/member/";
 
     public static  String URL_ONGOING_RENT = SERVER + "order/history/";
     public static  String URL_ADD_POLICY = SERVER + "kebijakan/";
@@ -104,7 +106,6 @@ public class AppConfig {
     public static  String URL_DELETE_FEATURE = SERVER + "delete/feature/";
 
     public static  String URL_TESTIMONY_SUBMIT = SERVER + "testimony/submit/";
-    public static  String URL_TRANSACTION = SERVER + "order/history/";
     public static  String URL_HISTORY_SALDO = SERVER + "finance/history/";
     public static  String URL_LIST_KEBIJAKAN = SERVER + "list/kebijakan/";
 
