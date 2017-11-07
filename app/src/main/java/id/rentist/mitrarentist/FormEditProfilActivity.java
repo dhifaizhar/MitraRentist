@@ -43,9 +43,11 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import id.rentist.mitrarentist.tools.AdministrationArea;
 import id.rentist.mitrarentist.tools.AppConfig;
 import id.rentist.mitrarentist.tools.CircleTransform;
 import id.rentist.mitrarentist.tools.FormValidation;
@@ -55,14 +57,14 @@ public class FormEditProfilActivity extends AppCompatActivity {
     AsyncTask mProfileTask = null;
     private ProgressDialog pDialog;
     private SessionManager sm;
-//    private ArrayList<String> provinceList;
+    private ArrayList<String> provinceList;
     View focusView;
     Bitmap bitmap;
     CountryCodePicker countryCode;
     FormValidation formValidation;
-//    AdministrationArea administrationArea;
+    AdministrationArea administrationArea;
 
-    EditText rName, rOwner, rAddress, rEmail, rPhone, rBankAccount, rAccountOwner, rBranch, rPostalCode;
+    EditText rName, rOwner, rAddress, rEmail, rPhone, rBankAccount, rAccountOwner, rBranch, rPostalCode, idProv, idCity;
     ImageView profilePhoto;
     Button btnUploadFoto;
     String tenant, erName, erOwner, erAddress, erEmail, erPhone, erBankAccount, erAccountOwner,
@@ -70,7 +72,7 @@ public class FormEditProfilActivity extends AppCompatActivity {
     Resources eprofilePhoto;
     ImageLoader mImageLoader;
     String imageUrl, province;
-    Spinner rBankName, rProvince, rCity;
+    Spinner rBankName, rProvince, rCity, rDistric, rVillage;
 
     String encodedImage, isiimage = "", ext, imgString;
     private int PICK_IMAGE_REQUEST = 1;
@@ -82,11 +84,9 @@ public class FormEditProfilActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sm = new SessionManager(getApplicationContext());
         setContentView(R.layout.activity_form_edit_profil);
         setTitle("Ubah Profil Rental");
 
-//        administrationArea = new AdministrationArea(FormEditProfilActivity.this);
         formValidation = new FormValidation(FormEditProfilActivity.this);
         sm = new SessionManager(getApplicationContext());
         pDialog = new ProgressDialog(this);
@@ -111,7 +111,9 @@ public class FormEditProfilActivity extends AppCompatActivity {
         rBankAccount = (EditText) findViewById(R.id.epr_bank_account);
         rBankName = (Spinner) findViewById(R.id.epr_bank_name);
         rProvince = (Spinner) findViewById(R.id.epr_province);
+        idProv = (EditText) findViewById(R.id.id_prov);
         rCity = (Spinner) findViewById(R.id.epr_city);
+        idCity = (EditText) findViewById(R.id.id_city);
         rBranch = (EditText) findViewById(R.id.epr_branch);
         rAccountOwner = (EditText) findViewById(R.id.epr_account_name);
         profilePhoto = (ImageView) findViewById(R.id.pr_thumb);
@@ -120,7 +122,19 @@ public class FormEditProfilActivity extends AppCompatActivity {
         rPostalCode = (EditText) findViewById(R.id.epr_postal_code);
 
         // Get Area
-//        administrationArea.getProvince(rProvince);
+        administrationArea = new AdministrationArea(FormEditProfilActivity.this, rProvince, rCity, idProv, idCity);
+        administrationArea.getProvince();
+        /*rProvince.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e(TAG, String.valueOf(rProvince.getSelectedItemPosition()));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });*/
 
         // set content control value
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
@@ -139,10 +153,10 @@ public class FormEditProfilActivity extends AppCompatActivity {
         }else if(sm.getPreferences("bank_name").equals("Mandiri")){rBankName.setSelection(3);
         }else if(sm.getPreferences("bank_name").equals("Permata")){rBankName.setSelection(4);
         }
-        Log.e("CityEDIT", sm.getPreferences("city").toString());
+        Log.e("CityEDIT", sm.getIntPreferences("city").toString());
 
-//        if(!sm.getPreferences("city").isEmpty()){
-//            rCity.setSelection(Integer.parseInt(sm.getPreferences("city"))-1);
+//        if(!String.value(sm.getIntPreferences("city")).isEmpty()){
+//            rCity.setSelection(Integer.parseInt(sm.getIntPreferences("city"))-1);
 //        }
 
         if (sm.getPreferences("foto_profil_tenant").equals("null")){
@@ -312,7 +326,8 @@ public class FormEditProfilActivity extends AppCompatActivity {
                     keys.put("bank_account", erBankAccount);
                     keys.put("account_name", erAccountOwner);
                     keys.put("branch", erBranch);
-                    keys.put("id_city", "148");//String.valueOf(rCity.getSelectedItemId()+1));
+                    keys.put("id_province", String.valueOf(idProv.getText()));
+                    keys.put("id_city", String.valueOf(idCity.getText()));
                     keys.put("file", isiimage);
 //                    Log.e(TAG, "IMAGE ; " + imgString);
 
@@ -353,7 +368,8 @@ public class FormEditProfilActivity extends AppCompatActivity {
                 sm.setPreferences("bank_account", erBankAccount);
                 sm.setPreferences("account_name", erAccountOwner);
                 sm.setPreferences("branch", erBranch);
-                sm.setPreferences("city", "148");//String.valueOf(rCity.getSelectedItemId()+1));
+                sm.setIntPreferences("province", Integer.valueOf(String.valueOf(idProv.getText())));
+                sm.setIntPreferences("city", Integer.valueOf(String.valueOf(idCity.getText())));
                 Log.e(TAG, "User : not null");
 
                 try {
@@ -371,7 +387,6 @@ public class FormEditProfilActivity extends AppCompatActivity {
                 }
 
                 Toast.makeText(getApplicationContext(),"Sukses mengubah data.", Toast.LENGTH_LONG).show();
-//                FormEditProfilActivity.this.finish();
                 Intent intent = new Intent(FormEditProfilActivity.this,ProfileActivity.class);
                 setResult(RESULT_OK, intent);
                 finish();

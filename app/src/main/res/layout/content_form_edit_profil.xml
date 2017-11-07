@@ -186,6 +186,14 @@
                     android:text="Provinsi"
                     android:textColor="@color/colorBlack" />
 
+                <EditText
+                    android:id="@+id/id_prov"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:visibility="gone" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -197,8 +205,8 @@
                         android:id="@+id/epr_province"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:entries="@array/province_entries"
-                        android:padding="@dimen/xmin_padding" />
+                        android:padding="@dimen/xmin_padding"
+                        android:spinnerMode="dialog" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -217,6 +225,14 @@
                     android:text="Kota"
                     android:textColor="@color/colorBlack" />
 
+                <EditText
+                    android:id="@+id/id_city"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:visibility="gone" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -228,8 +244,8 @@
                         android:id="@+id/epr_city"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:entries="@array/city_entries"
-                        android:padding="@dimen/xmin_padding" />
+                        android:padding="@dimen/xmin_padding"
+                        android:spinnerMode="dialog" />
 
                 </LinearLayout>
             </LinearLayout>

@@ -81,9 +81,9 @@ public class ProfileActivity extends AppCompatActivity {
         String[] sCity = getResources().getStringArray(R.array.city_entries);
         Log.e("City List", sCity.toString());
 
-        if(!sm.getPreferences("city").isEmpty()){
-//            tenantCity = sCity[Integer.parseInt(sm.getPreferences("city"))-1];
-//            Log.e("City", sm.getPreferences("city") + tenantCity);
+        if(!String.valueOf(sm.getIntPreferences("city")).isEmpty()){
+//            tenantCity = sCity[sm.getIntPreferences("city")-1];
+//            Log.e("City", sm.getIntPreferences("city") + tenantCity);
             rCity.setText("Bogor");
         }else{
             rCity.setText("Kota Belum Dipilih");

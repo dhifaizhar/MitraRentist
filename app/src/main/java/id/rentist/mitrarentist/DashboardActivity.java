@@ -145,7 +145,7 @@ public class DashboardActivity extends AppCompatActivity
 
         // set content control value
         Log.e(TAG, "Tenant Data : " + sm.getPreferences("nama_pemilik") +  sm.getPreferences("nama_rental") + sm.getPreferences("nama") +
-                sm.getPreferences("alamat") + sm.getPreferences("telepon") + sm.getPreferences("email") + sm.getPreferences("city") +
+                sm.getPreferences("alamat") + sm.getPreferences("telepon") + sm.getPreferences("email") + sm.getIntPreferences("city") +
                 sm.getPreferences("bank_name") + sm.getPreferences("bank_account") + sm.getPreferences("branch") + sm.getPreferences("account_name"));
         if(!sm.getPreferences("nama_pemilik").isEmpty() &&
                 !sm.getPreferences("nama_rental").isEmpty() &&
@@ -153,7 +153,7 @@ public class DashboardActivity extends AppCompatActivity
                 !sm.getPreferences("alamat").isEmpty() &&
                 !sm.getPreferences("telepon").isEmpty() &&
                 !sm.getPreferences("email").isEmpty() &&
-                !sm.getPreferences("city").isEmpty() &&
+                !String.valueOf(sm.getIntPreferences("city")).isEmpty() &&
                 !sm.getPreferences("bank_name").isEmpty() &&
                 !sm.getPreferences("bank_account").isEmpty() &&
                 !sm.getPreferences("branch").isEmpty() &&
@@ -195,7 +195,7 @@ public class DashboardActivity extends AppCompatActivity
             verifIco.setVisibility(View.GONE);
         }
 
-        Log.e(TAG, "Profil Pic : " + sm.getPreferences("foto_profil") + ", CITY : " +  sm.getPreferences("city") );
+        Log.e(TAG, "Profil Pic : " + sm.getPreferences("foto_profil") + ", CITY : " +  sm.getIntPreferences("city") );
         if (sm.getPreferences("foto_profil").equals("null")){
             String imageUrl = AppConfig.URL_IMAGE_PROFIL + "default.png";
             Picasso.with(getApplicationContext()).load(imageUrl).transform(new CircleTransform()).into(rentImgProfile);
