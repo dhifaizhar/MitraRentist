@@ -410,6 +410,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                     sm.setPreferences("nama_rental", sNamaRent);
                     sm.setPreferences("nama_pemilik", sNamaPem);
                     sm.setPreferences("alamat", sAlamat);
+                    sm.setPreferences("kode_pos", tenantObject.getString("postal_code"));
                     sm.setPreferences("hp", userObject.getString("phone"));
                     sm.setPreferences("telepon", sTelp);
                     sm.setPreferences("role",sRole);
@@ -418,14 +419,21 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                     sm.setPreferences("foto_profil_tenant",tPic);
                     sm.setPreferences("verified", sVerif);
 
-
                     sm.setPreferences("rental_type", tenantObject.getString("rental_type"));
-//                        sm.setIntPreferences("province", tenantObject.getInt("id_province"));
-                    if(!tenantObject.isNull("id_city")){
-                        sm.setPreferences("city", String.valueOf(tenantObject.getInt("id_city")));
+
+                    if(!tenantObject.isNull("id_province")){
+                        sm.setIntPreferences("province", tenantObject.getInt("id_province"));
                     }
-//                        sm.setIntPreferences("distric", tenantObject.getInt("id_distric"));
-//                        sm.setIntPreferences("village", tenantObject.getInt("id_village"));
+                    if(!tenantObject.isNull("id_city")){
+                        sm.setIntPreferences("city", tenantObject.getInt("id_city"));
+                    }
+                    if(!tenantObject.isNull("id_distric")){
+                        sm.setIntPreferences("distric", tenantObject.getInt("id_distric"));
+                    }
+                    if(!tenantObject.isNull("id_village")){
+                        sm.setIntPreferences("village", tenantObject.getInt("id_village"));
+                    }
+
                     sm.setPreferences("bank_name", tenantObject.getString("bank_name"));
                     sm.setPreferences("bank_account", tenantObject.getString("bank_account"));
                     sm.setPreferences("account_name", tenantObject.getString("account_name"));
@@ -444,8 +452,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                     sm.setPreferences("office", setCatObject.getString("office"));
                     sm.setPreferences("fashion", setCatObject.getString("fashion"));
                     sm.setIntPreferences("sum_cat", setCatObject.getInt("true"));
-
-                    Log.d(TAG, "Image : ");
 
                     if(sStat.equals("true")){
                         startActivity(new Intent(LoginActivity.this, DashboardActivity.class));

@@ -35,12 +35,21 @@ public class AdministrationArea {
     private ArrayList<String> province, city, distric, village;
     private Map<Integer,String> provinceMap, cityMap, districMap, villageMap;
     private Spinner provinceSpinner, citySpinner, districSpinner, villageSpinner;
-    private EditText idProv, idCity;
+    private EditText idProv, idCity, idDistric, idVillage;
 
     private static final String TAG = "AdministrationArea";
     private static final String TOKEN = "secretissecret";
 
-    public AdministrationArea(Context context, Spinner provinceSpinner, Spinner citySpinner, EditText idProv, EditText idCity){
+    public AdministrationArea(
+            Context context,
+            Spinner provinceSpinner,
+            Spinner citySpinner,
+            Spinner districSpinner,
+            Spinner villageSpinner,
+            EditText idProv,
+            EditText idCity,
+            EditText idDistric,
+            EditText idVillage){
         this.context = context;
 
         this.sm = new SessionManager(context);
@@ -51,9 +60,13 @@ public class AdministrationArea {
 
         this.provinceSpinner = provinceSpinner;
         this.citySpinner = citySpinner;
+        this.districSpinner = districSpinner;
+        this.villageSpinner = villageSpinner;
 
         this.idProv = idProv;
         this.idCity = idCity;
+        this.idDistric = idDistric;
+        this.idVillage = idVillage;
     }
 
     public void getProvince(){
@@ -117,6 +130,15 @@ public class AdministrationArea {
                     provinceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     provinceSpinner.setAdapter(provinceAdapter);
 
+                    if(!sm.getIntPreferences("province").toString().equals("")){
+                        for(int key : provinceMap.keySet()){
+                            String value =  provinceMap.get(key);
+                            if(value.equals(sm.getIntPreferences("province").toString())){
+                                provinceSpinner.setSelection(key);
+                            }
+                        }
+                    }
+
                     provinceSpinner.setEnabled(true);
                     provinceSpinner.setClickable(true);
 
@@ -129,7 +151,7 @@ public class AdministrationArea {
 
                         @Override
                         public void onNothingSelected(AdapterView<?> parent) {
-                            provinceSpinner.setSelection(sm.getIntPreferences("province"));
+
                         }
                     });
                 }
@@ -204,12 +226,20 @@ public class AdministrationArea {
                         JSONObject respObject = respArray.getJSONObject(i);
                         cityMap.put(i,respObject.getString("id"));
                         cityArray[i] = respObject.getString("city_name");
-                        //city.add(respObject.getString("city_name"));
                     }
 
                     ArrayAdapter<String> cityAdapter =new ArrayAdapter<String>(context,android.R.layout.simple_spinner_item, cityArray);
                     cityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     citySpinner.setAdapter(cityAdapter);
+
+                    if(!sm.getIntPreferences("city").toString().equals("")){
+                        for(int key : cityMap.keySet()){
+                            String value =  cityMap.get(key);
+                            if(value.equals(sm.getIntPreferences("city").toString())){
+                                citySpinner.setSelection(key);
+                            }
+                        }
+                    }
 
                     citySpinner.setEnabled(true);
                     citySpinner.setClickable(true);
@@ -218,11 +248,12 @@ public class AdministrationArea {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                             idCity.setText(cityMap.get(citySpinner.getSelectedItemPosition()));
+                            getDistric(cityMap.get(citySpinner.getSelectedItemPosition()));
                         }
 
                         @Override
                         public void onNothingSelected(AdapterView<?> parent) {
-                            citySpinner.setSelection(sm.getIntPreferences("city"));
+
                         }
                     });
                 }
@@ -233,8 +264,9 @@ public class AdministrationArea {
         }
     }
 
-    public void getDistric(Spinner districSpinner, String cityId){
-        this.districSpinner = districSpinner;
+    private void getDistric(String cityId){
+        districSpinner.setEnabled(false);
+        districSpinner.setClickable(false);
         new getDistricList(cityId).execute();
     }
 
@@ -290,22 +322,53 @@ public class AdministrationArea {
             try {
                 JSONArray respArray = new JSONArray(dist);
                 if(respArray.length() > 0){
+                    String[] districArray = new String[respArray.length()];
+                    districMap = new HashMap<Integer,String>();
                     for (int i = 0; i < respArray.length(); i++) {
                         JSONObject respObject = respArray.getJSONObject(i);
-                        distric.add(respObject.getString("distric_name"));
+                        districMap.put(i,respObject.getString("id"));
+                        districArray[i] = respObject.getString("distric_name");
                     }
+
+                    ArrayAdapter<String> districAdapter =new ArrayAdapter<String>(context,android.R.layout.simple_spinner_item, districArray);
+                    districAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    districSpinner.setAdapter(districAdapter);
+
+                    if(!sm.getIntPreferences("distric").toString().equals("")){
+                        for(int key : districMap.keySet()){
+                            String value =  districMap.get(key);
+                            if(value.equals(sm.getIntPreferences("distric").toString())){
+                                districSpinner.setSelection(key);
+                            }
+                        }
+                    }
+
+                    districSpinner.setEnabled(true);
+                    districSpinner.setClickable(true);
+
+                    districSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            idDistric.setText(districMap.get(districSpinner.getSelectedItemPosition()));
+                            getVillage(districMap.get(districSpinner.getSelectedItemPosition()));
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
                 }
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
-            districSpinner.setAdapter(new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, distric));
         }
     }
 
-    public void getVillage(Spinner villageSpinner, String districId){
-        this.villageSpinner = villageSpinner;
+    private void getVillage(String districId){
+        villageSpinner.setEnabled(false);
+        villageSpinner.setClickable(false);
         new getVillageList(districId).execute();
     }
 
@@ -361,17 +424,46 @@ public class AdministrationArea {
             try {
                 JSONArray respArray = new JSONArray(vill);
                 if(respArray.length() > 0){
+                    String[] villageArray = new String[respArray.length()];
+                    villageMap = new HashMap<Integer,String>();
                     for (int i = 0; i < respArray.length(); i++) {
                         JSONObject respObject = respArray.getJSONObject(i);
-                        village.add(respObject.getString("village_name"));
+                        villageMap.put(i,respObject.getString("id"));
+                        villageArray[i] = respObject.getString("village_name");
                     }
+
+                    ArrayAdapter<String> villageAdapter =new ArrayAdapter<String>(context,android.R.layout.simple_spinner_item, villageArray);
+                    villageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    villageSpinner.setAdapter(villageAdapter);
+
+                    if(!sm.getIntPreferences("village").toString().equals("")){
+                        for(int key : villageMap.keySet()){
+                            String value =  villageMap.get(key);
+                            if(value.equals(sm.getIntPreferences("village").toString())){
+                                villageSpinner.setSelection(key);
+                            }
+                        }
+                    }
+
+                    villageSpinner.setEnabled(true);
+                    villageSpinner.setClickable(true);
+
+                    villageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            idVillage.setText(villageMap.get(villageSpinner.getSelectedItemPosition()));
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
                 }
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
-            villageSpinner.setAdapter(new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, village));
         }
     }
 }

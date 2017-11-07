@@ -64,7 +64,7 @@ public class FormEditProfilActivity extends AppCompatActivity {
     FormValidation formValidation;
     AdministrationArea administrationArea;
 
-    EditText rName, rOwner, rAddress, rEmail, rPhone, rBankAccount, rAccountOwner, rBranch, rPostalCode, idProv, idCity;
+    EditText rName, rOwner, rAddress, rEmail, rPhone, rBankAccount, rAccountOwner, rBranch, rPostalCode, idProv, idCity, idDistric, idVillage;
     ImageView profilePhoto;
     Button btnUploadFoto;
     String tenant, erName, erOwner, erAddress, erEmail, erPhone, erBankAccount, erAccountOwner,
@@ -114,6 +114,10 @@ public class FormEditProfilActivity extends AppCompatActivity {
         idProv = (EditText) findViewById(R.id.id_prov);
         rCity = (Spinner) findViewById(R.id.epr_city);
         idCity = (EditText) findViewById(R.id.id_city);
+        rDistric = (Spinner) findViewById(R.id.epr_district);
+        idDistric = (EditText) findViewById(R.id.id_distric);
+        rVillage = (Spinner) findViewById(R.id.epr_vilagge);
+        idVillage = (EditText) findViewById(R.id.id_village);
         rBranch = (EditText) findViewById(R.id.epr_branch);
         rAccountOwner = (EditText) findViewById(R.id.epr_account_name);
         profilePhoto = (ImageView) findViewById(R.id.pr_thumb);
@@ -122,25 +126,15 @@ public class FormEditProfilActivity extends AppCompatActivity {
         rPostalCode = (EditText) findViewById(R.id.epr_postal_code);
 
         // Get Area
-        administrationArea = new AdministrationArea(FormEditProfilActivity.this, rProvince, rCity, idProv, idCity);
+        administrationArea = new AdministrationArea(FormEditProfilActivity.this, rProvince, rCity, rDistric, rVillage, idProv, idCity, idDistric, idVillage);
         administrationArea.getProvince();
-        /*rProvince.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Log.e(TAG, String.valueOf(rProvince.getSelectedItemPosition()));
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });*/
 
         // set content control value
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
         rName.setText(sm.getPreferences("nama_rental"));
         rOwner.setText(sm.getPreferences("nama_pemilik"));
         rAddress.setText(sm.getPreferences("alamat"));
+        rPostalCode.setText(sm.getPreferences("kode_pos"));
         rPhone.setText(sm.getPreferences("telepon").substring(2));
         rEmail.setText(sm.getPreferences("email_rental"));
         rBankAccount.setText(sm.getPreferences("bank_account"));
@@ -153,11 +147,13 @@ public class FormEditProfilActivity extends AppCompatActivity {
         }else if(sm.getPreferences("bank_name").equals("Mandiri")){rBankName.setSelection(3);
         }else if(sm.getPreferences("bank_name").equals("Permata")){rBankName.setSelection(4);
         }
-        Log.e("CityEDIT", sm.getIntPreferences("city").toString());
 
-//        if(!String.value(sm.getIntPreferences("city")).isEmpty()){
-//            rCity.setSelection(Integer.parseInt(sm.getIntPreferences("city"))-1);
-//        }
+        if(!String.valueOf(sm.getIntPreferences("province")).isEmpty()){
+            rProvince.setSelection(sm.getIntPreferences("province"));
+        }
+        if(!String.valueOf(sm.getIntPreferences("city")).isEmpty()){
+            rCity.setSelection(sm.getIntPreferences("city"));
+        }
 
         if (sm.getPreferences("foto_profil_tenant").equals("null")){
             imageUrl = AppConfig.URL_IMAGE_PROFIL + "default.png";
@@ -328,8 +324,9 @@ public class FormEditProfilActivity extends AppCompatActivity {
                     keys.put("branch", erBranch);
                     keys.put("id_province", String.valueOf(idProv.getText()));
                     keys.put("id_city", String.valueOf(idCity.getText()));
+                    keys.put("id_distric", String.valueOf(idDistric.getText()));
+                    keys.put("id_village", String.valueOf(idVillage.getText()));
                     keys.put("file", isiimage);
-//                    Log.e(TAG, "IMAGE ; " + imgString);
 
                     return keys;
                 }
@@ -363,6 +360,7 @@ public class FormEditProfilActivity extends AppCompatActivity {
                 sm.setPreferences("nama_pemilik", erOwner);
                 sm.setPreferences("alamat", erAddress);
                 sm.setPreferences("telepon", erPhone);
+                sm.setPreferences("kode_pos", erPostalCode);
                 sm.setPreferences("email", erEmail);
                 sm.setPreferences("bank_name", rBankName.getSelectedItem().toString());
                 sm.setPreferences("bank_account", erBankAccount);
@@ -370,6 +368,8 @@ public class FormEditProfilActivity extends AppCompatActivity {
                 sm.setPreferences("branch", erBranch);
                 sm.setIntPreferences("province", Integer.valueOf(String.valueOf(idProv.getText())));
                 sm.setIntPreferences("city", Integer.valueOf(String.valueOf(idCity.getText())));
+                sm.setIntPreferences("distric", Integer.valueOf(String.valueOf(idDistric.getText())));
+                sm.setIntPreferences("village", Integer.valueOf(String.valueOf(idVillage.getText())));
                 Log.e(TAG, "User : not null");
 
                 try {
@@ -401,7 +401,6 @@ public class FormEditProfilActivity extends AppCompatActivity {
             mProfileTask = null;
             showProgress(false);
         }
-
     }
 
 //    @Override
