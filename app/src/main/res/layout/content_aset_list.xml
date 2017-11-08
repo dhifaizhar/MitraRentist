@@ -52,13 +52,13 @@
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
        >
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/as_recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:paddingStart="@dimen/min_padding"
             android:paddingTop="@dimen/xmin_padding"
             android:paddingEnd="@dimen/min_padding">
@@ -66,5 +66,7 @@
         </android.support.v7.widget.RecyclerView>
 
     </android.support.v4.widget.SwipeRefreshLayout>
+
+
 
 </LinearLayout>

@@ -1,11 +1,7 @@
 package id.rentist.mitrarentist;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -53,20 +49,20 @@ public class AsetActivity extends AppCompatActivity {
 //            });
 //        }else{
             getGridAset();
-            LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
-                    new IntentFilter("add-asset"));
+//            LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
+//                    new IntentFilter("add-asset"));
 //        }
 
     }
 
-    public BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            // Get extra data included in the Intent
-            Intent iSetup = new Intent(AsetActivity.this, SetupCategoryActivity.class);
-            startActivityForResult(iSetup, 2);
-        }
-    };
+//    public BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+//            // Get extra data included in the Intent
+//            Intent iSetup = new Intent(AsetActivity.this, SetupCategoryActivity.class);
+//            startActivityForResult(iSetup, 2);
+//        }
+//    };
 
     public void getGridAset() {
         mRecyclerView = (RecyclerView) findViewById(R.id.ac_recyclerView);
@@ -105,6 +101,13 @@ public class AsetActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        getGridAset();
+
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

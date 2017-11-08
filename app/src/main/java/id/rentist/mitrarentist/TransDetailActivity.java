@@ -19,6 +19,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -31,6 +32,15 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -55,7 +65,10 @@ public class TransDetailActivity extends AppCompatActivity {
     private PopupWindow pwindow;
     private Intent itransDet;
 
-    TextView mAset, mPrice, mCodeTrans, mMember, mStartDate, mEndDate, mDriver;
+    TextView mAset, mPrice, mCodeTrans, mMember, mStartDate, mEndDate, mDriver, mPicktime, mAddress,
+            mNote, mAddtionalText;
+
+    ImageView mAsetThumb;
 
     private static int PICK_DRIVER_REQUEST = 3;
     private static final int CAMERA_REQUEST = 1888;
@@ -64,6 +77,11 @@ public class TransDetailActivity extends AppCompatActivity {
     private static final String TAG = "DetailTransActivity";
     private static final String TOKEN = "secretissecret";
     String transId;
+
+    MapView mapView;
+    GoogleMap googleMap;
+    GoogleApiClient mGoogleApiClient;
+    LatLng mCenterLatLong;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,18 +98,44 @@ public class TransDetailActivity extends AppCompatActivity {
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
 
+        mapView = (MapView) findViewById(R.id.detTrans_map);
+        mapView.onCreate(savedInstanceState);
+
+        mapView.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(GoogleMap map) {
+                googleMap = map;
+
+                LatLng coordinate = new LatLng(-6.5819281,106.8001397);
+                CameraPosition cameraPosition = new CameraPosition.Builder().target(coordinate).
+                        zoom(12).build();
+
+                googleMap.addMarker(new MarkerOptions().position(coordinate)
+                        .title("Lokasi Pertemuan"));
+                googleMap.moveCamera(CameraUpdateFactory.newLatLng(coordinate));
+                googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                googleMap.getCameraPosition();
+
+            }
+        });
+
         itransDet = getIntent();
         controlContent();
     }
 
     private void controlContent() {
+        mAsetThumb = (ImageView) findViewById(R.id.detTrans_thumb);
         mAset = (TextView) findViewById(R.id.detTrans_aset);
         mPrice = (TextView) findViewById(R.id.detTrans_price);
         mCodeTrans = (TextView) findViewById(R.id.detTrans_codeTrans);
         mMember = (TextView) findViewById(R.id.detTrans_member);
         mStartDate = (TextView) findViewById(R.id.detTrans_startDate);
         mEndDate = (TextView) findViewById(R.id.detTrans_endDate);
+        mPicktime = (TextView) findViewById(R.id.detTrans_picktime);
+        mAddress = (TextView) findViewById(R.id.detTrans_address);
+        mNote = (TextView) findViewById(R.id.detTrans_note);
         mDriver = (TextView) findViewById(R.id.driver);
+        mAddtionalText = (TextView) findViewById(R.id.additional);
 
         LinearLayout btnContainer = (LinearLayout) findViewById(R.id.btnContainer);
         Display display = getWindowManager().getDefaultDisplay();
@@ -128,6 +172,10 @@ public class TransDetailActivity extends AppCompatActivity {
         btnCancel.setLayoutParams(startGravity);
 
         // Value
+        Picasso.with(getApplicationContext()).load(
+                AppConfig.URL_IMAGE_ASSETS + itransDet.getStringExtra("aset_thumb"))
+                .into(mAsetThumb);
+
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
         transId = itransDet.getStringExtra("id_trans");
         mAset.setText(itransDet.getStringExtra("aset"));
@@ -136,6 +184,9 @@ public class TransDetailActivity extends AppCompatActivity {
         mMember.setText(itransDet.getStringExtra("member"));
         mStartDate.setText(itransDet.getStringExtra("startDate"));
         mEndDate.setText(itransDet.getStringExtra("endDate"));
+        mPicktime.setText(itransDet.getStringExtra("pickup_time"));
+        mAddress.setText(itransDet.getStringExtra("address"));
+        mNote.setText(itransDet.getStringExtra("note"));
 
         mMember.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,6 +198,7 @@ public class TransDetailActivity extends AppCompatActivity {
         });
 
         if(itransDet.getBooleanExtra("driver", false)){
+            mAddtionalText.setVisibility(View.VISIBLE);
             mDriver.setVisibility(View.VISIBLE);
             mDriver.setText("Pengemudi : " + itransDet.getStringExtra("driver_name"));
         }

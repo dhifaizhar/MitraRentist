@@ -174,9 +174,6 @@ public class FormCarAsetActivity extends AppCompatActivity {
             }
         });
 
-        //END YEAR PICKER
-
-
         //PRICING
         aBasicPriceDisp = (TextView) findViewById(R.id.as_price_basic_disp);
         aBasicPrice = (EditText) findViewById(R.id.as_price_basic);
@@ -426,7 +423,6 @@ public class FormCarAsetActivity extends AppCompatActivity {
 
             aName.setText(iFormAsset.getStringExtra("name"));
             aType.setText(iFormAsset.getStringExtra("type"));
-//            aYear.setText(iFormAsset.getStringExtra("year"));
             aMinRentDay.setText(iFormAsset.getStringExtra("min_rent_day"));
 
             String plat = iFormAsset.getStringExtra("plat");
@@ -593,16 +589,16 @@ public class FormCarAsetActivity extends AppCompatActivity {
                 getPrice();
                 postPriceCheck(pricingArray.toString());
 
-                if(priceStatus.equals("OK")){
-                    if(iFormAsset.getStringExtra("action").equals("update")){
-                        updateDataAset(category);
-                    }else {
-                        if (imgStringSTNK.equals("")) {
-                            Toast.makeText(getApplicationContext(), "Harap Lengkapi Foto STNK", Toast.LENGTH_LONG).show();
-                        } else
-                            addDataAset(tenant);
-                    }
-                }
+//                if(priceStatus.equals("OK")){
+//                    if(iFormAsset.getStringExtra("action").equals("update")){
+//                        updateDataAset(category);
+//                    }else {
+//                        if (imgStringSTNK.equals("")) {
+//                            Toast.makeText(getApplicationContext(), "Harap Lengkapi Foto STNK", Toast.LENGTH_LONG).show();
+//                        } else
+//                            addDataAset(tenant);
+//                    }
+//                }
             }
         }
 
@@ -1023,10 +1019,8 @@ public class FormCarAsetActivity extends AppCompatActivity {
     }
 
     public void postPriceCheck(final String price) {
-        final String URL_PRICE_CHECK = AppConfig.URL_PRICE_CHECK ;
-
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-        StringRequest strReq = new StringRequest(Request.Method.POST, URL_PRICE_CHECK, new Response.Listener<String>() {
+        StringRequest strReq = new StringRequest(Request.Method.POST, AppConfig.URL_PRICE_CHECK, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.e("Price Check Response : ", response);
@@ -1035,9 +1029,20 @@ public class FormCarAsetActivity extends AppCompatActivity {
                     JSONObject responseObj = new JSONObject(response);
 
                     priceStatus = responseObj.getString("status");
-                    if(priceStatus.equals("OVERLAP")){
+                    if(priceStatus.equals("OK")){
+                        if(iFormAsset.getStringExtra("action").equals("update")){
+                            updateDataAset(category);
+                        }else {
+                            if (imgStringSTNK.equals("")) {
+                                Toast.makeText(getApplicationContext(), "Harap Lengkapi Foto STNK", Toast.LENGTH_LONG).show();
+                            } else
+                                addDataAset(tenant);
+                        }
+                    }else {
                         Toast.makeText(getApplicationContext(), responseObj.getString("message"), Toast.LENGTH_LONG).show();
                     }
+
+
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -1058,8 +1063,6 @@ public class FormCarAsetActivity extends AppCompatActivity {
                 // Posting parameters to url
                 Map<String, String> keys = new HashMap<String, String>();
                 keys.put("price", price);
-
-                Log.e(TAG, URL_PRICE_CHECK + " With Key Body : " + keys.toString());
                 return keys;
             }
             @Override

@@ -43,7 +43,7 @@ public class AppConfig {
     public static  String URL_MATERNITY = SERVER + "item/maternity/";
     public static  String URL_ELECTRONIC = SERVER + "item/electronic/";
     public static  String URL_BICYCLE = SERVER + "item/bicycle/";
-    public static  String URL_OFFICE = SERVER + "item/officetools/";
+    public static  String URL_OFFICE = SERVER + "item/office/";
     public static  String URL_FASHION = SERVER + "item/fashion/";
 
     public static  String URL_DELETE_MOBIL =SERVER + "delete/mobil/";
@@ -58,13 +58,6 @@ public class AppConfig {
     public static  String URL_DELETE_BICYCLE = SERVER + "delete/bicycle/";
     public static  String URL_DELETE_OFFICE = SERVER + "delete/officetools/";
     public static  String URL_DELETE_FASHION = SERVER + "delete/fashion/";
-
-    public static  String URL_EDIT_STATUS_MOBIL = SERVER + "item/status/1/";
-    public static  String URL_LIST_MOBIL = SERVER + "list/item/1/";
-    public static  String URL_LIST_MOTOR = SERVER + "list/item/2/";
-    public static  String URL_LIST_YACHT = SERVER + "list/item/3/";
-    public static  String URL_UPDATE_ASSET = SERVER + "update/item/";
-    public static  String URL_DELETE_ASSET = SERVER + "delete/item/";
 
     public static String URL_TRANSACTION_NEW = SERVER + "order/received/";
     public static String URL_TRANSACTION = SERVER + "order/history/";

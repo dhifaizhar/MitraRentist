@@ -3,7 +3,6 @@ package id.rentist.mitrarentist.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,6 +17,7 @@ import java.util.Objects;
 
 import id.rentist.mitrarentist.AsetListActivity;
 import id.rentist.mitrarentist.R;
+import id.rentist.mitrarentist.SetupCategoryActivity;
 import id.rentist.mitrarentist.modul.ItemCategoryModul;
 import id.rentist.mitrarentist.tools.SessionManager;
 
@@ -43,6 +43,7 @@ public class GridAsetAdapter extends RecyclerView.Adapter<GridAsetAdapter.ViewHo
             category.setId(1);
             category.setTitle("Mobil");
             category.setThumbnail(R.drawable.mobil);
+            category.setSum(sm.getIntPreferences("sum_car"));
             itemCategory.add(category);
         }
 
@@ -51,6 +52,7 @@ public class GridAsetAdapter extends RecyclerView.Adapter<GridAsetAdapter.ViewHo
             category.setId(2);
             category.setTitle("Motor");
             category.setThumbnail(R.drawable.motor);
+            category.setSum(sm.getIntPreferences("sum_motor"));
             itemCategory.add(category);
         }
 
@@ -59,6 +61,7 @@ public class GridAsetAdapter extends RecyclerView.Adapter<GridAsetAdapter.ViewHo
             category.setId(3);
             category.setTitle("Kapal Pesiar");
             category.setThumbnail(R.drawable.yatch);
+            category.setSum(sm.getIntPreferences("sum_yacht"));
             itemCategory.add(category);
         }
 
@@ -67,6 +70,7 @@ public class GridAsetAdapter extends RecyclerView.Adapter<GridAsetAdapter.ViewHo
             category.setId(4);
             category.setTitle("Peralatan Medis");
             category.setThumbnail(R.drawable.medical_equipment);
+            category.setSum(sm.getIntPreferences("sum_medic"));
             itemCategory.add(category);
         }
 
@@ -75,6 +79,7 @@ public class GridAsetAdapter extends RecyclerView.Adapter<GridAsetAdapter.ViewHo
             category.setId(5);
             category.setTitle("Fotografi");
             category.setThumbnail(R.drawable.camera);
+            category.setSum(sm.getIntPreferences("sum_photography"));
             itemCategory.add(category);
         }
 
@@ -83,6 +88,7 @@ public class GridAsetAdapter extends RecyclerView.Adapter<GridAsetAdapter.ViewHo
             category.setId(6);
             category.setTitle("Mainan Anak");
             category.setThumbnail(R.drawable.mianan_anak);
+            category.setSum(sm.getIntPreferences("sum_toys"));
             itemCategory.add(category);
         }
 
@@ -91,6 +97,7 @@ public class GridAsetAdapter extends RecyclerView.Adapter<GridAsetAdapter.ViewHo
             category.setId(7);
             category.setTitle("Olahraga & Petualangan");
             category.setThumbnail(R.drawable.adventure);
+            category.setSum(sm.getIntPreferences("sum_adventure"));
             itemCategory.add(category);
         }
 
@@ -99,6 +106,7 @@ public class GridAsetAdapter extends RecyclerView.Adapter<GridAsetAdapter.ViewHo
             category.setId(8);
             category.setTitle("Ibu & Anak");
             category.setThumbnail(R.drawable.maternity);
+            category.setSum(sm.getIntPreferences("sum_maternity"));
             itemCategory.add(category);
         }
 
@@ -107,6 +115,7 @@ public class GridAsetAdapter extends RecyclerView.Adapter<GridAsetAdapter.ViewHo
             category.setId(9);
             category.setTitle("Elektronik");
             category.setThumbnail(R.drawable.elektronik);
+            category.setSum(sm.getIntPreferences("sum_electronic"));
             itemCategory.add(category);
         }
 
@@ -115,6 +124,7 @@ public class GridAsetAdapter extends RecyclerView.Adapter<GridAsetAdapter.ViewHo
             category.setId(10);
             category.setTitle("Sepeda");
             category.setThumbnail(R.drawable.sepeda);
+            category.setSum(sm.getIntPreferences("sum_bicycle"));
             itemCategory.add(category);
         }
 
@@ -123,6 +133,7 @@ public class GridAsetAdapter extends RecyclerView.Adapter<GridAsetAdapter.ViewHo
             category.setId(11);
             category.setTitle("Peralatan Kantor");
             category.setThumbnail(R.drawable.office_equipmen);
+            category.setSum(sm.getIntPreferences("sum_office"));
             itemCategory.add(category);
         }
 
@@ -131,6 +142,7 @@ public class GridAsetAdapter extends RecyclerView.Adapter<GridAsetAdapter.ViewHo
             category.setId(12);
             category.setTitle("Pakaian");
             category.setThumbnail(R.drawable.fashion);
+            category.setSum(sm.getIntPreferences("sum_fashion"));
             itemCategory.add(category);
         }
 
@@ -157,7 +169,7 @@ public class GridAsetAdapter extends RecyclerView.Adapter<GridAsetAdapter.ViewHo
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{
-        private TextView title;
+        private TextView title, sum;
         private ImageView imgThumbnail;
         private CardView cardDetAset;
 
@@ -165,6 +177,7 @@ public class GridAsetAdapter extends RecyclerView.Adapter<GridAsetAdapter.ViewHo
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.item_c_title);
             imgThumbnail = (ImageView) itemView.findViewById(R.id.item_c_img);
+            sum = (TextView) itemView.findViewById(R.id.item_c_sum);
             cardDetAset = (CardView) itemView.findViewById(R.id.card_gridview_aset);
         }
     }
@@ -177,6 +190,10 @@ public class GridAsetAdapter extends RecyclerView.Adapter<GridAsetAdapter.ViewHo
 //        simpan value dalam object
         viewHolder.title.setText(ac.getTitle());
         viewHolder.imgThumbnail.setImageResource(ac.getThumbnail());
+
+        if(ac.getSum() > 0){viewHolder.sum.setText(String.valueOf(ac.getSum()));}
+        else{viewHolder.sum.setVisibility(View.GONE);}
+
         viewHolder.cardDetAset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -187,9 +204,13 @@ public class GridAsetAdapter extends RecyclerView.Adapter<GridAsetAdapter.ViewHo
                     iAset.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(iAset);
                 } else if (Objects.equals(idc, "13")) {
-                    Intent intent = new Intent("add-asset");
-                    intent.putExtra("action","add");
-                    LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+//                    Intent intent = new Intent("add-asset");
+//                    intent.putExtra("action","add");
+//                    LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+
+                    Intent iSetup = new Intent(context, SetupCategoryActivity.class);
+                    iSetup.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(iSetup);
                 } else {
                     Snackbar snackbar = Snackbar.make(v, "Oops, Sorry ! This Feature Will Online Soon", Snackbar.LENGTH_LONG);
                     snackbar.show();

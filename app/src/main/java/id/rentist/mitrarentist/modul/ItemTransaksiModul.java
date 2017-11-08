@@ -5,16 +5,10 @@ package id.rentist.mitrarentist.modul;
  */
 
 public class ItemTransaksiModul {
-    private String mTitle, mIdTrans, mAsetName, mCodeTrans, mThumbnail, mDriverName;
+    private String mTitle, mIdTrans, mAsetName, mCodeTrans, mDriverName, mPrice, mAsetThumb;
     private Boolean mDriverIncluded;
-    private int mMemberIco;
-    private String mIdMember, mMember;
-    private int mDateIco;
-    private String mDate, mStartDate, mEndDate;
-    private int mLocIco;
-    private String mLoc;
-    private int mPriceIco;
-    private String mPrice;
+    private String mIdMember, mMember, mThumbnail;
+    private String mDate, mStartDate, mEndDate, mPickTime, mNote, mLat, mLong, mAddress;
 
     public String getIdTrans() {
         return mIdTrans;
@@ -51,13 +45,6 @@ public class ItemTransaksiModul {
         this.mThumbnail = mThumbnail;
     }
 
-    public void setMemberIco(int mMemberIco) {
-        this.mMemberIco = mMemberIco;
-    }
-    public int getMemberIco() {
-        return mMemberIco;
-    }
-
     public String getIdMember() {
         return mIdMember;
     }
@@ -72,12 +59,6 @@ public class ItemTransaksiModul {
         return mMember;
     }
 
-    public void setDateIco(int mDateIco) {
-        this.mDateIco = mDateIco;
-    }
-    public int getDateIco() {
-        return mDateIco;
-    }
     public void setStartDate(String mStartDate) {
         this.mStartDate = mStartDate;
     }
@@ -99,25 +80,6 @@ public class ItemTransaksiModul {
         return mDate;
     }
 
-    public void setLocIco(int mLocIco) {
-        this.mLocIco = mLocIco;
-    }
-    public int getLocIco() {
-        return mLocIco;
-    }
-    public void setLoc(String mLoc) {
-        this.mLoc = mLoc;
-    }
-    public String getLoc() {
-        return mLoc;
-    }
-
-    public void setPriceIco(int mPriceIco) {
-        this.mPriceIco = mPriceIco;
-    }
-    public int getPriceIco() {
-        return mPriceIco;
-    }
     public void setPrice(String mPrice) {
         this.mPrice = mPrice;
     }
@@ -130,6 +92,48 @@ public class ItemTransaksiModul {
     }
     public String getDriverName() {
         return mDriverName;
+    }
+
+    public void setAsetThumb(String mAsetThumb) {
+        this.mAsetThumb = mAsetThumb;
+    }
+    public String getAsetThumb() {
+        return mAsetThumb;
+    }
+
+    public void setPickTime(String mPickTime) {
+        this.mPickTime = mPickTime;
+    }
+    public String getPickTime() {
+        return mPickTime;
+    }
+
+    public void setNote(String mNote) {
+        this.mNote = mNote;
+    }
+    public String getNote() {
+        return mNote;
+    }
+
+    public void setLat(String mLat) {
+        this.mLat = mLat;
+    }
+    public String getLat() {
+        return mLat;
+    }
+
+    public void setLong(String mLong) {
+        this.mLong = mLong;
+    }
+    public String getLong() {
+        return mLong;
+    }
+
+    public void setAddress(String mAddress) {
+        this.mAddress = mAddress;
+    }
+    public String getAddress() {
+        return mAddress;
     }
 
     public Boolean getDriverIncluded() {

@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -83,6 +84,7 @@ public class AsetAdapter extends RecyclerView.Adapter<AsetAdapter.ViewHolder> {
         private TextView mark, year, status, subcat, plat;
         private ImageView imgThumbnail, verifIco;
         private ImageButton deleteAsset;
+        private LinearLayout verifNotif;
         private CardView cardDetAset;
 
         public ViewHolder(View itemView){
@@ -96,6 +98,7 @@ public class AsetAdapter extends RecyclerView.Adapter<AsetAdapter.ViewHolder> {
             cardDetAset = (CardView) itemView.findViewById(R.id.card_view_aset);
             deleteAsset = (ImageButton) itemView.findViewById(R.id.btn_delete);
             verifIco = (ImageView) itemView.findViewById(R.id.as_verif);
+            verifNotif = (LinearLayout) itemView.findViewById(R.id.verif_notif);
         }
     }
 
@@ -111,21 +114,28 @@ public class AsetAdapter extends RecyclerView.Adapter<AsetAdapter.ViewHolder> {
             viewHolder.imgThumbnail.setImageResource(R.drawable.ic_add_black_48dp);
             viewHolder.status.setVisibility(View.GONE);
             viewHolder.plat.setVisibility(View.GONE);
+            viewHolder.subcat.setVisibility(View.GONE);
         }else {
             String imageUrl = AppConfig.URL_IMAGE_ASSETS + as.getThumbnail();
             Picasso.with(context).load(imageUrl).into(viewHolder.imgThumbnail);
             viewHolder.status.setText(as.getStatus());
             viewHolder.subcat.setText(as.getSubCat());
-            if(as.getVerif().equals("true")){
-                viewHolder.verifIco.setVisibility(View.VISIBLE);
+
+            if (as.getStatus().equals("active")){
+                viewHolder.status.setText("Aktif");
+            } else {
+                viewHolder.status.setText("Non-Aktif");
+                viewHolder.status.setTextColor(0xffff5050);
             }
+
+            if(as.getVerif().equals("true")){ viewHolder.verifIco.setVisibility(View.VISIBLE);}
+            else { viewHolder.verifNotif.setVisibility(View.VISIBLE); }
+
             if (!category.equals("10") && !category.equals("3")){
                 viewHolder.year.setText(as.getYear());
                 viewHolder.plat.setText(as.getPlat());
             }
         }
-
-
 
         viewHolder.cardDetAset.setOnClickListener(new View.OnClickListener() {
             @Override

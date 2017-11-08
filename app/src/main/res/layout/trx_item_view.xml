@@ -58,15 +58,14 @@
                 android:layout_height="match_parent"
                 android:padding="@dimen/cardview_compat_inset_shadow">
 
-                <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                <ImageView
                     android:id="@+id/tr_new_thumb"
                     android:layout_width="@dimen/msg_thumb_width"
                     android:layout_height="@dimen/msg_thumb_width"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="@dimen/xmin_padding"
                     android:src="@drawable/user_ava_man"
-                    app:civ_border_color="#FFf"
-                    app:civ_border_width="2dp" />
+                     />
 
 
                 <RelativeLayout

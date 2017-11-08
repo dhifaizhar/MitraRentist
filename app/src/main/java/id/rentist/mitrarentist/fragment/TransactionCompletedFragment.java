@@ -150,10 +150,12 @@ public class TransactionCompletedFragment extends Fragment {
 
                     aIdTrans = transObject.getString("id");
                     aAsetName = "- Item Kosong -";
+                    String aAsetThumb = "null";
 
                     if(items.length() > 0){
                         if (items.length() == 1){
                             item = items.getJSONObject(0);
+                            aAsetThumb = item.getString("main_image");
                             if (item.getString("id_asset_category").equals("3")){
                                 aAsetName = item.getString("type") + " " + item.getString("subtype");
                             }else {
@@ -180,12 +182,18 @@ public class TransactionCompletedFragment extends Fragment {
                     itemTrans.setIdTrans(aIdTrans);
                     itemTrans.setCodeTrans(aCodeTrans);
                     itemTrans.setAsetName(aAsetName);
+                    itemTrans.setPrice(aNominal);
+                    itemTrans.setAsetThumb(aAsetThumb);
                     itemTrans.setIdMember(aIdMember);
                     itemTrans.setMember(aMember);
                     itemTrans.setThumbnail(aThumb);
-                    itemTrans.setPrice(aNominal);
                     itemTrans.setStartDate(aStartDate);
                     itemTrans.setEndDate(aEndDate);
+                    itemTrans.setPickTime(transObject.getString("pickup_time"));
+                    itemTrans.setLat(transObject.getString("latitude"));
+                    itemTrans.setLong(transObject.getString("longitude"));
+                    itemTrans.setAddress(transObject.getString("address"));
+                    itemTrans.setNote(transObject.getString("notes"));
                     itemTrans.setDriverName(aDriverName);
 
                     mTrans.add(itemTrans);

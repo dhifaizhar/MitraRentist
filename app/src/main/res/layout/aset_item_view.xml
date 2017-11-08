@@ -23,9 +23,38 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <RelativeLayout
+            <LinearLayout
+                android:id="@+id/verif_notif"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@color/colorOrangeSoft"
+                android:visibility="gone"
+                >
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:padding="@dimen/xmin_padding"
+                    app:srcCompat="@drawable/ic_info_outline_black_18dp"
+                    android:layout_marginStart="@dimen/xmin_padding"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Aset sedang diverifikasi."
+                    android:layout_gravity="center_vertical"
+                    android:textSize="@dimen/almost_tiny_text"
+                    />
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/detAset"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:padding="@dimen/xmin_padding">
 
                 <ImageView
@@ -58,9 +87,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="bottom"
-                            android:lines="2"
                             android:padding="@dimen/xmin_padding"
                             android:text="TextView"
+                            android:lines="2"
                             android:textSize="18sp"
                             android:textStyle="bold"
                             tools:text="SUZUKI ERTIGA" />
@@ -84,9 +113,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_toEndOf="@+id/as_harga_thumb"
-                        android:padding="@dimen/xmin_padding"
+                        android:paddingBottom="@dimen/xmin_padding"
+                        android:paddingStart="@dimen/xmin_padding"
                         android:textColor="@color/colorPrice"
-                        android:textSize="@dimen/medium_text"
+                        android:textSize="@dimen/small_text"
                         tools:text="2017" />
 
                     <LinearLayout
@@ -132,7 +162,9 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorPrimaryTrans">
+                android:background="@color/colorPrimaryTrans"
+                android:layout_below="@id/detAset"
+                android:visibility="gone">
 
                 <ImageButton
                     android:id="@+id/btn_delete"

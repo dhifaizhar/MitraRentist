@@ -163,8 +163,7 @@ public class TransactionaNewActivity extends AppCompatActivity {
 //            showProgress(false);
             pBar.setVisibility(View.GONE);
 
-            String aIdTrans, aCodeTrans, aTitle, aThumb, aMember, aStartDate, aEndDate, aNominal,
-                    aAsetName, aNote, aIdMember;
+            String aIdTrans, aCodeTrans, aThumb, aMember, aStartDate, aEndDate, aNominal, aAsetName, aIdMember;
 
             if (transaction != null) {
                 try {
@@ -183,10 +182,12 @@ public class TransactionaNewActivity extends AppCompatActivity {
 
                             aIdTrans = transObject.getString("id");
                             aAsetName = "- Item Kosong -";
+                            String aAsetThumb = "null";
 
                             if(items.length() > 0){
                                 if (items.length() == 1){
                                     item = items.getJSONObject(0);
+                                    aAsetThumb = item.getString("main_image");
                                     if (item.getString("id_asset_category").equals("3")){
                                         aAsetName = item.getString("type") + " " + item.getString("subtype");
                                     }else {
@@ -206,6 +207,7 @@ public class TransactionaNewActivity extends AppCompatActivity {
                             ItemTransaksiModul itemTrans = new ItemTransaksiModul();
                             itemTrans.setCodeTrans(aCodeTrans);
                             itemTrans.setIdTrans(aIdTrans);
+                            itemTrans.setAsetThumb(aAsetThumb);
                             itemTrans.setAsetName(aAsetName);
                             itemTrans.setIdMember(aIdMember);
                             itemTrans.setMember(aMember);
@@ -213,6 +215,11 @@ public class TransactionaNewActivity extends AppCompatActivity {
                             itemTrans.setThumbnail(aThumb);
                             itemTrans.setStartDate(aStartDate);
                             itemTrans.setEndDate(aEndDate);
+                            itemTrans.setPickTime(transObject.getString("pickup_time"));
+                            itemTrans.setLat(transObject.getString("latitude"));
+                            itemTrans.setLong(transObject.getString("longitude"));
+                            itemTrans.setAddress(transObject.getString("address"));
+                            itemTrans.setNote(transObject.getString("notes"));
 
                             mTrans.add(itemTrans);
                         }
@@ -275,5 +282,21 @@ public class TransactionaNewActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+//    @Override
+//    public void onResume(){
+//        super.onResume();
+//        mTrans.clear();
+//        getNewTransactionDataList(tenant);
+//
+//    }
+
+    @Override
+    public void onRestart(){
+        super.onRestart();
+        mTrans.clear();
+        getNewTransactionDataList(tenant);
+
     }
 }

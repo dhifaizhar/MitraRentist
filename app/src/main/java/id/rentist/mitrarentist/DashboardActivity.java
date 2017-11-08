@@ -363,11 +363,23 @@ public class DashboardActivity extends AppCompatActivity
                     newTrans.setText(dataObject.getString("paid"));
                     totAsset.setText(String.valueOf(sumAsset));
                     totPoin.setText(poinObject.getString("received").equals("null") ? "0" : ratingObject.getString("received"));
-//                    totRating.setText(ratingObject.getString("rating").equals("null") ? "0" : ratingObject.getString("rating"));
                     successRent.setText(String.valueOf(dataObject.getInt("sukses")));
                     ongoRent.setText(dataObject.getString("berlangsung"));
 
                     totSaldo.setText(PricingTools.PriceFormat(dataObject.getInt("saldo")));
+
+                    sm.setIntPreferences("sum_car", assetObject.getInt("mobil"));
+                    sm.setIntPreferences("sum_motor", assetObject.getInt("motor"));
+                    sm.setIntPreferences("sum_yacht", assetObject.getInt("yacht"));
+                    sm.setIntPreferences("sum_medic", assetObject.getInt("medical"));
+                    sm.setIntPreferences("sum_photography", assetObject.getInt("photography"));
+                    sm.setIntPreferences("sum_toys", assetObject.getInt("toys"));
+                    sm.setIntPreferences("sum_adventure", assetObject.getInt("watersport"));
+                    sm.setIntPreferences("sum_maternity", assetObject.getInt("maternity"));
+                    sm.setIntPreferences("sum_electronic", assetObject.getInt("electronic"));
+                    sm.setIntPreferences("sum_bicycle", assetObject.getInt("bicycle"));
+                    sm.setIntPreferences("sum_office", assetObject.getInt("officetools"));
+                    sm.setIntPreferences("sum_fashion", assetObject.getInt("fashion"));
 
                     JSONArray feeObject = new JSONArray(String.valueOf(dataObject.getJSONArray("percentage")));
                     JSONObject categoryCar = feeObject.getJSONObject(0);
@@ -396,17 +408,17 @@ public class DashboardActivity extends AppCompatActivity
                     sm.setPreferences("fee_office", categoryOffice.getString("percentage"));
                     sm.setPreferences("fee_fashion", categoryFashion.getString("percentage"));
 
-                    Float clean = Float.parseFloat(ratingObject.getString("cleanliness"))/ratingObject.getInt("counts");
-                    Float neat = Float.parseFloat(ratingObject.getString("neatness"))/ratingObject.getInt("counts");
-                    Float honest = Float.parseFloat(ratingObject.getString("honesty"))/ratingObject.getInt("counts");
-                    Float com = Float.parseFloat(ratingObject.getString("communication"))/ratingObject.getInt("counts");
+                    if(ratingObject.getInt("counts") > 0){
+                        Float clean = Float.parseFloat(ratingObject.getString("cleanliness"))/ratingObject.getInt("counts");
+                        Float neat = Float.parseFloat(ratingObject.getString("neatness"))/ratingObject.getInt("counts");
+                        Float honest = Float.parseFloat(ratingObject.getString("honesty"))/ratingObject.getInt("counts");
+                        Float com = Float.parseFloat(ratingObject.getString("communication"))/ratingObject.getInt("counts");
 
-                    ratCleanliness.setText(clean > 0 ? String.format("%.1f", clean) : "0");
-                    ratNeatness.setText(neat > 0 ? String.format("%.1f", neat) : "0");
-                    ratHonesty.setText(honest > 0 ? String.format("%.1f", honest) : "0");
-                    ratComunication.setText(com > 0 ? String.format("%.1f", com) : "0");
-
-                    Log.e(TAG, "ku ingin tahu : " + clean );
+                        ratCleanliness.setText(String.format("%.1f", clean));
+                        ratNeatness.setText(String.format("%.1f", neat));
+                        ratHonesty.setText(String.format("%.1f", honest));
+                        ratComunication.setText(String.format("%.1f", com));
+                    }
 
                 } catch (JSONException e) {
                     e.printStackTrace();

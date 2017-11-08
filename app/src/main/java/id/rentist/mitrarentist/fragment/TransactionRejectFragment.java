@@ -115,7 +115,7 @@ public class TransactionRejectFragment extends Fragment {
     }
 
     private void transactionData(String responseJson) {
-        String aIdTrans, aCodeTrans, aMember, aStartDate, aEndDate, aNominal, aAsetName, aThumb, errorMsg;
+        String aIdTrans, aCodeTrans, aIdMember, aMember, aStartDate, aEndDate, aNominal, aAsetName, aThumb, errorMsg;
         Boolean aDriverIncluded;
 
         try {
@@ -151,6 +151,7 @@ public class TransactionRejectFragment extends Fragment {
 
                     aCodeTrans = idTrans.getString("transaction_code");
                     aNominal = transObject.getString("nominal");
+                    aIdMember = memberObject.getString("id");
                     aMember = memberObject.getString("firstname") + " " + memberObject.getString("lastname");
                     aThumb = memberObject.getString("profil_pic");
                     aStartDate = transObject.getString("start_date").replace("-", "/").substring(0, 10);
@@ -159,6 +160,7 @@ public class TransactionRejectFragment extends Fragment {
                     itemTrans.setIdTrans(aIdTrans);
                     itemTrans.setCodeTrans(aCodeTrans);
                     itemTrans.setAsetName(aAsetName);
+                    itemTrans.setIdMember(aIdMember);
                     itemTrans.setMember(aMember);
                     itemTrans.setThumbnail(aThumb);
                     itemTrans.setPrice(aNominal);

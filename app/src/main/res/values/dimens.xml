@@ -27,6 +27,7 @@
     <dimen name="thumb_height">100dp</dimen>
     <dimen name="thumb_med_width">80dp</dimen>
     <dimen name="thumb_med_height">80dp</dimen>
+    <dimen name="thumb_min_size">60dp</dimen>
     <dimen name="thumb_prop_width">18dp</dimen>
     <dimen name="thumb_prop_height">18dp</dimen>
     <dimen name="btn_thumb">45dp</dimen>

@@ -99,12 +99,19 @@ public class TransactionAcceptAdapter extends RecyclerView.Adapter<TransactionAc
                 iDetTrans.putExtra("id_trans", trx.getIdTrans());
                 iDetTrans.putExtra("code_trans", viewHolder.transCode.getText());
                 iDetTrans.putExtra("price", trx.getPrice());
+                iDetTrans.putExtra("aset_thumb", trx.getAsetThumb());
                 iDetTrans.putExtra("aset", trx.getAsetName());
+                iDetTrans.putExtra("id_member", trx.getIdMember());
                 iDetTrans.putExtra("member", viewHolder.member.getText());
                 iDetTrans.putExtra("startDate", trx.getStartDate());
                 iDetTrans.putExtra("endDate", trx.getEndDate());
                 iDetTrans.putExtra("driver", trx.getDriverIncluded());
                 iDetTrans.putExtra("driver_name", trx.getDriverName());
+                iDetTrans.putExtra("pickup_time", trx.getPickTime());
+                iDetTrans.putExtra("latitude", trx.getLat());
+                iDetTrans.putExtra("longitude", trx.getLong());
+                iDetTrans.putExtra("address", trx.getAddress());
+                iDetTrans.putExtra("note", trx.getNote());
 
 //              LocalBroadcastManager.getInstance(context).sendBroadcast(iDetTrans);
 

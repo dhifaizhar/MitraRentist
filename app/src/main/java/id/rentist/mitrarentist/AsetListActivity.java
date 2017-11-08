@@ -75,8 +75,6 @@ public class AsetListActivity extends AppCompatActivity {
         FadingCircle fadingCircle = new FadingCircle();
         pBar.setIndeterminateDrawable(fadingCircle);
 
-//        pDialog = new ProgressDialog(this);
-//        pDialog.setCancelable(false);
         noAset = (LinearLayout) findViewById(R.id.no_aset);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -96,7 +94,6 @@ public class AsetListActivity extends AppCompatActivity {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mAset.clear();
                 noAset.setVisibility(View.GONE);
                 getAssetDataList(category);
             }
@@ -179,6 +176,8 @@ public class AsetListActivity extends AppCompatActivity {
                     JSONArray jsonArray = new JSONArray(aset);
                     Log.e(TAG, "Asset : " + jsonArray);
                     dataLength = jsonArray.length();
+                    mAset.clear();
+
                     if(dataLength > 0){
                         for (int i = 0; i < jsonArray.length(); i++) {
                             errorMsg = "-";
@@ -407,5 +406,14 @@ public class AsetListActivity extends AppCompatActivity {
             getAssetDataList(cat);
         }
 
+    }
+
+    @Override
+    public void onRestart() {
+        super.onRestart();
+        noAset.setVisibility(View.GONE);
+        pBar.setVisibility(View.VISIBLE);
+
+        getAssetDataList(category);
     }
 }

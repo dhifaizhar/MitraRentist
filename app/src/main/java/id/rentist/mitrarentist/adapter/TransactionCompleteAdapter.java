@@ -55,9 +55,7 @@ public class TransactionCompleteAdapter extends RecyclerView.Adapter<Transaction
 
         public ViewHolder(View itemView){
             super(itemView);
-//          title = (TextView) itemView.findViewById(R.id.tr_aset_type);
             transCode = (TextView) itemView.findViewById(R.id.tr_comp_code_trans);
-//            idTrans = (TextView) itemView.findViewById(R.id.tr_comp_id_trans);
             member = (TextView) itemView.findViewById(R.id.tr_comp_member);
             nominal = (TextView) itemView.findViewById(R.id.tr_comp_nominal);
             stardDate = (TextView) itemView.findViewById(R.id.tr_comp_start_date);
@@ -69,7 +67,7 @@ public class TransactionCompleteAdapter extends RecyclerView.Adapter<Transaction
     }
 
     @Override
-    public void onBindViewHolder(final TransactionCompleteAdapter.ViewHolder viewHolder, int i ){
+    public void onBindViewHolder(final TransactionCompleteAdapter.ViewHolder viewHolder, final int i ){
         String aset, member, startDate, endDate;
         final ItemTransaksiModul trx = mTransaksi.get(i);
 
@@ -101,10 +99,16 @@ public class TransactionCompleteAdapter extends RecyclerView.Adapter<Transaction
                 iDetTrans.putExtra("code_trans", viewHolder.transCode.getText());
                 iDetTrans.putExtra("price", trx.getPrice());
                 iDetTrans.putExtra("aset", trx.getAsetName());
+                iDetTrans.putExtra("aset_thumb", trx.getAsetThumb());
                 iDetTrans.putExtra("id_member", trx.getIdMember());
                 iDetTrans.putExtra("member", viewHolder.member.getText());
                 iDetTrans.putExtra("startDate", trx.getStartDate());
                 iDetTrans.putExtra("endDate", trx.getEndDate());
+                iDetTrans.putExtra("pickup_time", trx.getPickTime());
+                iDetTrans.putExtra("latitude", trx.getLat());
+                iDetTrans.putExtra("longitude", trx.getLong());
+                iDetTrans.putExtra("address", trx.getAddress());
+                iDetTrans.putExtra("note", trx.getNote());
                 iDetTrans.putExtra("driver", trx.getDriverIncluded());
                 iDetTrans.putExtra("driver_name", trx.getDriverName());
 

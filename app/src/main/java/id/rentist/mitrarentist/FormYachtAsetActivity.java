@@ -70,7 +70,7 @@ public class FormYachtAsetActivity extends AppCompatActivity {
 
     // Price Initial
     ArrayList<String> pricingArray = new ArrayList<String>();
-    String aFeeMsg, priceStatus;
+    String aFeeMsg, priceStatus = "";
     private int fee = 0, ap = 0;
     EditText aBasicPrice, aAdvancePrice, aAdvancePrice2, aAdvancePrice3, aAdvancePrice4;
     TextView  btnAdvancePrice, aBasicPriceDisp, aAdvancePriceDisp, aAdvancePriceDisp2, aAdvancePriceDisp3, aAdvancePriceDisp4,

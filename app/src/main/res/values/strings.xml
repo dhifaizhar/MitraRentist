@@ -157,14 +157,14 @@
     <string-array name="yacht_subcategory_entries">
         <item>Traditional</item>
         <item>Modern</item>
-        <item>Other</item>
+        <item>Others</item>
     </string-array>
 
     <string-array name="medic_subcategory_entries">
         <item>Paket</item>
         <item>Satuan</item>
         <item>Perawat</item>
-        <item>Other</item>
+        <item>Others</item>
     </string-array>
 
     <string-array name="photography_subcategory_entries">
@@ -183,7 +183,7 @@
         <item>Playhouse</item>
         <item>Ride On</item>
         <item>Ourdoor</item>
-        <item>Other</item>
+        <item>Others</item>
     </string-array>
 
     <string-array name="adventure_subcategory_entries">
@@ -201,8 +201,8 @@
     <string-array name="maternity_subcategory_entries">
         <item>Corset</item>
         <item>Breast Pump</item>
-        <item>Frezzer ASI</item>
-        <item>Other</item>
+        <item>Freezer ASI</item>
+        <item>Others</item>
     </string-array>
 
     <string-array name="electronic_subcategory_entries">
@@ -210,14 +210,14 @@
         <item>Air Conditioner</item>
         <item>Projector</item>
         <item>TV/Videotron</item>
-        <item>Other</item>
+        <item>Others</item>
     </string-array>
 
     <string-array name="bicycle_subcategory_entries">
         <item>Mountain Bike</item>
         <item>Road Bike</item>
         <item>Accessories</item>
-        <item>Other</item>
+        <item>Others</item>
     </string-array>
 
     <string-array name="office_subcategory_entries">
@@ -225,14 +225,14 @@
         <item>Furniture</item>
         <item>Computer</item>
         <item>Printer</item>
-        <item>Other</item>
+        <item>Others</item>
     </string-array>
 
     <string-array name="fashion_subcategory_entries">
         <item>Wedding</item>
         <item>Costume</item>
         <item>Cosplay</item>
-        <item>Other</item>
+        <item>Others</item>
     </string-array>
 
     <string-array name="driver_entries">

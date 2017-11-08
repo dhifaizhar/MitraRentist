@@ -39,7 +39,7 @@ public class DetailTransaksiAdapter extends RecyclerView.Adapter<DetailTransaksi
         }
         tr.setMember("Pengguna Jasa Sewa " + j);
         tr.setDate("10 Mei (10:00) - 13 Mei (10:00) ");
-        tr.setLoc("Ngurah Rai International Airport ");
+//        tr.setLoc("Ngurah Rai International Airport ");
         tr.setPrice("Rp 900.000 ");
 
         this.mTransaksi.add(tr);

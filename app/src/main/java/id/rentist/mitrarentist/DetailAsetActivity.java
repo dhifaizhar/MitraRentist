@@ -784,15 +784,12 @@ public class DetailAsetActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//
-//        if(resultCode == RESULT_OK) {
-//            ProfileActivity.this.finish();
-//            Intent ii = new Intent(ProfileActivity.this,ProfileActivity.class);
-//            startActivity(ii);
-//
-//        }
-//
-//    }
+    @Override
+    public void onRestart() {
+        super.onRestart();
+
+        getAssetDataList();
+    }
+
+
 }

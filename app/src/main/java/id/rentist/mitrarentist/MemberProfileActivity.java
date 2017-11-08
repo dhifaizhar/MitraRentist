@@ -32,27 +32,8 @@ import id.rentist.mitrarentist.tools.CircleTransform;
 public class MemberProfileActivity extends AppCompatActivity {
     private Intent iMember;
 
-//    @BindView(R.id.mp_name)
-    TextView mName;
-//    @BindView(R.id.mp_level)
-    TextView mLevel;
-//    @BindView(R.id.mp_phone_number)
-    TextView mPhone;
-//    @BindView(R.id.mp_email)
-    TextView mEmail;
-//    @BindView(R.id.mp_birthday)
-    TextView mBirthday;
-//    @BindView(R.id.mp_address)
-    TextView mAddress;
-//    @BindView(R.id.mp_thumb)
-    ImageView mProfilePic;
-//    @BindView(R.id.mp_ktp_img)
-    ImageView mKTP;
-//    @BindView(R.id.mp_kk_img)
-    ImageView mKK;
-//    @BindView(R.id.mp_rek_listrik_img)
-    ImageView mRekListrik;
-
+    TextView mName, mLevel, mPhone, mEmail, mBirthday, mAddress;
+    ImageView mProfilePic, mKTP, mKK, mRekListrik;
     SimpleRatingBar mCleanliness, mNeatness, mHonesty, mComunication;
 
     private static final String TAG = "MemberProfileActivity";

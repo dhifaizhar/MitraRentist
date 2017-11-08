@@ -5,7 +5,7 @@ package id.rentist.mitrarentist.modul;
  */
 
 public class ItemCategoryModul {
-    private int cId,cThumbnail;
+    private int cId,cThumbnail, cSum;
     private String cTitle;
 
     public int getId() {
@@ -20,6 +20,13 @@ public class ItemCategoryModul {
     }
     public void setThumbnail(int cThumbnail) {
         this.cThumbnail = cThumbnail;
+    }
+
+    public int getSum() {
+        return cSum;
+    }
+    public void setSum(int cSum) {
+        this.cSum = cSum;
     }
 
     public String getTitle() {
