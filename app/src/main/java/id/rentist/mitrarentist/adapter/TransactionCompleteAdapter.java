@@ -111,6 +111,7 @@ public class TransactionCompleteAdapter extends RecyclerView.Adapter<Transaction
                 iDetTrans.putExtra("note", trx.getNote());
                 iDetTrans.putExtra("driver", trx.getDriverIncluded());
                 iDetTrans.putExtra("driver_name", trx.getDriverName());
+                iDetTrans.putExtra("id_additional", trx.getIdAddtional());
 
                 iDetTrans.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(iDetTrans);

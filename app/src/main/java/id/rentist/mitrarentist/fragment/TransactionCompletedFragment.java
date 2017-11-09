@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -23,8 +24,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.github.ybq.android.spinkit.SpinKitView;
-import com.github.ybq.android.spinkit.style.FadingCircle;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -49,15 +48,16 @@ public class TransactionCompletedFragment extends Fragment {
     RecyclerView mRecyclerView;
     RecyclerView.LayoutManager mLayoutManager;
     RecyclerView.Adapter mAdapter;
+
     private List<ItemTransaksiModul> mTrans;
     private AsyncTask mHistoryTask = null;
     private ProgressDialog pDialog;
     private SessionManager sm;
     private View view;
-    private SpinKitView pBar;
 
     private LinearLayout noTransImage;
     private TextView noTransText;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     private static final String TAG = "TransactionActivity";
     private static final String TOKEN = "secretissecret";
@@ -74,17 +74,25 @@ public class TransactionCompletedFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_history_comp_transaksi, container, false);
         mTrans = new ArrayList<ItemTransaksiModul>();
         sm = new SessionManager(getActivity());
-
-        pBar = (SpinKitView) view.findViewById(R.id.progressBar);
-        FadingCircle fadingCircle = new FadingCircle();
-        pBar.setIndeterminateDrawable(fadingCircle);
+        pDialog = new ProgressDialog(getActivity());
+        pDialog.setCancelable(false);
 
         noTransImage = (LinearLayout) view.findViewById(R.id.no_trans);
         noTransText = (TextView) view.findViewById(R.id.no_trans_text);
 
         // action retrieve data history
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
+        pDialog.setMessage("loading data...");
+        showProgress(true);
         getTransaction();
+
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getTransaction();
+            }
+        });
 
         return view;
     }
@@ -114,19 +122,23 @@ public class TransactionCompletedFragment extends Fragment {
                 return params;
             }
         };
-//        pBar.setVisibility(View.GONE);
         queue.add(strReq);
     }
 
     private void transactionData(String responseJson) {
-        String aIdTrans, aCodeTrans, aDriverName="" , aIdMember, aMember, aStartDate, aEndDate, aNominal, aAsetName,
-                aThumb, errorMsg;
+        showProgress(false);
+        mSwipeRefreshLayout.setRefreshing(false);
+
+        String aIdTrans, aCodeTrans, aMember, aStartDate, aEndDate, aNominal, aAsetName, aThumb, aDriverName = "", errorMsg,
+                aIdMember;
         Boolean aDriverIncluded;
 
         try {
             JSONObject jsonObject = new JSONObject(responseJson);
             JSONArray jsonArray = new JSONArray(String.valueOf(jsonObject.getJSONArray("completed")));
             if(jsonArray.length() > 0){
+                noTransImage.setVisibility(View.GONE);
+                mTrans.clear();
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject transObject = jsonArray.getJSONObject(i);
                     ItemTransaksiModul itemTrans = new ItemTransaksiModul();
@@ -171,6 +183,16 @@ public class TransactionCompletedFragment extends Fragment {
                         }
                     }
 
+                    JSONArray additional = transObject.getJSONArray("additional");
+                    ArrayList<String> idAdditional = new ArrayList<String>();
+                    if(additional.length() > 0) {
+                        for (int j = 0; j < additional.length(); j++) {
+                            JSONObject add = additional.getJSONObject(j);
+                            JSONObject add_feature = add.getJSONObject("id_feature_item");
+                            idAdditional.add(add_feature.getString("id_additional_feature"));
+                        }
+                    }
+
                     aCodeTrans = idTrans.getString("transaction_code");
                     aNominal = transObject.getString("nominal");
                     aIdMember = memberObject.getString("id");
@@ -189,12 +211,13 @@ public class TransactionCompletedFragment extends Fragment {
                     itemTrans.setThumbnail(aThumb);
                     itemTrans.setStartDate(aStartDate);
                     itemTrans.setEndDate(aEndDate);
+                    itemTrans.setDriverName(aDriverName);
                     itemTrans.setPickTime(transObject.getString("pickup_time"));
                     itemTrans.setLat(transObject.getString("latitude"));
                     itemTrans.setLong(transObject.getString("longitude"));
                     itemTrans.setAddress(transObject.getString("address"));
                     itemTrans.setNote(transObject.getString("notes"));
-                    itemTrans.setDriverName(aDriverName);
+                    itemTrans.setIdAddtional(idAdditional.toString());
 
                     mTrans.add(itemTrans);
                 }
@@ -209,7 +232,6 @@ public class TransactionCompletedFragment extends Fragment {
                 errorMsg = "Tidak  ada Transaksi Selesai";
                 noTransImage.setVisibility(View.VISIBLE);
                 noTransText.setText(errorMsg);
-//                      Toast.makeText(getActivity(),errorMsg, Toast.LENGTH_LONG).show();
             }
 
             Log.e(TAG, "TAB Transaction Data : " + jsonObject);
@@ -217,7 +239,13 @@ public class TransactionCompletedFragment extends Fragment {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        showProgress(true);
+        getTransaction();
     }
 
 

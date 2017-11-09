@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -42,6 +43,7 @@ public class TransactionAcceptFragment extends Fragment {
     RecyclerView mRecyclerView;
     RecyclerView.LayoutManager mLayoutManager;
     RecyclerView.Adapter mAdapter;
+
     private List<ItemTransaksiModul> mTrans;
     private ProgressDialog pDialog;
     private SessionManager sm;
@@ -49,6 +51,7 @@ public class TransactionAcceptFragment extends Fragment {
 
     private LinearLayout noTransImage;
     private TextView noTransText;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     private static final String TAG = "TransactionActivity";
     private static final String TOKEN = "secretissecret";
@@ -71,34 +74,23 @@ public class TransactionAcceptFragment extends Fragment {
 
         // action retrieve data aset
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
+        pDialog.setMessage("loading data...");
+        showProgress(true);
         getTransaction();
+
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getTransaction();
+            }
+        });
 
         return view;
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    private void showProgress(final boolean show) {
-        if(show){
-            if (!pDialog.isShowing()){
-                pDialog.show();
-            }
-        }else{
-            if (pDialog.isShowing()){
-                pDialog.dismiss();
-            }
-        }
-    }
-
-    @Override
-    public void onResume(){
-        super.onResume();
-        getTransaction();
-    }
 
     private void getTransaction() {
-        pDialog.setMessage("loading data...");
-        showProgress(true);
-
         RequestQueue queue = Volley.newRequestQueue(getActivity());
         StringRequest strReq = new StringRequest(Request.Method.GET, AppConfig.URL_TRANSACTION + tenant, new
                 Response.Listener<String>() {
@@ -110,9 +102,11 @@ public class TransactionAcceptFragment extends Fragment {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e(TAG, "Get Driver Fetch Error : " +  error.toString());
+                Log.e(TAG, "Get Trans Fetch Error : " +  error.toString());
                 Toast.makeText(getActivity(), "Connection error, try again.",
                         Toast.LENGTH_LONG).show();
+                showProgress(false);
+                mSwipeRefreshLayout.setRefreshing(false);
             }
         }) {
             @Override
@@ -123,11 +117,13 @@ public class TransactionAcceptFragment extends Fragment {
                 return params;
             }
         };
-//        pBar.setVisibility(View.GONE);
         queue.add(strReq);
     }
 
     private void transactionData(String responseJson) {
+        showProgress(false);
+        mSwipeRefreshLayout.setRefreshing(false);
+
         String aIdTrans, aCodeTrans, aMember, aStartDate, aEndDate, aNominal, aAsetName, aThumb, aDriverName = "", errorMsg,
                 aIdMember;
         Boolean aDriverIncluded;
@@ -136,6 +132,7 @@ public class TransactionAcceptFragment extends Fragment {
             JSONObject jsonObject = new JSONObject(responseJson);
             JSONArray jsonArray = new JSONArray(String.valueOf(jsonObject.getJSONArray("accepted")));
             if(jsonArray.length() > 0){
+                noTransImage.setVisibility(View.GONE);
                 mTrans.clear();
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject transObject = jsonArray.getJSONObject(i);
@@ -179,6 +176,16 @@ public class TransactionAcceptFragment extends Fragment {
                         }
                     }
 
+                    JSONArray additional = transObject.getJSONArray("additional");
+                    ArrayList<String> idAdditional = new ArrayList<String>();
+                    if(additional.length() > 0) {
+                        for (int j = 0; j < additional.length(); j++) {
+                            JSONObject add = additional.getJSONObject(j);
+                            JSONObject add_feature = add.getJSONObject("id_feature_item");
+                            idAdditional.add(add_feature.getString("id_additional_feature"));
+                        }
+                    }
+
                     aCodeTrans = idTrans.getString("transaction_code");
                     aNominal = transObject.getString("nominal");
                     aIdMember = memberObject.getString("id");
@@ -203,6 +210,7 @@ public class TransactionAcceptFragment extends Fragment {
                     itemTrans.setLong(transObject.getString("longitude"));
                     itemTrans.setAddress(transObject.getString("address"));
                     itemTrans.setNote(transObject.getString("notes"));
+                    itemTrans.setIdAddtional(idAdditional.toString());
 
                     mTrans.add(itemTrans);
                 }
@@ -213,21 +221,38 @@ public class TransactionAcceptFragment extends Fragment {
                 mAdapter = new TransactionAcceptAdapter(getActivity(),mTrans);
                 mRecyclerView.setAdapter(mAdapter);
 
-
             }else{
                 errorMsg = "Tidak Ada Transaksi Diterima";
                 noTransImage.setVisibility(View.VISIBLE);
                 noTransText.setText(errorMsg);
-
             }
 
             Log.e(TAG, "TAB Transaction Data : " + jsonObject);
-            showProgress(false);
+
 
         } catch (JSONException e) {
             e.printStackTrace();
-            showProgress(false);
         }
 
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+    private void showProgress(final boolean show) {
+        if(show){
+            if (!pDialog.isShowing()){
+                pDialog.show();
+            }
+        }else{
+            if (pDialog.isShowing()){
+                pDialog.dismiss();
+            }
+        }
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        showProgress(true);
+        getTransaction();
     }
 }

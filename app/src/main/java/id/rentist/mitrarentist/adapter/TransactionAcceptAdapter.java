@@ -94,7 +94,6 @@ public class TransactionAcceptAdapter extends RecyclerView.Adapter<TransactionAc
             @Override
             public void onClick(View v) {
                 Intent iDetTrans = new Intent(context, TransDetailActivity.class);
-//                Intent iDetTrans = new Intent("transaction-accept");
                 iDetTrans.putExtra("status", "accepted");
                 iDetTrans.putExtra("id_trans", trx.getIdTrans());
                 iDetTrans.putExtra("code_trans", viewHolder.transCode.getText());
@@ -112,8 +111,7 @@ public class TransactionAcceptAdapter extends RecyclerView.Adapter<TransactionAc
                 iDetTrans.putExtra("longitude", trx.getLong());
                 iDetTrans.putExtra("address", trx.getAddress());
                 iDetTrans.putExtra("note", trx.getNote());
-
-//              LocalBroadcastManager.getInstance(context).sendBroadcast(iDetTrans);
+                iDetTrans.putExtra("id_additional", trx.getIdAddtional());
 
                 iDetTrans.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(iDetTrans);

@@ -462,7 +462,6 @@ public class FormElectronicAsetActivity extends AppCompatActivity {
         return true;
     }
 
-    // IMAGE : pick image
     private void showFileChooser() {
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -470,7 +469,6 @@ public class FormElectronicAsetActivity extends AppCompatActivity {
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
     }
 
-    // IMAGE : get string for upload
     public String getStringImage(Bitmap bmp){
         if(bmp != null){
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -482,7 +480,6 @@ public class FormElectronicAsetActivity extends AppCompatActivity {
         }
     }
 
-    // IMAGE : show in frame
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -582,14 +579,6 @@ public class FormElectronicAsetActivity extends AppCompatActivity {
                 pricingArray.clear();
                 getPrice();
                 postPriceCheck(pricingArray.toString());
-
-                if(priceStatus.equals("OK")) {
-                    if (iFormAsset.getStringExtra("action").equals("update")) {
-                        updateDataAset(category);
-                    } else {
-                        addDataAset(tenant);
-                    }
-                }
             }
         }
 
@@ -871,6 +860,12 @@ public class FormElectronicAsetActivity extends AppCompatActivity {
                     priceStatus = responseObj.getString("status");
                     if(priceStatus.equals("OVERLAP")){
                         Toast.makeText(getApplicationContext(), responseObj.getString("message"), Toast.LENGTH_LONG).show();
+                    }else{
+                        if (iFormAsset.getStringExtra("action").equals("update")) {
+                            updateDataAset(category);
+                        } else {
+                            addDataAset(tenant);
+                        }
                     }
 
                 } catch (JSONException e) {

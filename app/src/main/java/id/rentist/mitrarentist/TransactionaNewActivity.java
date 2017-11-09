@@ -160,7 +160,6 @@ public class TransactionaNewActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String transaction) {
             mTransactionTask = null;
-//            showProgress(false);
             pBar.setVisibility(View.GONE);
 
             String aIdTrans, aCodeTrans, aThumb, aMember, aStartDate, aEndDate, aNominal, aAsetName, aIdMember;
@@ -189,10 +188,20 @@ public class TransactionaNewActivity extends AppCompatActivity {
                                     item = items.getJSONObject(0);
                                     aAsetThumb = item.getString("main_image");
                                     if (item.getString("id_asset_category").equals("3")){
-                                        aAsetName = item.getString("type") + " " + item.getString("subtype");
+                                        aAsetName = item.getString("type") + " " + item.getString("sub_type");
                                     }else {
                                         aAsetName = item.getString("brand") + " " + item.getString("type");
                                     }
+                                }
+                            }
+
+                            JSONArray additional = transObject.getJSONArray("additional");
+                            ArrayList<String> idAdditional = new ArrayList<String>();
+                            if(additional.length() > 0) {
+                                for (int j = 0; j < additional.length(); j++) {
+                                    JSONObject add = additional.getJSONObject(j);
+                                    JSONObject add_feature = add.getJSONObject("id_feature_item");
+                                    idAdditional.add(add_feature.getString("id_additional_feature"));
                                 }
                             }
 
@@ -220,6 +229,7 @@ public class TransactionaNewActivity extends AppCompatActivity {
                             itemTrans.setLong(transObject.getString("longitude"));
                             itemTrans.setAddress(transObject.getString("address"));
                             itemTrans.setNote(transObject.getString("notes"));
+                            itemTrans.setIdAddtional(idAdditional.toString());
 
                             mTrans.add(itemTrans);
                         }
@@ -283,14 +293,6 @@ public class TransactionaNewActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-//    @Override
-//    public void onResume(){
-//        super.onResume();
-//        mTrans.clear();
-//        getNewTransactionDataList(tenant);
-//
-//    }
 
     @Override
     public void onRestart(){

@@ -446,4 +446,8 @@
     <string name="perbarui_akun_notif"><u>Perbarui Akun Disini</u></string>
     <string name="resend_code"><u>KIRIM ULANG</u></string>
     <string name="agreement_link">Dengan DAFTAR, saya setuju dengan <u>Syarat dan Kebijakan</u> yang berlaku.</string>
+
+    <string name="basic_desc">* Informasi dasar penyewa (nama, email dan nomor telepon).</string>
+    <string name="verified_desc">"\u2022" Basic. \n"\u2022" 2 dokumen penyewa/1 dokumen dan 1 akun sosial media.</string>
+    <string name="smart_cust_desc">"\u2022" Verified. \n"\u2022" 5 Transaksi sukses.</string>
 </resources>

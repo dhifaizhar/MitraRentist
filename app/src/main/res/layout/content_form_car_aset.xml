@@ -750,6 +750,138 @@
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/xmin_padding">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorWhite"
+                    android:orientation="vertical"
+                    android:padding="@dimen/xmin_padding">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/xmin_padding"
+                        android:background="@color/colorPrimary"
+                        android:padding="@dimen/min_padding">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:text="Syarat Sewa"
+                            android:textAlignment="center"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="@dimen/medium_text"
+                            android:textStyle="bold" />
+
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:padding="@dimen/xmin_padding">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Kelengkapan Data Penyewa"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="12sp" />
+
+                        <RadioGroup
+                            android:id="@+id/rent_req_group"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:checkedButton="@+id/r_manual"
+                            android:orientation="vertical"
+                            android:padding="@dimen/xmin_padding">
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <RadioButton
+                                    android:id="@+id/r_basic"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="10dp"
+                                    android:buttonTint="@color/colorPrimary"
+                                    android:checked="true"
+                                    android:layout_centerVertical="true"
+                                    />
+
+                                <TextView
+                                    android:id="@+id/basic_text"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Basic"
+                                    android:layout_toEndOf="@+id/r_basic"
+                                    android:textSize="@dimen/under_small_text"
+                                    android:paddingEnd="@dimen/xmin_padding"
+                                    android:paddingStart="@dimen/xmin_padding"
+                                    android:background="@color/colorGrey"
+                                    android:layout_marginBottom="@dimen/small_space"
+                                    android:textColor="@color/colorWhite"
+                                    />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="* Informasi dasar penyewa (nama, email dan nomor telepon)"
+                                    android:textSize="@dimen/almost_tiny_text"
+                                    android:layout_below="@+id/basic_text"
+                                    android:layout_alignStart="@+id/basic_text"
+                                    />
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <RadioButton
+                                    android:id="@+id/r_verified"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginEnd="10dp"
+                                    android:buttonTint="@color/colorPrimary"
+                                    android:checked="true" />
+
+                                <TextView
+                                    android:id="@+id/verified_text"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_toEndOf="@+id/r_verified"
+                                    android:background="@color/colorGrey"
+                                    android:text="Basic"
+                                    android:textColor="@color/colorBlack"
+                                    android:textSize="@dimen/small_text" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignStart="@+id/verified_text"
+                                    android:layout_below="@+id/verified_text"
+                                    android:text="* Informasi dasar penyewa (nama, email dan nomor telepon)"
+                                    android:textSize="@dimen/almost_tiny_text" />
+
+                            </RelativeLayout>
+
+                        </RadioGroup>
+                    </LinearLayout>
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="@dimen/xmin_padding">

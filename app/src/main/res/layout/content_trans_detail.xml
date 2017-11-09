@@ -103,15 +103,6 @@
                             android:textColor="@color/colorWhite" />
                     </RelativeLayout>
 
-                    <!--<TextView-->
-                        <!--android:id="@+id/textView12"-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:padding="@dimen/xmin_padding"-->
-                        <!--android:text="Informasi Pemesan"-->
-                        <!--android:textAlignment="center"-->
-                        <!--android:textSize="@dimen/medium_text" />-->
-
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -314,60 +305,77 @@
 
                         </RelativeLayout>
 
-
-                        <TextView
+                        <LinearLayout
                             android:id="@+id/additional"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:padding="@dimen/xmin_padding"
-                            android:text="Opsi Data Sewa"
-                            android:visibility="gone"
-                            android:textAlignment="center"
+                            android:orientation="vertical"
                             android:layout_marginTop="@dimen/xmin_padding"
-                            android:background="@color/colorPrimarySoft"
-                            android:textSize="@dimen/small_text" />
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@color/colorPrimarySoft"
-                            android:padding="@dimen/xmin_padding">
+                            android:visibility="gone">
 
                             <TextView
-                                android:id="@+id/driver"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:padding="@dimen/xmin_padding"
-                                android:text="Pengemudi : -"
-                                android:layout_centerVertical="true"
-                                android:visibility="gone"/>
+                                android:text="Opsi Data Sewa"
+                                android:textAlignment="center"
+                                android:layout_marginTop="@dimen/xmin_padding"
+                                android:background="@color/colorPrimarySoft"
+                                android:textSize="@dimen/small_text" />
 
-                            <Button
-                                android:id="@+id/btn_assign_driver"
-                                android:layout_width="wrap_content"
-                                android:layout_height="40dp"
-                                android:layout_alignEnd="@+id/driver"
-                                android:text="Pilih Driver"
-                                android:textColor="@color/colorWhite"
-                                android:background="@android:color/holo_green_light"
-                                android:clickable="true"
-                                android:textSize="12sp"
-                                android:visibility="gone"/>
+                            <RelativeLayout
+                                android:id="@+id/con_driver"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:padding="@dimen/xmin_padding">
 
-                        </RelativeLayout>
+                                <TextView
+                                    android:id="@+id/driver"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="@dimen/xmin_padding"
+                                    android:text="Pengemudi : -"
+                                    android:layout_centerVertical="true"
+                                    android:visibility="gone"
+                                    />
 
+                                <Button
+                                    android:id="@+id/btn_assign_driver"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="40dp"
+                                    android:layout_alignEnd="@+id/driver"
+                                    android:text="Pilih Driver"
+                                    android:textColor="@color/colorWhite"
+                                    android:background="@android:color/holo_green_light"
+                                    android:clickable="true"
+                                    android:textSize="12sp"
+                                    android:visibility="gone"
+                                    />
 
-                        <!--<TextView-->
-                                <!--android:id="@+id/textView16"-->
-                                <!--android:layout_width="match_parent"-->
-                                <!--android:layout_height="wrap_content"-->
-                                <!--android:padding="@dimen/xmin_padding"-->
-                                <!--android:text="Asuransi : tidak" />-->
+                            </RelativeLayout>
 
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Fitur Tambahan :"
+                                android:padding="@dimen/xmin_padding"/>
+
+                            <LinearLayout
+                                android:id="@+id/con_add_feature"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:padding="@dimen/xmin_padding"
+                                android:layout_marginStart="@dimen/med_padding"
+                                android:paddingBottom="@dimen/min_padding">
+
+                            </LinearLayout>
+
+                        </LinearLayout>
 
                     </LinearLayout>
 
-                </LinearLayout>
+                    </LinearLayout>
 
                 </ScrollView>
 

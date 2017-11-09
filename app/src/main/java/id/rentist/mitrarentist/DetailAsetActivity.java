@@ -199,6 +199,7 @@ public class DetailAsetActivity extends AppCompatActivity {
                 case "9": URL = AppConfig.URL_ELECTRONIC; break;
                 case "10": URL = AppConfig.URL_BICYCLE; break;
                 case "11": URL = AppConfig.URL_OFFICE; break;
+                case "12": URL = AppConfig.URL_FASHION; break;
             }
             RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
             StringRequest stringRequest = new StringRequest(Request.Method.GET, URL + id, new Response.Listener<String>() {
@@ -271,6 +272,7 @@ public class DetailAsetActivity extends AppCompatActivity {
                             ArrayList<PriceModul> ePrice = new ArrayList<PriceModul>();
 
                             if(priceArray.length() > 0){
+                                mPrice.clear();
                                 for (int j = 0; j < priceArray.length(); j++) {
                                     JSONObject priceObject = priceArray.getJSONObject(j);
 

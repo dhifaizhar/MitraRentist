@@ -592,13 +592,13 @@ public class FormOfficeAsetActivity extends AppCompatActivity {
                 getPrice();
                 postPriceCheck(pricingArray.toString());
 
-                if(priceStatus.equals("OK")) {
-                    if (iFormAsset.getStringExtra("action").equals("update")) {
-                        updateDataAset(category);
-                    } else {
-                        addDataAset(tenant);
-                    }
-                }
+//                if(priceStatus.equals("OK")) {
+//                    if (iFormAsset.getStringExtra("action").equals("update")) {
+//                        updateDataAset(category);
+//                    } else {
+//                        addDataAset(tenant);
+//                    }
+//                }
             }
         }
 
@@ -880,6 +880,12 @@ public class FormOfficeAsetActivity extends AppCompatActivity {
                     priceStatus = responseObj.getString("status");
                     if(priceStatus.equals("OVERLAP")){
                         Toast.makeText(getApplicationContext(), responseObj.getString("message"), Toast.LENGTH_LONG).show();
+                    }else{
+                        if (iFormAsset.getStringExtra("action").equals("update")) {
+                            updateDataAset(category);
+                        } else {
+                            addDataAset(tenant);
+                        }
                     }
 
                 } catch (JSONException e) {

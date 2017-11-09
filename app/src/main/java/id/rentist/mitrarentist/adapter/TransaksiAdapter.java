@@ -113,6 +113,7 @@ public class TransaksiAdapter extends RecyclerView.Adapter<TransaksiAdapter.View
                 iDetTrans.putExtra("longitude", trx.getLong());
                 iDetTrans.putExtra("address", trx.getAddress());
                 iDetTrans.putExtra("note", trx.getNote());
+                iDetTrans.putExtra("id_additional", trx.getIdAddtional());
 
 //                LocalBroadcastManager.getInstance(context).sendBroadcast(iDetTrans);
 

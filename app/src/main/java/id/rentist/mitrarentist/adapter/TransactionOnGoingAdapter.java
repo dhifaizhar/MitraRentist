@@ -55,9 +55,7 @@ public class TransactionOnGoingAdapter extends RecyclerView.Adapter<TransactionO
 
         public ViewHolder(View itemView){
             super(itemView);
-//          title = (TextView) itemView.findViewById(R.id.tr_aset_type);
             transCode = (TextView) itemView.findViewById(R.id.tr_ongo_code_trans);
-//            idTrans = (TextView) itemView.findViewById(R.id.tr_ongo_id_trans);
             member = (TextView) itemView.findViewById(R.id.tr_ongo_member);
             nominal = (TextView) itemView.findViewById(R.id.tr_ongo_nominal);
             stardDate = (TextView) itemView.findViewById(R.id.tr_ongo_start_date);
@@ -100,6 +98,7 @@ public class TransactionOnGoingAdapter extends RecyclerView.Adapter<TransactionO
                 iDetTrans.putExtra("id_trans", trx.getIdTrans());
                 iDetTrans.putExtra("code_trans", viewHolder.transCode.getText());
                 iDetTrans.putExtra("price", trx.getPrice());
+                iDetTrans.putExtra("aset_thumb", trx.getAsetThumb());
                 iDetTrans.putExtra("aset", trx.getAsetName());
                 iDetTrans.putExtra("id_member", trx.getIdMember());
                 iDetTrans.putExtra("member", viewHolder.member.getText());
@@ -107,6 +106,12 @@ public class TransactionOnGoingAdapter extends RecyclerView.Adapter<TransactionO
                 iDetTrans.putExtra("endDate", trx.getEndDate());
                 iDetTrans.putExtra("driver", trx.getDriverIncluded());
                 iDetTrans.putExtra("driver_name", trx.getDriverName());
+                iDetTrans.putExtra("pickup_time", trx.getPickTime());
+                iDetTrans.putExtra("latitude", trx.getLat());
+                iDetTrans.putExtra("longitude", trx.getLong());
+                iDetTrans.putExtra("address", trx.getAddress());
+                iDetTrans.putExtra("note", trx.getNote());
+                iDetTrans.putExtra("id_additional", trx.getIdAddtional());
 
                 iDetTrans.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(iDetTrans);

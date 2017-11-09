@@ -66,7 +66,8 @@ public class TransDetailActivity extends AppCompatActivity {
     private Intent itransDet;
 
     TextView mAset, mPrice, mCodeTrans, mMember, mStartDate, mEndDate, mDriver, mPicktime, mAddress,
-            mNote, mAddtionalText;
+            mNote, feature_name;
+    LinearLayout mAdditional, con_add_feature;
 
     ImageView mAsetThumb;
 
@@ -135,7 +136,7 @@ public class TransDetailActivity extends AppCompatActivity {
         mAddress = (TextView) findViewById(R.id.detTrans_address);
         mNote = (TextView) findViewById(R.id.detTrans_note);
         mDriver = (TextView) findViewById(R.id.driver);
-        mAddtionalText = (TextView) findViewById(R.id.additional);
+        mAdditional = (LinearLayout) findViewById(R.id.additional);
 
         LinearLayout btnContainer = (LinearLayout) findViewById(R.id.btnContainer);
         Display display = getWindowManager().getDefaultDisplay();
@@ -171,6 +172,10 @@ public class TransDetailActivity extends AppCompatActivity {
         btnCancel.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         btnCancel.setLayoutParams(startGravity);
 
+        con_add_feature = (LinearLayout) findViewById(R.id.con_add_feature);
+        feature_name = new TextView(this);
+        feature_name.setTextSize(13);
+
         // Value
         Picasso.with(getApplicationContext()).load(
                 AppConfig.URL_IMAGE_ASSETS + itransDet.getStringExtra("aset_thumb"))
@@ -188,6 +193,8 @@ public class TransDetailActivity extends AppCompatActivity {
         mAddress.setText(itransDet.getStringExtra("address"));
         mNote.setText(itransDet.getStringExtra("note"));
 
+        getAdditionalFeature();
+
         mMember.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -198,7 +205,7 @@ public class TransDetailActivity extends AppCompatActivity {
         });
 
         if(itransDet.getBooleanExtra("driver", false)){
-            mAddtionalText.setVisibility(View.VISIBLE);
+            mAdditional.setVisibility(View.VISIBLE);
             mDriver.setVisibility(View.VISIBLE);
             mDriver.setText("Pengemudi : " + itransDet.getStringExtra("driver_name"));
         }
@@ -282,6 +289,61 @@ public class TransDetailActivity extends AppCompatActivity {
 
     }
 
+    private void getAdditionalFeature() {
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        StringRequest strReq = new StringRequest(Request.Method.POST, AppConfig.URL_ITEM_FEATURE , new
+                Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONArray data = new JSONArray(response);
+                            Log.e(TAG, "getAdditionalFeature Response : " + response);
+
+                            if(data.length() > 0) {
+                                mAdditional.setVisibility(View.VISIBLE);
+
+                                for (int i = 0; i < data.length(); i++) {
+
+                                    JSONObject feature = data.getJSONObject(i);
+                                    feature_name.setText(feature.getString("feature_name"));
+
+                                    con_add_feature.addView(feature_name);
+                                }
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "getAdditionalFeature Fetch Error : " + error.toString());
+                Toast.makeText(getApplicationContext(), "Connection error, try again.",
+                        Toast.LENGTH_LONG).show();
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                // Posting parameters to url
+                Map<String, String> keys = new HashMap<String, String>();
+                keys.put("id_additional_feature", itransDet.getStringExtra("id_additional"));
+                Log.e(TAG, "Key Body : " + keys.toString());
+                return keys;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("token", TOKEN);
+
+                return params;
+            }
+        };
+//        pBar.setVisibility(View.GONE);
+        queue.add(strReq);
+    }
+
     private void transConfirm(final String transId, final String status) {
         pDialog.setMessage("loading ...");
         showProgress(true);
@@ -328,6 +390,7 @@ public class TransDetailActivity extends AppCompatActivity {
         }
     }
 
+    //Action Accept or Reject
     private class postTransConfirmTask extends AsyncTask<String, String, String> {
         private final String mTransId, mStatus;
         private String errorMsg, responseTrans;
@@ -406,6 +469,7 @@ public class TransDetailActivity extends AppCompatActivity {
         }
     }
 
+    //Action to Ongoing Trans
     private class postTransDropTask extends AsyncTask<String, String, String> {
         private final String mTransId;
         private String errorMsg, responseTrans;
@@ -421,6 +485,9 @@ public class TransDetailActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(String response) {
                     responseTrans = response;
+
+                    Log.e(TAG, "Transaction Drop Response : " + responseTrans);
+
                 }
             }, new Response.ErrorListener() {
                 @Override
@@ -460,15 +527,25 @@ public class TransDetailActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(String voucher) {
+        protected void onPostExecute(String response) {
             mTransactionTask = null;
+            String msg = "Gagal melakukan aksi";
             showProgress(false);
 
-            if(voucher != null){
-                Toast.makeText(getApplicationContext(),"Aset berhasil diantar", Toast.LENGTH_LONG).show();
+            if(response != null){
+                try {
+                    JSONObject responseObject = new JSONObject(response);
+                    msg = responseObject.getString("status").equals("failed") ? responseObject.getString("data") : "Aset berhasil diantar";
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+                Toast.makeText(getApplicationContext(),msg, Toast.LENGTH_LONG).show();
                 finish();
             }else{
-                Toast.makeText(getApplicationContext(),"Gagal meyimpan data", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),msg, Toast.LENGTH_LONG).show();
             }
 
         }
@@ -480,6 +557,7 @@ public class TransDetailActivity extends AppCompatActivity {
         }
     }
 
+    //Action to Completed Trans
     private class postTransTakeTask extends AsyncTask<String, String, String> {
         private final String mTransId;
         private String errorMsg, responseTrans;

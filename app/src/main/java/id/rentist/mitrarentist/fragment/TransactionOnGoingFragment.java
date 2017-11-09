@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -23,8 +24,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.github.ybq.android.spinkit.SpinKitView;
-import com.github.ybq.android.spinkit.style.FadingCircle;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -54,10 +53,10 @@ public class TransactionOnGoingFragment extends Fragment {
     private ProgressDialog pDialog;
     private SessionManager sm;
     private View view;
-    private SpinKitView pBar;
 
     private LinearLayout noTransImage;
     private TextView noTransText;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     private static final String TAG = "TransactionActivity";
     private static final String TOKEN = "secretissecret";
@@ -74,18 +73,25 @@ public class TransactionOnGoingFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_history_on_transaksi, container, false);
         mTrans = new ArrayList<ItemTransaksiModul>();
         sm = new SessionManager(getActivity());
-
-        pBar = (SpinKitView) view.findViewById(R.id.progressBar);
-        FadingCircle fadingCircle = new FadingCircle();
-        pBar.setIndeterminateDrawable(fadingCircle);
+        pDialog = new ProgressDialog(getActivity());
+        pDialog.setCancelable(false);
 
         noTransImage = (LinearLayout) view.findViewById(R.id.no_trans);
         noTransText = (TextView) view.findViewById(R.id.no_trans_text);
 
         // action retrieve data aset
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
-//        getHistoryOngList(tenant);
+        pDialog.setMessage("loading data...");
+        showProgress(true);
         getTransaction();
+
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getTransaction();
+            }
+        });
 
         return view;
     }
@@ -103,6 +109,13 @@ public class TransactionOnGoingFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        showProgress(true);
+        getTransaction();
+    }
+
     private void getTransaction() {
         RequestQueue queue = Volley.newRequestQueue(getActivity());
         StringRequest strReq = new StringRequest(Request.Method.GET, AppConfig.URL_TRANSACTION + tenant, new
@@ -118,6 +131,8 @@ public class TransactionOnGoingFragment extends Fragment {
                 Log.e(TAG, "Get Driver Fetch Error : " +  error.toString());
                 Toast.makeText(getActivity(), "Connection error, try again.",
                         Toast.LENGTH_LONG).show();
+                mSwipeRefreshLayout.setRefreshing(false);
+                showProgress(false);
             }
         }) {
             @Override
@@ -128,24 +143,28 @@ public class TransactionOnGoingFragment extends Fragment {
                 return params;
             }
         };
-//        pBar.setVisibility(View.GONE);
         queue.add(strReq);
     }
 
     private void transactionData(String responseJson) {
-        String aIdTrans, aCodeTrans, aMember,aDriverName = "", aStartDate, aEndDate, aNominal,
-                aIdMember, aAsetName, aThumb, errorMsg;
+        showProgress(false);
+        mSwipeRefreshLayout.setRefreshing(false);
+
+        String aIdTrans, aCodeTrans, aMember, aStartDate, aEndDate, aNominal, aAsetName, aThumb, aDriverName = "", errorMsg,
+                aIdMember;
         Boolean aDriverIncluded;
 
         try {
             JSONObject jsonObject = new JSONObject(responseJson);
             JSONArray jsonArray = new JSONArray(String.valueOf(jsonObject.getJSONArray("ongoing")));
             if(jsonArray.length() > 0){
+                noTransImage.setVisibility(View.GONE);
+                mTrans.clear();
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject transObject = jsonArray.getJSONObject(i);
                     ItemTransaksiModul itemTrans = new ItemTransaksiModul();
 
-                    Log.e(TAG, "Accepted Data : " + String.valueOf(transObject));
+                    Log.e(TAG, "Ongoing Data : " + String.valueOf(transObject));
 
                     JSONObject idTrans = transObject.getJSONObject("id_transaction");
                     JSONArray items = transObject.getJSONArray("item");
@@ -164,10 +183,12 @@ public class TransactionOnGoingFragment extends Fragment {
 
                     aIdTrans = transObject.getString("id");
                     aAsetName = "- Item Kosong -";
+                    String aAsetThumb = "null";
 
                     if(items.length() > 0){
                         if (items.length() == 1){
                             item = items.getJSONObject(0);
+                            aAsetThumb = item.getString("main_image");
                             if (item.getString("id_asset_category").equals("3")){
                                 aAsetName = item.getString("type") + " " + item.getString("subtype");
                             }else {
@@ -183,6 +204,16 @@ public class TransactionOnGoingFragment extends Fragment {
                         }
                     }
 
+                    JSONArray additional = transObject.getJSONArray("additional");
+                    ArrayList<String> idAdditional = new ArrayList<String>();
+                    if(additional.length() > 0) {
+                        for (int j = 0; j < additional.length(); j++) {
+                            JSONObject add = additional.getJSONObject(j);
+                            JSONObject add_feature = add.getJSONObject("id_feature_item");
+                            idAdditional.add(add_feature.getString("id_additional_feature"));
+                        }
+                    }
+
                     aCodeTrans = idTrans.getString("transaction_code");
                     aNominal = transObject.getString("nominal");
                     aIdMember = memberObject.getString("id");
@@ -193,6 +224,7 @@ public class TransactionOnGoingFragment extends Fragment {
 
                     itemTrans.setIdTrans(aIdTrans);
                     itemTrans.setCodeTrans(aCodeTrans);
+                    itemTrans.setAsetThumb(aAsetThumb);
                     itemTrans.setAsetName(aAsetName);
                     itemTrans.setMember(aMember);
                     itemTrans.setIdMember(aIdMember);
@@ -201,6 +233,12 @@ public class TransactionOnGoingFragment extends Fragment {
                     itemTrans.setStartDate(aStartDate);
                     itemTrans.setEndDate(aEndDate);
                     itemTrans.setDriverName(aDriverName);
+                    itemTrans.setPickTime(transObject.getString("pickup_time"));
+                    itemTrans.setLat(transObject.getString("latitude"));
+                    itemTrans.setLong(transObject.getString("longitude"));
+                    itemTrans.setAddress(transObject.getString("address"));
+                    itemTrans.setNote(transObject.getString("notes"));
+                    itemTrans.setIdAddtional(idAdditional.toString());
 
                     mTrans.add(itemTrans);
                 }
@@ -215,12 +253,15 @@ public class TransactionOnGoingFragment extends Fragment {
                 errorMsg = "Tidak Ada Transaksi Berlangsung";
                 noTransImage.setVisibility(View.VISIBLE);
                 noTransText.setText(errorMsg);
-//                      Toast.makeText(getActivity(),errorMsg, Toast.LENGTH_LONG).show();
+
             }
 
             Log.e(TAG, "TAB Transaction Data : " + jsonObject);
+            showProgress(false);
+            mSwipeRefreshLayout.setRefreshing(false);
 
         } catch (JSONException e) {
+            showProgress(false);
             e.printStackTrace();
         }
 

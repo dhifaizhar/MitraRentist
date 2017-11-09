@@ -98,11 +98,19 @@ public class TransactionCancelAdapter extends RecyclerView.Adapter<TransactionCa
                 iDetTrans.putExtra("id_trans", trx.getIdTrans());
                 iDetTrans.putExtra("code_trans", viewHolder.transCode.getText());
                 iDetTrans.putExtra("price", trx.getPrice());
+                iDetTrans.putExtra("aset_thumb", trx.getAsetThumb());
                 iDetTrans.putExtra("aset", trx.getAsetName());
                 iDetTrans.putExtra("id_member", trx.getIdMember());
                 iDetTrans.putExtra("member", viewHolder.member.getText());
                 iDetTrans.putExtra("startDate", trx.getStartDate());
                 iDetTrans.putExtra("endDate", trx.getEndDate());
+                iDetTrans.putExtra("driver_name", trx.getDriverName());
+                iDetTrans.putExtra("pickup_time", trx.getPickTime());
+                iDetTrans.putExtra("latitude", trx.getLat());
+                iDetTrans.putExtra("longitude", trx.getLong());
+                iDetTrans.putExtra("address", trx.getAddress());
+                iDetTrans.putExtra("note", trx.getNote());
+                iDetTrans.putExtra("id_additional", trx.getIdAddtional());
 
                 iDetTrans.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(iDetTrans);
