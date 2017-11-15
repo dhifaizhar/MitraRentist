@@ -42,6 +42,7 @@ import id.rentist.mitrarentist.adapter.TransaksiAdapter;
 import id.rentist.mitrarentist.modul.ItemTransaksiModul;
 import id.rentist.mitrarentist.tools.AppConfig;
 import id.rentist.mitrarentist.tools.SessionManager;
+import id.rentist.mitrarentist.tools.Tools;
 
 public class TransactionaNewActivity extends AppCompatActivity {
     RecyclerView mRecyclerView;
@@ -222,8 +223,8 @@ public class TransactionaNewActivity extends AppCompatActivity {
                             itemTrans.setMember(aMember);
                             itemTrans.setPrice(aNominal);
                             itemTrans.setThumbnail(aThumb);
-                            itemTrans.setStartDate(aStartDate);
-                            itemTrans.setEndDate(aEndDate);
+                            itemTrans.setStartDate(Tools.dateFormat(aStartDate));
+                            itemTrans.setEndDate(Tools.dateFormat(aEndDate));
                             itemTrans.setPickTime(transObject.getString("pickup_time"));
                             itemTrans.setLat(transObject.getString("latitude"));
                             itemTrans.setLong(transObject.getString("longitude"));

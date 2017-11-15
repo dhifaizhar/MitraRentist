@@ -11,6 +11,7 @@ import java.util.List;
 
 import id.rentist.mitrarentist.R;
 import id.rentist.mitrarentist.modul.PriceModul;
+import id.rentist.mitrarentist.tools.Tools;
 
 /**
  * Created by Nugroho Tri Pambud on 10/11/2017.
@@ -40,7 +41,8 @@ public class PriceAdapter extends RecyclerView.Adapter<PriceAdapter.ViewHolder> 
             viewHolder.period.setVisibility(View.GONE);
             viewHolder.period_text.setVisibility(View.GONE);
         } else {
-            viewHolder.period.setText(price.getStartDate().substring(0,10) + " sd " + price.getEndDate().substring(0,10));
+            viewHolder.period.setText(Tools.dateFormat(price.getStartDate().substring(0,10).replace("-","/"))
+                    + " sd " + Tools.dateFormat(price.getEndDate().substring(0,10).replace("-","/")));
         }
 
         viewHolder.range_name.setText(price.getRangeName());

@@ -529,7 +529,7 @@ public class TransDetailActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String response) {
             mTransactionTask = null;
-            String msg = "Gagal melakukan aksi";
+            String msg = "";
             showProgress(false);
 
             if(response != null){
@@ -540,13 +540,14 @@ public class TransDetailActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-
-                Toast.makeText(getApplicationContext(),msg, Toast.LENGTH_LONG).show();
                 finish();
             }else{
-                Toast.makeText(getApplicationContext(),msg, Toast.LENGTH_LONG).show();
+                msg = "gagal melakukan aksi";
             }
+
+            Toast.makeText(getApplicationContext(),msg, Toast.LENGTH_LONG).show();
+
+
 
         }
 

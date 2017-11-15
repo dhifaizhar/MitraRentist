@@ -30,6 +30,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.squareup.picasso.Picasso;
+import com.synnapps.carouselview.CarouselView;
+import com.synnapps.carouselview.ImageListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -65,23 +67,26 @@ public class DetailAsetActivity extends AppCompatActivity {
     RecyclerView.LayoutManager mLayoutManager;
 
     Integer aId, position;
-    String changeStatus = "active",aAsetName, aName, aType, aSubType,  aStatus, aCat, aSubCat, aVerified,
-            aInsurance, aMinRentDay, aDeliveryMethod, category, category_url, aDesc, aMainImage,
+    String changeStatus = "active",aAsetName, aName, aType, aSubType,  aStatus, aCat, aSubCat, aVerified, aLongitude, aLatitude,
+            aInsurance, aMinRentDay, aDeliveryMethod, category, category_url, aDesc, aMainImage, aWeight,
+            aAssetValue,
             //Car&Motor
             aPlat, aYear, aNoStnk , aColor, aTransmission, aEngineCap, aFuel, aSeat, aAirBag, aAirCond, aDriver,
             //Yacht
             aModel, aLength, aBeam, aGrossTon, aDraft, aCruisSpeed, aTopSpeed, aBuilder, aNaval, aIntDesign, aExtDesign,
             aGuest, aCabin, aCrew;
 
-    TextView aset_name, mark, status, subcat, insurance, min_rent_day, delivery_method, desc,
+    TextView aset_name, mark, status, subcat, insurance, min_rent_day, delivery_method, desc, address, member_badge,
             plat, year,  color, transmission, engine_cap, fuel, seats, air_bag, air_cond, driver,
             model, length, beam, gross_ton, draft, cruise_speed, top_speed, builder, naval, int_design, ext_design,
-            guest, cabin, crew;
+            guest, cabin, crew, asset_value, weight, dimension;
 
     String aPrice;// = new ArrayList<>();
 
-    LinearLayout cCarMotor, cCarOnly, cYachtInfo, cYachtFeature, rDesc;
+    LinearLayout cCarMotor, cCarOnly, cYachtInfo, cYachtFeature, cSmallAssetFeature, rDesc;
     ImageView imgThumbnail, no_stnk;
+    CarouselView aAssetImages;
+    String[] imagesArray = {AppConfig.URL_IMAGE_ASSETS + "default.png"};
 
     private static final String TAG = "DetailAssetActivity";
     private static final String TOKEN = "secretissecret";
@@ -111,15 +116,22 @@ public class DetailAsetActivity extends AppCompatActivity {
         category = detIntent.getStringExtra("id_asset_category");
 
         //initialize view
+        aAssetImages = (CarouselView) findViewById(R.id.carouselView);
+
         imgThumbnail = (ImageView)findViewById(R.id.as_thumb_aset);
         aset_name = (TextView) findViewById(R.id.as_aset_name);
         mark = (TextView) findViewById(R.id.as_mark_det);
         subcat = (TextView) findViewById(R.id.as_subcat_det);
         status = (TextView) findViewById(R.id.as_status_det);
+        address = (TextView) findViewById(R.id.as_address);
         insurance = (TextView) findViewById(R.id.as_insurance);
         min_rent_day = (TextView) findViewById(R.id.as_min_rent_day);
         delivery_method = (TextView) findViewById(R.id.as_delivery_status);
         desc = (TextView) findViewById(R.id.as_desc);
+        member_badge = (TextView) findViewById(R.id.as_member_badge);
+        asset_value = (TextView) findViewById(R.id.as_asset_value);
+        weight = (TextView) findViewById(R.id.as_weight);
+        dimension = (TextView) findViewById(R.id.as_dimension);
 
         //Row Container
         rDesc= (LinearLayout) findViewById(R.id.row_desc);
@@ -127,6 +139,7 @@ public class DetailAsetActivity extends AppCompatActivity {
         cCarOnly = (LinearLayout) findViewById(R.id.con_car_only);
         cYachtInfo = (LinearLayout) findViewById(R.id.con_yacht_info);
         cYachtFeature = (LinearLayout) findViewById(R.id.con_yacht_feature);
+        cSmallAssetFeature = (LinearLayout) findViewById(R.id.con_feature_small_aset);
 
         //Car & Motor
         plat = (TextView) findViewById(R.id.as_plat_det);
@@ -161,13 +174,277 @@ public class DetailAsetActivity extends AppCompatActivity {
 
         // set content control value
         aId = detIntent.getIntExtra("id_asset", 0);
-        getAssetDataList();
+//        getAssetDataList();
+        getAssetDetail();
+
+        aAssetImages.setPageCount(imagesArray.length);
+        aAssetImages.setImageListener(imageUrlListener);
         status.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 changeStatAset();
             }
         });
+    }
+
+    private void getAssetDetail() {
+        pDialog.setMessage("loading data...");
+        showProgress(true);
+
+        String URL = "";
+        switch (category) {
+            case "1": URL = AppConfig.URL_MOBIL; break;
+            case "2": URL = AppConfig.URL_MOTOR; break;
+            case "3": URL = AppConfig.URL_YACHT; break;
+            case "4": URL = AppConfig.URL_MEDIC; break;
+            case "5": URL = AppConfig.URL_PHOTOGRAPHY; break;
+            case "6": URL = AppConfig.URL_TOYS; break;
+            case "7": URL = AppConfig.URL_ADVENTURE; break;
+            case "8": URL = AppConfig.URL_MATERNITY; break;
+            case "9": URL = AppConfig.URL_ELECTRONIC; break;
+            case "10": URL = AppConfig.URL_BICYCLE; break;
+            case "11": URL = AppConfig.URL_OFFICE; break;
+            case "12": URL = AppConfig.URL_FASHION; break;
+        }
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL + aId, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                responseParse(response);
+            }
+
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "Get Aset List Fetch Error : " +  error.toString());
+                Toast.makeText(getApplicationContext(), "Connection error, try again.",
+                        Toast.LENGTH_LONG).show();
+                showProgress(false);
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("token", TOKEN);
+
+                return params;
+            }
+        };
+        requestQueue.add(stringRequest);
+    }
+
+    private void responseParse(String response) {
+        mDetailAssetTask = null;
+        showProgress(false);
+        Integer dataLength, aId;
+        String errorMsg;
+
+        if (response != null) {
+            try {
+                JSONArray jsonArray = new JSONArray(response);
+                Log.e(TAG, "Asset Detail : " + jsonArray);
+                dataLength = jsonArray.length();
+                if (dataLength > 0) {
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        errorMsg = "-";
+                        JSONObject jsonobject = jsonArray.getJSONObject(i);
+                        aCat = jsonobject.getString("id_asset_category");
+                        aAsetName = jsonobject.getString("name");
+                        aType = jsonobject.getString("type");
+                        aStatus = jsonobject.getString("status");
+                        aVerified = jsonobject.getString("verified");
+                        aSubCat = jsonobject.getString("subcategory");
+                        aInsurance = jsonobject.getString("insurance");
+                        aMinRentDay = jsonobject.getString("min_rent_day");
+                        aDeliveryMethod = jsonobject.getString("delivery_method");
+                        aLatitude = jsonobject.getString("latitude");
+                        aLongitude = jsonobject.getString("longitude");
+                        aMainImage = jsonobject.getString("main_image");
+
+                        if (aCat.equals("3")) {
+                            aName = jsonobject.getString("sub_type");
+                        } else {
+                            aName = jsonobject.getString("brand");
+                        }
+
+                        //Price
+                        JSONArray priceArray = jsonobject.getJSONArray("price");
+                        aPrice = priceArray.toString();
+                        Log.e(TAG, "Price : " + priceArray);
+
+                        ArrayList<PriceModul> ePrice = new ArrayList<PriceModul>();
+
+                        if (priceArray.length() > 0) {
+                            mPrice.clear();
+                            for (int j = 0; j < priceArray.length(); j++) {
+                                JSONObject priceObject = priceArray.getJSONObject(j);
+
+                                PriceModul priceModul = new PriceModul();
+                                priceModul.setRangeName(priceObject.getString("range_name"));
+                                priceModul.setStartDate(priceObject.getString("start_date"));
+                                priceModul.setEndDate(priceObject.getString("end_date"));
+                                priceModul.setPrice(PricingTools.PriceStringFormat(priceObject.getString("price")));
+
+                                mPrice.add(priceModul);
+                            }
+                        }
+
+                        mRecyclerView = (RecyclerView) findViewById(R.id.as_price_recyclerView);
+                        mLayoutManager = new LinearLayoutManager(getApplicationContext());
+                        mAdapter = new PriceAdapter(getApplicationContext(), mPrice);
+                        mRecyclerView.setLayoutManager(mLayoutManager);
+                        mRecyclerView.setAdapter(mAdapter);
+
+                        JSONArray images = jsonobject.getJSONArray("images");
+                        imagesArray = new String[images.length()];
+                        for (int k = 0; k < images.length(); k++) {
+                            imagesArray[k] = AppConfig.URL_IMAGE_ASSETS + images.getString(k);
+                        }
+                        aAssetImages.setPageCount(images.length());
+                        aAssetImages.setImageListener(imageUrlListener);
+
+                        if (aVerified.equals("true")) {
+                            ImageView verifIco = (ImageView) findViewById(R.id.as_verif);
+                            verifIco.setVisibility(View.VISIBLE);
+                        }
+
+                        aset_name.setText(aAsetName);
+                        subcat.setText(aSubCat);
+                        status.setText(aStatus);
+
+                        if (aDeliveryMethod.equals("both")) {
+                            delivery_method.setText("Dikirim, Diambil");
+                        } else {
+                            if (aDeliveryMethod.equals("pickup"))
+                                delivery_method.setText("Diambil");
+                            else delivery_method.setText("Dikirim");
+                        }
+
+                        if (aInsurance.equals("true")) insurance.setText("Tersedia");
+                        else insurance.setText("Tidak Tersedia");
+
+                        address.setText(jsonobject.getString("address"));
+
+                        member_badge.setText(jsonobject.getString("member_badge"));
+                        if (member_badge.getText().equals(getResources().getString(R.string.member_badge_verified))) {
+                            member_badge.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                        } else if (member_badge.getText().equals(getResources().getString(R.string.member_badge_smart_con))) {
+                            member_badge.setBackgroundColor(getResources().getColor(R.color.colorGreen));
+                        }
+
+                        String minHari = aMinRentDay + " Hari";
+                        min_rent_day.setText(minHari);
+
+                        switch (aCat) {
+                            case "1":
+                                cCarOnly.setVisibility(View.VISIBLE);
+                                aAirBag = jsonobject.getString("air_bag");
+                                aAirCond = jsonobject.getString("air_conditioner");
+                                aDriver = jsonobject.getString("driver_included");
+                                aSeat = jsonobject.getString("seat");
+
+                                seats.setText(aSeat);
+                                air_bag.setText(aAirBag.equals("true") ? "Tersedia" : "Tidak Tersedia");
+                                air_cond.setText(aAirCond.equals("true") ? "Tersedia" : "Tidak Tersedia");
+
+                                if (aDriver.equals("both")) {
+                                    driver.setText("Tersedia, Tidak Tersedia");
+                                } else {
+                                    driver.setText(aDriver.equals("true") ? "Tersedia" : "Tidak Tersedia");
+                                }
+                            case "2":
+                                aPlat = jsonobject.getString("license_plat");
+                                aYear = jsonobject.getString("year");
+                                aNoStnk = jsonobject.getString("no_stnk");
+                                aColor = jsonobject.getString("colour");
+                                aTransmission = jsonobject.getString("transmission");
+                                aEngineCap = jsonobject.getString("engine_capacity");
+                                aFuel = jsonobject.getString("fuel");
+
+                                plat.setVisibility(View.VISIBLE);
+                                year.setVisibility(View.VISIBLE);
+                                rDesc.setVisibility(View.GONE);
+                                cCarMotor.setVisibility(View.VISIBLE);
+
+                                String stnkUrl = "http://assets.rentist.id/documents/" + aNoStnk;
+                                Picasso.with(getApplicationContext()).load(stnkUrl).into(no_stnk);
+
+                                mark.setText(aName + " " + aType);
+                                plat.setText(aPlat);
+                                year.setText(aYear);
+                                color.setText(aColor);
+                                transmission.setText(aTransmission);
+                                engine_cap.setText(aEngineCap + "cc");
+                                fuel.setText(aFuel);
+                                break;
+                            case "3":
+                                cYachtInfo.setVisibility(View.VISIBLE);
+                                cYachtFeature.setVisibility(View.VISIBLE);
+                                desc.setVisibility(View.GONE);
+
+                                aSubType = jsonobject.getString("sub_type");
+                                aModel = jsonobject.getString("model");
+                                aLength = jsonobject.getString("length");
+                                aBeam = jsonobject.getString("beam");
+                                aGrossTon = jsonobject.getString("gross_tonnage");
+                                aDraft = jsonobject.getString("draft");
+                                aCruisSpeed = jsonobject.getString("cruising_speed");
+                                aTopSpeed = jsonobject.getString("top_speed");
+                                aBuilder = jsonobject.getString("builder");
+                                aNaval = jsonobject.getString("naval_architect");
+                                aIntDesign = jsonobject.getString("interior_designer");
+                                aExtDesign = jsonobject.getString("exterior_designer");
+                                aGuest = jsonobject.getString("guest");
+                                aCrew = jsonobject.getString("crew");
+                                aCabin = jsonobject.getString("cabin");
+
+                                model.setText(aModel);
+                                length.setText(aLength);
+                                beam.setText(aBeam);
+                                gross_ton.setText(aGrossTon);
+                                draft.setText(aDraft);
+                                cruise_speed.setText(aCruisSpeed);
+                                top_speed.setText(aTopSpeed);
+                                builder.setText(aBuilder);
+                                naval.setText(aNaval);
+                                int_design.setText(aIntDesign);
+                                ext_design.setText(aExtDesign);
+                                guest.setText(aGuest);
+                                crew.setText(aCrew);
+                                cabin.setText(aCabin);
+                                mark.setText(aType + " " + aSubType);
+                                break;
+                            default:
+                                if(!aCat.equals("10")){
+                                    cSmallAssetFeature.setVisibility(View.VISIBLE);
+                                    aAssetValue = jsonobject.getString("asset_value").equals("null") ? "0" : jsonobject.getString("asset_value");
+                                    aWeight = jsonobject.getString("weight").equals("null") ? "0" : jsonobject.getString("weight");
+
+                                    asset_value.setText(PricingTools.PriceStringFormat(aAssetValue));
+                                    weight.setText(aWeight + " Kg");
+                                    dimension.setText(jsonobject.getString("dimension").equals("null") ? "-" : jsonobject.getString("dimension") + " m");
+                                }
+                                aDesc = jsonobject.getString("description");
+
+                                desc.setText(aDesc);
+                                mark.setText(aName + " " + aType);
+
+                                break;
+                        }
+
+                    }
+
+                } else {
+                    errorMsg = "Gagal Memuat Data";
+                    Toast.makeText(getApplicationContext(), errorMsg, Toast.LENGTH_LONG).show();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                errorMsg = "Gagal Memuat Data";
+                Toast.makeText(getApplicationContext(), errorMsg, Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
     public void getAssetDataList() {
@@ -238,7 +515,6 @@ public class DetailAsetActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String aset){
             mDetailAssetTask = null;
-//            pBar.setVisibility(View.GONE);
             showProgress(false);
             Integer dataLength, aId;
 
@@ -260,7 +536,10 @@ public class DetailAsetActivity extends AppCompatActivity {
                             aInsurance = jsonobject.getString("insurance");
                             aMinRentDay = jsonobject.getString("min_rent_day");
                             aDeliveryMethod = jsonobject.getString("delivery_method");
+                            aLatitude = jsonobject.getString("latitude");
+                            aLongitude = jsonobject.getString("longitude");
                             aMainImage = jsonobject.getString("main_image");
+
                             if(aCat.equals("3")){ aName = jsonobject.getString("sub_type");}
                             else{aName = jsonobject.getString("brand");}
 
@@ -292,27 +571,42 @@ public class DetailAsetActivity extends AppCompatActivity {
                             mRecyclerView.setLayoutManager(mLayoutManager);
                             mRecyclerView.setAdapter(mAdapter);
 
-                            String imageUrl = AppConfig.URL_IMAGE_ASSETS + aMainImage;
-                            Picasso.with(getApplicationContext()).load(imageUrl).into(imgThumbnail);
+                            JSONArray images = jsonobject.getJSONArray("images");
+                            imagesArray = new String[images.length()];
+                            for (int k = 0; k < images.length(); k++) {
+                                imagesArray[k] = AppConfig.URL_IMAGE_ASSETS + images.getString(k);
+                            }
+
+                            aAssetImages.setPageCount(images.length());
+                            aAssetImages.setImageListener(imageUrlListener);
 
                             if (aVerified.equals("true")){
                                 ImageView verifIco = (ImageView) findViewById(R.id.as_verif);
                                 verifIco.setVisibility(View.VISIBLE);
                             }
+
                             aset_name.setText(aAsetName);
                             subcat.setText(aSubCat);
                             status.setText(aStatus);
+
                             if (aDeliveryMethod.equals("both")){
                                 delivery_method.setText("Dikirim, Diambil");
                             }else{
-                                if (aDeliveryMethod.equals("pickup")){
-                                    delivery_method.setText("Diambil");
-                                } else {
-                                    delivery_method.setText("Dikirim");
-                                }}
+                                if (aDeliveryMethod.equals("pickup")) delivery_method.setText("Diambil");
+                                else delivery_method.setText("Dikirim");
+                            }
 
-                            if (aInsurance.equals("true")){insurance.setText("Tersedia");
-                            } else {insurance.setText("Tidak Tersedia");}
+                            if (aInsurance.equals("true"))insurance.setText("Tersedia");
+                            else insurance.setText("Tidak Tersedia");
+
+                            address.setText(jsonobject.getString("address"));
+
+                            member_badge.setText(jsonobject.getString("member_badge"));
+                            if(member_badge.getText().equals(getResources().getString(R.string.member_badge_verified))){
+                                member_badge.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                            } else if (member_badge.getText().equals(getResources().getString(R.string.member_badge_smart_con))){
+                                member_badge.setBackgroundColor(getResources().getColor(R.color.colorGreen));
+                            }
 
                             String minHari = aMinRentDay + " Hari";
                             min_rent_day.setText(minHari);
@@ -417,6 +711,7 @@ public class DetailAsetActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),errorMsg, Toast.LENGTH_LONG).show();
                 }
             }
+
         }
 
         @Override
@@ -426,6 +721,13 @@ public class DetailAsetActivity extends AppCompatActivity {
             showProgress(false);
         }
     }
+
+    ImageListener imageUrlListener = new ImageListener() {
+        @Override
+        public void setImageForPosition(int position, ImageView imageView) {
+            Picasso.with(getApplicationContext()).load(imagesArray[position]).into(imageView);
+        }
+    };
 
     private void changeStatAset() {
         showAlert = new AlertDialog.Builder(this);
@@ -695,6 +997,11 @@ public class DetailAsetActivity extends AppCompatActivity {
                     iAsetEdit.putExtra("cat", aCat);
                     iAsetEdit.putExtra("subcat", aSubCat);
                     iAsetEdit.putExtra("price", aPrice );
+                    iAsetEdit.putExtra("address", address.getText().toString());
+                    iAsetEdit.putExtra("member_badge", member_badge.getText().toString());
+                    iAsetEdit.putExtra("longitude", aLongitude);
+                    iAsetEdit.putExtra("latitude", aLatitude);
+                    iAsetEdit.putExtra("images", imagesArray);
                     startActivity(iAsetEdit);
                     break;
                 case "2":
@@ -718,6 +1025,11 @@ public class DetailAsetActivity extends AppCompatActivity {
                     iAsetEdit.putExtra("delivery_method", aDeliveryMethod);
                     iAsetEdit.putExtra("cat", aCat);
                     iAsetEdit.putExtra("subcat", aSubCat);
+                    iAsetEdit.putExtra("address", address.getText().toString());
+                    iAsetEdit.putExtra("member_badge", member_badge.getText().toString());
+                    iAsetEdit.putExtra("longitude", aLongitude);
+                    iAsetEdit.putExtra("latitude", aLatitude);
+                    iAsetEdit.putExtra("images", imagesArray);
                     startActivity(iAsetEdit);
                     break;
                 case "3":
@@ -747,6 +1059,11 @@ public class DetailAsetActivity extends AppCompatActivity {
                     iAsetEdit.putExtra("assurance", aInsurance);
                     iAsetEdit.putExtra("cat", aCat);
                     iAsetEdit.putExtra("subcat", aSubCat);
+                    iAsetEdit.putExtra("address", address.getText().toString());
+                    iAsetEdit.putExtra("member_badge", member_badge.getText().toString());
+                    iAsetEdit.putExtra("longitude", aLongitude);
+                    iAsetEdit.putExtra("latitude", aLatitude);
+                    iAsetEdit.putExtra("images", imagesArray);
                     startActivity(iAsetEdit);
 
                     break;
@@ -776,6 +1093,17 @@ public class DetailAsetActivity extends AppCompatActivity {
                     iAsetEdit.putExtra("cat", aCat);
                     iAsetEdit.putExtra("subcat", aSubCat);
                     iAsetEdit.putExtra("price", aPrice );
+                    iAsetEdit.putExtra("address", address.getText().toString());
+                    iAsetEdit.putExtra("member_badge", member_badge.getText().toString());
+                    iAsetEdit.putExtra("images", imagesArray);
+                    iAsetEdit.putExtra("longitude", aLongitude);
+                    iAsetEdit.putExtra("latitude", aLatitude);
+                    if(!aCat.equals("10")){
+                        iAsetEdit.putExtra("asset_value", aAssetValue.toString());
+                        iAsetEdit.putExtra("weight", aWeight);
+                        iAsetEdit.putExtra("dimension", dimension.getText().toString());
+                    }
+
                     startActivityForResult(iAsetEdit, 2);
                     break;
             }
@@ -790,8 +1118,10 @@ public class DetailAsetActivity extends AppCompatActivity {
     public void onRestart() {
         super.onRestart();
 
-        getAssetDataList();
+//        getAssetDataList();
+        getAssetDetail();
     }
+
 
 
 }

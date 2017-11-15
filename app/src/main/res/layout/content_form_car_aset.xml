@@ -411,6 +411,34 @@
                         </LinearLayout>
                     </LinearLayout>
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/xmin_padding"
+                        android:orientation="vertical"
+                        android:padding="@dimen/xmin_padding">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Lokasi Aset"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/as_address"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorNearWhite"
+                            android:drawableEnd="@drawable/ic_location_on_black_18dp"
+                            android:editable="false"
+                            android:ems="10"
+                            android:hint="Pilih Lokasi"
+                            android:maxLines="3"
+                            android:padding="@dimen/min_padding"
+                            android:text="" />
+                    </LinearLayout>
+
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
@@ -750,7 +778,6 @@
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
-                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="@dimen/xmin_padding">
@@ -793,89 +820,142 @@
                             android:layout_height="wrap_content"
                             android:text="Kelengkapan Data Penyewa"
                             android:textColor="@color/colorBlack"
-                            android:textSize="12sp" />
+                            android:textSize="12sp"
+                            android:layout_marginBottom="@dimen/xmin_padding"
+                            />
 
-                        <RadioGroup
-                            android:id="@+id/rent_req_group"
+                        <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:checkedButton="@+id/r_manual"
-                            android:orientation="vertical"
-                            android:padding="@dimen/xmin_padding">
+                            android:layout_height="wrap_content">
 
-                            <RelativeLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                            <RadioGroup
+                                android:id="@+id/rent_req_group"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checkedButton="@+id/r_manual"
+                                android:orientation="vertical"
+                                >
 
                                 <RadioButton
                                     android:id="@+id/r_basic"
                                     android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="10dp"
+                                    android:layout_height="@dimen/breadcrumb_height"
                                     android:buttonTint="@color/colorPrimary"
-                                    android:checked="true"
+                                    android:checked="true" />
+
+                                <RadioButton
+                                    android:id="@+id/r_verified"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="@dimen/breadcrumb_height"
                                     android:layout_centerVertical="true"
+                                    android:buttonTint="@color/colorPrimary"
                                     />
+
+                                <RadioButton
+                                    android:id="@+id/r_smart_con"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="@dimen/breadcrumb_height"
+                                    android:layout_centerVertical="true"
+                                    android:buttonTint="@color/colorPrimary"
+                                    />
+
+                            </RadioGroup>
+
+                            <RelativeLayout
+                                android:id="@+id/basic_info"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/breadcrumb_height"
+                                android:padding="@dimen/xmin_padding"
+                                android:background="@color/colorPrimarySoft"
+                                android:layout_toEndOf="@id/rent_req_group"
+                                >
 
                                 <TextView
                                     android:id="@+id/basic_text"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Basic"
-                                    android:layout_toEndOf="@+id/r_basic"
-                                    android:textSize="@dimen/under_small_text"
+                                    android:layout_marginBottom="@dimen/small_space"
+                                    android:background="@color/colorBlack54"
                                     android:paddingEnd="@dimen/xmin_padding"
                                     android:paddingStart="@dimen/xmin_padding"
-                                    android:background="@color/colorGrey"
-                                    android:layout_marginBottom="@dimen/small_space"
+                                    android:text="@string/member_badge_basic"
                                     android:textColor="@color/colorWhite"
-                                    />
+                                    android:textSize="@dimen/under_small_text" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="* Informasi dasar penyewa (nama, email dan nomor telepon)"
-                                    android:textSize="@dimen/almost_tiny_text"
-                                    android:layout_below="@+id/basic_text"
                                     android:layout_alignStart="@+id/basic_text"
-                                    />
+                                    android:layout_below="@+id/basic_text"
+                                    android:text="@string/basic_desc"
+                                    android:textSize="@dimen/almost_tiny_text" />
 
                             </RelativeLayout>
 
                             <RelativeLayout
+                                android:id="@+id/verified_info"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-
-                                <RadioButton
-                                    android:id="@+id/r_verified"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_centerVertical="true"
-                                    android:layout_marginEnd="10dp"
-                                    android:buttonTint="@color/colorPrimary"
-                                    android:checked="true" />
+                                android:layout_height="@dimen/breadcrumb_height"
+                                android:padding="@dimen/xmin_padding"
+                                android:background="@color/colorPrimarySoft"
+                                android:layout_toEndOf="@id/rent_req_group"
+                                android:layout_below="@+id/basic_info">
 
                                 <TextView
                                     android:id="@+id/verified_text"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_toEndOf="@+id/r_verified"
-                                    android:background="@color/colorGrey"
-                                    android:text="Basic"
-                                    android:textColor="@color/colorBlack"
-                                    android:textSize="@dimen/small_text" />
+                                    android:layout_marginBottom="@dimen/small_space"
+                                    android:background="@color/colorPrimaryDark"
+                                    android:paddingEnd="@dimen/xmin_padding"
+                                    android:paddingStart="@dimen/xmin_padding"
+                                    android:text="@string/member_badge_verified"
+                                    android:textColor="@color/colorWhite"
+                                    android:textSize="@dimen/under_small_text" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_alignStart="@+id/verified_text"
                                     android:layout_below="@+id/verified_text"
-                                    android:text="* Informasi dasar penyewa (nama, email dan nomor telepon)"
+                                    android:text="@string/verified_desc"
                                     android:textSize="@dimen/almost_tiny_text" />
 
                             </RelativeLayout>
 
-                        </RadioGroup>
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/breadcrumb_height"
+                                android:padding="@dimen/xmin_padding"
+                                android:background="@color/colorPrimarySoft"
+                                android:layout_toEndOf="@id/rent_req_group"
+                                android:layout_below="@id/verified_info"
+                                >
+
+                                <TextView
+                                    android:id="@+id/smart_cust_text"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="@dimen/small_space"
+                                    android:background="@color/colorGreen"
+                                    android:paddingEnd="@dimen/xmin_padding"
+                                    android:paddingStart="@dimen/xmin_padding"
+                                    android:text="@string/member_badge_smart_con"
+                                    android:textColor="@color/colorWhite"
+                                    android:textSize="@dimen/under_small_text" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignStart="@+id/smart_cust_text"
+                                    android:layout_below="@+id/smart_cust_text"
+                                    android:text="@string/smart_cust_desc"
+                                    android:textSize="@dimen/almost_tiny_text" />
+                            </RelativeLayout>
+
+
+                        </RelativeLayout>
+
                     </LinearLayout>
 
                 </LinearLayout>
@@ -1726,22 +1806,75 @@
                     android:orientation="vertical"
                     android:padding="@dimen/xmin_padding">
 
-                    <ImageView
-                        android:id="@+id/thumb_aset"
+                    <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="150dp"
-                        android:layout_weight="1"
-                        android:scaleType="fitCenter"
-                        app:srcCompat="@drawable/suv" />
-
-                    <Button
-                        android:id="@+id/btnUploadFoto"
-                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/xmin_padding"
-                        android:layout_weight="1"
-                        android:text="Pilih Foto" />
+                        android:text="Gambar Aset"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="12sp"
+                        android:layout_marginBottom="@dimen/xmin_padding"
+                        />
+
+                    <HorizontalScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/xmin_padding"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/main_image"
+                                android:layout_width="@dimen/thumb_width"
+                                android:layout_height="@dimen/thumb_width"
+                                android:layout_margin="@dimen/small_space"
+                                android:background="@color/colorNearWhite"
+                                app:srcCompat="@drawable/add_picture" />
+
+                            <ImageView
+                                android:id="@+id/second_image"
+                                android:layout_width="@dimen/thumb_width"
+                                android:layout_height="@dimen/thumb_width"
+                                android:layout_margin="@dimen/small_space"
+                                android:background="@color/colorNearWhite"
+                                android:visibility="gone"
+                                android:src="@drawable/add_picture" />
+
+                            <ImageView
+                                android:id="@+id/third_image"
+                                android:layout_width="@dimen/thumb_width"
+                                android:layout_height="@dimen/thumb_width"
+                                android:layout_margin="@dimen/small_space"
+                                android:background="@color/colorNearWhite"
+                                android:visibility="gone"
+                                app:srcCompat="@drawable/add_picture" />
+
+                            <ImageView
+                                android:id="@+id/fourth_image"
+                                android:layout_width="@dimen/thumb_width"
+                                android:layout_height="@dimen/thumb_width"
+                                android:layout_margin="@dimen/small_space"
+                                android:background="@color/colorNearWhite"
+                                android:visibility="gone"
+                                app:srcCompat="@drawable/add_picture" />
+
+                            <ImageView
+                                android:id="@+id/fifth_image"
+                                android:layout_width="@dimen/thumb_width"
+                                android:layout_height="@dimen/thumb_width"
+                                android:layout_margin="@dimen/small_space"
+                                android:background="@color/colorNearWhite"
+                                android:visibility="gone"
+                                app:srcCompat="@drawable/add_picture" />
+
+                        </LinearLayout>
+
+                    </HorizontalScrollView>
+
                 </LinearLayout>
+
             </android.support.v7.widget.CardView>
 
         </LinearLayout>

@@ -15,6 +15,7 @@ import com.github.ybq.android.spinkit.style.FadingCircle;
 
 import id.rentist.mitrarentist.Tab.SlidingTabLayout;
 import id.rentist.mitrarentist.Tab.TransactionTabAdapter;
+import id.rentist.mitrarentist.fragment.TransactionAcceptFragment;
 import id.rentist.mitrarentist.tools.SessionManager;
 
 public class TransactionActivity extends AppCompatActivity {
@@ -54,6 +55,12 @@ public class TransactionActivity extends AppCompatActivity {
         mTabLayout.setupWithViewPager(mViewPager);
 
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
+
+        Bundle bundle = new Bundle();
+        bundle.putString("tes", "data From Activity");
+        // set Fragmentclass Arguments
+        TransactionAcceptFragment fragobj = new TransactionAcceptFragment();
+        fragobj.setArguments(bundle);
     }
 
 

@@ -2,7 +2,6 @@ package id.rentist.mitrarentist;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -15,12 +14,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -39,20 +36,21 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import id.rentist.mitrarentist.modul.PriceModul;
 import id.rentist.mitrarentist.tools.AppConfig;
 import id.rentist.mitrarentist.tools.PricingTools;
 import id.rentist.mitrarentist.tools.SessionManager;
@@ -62,32 +60,35 @@ public class FormCarAsetActivity extends AppCompatActivity {
     private AsyncTask mAddAssetTask = null;
     private ProgressDialog pDialog;
     private SessionManager sm;
-    private Bitmap bitmap;
     Intent iFormAsset;
 
-    ImageView aImg, aImgSTNK;
-    ImageButton btnCamSTNK, btnFileSTNK;
-    TextView aName,  aType, aPlat, aPlatStart, aPlatEnd, aDesc, aMinRentDay;//, aYear;
+    TextView aName,  aType, aPlat, aPlatStart, aPlatEnd, aDesc, aMinRentDay, aAddress;
     Integer idAsset;
-    String aLatitude, aLongitude, aAddress, aRentPackage, tenant, category, encodedImage,
-            isiimage = "", ext, imgString, imgStringSTNK = "", aDriverStatus, aDeliveryMethod, priceStatus = "";
+    String aLatitude, aLongitude, aRentPackage, tenant, category, encodedImage, aRentReq,
+            aDriverStatus, aDeliveryMethod, priceStatus = "";
     CheckBox aAc, aAb, aDriver, aNoDriver, aAssurace, aDelivery, aPickup;
-    RadioGroup aTransmisionGroup;
-    RadioButton aTransmisionButton, rManual, rAuto;
-    Button btnImgUpload;
+    RadioGroup aTransmisionGroup, aRentReqGroup;
+    RadioButton aTransmisionButton, aBasic, aVerified, aSmartCon;
     Spinner subcategory, aMerk, aColor, aFuel, aEngCap, aSeat, aYear;
-    static final int DATE_DIALOG_ID = 1;
-    private int mYear;
-    private int mMonth;
-    private int mDay;
-    DatePickerDialog.OnDateSetListener mDateSetListner;
-    private List<PriceModul> mPrice;
-    private int PICK_IMAGE_REQUEST = 1;
-    private int PICK_IMAGE_STNK_REQUEST = 2;
-    private static final int CAMERA_REQUEST = 1888;
 
+    private int PICK_LOCATION_REQUEST = 10;
     private static final String TAG = "FormAssetActivity";
     private static final String TOKEN = "secretissecret";
+
+    //Image Initial
+    String[] imagesArray = {AppConfig.URL_IMAGE_ASSETS + "default.png"};
+    int img = 0;
+    ImageView aImgSTNK, aMainImage, aSecondImage, aThirdImage, aFourthImage, aFifthImage;
+    ImageButton btnCamSTNK, btnFileSTNK;
+    String isiimage, imgStringMain = "", imgStringSecond = "", imgStringThird = "", imgStringFourth = "", imgStringFifth = "",
+            imgStringSTNK = "";
+    private int PICK_IMAGE_REQUEST = 1;
+    private int PICK_IMAGE_SECOND_REQUEST = 2;
+    private int PICK_IMAGE_THIRD_REQUEST = 3;
+    private int PICK_IMAGE_FOURTH_REQUEST = 4;
+    private int PICK_IMAGE_FIFTH_REQUEST = 5;
+    private int PICK_IMAGE_STNK_REQUEST = 6;
+    private int CAMERA_REQUEST = 7;
 
     // Price Initial
     ArrayList<String> pricingArray = new ArrayList<String>();
@@ -100,10 +101,10 @@ public class FormCarAsetActivity extends AppCompatActivity {
             aDispText, aDispText2, aDispText3, aDispText4, aDispText5;
     Spinner aRangName, aRangName2, aRangName3, aRangName4;
     LinearLayout conAdvancePrice, conAdvancePrice2, conAdvancePrice3, conAdvancePrice4;
-    private int PICK_DATE_REQUEST = 3;
-    private int PICK_DATE_REQUEST2 = 4;
-    private int PICK_DATE_REQUEST3 = 5;
-    private int PICK_DATE_REQUEST4 = 6;
+    private int PICK_DATE_REQUEST = 11;
+    private int PICK_DATE_REQUEST2 = 12;
+    private int PICK_DATE_REQUEST3 = 13;
+    private int PICK_DATE_REQUEST4 = 14;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,12 +145,21 @@ public class FormCarAsetActivity extends AppCompatActivity {
         aDelivery = (CheckBox) findViewById(R.id.as_ck_delivery);
         aPickup = (CheckBox) findViewById(R.id.as_ck_pickup);
         aAssurace = (CheckBox) findViewById(R.id.as_ck_assurance);
-        aImg = (ImageView) findViewById(R.id.thumb_aset);
-        aImgSTNK = (ImageView) findViewById(R.id.stnk_image);
         aMinRentDay = (TextView) findViewById(R.id.as_min_rent_day);
         aSeat = (Spinner) findViewById(R.id.as_seat_car);
+        aAddress = (TextView) findViewById(R.id.as_address);
+        aRentReqGroup = (RadioGroup) findViewById(R.id.rent_req_group);
+        aBasic = (RadioButton) findViewById(R.id.r_basic);
+        aVerified = (RadioButton) findViewById(R.id.r_verified);
+        aSmartCon = (RadioButton) findViewById(R.id.r_smart_con);
 
-        btnImgUpload = (Button) findViewById(R.id.btnUploadFoto);
+        aImgSTNK = (ImageView) findViewById(R.id.stnk_image);
+        aMainImage = (ImageView) findViewById(R.id.main_image);
+        aSecondImage = (ImageView) findViewById(R.id.second_image);
+        aThirdImage = (ImageView) findViewById(R.id.third_image);
+        aFourthImage = (ImageView) findViewById(R.id.fourth_image);
+        aFifthImage = (ImageView) findViewById(R.id.fifth_image);
+
         btnFileSTNK = (ImageButton) findViewById(R.id.btn_photo);
         btnCamSTNK = (ImageButton) findViewById(R.id.btn_camera);
         btnCamSTNK.setOnClickListener(new View.OnClickListener() {
@@ -160,10 +170,51 @@ public class FormCarAsetActivity extends AppCompatActivity {
             }
         });
 
-        btnImgUpload.setOnClickListener(new View.OnClickListener() {
+        //Get Location
+        aAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showFileChooser("asset");
+                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+                Intent intent;
+                try {
+                    intent = builder.build(FormCarAsetActivity.this);
+                    startActivityForResult(intent, PICK_LOCATION_REQUEST);
+                } catch (GooglePlayServicesRepairableException e) {
+                    e.printStackTrace();
+                } catch (GooglePlayServicesNotAvailableException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        aMainImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showFileChooser("main");
+            }
+        });
+        aSecondImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showFileChooser("second");
+            }
+        });
+        aThirdImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showFileChooser("third");
+            }
+        });
+        aFourthImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showFileChooser("fourth");
+            }
+        });
+        aFifthImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showFileChooser("fifth");
             }
         });
 
@@ -208,9 +259,7 @@ public class FormCarAsetActivity extends AppCompatActivity {
         aDispText4 = (TextView) findViewById(R.id.disptext4);
         aDispText5 = (TextView) findViewById(R.id.disptext5);
 
-        Log.e(TAG, sm.getPreferences("fee_car") );
         fee = Integer.parseInt(sm.getPreferences("fee_car"));
-
         aFeeMsg = "Harga yang akan anda terima (-" + fee + "%):";
         aDispText.setText(aFeeMsg);
         aDispText2.setText(aFeeMsg);
@@ -418,148 +467,154 @@ public class FormCarAsetActivity extends AppCompatActivity {
 
         //UPDATE
         if(iFormAsset.getStringExtra("action").equals("update")){
-            btnCamSTNK.setVisibility(View.GONE);
-            btnFileSTNK.setVisibility(View.GONE);
+           getDataUpdate();
+        }
+    }
 
-            aName.setText(iFormAsset.getStringExtra("name"));
-            aType.setText(iFormAsset.getStringExtra("type"));
-            aMinRentDay.setText(iFormAsset.getStringExtra("min_rent_day"));
+    private void getDataUpdate(){
+        btnCamSTNK.setVisibility(View.GONE);
+        btnFileSTNK.setVisibility(View.GONE);
 
-            String plat = iFormAsset.getStringExtra("plat");
-            String a,b,c;
-             a = plat.substring(0, plat.indexOf(" ", 1));
-            if (a.length()>1){
-                b = plat.substring(plat.indexOf(" ")+1, plat.indexOf(" ", 3));
-                c = plat.substring(plat.indexOf(" ", 3));
-            }else{
-                b = plat.substring(plat.indexOf(" "), plat.indexOf(" ", 2));
-                c = plat.substring(plat.indexOf(" ", 2));
-            }
+        aName.setText(iFormAsset.getStringExtra("name"));
+        aType.setText(iFormAsset.getStringExtra("type"));
+        aMinRentDay.setText(iFormAsset.getStringExtra("min_rent_day"));
+        aAddress.setText(iFormAsset.getStringExtra("address"));
+        aLatitude = iFormAsset.getStringExtra("latitude");
+        aLongitude = iFormAsset.getStringExtra("longitude");
 
-            aPlatStart.setText(a.trim());
-            aPlat.setText(b.trim());
-            aPlatEnd.setText(c.trim());
-            Log.e(TAG, "Awal :" + a +" tengah "+ b +" akhir "+ c);
+        String plat = iFormAsset.getStringExtra("plat");
+        String a,b,c;
+        a = plat.substring(0, plat.indexOf(" ", 1));
+        if (a.length()>1){
+            b = plat.substring(plat.indexOf(" ")+1, plat.indexOf(" ", 3));
+            c = plat.substring(plat.indexOf(" ", 3));
+        }else{
+            b = plat.substring(plat.indexOf(" "), plat.indexOf(" ", 2));
+            c = plat.substring(plat.indexOf(" ", 2));
+        }
 
-            //spinner
-            Tools.setSpinnerValue(iFormAsset.getStringExtra("subcat"), subcategory, R.array.asset_subcategory_entries, getApplicationContext());
-            Tools.setSpinnerValue(iFormAsset.getStringExtra("merk"), aMerk, R.array.car_brand_entries, getApplicationContext());
-            Tools.setSpinnerValue(iFormAsset.getStringExtra("color"), aColor, R.array.color_entries, getApplicationContext());
-            Tools.setSpinnerValue(iFormAsset.getStringExtra("fuel"), aFuel, R.array.fuel_entries, getApplicationContext());
-            Tools.setSpinnerValue(iFormAsset.getStringExtra("seat"), aSeat, R.array.seats_entries, getApplicationContext());
-            Tools.setSpinnerValue(iFormAsset.getStringExtra("year"), aYear, R.array.year_entries, getApplicationContext());
+        aPlatStart.setText(a.trim());
+        aPlat.setText(b.trim());
+        aPlatEnd.setText(c.trim());
+        Log.e(TAG, "Awal :" + a +" tengah "+ b +" akhir "+ c);
 
-            //Image
-            if(!iFormAsset.getStringExtra("main_image").isEmpty()) {
-                String imageUrl = AppConfig.URL_IMAGE_ASSETS + iFormAsset.getStringExtra("main_image");
-                Picasso.with(getApplicationContext()).load(imageUrl).into(aImg);
-            }
-            if(!iFormAsset.getStringExtra("no_stnk").isEmpty()) {
-                String imageSTNKUrl = AppConfig.URL_IMAGE_DOCUMENTS + iFormAsset.getStringExtra("no_stnk");
-                Picasso.with(getApplicationContext()).load(imageSTNKUrl).into(aImgSTNK);
-            }
+        //spinner
+        Tools.setSpinnerValue(iFormAsset.getStringExtra("subcat"), subcategory, R.array.asset_subcategory_entries, getApplicationContext());
+        Tools.setSpinnerValue(iFormAsset.getStringExtra("merk"), aMerk, R.array.car_brand_entries, getApplicationContext());
+        Tools.setSpinnerValue(iFormAsset.getStringExtra("color"), aColor, R.array.color_entries, getApplicationContext());
+        Tools.setSpinnerValue(iFormAsset.getStringExtra("fuel"), aFuel, R.array.fuel_entries, getApplicationContext());
+        Tools.setSpinnerValue(iFormAsset.getStringExtra("seat") + "cc", aSeat, R.array.seats_entries, getApplicationContext());
+        Tools.setSpinnerValue(iFormAsset.getStringExtra("year"), aYear, R.array.year_entries, getApplicationContext());
 
-            if (iFormAsset.getStringExtra("assurance").equals("true")){aAssurace.setChecked(true);}
-            if (iFormAsset.getStringExtra("air_bag").equals("true")){aAb.setChecked(true);}
-            if (iFormAsset.getStringExtra("air_cond").equals("true")){aAc.setChecked(true);}
-
-            if(iFormAsset.getStringExtra("transmission").equals("manual")) {
-                ((RadioButton)aTransmisionGroup.getChildAt(0)).setChecked(true);
-            } else {
-                ((RadioButton)aTransmisionGroup.getChildAt(1)).setChecked(true);
-            }
-
-            if (iFormAsset.getStringExtra("delivery_method").equals("both")){
-                aPickup.setChecked(true);
-                aDelivery.setChecked(true);
-            }else if (iFormAsset.getStringExtra("delivery_method").equals("pickup")){
-                aPickup.setChecked(true);
-            }else if (iFormAsset.getStringExtra("delivery_method").equals("deliver")){
-                aDelivery.setChecked(true);
-            }
-
-            if (iFormAsset.getStringExtra("driver").equals("both")){
-                aNoDriver.setChecked(true);
-                aDriver.setChecked(true);
-            }else if (iFormAsset.getStringExtra("driver").equals("true")){
-                aDriver.setChecked(true);
-            }else if (iFormAsset.getStringExtra("driver").equals("false")){
-                aNoDriver.setChecked(true);
-            }
-
-            // Parsing data price
-            JSONArray priceArray = new JSONArray(PricingTools.PriceStringToArray(iFormAsset.getStringExtra("price")));
-            Log.e(TAG, "PRICE ARRAY :" + priceArray.toString());
-            if (priceArray.length() > 0){
-                try {
-                    JSONObject basicPrice = priceArray.getJSONObject(0);
-                    aBasicPrice.setText(basicPrice.getString("price"));
-                } catch (JSONException e) {e.printStackTrace();}
-
-                if(priceArray.length() > 1){
-                    try {
-                        conAdvancePrice.setVisibility(View.VISIBLE);
-                        JSONObject priceObject = priceArray.getJSONObject(1);
-                        Tools.setSpinnerValue(priceObject.getString("range_name"), aRangName, R.array.range_name_entries, getApplicationContext());
-                        aAdvancePrice.setText(priceObject.getString("price"));
-                        aStartDate.setText(priceObject.getString("start_date"));
-                        aEndDate.setText(priceObject.getString("end_date"));
-                        if (priceArray.length() > 2){
-                            conAdvancePrice2.setVisibility(View.VISIBLE);
-                            JSONObject priceObject2 = priceArray.getJSONObject(2);
-                            Tools.setSpinnerValue(priceObject2.getString("range_name"), aRangName2, R.array.range_name_entries, getApplicationContext());
-                            aAdvancePrice2.setText(priceObject2.getString("price"));
-                            aStartDate2.setText(priceObject2.getString("start_date"));
-                            aEndDate2.setText(priceObject2.getString("end_date"));
-                            if (priceArray.length() > 3){
-                                conAdvancePrice3.setVisibility(View.VISIBLE);
-                                JSONObject priceObject3 = priceArray.getJSONObject(3);
-                                Tools.setSpinnerValue(priceObject3.getString("range_name"), aRangName3, R.array.range_name_entries, getApplicationContext());
-                                aAdvancePrice3.setText(priceObject3.getString("price"));
-                                aStartDate3.setText(priceObject3.getString("start_date"));
-                                aEndDate3.setText(priceObject3.getString("end_date"));
-                                if (priceArray.length() > 4) {
-                                    conAdvancePrice4.setVisibility(View.VISIBLE);
-                                    JSONObject priceObject4 = priceArray.getJSONObject(4);
-                                    Tools.setSpinnerValue(priceObject4.getString("range_name"), aRangName4, R.array.range_name_entries, getApplicationContext());
-                                    aAdvancePrice4.setText(priceObject4.getString("price"));
-                                    aStartDate4.setText(priceObject4.getString("start_date"));
-                                    aEndDate4.setText(priceObject4.getString("end_date"));
-                                }
-                            }
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+        //Image
+        if(!iFormAsset.getStringExtra("main_image").isEmpty()) {
+            String imageUrl = AppConfig.URL_IMAGE_ASSETS + iFormAsset.getStringExtra("main_image");
+            Picasso.with(getApplicationContext()).load(imageUrl).into(aMainImage);
+            aSecondImage.setVisibility(View.VISIBLE);
+        }
+        imagesArray = iFormAsset.getStringArrayExtra("images");
+        if (imagesArray.length > 1){
+            aThirdImage.setVisibility(View.VISIBLE);
+            Picasso.with(getApplicationContext()).load(imagesArray[1]).into(aSecondImage);
+            if (imagesArray.length > 2) {
+                aFourthImage.setVisibility(View.VISIBLE);
+                Picasso.with(getApplicationContext()).load(imagesArray[2]).into(aThirdImage);
+                if (imagesArray.length > 3) {
+                    aFifthImage.setVisibility(View.VISIBLE);
+                    Picasso.with(getApplicationContext()).load(imagesArray[3]).into(aFourthImage);
+                    if (imagesArray.length > 4) {
+                        Picasso.with(getApplicationContext()).load(imagesArray[4]).into(aFifthImage);
                     }
                 }
             }
         }
-    }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    private void showProgress(final boolean show) {
-        if(show){
-            if (!pDialog.isShowing()){
-                pDialog.show();
-            }
-        }else{
-            if (pDialog.isShowing()){
-                pDialog.dismiss();
+        if(!iFormAsset.getStringExtra("no_stnk").isEmpty()) {
+            String imageSTNKUrl = AppConfig.URL_IMAGE_DOCUMENTS + iFormAsset.getStringExtra("no_stnk");
+            Picasso.with(getApplicationContext()).load(imageSTNKUrl).into(aImgSTNK);
+        }
+
+        if (iFormAsset.getStringExtra("assurance").equals("true")){aAssurace.setChecked(true);}
+        if (iFormAsset.getStringExtra("air_bag").equals("true")){aAb.setChecked(true);}
+        if (iFormAsset.getStringExtra("air_cond").equals("true")){aAc.setChecked(true);}
+
+        if(iFormAsset.getStringExtra("transmission").equals("manual")) {
+            ((RadioButton)aTransmisionGroup.getChildAt(0)).setChecked(true);
+        } else {
+            ((RadioButton)aTransmisionGroup.getChildAt(1)).setChecked(true);
+        }
+
+        if (iFormAsset.getStringExtra("member_badge").equals(getResources().getString(R.string.member_badge_basic))) {
+            ((RadioButton) aRentReqGroup.getChildAt(0)).setChecked(true);
+        } else if (iFormAsset.getStringExtra("member_badge").equals(getResources().getString(R.string.member_badge_verified))) {
+            ((RadioButton) aRentReqGroup.getChildAt(1)).setChecked(true);
+        }else  ((RadioButton) aRentReqGroup.getChildAt(2)).setChecked(true);
+
+
+        if (iFormAsset.getStringExtra("delivery_method").equals("both")){
+            aPickup.setChecked(true);
+            aDelivery.setChecked(true);
+        }else if (iFormAsset.getStringExtra("delivery_method").equals("pickup")){
+            aPickup.setChecked(true);
+        }else if (iFormAsset.getStringExtra("delivery_method").equals("deliver")){
+            aDelivery.setChecked(true);
+        }
+
+        if (iFormAsset.getStringExtra("driver").equals("both")){
+            aNoDriver.setChecked(true);
+            aDriver.setChecked(true);
+        }else if (iFormAsset.getStringExtra("driver").equals("true")){
+            aDriver.setChecked(true);
+        }else if (iFormAsset.getStringExtra("driver").equals("false")){
+            aNoDriver.setChecked(true);
+        }
+
+        // Parsing data price
+        JSONArray priceArray = new JSONArray(PricingTools.PriceStringToArray(iFormAsset.getStringExtra("price")));
+        Log.e(TAG, "PRICE ARRAY :" + priceArray.toString());
+        if (priceArray.length() > 0){
+            try {
+                JSONObject basicPrice = priceArray.getJSONObject(0);
+                aBasicPrice.setText(basicPrice.getString("price"));
+            } catch (JSONException e) {e.printStackTrace();}
+
+            if(priceArray.length() > 1){
+                try {
+                    conAdvancePrice.setVisibility(View.VISIBLE);
+                    JSONObject priceObject = priceArray.getJSONObject(1);
+                    Tools.setSpinnerValue(priceObject.getString("range_name"), aRangName, R.array.range_name_entries, getApplicationContext());
+                    aAdvancePrice.setText(priceObject.getString("price"));
+                    aStartDate.setText(priceObject.getString("start_date"));
+                    aEndDate.setText(priceObject.getString("end_date"));
+                    if (priceArray.length() > 2){
+                        conAdvancePrice2.setVisibility(View.VISIBLE);
+                        JSONObject priceObject2 = priceArray.getJSONObject(2);
+                        Tools.setSpinnerValue(priceObject2.getString("range_name"), aRangName2, R.array.range_name_entries, getApplicationContext());
+                        aAdvancePrice2.setText(priceObject2.getString("price"));
+                        aStartDate2.setText(priceObject2.getString("start_date"));
+                        aEndDate2.setText(priceObject2.getString("end_date"));
+                        if (priceArray.length() > 3){
+                            conAdvancePrice3.setVisibility(View.VISIBLE);
+                            JSONObject priceObject3 = priceArray.getJSONObject(3);
+                            Tools.setSpinnerValue(priceObject3.getString("range_name"), aRangName3, R.array.range_name_entries, getApplicationContext());
+                            aAdvancePrice3.setText(priceObject3.getString("price"));
+                            aStartDate3.setText(priceObject3.getString("start_date"));
+                            aEndDate3.setText(priceObject3.getString("end_date"));
+                            if (priceArray.length() > 4) {
+                                conAdvancePrice4.setVisibility(View.VISIBLE);
+                                JSONObject priceObject4 = priceArray.getJSONObject(4);
+                                Tools.setSpinnerValue(priceObject4.getString("range_name"), aRangName4, R.array.range_name_entries, getApplicationContext());
+                                aAdvancePrice4.setText(priceObject4.getString("price"));
+                                aStartDate4.setText(priceObject4.getString("start_date"));
+                                aEndDate4.setText(priceObject4.getString("end_date"));
+                            }
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        this.finish();
-        return true;
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_save_option, menu);
-        return true;
     }
 
     @Override
@@ -570,6 +625,11 @@ public class FormCarAsetActivity extends AppCompatActivity {
             tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
             category = iFormAsset.getStringExtra("cat");
             idAsset = iFormAsset.getIntExtra("id_asset",0);
+
+            int rentReqId = aRentReqGroup.getCheckedRadioButtonId();
+            if (rentReqId == aBasic.getId()) aRentReq = getResources().getString(R.string.member_badge_basic);
+            else if (rentReqId == aVerified.getId()) aRentReq = getResources().getString(R.string.member_badge_verified);
+            else aRentReq = getResources().getString(R.string.member_badge_smart_con);
 
             if(aDriver.isChecked() && aNoDriver.isChecked()){aDriverStatus = "both";}
             else if (aDriver.isChecked()){ aDriverStatus = "true";}
@@ -582,51 +642,16 @@ public class FormCarAsetActivity extends AppCompatActivity {
             else { aDeliveryMethod = "nodefine";}
 
             if (aBasicPrice.getText().toString().isEmpty() || aDeliveryMethod.equals("nodefine") || aDriverStatus.equals("nodefine") ||
-                    aType.toString().isEmpty() || aPlat.toString().isEmpty() || aPlatStart.toString().isEmpty() || aPlatEnd.toString().isEmpty()){
+                    aType.toString().isEmpty() || aPlat.toString().isEmpty() || aPlatStart.toString().isEmpty() || aPlatEnd.toString().isEmpty() ){
                 Toast.makeText(getApplicationContext(), "Harap Lengkapi Form",Toast.LENGTH_LONG).show();
             } else{
                 pricingArray.clear();
                 getPrice();
                 postPriceCheck(pricingArray.toString());
-
-//                if(priceStatus.equals("OK")){
-//                    if(iFormAsset.getStringExtra("action").equals("update")){
-//                        updateDataAset(category);
-//                    }else {
-//                        if (imgStringSTNK.equals("")) {
-//                            Toast.makeText(getApplicationContext(), "Harap Lengkapi Foto STNK", Toast.LENGTH_LONG).show();
-//                        } else
-//                            addDataAset(tenant);
-//                    }
-//                }
             }
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    // IMAGE : pick image
-    private void showFileChooser(String action) {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        if(action.equals("STNK")){
-            startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_STNK_REQUEST);
-        } else {
-            startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
-        }
-    }
-
-    // IMAGE : get string for upload
-    public String getStringImage(Bitmap bmp){
-        if(bmp != null){
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-            byte[] imageBytes = baos.toByteArray();
-            return Base64.encodeToString(imageBytes, Base64.DEFAULT);
-        }else{
-            return null;
-        }
     }
 
     // IMAGE : show in frame
@@ -634,6 +659,8 @@ public class FormCarAsetActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        Bitmap bitmap;
+        String ext;
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             Uri filePath = data.getData();
             try {
@@ -641,14 +668,90 @@ public class FormCarAsetActivity extends AppCompatActivity {
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
 
                 //Setting the Bitmap to ImageView
-                aImg.setImageBitmap(bitmap);
+                aMainImage.setImageBitmap(bitmap);
 
                 String imgStr = data.toString();
                 ext = imgStr.substring(imgStr.indexOf("typ")+4, imgStr.indexOf("flg")-1);
 
-                isiimage = getStringImage(bitmap);
-                imgString = ext +"," + isiimage;
-                isiimage = imgString;
+                isiimage = Tools.getStringImage(bitmap);
+                imgStringMain = ext +"," + isiimage;
+                aSecondImage.setVisibility(View.VISIBLE);
+                img++;
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (requestCode == PICK_IMAGE_SECOND_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            Uri filePath = data.getData();
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                aSecondImage.setImageBitmap(bitmap);
+
+                String imgStr = data.toString();
+                ext = imgStr.substring(imgStr.indexOf("typ")+4, imgStr.indexOf("flg")-1);
+
+                isiimage = Tools.getStringImage(bitmap);
+                imgStringSecond = ext +"," + isiimage;
+                aThirdImage.setVisibility(View.VISIBLE);
+                img++;
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (requestCode == PICK_IMAGE_THIRD_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            Uri filePath = data.getData();
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                aThirdImage.setImageBitmap(bitmap);
+
+                String imgStr = data.toString();
+                ext = imgStr.substring(imgStr.indexOf("typ")+4, imgStr.indexOf("flg")-1);
+
+                isiimage = Tools.getStringImage(bitmap);
+                imgStringThird = ext +"," + isiimage;
+                aFourthImage.setVisibility(View.VISIBLE);
+                img++;
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (requestCode == PICK_IMAGE_FOURTH_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            Uri filePath = data.getData();
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                aFourthImage.setImageBitmap(bitmap);
+
+                String imgStr = data.toString();
+                ext = imgStr.substring(imgStr.indexOf("typ")+4, imgStr.indexOf("flg")-1);
+
+                isiimage = Tools.getStringImage(bitmap);
+                imgStringFourth = ext +"," + isiimage;
+                aFifthImage.setVisibility(View.VISIBLE);
+                img++;
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (requestCode == PICK_IMAGE_FIFTH_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            Uri filePath = data.getData();
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                aFifthImage.setImageBitmap(bitmap);
+
+                String imgStr = data.toString();
+                ext = imgStr.substring(imgStr.indexOf("typ")+4, imgStr.indexOf("flg")-1);
+
+                isiimage = Tools.getStringImage(bitmap);
+                imgStringFifth = ext +"," + isiimage;
+                img++;
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -663,11 +766,8 @@ public class FormCarAsetActivity extends AppCompatActivity {
                 String imgStr = data.toString();
                 ext = imgStr.substring(imgStr.indexOf("typ")+4, imgStr.indexOf("flg")-1);
 
-                isiimage = getStringImage(bitmap);
+                isiimage = Tools.getStringImage(bitmap);
                 imgStringSTNK = ext +"," + isiimage;
-
-                Log.e(TAG, "Image : " + imgStringSTNK);
-
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -676,14 +776,22 @@ public class FormCarAsetActivity extends AppCompatActivity {
 
         if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
             Bitmap photo = (Bitmap) data.getExtras().get("data");
-            String str64b = getStringImage(photo);
+            String str64b = Tools.getStringImage(photo);
             imgStringSTNK = "image/jpeg," + str64b;
             aImgSTNK.setImageBitmap(photo);
-
-            Log.e(TAG, "Image STNK : " + imgStringSTNK);
         }
 
+        if (requestCode == PICK_LOCATION_REQUEST){
+            if(resultCode == RESULT_OK){
+                Place location = PlacePicker.getPlace(data,this);
+                String address = String.valueOf(location.getAddress());
+                aAddress.setText(address);
 
+                String LatLong = String.valueOf(location.getLatLng());
+                aLatitude = Tools.getLatitude(LatLong);
+                aLongitude = Tools.getLongitude(LatLong);
+            }
+        }
         if (requestCode == PICK_DATE_REQUEST) {
             if(resultCode == Activity.RESULT_OK){
                 String resultStart = data.getStringExtra("startDate");
@@ -695,7 +803,6 @@ public class FormCarAsetActivity extends AppCompatActivity {
                 //Write your code if there's no result
             }
         }
-
         if (requestCode == PICK_DATE_REQUEST2) {
             if(resultCode == Activity.RESULT_OK){
                 String resultStart = data.getStringExtra("startDate");
@@ -734,9 +841,6 @@ public class FormCarAsetActivity extends AppCompatActivity {
     private void addDataAset(String tenant) {
         int transmissionId = aTransmisionGroup.getCheckedRadioButtonId();
         aTransmisionButton = (RadioButton) findViewById(transmissionId);
-        aAddress = "BALI,INDONESIA";
-        aLatitude = "0";
-        aLongitude = "0";
         aRentPackage = "-";
 
         pDialog.setMessage("loading ...");
@@ -783,7 +887,6 @@ public class FormCarAsetActivity extends AppCompatActivity {
                     keys.put("colour", aColor.getSelectedItem().toString());
                     keys.put("engine_capacity", aEngCap.getSelectedItem().toString());
                     keys.put("license_plat", aPlatStart.getText().toString().trim()+" "+aPlat.getText().toString().trim()+" "+aPlatEnd.getText().toString().trim());
-//                   keys.put("seat", aSeat.getSelectedItem().toString())
                     keys.put("seat", aSeat.getSelectedItem().toString());
                     keys.put("air_bag", String.valueOf(aAb.isChecked()));
                     keys.put("air_conditioner", String.valueOf(aAc.isChecked()));
@@ -793,17 +896,19 @@ public class FormCarAsetActivity extends AppCompatActivity {
                     keys.put("min_rent_day", aMinRentDay.getText().toString());
                     keys.put("driver_included", aDriverStatus);
                     keys.put("delivery_method", aDeliveryMethod);
-                    keys.put("address", aAddress);
+                    keys.put("address", aAddress.getText().toString());
                     keys.put("rent_package", aRentPackage);
                     keys.put("latitude", aLatitude);
                     keys.put("longitude", aLongitude);
-                    if(!imgStringSTNK.isEmpty()) {
-                        keys.put("stnk", imgStringSTNK);
-                    }
-                    if(!isiimage.isEmpty()){
-                        keys.put("file", isiimage);
-                    }
+                    keys.put("member_badge", aRentReq);
                     keys.put("price", pricingArray.toString());
+                    if(!imgStringSTNK.isEmpty()) { keys.put("stnk", imgStringSTNK);}
+                    if(!imgStringMain.isEmpty()){ keys.put("file", imgStringMain);}
+                    if(!imgStringSecond.isEmpty()){keys.put("file1", imgStringSecond);}
+                    if(!imgStringThird.isEmpty()){keys.put("file2", imgStringThird);}
+                    if(!imgStringFourth.isEmpty()){keys.put("file3", imgStringFourth);}
+                    if(!imgStringFifth.isEmpty()){keys.put("file4", imgStringFifth);}
+
                     Log.e(TAG, "Value Object : " + keys.toString());
                     return keys;
                 }
@@ -833,14 +938,10 @@ public class FormCarAsetActivity extends AppCompatActivity {
 
             if(aset != null){
                 Toast.makeText(getApplicationContext(),"Data sukses disimpan, Aset sedang di verifikasi", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(FormCarAsetActivity.this,AsetListActivity.class);
-                intent.putExtra("id_category", 1);
-                setResult(RESULT_OK, intent);
                 finish();
             }else{
                 Toast.makeText(getApplicationContext(),"Gagal meyimpan data", Toast.LENGTH_LONG).show();
             }
-
         }
 
         @Override
@@ -853,9 +954,6 @@ public class FormCarAsetActivity extends AppCompatActivity {
     private void updateDataAset(String category) {
         int transmissionId = aTransmisionGroup.getCheckedRadioButtonId();
         aTransmisionButton = (RadioButton) findViewById(transmissionId);
-        aAddress = "BALI,INDONESIA";
-        aLatitude = "0";
-        aLongitude = "0";
         aRentPackage = "-";
 
         pDialog.setMessage("loading ...");
@@ -912,15 +1010,18 @@ public class FormCarAsetActivity extends AppCompatActivity {
                     keys.put("min_rent_day", aMinRentDay.getText().toString());
                     keys.put("driver_included", aDriverStatus);
                     keys.put("delivery_method", aDeliveryMethod);
-                    keys.put("address", aAddress);
+                    keys.put("address", aAddress.getText().toString());
                     keys.put("rent_package", aRentPackage);
                     keys.put("latitude", aLatitude);
                     keys.put("longitude", aLongitude);
-                    if(!isiimage.isEmpty()){
-                        keys.put("file", isiimage);
-                    }
+                    keys.put("member_badge", aRentReq);
                     keys.put("price", pricingArray.toString());
-                    Log.e(TAG, "Value Object : " + keys.toString());
+                    if(!imgStringMain.isEmpty()){ keys.put("file", imgStringMain);}
+                    if(!imgStringSecond.isEmpty()){keys.put("file1", imgStringSecond);}
+                    if(!imgStringThird.isEmpty()){keys.put("file2", imgStringThird);}
+                    if(!imgStringFourth.isEmpty()){keys.put("file3", imgStringFourth);}
+                    if(!imgStringFifth.isEmpty()){keys.put("file4", imgStringFifth);}
+
                     Log.e(TAG, "Asset Keys: " + String.valueOf(keys));
                     return keys;
                 }
@@ -1036,7 +1137,10 @@ public class FormCarAsetActivity extends AppCompatActivity {
                             if (imgStringSTNK.equals("")) {
                                 Toast.makeText(getApplicationContext(), "Harap Lengkapi Foto STNK", Toast.LENGTH_LONG).show();
                             } else
-                                addDataAset(tenant);
+                                if(!imgStringMain.isEmpty()) addDataAset(tenant);
+                                else Toast.makeText(getApplicationContext(),
+                                        getString(R.string.error_main_image_not_complete), Toast.LENGTH_LONG).show();
+
                         }
                     }else {
                         Toast.makeText(getApplicationContext(), responseObj.getString("message"), Toast.LENGTH_LONG).show();
@@ -1075,5 +1179,48 @@ public class FormCarAsetActivity extends AppCompatActivity {
         };
 
         queue.add(strReq);
+    }
+
+    // IMAGE : pick image
+    private void showFileChooser(String action) {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        int request = 0;
+        switch (action){
+            case "main" : request = PICK_IMAGE_REQUEST; break;
+            case "second" : request = PICK_IMAGE_SECOND_REQUEST; break;
+            case "third" : request = PICK_IMAGE_THIRD_REQUEST; break;
+            case "fourth" : request = PICK_IMAGE_FOURTH_REQUEST; break;
+            case "fifth" : request = PICK_IMAGE_FIFTH_REQUEST; break;
+            case "STNK" : request = PICK_IMAGE_STNK_REQUEST; break;
+        }
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), request);
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+    private void showProgress(final boolean show) {
+        if(show){
+            if (!pDialog.isShowing()){
+                pDialog.show();
+            }
+        }else{
+            if (pDialog.isShowing()){
+                pDialog.dismiss();
+            }
+        }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        this.finish();
+        return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_save_option, menu);
+        return true;
     }
 }

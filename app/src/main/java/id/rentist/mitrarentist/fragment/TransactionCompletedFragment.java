@@ -39,6 +39,7 @@ import id.rentist.mitrarentist.adapter.TransactionCompleteAdapter;
 import id.rentist.mitrarentist.modul.ItemTransaksiModul;
 import id.rentist.mitrarentist.tools.AppConfig;
 import id.rentist.mitrarentist.tools.SessionManager;
+import id.rentist.mitrarentist.tools.Tools;
 
 /**
  * Created by mdhif on 07/07/2017.
@@ -209,8 +210,8 @@ public class TransactionCompletedFragment extends Fragment {
                     itemTrans.setIdMember(aIdMember);
                     itemTrans.setMember(aMember);
                     itemTrans.setThumbnail(aThumb);
-                    itemTrans.setStartDate(aStartDate);
-                    itemTrans.setEndDate(aEndDate);
+                    itemTrans.setStartDate(Tools.dateFormat(aStartDate));
+                    itemTrans.setEndDate(Tools.dateFormat(aEndDate));
                     itemTrans.setDriverName(aDriverName);
                     itemTrans.setPickTime(transObject.getString("pickup_time"));
                     itemTrans.setLat(transObject.getString("latitude"));

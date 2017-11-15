@@ -2,8 +2,10 @@ package id.rentist.mitrarentist.tools;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
@@ -11,6 +13,13 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+
+import java.io.ByteArrayOutputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import id.rentist.mitrarentist.FormAdventureAsetActivity;
 import id.rentist.mitrarentist.FormBicycleAsetActivity;
@@ -136,6 +145,51 @@ public class Tools {
         if (!value.equals(null)) {
             int position = adapter.getPosition(value);
             spinner.setSelection(position);
+        }
+    }
+
+    public static String dateFormat(String date){
+        SimpleDateFormat currentFormat = new SimpleDateFormat("yyyy/MM/dd");
+        Calendar c = Calendar.getInstance();
+
+        try {
+            c.setTime(currentFormat.parse(date));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        c.add(Calendar.DATE, 1);  // number of days to add, can also use Calendar.DAY_OF_MONTH in place of Calendar.DATE
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+
+        return dateFormat.format(c.getTime());
+    }
+
+    public static String getLongitude(String LatLong){
+        String pattern = "([^(,a-z]*),([^a-z,)]*)";
+
+        Pattern r = Pattern.compile(pattern);
+        Matcher m = r.matcher(LatLong);
+        m.find();
+        return  m.group(2);
+    }
+
+    public static String getLatitude(String LatLong){
+        String pattern = "([^(,a-z]*),([^a-z,)]*)";
+
+        Pattern r = Pattern.compile(pattern);
+        Matcher m = r.matcher(LatLong);
+        m.find();
+        return  m.group(1);
+    }
+
+    // IMAGE : get string for upload
+    public static String getStringImage(Bitmap bmp){
+        if(bmp != null){
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            byte[] imageBytes = baos.toByteArray();
+            return Base64.encodeToString(imageBytes, Base64.DEFAULT);
+        }else{
+            return null;
         }
     }
 }

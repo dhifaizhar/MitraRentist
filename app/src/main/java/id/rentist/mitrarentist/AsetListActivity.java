@@ -86,16 +86,18 @@ public class AsetListActivity extends AppCompatActivity {
 
         // action retrieve data aset
         category = iAset.getStringExtra("id_category");
-//        tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
+        tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
         pBar.setVisibility(View.VISIBLE);
-        getAssetDataList(category);
+//        getAssetDataList(category);
+        getAssetList();
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 noAset.setVisibility(View.GONE);
-                getAssetDataList(category);
+//                getAssetDataList(category);
+                getAssetList();
             }
         });
 
@@ -260,6 +262,126 @@ public class AsetListActivity extends AppCompatActivity {
         }
     }
 
+    private void getAssetList() {
+        String URL = AppConfig.URL_LIST_ASSET + category;
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        StringRequest strReq = new StringRequest(Request.Method.POST, URL, new
+                Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        mSwipeRefreshLayout.setRefreshing(false);
+                        pBar.setVisibility(View.GONE);
+                        String aName, aType, aPlat, aYear, aStatus, aSubCat, aSubType, aThumbnail, aVerif, errorMsg;
+                        Integer dataLength, aId;
+
+                        if (response != null) {
+                            try {
+                                JSONArray jsonArray = new JSONArray(response);
+                                Log.e(TAG, "Asset : " + jsonArray);
+                                dataLength = jsonArray.length();
+                                mAset.clear();
+
+                                if(dataLength > 0){
+                                    for (int i = 0; i < jsonArray.length(); i++) {
+                                        errorMsg = "-";
+
+                                        JSONObject jsonobject = jsonArray.getJSONObject(i);
+                                        aId = jsonobject.getInt("id");
+                                        aType = jsonobject.getString("type");
+                                        aStatus = jsonobject.getString("status");
+                                        aSubCat = jsonobject.getString("subcategory");
+                                        aThumbnail = jsonobject.getString("main_image");
+                                        aVerif = jsonobject.getString("verified");
+
+                                        ItemAsetModul itemModul = new ItemAsetModul();
+                                        itemModul.setAssetId(aId);
+                                        itemModul.setThumbnail(aThumbnail);
+                                        itemModul.setType(aType);
+                                        itemModul.setSubCat(aSubCat);
+                                        itemModul.setVerif(aVerif);
+
+                                        int idCate = jsonobject.getInt("id_asset_category");
+
+                                        if (idCate == 1 || idCate == 2 ) {
+                                            aPlat = jsonobject.getString("license_plat");
+                                            aYear = jsonobject.getString("year");
+                                            itemModul.setPlat(aPlat);
+                                            itemModul.setYear(aYear);
+                                        }
+
+                                        if (idCate != 3){
+                                            aName = jsonobject.getString("brand");
+                                            itemModul.setMark(aName + " " + aType);
+                                            itemModul.setMerk(aName);
+                                        } else {
+                                            aSubType = jsonobject.getString("sub_type");
+                                            itemModul.setMark(aType + " " + aSubType);
+                                        }
+                                        itemModul.setStatus(aStatus);
+                                        Log.e(TAG, "What Data : " + String.valueOf(itemModul));
+                                        mAset.add(itemModul);
+                                    }
+
+                                    mRecyclerView = (RecyclerView) findViewById(R.id.as_recyclerView);
+                                    mLayoutManager = new LinearLayoutManager(getApplicationContext());
+                                    mAdapter = new AsetAdapter(AsetListActivity.this,mAset,category);
+
+                                    mRecyclerView.setLayoutManager(mLayoutManager);
+                                    mRecyclerView.setAdapter(mAdapter);
+
+                                }else{
+                                    ItemAsetModul itemModul = new ItemAsetModul();
+                                    itemModul.setThumbnail("add");
+                                    itemModul.setMark("Tambah Aset");
+
+                                    mAset.add(itemModul);
+                                    mRecyclerView = (RecyclerView) findViewById(R.id.as_recyclerView);
+                                    mLayoutManager = new LinearLayoutManager(getApplicationContext());
+                                    mAdapter = new AsetAdapter(AsetListActivity.this,mAset,category);
+
+                                    mRecyclerView.setLayoutManager(mLayoutManager);
+                                    mRecyclerView.setAdapter(mAdapter);
+                                    errorMsg = "Anda belum memiliki Aset " + name_category;
+//                        noAset.setVisibility(View.VISIBLE);
+                                    Toast.makeText(getApplicationContext(),errorMsg, Toast.LENGTH_LONG).show();
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                noAset.setVisibility(View.VISIBLE);
+                                errorMsg = "Anda belum memiliki Aset " + name_category;
+                                Toast.makeText(getApplicationContext(),errorMsg, Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "Get Aset List Fetch Error : " +  error.toString());
+                Toast.makeText(getApplicationContext(), "Connection error, try again.",
+                        Toast.LENGTH_LONG).show();
+//                showProgress(false);
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                // Posting parameters to url
+                Map<String, String> keys = new HashMap<String, String>();
+                keys.put("id_tenant", tenant);
+                return keys;
+            }
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("token", TOKEN);
+
+                return params;
+            }
+        };
+        queue.add(strReq);
+    }
+
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     private void showProgress(final boolean show) {
         if(show){
@@ -287,7 +409,6 @@ public class AsetListActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_refresh_option, menu);
         getMenuInflater().inflate(R.menu.menu_add_option, menu);
         return true;
     }
@@ -386,34 +507,28 @@ public class AsetListActivity extends AppCompatActivity {
             }
         }
 
-        if(id == R.id.action_refresh) {
-            mAset.clear();
-            pBar.setVisibility(View.VISIBLE);
-            getAssetDataList(category);
-        }
-
         return super.onOptionsItemSelected(item);
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if(resultCode == RESULT_OK) {
-            setTitle("Aset " + data.getStringExtra("asset_name"));
-            mAset.clear();
-            pBar.setVisibility(View.VISIBLE);
-            String cat = data.getStringExtra("asset_category");
-            getAssetDataList(cat);
-        }
-
-    }
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//
+//        if(resultCode == RESULT_OK) {
+//            setTitle("Aset " + data.getStringExtra("asset_name"));
+//            mAset.clear();
+//            pBar.setVisibility(View.VISIBLE);
+//            String cat = data.getStringExtra("asset_category");
+//            getAssetDataList(cat);
+//        }
+//
+//    }
 
     @Override
     public void onRestart() {
         super.onRestart();
         noAset.setVisibility(View.GONE);
-        pBar.setVisibility(View.VISIBLE);
 
-        getAssetDataList(category);
+        mSwipeRefreshLayout.setRefreshing(true);
+        getAssetList();
     }
 }

@@ -25,16 +25,16 @@
                 android:layout_marginBottom="@dimen/xmin_padding"
                 android:background="@color/colorNearWhite">
 
-                <ImageView
-                    android:id="@+id/as_thumb_aset"
+                <com.synnapps.carouselview.CarouselView
+                    android:id="@+id/carouselView"
                     android:layout_width="match_parent"
-                    android:layout_height="192dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:contentDescription="itemAset"
-                    android:foregroundGravity="center_horizontal|center_vertical"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_directions_car_black_48dp" />
+                    android:layout_height="200dp"
+                    app:fillColor="#FFFFFFFF"
+                    app:pageColor="#00000000"
+                    app:slideInterval="5000"
+                    app:strokeColor="#FF777777"
+                    app:strokeWidth="1dp"
+                    app:indicatorGravity="top|center"/>
 
                 <TextView
                     android:id="@+id/as_status_det"
@@ -635,7 +635,123 @@
                                 tools:text="-" />
 
                         </LinearLayout>
+                    </LinearLayout>
 
+                    <LinearLayout
+                        android:id="@+id/con_feature_small_aset"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:background="@color/colorPrimarySoft"
+                            android:layout_marginBottom="@dimen/small_space"
+                            android:padding="@dimen/xmin_padding">
+
+                            <TextView
+                                android:layout_width="@dimen/text_label"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorBlack54"
+                                android:textSize="@dimen/calendar_text_small"
+                                android:text="Nilai Aset" />
+
+                            <TextView
+                                android:id="@+id/as_asset_value"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorPrice"
+                                android:textAlignment="textEnd"
+                                android:textSize="@dimen/calendar_text_small"
+                                tools:text="10.000 IDR"
+                                android:maxLines="5"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:background="@color/colorPrimarySoft"
+                            android:layout_marginBottom="@dimen/small_space"
+                            android:padding="@dimen/xmin_padding">
+
+                            <TextView
+                                android:layout_width="@dimen/text_label"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorBlack54"
+                                android:textSize="@dimen/calendar_text_small"
+                                android:text="Berat" />
+
+                            <TextView
+                                android:id="@+id/as_weight"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorBlack"
+                                android:textAlignment="textEnd"
+                                android:textSize="@dimen/calendar_text_small"
+                                tools:text="2 Kg"
+                                android:maxLines="5"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:background="@color/colorPrimarySoft"
+                            android:layout_marginBottom="@dimen/small_space"
+                            android:padding="@dimen/xmin_padding">
+
+                            <TextView
+                                android:layout_width="@dimen/text_label"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorBlack54"
+                                android:textSize="@dimen/calendar_text_small"
+                                android:text="Dimensi" />
+
+                            <TextView
+                                android:id="@+id/as_dimension"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorBlack"
+                                android:textAlignment="textEnd"
+                                android:textSize="@dimen/calendar_text_small"
+                                tools:text="1X2X2 m"
+                                android:maxLines="5"/>
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:background="@color/colorPrimarySoft"
+                        android:layout_marginBottom="@dimen/small_space"
+                        android:padding="@dimen/xmin_padding">
+
+                        <TextView
+                            android:layout_width="@dimen/text_label"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorBlack54"
+                            android:textSize="@dimen/calendar_text_small"
+                            android:text="Alamat" />
+
+                        <TextView
+                            android:id="@+id/as_address"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorBlack"
+                            android:textAlignment="textEnd"
+                            android:textSize="@dimen/calendar_text_small"
+                            tools:text="Guntur"
+                            android:maxLines="5"/>
 
                     </LinearLayout>
 
@@ -1045,6 +1161,45 @@
                             tools:text="Dikirim" />
 
                     </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/calendar_text_small"
+                        android:textStyle="bold"
+                        android:layout_marginTop="@dimen/min_padding"
+                        android:layout_marginBottom="@dimen/min_padding"
+                        android:text="Syarat Sewa" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:background="@color/colorPrimarySoft"
+                        android:layout_marginBottom="@dimen/small_space"
+                        android:padding="@dimen/xmin_padding">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorBlack54"
+                            android:textSize="@dimen/calendar_text_small"
+                            android:text="Member Badge" />
+
+                        <TextView
+                            android:id="@+id/as_member_badge"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorWhite"
+                            android:background="@color/colorBlack54"
+                            android:textSize="@dimen/calendar_text_small"
+                            android:paddingEnd="@dimen/xmin_padding"
+                            android:layout_alignParentEnd="true"
+                            android:paddingStart="@dimen/xmin_padding"
+                            tools:text="Basic" />
+
+                    </RelativeLayout>
 
                 </LinearLayout>
 

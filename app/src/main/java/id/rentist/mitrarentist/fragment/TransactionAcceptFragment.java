@@ -38,6 +38,7 @@ import id.rentist.mitrarentist.adapter.TransactionAcceptAdapter;
 import id.rentist.mitrarentist.modul.ItemTransaksiModul;
 import id.rentist.mitrarentist.tools.AppConfig;
 import id.rentist.mitrarentist.tools.SessionManager;
+import id.rentist.mitrarentist.tools.Tools;
 
 public class TransactionAcceptFragment extends Fragment {
     RecyclerView mRecyclerView;
@@ -77,6 +78,9 @@ public class TransactionAcceptFragment extends Fragment {
         pDialog.setMessage("loading data...");
         showProgress(true);
         getTransaction();
+
+//        if(!getArguments().getString("msg").equals("null"));  Toast.makeText(getActivity(), getArguments().getString("data"),
+//                Toast.LENGTH_LONG).show();
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -202,8 +206,8 @@ public class TransactionAcceptFragment extends Fragment {
                     itemTrans.setMember(aMember);
                     itemTrans.setThumbnail(aThumb);
                     itemTrans.setPrice(aNominal);
-                    itemTrans.setStartDate(aStartDate);
-                    itemTrans.setEndDate(aEndDate);
+                    itemTrans.setStartDate(Tools.dateFormat(aStartDate));
+                    itemTrans.setEndDate(Tools.dateFormat(aEndDate));
                     itemTrans.setDriverName(aDriverName);
                     itemTrans.setPickTime(transObject.getString("pickup_time"));
                     itemTrans.setLat(transObject.getString("latitude"));

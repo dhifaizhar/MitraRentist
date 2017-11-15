@@ -175,7 +175,7 @@ public class DashboardActivity extends AppCompatActivity
 
         rentName.setText(sm.getPreferences("nama_rental"));
         rentNameDrawer.setText(sm.getPreferences("nama"));
-        role.setText(sm.getPreferences("role"));;
+        role.setText(sm.getPreferences("role"));
         switch (sm.getPreferences("role")) {
             case "SuperAdmin":
                 role.setBackgroundColor(0xffff2828);

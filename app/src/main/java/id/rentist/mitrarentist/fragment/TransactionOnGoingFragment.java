@@ -39,6 +39,7 @@ import id.rentist.mitrarentist.adapter.TransactionOnGoingAdapter;
 import id.rentist.mitrarentist.modul.ItemTransaksiModul;
 import id.rentist.mitrarentist.tools.AppConfig;
 import id.rentist.mitrarentist.tools.SessionManager;
+import id.rentist.mitrarentist.tools.Tools;
 
 /**
  * Created by mdhif on 13/07/2017.
@@ -230,8 +231,8 @@ public class TransactionOnGoingFragment extends Fragment {
                     itemTrans.setIdMember(aIdMember);
                     itemTrans.setThumbnail(aThumb);
                     itemTrans.setPrice(aNominal);
-                    itemTrans.setStartDate(aStartDate);
-                    itemTrans.setEndDate(aEndDate);
+                    itemTrans.setStartDate(Tools.dateFormat(aStartDate));
+                    itemTrans.setEndDate(Tools.dateFormat(aEndDate));
                     itemTrans.setDriverName(aDriverName);
                     itemTrans.setPickTime(transObject.getString("pickup_time"));
                     itemTrans.setLat(transObject.getString("latitude"));

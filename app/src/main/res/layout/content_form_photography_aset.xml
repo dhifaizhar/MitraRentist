@@ -173,6 +173,219 @@
                             android:text="" />
                     </LinearLayout>
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="@dimen/xmin_padding"
+                        android:orientation="vertical"
+                        android:padding="@dimen/xmin_padding">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Nilai Aset"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="12sp" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <com.aldoapps.autoformatedittext.AutoFormatEditText
+                                android:id="@+id/as_value"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@color/colorNearWhite"
+                                android:ems="10"
+                                android:hint="0"
+                                android:maxLength="13"
+                                android:padding="@dimen/min_padding"
+                                app:isDecimal="false" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="@dimen/min_padding"
+                                android:text="IDR"
+                                android:textColor="@color/colorBlack54"
+                                android:textSize="@dimen/medium_text" />
+                        </RelativeLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="@dimen/xmin_padding"
+                        android:orientation="vertical"
+                        android:padding="@dimen/xmin_padding">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Berat"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="12sp" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <EditText
+                                android:id="@+id/as_weight"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@color/colorNearWhite"
+                                android:ems="10"
+                                android:hint="Berat"
+                                android:maxLength="5"
+                                android:imeOptions="actionNext"
+                                android:inputType="numberDecimal"
+                                android:padding="@dimen/min_padding"
+                                android:text="" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="@dimen/min_padding"
+                                android:text="Kg"
+                                android:textColor="@color/colorBlack54"
+                                android:textSize="@dimen/medium_text" />
+                        </RelativeLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="@dimen/xmin_padding"
+                        android:orientation="vertical"
+                        android:padding="@dimen/xmin_padding">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Dimensi "
+                                android:textColor="@color/colorBlack"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text=" *dalam satuan meter"
+                                android:textColor="@color/colorBlack54"
+                                android:textSize="@dimen/almost_tiny_text" />
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <EditText
+                                android:id="@+id/as_dim_p"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="@dimen/xmin_padding"
+                                android:layout_weight="8"
+                                android:background="@color/colorNearWhite"
+                                android:ems="10"
+                                android:hint="Panjang"
+                                android:imeOptions="actionNext"
+                                android:inputType="numberDecimal"
+                                android:maxLength="5"
+                                android:padding="@dimen/min_padding"
+                                android:text=""
+                                android:textAlignment="center" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="10"
+                                android:ems="10"
+                                android:padding="@dimen/min_padding"
+                                android:text="X"
+                                android:textAlignment="center" />
+
+                            <EditText
+                                android:id="@+id/as_dim_l"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/xmin_padding"
+                                android:layout_weight="8"
+                                android:background="@color/colorNearWhite"
+                                android:ems="10"
+                                android:hint="Lebar"
+                                android:imeOptions="actionNext"
+                                android:inputType="numberDecimal"
+                                android:maxLength="5"
+                                android:padding="@dimen/min_padding"
+                                android:text=""
+                                android:textAlignment="center" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="10"
+                                android:ems="10"
+                                android:padding="@dimen/min_padding"
+                                android:text="X"
+                                android:textAlignment="center" />
+
+                            <EditText
+                                android:id="@+id/as_dim_t"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/xmin_padding"
+                                android:layout_weight="8"
+                                android:background="@color/colorNearWhite"
+                                android:ems="10"
+                                android:hint="Tinggi"
+                                android:imeOptions="actionNext"
+                                android:inputType="numberDecimal"
+                                android:maxLength="5"
+                                android:padding="@dimen/min_padding"
+                                android:text=""
+                                android:textAlignment="center" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/xmin_padding"
+                        android:orientation="vertical"
+                        android:padding="@dimen/xmin_padding">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Lokasi Aset"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/as_address"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorNearWhite"
+                            android:drawableEnd="@drawable/ic_location_on_black_18dp"
+                            android:editable="false"
+                            android:ems="10"
+                            android:hint="Pilih Lokasi"
+                            android:maxLines="3"
+                            android:padding="@dimen/min_padding"
+                            android:text="" />
+                    </LinearLayout>
+
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
@@ -299,50 +512,40 @@
 
                     </LinearLayout>
 
-                    <RelativeLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_marginBottom="@dimen/xmin_padding"
+                        android:orientation="vertical"
                         android:padding="@dimen/xmin_padding">
 
-                        <CheckBox
-                            android:id="@+id/as_ck_assurance"
-                            android:layout_width="wrap_content"
+                        <TextView
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentStart="true"
-                            android:layout_alignParentTop="true"
-                            android:layout_marginTop="@dimen/xmin_padding"
-                            android:layout_weight="1"
-                            android:checked="false"
-                            android:paddingEnd="@dimen/min_padding"
-                            android:text="Asuransi" />
+                            android:text="Asuransi"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="12sp" />
 
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorNearWhite"
+                            android:orientation="horizontal">
 
-                        <!--<EditText-->
-                        <!--android:id="@+id/as_assurance_price"-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:background="@color/colorNearWhite"-->
-                        <!--android:layout_toEndOf="@id/as_ck_assurance"-->
-                        <!--android:ems="10"-->
-                        <!--android:hint="Nominal"-->
-                        <!--android:padding="@dimen/min_padding"-->
-                        <!--android:imeOptions="actionNext"-->
-                        <!--android:inputType="number"-->
-                        <!--android:text="0" />-->
+                            <CheckBox
+                                android:id="@+id/as_ck_assurance"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_alignParentTop="true"
+                                android:layout_marginTop="@dimen/xmin_padding"
+                                android:layout_weight="1"
+                                android:checked="false"
+                                android:paddingEnd="@dimen/min_padding"
+                                android:text="Asuransi" />
 
-                        <!--<TextView-->
-                        <!--android:id="@+id/idr"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:text="IDR"-->
-                        <!--android:layout_alignParentEnd="true"-->
-                        <!--android:layout_centerVertical="true"-->
-                        <!--android:textColor="@color/colorBlack54"-->
-                        <!--android:layout_marginEnd="@dimen/min_padding"-->
-                        <!--android:textSize="@dimen/medium_text" />-->
-
-                    </RelativeLayout>
+                        </LinearLayout>
+                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -366,15 +569,199 @@
                             android:background="@color/colorNearWhite"
                             android:ems="10"
                             android:gravity="start"
-                            android:hint="Keterangan"
+                            android:hint="Sekilas Tentang Aset"
                             android:inputType="textMultiLine|textCapSentences"
                             android:lines="3"
                             android:padding="@dimen/min_padding"
-                            android:text="Sekilas Tentang Aset" />
+                            />
                     </LinearLayout>
 
                 </LinearLayout>
 
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/xmin_padding">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorWhite"
+                    android:orientation="vertical"
+                    android:padding="@dimen/xmin_padding">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/xmin_padding"
+                        android:background="@color/colorPrimary"
+                        android:padding="@dimen/min_padding">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:text="Syarat Sewa"
+                            android:textAlignment="center"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="@dimen/medium_text"
+                            android:textStyle="bold" />
+
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:padding="@dimen/xmin_padding">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Kelengkapan Data Penyewa"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="12sp"
+                            android:layout_marginBottom="@dimen/xmin_padding"
+                            />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <RadioGroup
+                                android:id="@+id/rent_req_group"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checkedButton="@+id/r_manual"
+                                android:orientation="vertical"
+                                >
+
+                                <RadioButton
+                                    android:id="@+id/r_basic"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="@dimen/breadcrumb_height"
+                                    android:buttonTint="@color/colorPrimary"
+                                    android:checked="true" />
+
+                                <RadioButton
+                                    android:id="@+id/r_verified"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="@dimen/breadcrumb_height"
+                                    android:layout_centerVertical="true"
+                                    android:buttonTint="@color/colorPrimary"
+                                    />
+
+                                <RadioButton
+                                    android:id="@+id/r_smart_cust"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="@dimen/breadcrumb_height"
+                                    android:layout_centerVertical="true"
+                                    android:buttonTint="@color/colorPrimary"
+                                    />
+
+                            </RadioGroup>
+
+                            <RelativeLayout
+                                android:id="@+id/basic_info"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/breadcrumb_height"
+                                android:padding="@dimen/xmin_padding"
+                                android:background="@color/colorPrimarySoft"
+                                android:layout_toEndOf="@id/rent_req_group"
+                                >
+
+                                <TextView
+                                    android:id="@+id/basic_text"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="@dimen/small_space"
+                                    android:background="@color/colorBlack54"
+                                    android:paddingEnd="@dimen/xmin_padding"
+                                    android:paddingStart="@dimen/xmin_padding"
+                                    android:text="Basic"
+                                    android:textColor="@color/colorWhite"
+                                    android:textSize="@dimen/under_small_text" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignStart="@+id/basic_text"
+                                    android:layout_below="@+id/basic_text"
+                                    android:text="@string/basic_desc"
+                                    android:textSize="@dimen/almost_tiny_text" />
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:id="@+id/verified_info"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/breadcrumb_height"
+                                android:padding="@dimen/xmin_padding"
+                                android:background="@color/colorPrimarySoft"
+                                android:layout_toEndOf="@id/rent_req_group"
+                                android:layout_below="@+id/basic_info">
+
+                                <TextView
+                                    android:id="@+id/verified_text"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="@dimen/small_space"
+                                    android:background="@color/colorPrimaryDark"
+                                    android:paddingEnd="@dimen/xmin_padding"
+                                    android:paddingStart="@dimen/xmin_padding"
+                                    android:text="Verified"
+                                    android:textColor="@color/colorWhite"
+                                    android:textSize="@dimen/under_small_text" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignStart="@+id/verified_text"
+                                    android:layout_below="@+id/verified_text"
+                                    android:text="@string/verified_desc"
+                                    android:textSize="@dimen/almost_tiny_text" />
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/breadcrumb_height"
+                                android:padding="@dimen/xmin_padding"
+                                android:background="@color/colorPrimarySoft"
+                                android:layout_toEndOf="@id/rent_req_group"
+                                android:layout_below="@id/verified_info"
+                                >
+
+                                <TextView
+                                    android:id="@+id/smart_cust_text"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="@dimen/small_space"
+                                    android:background="@color/colorGreen"
+                                    android:paddingEnd="@dimen/xmin_padding"
+                                    android:paddingStart="@dimen/xmin_padding"
+                                    android:text="Smart Consumer"
+                                    android:textColor="@color/colorWhite"
+                                    android:textSize="@dimen/under_small_text" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignStart="@+id/smart_cust_text"
+                                    android:layout_below="@+id/smart_cust_text"
+                                    android:text="@string/smart_cust_desc"
+                                    android:textSize="@dimen/almost_tiny_text" />
+                            </RelativeLayout>
+
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
@@ -1218,22 +1605,75 @@
                     android:orientation="vertical"
                     android:padding="@dimen/xmin_padding">
 
-                    <ImageView
-                        android:id="@+id/thumb_aset"
+                    <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="150dp"
-                        android:layout_weight="1"
-                        android:scaleType="fitCenter"
-                        app:srcCompat="@drawable/no_image" />
-
-                    <Button
-                        android:id="@+id/btnUploadFoto"
-                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/xmin_padding"
-                        android:layout_weight="1"
-                        android:text="Pilih Foto" />
+                        android:text="Gambar Aset"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="12sp"
+                        android:layout_marginBottom="@dimen/xmin_padding"
+                        />
+
+                    <HorizontalScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/xmin_padding"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/main_image"
+                                android:layout_width="@dimen/thumb_width"
+                                android:layout_height="@dimen/thumb_width"
+                                android:layout_margin="@dimen/small_space"
+                                android:background="@color/colorNearWhite"
+                                app:srcCompat="@drawable/add_picture" />
+
+                            <ImageView
+                                android:id="@+id/second_image"
+                                android:layout_width="@dimen/thumb_width"
+                                android:layout_height="@dimen/thumb_width"
+                                android:layout_margin="@dimen/small_space"
+                                android:background="@color/colorNearWhite"
+                                android:visibility="gone"
+                                android:src="@drawable/add_picture" />
+
+                            <ImageView
+                                android:id="@+id/third_image"
+                                android:layout_width="@dimen/thumb_width"
+                                android:layout_height="@dimen/thumb_width"
+                                android:layout_margin="@dimen/small_space"
+                                android:background="@color/colorNearWhite"
+                                android:visibility="gone"
+                                app:srcCompat="@drawable/add_picture" />
+
+                            <ImageView
+                                android:id="@+id/fourth_image"
+                                android:layout_width="@dimen/thumb_width"
+                                android:layout_height="@dimen/thumb_width"
+                                android:layout_margin="@dimen/small_space"
+                                android:background="@color/colorNearWhite"
+                                android:visibility="gone"
+                                app:srcCompat="@drawable/add_picture" />
+
+                            <ImageView
+                                android:id="@+id/fifth_image"
+                                android:layout_width="@dimen/thumb_width"
+                                android:layout_height="@dimen/thumb_width"
+                                android:layout_margin="@dimen/small_space"
+                                android:background="@color/colorNearWhite"
+                                android:visibility="gone"
+                                app:srcCompat="@drawable/add_picture" />
+
+                        </LinearLayout>
+
+                    </HorizontalScrollView>
+
                 </LinearLayout>
+
             </android.support.v7.widget.CardView>
 
         </LinearLayout>
