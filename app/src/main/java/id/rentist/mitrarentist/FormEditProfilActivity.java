@@ -261,7 +261,7 @@ public class FormEditProfilActivity extends AppCompatActivity {
                             focusView.requestFocus();
                         }
                     }else{
-                        rAddress.setError(getString(R.string.error_field_required));
+                        rPostalCode.setError(getString(R.string.error_field_required));
                         focusView = rPostalCode;
                         focusView.requestFocus();
                     }

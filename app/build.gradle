@@ -49,6 +49,10 @@ dependencies {
     compile 'com.hbb20:ccp:2.0.2'
     compile 'com.aldoapps:autoformatedittext:0.9.3'
     compile 'com.firebase:firebase-client-android:2.5.2'
+    compile 'com.google.android.gms:play-services-maps:11.0.4'
+    compile 'com.google.android.gms:play-services-location:11.0.4'
+    compile 'com.google.android.gms:play-services-places:11.0.4'
+    compile 'com.synnapps:carouselview:0.1.4'
     testCompile 'junit:junit:4.12'
 }
 

@@ -58,9 +58,6 @@ public class WorkAdapter extends RecyclerView.Adapter<WorkAdapter.ViewHolder> {
         public ViewHolder(View itemView){
             super(itemView);
 //            rental = (TextView) itemView.findViewById(R.id.pr_rental_name);
-            startDate = (TextView) itemView.findViewById(R.id.startDate);
-            btnstartDate = (Button) itemView.findViewById(R.id.btn_start_date);
-            btnendDate = (Button) itemView.findViewById(R.id.btn_end_date);
         }
     }
 
