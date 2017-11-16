@@ -1,4 +1,4 @@
-package id.rentist.mitrarentist.adapter;
+package id.rentist.mitrarentist.decorator;
 
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.DayViewDecorator;
@@ -9,15 +9,14 @@ import java.util.Collection;
 import java.util.HashSet;
 
 /**
- * Created by mdhif on 16/07/2017.
+ * Decorate several days with a dot
  */
+public class EventDecorator implements DayViewDecorator {
 
-public class WorkAdapter implements DayViewDecorator {
+    private int color;
+    private HashSet<CalendarDay> dates;
 
-    private final int color;
-    private final HashSet<CalendarDay> dates;
-
-    public WorkAdapter(int color, Collection<CalendarDay> dates) {
+    public EventDecorator(int color, Collection<CalendarDay> dates) {
         this.color = color;
         this.dates = new HashSet<>(dates);
     }

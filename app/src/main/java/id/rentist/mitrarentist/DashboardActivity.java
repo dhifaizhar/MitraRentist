@@ -451,7 +451,6 @@ public class DashboardActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.dashboard, menu);
         getMenuInflater().inflate(R.menu.menu_refresh_option, menu);
-        getMenuInflater().inflate(R.menu.menu_calendar_option, menu);
         return true;
     }
 
@@ -461,11 +460,6 @@ public class DashboardActivity extends AppCompatActivity
 
         if (id == R.id.action_logout) {
             logout();
-        }
-
-        if (id == R.id.action_calendar) {
-            Intent dateIntent = new Intent(DashboardActivity.this,WorkDateActivity.class);
-            startActivity(dateIntent);
         }
 
         if (id == R.id.action_refresh) {

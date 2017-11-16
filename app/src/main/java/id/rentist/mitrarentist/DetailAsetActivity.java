@@ -4,9 +4,11 @@ import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,7 +18,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.CalendarView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -29,6 +30,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.prolificinteractive.materialcalendarview.CalendarDay;
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 import com.squareup.picasso.Picasso;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
@@ -37,12 +41,20 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import id.rentist.mitrarentist.adapter.PriceAdapter;
+import id.rentist.mitrarentist.decorator.EventDecorator;
+import id.rentist.mitrarentist.decorator.HighlightWeekendsDecorator;
+import id.rentist.mitrarentist.decorator.MySelectorDecorator;
+import id.rentist.mitrarentist.decorator.OneDayDecorator;
 import id.rentist.mitrarentist.modul.PriceModul;
 import id.rentist.mitrarentist.tools.AppConfig;
 import id.rentist.mitrarentist.tools.PricingTools;
@@ -50,17 +62,20 @@ import id.rentist.mitrarentist.tools.SessionManager;
 import id.rentist.mitrarentist.tools.Tools;
 
 
-public class DetailAsetActivity extends AppCompatActivity {
-    private AsyncTask mDetailAssetTask = null;
+public class DetailAsetActivity extends AppCompatActivity implements OnDateSelectedListener {
+    private final OneDayDecorator oneDayDecorator = new OneDayDecorator();
+    private AsyncTask mDetailAssetTask = null, mWorkTask = null;
     private Toolbar toolbar;
     private ProgressDialog pDialog;
     private SessionManager sm;
     private AlertDialog.Builder showAlert;
     private AlertDialog alertDialog;
     private Intent detIntent;
-    private CalendarView simpleCalendarView;
+    MaterialCalendarView calendarView;
     Intent iAsetEdit;
 
+    List<CalendarDay> dayEvent;
+    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
     private List<PriceModul> mPrice = new ArrayList<>();
     RecyclerView mRecyclerView;
     RecyclerView.Adapter mAdapter;
@@ -106,10 +121,50 @@ public class DetailAsetActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        simpleCalendarView = (CalendarView) findViewById(R.id.calendar_aset);
-        simpleCalendarView.setFirstDayOfWeek(2);
-
         controlContent();
+
+        calendarView = (MaterialCalendarView) findViewById(R.id.calendarView);
+        calendarView.setArrowColor(0xFF00AEEE);
+        calendarView.setSelectionColor(0xFF00AEEE);
+        calendarView.setOnDateChangedListener(this);
+        calendarView.setShowOtherDates(MaterialCalendarView.SHOW_ALL);
+
+        Calendar instance = Calendar.getInstance();
+        calendarView.setSelectedDate(instance.getTime());
+
+        Calendar instance1 = Calendar.getInstance();
+        instance1.set(instance1.get(Calendar.YEAR), Calendar.JANUARY, 1);
+
+        Calendar instance2 = Calendar.getInstance();
+        instance2.set(instance2.get(Calendar.YEAR), Calendar.DECEMBER, 31);
+
+        calendarView.state().edit()
+                .setMinimumDate(instance1.getTime())
+                .setMaximumDate(instance2.getTime())
+                .commit();
+
+        calendarView.addDecorators(
+                new MySelectorDecorator(this),
+                new HighlightWeekendsDecorator(),
+                oneDayDecorator
+        );
+
+        mWorkTask =  new getDateEvent().execute();
+
+        calendarView.setOnDateChangedListener(new OnDateSelectedListener() {
+            @Override
+            public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
+                Toast.makeText(getApplicationContext(),
+                        "Selected Date:\n" + "Day = " + date.getDay() + "\n" + "Month = " + date.getMonth() + "\n" + "Year = " + date.getMonth(),
+                        Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    @Override
+    public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
+        oneDayDecorator.setDate(date.getDate());
+        widget.invalidateDecorators();
     }
 
     private void controlContent() {
@@ -935,6 +990,98 @@ public class DetailAsetActivity extends AppCompatActivity {
             showProgress(false);
         }
 
+    }
+
+    private class getDateEvent extends AsyncTask<String, String, String> {
+        private String errorMsg, responseEvent;
+
+        private getDateEvent() {}
+
+        @Override
+        protected String doInBackground(String... voids) {
+            Log.e(TAG, String.valueOf(sm.getIntPreferences("id_tenant"))
+                    + " | " + String.valueOf(aId)
+                    + " | " + aCat);
+
+            String URL = AppConfig.URL_VIEW_EVENT;
+            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    responseEvent = response;
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    errorMsg = error.toString();
+                    Log.e(TAG, "Event Fetch Error : " + errorMsg);
+                    Toast.makeText(getApplicationContext(), "Connection error, try again.",
+                            Toast.LENGTH_LONG).show();
+                }
+            }){
+                @Override
+                protected Map<String, String> getParams() {
+                    // Posting parameters to login url
+                    Map<String, String> keys = new HashMap<String, String>();
+                    keys.put("id_tenant", String.valueOf(sm.getIntPreferences("id_tenant")));
+                    keys.put("id_asset", String.valueOf(aId));
+                    keys.put("id_asset_category", detIntent.getStringExtra("id_asset_category"));
+                    return keys;
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    // Posting parameters to login url
+                    Map<String, String> keys = new HashMap<String, String>();
+                    keys.put("token", TOKEN);
+                    return keys;
+                }
+            };
+
+            try {
+                requestQueue.add(stringRequest);
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            Log.e(TAG, responseEvent);
+            return responseEvent;
+        }
+
+        @Override
+        protected void onPostExecute(String event) {
+            if (event != null) {
+                try {
+                    JSONObject eventObject = new JSONObject(event);
+                    JSONArray eventArray = new JSONArray(eventObject.getString("transaction"));
+
+                    ArrayList<CalendarDay> dates = new ArrayList<>();
+                    for (int i = 0; i < eventArray.length(); i++) {
+                        JSONObject arrayObject = eventArray.getJSONObject(i);
+
+                        try{
+                            Date date = format.parse(arrayObject.getString("start_date"));
+                            CalendarDay day = CalendarDay.from(date);
+                            dates.add(day);
+                        }catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    dayEvent = dates;
+                    calendarView.addDecorator(new EventDecorator(Color.RED, dayEvent));
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }else{
+                Toast.makeText(getApplicationContext(), "Tidak ada event.",
+                        Toast.LENGTH_LONG).show();
+            }
+
+            mWorkTask = null;
+        }
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)

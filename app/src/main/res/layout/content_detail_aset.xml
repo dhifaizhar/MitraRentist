@@ -1228,13 +1228,13 @@
                         android:textAllCaps="true"
                         android:textColor="@color/colorBlack" />
 
-                    <CalendarView
-                        android:id="@+id/calendar_aset"
+                    <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+                        android:id="@+id/calendarView"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@color/calendar_bg"
-                        android:maxDate="30/12/2050"
-                        android:minDate="01/01/2017" />
+                        android:layout_height="wrap_content"
+                        app:mcv_showOtherDates="all"
+                        />
+
                 </LinearLayout>
 
             </android.support.v7.widget.CardView>
