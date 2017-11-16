@@ -510,19 +510,6 @@ public class AsetListActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//
-//        if(resultCode == RESULT_OK) {
-//            setTitle("Aset " + data.getStringExtra("asset_name"));
-//            mAset.clear();
-//            pBar.setVisibility(View.VISIBLE);
-//            String cat = data.getStringExtra("asset_category");
-//            getAssetDataList(cat);
-//        }
-//
-//    }
-
     @Override
     public void onRestart() {
         super.onRestart();

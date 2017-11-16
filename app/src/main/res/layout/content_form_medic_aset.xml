@@ -7,9 +7,7 @@
     android:orientation="vertical"
     android:background="@color/colorBackgound"
     android:padding="@dimen/xmin_padding"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="id.rentist.mitrarentist.FormMedicAsetActivity"
-    tools:showIn="@layout/activity_form_medic_aset">
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <ScrollView
         android:layout_width="match_parent"

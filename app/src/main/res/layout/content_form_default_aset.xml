@@ -7,9 +7,7 @@
     android:orientation="vertical"
     android:background="@color/colorBackgound"
     android:padding="@dimen/xmin_padding"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="id.rentist.mitrarentist.FormYachtAsetActivity"
-    tools:showIn="@layout/activity_form_yacht_aset">
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -18,7 +16,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:focusableInTouchMode="true"
             android:orientation="vertical">
 
@@ -79,9 +77,8 @@
                                 android:id="@+id/as_subcat_spinner"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:entries="@array/yacht_subcategory_entries"
                                 android:padding="@dimen/xmin_padding"
-                                android:spinnerMode="dialog" />
+                                android:spinnerMode="dropdown" />
 
                         </LinearLayout>
 
@@ -111,7 +108,36 @@
                             android:ems="10"
                             android:hint="Nama"
                             android:imeOptions="actionNext"
-                            android:inputType="textPersonName|textCapWords"
+                            android:inputType="text|textCapWords"
+                            android:padding="@dimen/min_padding"
+                            android:text="" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="@dimen/xmin_padding"
+                        android:orientation="vertical"
+                        android:padding="@dimen/xmin_padding">
+
+                        <TextView
+                            android:id="@+id/textView23"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Merk"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="12sp" />
+
+                        <EditText
+                            android:id="@+id/as_merk"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorNearWhite"
+                            android:elevation="0dp"
+                            android:ems="10"
+                            android:hint="Brand"
+                            android:imeOptions="actionNext"
+                            android:inputType="text|textCapWords"
                             android:padding="@dimen/min_padding"
                             android:text="" />
                     </LinearLayout>
@@ -139,179 +165,204 @@
                             android:ems="10"
                             android:hint="Tipe"
                             android:imeOptions="actionNext"
-                            android:inputType="textPersonName|textCapWords"
+                            android:inputType="text|textCapWords"
                             android:padding="@dimen/min_padding"
                             android:text="" />
                     </LinearLayout>
 
+                    <!--Small Feature-->
                     <LinearLayout
+                        android:id="@+id/con_feature_small_aset"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="@dimen/xmin_padding"
-                        android:orientation="vertical"
-                        android:padding="@dimen/xmin_padding">
-
-                        <TextView
-                            android:id="@+id/textView55"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Sub-Tipe"
-                            android:textColor="@color/colorBlack"
-                            android:textSize="12sp" />
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="@dimen/xmin_padding"
+                            android:orientation="vertical"
+                            android:padding="@dimen/xmin_padding">
 
-                        <EditText
-                            android:id="@+id/as_subtype"
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Nilai Aset"
+                                android:textColor="@color/colorBlack"
+                                android:textSize="12sp" />
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <com.aldoapps.autoformatedittext.AutoFormatEditText
+                                    android:id="@+id/as_value"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:background="@color/colorNearWhite"
+                                    android:ems="10"
+                                    android:hint="0"
+                                    android:maxLength="13"
+                                    android:padding="@dimen/min_padding"
+                                    app:isDecimal="false" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginEnd="@dimen/min_padding"
+                                    android:text="IDR"
+                                    android:textColor="@color/colorBlack54"
+                                    android:textSize="@dimen/medium_text" />
+                            </RelativeLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@color/colorNearWhite"
-                            android:ems="10"
-                            android:imeOptions="actionNext"
-                            android:inputType="textPersonName|textCapWords"
-                            android:hint="Sub-Tipe"
-                            android:padding="@dimen/min_padding"
-                            android:text="" />
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="@dimen/xmin_padding"
+                            android:orientation="vertical"
+                            android:padding="@dimen/xmin_padding">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Berat"
+                                android:textColor="@color/colorBlack"
+                                android:textSize="12sp" />
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <EditText
+                                    android:id="@+id/as_weight"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:background="@color/colorNearWhite"
+                                    android:ems="10"
+                                    android:hint="Berat"
+                                    android:maxLength="5"
+                                    android:imeOptions="actionNext"
+                                    android:inputType="numberDecimal"
+                                    android:padding="@dimen/min_padding"
+                                    android:text="" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginEnd="@dimen/min_padding"
+                                    android:text="Kg"
+                                    android:textColor="@color/colorBlack54"
+                                    android:textSize="@dimen/medium_text" />
+                            </RelativeLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="@dimen/xmin_padding"
+                            android:orientation="vertical"
+                            android:padding="@dimen/xmin_padding">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Dimensi "
+                                    android:textColor="@color/colorBlack"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text=" *dalam satuan meter"
+                                    android:textColor="@color/colorBlack54"
+                                    android:textSize="@dimen/almost_tiny_text" />
+
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <EditText
+                                    android:id="@+id/as_dim_p"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="@dimen/xmin_padding"
+                                    android:layout_weight="8"
+                                    android:background="@color/colorNearWhite"
+                                    android:ems="10"
+                                    android:hint="Panjang"
+                                    android:imeOptions="actionNext"
+                                    android:inputType="numberDecimal"
+                                    android:maxLength="5"
+                                    android:padding="@dimen/min_padding"
+                                    android:text=""
+                                    android:textAlignment="center" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="10"
+                                    android:ems="10"
+                                    android:padding="@dimen/min_padding"
+                                    android:text="X"
+                                    android:textAlignment="center" />
+
+                                <EditText
+                                    android:id="@+id/as_dim_l"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/xmin_padding"
+                                    android:layout_weight="8"
+                                    android:background="@color/colorNearWhite"
+                                    android:ems="10"
+                                    android:hint="Lebar"
+                                    android:imeOptions="actionNext"
+                                    android:inputType="numberDecimal"
+                                    android:maxLength="5"
+                                    android:padding="@dimen/min_padding"
+                                    android:text=""
+                                    android:textAlignment="center" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="10"
+                                    android:ems="10"
+                                    android:padding="@dimen/min_padding"
+                                    android:text="X"
+                                    android:textAlignment="center" />
+
+                                <EditText
+                                    android:id="@+id/as_dim_t"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/xmin_padding"
+                                    android:layout_weight="8"
+                                    android:background="@color/colorNearWhite"
+                                    android:ems="10"
+                                    android:hint="Tinggi"
+                                    android:imeOptions="actionNext"
+                                    android:inputType="numberDecimal"
+                                    android:maxLength="5"
+                                    android:padding="@dimen/min_padding"
+                                    android:text=""
+                                    android:textAlignment="center" />
+                            </LinearLayout>
+                        </LinearLayout>
+
                     </LinearLayout>
 
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="@dimen/xmin_padding"
-                        android:orientation="vertical"
-                        android:padding="@dimen/xmin_padding">
-
-                        <TextView
-                            android:id="@+id/textView85"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Model"
-                            android:textColor="@color/colorBlack"
-                            android:textSize="12sp" />
-
-                        <EditText
-                            android:id="@+id/as_model"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@color/colorNearWhite"
-                            android:ems="10"
-                            android:hint="Model"
-                            android:imeOptions="actionNext"
-                            android:inputType="textPersonName|textCapWords"
-                            android:padding="@dimen/min_padding"
-                            android:text="" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="@dimen/xmin_padding"
-                        android:orientation="vertical"
-                        android:padding="@dimen/xmin_padding">
-
-                        <TextView
-                            android:id="@+id/textView23"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Builder"
-                            android:textColor="@color/colorBlack"
-                            android:textSize="12sp" />
-
-                        <EditText
-                            android:id="@+id/as_builder"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@color/colorNearWhite"
-                            android:ems="10"
-                            android:hint="Builder"
-                            android:imeOptions="actionNext"
-                            android:inputType="textPersonName|textCapWords"
-                            android:padding="@dimen/min_padding"
-                            android:text="" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="@dimen/xmin_padding"
-                        android:orientation="vertical"
-                        android:padding="@dimen/xmin_padding">
-
-                        <TextView
-                            android:id="@+id/textView253"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Naval Architect"
-                            android:textColor="@color/colorBlack"
-                            android:textSize="12sp" />
-
-                        <EditText
-                            android:id="@+id/as_naval_architect"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@color/colorNearWhite"
-                            android:ems="10"
-                            android:hint="Nacal Architect"
-                            android:imeOptions="actionNext"
-                            android:inputType="textPersonName|textCapWords"
-                            android:padding="@dimen/min_padding"
-                            android:text="" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="@dimen/xmin_padding"
-                        android:orientation="vertical"
-                        android:padding="@dimen/xmin_padding">
-
-                        <TextView
-                            android:id="@+id/textView252"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Interior Designer"
-                            android:textColor="@color/colorBlack"
-                            android:textSize="12sp" />
-
-                        <EditText
-                            android:id="@+id/as_interior_designer"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@color/colorNearWhite"
-                            android:ems="10"
-                            android:hint="Interior Designer"
-                            android:imeOptions="actionNext"
-                            android:inputType="textPersonName|textCapWords"
-                            android:padding="@dimen/min_padding"
-                            android:text="" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="@dimen/xmin_padding"
-                        android:orientation="vertical"
-                        android:padding="@dimen/xmin_padding">
-
-                        <TextView
-                            android:id="@+id/textView92"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Exterior Designer"
-                            android:textColor="@color/colorBlack"
-                            android:textSize="12sp" />
-
-                        <EditText
-                            android:id="@+id/as_exterior_designer"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@color/colorNearWhite"
-                            android:ems="10"
-                            android:hint="Exterior Designer"
-                            android:imeOptions="actionNext"
-                            android:inputType="textPersonName|textCapWords"
-                            android:padding="@dimen/min_padding"
-                            android:text="" />
-                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -385,41 +436,37 @@
                         android:padding="@dimen/xmin_padding">
 
                         <TextView
+                            android:id="@+id/textView26"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Guest"
+                            android:text="Minimal Lama Peminjaman"
                             android:textColor="@color/colorBlack"
                             android:textSize="12sp" />
 
                         <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@color/colorNearWhite">
+                            android:layout_height="wrap_content">
 
                             <EditText
-                                android:id="@+id/as_guest"
+                                android:id="@+id/as_min_day_rent"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_alignParentStart="true"
-                                android:layout_alignParentTop="true"
-                                android:layout_marginEnd="@dimen/xmin_padding"
-                                android:layout_toStartOf="@+id/plp_guest"
                                 android:background="@color/colorNearWhite"
                                 android:ems="10"
                                 android:hint="0"
+                                android:imeOptions="actionNext"
                                 android:inputType="number"
                                 android:padding="@dimen/min_padding"
-                                android:text="" />
+                                android:text="1" />
 
                             <TextView
-                                android:id="@+id/plp_guest"
+                                android:id="@+id/day"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentEnd="true"
                                 android:layout_centerVertical="true"
                                 android:layout_marginEnd="@dimen/min_padding"
-                                android:inputType="number"
-                                android:text="Orang"
+                                android:text="Hari"
                                 android:textColor="@color/colorBlack54"
                                 android:textSize="@dimen/medium_text" />
 
@@ -432,380 +479,6 @@
                         android:layout_marginBottom="@dimen/xmin_padding"
                         android:orientation="vertical"
                         android:padding="@dimen/xmin_padding">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Cabin"
-                            android:textColor="@color/colorBlack"
-                            android:textSize="12sp" />
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@color/colorNearWhite">
-
-                            <EditText
-                                android:id="@+id/as_cabin"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:background="@color/colorNearWhite"
-                                android:ems="10"
-                                android:hint="0"
-                                android:padding="@dimen/min_padding"
-                                android:inputType="number"
-                                android:text=""
-                                android:layout_alignParentTop="true"
-                                android:layout_alignParentStart="true" />
-
-                            <TextView
-                                android:id="@+id/plp_cabin"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentEnd="true"
-                                android:layout_centerVertical="true"
-                                android:layout_marginEnd="@dimen/min_padding"
-                                android:inputType="number"
-                                android:text="Orang"
-                                android:textColor="@color/colorBlack54"
-                                android:textSize="@dimen/medium_text" />
-
-                        </RelativeLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="@dimen/xmin_padding"
-                        android:orientation="vertical"
-                        android:padding="@dimen/xmin_padding">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Crew"
-                            android:textColor="@color/colorBlack"
-                            android:textSize="12sp" />
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@color/colorNearWhite">
-
-                            <EditText
-                                android:id="@+id/as_crew"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentStart="true"
-                                android:layout_alignParentTop="true"
-                                android:layout_marginEnd="@dimen/xmin_padding"
-                                android:layout_toStartOf="@+id/plp_crew"
-                                android:background="@color/colorNearWhite"
-                                android:ems="10"
-                                android:hint="0"
-                                android:inputType="number"
-                                android:padding="@dimen/min_padding"
-                                android:text="" />
-
-                            <TextView
-                                android:id="@+id/plp_crew"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentEnd="true"
-                                android:layout_centerVertical="true"
-                                android:layout_marginEnd="@dimen/min_padding"
-                                android:inputType="number"
-                                android:text="Orang"
-                                android:textColor="@color/colorBlack54"
-                                android:textSize="@dimen/medium_text" />
-
-                        </RelativeLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="@dimen/xmin_padding"
-                        android:orientation="vertical"
-                        android:padding="@dimen/xmin_padding">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Length"
-                            android:textColor="@color/colorBlack"
-                            android:textSize="12sp" />
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@color/colorNearWhite">
-
-                            <EditText
-                                android:id="@+id/as_length"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentStart="true"
-                                android:layout_alignParentTop="true"
-                                android:layout_marginEnd="@dimen/xmin_padding"
-                                android:layout_toStartOf="@+id/m_length"
-                                android:background="@color/colorNearWhite"
-                                android:ems="10"
-                                android:inputType="number"
-                                android:hint="Length"
-                                android:padding="@dimen/min_padding"
-                                android:text="" />
-
-                            <TextView
-                                android:id="@+id/m_length"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentEnd="true"
-                                android:layout_centerVertical="true"
-                                android:layout_marginEnd="@dimen/min_padding"
-                                android:inputType="number"
-                                android:text="M"
-                                android:textColor="@color/colorBlack54"
-                                android:textSize="@dimen/medium_text" />
-
-                        </RelativeLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="@dimen/xmin_padding"
-                        android:orientation="vertical"
-                        android:padding="@dimen/xmin_padding">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Beam"
-                            android:textColor="@color/colorBlack"
-                            android:textSize="12sp" />
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@color/colorNearWhite">
-
-                            <EditText
-                                android:id="@+id/as_beam"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentStart="true"
-                                android:layout_alignParentTop="true"
-                                android:layout_marginEnd="@dimen/xmin_padding"
-                                android:layout_toStartOf="@+id/m_beam"
-                                android:background="@color/colorNearWhite"
-                                android:ems="10"
-                                android:hint="0"
-                                android:inputType="number"
-                                android:padding="@dimen/min_padding"
-                                android:text="" />
-
-                            <TextView
-                                android:id="@+id/m_beam"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentEnd="true"
-                                android:layout_centerVertical="true"
-                                android:layout_marginEnd="@dimen/min_padding"
-                                android:inputType="number"
-                                android:text="M"
-                                android:textColor="@color/colorBlack54"
-                                android:textSize="@dimen/medium_text" />
-
-                        </RelativeLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="@dimen/xmin_padding"
-                        android:orientation="vertical"
-                        android:padding="@dimen/xmin_padding">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Draft"
-                            android:textColor="@color/colorBlack"
-                            android:textSize="12sp" />
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@color/colorNearWhite">
-
-                            <EditText
-                                android:id="@+id/as_draft"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentStart="true"
-                                android:layout_alignParentTop="true"
-                                android:layout_marginEnd="@dimen/xmin_padding"
-                                android:layout_toStartOf="@+id/m_draft"
-                                android:background="@color/colorNearWhite"
-                                android:ems="10"
-                                android:hint="0"
-                                android:padding="@dimen/min_padding"
-                                android:inputType="number"
-                                android:text="" />
-
-                            <TextView
-                                android:id="@+id/m_draft"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentEnd="true"
-                                android:layout_centerVertical="true"
-                                android:layout_marginEnd="@dimen/min_padding"
-                                android:text="M"
-                                android:textColor="@color/colorBlack54"
-                                android:textSize="@dimen/medium_text" />
-
-                        </RelativeLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="@dimen/xmin_padding"
-                        android:orientation="vertical"
-                        android:padding="@dimen/xmin_padding">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Cruising Speed"
-                            android:textColor="@color/colorBlack"
-                            android:textSize="12sp" />
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@color/colorNearWhite">
-
-                            <EditText
-                                android:id="@+id/as_cruising_speed"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentStart="true"
-                                android:layout_alignParentTop="true"
-                                android:layout_marginEnd="@dimen/xmin_padding"
-                                android:layout_toStartOf="@+id/cruising_knots"
-                                android:background="@color/colorNearWhite"
-                                android:ems="10"
-                                android:hint="0"
-                                android:inputType="number"
-                                android:padding="@dimen/min_padding"
-                                android:text="" />
-
-                            <TextView
-                                android:id="@+id/cruising_knots"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentEnd="true"
-                                android:layout_centerVertical="true"
-                                android:layout_marginEnd="@dimen/min_padding"
-                                android:text="KNOTS"
-                                android:textColor="@color/colorBlack54"
-                                android:textSize="@dimen/medium_text" />
-
-                        </RelativeLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="@dimen/xmin_padding"
-                        android:orientation="vertical"
-                        android:padding="@dimen/xmin_padding">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Top Speed"
-                            android:textColor="@color/colorBlack"
-                            android:textSize="12sp" />
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@color/colorNearWhite">
-
-                            <EditText
-                                android:id="@+id/as_top_speed"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentStart="true"
-                                android:layout_alignParentTop="true"
-                                android:layout_marginEnd="@dimen/xmin_padding"
-                                android:layout_toStartOf="@+id/max_knots"
-                                android:background="@color/colorNearWhite"
-                                android:ems="10"
-                                android:hint="0"
-                                android:padding="@dimen/min_padding"
-                                android:inputType="number"
-                                android:text="" />
-
-                            <TextView
-                                android:id="@+id/max_knots"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentEnd="true"
-                                android:layout_centerVertical="true"
-                                android:layout_marginEnd="@dimen/min_padding"
-                                android:text="KNOTS"
-                                android:textColor="@color/colorBlack54"
-                                android:textSize="@dimen/medium_text" />
-
-                        </RelativeLayout>
-                    </LinearLayout>
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="@dimen/xmin_padding"
-                        android:orientation="vertical"
-                        android:padding="@dimen/xmin_padding">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Gross Tonaage"
-                            android:textColor="@color/colorBlack"
-                            android:textSize="12sp" />
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@color/colorNearWhite">
-
-                            <EditText
-                                android:id="@+id/as_gross_tonnage"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentStart="true"
-                                android:layout_alignParentTop="true"
-                                android:background="@color/colorNearWhite"
-                                android:ems="10"
-                                android:inputType="number"
-                                android:hint="0"
-                                android:padding="@dimen/min_padding"
-                                android:text="" />
-
-                        </RelativeLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="@dimen/xmin_padding"
-                        >
 
                         <TextView
                             android:layout_width="match_parent"
@@ -817,8 +490,8 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:background="@color/colorNearWhite">
+                            android:background="@color/colorNearWhite"
+                            android:orientation="horizontal">
 
                             <CheckBox
                                 android:id="@+id/as_ck_delivery"
@@ -839,7 +512,9 @@
                                 android:checked="false"
                                 android:paddingEnd="@dimen/min_padding"
                                 android:text="Diambil" />
+
                         </LinearLayout>
+
 
                     </LinearLayout>
 
@@ -853,58 +528,59 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Minimal Lama Peminjaman"
+                            android:text="Asuransi"
                             android:textColor="@color/colorBlack"
                             android:textSize="12sp" />
 
-                        <RelativeLayout
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorNearWhite"
+                            android:orientation="horizontal">
 
-                            <EditText
-                                android:id="@+id/as_min_rent_day"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:background="@color/colorNearWhite"
-                                android:ems="10"
-                                android:hint="0"
-                                android:padding="@dimen/min_padding"
-                                android:inputType="number"
-                                android:imeOptions="actionNext"
-                                android:text="1" />
-
-                            <TextView
-                                android:id="@+id/day"
+                            <CheckBox
+                                android:id="@+id/as_ck_assurance"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Hari"
-                                android:layout_alignParentEnd="true"
-                                android:layout_centerVertical="true"
-                                android:textColor="@color/colorBlack54"
-                                android:layout_marginEnd="@dimen/min_padding"
-                                android:textSize="@dimen/medium_text" />
+                                android:layout_alignParentStart="true"
+                                android:layout_alignParentTop="true"
+                                android:layout_marginTop="@dimen/xmin_padding"
+                                android:layout_weight="1"
+                                android:checked="false"
+                                android:paddingEnd="@dimen/min_padding"
+                                android:text="Asuransi" />
 
-                        </RelativeLayout>
+                        </LinearLayout>
                     </LinearLayout>
 
-                    <RelativeLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_marginBottom="@dimen/xmin_padding"
+                        android:orientation="vertical"
                         android:padding="@dimen/xmin_padding">
 
-                        <CheckBox
-                            android:id="@+id/as_ck_assurance"
-                            android:layout_width="wrap_content"
+                        <TextView
+                            android:id="@+id/textView3"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentStart="true"
-                            android:layout_alignParentTop="true"
-                            android:layout_marginTop="@dimen/xmin_padding"
-                            android:layout_weight="1"
-                            android:checked="false"
-                            android:paddingEnd="@dimen/min_padding"
-                            android:text="Asuransi" />
-                    </RelativeLayout>
+                            android:text="Deskripsi"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="12sp" />
+
+                        <EditText
+                            android:id="@+id/as_desc"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorNearWhite"
+                            android:ems="10"
+                            android:gravity="start"
+                            android:hint="Sekilas Tentang Aset"
+                            android:inputType="textMultiLine|textCapSentences"
+                            android:lines="3"
+                            android:padding="@dimen/min_padding"
+                             />
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -990,7 +666,7 @@
                                     android:layout_height="@dimen/breadcrumb_height"
                                     android:layout_centerVertical="true"
                                     android:buttonTint="@color/colorPrimary"
-                                    />
+                                     />
 
                             </RadioGroup>
 
@@ -1150,9 +826,9 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textColor="@color/colorGrey"
-                                android:text="*Wajib diisi"
                                 android:layout_marginLeft="@dimen/xmin_padding"
+                                android:text="*Wajib diisi"
+                                android:textColor="@color/colorGrey"
                                 android:textSize="@dimen/almost_tiny_text" />
 
                         </LinearLayout>
@@ -1165,23 +841,22 @@
                                 android:id="@+id/as_price_basic"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:ems="10"
-                                app:isDecimal="false"
-                                android:maxLength="13"
-                                android:hint="0"
-                                android:padding="@dimen/min_padding"
                                 android:background="@color/colorNearWhite"
-                                />
+                                android:ems="10"
+                                android:hint="0"
+                                android:maxLength="13"
+                                android:padding="@dimen/min_padding"
+                                app:isDecimal="false" />
 
                             <TextView
                                 android:id="@+id/idra"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="IDR"
-                                android:layout_centerVertical="true"
                                 android:layout_alignParentEnd="true"
-                                android:textColor="@color/colorGrey"
+                                android:layout_centerVertical="true"
                                 android:layout_marginEnd="@dimen/min_padding"
+                                android:text="IDR"
+                                android:textColor="@color/colorGrey"
                                 android:textSize="@dimen/medium_text" />
                         </RelativeLayout>
 
@@ -1193,21 +868,21 @@
                                 android:id="@+id/disptext"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textColor="@color/colorGrey"
                                 android:layout_marginTop="@dimen/small_space"
                                 android:text=""
+                                android:textColor="@color/colorGrey"
                                 android:textSize="@dimen/almost_tiny_text" />
 
                             <TextView
                                 android:id="@+id/as_price_basic_disp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textColor="@color/colorPrice"
-                                android:layout_toEndOf="@+id/disptext"
                                 android:layout_alignParentEnd="true"
-                                android:textAlignment="textEnd"
                                 android:layout_marginTop="@dimen/small_space"
+                                android:layout_toEndOf="@+id/disptext"
                                 android:text="0 IDR"
+                                android:textAlignment="textEnd"
+                                android:textColor="@color/colorPrice"
                                 android:textSize="@dimen/under_small_text" />
                         </RelativeLayout>
 
@@ -1218,12 +893,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:visibility="gone"
-                        >
+                        android:visibility="gone">
+
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:background="@android:color/darker_gray"/>
+                            android:background="@android:color/darker_gray" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -1242,8 +917,8 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:orientation="vertical"
                                 android:background="@color/colorNearWhite"
+                                android:orientation="vertical"
                                 android:padding="@dimen/xmin_padding">
 
                                 <Spinner
@@ -1278,11 +953,11 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:background="@color/colorNearWhite"
-                                android:ems="10"
-                                android:editable="false"
-                                android:inputType="date|none"
                                 android:drawableEnd="@drawable/ic_date_range_black_24dp"
+                                android:editable="false"
+                                android:ems="10"
                                 android:hint="Tanggal Mulai"
+                                android:inputType="date|none"
                                 android:padding="@dimen/min_padding"
                                 android:text="" />
                         </LinearLayout>
@@ -1307,11 +982,11 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:background="@color/colorNearWhite"
-                                android:ems="10"
-                                android:inputType="date|none"
-                                android:editable="false"
                                 android:drawableEnd="@drawable/ic_date_range_black_24dp"
+                                android:editable="false"
+                                android:ems="10"
                                 android:hint="Tanggal Akhir"
+                                android:inputType="date|none"
                                 android:padding="@dimen/min_padding"
                                 android:text="" />
                         </LinearLayout>
@@ -1339,23 +1014,22 @@
                                     android:id="@+id/as_price_advance"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:ems="10"
-                                    android:maxLength="13"
-                                    app:isDecimal="false"
-                                    android:hint="0"
-                                    android:padding="@dimen/min_padding"
                                     android:background="@color/colorNearWhite"
-                                    />
+                                    android:ems="10"
+                                    android:hint="0"
+                                    android:maxLength="13"
+                                    android:padding="@dimen/min_padding"
+                                    app:isDecimal="false" />
 
                                 <TextView
                                     android:id="@+id/daye"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="IDR"
                                     android:layout_alignParentEnd="true"
                                     android:layout_centerVertical="true"
-                                    android:textColor="@color/colorGrey"
                                     android:layout_marginEnd="@dimen/min_padding"
+                                    android:text="IDR"
+                                    android:textColor="@color/colorGrey"
                                     android:textSize="@dimen/medium_text" />
 
                             </RelativeLayout>
@@ -1368,21 +1042,21 @@
                                     android:id="@+id/disptext2"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:textColor="@color/colorGrey"
                                     android:layout_marginTop="@dimen/small_space"
                                     android:text="Harga yang akan anda terima (-10%):"
+                                    android:textColor="@color/colorGrey"
                                     android:textSize="@dimen/almost_tiny_text" />
 
                                 <TextView
                                     android:id="@+id/as_price_advance_disp"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:textColor="@color/colorPrice"
-                                    android:layout_toEndOf="@+id/disptext2"
                                     android:layout_alignParentEnd="true"
-                                    android:textAlignment="textEnd"
                                     android:layout_marginTop="@dimen/small_space"
+                                    android:layout_toEndOf="@+id/disptext2"
                                     android:text="0 IDR"
+                                    android:textAlignment="textEnd"
+                                    android:textColor="@color/colorPrice"
                                     android:textSize="@dimen/under_small_text" />
                             </RelativeLayout>
                         </LinearLayout>
@@ -1394,12 +1068,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:visibility="gone"
-                        >
+                        android:visibility="gone">
+
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:background="@android:color/darker_gray"/>
+                            android:background="@android:color/darker_gray" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -1418,8 +1092,8 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:orientation="vertical"
                                 android:background="@color/colorNearWhite"
+                                android:orientation="vertical"
                                 android:padding="@dimen/xmin_padding">
 
                                 <Spinner
@@ -1453,11 +1127,11 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:background="@color/colorNearWhite"
-                                android:ems="10"
-                                android:editable="false"
-                                android:inputType="date|none"
                                 android:drawableEnd="@drawable/ic_date_range_black_24dp"
+                                android:editable="false"
+                                android:ems="10"
                                 android:hint="Tanggal Mulai"
+                                android:inputType="date|none"
                                 android:padding="@dimen/min_padding"
                                 android:text="" />
                         </LinearLayout>
@@ -1481,11 +1155,11 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:background="@color/colorNearWhite"
-                                android:ems="10"
-                                android:inputType="date|none"
-                                android:editable="false"
                                 android:drawableEnd="@drawable/ic_date_range_black_24dp"
+                                android:editable="false"
+                                android:ems="10"
                                 android:hint="Tanggal Akhir"
+                                android:inputType="date|none"
                                 android:padding="@dimen/min_padding"
                                 android:text="" />
                         </LinearLayout>
@@ -1512,22 +1186,21 @@
                                     android:id="@+id/as_price_advance2"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:ems="10"
-                                    android:maxLength="13"
-                                    app:isDecimal="false"
-                                    android:hint="0"
-                                    android:padding="@dimen/min_padding"
                                     android:background="@color/colorNearWhite"
-                                    />
+                                    android:ems="10"
+                                    android:hint="0"
+                                    android:maxLength="13"
+                                    android:padding="@dimen/min_padding"
+                                    app:isDecimal="false" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="IDR"
                                     android:layout_alignParentEnd="true"
                                     android:layout_centerVertical="true"
-                                    android:textColor="@color/colorGrey"
                                     android:layout_marginEnd="@dimen/min_padding"
+                                    android:text="IDR"
+                                    android:textColor="@color/colorGrey"
                                     android:textSize="@dimen/medium_text" />
 
                             </RelativeLayout>
@@ -1540,21 +1213,21 @@
                                     android:id="@+id/disptext3"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:textColor="@color/colorGrey"
                                     android:layout_marginTop="@dimen/small_space"
                                     android:text="Harga yang akan anda terima (-10%):"
+                                    android:textColor="@color/colorGrey"
                                     android:textSize="@dimen/almost_tiny_text" />
 
                                 <TextView
                                     android:id="@+id/as_price_advance_disp2"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:textColor="@color/colorPrice"
-                                    android:layout_toEndOf="@+id/disptext3"
                                     android:layout_alignParentEnd="true"
-                                    android:textAlignment="textEnd"
                                     android:layout_marginTop="@dimen/small_space"
+                                    android:layout_toEndOf="@+id/disptext3"
                                     android:text="0 IDR"
+                                    android:textAlignment="textEnd"
+                                    android:textColor="@color/colorPrice"
                                     android:textSize="@dimen/under_small_text" />
                             </RelativeLayout>
                         </LinearLayout>
@@ -1566,13 +1239,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:visibility="gone"
-                        >
+                        android:visibility="gone">
 
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:background="@android:color/darker_gray"/>
+                            android:background="@android:color/darker_gray" />
 
 
                         <LinearLayout
@@ -1592,8 +1264,8 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:orientation="vertical"
                                 android:background="@color/colorNearWhite"
+                                android:orientation="vertical"
                                 android:padding="@dimen/xmin_padding">
 
                                 <Spinner
@@ -1628,11 +1300,11 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:background="@color/colorNearWhite"
-                                android:ems="10"
-                                android:editable="false"
-                                android:inputType="date|none"
                                 android:drawableEnd="@drawable/ic_date_range_black_24dp"
+                                android:editable="false"
+                                android:ems="10"
                                 android:hint="Tanggal Mulai"
+                                android:inputType="date|none"
                                 android:padding="@dimen/min_padding"
                                 android:text="" />
                         </LinearLayout>
@@ -1656,11 +1328,11 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:background="@color/colorNearWhite"
-                                android:ems="10"
-                                android:inputType="date|none"
-                                android:editable="false"
                                 android:drawableEnd="@drawable/ic_date_range_black_24dp"
+                                android:editable="false"
+                                android:ems="10"
                                 android:hint="Tanggal Akhir"
+                                android:inputType="date|none"
                                 android:padding="@dimen/min_padding"
                                 android:text="" />
                         </LinearLayout>
@@ -1687,22 +1359,21 @@
                                     android:id="@+id/as_price_advance3"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:ems="10"
-                                    android:maxLength="13"
-                                    app:isDecimal="false"
-                                    android:hint="0"
-                                    android:padding="@dimen/min_padding"
                                     android:background="@color/colorNearWhite"
-                                    />
+                                    android:ems="10"
+                                    android:hint="0"
+                                    android:maxLength="13"
+                                    android:padding="@dimen/min_padding"
+                                    app:isDecimal="false" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="IDR"
                                     android:layout_alignParentEnd="true"
                                     android:layout_centerVertical="true"
-                                    android:textColor="@color/colorGrey"
                                     android:layout_marginEnd="@dimen/min_padding"
+                                    android:text="IDR"
+                                    android:textColor="@color/colorGrey"
                                     android:textSize="@dimen/medium_text" />
 
                             </RelativeLayout>
@@ -1715,21 +1386,21 @@
                                     android:id="@+id/disptext4"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:textColor="@color/colorGrey"
                                     android:layout_marginTop="@dimen/small_space"
                                     android:text="Harga yang akan anda terima (-10%):"
+                                    android:textColor="@color/colorGrey"
                                     android:textSize="@dimen/almost_tiny_text" />
 
                                 <TextView
                                     android:id="@+id/as_price_advance_disp3"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:textColor="@color/colorPrice"
-                                    android:layout_toEndOf="@+id/disptext4"
                                     android:layout_alignParentEnd="true"
-                                    android:textAlignment="textEnd"
                                     android:layout_marginTop="@dimen/small_space"
+                                    android:layout_toEndOf="@+id/disptext4"
                                     android:text="0 IDR"
+                                    android:textAlignment="textEnd"
+                                    android:textColor="@color/colorPrice"
                                     android:textSize="@dimen/under_small_text" />
                             </RelativeLayout>
                         </LinearLayout>
@@ -1741,13 +1412,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:visibility="gone"
-                        >
+                        android:visibility="gone">
 
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:background="@android:color/darker_gray"/>
+                            android:background="@android:color/darker_gray" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -1766,8 +1436,8 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:orientation="vertical"
                                 android:background="@color/colorNearWhite"
+                                android:orientation="vertical"
                                 android:padding="@dimen/xmin_padding">
 
                                 <Spinner
@@ -1801,11 +1471,11 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:background="@color/colorNearWhite"
-                                android:ems="10"
-                                android:editable="false"
-                                android:inputType="date|none"
                                 android:drawableEnd="@drawable/ic_date_range_black_24dp"
+                                android:editable="false"
+                                android:ems="10"
                                 android:hint="Tanggal Mulai"
+                                android:inputType="date|none"
                                 android:padding="@dimen/min_padding"
                                 android:text="" />
                         </LinearLayout>
@@ -1829,11 +1499,11 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:background="@color/colorNearWhite"
-                                android:ems="10"
-                                android:inputType="date|none"
-                                android:editable="false"
                                 android:drawableEnd="@drawable/ic_date_range_black_24dp"
+                                android:editable="false"
+                                android:ems="10"
                                 android:hint="Tanggal Akhir"
+                                android:inputType="date|none"
                                 android:padding="@dimen/min_padding"
                                 android:text="" />
                         </LinearLayout>
@@ -1860,22 +1530,21 @@
                                     android:id="@+id/as_price_advance4"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:ems="10"
-                                    android:maxLength="13"
-                                    app:isDecimal="false"
-                                    android:hint="0"
-                                    android:padding="@dimen/min_padding"
                                     android:background="@color/colorNearWhite"
-                                    />
+                                    android:ems="10"
+                                    android:hint="0"
+                                    android:maxLength="13"
+                                    android:padding="@dimen/min_padding"
+                                    app:isDecimal="false" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="IDR"
                                     android:layout_alignParentEnd="true"
                                     android:layout_centerVertical="true"
-                                    android:textColor="@color/colorGrey"
                                     android:layout_marginEnd="@dimen/min_padding"
+                                    android:text="IDR"
+                                    android:textColor="@color/colorGrey"
                                     android:textSize="@dimen/medium_text" />
 
                             </RelativeLayout>
@@ -1888,21 +1557,21 @@
                                     android:id="@+id/disptext5"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:textColor="@color/colorGrey"
                                     android:layout_marginTop="@dimen/small_space"
                                     android:text="Harga yang akan anda terima (-10%):"
+                                    android:textColor="@color/colorGrey"
                                     android:textSize="@dimen/almost_tiny_text" />
 
                                 <TextView
                                     android:id="@+id/as_price_advance_disp4"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:textColor="@color/colorPrice"
-                                    android:layout_toEndOf="@+id/disptext5"
                                     android:layout_alignParentEnd="true"
-                                    android:textAlignment="textEnd"
                                     android:layout_marginTop="@dimen/small_space"
+                                    android:layout_toEndOf="@+id/disptext5"
                                     android:text="0 IDR"
+                                    android:textAlignment="textEnd"
+                                    android:textColor="@color/colorPrice"
                                     android:textSize="@dimen/under_small_text" />
                             </RelativeLayout>
                         </LinearLayout>

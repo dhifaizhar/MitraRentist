@@ -19,11 +19,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,6 +36,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -59,14 +65,29 @@ public class FormYachtAsetActivity extends AppCompatActivity {
     Intent iFormAsset;
     String URL = AppConfig.URL_YACHT;
 
-    ImageView aImg;
     TextView aName, aSubType, aType, aModel, aGuest, aCrew, aCabin, aLength, aBeam,
-            aDraft, aGrossTon, aCruisingSpeed, aTopSpeed, aBuilder, aNavalArc, aIntDesign, aExtDesign, aMinDayRent;
+            aDraft, aGrossTon, aCruisingSpeed, aTopSpeed, aBuilder, aNavalArc, aIntDesign, aExtDesign,
+            aMinDayRent, aAddress;
     Integer idAsset;
-    String aLatitude, aLongitude, aAddress, tenant, category, encodedImage, isiimage = "", ext, imgString, aDeliveryMethod;
-    CheckBox aAssurace, aDelivery, aPickup;;
-    Button btnImgUpload;
+    String aLatitude, aLongitude, tenant, category, encodedImage,aDeliveryMethod, aRentReq;
+    CheckBox aAssurace, aDelivery, aPickup;
     Spinner subcategory;
+    RadioGroup aRentReqGroup;
+    RadioButton aBasic, aVerified, aSmartCon;
+
+    private int PICK_LOCATION_REQUEST = 10;
+    private static final String TAG = "FormAssetActivity";
+    private static final String TOKEN = "secretissecret";
+
+    //Image Initial
+    String[] imagesArray = {AppConfig.URL_IMAGE_ASSETS + "default.png"};
+    ImageView aMainImage, aSecondImage, aThirdImage, aFourthImage, aFifthImage;
+    String isiimage, imgStringMain = "", imgStringSecond = "", imgStringThird = "", imgStringFourth = "", imgStringFifth = "";
+    private int PICK_IMAGE_REQUEST = 1;
+    private int PICK_IMAGE_SECOND_REQUEST = 2;
+    private int PICK_IMAGE_THIRD_REQUEST = 3;
+    private int PICK_IMAGE_FOURTH_REQUEST = 4;
+    private int PICK_IMAGE_FIFTH_REQUEST = 5;
 
     // Price Initial
     ArrayList<String> pricingArray = new ArrayList<String>();
@@ -79,14 +100,10 @@ public class FormYachtAsetActivity extends AppCompatActivity {
             aDispText, aDispText2, aDispText3, aDispText4, aDispText5;
     Spinner aRangName, aRangName2, aRangName3, aRangName4;
     LinearLayout conAdvancePrice, conAdvancePrice2, conAdvancePrice3, conAdvancePrice4;
-    private int PICK_DATE_REQUEST = 3;
-    private int PICK_DATE_REQUEST2 = 4;
-    private int PICK_DATE_REQUEST3 = 5;
-    private int PICK_DATE_REQUEST4 = 6;
-
-    private int PICK_IMAGE_REQUEST = 1;
-    private static final String TAG = "FormAssetActivity";
-    private static final String TOKEN = "secretissecret";
+    private int PICK_DATE_REQUEST = 6;
+    private int PICK_DATE_REQUEST2 = 7;
+    private int PICK_DATE_REQUEST3 = 8;
+    private int PICK_DATE_REQUEST4 = 9;
 
 
     @Override
@@ -99,7 +116,6 @@ public class FormYachtAsetActivity extends AppCompatActivity {
         sm = new SessionManager(getApplicationContext());
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
-        btnImgUpload = (Button) findViewById(R.id.btnUploadFoto);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -107,14 +123,6 @@ public class FormYachtAsetActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         contentcontrol();
-
-        btnImgUpload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showFileChooser();
-            }
-        });
-
 
     }
 
@@ -141,7 +149,64 @@ public class FormYachtAsetActivity extends AppCompatActivity {
         aAssurace = (CheckBox) findViewById(R.id.as_ck_assurance);
         aDelivery = (CheckBox) findViewById(R.id.as_ck_delivery);
         aPickup = (CheckBox) findViewById(R.id.as_ck_pickup);
-                                                                                                                                                                                                                                                                                                                                                                     aImg = (ImageView) findViewById(R.id.thumb_aset);
+        aAddress = (TextView) findViewById(R.id.as_address);
+        aRentReqGroup = (RadioGroup) findViewById(R.id.rent_req_group);
+        aBasic = (RadioButton) findViewById(R.id.r_basic);
+        aVerified = (RadioButton) findViewById(R.id.r_verified);
+        aSmartCon = (RadioButton) findViewById(R.id.r_smart_con);
+
+        aMainImage = (ImageView) findViewById(R.id.main_image);
+        aSecondImage = (ImageView) findViewById(R.id.second_image);
+        aThirdImage = (ImageView) findViewById(R.id.third_image);
+        aFourthImage = (ImageView) findViewById(R.id.fourth_image);
+        aFifthImage = (ImageView) findViewById(R.id.fifth_image);
+
+        aAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+                Intent intent;
+                try {
+                    intent = builder.build(FormYachtAsetActivity.this);
+                    startActivityForResult(intent, PICK_LOCATION_REQUEST);
+                } catch (GooglePlayServicesRepairableException e) {
+                    e.printStackTrace();
+                } catch (GooglePlayServicesNotAvailableException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        aMainImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showFileChooser("main");
+            }
+        });
+        aSecondImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showFileChooser("second");
+            }
+        });
+        aThirdImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showFileChooser("third");
+            }
+        });
+        aFourthImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showFileChooser("fourth");
+            }
+        });
+        aFifthImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showFileChooser("fifth");
+            }
+        });
         //PRICING
         aBasicPriceDisp = (TextView) findViewById(R.id.as_price_basic_disp);
         aBasicPrice = (EditText) findViewById(R.id.as_price_basic);
@@ -386,113 +451,144 @@ public class FormYachtAsetActivity extends AppCompatActivity {
 
         //aset value
         if(iFormAsset.getStringExtra("action").equals("update")){
-            aName.setText(iFormAsset.getStringExtra("name"));
-            aType.setText(iFormAsset.getStringExtra("type"));
-            aSubType.setText(iFormAsset.getStringExtra("subtype"));
-            aModel.setText(iFormAsset.getStringExtra("model"));
-            aLength.setText(iFormAsset.getStringExtra("length"));
-            aBeam.setText(iFormAsset.getStringExtra("beam"));
-            aGrossTon.setText(iFormAsset.getStringExtra("gross_tone"));
-            aDraft.setText(iFormAsset.getStringExtra("draft"));
-            aCruisingSpeed.setText(iFormAsset.getStringExtra("cruising_speed"));
-            aTopSpeed.setText(iFormAsset.getStringExtra("top_speed"));
-            aBuilder.setText(iFormAsset.getStringExtra("builder"));
-            aNavalArc.setText(iFormAsset.getStringExtra("naval_architect"));
-            aIntDesign.setText(iFormAsset.getStringExtra("interior_designer"));
-            aExtDesign.setText(iFormAsset.getStringExtra("exterior_designer"));
-            aGuest.setText(iFormAsset.getStringExtra("guest"));
-            aCabin.setText(iFormAsset.getStringExtra("cabin"));
-            aCrew.setText(iFormAsset.getStringExtra("crew"));
-            aMinDayRent.setText(iFormAsset.getStringExtra("min_rent_day"));
+            getDataUpdate();
+        }
+    }
 
-            if (iFormAsset.getStringExtra("assurance").equals("true")){aAssurace.setChecked(true);}
+    private void getDataUpdate(){
+        aName.setText(iFormAsset.getStringExtra("name"));
+        aType.setText(iFormAsset.getStringExtra("type"));
+        aSubType.setText(iFormAsset.getStringExtra("subtype"));
+        aModel.setText(iFormAsset.getStringExtra("model"));
+        aLength.setText(iFormAsset.getStringExtra("length"));
+        aBeam.setText(iFormAsset.getStringExtra("beam"));
+        aGrossTon.setText(iFormAsset.getStringExtra("gross_tone"));
+        aDraft.setText(iFormAsset.getStringExtra("draft"));
+        aCruisingSpeed.setText(iFormAsset.getStringExtra("cruising_speed"));
+        aTopSpeed.setText(iFormAsset.getStringExtra("top_speed"));
+        aBuilder.setText(iFormAsset.getStringExtra("builder"));
+        aNavalArc.setText(iFormAsset.getStringExtra("naval_architect"));
+        aIntDesign.setText(iFormAsset.getStringExtra("interior_designer"));
+        aExtDesign.setText(iFormAsset.getStringExtra("exterior_designer"));
+        aGuest.setText(iFormAsset.getStringExtra("guest"));
+        aCabin.setText(iFormAsset.getStringExtra("cabin"));
+        aCrew.setText(iFormAsset.getStringExtra("crew"));
+        aMinDayRent.setText(iFormAsset.getStringExtra("min_rent_day"));
+        aAddress.setText(iFormAsset.getStringExtra("address"));
+        aLatitude = iFormAsset.getStringExtra("latitude");
+        aLongitude = iFormAsset.getStringExtra("longitude");
 
-            if (iFormAsset.getStringExtra("delivery_method").equals("both")){
-                aPickup.setChecked(true);
-                aDelivery.setChecked(true);
-            }else if (iFormAsset.getStringExtra("delivery_method").equals("pickup")){
-                aPickup.setChecked(true);
-            }else if (iFormAsset.getStringExtra("delivery_method").equals("deliver")){
-                aDelivery.setChecked(true);
-            }
+        if (iFormAsset.getStringExtra("member_badge").equals(getResources().getString(R.string.member_badge_basic))) {
+            ((RadioButton) aRentReqGroup.getChildAt(0)).setChecked(true);
+        } else if (iFormAsset.getStringExtra("member_badge").equals(getResources().getString(R.string.member_badge_verified))) {
+            ((RadioButton) aRentReqGroup.getChildAt(1)).setChecked(true);
+        }else  ((RadioButton) aRentReqGroup.getChildAt(2)).setChecked(true);
 
-            //spinner
-            Tools.setSpinnerValue(iFormAsset.getStringExtra("subcat"), subcategory, R.array.yacht_subcategory_entries, getApplicationContext());
+        if (iFormAsset.getStringExtra("assurance").equals("true")){aAssurace.setChecked(true);}
 
-            // Parsing data price
-            JSONArray priceArray = new JSONArray(PricingTools.PriceStringToArray(iFormAsset.getStringExtra("price")));
-            Log.e(TAG, "PRICE ARRAY :" + priceArray.toString());
-            if (priceArray.length() > 0){
-                try {
-                    JSONObject basicPrice = priceArray.getJSONObject(0);
-                    aBasicPrice.setText(basicPrice.getString("price"));
-                } catch (JSONException e) {e.printStackTrace();}
+        if (iFormAsset.getStringExtra("delivery_method").equals("both")){
+            aPickup.setChecked(true);
+            aDelivery.setChecked(true);
+        }else if (iFormAsset.getStringExtra("delivery_method").equals("pickup")){
+            aPickup.setChecked(true);
+        }else if (iFormAsset.getStringExtra("delivery_method").equals("deliver")){
+            aDelivery.setChecked(true);
+        }
 
-                if(priceArray.length() > 1){
-                    try {
-                        JSONObject priceObject = priceArray.getJSONObject(1);
-                        Tools.setSpinnerValue(priceObject.getString("range_name"), aRangName, R.array.range_name_entries, getApplicationContext());
-                        aAdvancePrice.setText(priceObject.getString("price"));
-                        aStartDate.setText(priceObject.getString("start_date"));
-                        aEndDate.setText(priceObject.getString("end_date"));
-                        if (priceArray.length() > 2){
-                            JSONObject priceObject2 = priceArray.getJSONObject(2);
-                            Tools.setSpinnerValue(priceObject2.getString("range_name"), aRangName2, R.array.range_name_entries, getApplicationContext());
-                            aAdvancePrice2.setText(priceObject2.getString("price"));
-                            aStartDate2.setText(priceObject2.getString("start_date"));
-                            aEndDate2.setText(priceObject2.getString("end_date"));
-                            if (priceArray.length() > 3){
-                                JSONObject priceObject3 = priceArray.getJSONObject(3);
-                                Tools.setSpinnerValue(priceObject3.getString("range_name"), aRangName3, R.array.range_name_entries, getApplicationContext());
-                                aAdvancePrice3.setText(priceObject3.getString("price"));
-                                aStartDate3.setText(priceObject3.getString("start_date"));
-                                aEndDate3.setText(priceObject3.getString("end_date"));
-                                if (priceArray.length() > 4) {
-                                    JSONObject priceObject4 = priceArray.getJSONObject(4);
-                                    Tools.setSpinnerValue(priceObject4.getString("range_name"), aRangName4, R.array.range_name_entries, getApplicationContext());
-                                    aAdvancePrice4.setText(priceObject4.getString("price"));
-                                    aStartDate4.setText(priceObject4.getString("start_date"));
-                                    aEndDate4.setText(priceObject4.getString("end_date"));
-                                }
-                            }
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+        //spinner
+        Tools.setSpinnerValue(iFormAsset.getStringExtra("subcat"), subcategory, R.array.yacht_subcategory_entries, getApplicationContext());
+
+        //Image
+        if(!iFormAsset.getStringExtra("main_image").isEmpty()) {
+            String imageUrl = AppConfig.URL_IMAGE_ASSETS + iFormAsset.getStringExtra("main_image");
+            Picasso.with(getApplicationContext()).load(imageUrl).into(aMainImage);
+            aSecondImage.setVisibility(View.VISIBLE);
+        }
+        imagesArray = iFormAsset.getStringArrayExtra("images");
+        if (imagesArray.length > 1){
+            aThirdImage.setVisibility(View.VISIBLE);
+            Picasso.with(getApplicationContext()).load(imagesArray[1]).into(aSecondImage);
+            if (imagesArray.length > 2) {
+                aFourthImage.setVisibility(View.VISIBLE);
+                Picasso.with(getApplicationContext()).load(imagesArray[2]).into(aThirdImage);
+                if (imagesArray.length > 3) {
+                    aFifthImage.setVisibility(View.VISIBLE);
+                    Picasso.with(getApplicationContext()).load(imagesArray[3]).into(aFourthImage);
+                    if (imagesArray.length > 4) {
+                        Picasso.with(getApplicationContext()).load(imagesArray[4]).into(aFifthImage);
                     }
                 }
             }
+        }
 
+        // Parsing data price
+        JSONArray priceArray = new JSONArray(PricingTools.PriceStringToArray(iFormAsset.getStringExtra("price")));
+        Log.e(TAG, "PRICE ARRAY :" + iFormAsset.getStringExtra("price"));
+        if (priceArray.length() > 0){
+            try {
+                for (int i = 0; i < priceArray.length(); i++) {
+                    JSONObject priceObject = priceArray.getJSONObject(i);
+                    if(priceObject.getString("range_name").equals("BASECOST")){
+                        aBasicPrice.setText(priceObject.getString("price"));
+                        priceArray.remove(i);
+                    }
+                }
+            } catch (JSONException e) {e.printStackTrace();}
+
+            if(priceArray.length() > 0){
+                try {
+                    conAdvancePrice.setVisibility(View.VISIBLE);
+                    JSONObject priceObject = priceArray.getJSONObject(0);
+                    Tools.setSpinnerValue(priceObject.getString("range_name"), aRangName, R.array.range_name_entries, getApplicationContext());
+                    aAdvancePrice.setText(priceObject.getString("price"));
+                    aStartDate.setText(Tools.datePriceAdvanceFormat(priceObject.getString("start_date")));
+                    aEndDate.setText(Tools.datePriceAdvanceFormat(priceObject.getString("end_date")));
+                    if (priceArray.length() > 1){
+                        conAdvancePrice2.setVisibility(View.VISIBLE);
+                        JSONObject priceObject2 = priceArray.getJSONObject(1);
+                        Tools.setSpinnerValue(priceObject2.getString("range_name"), aRangName2, R.array.range_name_entries, getApplicationContext());
+                        aAdvancePrice2.setText(priceObject2.getString("price"));
+                        aStartDate2.setText(Tools.datePriceAdvanceFormat(priceObject2.getString("start_date")));
+                        aEndDate2.setText(Tools.datePriceAdvanceFormat(priceObject2.getString("end_date")));
+                        if (priceArray.length() > 2){
+                            conAdvancePrice3.setVisibility(View.VISIBLE);
+                            JSONObject priceObject3 = priceArray.getJSONObject(2);
+                            Tools.setSpinnerValue(priceObject3.getString("range_name"), aRangName3, R.array.range_name_entries, getApplicationContext());
+                            aAdvancePrice3.setText(priceObject3.getString("price"));
+                            aStartDate3.setText(Tools.datePriceAdvanceFormat(priceObject3.getString("start_date")));
+                            aEndDate3.setText(Tools.datePriceAdvanceFormat(priceObject3.getString("end_date")));
+                            if (priceArray.length() > 3) {
+                                conAdvancePrice4.setVisibility(View.VISIBLE);
+                                JSONObject priceObject4 = priceArray.getJSONObject(3);
+                                Tools.setSpinnerValue(priceObject4.getString("range_name"), aRangName4, R.array.range_name_entries, getApplicationContext());
+                                aAdvancePrice4.setText(priceObject4.getString("price"));
+                                aStartDate4.setText(Tools.datePriceAdvanceFormat(priceObject4.getString("start_date")));
+                                aEndDate4.setText(Tools.datePriceAdvanceFormat(priceObject4.getString("end_date")));
+                            }
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    private void showProgress(final boolean show) {
-        if(show){
-            if (!pDialog.isShowing()){
-                pDialog.show();
-            }
-        }else{
-            if (pDialog.isShowing()){
-                pDialog.dismiss();
-            }
-        }
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
-    }
-
-    // IMAGE : pick image
-    private void showFileChooser() {
+    private void showFileChooser(String action) {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+        int request = 0;
+        switch (action){
+            case "main" : request = PICK_IMAGE_REQUEST; break;
+            case "second" : request = PICK_IMAGE_SECOND_REQUEST; break;
+            case "third" : request = PICK_IMAGE_THIRD_REQUEST; break;
+            case "fourth" : request = PICK_IMAGE_FOURTH_REQUEST; break;
+            case "fifth" : request = PICK_IMAGE_FIFTH_REQUEST; break;
+        }
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), request);
     }
 
-    // IMAGE : get string for upload
     public String getStringImage(Bitmap bmp){
         if(bmp != null){
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -504,11 +600,12 @@ public class FormYachtAsetActivity extends AppCompatActivity {
         }
     }
 
-    // IMAGE : show in frame
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        Bitmap bitmap;
+        String ext;
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             Uri filePath = data.getData();
             try {
@@ -516,21 +613,103 @@ public class FormYachtAsetActivity extends AppCompatActivity {
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
 
                 //Setting the Bitmap to ImageView
-                aImg.setImageBitmap(bitmap);
+                aMainImage.setImageBitmap(bitmap);
 
-                // Get file extension
                 String imgStr = data.toString();
-                ext = imgStr.substring(imgStr.indexOf("typ") + 4, imgStr.indexOf("flg") - 1);
+                ext = imgStr.substring(imgStr.indexOf("typ")+4, imgStr.indexOf("flg")-1);
 
-                isiimage = getStringImage(bitmap);
-                imgString = ext + "," + isiimage;
-                isiimage = imgString;
+                isiimage = Tools.getStringImage(bitmap);
+                imgStringMain = ext +"," + isiimage;
+                aSecondImage.setVisibility(View.VISIBLE);
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
 
+        if (requestCode == PICK_IMAGE_SECOND_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            Uri filePath = data.getData();
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                aSecondImage.setImageBitmap(bitmap);
+
+                String imgStr = data.toString();
+                ext = imgStr.substring(imgStr.indexOf("typ")+4, imgStr.indexOf("flg")-1);
+
+                isiimage = Tools.getStringImage(bitmap);
+                imgStringSecond = ext +"," + isiimage;
+                aThirdImage.setVisibility(View.VISIBLE);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (requestCode == PICK_IMAGE_THIRD_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            Uri filePath = data.getData();
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                aThirdImage.setImageBitmap(bitmap);
+
+                String imgStr = data.toString();
+                ext = imgStr.substring(imgStr.indexOf("typ")+4, imgStr.indexOf("flg")-1);
+
+                isiimage = Tools.getStringImage(bitmap);
+                imgStringThird = ext +"," + isiimage;
+                aFourthImage.setVisibility(View.VISIBLE);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (requestCode == PICK_IMAGE_FOURTH_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            Uri filePath = data.getData();
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                aFourthImage.setImageBitmap(bitmap);
+
+                String imgStr = data.toString();
+                ext = imgStr.substring(imgStr.indexOf("typ")+4, imgStr.indexOf("flg")-1);
+
+                isiimage = Tools.getStringImage(bitmap);
+                imgStringFourth = ext +"," + isiimage;
+                aFifthImage.setVisibility(View.VISIBLE);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (requestCode == PICK_IMAGE_FIFTH_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            Uri filePath = data.getData();
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                aFifthImage.setImageBitmap(bitmap);
+
+                String imgStr = data.toString();
+                ext = imgStr.substring(imgStr.indexOf("typ")+4, imgStr.indexOf("flg")-1);
+
+                isiimage = Tools.getStringImage(bitmap);
+                imgStringFifth = ext +"," + isiimage;
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (requestCode == PICK_LOCATION_REQUEST){
+            if(resultCode == RESULT_OK){
+                Place location = PlacePicker.getPlace(data,this);
+                String address = String.valueOf(location.getAddress());
+                aAddress.setText(address);
+
+                String LatLong = String.valueOf(location.getLatLng());
+                aLatitude = Tools.getLatitude(LatLong);
+                aLongitude = Tools.getLongitude(LatLong);
+            }
+        }
         if (requestCode == PICK_DATE_REQUEST) {
             if(resultCode == Activity.RESULT_OK){
                 String resultStart = data.getStringExtra("startDate");
@@ -604,14 +783,6 @@ public class FormYachtAsetActivity extends AppCompatActivity {
                 pricingArray.clear();
                 getPrice();
                 postPriceCheck(pricingArray.toString());
-
-//                if(priceStatus.equals("OK")) {
-//                    if (iFormAsset.getStringExtra("action").equals("update")) {
-//                        updateDataAset(category);
-//                    } else {
-//                        addDataAset(tenant);
-//                    }
-//                }
             }
         }
 
@@ -619,10 +790,6 @@ public class FormYachtAsetActivity extends AppCompatActivity {
     }
 
     private void addDataAset(String tenant) {
-        aAddress = "BALI,INDONESIA";
-        aLatitude = "0";
-        aLongitude = "0";
-
         pDialog.setMessage("loading ...");
         showProgress(true);
         new FormYachtAsetActivity.addAsetTask(tenant).execute();
@@ -680,14 +847,17 @@ public class FormYachtAsetActivity extends AppCompatActivity {
                     keys.put("insurance", String.valueOf(aAssurace.isChecked()));
                     keys.put("min_rent_day", aMinDayRent.getText().toString());
                     keys.put("delivery_method", aDeliveryMethod);
-                    keys.put("address", aAddress);
+                    keys.put("address", aAddress.getText().toString());
                     keys.put("latitude", aLatitude);
                     keys.put("longitude", aLongitude);
-                    if(!isiimage.isEmpty()){
-                        keys.put("file", isiimage);
-                    }
-                    getPrice();
+                    keys.put("member_badge", aRentReq);
+                    if(!imgStringMain.isEmpty()){ keys.put("file", imgStringMain);}
+                    if(!imgStringSecond.isEmpty()){keys.put("file1", imgStringSecond);}
+                    if(!imgStringThird.isEmpty()){keys.put("file2", imgStringThird);}
+                    if(!imgStringFourth.isEmpty()){keys.put("file3", imgStringFourth);}
+                    if(!imgStringFifth.isEmpty()){keys.put("file4", imgStringFifth);}
                     keys.put("price", pricingArray.toString());
+
                     Log.e(TAG, "Value Object : " + keys.toString());
                     return keys;
                 }
@@ -732,9 +902,6 @@ public class FormYachtAsetActivity extends AppCompatActivity {
     }
 
     private void updateDataAset(String category) {
-        aAddress = "BALI,INDONESIA";
-        aLatitude = "0";
-        aLongitude = "0";
 
         pDialog.setMessage("loading ...");
         showProgress(true);
@@ -793,14 +960,17 @@ public class FormYachtAsetActivity extends AppCompatActivity {
                     keys.put("insurance", String.valueOf(aAssurace.isChecked()));
                     keys.put("min_rent_day", aMinDayRent.getText().toString());
                     keys.put("delivery_method", aDeliveryMethod);
-                    keys.put("address", aAddress);
+                    keys.put("address", aAddress.getText().toString());
                     keys.put("latitude", aLatitude);
                     keys.put("longitude", aLongitude);
-                    if(!isiimage.isEmpty()){
-                        keys.put("file", isiimage);
-                    }
-                    getPrice();
+                    keys.put("member_badge", aRentReq);
+                    if(!imgStringMain.isEmpty()){ keys.put("file", imgStringMain);}
+                    if(!imgStringSecond.isEmpty()){keys.put("file1", imgStringSecond);}
+                    if(!imgStringThird.isEmpty()){keys.put("file2", imgStringThird);}
+                    if(!imgStringFourth.isEmpty()){keys.put("file3", imgStringFourth);}
+                    if(!imgStringFifth.isEmpty()){keys.put("file4", imgStringFifth);}
                     keys.put("price", pricingArray.toString());
+
                     Log.e(TAG, "Asset Keys: " + String.valueOf(keys));
                     return keys;
                 }
@@ -916,7 +1086,9 @@ public class FormYachtAsetActivity extends AppCompatActivity {
                         if (iFormAsset.getStringExtra("action").equals("update")) {
                             updateDataAset(category);
                         } else {
-                            addDataAset(tenant);
+                            if(!imgStringMain.isEmpty()) addDataAset(tenant);
+                            else Toast.makeText(getApplicationContext(),
+                                    getString(R.string.error_main_image_not_complete), Toast.LENGTH_LONG).show();
                         }
                     }
 
@@ -953,6 +1125,25 @@ public class FormYachtAsetActivity extends AppCompatActivity {
         };
 
         queue.add(strReq);
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+    private void showProgress(final boolean show) {
+        if(show){
+            if (!pDialog.isShowing()){
+                pDialog.show();
+            }
+        }else{
+            if (pDialog.isShowing()){
+                pDialog.dismiss();
+            }
+        }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
 }

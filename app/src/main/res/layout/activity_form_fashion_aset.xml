@@ -20,6 +20,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_form_fashion_aset" />
+    <include layout="@layout/content_form_default_aset" />
 
 </android.support.design.widget.CoordinatorLayout>

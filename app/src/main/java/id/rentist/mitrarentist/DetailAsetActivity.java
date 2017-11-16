@@ -273,8 +273,6 @@ public class DetailAsetActivity extends AppCompatActivity {
                         aPrice = priceArray.toString();
                         Log.e(TAG, "Price : " + priceArray);
 
-                        ArrayList<PriceModul> ePrice = new ArrayList<PriceModul>();
-
                         if (priceArray.length() > 0) {
                             mPrice.clear();
                             for (int j = 0; j < priceArray.length(); j++) {
@@ -381,7 +379,7 @@ public class DetailAsetActivity extends AppCompatActivity {
                             case "3":
                                 cYachtInfo.setVisibility(View.VISIBLE);
                                 cYachtFeature.setVisibility(View.VISIBLE);
-                                desc.setVisibility(View.GONE);
+                                rDesc.setVisibility(View.GONE);
 
                                 aSubType = jsonobject.getString("sub_type");
                                 aModel = jsonobject.getString("model");
@@ -996,7 +994,7 @@ public class DetailAsetActivity extends AppCompatActivity {
                     iAsetEdit.putExtra("delivery_method", aDeliveryMethod);
                     iAsetEdit.putExtra("cat", aCat);
                     iAsetEdit.putExtra("subcat", aSubCat);
-                    iAsetEdit.putExtra("price", aPrice );
+                    iAsetEdit.putExtra("price", aPrice);
                     iAsetEdit.putExtra("address", address.getText().toString());
                     iAsetEdit.putExtra("member_badge", member_badge.getText().toString());
                     iAsetEdit.putExtra("longitude", aLongitude);
@@ -1025,6 +1023,7 @@ public class DetailAsetActivity extends AppCompatActivity {
                     iAsetEdit.putExtra("delivery_method", aDeliveryMethod);
                     iAsetEdit.putExtra("cat", aCat);
                     iAsetEdit.putExtra("subcat", aSubCat);
+                    iAsetEdit.putExtra("price", aPrice);
                     iAsetEdit.putExtra("address", address.getText().toString());
                     iAsetEdit.putExtra("member_badge", member_badge.getText().toString());
                     iAsetEdit.putExtra("longitude", aLongitude);
@@ -1059,6 +1058,7 @@ public class DetailAsetActivity extends AppCompatActivity {
                     iAsetEdit.putExtra("assurance", aInsurance);
                     iAsetEdit.putExtra("cat", aCat);
                     iAsetEdit.putExtra("subcat", aSubCat);
+                    iAsetEdit.putExtra("price", aPrice);
                     iAsetEdit.putExtra("address", address.getText().toString());
                     iAsetEdit.putExtra("member_badge", member_badge.getText().toString());
                     iAsetEdit.putExtra("longitude", aLongitude);
@@ -1092,7 +1092,7 @@ public class DetailAsetActivity extends AppCompatActivity {
                     iAsetEdit.putExtra("delivery_method", aDeliveryMethod);
                     iAsetEdit.putExtra("cat", aCat);
                     iAsetEdit.putExtra("subcat", aSubCat);
-                    iAsetEdit.putExtra("price", aPrice );
+                    iAsetEdit.putExtra("price", aPrice);
                     iAsetEdit.putExtra("address", address.getText().toString());
                     iAsetEdit.putExtra("member_badge", member_badge.getText().toString());
                     iAsetEdit.putExtra("images", imagesArray);

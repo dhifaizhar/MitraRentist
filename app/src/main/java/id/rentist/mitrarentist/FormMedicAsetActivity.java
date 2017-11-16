@@ -58,13 +58,19 @@ import id.rentist.mitrarentist.tools.SessionManager;
 import id.rentist.mitrarentist.tools.Tools;
 
 public class FormMedicAsetActivity extends AppCompatActivity {
+    private String URL = AppConfig.URL_MEDIC;
+    private int subCategotyArray = R.array.medic_subcategory_entries;
+    private Activity currentActivity = FormMedicAsetActivity.this;
+    private static final String TITLE = "Aset Perlatan Medis";
+    private static final String TAG = "FormAssetActivity";
+    private static final String TOKEN = "secretissecret";
+
     private AsyncTask mAddAssetTask = null;
     private ProgressDialog pDialog;
     private SessionManager sm;
-    private String URL = AppConfig.URL_MEDIC;
+    private int PICK_LOCATION_REQUEST = 10;
 
     Intent iFormAsset;
-
     TextView aName, aMerk, aType, aMinDayRent, aDesc, aAddress,
             aAssetValue, aWeight, aDimensionP, aDimensionL, aDimensionT;
     Integer idAsset;
@@ -74,10 +80,6 @@ public class FormMedicAsetActivity extends AppCompatActivity {
     Spinner subcategory;
     RadioGroup aRentReqGroup;
     RadioButton aBasic, aVerified, aSmartCon;
-
-    private int PICK_LOCATION_REQUEST = 10;
-    private static final String TAG = "FormAssetActivity";
-    private static final String TOKEN = "secretissecret";
 
     //Image Initial
     String[] imagesArray = {AppConfig.URL_IMAGE_ASSETS + "default.png"};
@@ -92,7 +94,7 @@ public class FormMedicAsetActivity extends AppCompatActivity {
     // Price Initial
     ArrayList<String> pricingArray = new ArrayList<String>();
     String aFeeMsg, priceStatus="";
-    private int fee = 20, ap = 0;
+    private int fee = 0, ap = 0;
     EditText aBasicPrice, aAdvancePrice, aAdvancePrice2, aAdvancePrice3, aAdvancePrice4;
     TextView  btnAdvancePrice, aBasicPriceDisp, aAdvancePriceDisp, aAdvancePriceDisp2, aAdvancePriceDisp3, aAdvancePriceDisp4,
             aStartDate, aStartDate2, aStartDate3, aStartDate4,
@@ -109,7 +111,7 @@ public class FormMedicAsetActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form_medic_aset);
-        setTitle("Aset Peralatan Medis ");
+        setTitle(TITLE);
 
         iFormAsset = getIntent();
         sm = new SessionManager(getApplicationContext());
@@ -132,8 +134,6 @@ public class FormMedicAsetActivity extends AppCompatActivity {
         aAssurace = (CheckBox) findViewById(R.id.as_ck_assurance);
         aDesc = (TextView) findViewById(R.id.as_desc);
         aMinDayRent = (TextView) findViewById(R.id.as_min_day_rent);
-        aStartDate = (TextView) findViewById(R.id.as_start_date);
-        aEndDate = (TextView) findViewById(R.id.as_end_date);
         aDelivery = (CheckBox) findViewById(R.id.as_ck_delivery);
         aPickup = (CheckBox) findViewById(R.id.as_ck_pickup);
         aAddress = (TextView) findViewById(R.id.as_address);
@@ -153,13 +153,15 @@ public class FormMedicAsetActivity extends AppCompatActivity {
         aFourthImage = (ImageView) findViewById(R.id.fourth_image);
         aFifthImage = (ImageView) findViewById(R.id.fifth_image);
 
+        Tools.setSpinnerValue("", subcategory, subCategotyArray, getApplicationContext());
+
         aAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
                 Intent intent;
                 try {
-                    intent = builder.build(FormMedicAsetActivity.this);
+                    intent = builder.build(currentActivity);
                     startActivityForResult(intent, PICK_LOCATION_REQUEST);
                 } catch (GooglePlayServicesRepairableException e) {
                     e.printStackTrace();
@@ -510,46 +512,51 @@ public class FormMedicAsetActivity extends AppCompatActivity {
         }
 
         //spinner
-        Tools.setSpinnerValue(iFormAsset.getStringExtra("subcat"), subcategory, R.array.medic_subcategory_entries, getApplicationContext());
+        Tools.setSpinnerValue(iFormAsset.getStringExtra("subcat"), subcategory, subCategotyArray, getApplicationContext());
 
         // Parsing data price
         JSONArray priceArray = new JSONArray(PricingTools.PriceStringToArray(iFormAsset.getStringExtra("price")));
-        Log.e(TAG, "PRICE ARRAY :" + priceArray.toString());
+        Log.e(TAG, "PRICE ARRAY :" + iFormAsset.getStringExtra("price"));
         if (priceArray.length() > 0){
             try {
-                JSONObject basicPrice = priceArray.getJSONObject(0);
-                aBasicPrice.setText(basicPrice.getString("price"));
+                for (int i = 0; i < priceArray.length(); i++) {
+                    JSONObject priceObject = priceArray.getJSONObject(i);
+                    if(priceObject.getString("range_name").equals("BASECOST")){
+                        aBasicPrice.setText(priceObject.getString("price"));
+                        priceArray.remove(i);
+                    }
+                }
             } catch (JSONException e) {e.printStackTrace();}
 
-            if(priceArray.length() > 1){
+            if(priceArray.length() > 0){
                 try {
                     conAdvancePrice.setVisibility(View.VISIBLE);
-                    JSONObject priceObject = priceArray.getJSONObject(1);
+                    JSONObject priceObject = priceArray.getJSONObject(0);
                     Tools.setSpinnerValue(priceObject.getString("range_name"), aRangName, R.array.range_name_entries, getApplicationContext());
                     aAdvancePrice.setText(priceObject.getString("price"));
-                    aStartDate.setText(priceObject.getString("start_date"));
-                    aEndDate.setText(priceObject.getString("end_date"));
-                    if (priceArray.length() > 2){
+                    aStartDate.setText(Tools.datePriceAdvanceFormat(priceObject.getString("start_date")));
+                    aEndDate.setText(Tools.datePriceAdvanceFormat(priceObject.getString("end_date")));
+                    if (priceArray.length() > 1){
                         conAdvancePrice2.setVisibility(View.VISIBLE);
-                        JSONObject priceObject2 = priceArray.getJSONObject(2);
+                        JSONObject priceObject2 = priceArray.getJSONObject(1);
                         Tools.setSpinnerValue(priceObject2.getString("range_name"), aRangName2, R.array.range_name_entries, getApplicationContext());
                         aAdvancePrice2.setText(priceObject2.getString("price"));
-                        aStartDate2.setText(priceObject2.getString("start_date"));
-                        aEndDate2.setText(priceObject2.getString("end_date"));
-                        if (priceArray.length() > 3){
+                        aStartDate2.setText(Tools.datePriceAdvanceFormat(priceObject2.getString("start_date")));
+                        aEndDate2.setText(Tools.datePriceAdvanceFormat(priceObject2.getString("end_date")));
+                        if (priceArray.length() > 2){
                             conAdvancePrice3.setVisibility(View.VISIBLE);
-                            JSONObject priceObject3 = priceArray.getJSONObject(3);
+                            JSONObject priceObject3 = priceArray.getJSONObject(2);
                             Tools.setSpinnerValue(priceObject3.getString("range_name"), aRangName3, R.array.range_name_entries, getApplicationContext());
                             aAdvancePrice3.setText(priceObject3.getString("price"));
-                            aStartDate3.setText(priceObject3.getString("start_date"));
-                            aEndDate3.setText(priceObject3.getString("end_date"));
-                            if (priceArray.length() > 4) {
+                            aStartDate3.setText(Tools.datePriceAdvanceFormat(priceObject3.getString("start_date")));
+                            aEndDate3.setText(Tools.datePriceAdvanceFormat(priceObject3.getString("end_date")));
+                            if (priceArray.length() > 3) {
                                 conAdvancePrice4.setVisibility(View.VISIBLE);
-                                JSONObject priceObject4 = priceArray.getJSONObject(4);
+                                JSONObject priceObject4 = priceArray.getJSONObject(3);
                                 Tools.setSpinnerValue(priceObject4.getString("range_name"), aRangName4, R.array.range_name_entries, getApplicationContext());
                                 aAdvancePrice4.setText(priceObject4.getString("price"));
-                                aStartDate4.setText(priceObject4.getString("start_date"));
-                                aEndDate4.setText(priceObject4.getString("end_date"));
+                                aStartDate4.setText(Tools.datePriceAdvanceFormat(priceObject4.getString("start_date")));
+                                aEndDate4.setText(Tools.datePriceAdvanceFormat(priceObject4.getString("end_date")));
                             }
                         }
                     }

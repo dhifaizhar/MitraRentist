@@ -64,8 +64,8 @@ public class FormCarAsetActivity extends AppCompatActivity {
 
     TextView aName,  aType, aPlat, aPlatStart, aPlatEnd, aDesc, aMinRentDay, aAddress;
     Integer idAsset;
-    String aLatitude, aLongitude, aRentPackage, tenant, category, encodedImage, aRentReq,
-            aDriverStatus, aDeliveryMethod, priceStatus = "";
+    String  aRentPackage, tenant, category, encodedImage,  aDriverStatus, aDeliveryMethod,
+            aRentReq, aLatitude, aLongitude;
     CheckBox aAc, aAb, aDriver, aNoDriver, aAssurace, aDelivery, aPickup;
     RadioGroup aTransmisionGroup, aRentReqGroup;
     RadioButton aTransmisionButton, aBasic, aVerified, aSmartCon;
@@ -92,7 +92,7 @@ public class FormCarAsetActivity extends AppCompatActivity {
 
     // Price Initial
     ArrayList<String> pricingArray = new ArrayList<String>();
-    String aFeeMsg;
+    String aFeeMsg,  priceStatus = "";
     private int fee = 0, ap = 0;
     EditText aBasicPrice, aAdvancePrice, aAdvancePrice2, aAdvancePrice3, aAdvancePrice4;
     TextView  btnAdvancePrice, aBasicPriceDisp, aAdvancePriceDisp, aAdvancePriceDisp2, aAdvancePriceDisp3, aAdvancePriceDisp4,
@@ -571,42 +571,47 @@ public class FormCarAsetActivity extends AppCompatActivity {
 
         // Parsing data price
         JSONArray priceArray = new JSONArray(PricingTools.PriceStringToArray(iFormAsset.getStringExtra("price")));
-        Log.e(TAG, "PRICE ARRAY :" + priceArray.toString());
+        Log.e(TAG, "PRICE ARRAY :" + iFormAsset.getStringExtra("price"));
         if (priceArray.length() > 0){
             try {
-                JSONObject basicPrice = priceArray.getJSONObject(0);
-                aBasicPrice.setText(basicPrice.getString("price"));
+                for (int i = 0; i < priceArray.length(); i++) {
+                    JSONObject priceObject = priceArray.getJSONObject(i);
+                    if(priceObject.getString("range_name").equals("BASECOST")){
+                        aBasicPrice.setText(priceObject.getString("price"));
+                        priceArray.remove(i);
+                    }
+                }
             } catch (JSONException e) {e.printStackTrace();}
 
-            if(priceArray.length() > 1){
+            if(priceArray.length() > 0){
                 try {
                     conAdvancePrice.setVisibility(View.VISIBLE);
-                    JSONObject priceObject = priceArray.getJSONObject(1);
+                    JSONObject priceObject = priceArray.getJSONObject(0);
                     Tools.setSpinnerValue(priceObject.getString("range_name"), aRangName, R.array.range_name_entries, getApplicationContext());
                     aAdvancePrice.setText(priceObject.getString("price"));
-                    aStartDate.setText(priceObject.getString("start_date"));
-                    aEndDate.setText(priceObject.getString("end_date"));
-                    if (priceArray.length() > 2){
+                    aStartDate.setText(Tools.datePriceAdvanceFormat(priceObject.getString("start_date")));
+                    aEndDate.setText(Tools.datePriceAdvanceFormat(priceObject.getString("end_date")));
+                    if (priceArray.length() > 1){
                         conAdvancePrice2.setVisibility(View.VISIBLE);
-                        JSONObject priceObject2 = priceArray.getJSONObject(2);
+                        JSONObject priceObject2 = priceArray.getJSONObject(1);
                         Tools.setSpinnerValue(priceObject2.getString("range_name"), aRangName2, R.array.range_name_entries, getApplicationContext());
                         aAdvancePrice2.setText(priceObject2.getString("price"));
-                        aStartDate2.setText(priceObject2.getString("start_date"));
-                        aEndDate2.setText(priceObject2.getString("end_date"));
-                        if (priceArray.length() > 3){
+                        aStartDate2.setText(Tools.datePriceAdvanceFormat(priceObject2.getString("start_date")));
+                        aEndDate2.setText(Tools.datePriceAdvanceFormat(priceObject2.getString("end_date")));
+                        if (priceArray.length() > 2){
                             conAdvancePrice3.setVisibility(View.VISIBLE);
-                            JSONObject priceObject3 = priceArray.getJSONObject(3);
+                            JSONObject priceObject3 = priceArray.getJSONObject(2);
                             Tools.setSpinnerValue(priceObject3.getString("range_name"), aRangName3, R.array.range_name_entries, getApplicationContext());
                             aAdvancePrice3.setText(priceObject3.getString("price"));
-                            aStartDate3.setText(priceObject3.getString("start_date"));
-                            aEndDate3.setText(priceObject3.getString("end_date"));
-                            if (priceArray.length() > 4) {
+                            aStartDate3.setText(Tools.datePriceAdvanceFormat(priceObject3.getString("start_date")));
+                            aEndDate3.setText(Tools.datePriceAdvanceFormat(priceObject3.getString("end_date")));
+                            if (priceArray.length() > 3) {
                                 conAdvancePrice4.setVisibility(View.VISIBLE);
-                                JSONObject priceObject4 = priceArray.getJSONObject(4);
+                                JSONObject priceObject4 = priceArray.getJSONObject(3);
                                 Tools.setSpinnerValue(priceObject4.getString("range_name"), aRangName4, R.array.range_name_entries, getApplicationContext());
                                 aAdvancePrice4.setText(priceObject4.getString("price"));
-                                aStartDate4.setText(priceObject4.getString("start_date"));
-                                aEndDate4.setText(priceObject4.getString("end_date"));
+                                aStartDate4.setText(Tools.datePriceAdvanceFormat(priceObject4.getString("start_date")));
+                                aEndDate4.setText(Tools.datePriceAdvanceFormat(priceObject4.getString("end_date")));
                             }
                         }
                     }
@@ -643,7 +648,7 @@ public class FormCarAsetActivity extends AppCompatActivity {
 
             if (aBasicPrice.getText().toString().isEmpty() || aDeliveryMethod.equals("nodefine") || aDriverStatus.equals("nodefine") ||
                     aType.toString().isEmpty() || aPlat.toString().isEmpty() || aPlatStart.toString().isEmpty() || aPlatEnd.toString().isEmpty() ){
-                Toast.makeText(getApplicationContext(), "Harap Lengkapi Form",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), R.string.error_field_not_complete,Toast.LENGTH_LONG).show();
             } else{
                 pricingArray.clear();
                 getPrice();
@@ -836,6 +841,122 @@ public class FormCarAsetActivity extends AppCompatActivity {
                 //Write your code if there's no result
             }
         }
+    }
+
+    private void getPrice(){
+        JSONObject priceBasicObject = new JSONObject();
+        try {
+            priceBasicObject.put("price", aBasicPrice.getText().toString().replace(",",""));
+            priceBasicObject.put("range_name","BASECOST");
+            priceBasicObject.put("start_date","1970-01-01");
+            priceBasicObject.put("end_date","1970-01-01");
+
+            pricingArray.add(priceBasicObject.toString().replace("=",":"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        if(!aAdvancePrice.getText().toString().isEmpty()) {
+            Map<String, String> pricingObject = new HashMap<String, String>();
+            pricingObject.put("\"range_name\"", "\"" + aRangName.getSelectedItem().toString() + "\"");
+            pricingObject.put("\"start_date\"", "\"" + aStartDate.getText().toString() + "\"");
+            pricingObject.put("\"end_date\"", "\"" + aEndDate.getText().toString() + "\"");
+            pricingObject.put("\"price\"", "\"" + aAdvancePrice.getText().toString().replace(",", "") + "\"");
+
+            pricingArray.add(pricingObject.toString().replace("=", ":"));
+        }
+
+        if(!aAdvancePrice2.getText().toString().isEmpty()) {
+            Map<String, String> pricingObject = new HashMap<String, String>();
+            pricingObject.put("\"range_name\"", "\"" + aRangName2.getSelectedItem().toString() + "\"");
+            pricingObject.put("\"start_date\"", "\"" + aStartDate2.getText().toString() + "\"");
+            pricingObject.put("\"end_date\"", "\"" + aEndDate2.getText().toString() + "\"");
+            pricingObject.put("\"price\"", "\"" + aAdvancePrice2.getText().toString().replace(",", "") + "\"");
+
+            pricingArray.add(pricingObject.toString().replace("=", ":"));
+        }
+
+        if(!aAdvancePrice3.getText().toString().isEmpty()) {
+            Map<String, String> pricingObject = new HashMap<String, String>();
+            pricingObject.put("\"range_name\"", "\"" + aRangName3.getSelectedItem().toString() + "\"");
+            pricingObject.put("\"start_date\"", "\"" + aStartDate3.getText().toString() + "\"");
+            pricingObject.put("\"end_date\"", "\"" + aEndDate3.getText().toString() + "\"");
+            pricingObject.put("\"price\"", "\"" + aAdvancePrice3.getText().toString().replace(",", "") + "\"");
+
+            pricingArray.add(pricingObject.toString().replace("=", ":"));
+        }
+
+        if(!aAdvancePrice4.getText().toString().isEmpty()) {
+            Map<String, String> pricingObject = new HashMap<String, String>();
+            pricingObject.put("\"range_name\"", "\"" + aRangName4.getSelectedItem().toString() + "\"");
+            pricingObject.put("\"start_date\"", "\"" + aStartDate4.getText().toString() + "\"");
+            pricingObject.put("\"end_date\"", "\"" + aEndDate4.getText().toString() + "\"");
+            pricingObject.put("\"price\"", "\"" + aAdvancePrice4.getText().toString().replace(",", "") + "\"");
+
+            pricingArray.add(pricingObject.toString().replace("=", ":"));
+        }
+    }
+
+    public void postPriceCheck(final String price) {
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        StringRequest strReq = new StringRequest(Request.Method.POST, AppConfig.URL_PRICE_CHECK, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.e("Price Check Response : ", response);
+
+                try {
+                    JSONObject responseObj = new JSONObject(response);
+
+                    priceStatus = responseObj.getString("status");
+                    if(priceStatus.equals("OK")){
+                        if(iFormAsset.getStringExtra("action").equals("update")){
+                            updateDataAset(category);
+                        }else {
+                            if (imgStringSTNK.equals("")) {
+                                Toast.makeText(getApplicationContext(), "Harap Lengkapi Foto STNK", Toast.LENGTH_LONG).show();
+                            } else
+                                if(!imgStringMain.isEmpty()) addDataAset(tenant);
+                                else Toast.makeText(getApplicationContext(),
+                                        getString(R.string.error_main_image_not_complete), Toast.LENGTH_LONG).show();
+
+                        }
+                    }else {
+                        Toast.makeText(getApplicationContext(), responseObj.getString("message"), Toast.LENGTH_LONG).show();
+                    }
+
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(), "Json error: " + e.getMessage(),
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "Price Check Fetch Error : " +  error.toString());
+                Toast.makeText(getApplicationContext(), "Connection error, try again.",
+                        Toast.LENGTH_LONG).show();
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                // Posting parameters to url
+                Map<String, String> keys = new HashMap<String, String>();
+                keys.put("price", price);
+                return keys;
+            }
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("token", TOKEN);
+
+                return params;
+            }
+        };
+
+        queue.add(strReq);
     }
 
     private void addDataAset(String tenant) {
@@ -1063,122 +1184,6 @@ public class FormCarAsetActivity extends AppCompatActivity {
             mAddAssetTask = null;
             showProgress(false);
         }
-    }
-
-    private void getPrice(){
-        JSONObject priceBasicObject = new JSONObject();
-        try {
-            priceBasicObject.put("price", aBasicPrice.getText().toString().replace(",",""));
-            priceBasicObject.put("range_name","BASECOST");
-            priceBasicObject.put("start_date","1970-01-01");
-            priceBasicObject.put("end_date","1970-01-01");
-
-            pricingArray.add(priceBasicObject.toString().replace("=",":"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        if(!aAdvancePrice.getText().toString().isEmpty()) {
-            Map<String, String> pricingObject = new HashMap<String, String>();
-            pricingObject.put("\"range_name\"", "\"" + aRangName.getSelectedItem().toString() + "\"");
-            pricingObject.put("\"start_date\"", "\"" + aStartDate.getText().toString() + "\"");
-            pricingObject.put("\"end_date\"", "\"" + aEndDate.getText().toString() + "\"");
-            pricingObject.put("\"price\"", "\"" + aAdvancePrice.getText().toString().replace(",", "") + "\"");
-
-            pricingArray.add(pricingObject.toString().replace("=", ":"));
-        }
-
-        if(!aAdvancePrice2.getText().toString().isEmpty()) {
-            Map<String, String> pricingObject = new HashMap<String, String>();
-            pricingObject.put("\"range_name\"", "\"" + aRangName2.getSelectedItem().toString() + "\"");
-            pricingObject.put("\"start_date\"", "\"" + aStartDate2.getText().toString() + "\"");
-            pricingObject.put("\"end_date\"", "\"" + aEndDate2.getText().toString() + "\"");
-            pricingObject.put("\"price\"", "\"" + aAdvancePrice2.getText().toString().replace(",", "") + "\"");
-
-            pricingArray.add(pricingObject.toString().replace("=", ":"));
-        }
-
-        if(!aAdvancePrice3.getText().toString().isEmpty()) {
-            Map<String, String> pricingObject = new HashMap<String, String>();
-            pricingObject.put("\"range_name\"", "\"" + aRangName3.getSelectedItem().toString() + "\"");
-            pricingObject.put("\"start_date\"", "\"" + aStartDate3.getText().toString() + "\"");
-            pricingObject.put("\"end_date\"", "\"" + aEndDate3.getText().toString() + "\"");
-            pricingObject.put("\"price\"", "\"" + aAdvancePrice3.getText().toString().replace(",", "") + "\"");
-
-            pricingArray.add(pricingObject.toString().replace("=", ":"));
-        }
-
-        if(!aAdvancePrice4.getText().toString().isEmpty()) {
-            Map<String, String> pricingObject = new HashMap<String, String>();
-            pricingObject.put("\"range_name\"", "\"" + aRangName4.getSelectedItem().toString() + "\"");
-            pricingObject.put("\"start_date\"", "\"" + aStartDate4.getText().toString() + "\"");
-            pricingObject.put("\"end_date\"", "\"" + aEndDate4.getText().toString() + "\"");
-            pricingObject.put("\"price\"", "\"" + aAdvancePrice4.getText().toString().replace(",", "") + "\"");
-
-            pricingArray.add(pricingObject.toString().replace("=", ":"));
-        }
-    }
-
-    public void postPriceCheck(final String price) {
-        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-        StringRequest strReq = new StringRequest(Request.Method.POST, AppConfig.URL_PRICE_CHECK, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Log.e("Price Check Response : ", response);
-
-                try {
-                    JSONObject responseObj = new JSONObject(response);
-
-                    priceStatus = responseObj.getString("status");
-                    if(priceStatus.equals("OK")){
-                        if(iFormAsset.getStringExtra("action").equals("update")){
-                            updateDataAset(category);
-                        }else {
-                            if (imgStringSTNK.equals("")) {
-                                Toast.makeText(getApplicationContext(), "Harap Lengkapi Foto STNK", Toast.LENGTH_LONG).show();
-                            } else
-                                if(!imgStringMain.isEmpty()) addDataAset(tenant);
-                                else Toast.makeText(getApplicationContext(),
-                                        getString(R.string.error_main_image_not_complete), Toast.LENGTH_LONG).show();
-
-                        }
-                    }else {
-                        Toast.makeText(getApplicationContext(), responseObj.getString("message"), Toast.LENGTH_LONG).show();
-                    }
-
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    Toast.makeText(getApplicationContext(), "Json error: " + e.getMessage(),
-                            Toast.LENGTH_LONG).show();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e(TAG, "Price Check Fetch Error : " +  error.toString());
-                Toast.makeText(getApplicationContext(), "Connection error, try again.",
-                        Toast.LENGTH_LONG).show();
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() {
-                // Posting parameters to url
-                Map<String, String> keys = new HashMap<String, String>();
-                keys.put("price", price);
-                return keys;
-            }
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("token", TOKEN);
-
-                return params;
-            }
-        };
-
-        queue.add(strReq);
     }
 
     // IMAGE : pick image

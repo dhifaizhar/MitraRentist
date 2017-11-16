@@ -163,6 +163,21 @@ public class Tools {
         return dateFormat.format(c.getTime());
     }
 
+    public static String datePriceAdvanceFormat(String date){
+        SimpleDateFormat currentFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar c = Calendar.getInstance();
+
+        try {
+            c.setTime(currentFormat.parse(date));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        c.add(Calendar.DATE, 1);  // number of days to add, can also use Calendar.DAY_OF_MONTH in place of Calendar.DATE
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        return dateFormat.format(c.getTime());
+    }
+
     public static String getLongitude(String LatLong){
         String pattern = "([^(,a-z]*),([^a-z,)]*)";
 

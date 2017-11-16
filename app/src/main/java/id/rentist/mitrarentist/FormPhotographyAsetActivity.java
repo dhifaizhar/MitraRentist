@@ -58,12 +58,19 @@ import id.rentist.mitrarentist.tools.SessionManager;
 import id.rentist.mitrarentist.tools.Tools;
 
 public class FormPhotographyAsetActivity extends AppCompatActivity {
+    private String URL = AppConfig.URL_PHOTOGRAPHY;
+    private int subCategotyArray = R.array.photography_subcategory_entries;
+    private Activity currentActivity = FormPhotographyAsetActivity.this;
+    private static final String TITLE = "Aset Fotografi";
+    private static final String TAG = "FormAssetActivity";
+    private static final String TOKEN = "secretissecret";
+
     private AsyncTask mAddAssetTask = null;
     private ProgressDialog pDialog;
     private SessionManager sm;
-    Intent iFormAsset;
-    String URL = AppConfig.URL_PHOTOGRAPHY;
+    private int PICK_LOCATION_REQUEST = 10;
 
+    Intent iFormAsset;
     TextView aName, aMerk, aType, aMinDayRent, aDesc, aAddress,
             aAssetValue, aWeight, aDimensionP, aDimensionL, aDimensionT;
     Integer idAsset;
@@ -73,10 +80,6 @@ public class FormPhotographyAsetActivity extends AppCompatActivity {
     Spinner subcategory;
     RadioGroup aRentReqGroup;
     RadioButton aBasic, aVerified, aSmartCon;
-
-    private int PICK_LOCATION_REQUEST = 10;
-    private static final String TAG = "FormAssetActivity";
-    private static final String TOKEN = "secretissecret";
 
     //Image Initial
     String[] imagesArray = {AppConfig.URL_IMAGE_ASSETS + "default.png"};
@@ -90,7 +93,7 @@ public class FormPhotographyAsetActivity extends AppCompatActivity {
 
     // Price Initial
     ArrayList<String> pricingArray = new ArrayList<String>();
-    String aFeeMsg, priceStatus = "";
+    String aFeeMsg, priceStatus="";
     private int fee = 0, ap = 0;
     EditText aBasicPrice, aAdvancePrice, aAdvancePrice2, aAdvancePrice3, aAdvancePrice4;
     TextView  btnAdvancePrice, aBasicPriceDisp, aAdvancePriceDisp, aAdvancePriceDisp2, aAdvancePriceDisp3, aAdvancePriceDisp4,
@@ -108,7 +111,7 @@ public class FormPhotographyAsetActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form_photography_aset);
-        setTitle("Aset Fotografi");
+        setTitle(TITLE);
 
         iFormAsset = getIntent();
         sm = new SessionManager(getApplicationContext());
@@ -131,8 +134,6 @@ public class FormPhotographyAsetActivity extends AppCompatActivity {
         aAssurace = (CheckBox) findViewById(R.id.as_ck_assurance);
         aDesc = (TextView) findViewById(R.id.as_desc);
         aMinDayRent = (TextView) findViewById(R.id.as_min_day_rent);
-        aStartDate = (TextView) findViewById(R.id.as_start_date);
-        aEndDate = (TextView) findViewById(R.id.as_end_date);
         aDelivery = (CheckBox) findViewById(R.id.as_ck_delivery);
         aPickup = (CheckBox) findViewById(R.id.as_ck_pickup);
         aAddress = (TextView) findViewById(R.id.as_address);
@@ -152,13 +153,15 @@ public class FormPhotographyAsetActivity extends AppCompatActivity {
         aFourthImage = (ImageView) findViewById(R.id.fourth_image);
         aFifthImage = (ImageView) findViewById(R.id.fifth_image);
 
+        Tools.setSpinnerValue("", subcategory, subCategotyArray, getApplicationContext());
+
         aAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
                 Intent intent;
                 try {
-                    intent = builder.build(FormPhotographyAsetActivity.this);
+                    intent = builder.build(currentActivity);
                     startActivityForResult(intent, PICK_LOCATION_REQUEST);
                 } catch (GooglePlayServicesRepairableException e) {
                     e.printStackTrace();
@@ -232,8 +235,7 @@ public class FormPhotographyAsetActivity extends AppCompatActivity {
         aDispText3 = (TextView) findViewById(R.id.disptext3);
         aDispText4 = (TextView) findViewById(R.id.disptext4);
         aDispText5 = (TextView) findViewById(R.id.disptext5);
-
-        fee = Integer.parseInt(sm.getPreferences("fee_photography"));
+        fee = Integer.parseInt(sm.getPreferences("fee_medic"));
 
         aFeeMsg = "Harga yang akan anda terima (-" + fee + "%):";
         aDispText.setText(aFeeMsg);
@@ -441,7 +443,7 @@ public class FormPhotographyAsetActivity extends AppCompatActivity {
             }
         });
 
-        //aset value
+
         if(iFormAsset.getStringExtra("action").equals("update")){
             getDataUpdate();
         }
@@ -510,46 +512,51 @@ public class FormPhotographyAsetActivity extends AppCompatActivity {
         }
 
         //spinner
-        Tools.setSpinnerValue(iFormAsset.getStringExtra("subcat"), subcategory, R.array.photography_subcategory_entries, getApplicationContext());
+        Tools.setSpinnerValue(iFormAsset.getStringExtra("subcat"), subcategory, subCategotyArray, getApplicationContext());
 
         // Parsing data price
         JSONArray priceArray = new JSONArray(PricingTools.PriceStringToArray(iFormAsset.getStringExtra("price")));
-        Log.e(TAG, "PRICE ARRAY :" + priceArray.toString());
+        Log.e(TAG, "PRICE ARRAY :" + iFormAsset.getStringExtra("price"));
         if (priceArray.length() > 0){
             try {
-                JSONObject basicPrice = priceArray.getJSONObject(0);
-                aBasicPrice.setText(basicPrice.getString("price"));
+                for (int i = 0; i < priceArray.length(); i++) {
+                    JSONObject priceObject = priceArray.getJSONObject(i);
+                    if(priceObject.getString("range_name").equals("BASECOST")){
+                        aBasicPrice.setText(priceObject.getString("price"));
+                        priceArray.remove(i);
+                    }
+                }
             } catch (JSONException e) {e.printStackTrace();}
 
-            if(priceArray.length() > 1){
+            if(priceArray.length() > 0){
                 try {
                     conAdvancePrice.setVisibility(View.VISIBLE);
-                    JSONObject priceObject = priceArray.getJSONObject(1);
+                    JSONObject priceObject = priceArray.getJSONObject(0);
                     Tools.setSpinnerValue(priceObject.getString("range_name"), aRangName, R.array.range_name_entries, getApplicationContext());
                     aAdvancePrice.setText(priceObject.getString("price"));
-                    aStartDate.setText(priceObject.getString("start_date"));
-                    aEndDate.setText(priceObject.getString("end_date"));
-                    if (priceArray.length() > 2){
+                    aStartDate.setText(Tools.datePriceAdvanceFormat(priceObject.getString("start_date")));
+                    aEndDate.setText(Tools.datePriceAdvanceFormat(priceObject.getString("end_date")));
+                    if (priceArray.length() > 1){
                         conAdvancePrice2.setVisibility(View.VISIBLE);
-                        JSONObject priceObject2 = priceArray.getJSONObject(2);
+                        JSONObject priceObject2 = priceArray.getJSONObject(1);
                         Tools.setSpinnerValue(priceObject2.getString("range_name"), aRangName2, R.array.range_name_entries, getApplicationContext());
                         aAdvancePrice2.setText(priceObject2.getString("price"));
-                        aStartDate2.setText(priceObject2.getString("start_date"));
-                        aEndDate2.setText(priceObject2.getString("end_date"));
-                        if (priceArray.length() > 3){
+                        aStartDate2.setText(Tools.datePriceAdvanceFormat(priceObject2.getString("start_date")));
+                        aEndDate2.setText(Tools.datePriceAdvanceFormat(priceObject2.getString("end_date")));
+                        if (priceArray.length() > 2){
                             conAdvancePrice3.setVisibility(View.VISIBLE);
-                            JSONObject priceObject3 = priceArray.getJSONObject(3);
+                            JSONObject priceObject3 = priceArray.getJSONObject(2);
                             Tools.setSpinnerValue(priceObject3.getString("range_name"), aRangName3, R.array.range_name_entries, getApplicationContext());
                             aAdvancePrice3.setText(priceObject3.getString("price"));
-                            aStartDate3.setText(priceObject3.getString("start_date"));
-                            aEndDate3.setText(priceObject3.getString("end_date"));
-                            if (priceArray.length() > 4) {
+                            aStartDate3.setText(Tools.datePriceAdvanceFormat(priceObject3.getString("start_date")));
+                            aEndDate3.setText(Tools.datePriceAdvanceFormat(priceObject3.getString("end_date")));
+                            if (priceArray.length() > 3) {
                                 conAdvancePrice4.setVisibility(View.VISIBLE);
-                                JSONObject priceObject4 = priceArray.getJSONObject(4);
+                                JSONObject priceObject4 = priceArray.getJSONObject(3);
                                 Tools.setSpinnerValue(priceObject4.getString("range_name"), aRangName4, R.array.range_name_entries, getApplicationContext());
                                 aAdvancePrice4.setText(priceObject4.getString("price"));
-                                aStartDate4.setText(priceObject4.getString("start_date"));
-                                aEndDate4.setText(priceObject4.getString("end_date"));
+                                aStartDate4.setText(Tools.datePriceAdvanceFormat(priceObject4.getString("start_date")));
+                                aEndDate4.setText(Tools.datePriceAdvanceFormat(priceObject4.getString("end_date")));
                             }
                         }
                     }
@@ -731,6 +738,7 @@ public class FormPhotographyAsetActivity extends AppCompatActivity {
                 //Write your code if there's no result
             }
         }
+
     }
 
     @Override
@@ -748,6 +756,11 @@ public class FormPhotographyAsetActivity extends AppCompatActivity {
             category = iFormAsset.getStringExtra("cat");
             idAsset = iFormAsset.getIntExtra("id_asset",0);
             aDimension = String.valueOf(aDimensionP.getText() + "x" + aDimensionL.getText() + "x" + aDimensionT.getText());
+
+            int rentReqId = aRentReqGroup.getCheckedRadioButtonId();
+            if (rentReqId == aBasic.getId()) aRentReq = getResources().getString(R.string.member_badge_basic);
+            else if (rentReqId == aVerified.getId()) aRentReq = getResources().getString(R.string.member_badge_verified);
+            else aRentReq = getResources().getString(R.string.member_badge_smart_con);
 
             if(aDelivery.isChecked() && aPickup.isChecked()){aDeliveryMethod = "both";}
             else if (aDelivery.isChecked()){ aDeliveryMethod = "deliver";}
@@ -767,6 +780,7 @@ public class FormPhotographyAsetActivity extends AppCompatActivity {
                 postPriceCheck(pricingArray.toString());
             }
         }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -971,10 +985,6 @@ public class FormPhotographyAsetActivity extends AppCompatActivity {
 
             if(aset != null){
                 Toast.makeText(getApplicationContext(),"Data sukses disimpan", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(FormPhotographyAsetActivity.this,AsetListActivity.class);
-                intent.putExtra("asset_name", "Fotografi");
-                intent.putExtra("asset_category", 5);
-                setResult(RESULT_OK, intent);
                 finish();
             }else{
                 Toast.makeText(getApplicationContext(),"Gagal meyimpan data", Toast.LENGTH_LONG).show();
@@ -1074,6 +1084,7 @@ public class FormPhotographyAsetActivity extends AppCompatActivity {
         protected void onPostExecute(String aset) {
             mAddAssetTask = null;
             showProgress(false);
+            Log.e(TAG, "Asset Respone: " + String.valueOf(aset));
 
             if(aset != null){
                 Toast.makeText(getApplicationContext(),"Data sukses disimpan", Toast.LENGTH_LONG).show();
