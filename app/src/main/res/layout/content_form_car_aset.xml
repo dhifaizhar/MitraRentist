@@ -264,15 +264,15 @@
                             android:textSize="12sp" />
 
                         <!--<EditText-->
-                            <!--android:id="@+id/as_year"-->
-                            <!--android:layout_width="match_parent"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:background="@color/colorNearWhite"-->
-                            <!--android:ems="10"-->
-                            <!--android:hint="Tahun Produksi"-->
-                            <!--android:inputType="date"-->
-                            <!--android:padding="@dimen/min_padding"-->
-                            <!--android:text="" />-->
+                        <!--android:id="@+id/as_year"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:background="@color/colorNearWhite"-->
+                        <!--android:ems="10"-->
+                        <!--android:hint="Tahun Produksi"-->
+                        <!--android:inputType="date"-->
+                        <!--android:padding="@dimen/min_padding"-->
+                        <!--android:text="" />-->
 
 
                         <LinearLayout
@@ -818,11 +818,10 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/xmin_padding"
                             android:text="Kelengkapan Data Penyewa"
                             android:textColor="@color/colorBlack"
-                            android:textSize="12sp"
-                            android:layout_marginBottom="@dimen/xmin_padding"
-                            />
+                            android:textSize="12sp" />
 
                         <RelativeLayout
                             android:layout_width="match_parent"
@@ -833,8 +832,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:checkedButton="@+id/r_manual"
-                                android:orientation="vertical"
-                                >
+                                android:orientation="vertical">
 
                                 <RadioButton
                                     android:id="@+id/r_basic"
@@ -848,16 +846,14 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="@dimen/breadcrumb_height"
                                     android:layout_centerVertical="true"
-                                    android:buttonTint="@color/colorPrimary"
-                                    />
+                                    android:buttonTint="@color/colorPrimary" />
 
                                 <RadioButton
                                     android:id="@+id/r_smart_con"
                                     android:layout_width="wrap_content"
                                     android:layout_height="@dimen/breadcrumb_height"
                                     android:layout_centerVertical="true"
-                                    android:buttonTint="@color/colorPrimary"
-                                    />
+                                    android:buttonTint="@color/colorPrimary" />
 
                             </RadioGroup>
 
@@ -865,10 +861,9 @@
                                 android:id="@+id/basic_info"
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/breadcrumb_height"
-                                android:padding="@dimen/xmin_padding"
-                                android:background="@color/colorPrimarySoft"
                                 android:layout_toEndOf="@id/rent_req_group"
-                                >
+                                android:background="@color/colorPrimarySoft"
+                                android:padding="@dimen/xmin_padding">
 
                                 <TextView
                                     android:id="@+id/basic_text"
@@ -896,10 +891,10 @@
                                 android:id="@+id/verified_info"
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/breadcrumb_height"
-                                android:padding="@dimen/xmin_padding"
-                                android:background="@color/colorPrimarySoft"
+                                android:layout_below="@+id/basic_info"
                                 android:layout_toEndOf="@id/rent_req_group"
-                                android:layout_below="@+id/basic_info">
+                                android:background="@color/colorPrimarySoft"
+                                android:padding="@dimen/xmin_padding">
 
                                 <TextView
                                     android:id="@+id/verified_text"
@@ -926,11 +921,10 @@
                             <RelativeLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/breadcrumb_height"
-                                android:padding="@dimen/xmin_padding"
-                                android:background="@color/colorPrimarySoft"
-                                android:layout_toEndOf="@id/rent_req_group"
                                 android:layout_below="@id/verified_info"
-                                >
+                                android:layout_toEndOf="@id/rent_req_group"
+                                android:background="@color/colorPrimarySoft"
+                                android:padding="@dimen/xmin_padding">
 
                                 <TextView
                                     android:id="@+id/smart_cust_text"
@@ -1809,11 +1803,10 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/xmin_padding"
                         android:text="Gambar Aset"
                         android:textColor="@color/colorBlack"
-                        android:textSize="12sp"
-                        android:layout_marginBottom="@dimen/xmin_padding"
-                        />
+                        android:textSize="12sp" />
 
                     <HorizontalScrollView
                         android:layout_width="match_parent"
@@ -1839,8 +1832,8 @@
                                 android:layout_height="@dimen/thumb_width"
                                 android:layout_margin="@dimen/small_space"
                                 android:background="@color/colorNearWhite"
-                                android:visibility="gone"
-                                android:src="@drawable/add_picture" />
+                                android:src="@drawable/add_picture"
+                                android:visibility="gone" />
 
                             <ImageView
                                 android:id="@+id/third_image"

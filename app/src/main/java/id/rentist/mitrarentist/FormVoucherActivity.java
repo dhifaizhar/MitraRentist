@@ -1,10 +1,10 @@
 package id.rentist.mitrarentist;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,7 +18,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -40,16 +44,19 @@ public class FormVoucherActivity extends AppCompatActivity implements View.OnCli
     private ProgressDialog pDialog;
     private SessionManager sm;
     private Intent formVoucher;
-//    private CalendarPickerView calendar;
 
     Integer id, category;
     String tenant, vId, vType, vStartDate, vEndDate, nominalV, percentageV, rangeDate;
     Spinner vCategory;
     Button btnGetDate,btnSaveVoucher;
     CheckBox vTypeWeb, vTypeMobile;
-    EditText vName, vDesc, vCode, vDate, vKuota, vNominal, vPercentage;
+    EditText vName, vDesc, vCode, vKuota, vNominal, vPercentage;
+    TextView vDate;
+    RadioGroup vTypeGroup;
+    RelativeLayout rNominal, rPercent;
 
-    private int mYear, mMonth, mDay;
+    private int PICK_DATE_REQUEST = 10;
+
     private static final String TAG = "FormVoucherActivity";
     private static final String TOKEN = "secretissecret";
 
@@ -75,17 +82,46 @@ public class FormVoucherActivity extends AppCompatActivity implements View.OnCli
     private void controlContent() {
         //initialize view
         btnSaveVoucher=(Button)findViewById(R.id.btn_add);
-        btnGetDate=(Button)findViewById(R.id.btn_start_date);
         vName=(EditText)findViewById(R.id.vou_title);
         vCode=(EditText)findViewById(R.id.vou_code);
         vDesc=(EditText)findViewById(R.id.vou_desc);
-        vDate=(EditText)findViewById(R.id.vou_date);
+        vDate=(TextView)findViewById(R.id.vou_date);
         vTypeWeb=(CheckBox)findViewById(R.id.vou_type_web);
         vTypeMobile=(CheckBox)findViewById(R.id.vou_type_mobile);
         vCategory=(Spinner) findViewById(R.id.vou_spinner);
         vKuota=(EditText)findViewById(R.id.vou_amount);
         vNominal=(EditText)findViewById(R.id.vou_discount);
         vPercentage=(EditText)findViewById(R.id.vou_discount_percent);
+        vTypeGroup=(RadioGroup)findViewById(R.id.disc_type_group);
+        rNominal=(RelativeLayout)findViewById(R.id.r_nominal);
+        rPercent=(RelativeLayout)findViewById(R.id.r_percent);
+        rNominal.setVisibility(View.GONE);
+
+        vTypeGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                // checkedId is the RadioButton selected
+                if(checkedId == R.id.percent){
+                    rPercent.setVisibility(View.VISIBLE);
+                    rNominal.setVisibility(View.GONE);
+                    vNominal.setText("0");
+                } else {
+                    rPercent.setVisibility(View.GONE);
+                    vPercentage.setText("0");
+                    rNominal.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+        vDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(
+                        getApplicationContext(), CustomDatePickerRangeActivity.class);
+                startActivityForResult(intent,PICK_DATE_REQUEST);
+            }
+        });
 
         // set content control value
         if(formVoucher.getStringExtra("action").equals("update")) {
@@ -93,48 +129,73 @@ public class FormVoucherActivity extends AppCompatActivity implements View.OnCli
             rangeDate = formVoucher.getStringExtra("start_date") + " s/d " + formVoucher.getStringExtra("end_date");
             vId = id.toString();
 
-            btnGetDate.setVisibility(View.GONE);
-            vDate.setEnabled(false);
-            vDate.setTextColor(Color.GRAY);
             vDate.setText(rangeDate);
 
-            if(formVoucher.getStringExtra("name").equals("both")){
-                vTypeWeb.isChecked();
-                vTypeMobile.isChecked();
-            }else if (formVoucher.getStringExtra("name").equals("web")){
-                vTypeWeb.isChecked();
-            }else if (formVoucher.getStringExtra("name").equals("mobile")){
-                vTypeMobile.isChecked();
+            if (formVoucher.getStringExtra("type").equals("both")) {
+                vTypeWeb.setChecked(true);
+                vTypeMobile.setChecked(true);
+            } else if (formVoucher.getStringExtra("type").equals("web")) {
+                vTypeWeb.setChecked(true);
+            } else if (formVoucher.getStringExtra("type").equals("mobile")) {
+                vTypeMobile.setChecked(true);
             }
 
             vName.setText(formVoucher.getStringExtra("name"));
             vCode.setText(formVoucher.getStringExtra("code"));
             vDesc.setText(formVoucher.getStringExtra("desc"));
-            vCategory.setTop(formVoucher.getIntExtra("category", 0));
+            vCategory.setSelection(formVoucher.getIntExtra("category",0));
+            if (!formVoucher.getStringExtra("nominal").equals("0")){
+                rPercent.setVisibility(View.GONE);
+                rNominal.setVisibility(View.VISIBLE);
+                ((RadioButton)vTypeGroup.getChildAt(1)).setChecked(true);
+            }
+            if (!formVoucher.getStringExtra("percent").equals("0")){
+                rPercent.setVisibility(View.VISIBLE);
+                rNominal.setVisibility(View.GONE);
+                ((RadioButton)vTypeGroup.getChildAt(0)).setChecked(true);
+            }
             vNominal.setText(formVoucher.getStringExtra("nominal"));
             vPercentage.setText(formVoucher.getStringExtra("percent"));
             vKuota.setText(formVoucher.getStringExtra("quantity"));
 
             Log.e(TAG, "Data Voucher to update : " + formVoucher.getStringExtra("action") + "id_vou: " + vId + ", Date: " + rangeDate);
-
-        } else if (formVoucher.getStringExtra("action").equals("add")) {
-            vId = null;
-            vDate.setText(formVoucher.getStringExtra("range_date"));
-            vStartDate = formVoucher.getStringExtra("start_date");
-            vEndDate = formVoucher.getStringExtra("end_date");
-
-
         }
+//        } else if (formVoucher.getStringExtra("action").equals("add")) {
+//            vId = null;
+//            vDate.setText(formVoucher.getStringExtra("range_date"));
+//            vStartDate = formVoucher.getStringExtra("start_date");
+//            vEndDate = formVoucher.getStringExtra("end_date");
+//
+//
+//        }
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
 
         // set action
-        btnGetDate.setOnClickListener(this);
         btnSaveVoucher.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 formVoucher(tenant, vId);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_DATE_REQUEST) {
+            if(resultCode == Activity.RESULT_OK){
+                String resultStart = data.getStringExtra("startDate");
+                String resultEnd = data.getStringExtra("endDate");
+                vStartDate = resultStart;
+                vEndDate = resultEnd;
+                vDate.setText(resultStart + " s/d " + resultEnd);
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //Write your code if there's no result
+            }
+        }
+
     }
 
     private void formVoucher(String tenant, String id) {
@@ -144,7 +205,8 @@ public class FormVoucherActivity extends AppCompatActivity implements View.OnCli
             vType = "web";
         }else if(vTypeMobile.isChecked()){
             vType = "mobile";
-        }
+        }else { vType = "nodefine";}
+
         pDialog.setMessage("loading ...");
         showProgress(true);
         if(formVoucher.getStringExtra("action").equals("add")){
@@ -192,13 +254,13 @@ public class FormVoucherActivity extends AppCompatActivity implements View.OnCli
                     keys.put("type", vType);
                     keys.put("quantity", vKuota.getText().toString());
                     keys.put("id_asset_category", String.valueOf(vCategory.getSelectedItemId()+1));
-                    nominalV = vNominal.getText().toString();
-                    percentageV = vPercentage.getText().toString();
-                    if(!nominalV.equals("") && !percentageV.equals("")){
-                        percentageV = "0";
-                    }
-                    keys.put("nominal", nominalV.equals("") ? "0" : nominalV);
-                    keys.put("percentage", percentageV.equals("") ? "0" : percentageV);
+//                    nominalV = vNominal.getText().toString();
+//                    percentageV = vPercentage.getText().toString();
+//                    if(!nominalV.equals("") && !percentageV.equals("")){
+//                        percentageV = "0";
+//                    }
+                    keys.put("nominal",  vNominal.getText().toString().replace(",",""));
+                    keys.put("percentage", vPercentage.getText().toString());
                     Log.e(TAG, "Post Data : " + String.valueOf(keys));
                     return keys;
                 }
@@ -292,7 +354,7 @@ public class FormVoucherActivity extends AppCompatActivity implements View.OnCli
                     keys.put("voucher_name", vName.getText().toString());
                     keys.put("voucher_code", vCode.getText().toString());
                     keys.put("description", vDesc.getText().toString());
-                    keys.put("nominal", vNominal.getText().toString());
+                    keys.put("nominal", vNominal.getText().toString().replace(",",""));
                     keys.put("quantity", vKuota.getText().toString());
                     keys.put("percentage", vPercentage.getText().toString());
                     Log.e(TAG, "Key Body : " + keys.toString());

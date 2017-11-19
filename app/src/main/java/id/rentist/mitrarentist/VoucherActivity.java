@@ -158,6 +158,7 @@ public class VoucherActivity extends AppCompatActivity {
                     Log.e(TAG, "User : " + jsonArray);
                     dataLength = jsonArray.length();
                     if(dataLength > 0){
+                        mVoucher.clear();
                         for (int i = 0; i < jsonArray.length(); i++) {
                             errorMsg = "-";
                             JSONObject jsonobject = jsonArray.getJSONObject(i);
@@ -254,6 +255,13 @@ public class VoucherActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onRestart(){
+        super.onRestart();
+        pBar.setVisibility(View.VISIBLE);
+        getVoucherDataList(tenant);
     }
 
 }

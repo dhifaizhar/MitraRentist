@@ -118,6 +118,13 @@ public class MemberProfileActivity extends AppCompatActivity {
             mAddress.setText(dataObject.getString("address"));
             mBirthday.setText(dataObject.getString("birthdate"));
 
+            mLevel.setText(dataObject.getString("badge"));
+            if (mLevel.getText().equals(getResources().getString(R.string.member_badge_verified))) {
+                mLevel.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+            } else if (mLevel.getText().equals(getResources().getString(R.string.member_badge_smart_con))) {
+                mLevel.setBackgroundColor(getResources().getColor(R.color.colorGreen));
+            }
+
             String thumbURL = dataObject.getString("profil_pic").equals("null") ? AppConfig.URL_IMAGE_PROFIL + "img_default.png" :
                     AppConfig.URL_IMAGE_PROFIL + dataObject.getString("profil_pic");
 

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Mitra Rentist</string>
+    <string name="app_name">Rentist Partner</string>
     <string name="title_activity_dashboard">DashboardActivity</string>
     <string name="title_activity_login">Sign in</string>
 
@@ -432,7 +432,7 @@
     <string name="title_activity_complain_detail">ComplainDetailActivity</string>
 
     <string name="slide_1_title">Rentist</string>
-    <string name="slide_1_desc">Solusi Mitra Rental</string>
+    <string name="slide_1_desc">Solusi Partner Rental</string>
     <string name="slide_2_title">Trusted User</string>
     <string name="slide_2_desc">Lengkapi Informasi Akun Diri dan Rental Anda</string>
     <string name="slide_3_title">Your Own Policy</string>

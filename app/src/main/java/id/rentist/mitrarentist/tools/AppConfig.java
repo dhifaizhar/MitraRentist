@@ -31,6 +31,7 @@ public class AppConfig {
     public static  String URL_VIEW_BICYCLE = SERVER + "view/bicycle/";
     public static  String URL_VIEW_OFFICE = SERVER + "view/officetools/";
     public static  String URL_VIEW_EVENT = SERVER + "schedule/view/";
+    public static  String URL_SET_EVENT = SERVER + "schedule/asset/";
 
     public static  String URL_PRICE_CHECK = SERVER + "price/check/";
 

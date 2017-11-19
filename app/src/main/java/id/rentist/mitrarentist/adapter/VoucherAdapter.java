@@ -13,6 +13,7 @@ import java.util.List;
 import id.rentist.mitrarentist.FormVoucherActivity;
 import id.rentist.mitrarentist.R;
 import id.rentist.mitrarentist.modul.VoucherModul;
+import id.rentist.mitrarentist.tools.Tools;
 
 /**
  * Created by Nugroho Tri Pambud on 7/13/2017.
@@ -44,10 +45,10 @@ public class VoucherAdapter extends RecyclerView.Adapter<VoucherAdapter.ViewHold
         }else{
             viewHolder.discount.setText(vou.getPercen() + " %");
         }
-        viewHolder.startDate.setText(vou.getStartDate());
-        viewHolder.endDate.setText(vou.getEndDate());
+        viewHolder.startDate.setText(Tools.dateFormat(vou.getStartDate()));
+        viewHolder.endDate.setText(Tools.dateFormat(vou.getEndDate()));
         if(vou.getType().equals("both")){
-            viewHolder.type.setText("Mobile, Web");
+            viewHolder.type.setText("mobile, web");
         }else{
             viewHolder.type.setText(vou.getType());
         }
@@ -69,7 +70,7 @@ public class VoucherAdapter extends RecyclerView.Adapter<VoucherAdapter.ViewHold
                 iVou.putExtra("desc", vou.getDesc());
                 iVou.putExtra("type", vou.getType());
                 iVou.putExtra("quantity", vou.getAmount());
-                iVou.putExtra("category", vou.getAsCategory());
+                iVou.putExtra("category", Integer.parseInt(vou.getAsCategory()));
                 iVou.putExtra("nominal", vou.getNominal());
                 iVou.putExtra("percent", vou.getPercen());
                 iVou.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

@@ -356,13 +356,10 @@ public class DashboardActivity extends AppCompatActivity
                     JSONObject ratingObject = new JSONObject(String.valueOf(dataObject.getJSONObject("rating")));
                     Log.d(TAG, "Response : " + dataObject.toString());
 
-                    aCar = assetObject.getInt("mobil");
-                    aBike = assetObject.getInt("motor");
-                    aYacht = assetObject.getInt("yacht");
                     sumAsset = assetObject.getInt("total");
                     newTrans.setText(dataObject.getString("paid"));
                     totAsset.setText(String.valueOf(sumAsset));
-                    totPoin.setText(poinObject.getString("received").equals("null") ? "0" : ratingObject.getString("received"));
+                    totPoin.setText(poinObject.getString("received"));//.equals("null") ? "0" : ratingObject.getString("received"));
                     successRent.setText(String.valueOf(dataObject.getInt("sukses")));
                     ongoRent.setText(dataObject.getString("berlangsung"));
 

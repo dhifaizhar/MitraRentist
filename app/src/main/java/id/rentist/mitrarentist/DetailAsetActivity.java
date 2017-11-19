@@ -68,8 +68,8 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
     private Toolbar toolbar;
     private ProgressDialog pDialog;
     private SessionManager sm;
-    private AlertDialog.Builder showAlert;
-    private AlertDialog alertDialog;
+    private AlertDialog.Builder showAlert, scheduleAlert;
+    private AlertDialog alertDialog,scheduleAlertDialog;
     private Intent detIntent;
     MaterialCalendarView calendarView;
     Intent iAsetEdit;
@@ -136,7 +136,7 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
         instance1.set(instance1.get(Calendar.YEAR), Calendar.JANUARY, 1);
 
         Calendar instance2 = Calendar.getInstance();
-        instance2.set(instance2.get(Calendar.YEAR), Calendar.DECEMBER, 31);
+        instance2.set(instance2.get(Calendar.YEAR) + 1, Calendar.DECEMBER, 31);
 
         calendarView.state().edit()
                 .setMinimumDate(instance1.getTime())
@@ -150,13 +150,33 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
         );
 
         mWorkTask =  new getDateEvent().execute();
+//        getDateEventAssset();
 
         calendarView.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
-                Toast.makeText(getApplicationContext(),
-                        "Selected Date:\n" + "Day = " + date.getDay() + "\n" + "Month = " + date.getMonth() + "\n" + "Year = " + date.getMonth(),
-                        Toast.LENGTH_LONG).show();
+                String dateSelected = date.getDay() + "-" +  (date.getMonth() + 1) + "-" + date.getYear();
+                final String dateSend = date.getYear() +"-"+ (date.getMonth() + 1) +"-"+ date.getDay();
+
+                scheduleAlert = new AlertDialog.Builder(DetailAsetActivity.this);
+                scheduleAlert.setMessage("Ubah status aset pada  " +  dateSelected + " menjadi inaktif ?");
+                scheduleAlert.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+//                        setDateEvent(dateSend);
+                         setDateEvent(dateSend);
+
+                    }
+                });
+                scheduleAlert.setNegativeButton("Tidak",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // close dialog
+                    }
+                });
+
+                scheduleAlertDialog = scheduleAlert.create();
+                scheduleAlertDialog.show();
             }
         });
     }
@@ -275,7 +295,6 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
                 Log.e(TAG, "Get Aset List Fetch Error : " +  error.toString());
                 Toast.makeText(getApplicationContext(), "Connection error, try again.",
                         Toast.LENGTH_LONG).show();
-                showProgress(false);
             }
         }) {
             @Override
@@ -497,6 +516,612 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
                 errorMsg = "Gagal Memuat Data";
                 Toast.makeText(getApplicationContext(), errorMsg, Toast.LENGTH_LONG).show();
             }
+        }
+    }
+
+    ImageListener imageUrlListener = new ImageListener() {
+        @Override
+        public void setImageForPosition(int position, ImageView imageView) {
+            Picasso.with(getApplicationContext()).load(imagesArray[position]).into(imageView);
+        }
+    };
+
+    private void changeStatAset() {
+        showAlert = new AlertDialog.Builder(this);
+        showAlert.setMessage("Ubah status aset ini ?");
+        showAlert.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1) {
+                String nowStatus = "active";
+                if(nowStatus.equals("active")){
+                    changeStatus = "inactive";
+                }
+                pDialog.setMessage("loading ...");
+                showProgress(true);
+                new postStatAssetTask(changeStatus).execute();
+            }
+        });
+        showAlert.setNegativeButton("Tidak",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // close dialog
+            }
+        });
+
+        alertDialog = showAlert.create();
+        alertDialog.show();
+    }
+
+    private class postStatAssetTask extends AsyncTask<String, String, String>{
+        private final String mStatus;
+        private String errorMsg, responseStatus;
+
+        private postStatAssetTask(String status) {
+            mStatus = status;
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+            Log.e(TAG, "Change Status URL: " + Tools.getIdCategoryURL(category));
+            StringRequest stringRequest = new StringRequest(Request.Method.PUT, Tools.getIdCategoryURL(category), new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    responseStatus = response;
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    errorMsg = error.toString();
+                    Log.e(TAG, "Change Status Fetch Error : " + errorMsg);
+                    Toast.makeText(getApplicationContext(), "Connection error, try again.",
+                            Toast.LENGTH_LONG).show();
+                }
+            }){
+                @Override
+                protected Map<String, String> getParams() {
+                    // Posting parameters to url
+                    Map<String, String> keys = new HashMap<String, String>();
+                    //keys.put("id_tenant", mTenant);
+                    keys.put("id_asset", String.valueOf(aId));
+                    keys.put("status", mStatus);
+                    keys.put("price", aPrice);
+                    Log.e(TAG, "Change Status Fetch KEYS : " + String.valueOf(keys));
+                    return keys;
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> keys = new HashMap<String, String>();
+                    keys.put("token", TOKEN);
+                    return keys;
+                }
+            };
+
+            try {
+                requestQueue.add(stringRequest);
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            return responseStatus;
+        }
+
+        @Override
+        protected void onPostExecute(String status) {
+            mDetailAssetTask = null;
+            showProgress(false);
+
+            if(status != null){
+                Toast.makeText(getApplicationContext(),"Data sukses diubah", Toast.LENGTH_LONG).show();
+            }else{
+                Toast.makeText(getApplicationContext(),"Gagal meyimpan data", Toast.LENGTH_LONG).show();
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            mDetailAssetTask = null;
+            showProgress(false);
+        }
+
+    }
+
+    private void deleteAssetItem(final int id) {
+        showAlert = new AlertDialog.Builder(this);
+        showAlert.setMessage("Hapus aset ini ?");
+        showAlert.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1) {
+                pDialog.setMessage("loading ...");
+                showProgress(true);
+                new deleteAssetTask(String.valueOf(id)).execute();
+            }
+        });
+        showAlert.setNegativeButton("Tidak",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // close dialog
+            }
+        });
+
+        alertDialog = showAlert.create();
+        alertDialog.show();
+    }
+
+    private class deleteAssetTask  extends AsyncTask<String, String, String> {
+        private final String mAsset;
+        private String errorMsg, responseAsset;
+
+        private deleteAssetTask(String asset) {
+            mAsset = asset;
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+            switch (category) {
+                case "1": category_url = AppConfig.URL_DELETE_MOBIL; break;
+                case "2": category_url = AppConfig.URL_DELETE_MOTOR; break;
+                case "3": category_url = AppConfig.URL_DELETE_YACHT; break;
+                case "4": category_url = AppConfig.URL_DELETE_MEDIC; break;
+                case "5": category_url = AppConfig.URL_DELETE_PHOTOGRAPHY; break;
+                case "6": category_url = AppConfig.URL_DELETE_TOYS; break;
+                case "7": category_url = AppConfig.URL_DELETE_ADVENTURE; break;
+                case "8": category_url = AppConfig.URL_DELETE_MATERNITY; break;
+                case "9": category_url = AppConfig.URL_DELETE_ELECTRONIC; break;
+                case "10": category_url = AppConfig.URL_DELETE_BICYCLE; break;
+                case "11": category_url = AppConfig.URL_DELETE_OFFICE; break;
+                case "12": category_url = AppConfig.URL_DELETE_FASHION; break;
+            }
+            StringRequest stringRequest = new StringRequest(Request.Method.PUT, category_url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    responseAsset = response;
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    errorMsg = error.toString();
+                    Log.e(TAG, "Asset Fetch Error : " + errorMsg);
+                    Toast.makeText(getApplicationContext(), "Connection error, try again.",
+                            Toast.LENGTH_LONG).show();
+                }
+            }){
+                @Override
+                protected Map<String, String> getParams() {
+                    // Posting parameters to url
+                    Map<String, String> keys = new HashMap<String, String>();
+                    keys.put("id_asset", mAsset);
+                    Log.e(TAG, "Delete Data : " + String.valueOf(keys));
+                    return keys;
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> keys = new HashMap<String, String>();
+                    keys.put("token", TOKEN);
+                    return keys;
+                }
+            };
+
+            try {
+                requestQueue.add(stringRequest);
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            return responseAsset;
+        }
+
+        @Override
+        protected void onPostExecute(String User) {
+            showProgress(false);
+
+            if(User != null){
+                Toast.makeText(getApplicationContext(),"Data berhasil dihapus", Toast.LENGTH_LONG).show();
+                finish();
+            }else{
+                Toast.makeText(getApplicationContext(),"Gagal menghapus data", Toast.LENGTH_LONG).show();
+            }
+
+        }
+
+        @Override
+        protected void onCancelled() {
+            showProgress(false);
+        }
+
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+    private void showProgress(final boolean show) {
+        if(show){
+            if (!pDialog.isShowing()){
+                pDialog.show();
+            }
+        }else{
+            if (pDialog.isShowing()){
+                pDialog.dismiss();
+            }
+        }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        this.finish();
+        return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_edit_delete_option, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_edit) {
+            switch (aCat) {
+                case "1":
+                    iAsetEdit = new Intent(DetailAsetActivity.this, FormCarAsetActivity.class);
+                    iAsetEdit.putExtra("action", "update");
+                    iAsetEdit.putExtra("id_asset", aId);
+                    iAsetEdit.putExtra("name", aAsetName);
+                    iAsetEdit.putExtra("merk", aName);
+                    iAsetEdit.putExtra("type", aType);
+                    iAsetEdit.putExtra("year", aYear);
+                    iAsetEdit.putExtra("plat", aPlat);
+                    iAsetEdit.putExtra("stnk", aNoStnk);
+                    iAsetEdit.putExtra("color", aColor);
+                    iAsetEdit.putExtra("no_stnk", aNoStnk);
+                    iAsetEdit.putExtra("engine_cap", aEngineCap);
+                    iAsetEdit.putExtra("fuel", aFuel);
+                    iAsetEdit.putExtra("seat", aSeat);
+                    iAsetEdit.putExtra("air_bag", aAirBag);
+                    iAsetEdit.putExtra("air_cond", aAirCond);
+                    iAsetEdit.putExtra("driver", aDriver);
+                    iAsetEdit.putExtra("assurance", aInsurance);
+                    iAsetEdit.putExtra("transmission", aTransmission);
+                    iAsetEdit.putExtra("min_rent_day", aMinRentDay);
+                    iAsetEdit.putExtra("main_image", aMainImage);
+                    iAsetEdit.putExtra("delivery_method", aDeliveryMethod);
+                    iAsetEdit.putExtra("cat", aCat);
+                    iAsetEdit.putExtra("subcat", aSubCat);
+                    iAsetEdit.putExtra("price", aPrice);
+                    iAsetEdit.putExtra("address", address.getText().toString());
+                    iAsetEdit.putExtra("member_badge", member_badge.getText().toString());
+                    iAsetEdit.putExtra("longitude", aLongitude);
+                    iAsetEdit.putExtra("latitude", aLatitude);
+                    iAsetEdit.putExtra("images", imagesArray);
+                    startActivity(iAsetEdit);
+                    break;
+                case "2":
+                    iAsetEdit = new Intent(DetailAsetActivity.this, FormMotorcycleAsetActivity.class);
+                    iAsetEdit.putExtra("action", "update");
+                    iAsetEdit.putExtra("id_asset", aId);
+                    iAsetEdit.putExtra("name", aAsetName);
+                    iAsetEdit.putExtra("merk", aName);
+                    iAsetEdit.putExtra("type", aType);
+                    iAsetEdit.putExtra("year", aYear);
+                    iAsetEdit.putExtra("plat", aPlat);
+                    iAsetEdit.putExtra("stnk", aNoStnk);
+                    iAsetEdit.putExtra("color", aColor);
+                    iAsetEdit.putExtra("no_stnk", aNoStnk);
+                    iAsetEdit.putExtra("engine_cap", aEngineCap);
+                    iAsetEdit.putExtra("fuel", aFuel);
+                    iAsetEdit.putExtra("assurance", aInsurance);
+                    iAsetEdit.putExtra("transmission", aTransmission);
+                    iAsetEdit.putExtra("min_rent_day", aMinRentDay);
+                    iAsetEdit.putExtra("main_image", aMainImage);
+                    iAsetEdit.putExtra("delivery_method", aDeliveryMethod);
+                    iAsetEdit.putExtra("cat", aCat);
+                    iAsetEdit.putExtra("subcat", aSubCat);
+                    iAsetEdit.putExtra("price", aPrice);
+                    iAsetEdit.putExtra("address", address.getText().toString());
+                    iAsetEdit.putExtra("member_badge", member_badge.getText().toString());
+                    iAsetEdit.putExtra("longitude", aLongitude);
+                    iAsetEdit.putExtra("latitude", aLatitude);
+                    iAsetEdit.putExtra("images", imagesArray);
+                    startActivity(iAsetEdit);
+                    break;
+                case "3":
+                    iAsetEdit = new Intent(DetailAsetActivity.this, FormYachtAsetActivity.class);
+                    iAsetEdit.putExtra("action", "update");
+                    iAsetEdit.putExtra("id_asset", aId);
+                    iAsetEdit.putExtra("subtype", aSubType);
+                    iAsetEdit.putExtra("name", aAsetName);
+                    iAsetEdit.putExtra("type", aType);
+                    iAsetEdit.putExtra("model", aModel);
+                    iAsetEdit.putExtra("length", aLength);
+                    iAsetEdit.putExtra("beam", aBeam);
+                    iAsetEdit.putExtra("gross_tone", aGrossTon);
+                    iAsetEdit.putExtra("draft", aDraft);
+                    iAsetEdit.putExtra("cruising_speed", aCruisSpeed);
+                    iAsetEdit.putExtra("top_speed", aTopSpeed);
+                    iAsetEdit.putExtra("builder", aBuilder);
+                    iAsetEdit.putExtra("naval_architect", aNaval);
+                    iAsetEdit.putExtra("interior_designer", aIntDesign);
+                    iAsetEdit.putExtra("exterior_designer", aExtDesign);
+                    iAsetEdit.putExtra("guest", aGuest);
+                    iAsetEdit.putExtra("crew", aCrew);
+                    iAsetEdit.putExtra("cabin", aCabin);
+                    iAsetEdit.putExtra("delivery_method", aDeliveryMethod);
+                    iAsetEdit.putExtra("min_rent_day", aMinRentDay);
+                    iAsetEdit.putExtra("main_image", aMainImage);
+                    iAsetEdit.putExtra("assurance", aInsurance);
+                    iAsetEdit.putExtra("cat", aCat);
+                    iAsetEdit.putExtra("subcat", aSubCat);
+                    iAsetEdit.putExtra("price", aPrice);
+                    iAsetEdit.putExtra("address", address.getText().toString());
+                    iAsetEdit.putExtra("member_badge", member_badge.getText().toString());
+                    iAsetEdit.putExtra("longitude", aLongitude);
+                    iAsetEdit.putExtra("latitude", aLatitude);
+                    iAsetEdit.putExtra("images", imagesArray);
+                    startActivity(iAsetEdit);
+
+                    break;
+                default:
+                    switch (aCat) {
+                        case "4": iAsetEdit = new Intent(DetailAsetActivity.this, FormMedicAsetActivity.class); break;
+                        case "5": iAsetEdit = new Intent(DetailAsetActivity.this, FormPhotographyAsetActivity.class); break;
+                        case "6": iAsetEdit = new Intent(DetailAsetActivity.this, FormToysAsetActivity.class); break;
+                        case "7": iAsetEdit = new Intent(DetailAsetActivity.this, FormAdventureAsetActivity.class); break;
+                        case "8": iAsetEdit = new Intent(DetailAsetActivity.this, FormMaternityAsetActivity.class); break;
+                        case "9": iAsetEdit = new Intent(DetailAsetActivity.this, FormElectronicAsetActivity.class); break;
+                        case "10": iAsetEdit = new Intent(DetailAsetActivity.this, FormBicycleAsetActivity.class); break;
+                        case "11": iAsetEdit = new Intent(DetailAsetActivity.this, FormOfficeAsetActivity.class); break;
+                        case "12": iAsetEdit = new Intent(DetailAsetActivity.this, FormFashionAsetActivity.class); break;
+                    }
+
+                    iAsetEdit.putExtra("action", "update");
+                    iAsetEdit.putExtra("id_asset", aId);
+                    iAsetEdit.putExtra("min_rent_day", aMinRentDay);
+                    iAsetEdit.putExtra("main_image", aMainImage);
+                    iAsetEdit.putExtra("name", aAsetName);
+                    iAsetEdit.putExtra("merk", aName);
+                    iAsetEdit.putExtra("type", aType);
+                    iAsetEdit.putExtra("assurance", aInsurance);
+                    iAsetEdit.putExtra("description", aDesc);
+                    iAsetEdit.putExtra("delivery_method", aDeliveryMethod);
+                    iAsetEdit.putExtra("cat", aCat);
+                    iAsetEdit.putExtra("subcat", aSubCat);
+                    iAsetEdit.putExtra("price", aPrice);
+                    iAsetEdit.putExtra("address", address.getText().toString());
+                    iAsetEdit.putExtra("member_badge", member_badge.getText().toString());
+                    iAsetEdit.putExtra("images", imagesArray);
+                    iAsetEdit.putExtra("longitude", aLongitude);
+                    iAsetEdit.putExtra("latitude", aLatitude);
+                    if(!aCat.equals("10")){
+                        iAsetEdit.putExtra("asset_value", aAssetValue.toString());
+                        iAsetEdit.putExtra("weight", aWeight);
+                        iAsetEdit.putExtra("dimension", dimension.getText().toString());
+                    }
+
+                    startActivityForResult(iAsetEdit, 2);
+                    break;
+            }
+        }else if(id == R.id.action_delete){
+            deleteAssetItem(aId);
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onRestart() {
+        super.onRestart();
+
+//        getAssetDataList();
+        getAssetDetail();
+    }
+
+
+
+    public void setDateEvent(String date) {
+        new setDateEventTask(date).execute();
+    }
+
+    private class setDateEventTask extends AsyncTask<String, String, String> {
+        private final String mdate;
+        private String errorMsg, responseEvent;
+
+        private setDateEventTask(String date) {mdate = date;}
+
+        @Override
+        protected String doInBackground(String... voids) {
+            Log.e(TAG, String.valueOf(sm.getIntPreferences("id_tenant"))
+                    + " | " + String.valueOf(aId)
+                    + " | " + aCat);
+
+            String URL = AppConfig.URL_SET_EVENT;
+            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    Toast.makeText(getApplicationContext(), "Berhasil diubah",
+                            Toast.LENGTH_LONG).show();
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    showProgress(false);
+                    Log.e(TAG, "Event Fetch Error : " + error.toString());
+                    Toast.makeText(getApplicationContext(), "Connection error, try again.",
+                            Toast.LENGTH_LONG).show();
+                }
+            }){
+                @Override
+                protected Map<String, String> getParams() {
+                    // Posting parameters to login url
+                    Map<String, String> keys = new HashMap<String, String>();
+                    keys.put("id_tenant", String.valueOf(sm.getIntPreferences("id_tenant")));
+                    keys.put("id_asset", String.valueOf(aId));
+                    keys.put("id_asset_category", detIntent.getStringExtra("id_asset_category"));
+                    keys.put("start_date", mdate);
+                    keys.put("end_date", mdate);
+                    return keys;
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    // Posting parameters to login url
+                    Map<String, String> keys = new HashMap<String, String>();
+                    keys.put("token", TOKEN);
+                    return keys;
+                }
+            };
+
+            try {
+                requestQueue.add(stringRequest);
+                Thread.sleep(2000);
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            return responseEvent;
+        }
+
+        @Override
+        protected void onPostExecute(String event) {
+            mWorkTask = null;
+            new getDateEvent().execute();
+
+        }
+    }
+
+    private class getDateEvent extends AsyncTask<String, String, String> {
+
+        private String errorMsg, responseEvent;
+
+        private getDateEvent() {}
+
+        @Override
+        protected String doInBackground(String... voids) {
+            Log.e(TAG, String.valueOf(sm.getIntPreferences("id_tenant"))
+                    + " | " + String.valueOf(aId)
+                    + " | " + aCat);
+
+            String URL = AppConfig.URL_VIEW_EVENT;
+            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    responseEvent = response;
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    errorMsg = error.toString();
+                    Log.e(TAG, "Event Fetch Error : " + errorMsg);
+                    Toast.makeText(getApplicationContext(), "Connection error, try again.",
+                            Toast.LENGTH_LONG).show();
+                }
+            }){
+                @Override
+                protected Map<String, String> getParams() {
+                    // Posting parameters to login url
+                    Map<String, String> keys = new HashMap<String, String>();
+                    keys.put("id_tenant", String.valueOf(sm.getIntPreferences("id_tenant")));
+                    keys.put("id_asset", String.valueOf(aId));
+                    keys.put("id_asset_category", detIntent.getStringExtra("id_asset_category"));
+                    return keys;
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    // Posting parameters to login url
+                    Map<String, String> keys = new HashMap<String, String>();
+                    keys.put("token", TOKEN);
+                    return keys;
+                }
+            };
+
+            try {
+                requestQueue.add(stringRequest);
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            Log.e(TAG, responseEvent);
+            return responseEvent;
+        }
+
+        @Override
+        protected void onPostExecute(String event) {
+            if (event != null) {
+                try {
+                    JSONObject eventObject = new JSONObject(event);
+                    JSONArray eventArray = new JSONArray(eventObject.getString("transaction"));
+                    JSONArray scheduleArray = new JSONArray(eventObject.getString("schedules"));
+
+                    ArrayList<CalendarDay> dates = new ArrayList<>();
+                    if (eventArray.length() > 0){
+                        for (int i = 0; i < eventArray.length(); i++) {
+                            JSONObject arrayObject = eventArray.getJSONObject(i);
+
+                            try{
+                                Date startDate = format.parse(arrayObject.getString("start_date"));
+                                Date endDate = format.parse(arrayObject.getString("end_date"));
+
+                                Calendar cal = Calendar.getInstance();
+                                cal.setTime(startDate);
+
+                                Calendar cal2 = Calendar.getInstance();
+                                cal2.setTime(endDate);
+
+                                CalendarDay dateDay;
+                                while(!cal.after(cal2))
+                                {
+                                    dateDay = CalendarDay.from(cal.getTime());
+                                    dates.add(dateDay);
+                                    cal.add(Calendar.DATE, 1);
+                                    Log.e(TAG, "date : " + dateDay);
+                                }
+
+
+                            }catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+
+                    if (scheduleArray.length() > 0) {
+                        for (int i = 0; i < scheduleArray.length(); i++) {
+                            JSONObject scheduleObject = scheduleArray.getJSONObject(i);
+
+                            try {
+                                Date schedule = format.parse(scheduleObject.getString("start_date"));
+                                CalendarDay daySchedule = CalendarDay.from(schedule);
+                                dates.add(daySchedule);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+
+                    dayEvent = dates;
+                    calendarView.addDecorator(new EventDecorator(Color.RED, dayEvent));
+
+                    Log.e(TAG, "Event : " + dayEvent);
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }else{
+                Toast.makeText(getApplicationContext(), "Tidak ada event.",
+                        Toast.LENGTH_LONG).show();
+            }
+
+            mWorkTask = null;
         }
     }
 
@@ -774,501 +1399,4 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
             showProgress(false);
         }
     }
-
-    ImageListener imageUrlListener = new ImageListener() {
-        @Override
-        public void setImageForPosition(int position, ImageView imageView) {
-            Picasso.with(getApplicationContext()).load(imagesArray[position]).into(imageView);
-        }
-    };
-
-    private void changeStatAset() {
-        showAlert = new AlertDialog.Builder(this);
-        showAlert.setMessage("Ubah status aset ini ?");
-        showAlert.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface arg0, int arg1) {
-                String nowStatus = "active";
-                if(nowStatus.equals("active")){
-                    changeStatus = "inactive";
-                }
-                pDialog.setMessage("loading ...");
-                showProgress(true);
-                new postStatAssetTask(changeStatus).execute();
-            }
-        });
-        showAlert.setNegativeButton("Tidak",new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // close dialog
-            }
-        });
-
-        alertDialog = showAlert.create();
-        alertDialog.show();
-    }
-
-    private class postStatAssetTask extends AsyncTask<String, String, String>{
-        private final String mStatus;
-        private String errorMsg, responseStatus;
-
-        private postStatAssetTask(String status) {
-            mStatus = status;
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-            Log.e(TAG, "Change Status URL: " + Tools.getIdCategoryURL(category));
-            StringRequest stringRequest = new StringRequest(Request.Method.PUT, Tools.getIdCategoryURL(category), new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    responseStatus = response;
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    errorMsg = error.toString();
-                    Log.e(TAG, "Change Status Fetch Error : " + errorMsg);
-                    Toast.makeText(getApplicationContext(), "Connection error, try again.",
-                            Toast.LENGTH_LONG).show();
-                }
-            }){
-                @Override
-                protected Map<String, String> getParams() {
-                    // Posting parameters to url
-                    Map<String, String> keys = new HashMap<String, String>();
-                    //keys.put("id_tenant", mTenant);
-                    keys.put("id_asset", String.valueOf(aId));
-                    keys.put("status", mStatus);
-                    keys.put("price", aPrice);
-                    Log.e(TAG, "Change Status Fetch KEYS : " + String.valueOf(keys));
-                    return keys;
-                }
-
-                @Override
-                public Map<String, String> getHeaders() throws AuthFailureError {
-                    Map<String, String> keys = new HashMap<String, String>();
-                    keys.put("token", TOKEN);
-                    return keys;
-                }
-            };
-
-            try {
-                requestQueue.add(stringRequest);
-                Thread.sleep(3000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-            return responseStatus;
-        }
-
-        @Override
-        protected void onPostExecute(String status) {
-            mDetailAssetTask = null;
-            showProgress(false);
-
-            if(status != null){
-                Toast.makeText(getApplicationContext(),"Data sukses diubah", Toast.LENGTH_LONG).show();
-            }else{
-                Toast.makeText(getApplicationContext(),"Gagal meyimpan data", Toast.LENGTH_LONG).show();
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mDetailAssetTask = null;
-            showProgress(false);
-        }
-
-    }
-
-    private void deleteAssetItem(final int id) {
-        showAlert = new AlertDialog.Builder(this);
-        showAlert.setMessage("Hapus aset ini ?");
-        showAlert.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface arg0, int arg1) {
-                pDialog.setMessage("loading ...");
-                showProgress(true);
-                new deleteAssetTask(String.valueOf(id)).execute();
-            }
-        });
-        showAlert.setNegativeButton("Tidak",new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // close dialog
-            }
-        });
-
-        alertDialog = showAlert.create();
-        alertDialog.show();
-    }
-
-    private class deleteAssetTask  extends AsyncTask<String, String, String> {
-        private final String mAsset;
-        private String errorMsg, responseAsset;
-
-        private deleteAssetTask(String asset) {
-            mAsset = asset;
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-            switch (category) {
-                case "1": category_url = AppConfig.URL_DELETE_MOBIL; break;
-                case "2": category_url = AppConfig.URL_DELETE_MOTOR; break;
-                case "3": category_url = AppConfig.URL_DELETE_YACHT; break;
-                case "4": category_url = AppConfig.URL_DELETE_MEDIC; break;
-                case "5": category_url = AppConfig.URL_DELETE_PHOTOGRAPHY; break;
-                case "6": category_url = AppConfig.URL_DELETE_TOYS; break;
-                case "7": category_url = AppConfig.URL_DELETE_ADVENTURE; break;
-                case "8": category_url = AppConfig.URL_DELETE_MATERNITY; break;
-                case "9": category_url = AppConfig.URL_DELETE_ELECTRONIC; break;
-                case "10": category_url = AppConfig.URL_DELETE_BICYCLE; break;
-                case "11": category_url = AppConfig.URL_DELETE_OFFICE; break;
-                case "12": category_url = AppConfig.URL_DELETE_FASHION; break;
-            }
-            StringRequest stringRequest = new StringRequest(Request.Method.PUT, category_url, new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    responseAsset = response;
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    errorMsg = error.toString();
-                    Log.e(TAG, "Asset Fetch Error : " + errorMsg);
-                    Toast.makeText(getApplicationContext(), "Connection error, try again.",
-                            Toast.LENGTH_LONG).show();
-                }
-            }){
-                @Override
-                protected Map<String, String> getParams() {
-                    // Posting parameters to url
-                    Map<String, String> keys = new HashMap<String, String>();
-                    keys.put("id_asset", mAsset);
-                    Log.e(TAG, "Delete Data : " + String.valueOf(keys));
-                    return keys;
-                }
-
-                @Override
-                public Map<String, String> getHeaders() throws AuthFailureError {
-                    Map<String, String> keys = new HashMap<String, String>();
-                    keys.put("token", TOKEN);
-                    return keys;
-                }
-            };
-
-            try {
-                requestQueue.add(stringRequest);
-                Thread.sleep(3000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-            return responseAsset;
-        }
-
-        @Override
-        protected void onPostExecute(String User) {
-            showProgress(false);
-
-            if(User != null){
-                Toast.makeText(getApplicationContext(),"Data berhasil dihapus", Toast.LENGTH_LONG).show();
-                finish();
-            }else{
-                Toast.makeText(getApplicationContext(),"Gagal menghapus data", Toast.LENGTH_LONG).show();
-            }
-
-        }
-
-        @Override
-        protected void onCancelled() {
-            showProgress(false);
-        }
-
-    }
-
-    private class getDateEvent extends AsyncTask<String, String, String> {
-        private String errorMsg, responseEvent;
-
-        private getDateEvent() {}
-
-        @Override
-        protected String doInBackground(String... voids) {
-            Log.e(TAG, String.valueOf(sm.getIntPreferences("id_tenant"))
-                    + " | " + String.valueOf(aId)
-                    + " | " + aCat);
-
-            String URL = AppConfig.URL_VIEW_EVENT;
-            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    responseEvent = response;
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    errorMsg = error.toString();
-                    Log.e(TAG, "Event Fetch Error : " + errorMsg);
-                    Toast.makeText(getApplicationContext(), "Connection error, try again.",
-                            Toast.LENGTH_LONG).show();
-                }
-            }){
-                @Override
-                protected Map<String, String> getParams() {
-                    // Posting parameters to login url
-                    Map<String, String> keys = new HashMap<String, String>();
-                    keys.put("id_tenant", String.valueOf(sm.getIntPreferences("id_tenant")));
-                    keys.put("id_asset", String.valueOf(aId));
-                    keys.put("id_asset_category", detIntent.getStringExtra("id_asset_category"));
-                    return keys;
-                }
-
-                @Override
-                public Map<String, String> getHeaders() throws AuthFailureError {
-                    // Posting parameters to login url
-                    Map<String, String> keys = new HashMap<String, String>();
-                    keys.put("token", TOKEN);
-                    return keys;
-                }
-            };
-
-            try {
-                requestQueue.add(stringRequest);
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-            Log.e(TAG, responseEvent);
-            return responseEvent;
-        }
-
-        @Override
-        protected void onPostExecute(String event) {
-            if (event != null) {
-                try {
-                    JSONObject eventObject = new JSONObject(event);
-                    JSONArray eventArray = new JSONArray(eventObject.getString("transaction"));
-
-                    ArrayList<CalendarDay> dates = new ArrayList<>();
-                    for (int i = 0; i < eventArray.length(); i++) {
-                        JSONObject arrayObject = eventArray.getJSONObject(i);
-
-                        try{
-                            Date date = format.parse(arrayObject.getString("start_date"));
-                            CalendarDay day = CalendarDay.from(date);
-                            dates.add(day);
-                        }catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    dayEvent = dates;
-                    calendarView.addDecorator(new EventDecorator(Color.RED, dayEvent));
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }else{
-                Toast.makeText(getApplicationContext(), "Tidak ada event.",
-                        Toast.LENGTH_LONG).show();
-            }
-
-            mWorkTask = null;
-        }
-    }
-
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    private void showProgress(final boolean show) {
-        if(show){
-            if (!pDialog.isShowing()){
-                pDialog.show();
-            }
-        }else{
-            if (pDialog.isShowing()){
-                pDialog.dismiss();
-            }
-        }
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        this.finish();
-        return true;
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_edit_delete_option, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_edit) {
-            switch (aCat) {
-                case "1":
-                    iAsetEdit = new Intent(DetailAsetActivity.this, FormCarAsetActivity.class);
-                    iAsetEdit.putExtra("action", "update");
-                    iAsetEdit.putExtra("id_asset", aId);
-                    iAsetEdit.putExtra("name", aAsetName);
-                    iAsetEdit.putExtra("merk", aName);
-                    iAsetEdit.putExtra("type", aType);
-                    iAsetEdit.putExtra("year", aYear);
-                    iAsetEdit.putExtra("plat", aPlat);
-                    iAsetEdit.putExtra("stnk", aNoStnk);
-                    iAsetEdit.putExtra("color", aColor);
-                    iAsetEdit.putExtra("no_stnk", aNoStnk);
-                    iAsetEdit.putExtra("engine_cap", aEngineCap);
-                    iAsetEdit.putExtra("fuel", aFuel);
-                    iAsetEdit.putExtra("seat", aSeat);
-                    iAsetEdit.putExtra("air_bag", aAirBag);
-                    iAsetEdit.putExtra("air_cond", aAirCond);
-                    iAsetEdit.putExtra("driver", aDriver);
-                    iAsetEdit.putExtra("assurance", aInsurance);
-                    iAsetEdit.putExtra("transmission", aTransmission);
-                    iAsetEdit.putExtra("min_rent_day", aMinRentDay);
-                    iAsetEdit.putExtra("main_image", aMainImage);
-                    iAsetEdit.putExtra("delivery_method", aDeliveryMethod);
-                    iAsetEdit.putExtra("cat", aCat);
-                    iAsetEdit.putExtra("subcat", aSubCat);
-                    iAsetEdit.putExtra("price", aPrice);
-                    iAsetEdit.putExtra("address", address.getText().toString());
-                    iAsetEdit.putExtra("member_badge", member_badge.getText().toString());
-                    iAsetEdit.putExtra("longitude", aLongitude);
-                    iAsetEdit.putExtra("latitude", aLatitude);
-                    iAsetEdit.putExtra("images", imagesArray);
-                    startActivity(iAsetEdit);
-                    break;
-                case "2":
-                    iAsetEdit = new Intent(DetailAsetActivity.this, FormMotorcycleAsetActivity.class);
-                    iAsetEdit.putExtra("action", "update");
-                    iAsetEdit.putExtra("id_asset", aId);
-                    iAsetEdit.putExtra("name", aAsetName);
-                    iAsetEdit.putExtra("merk", aName);
-                    iAsetEdit.putExtra("type", aType);
-                    iAsetEdit.putExtra("year", aYear);
-                    iAsetEdit.putExtra("plat", aPlat);
-                    iAsetEdit.putExtra("stnk", aNoStnk);
-                    iAsetEdit.putExtra("color", aColor);
-                    iAsetEdit.putExtra("no_stnk", aNoStnk);
-                    iAsetEdit.putExtra("engine_cap", aEngineCap);
-                    iAsetEdit.putExtra("fuel", aFuel);
-                    iAsetEdit.putExtra("assurance", aInsurance);
-                    iAsetEdit.putExtra("transmission", aTransmission);
-                    iAsetEdit.putExtra("min_rent_day", aMinRentDay);
-                    iAsetEdit.putExtra("main_image", aMainImage);
-                    iAsetEdit.putExtra("delivery_method", aDeliveryMethod);
-                    iAsetEdit.putExtra("cat", aCat);
-                    iAsetEdit.putExtra("subcat", aSubCat);
-                    iAsetEdit.putExtra("price", aPrice);
-                    iAsetEdit.putExtra("address", address.getText().toString());
-                    iAsetEdit.putExtra("member_badge", member_badge.getText().toString());
-                    iAsetEdit.putExtra("longitude", aLongitude);
-                    iAsetEdit.putExtra("latitude", aLatitude);
-                    iAsetEdit.putExtra("images", imagesArray);
-                    startActivity(iAsetEdit);
-                    break;
-                case "3":
-                    iAsetEdit = new Intent(DetailAsetActivity.this, FormYachtAsetActivity.class);
-                    iAsetEdit.putExtra("action", "update");
-                    iAsetEdit.putExtra("id_asset", aId);
-                    iAsetEdit.putExtra("subtype", aSubType);
-                    iAsetEdit.putExtra("name", aAsetName);
-                    iAsetEdit.putExtra("type", aType);
-                    iAsetEdit.putExtra("model", aModel);
-                    iAsetEdit.putExtra("length", aLength);
-                    iAsetEdit.putExtra("beam", aBeam);
-                    iAsetEdit.putExtra("gross_tone", aGrossTon);
-                    iAsetEdit.putExtra("draft", aDraft);
-                    iAsetEdit.putExtra("cruising_speed", aCruisSpeed);
-                    iAsetEdit.putExtra("top_speed", aTopSpeed);
-                    iAsetEdit.putExtra("builder", aBuilder);
-                    iAsetEdit.putExtra("naval_architect", aNaval);
-                    iAsetEdit.putExtra("interior_designer", aIntDesign);
-                    iAsetEdit.putExtra("exterior_designer", aExtDesign);
-                    iAsetEdit.putExtra("guest", aGuest);
-                    iAsetEdit.putExtra("crew", aCrew);
-                    iAsetEdit.putExtra("cabin", aCabin);
-                    iAsetEdit.putExtra("delivery_method", aDeliveryMethod);
-                    iAsetEdit.putExtra("min_rent_day", aMinRentDay);
-                    iAsetEdit.putExtra("main_image", aMainImage);
-                    iAsetEdit.putExtra("assurance", aInsurance);
-                    iAsetEdit.putExtra("cat", aCat);
-                    iAsetEdit.putExtra("subcat", aSubCat);
-                    iAsetEdit.putExtra("price", aPrice);
-                    iAsetEdit.putExtra("address", address.getText().toString());
-                    iAsetEdit.putExtra("member_badge", member_badge.getText().toString());
-                    iAsetEdit.putExtra("longitude", aLongitude);
-                    iAsetEdit.putExtra("latitude", aLatitude);
-                    iAsetEdit.putExtra("images", imagesArray);
-                    startActivity(iAsetEdit);
-
-                    break;
-                default:
-                    switch (aCat) {
-                        case "4": iAsetEdit = new Intent(DetailAsetActivity.this, FormMedicAsetActivity.class); break;
-                        case "5": iAsetEdit = new Intent(DetailAsetActivity.this, FormPhotographyAsetActivity.class); break;
-                        case "6": iAsetEdit = new Intent(DetailAsetActivity.this, FormToysAsetActivity.class); break;
-                        case "7": iAsetEdit = new Intent(DetailAsetActivity.this, FormAdventureAsetActivity.class); break;
-                        case "8": iAsetEdit = new Intent(DetailAsetActivity.this, FormMaternityAsetActivity.class); break;
-                        case "9": iAsetEdit = new Intent(DetailAsetActivity.this, FormElectronicAsetActivity.class); break;
-                        case "10": iAsetEdit = new Intent(DetailAsetActivity.this, FormBicycleAsetActivity.class); break;
-                        case "11": iAsetEdit = new Intent(DetailAsetActivity.this, FormOfficeAsetActivity.class); break;
-                        case "12": iAsetEdit = new Intent(DetailAsetActivity.this, FormFashionAsetActivity.class); break;
-                    }
-
-                    iAsetEdit.putExtra("action", "update");
-                    iAsetEdit.putExtra("id_asset", aId);
-                    iAsetEdit.putExtra("min_rent_day", aMinRentDay);
-                    iAsetEdit.putExtra("main_image", aMainImage);
-                    iAsetEdit.putExtra("name", aAsetName);
-                    iAsetEdit.putExtra("merk", aName);
-                    iAsetEdit.putExtra("type", aType);
-                    iAsetEdit.putExtra("assurance", aInsurance);
-                    iAsetEdit.putExtra("description", aDesc);
-                    iAsetEdit.putExtra("delivery_method", aDeliveryMethod);
-                    iAsetEdit.putExtra("cat", aCat);
-                    iAsetEdit.putExtra("subcat", aSubCat);
-                    iAsetEdit.putExtra("price", aPrice);
-                    iAsetEdit.putExtra("address", address.getText().toString());
-                    iAsetEdit.putExtra("member_badge", member_badge.getText().toString());
-                    iAsetEdit.putExtra("images", imagesArray);
-                    iAsetEdit.putExtra("longitude", aLongitude);
-                    iAsetEdit.putExtra("latitude", aLatitude);
-                    if(!aCat.equals("10")){
-                        iAsetEdit.putExtra("asset_value", aAssetValue.toString());
-                        iAsetEdit.putExtra("weight", aWeight);
-                        iAsetEdit.putExtra("dimension", dimension.getText().toString());
-                    }
-
-                    startActivityForResult(iAsetEdit, 2);
-                    break;
-            }
-        }else if(id == R.id.action_delete){
-            deleteAssetItem(aId);
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onRestart() {
-        super.onRestart();
-
-//        getAssetDataList();
-        getAssetDetail();
-    }
-
-
-
 }
