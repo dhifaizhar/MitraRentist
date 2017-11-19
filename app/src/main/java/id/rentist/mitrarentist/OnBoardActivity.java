@@ -39,6 +39,7 @@ public class OnBoardActivity extends AppCompatActivity {
 
         // add few more layouts if you want
         layouts = new int[]{
+                R.layout.onboard_4,
                 R.layout.onboard_1,
                 R.layout.onboard_2,
                 R.layout.onboard_3};
@@ -91,7 +92,7 @@ public class OnBoardActivity extends AppCompatActivity {
         }
 
         if (dots.length > 0)
-            dots[currentPage].setTextColor(getResources().getColor(R.color.colorBlack54));
+            dots[currentPage].setTextColor(getResources().getColor(R.color.colorWhite));
     }
 
     private int getItem(int i) {

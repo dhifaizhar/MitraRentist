@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Rentist Partner</string>
+    <string name="app_slogan">Ngapain Beli ? Rental Aja</string>
     <string name="title_activity_dashboard">DashboardActivity</string>
     <string name="title_activity_login">Sign in</string>
 
@@ -433,12 +434,12 @@
 
     <string name="slide_1_title">Rentist</string>
     <string name="slide_1_desc">Solusi Partner Rental</string>
-    <string name="slide_2_title">Trusted User</string>
-    <string name="slide_2_desc">Lengkapi Informasi Akun Diri dan Rental Anda</string>
-    <string name="slide_3_title">Your Own Policy</string>
-    <string name="slide_3_desc">Tambahkan Syarat dan Ketentuan pada Aset Rental Anda</string>
-    <string name="slide_4_title">Up To Date Information</string>
-    <string name="slide_4_desc">Selalu Perbarui Informasi Aset Anda</string>
+    <string name="slide_2_title">Partner Terpecaya</string>
+    <string name="slide_2_desc">Jadilah Partner terpercaya dengan melengkapi informasi akun Rental Anda dan dapatkan kemudahan dalam bertransaksi.</string>
+    <string name="slide_3_title">Perlindungan Aset</string>
+    <string name="slide_3_desc">Lingdungi aset Anda dengan Syarat dan Kebijakan yang dapat Anda tentukan sendiri.</string>
+    <string name="slide_4_title">Kelola Informasi</string>
+    <string name="slide_4_desc">Kelola setiap aset anda, perbarui informasi, dan adakan event promo untuk meningkatkan jumlah transaksi.</string>
     <string name="title_activity_settings">Settings</string>
     <string name="title_activity_users">UsersActivity</string>
     <string name="title_activity_form_user">FormUserActivity</string>

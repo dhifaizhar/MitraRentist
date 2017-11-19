@@ -26,13 +26,16 @@
                 android:background="@color/colorWhite"
                 android:focusableInTouchMode="true"
                 android:orientation="vertical"
-                android:padding="@dimen/xmin_padding">
+                android:paddingBottom="@dimen/med_padding"
+                android:paddingLeft="@dimen/min_padding"
+                android:paddingRight="@dimen/min_padding"
+                android:paddingTop="@dimen/med_padding">
 
                 <TextView
                     android:id="@+id/textView1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/min_padding"
+                    android:layout_marginBottom="@dimen/med_padding"
                     android:padding="@dimen/min_padding"
                     android:text="Silahkan Lengkapi Informasi Rental Anda"
                     android:textAlignment="center"
@@ -50,6 +53,7 @@
                         android:id="@+id/textView2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/xmin_padding"
                         android:text="Nama Rental" />
 
                     <EditText
@@ -74,6 +78,7 @@
                         android:id="@+id/textView3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/xmin_padding"
                         android:text="Pemilik Rental" />
 
                     <EditText
@@ -98,18 +103,37 @@
                         android:id="@+id/textView4"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/xmin_padding"
                         android:text="Email" />
 
-                    <EditText
-                        android:id="@+id/reg_email"
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/colorNearWhite"
-                        android:ems="10"
-                        android:hint="your_mail@mail.com"
-                        android:imeOptions="actionNext"
-                        android:inputType="textEmailAddress"
-                        android:padding="@dimen/min_padding" />
+                        android:layout_height="match_parent">
+
+                        <EditText
+                            android:id="@+id/reg_email"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerInParent="false"
+                            android:background="@color/colorNearWhite"
+                            android:ems="10"
+                            android:hint="your_mail@mail.com"
+                            android:imeOptions="actionNext"
+                            android:inputType="textEmailAddress"
+                            android:padding="@dimen/min_padding" />
+
+                        <ImageView
+                            android:id="@+id/email_check"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="@dimen/xmin_padding"
+                            android:visibility="gone"
+                            app:srcCompat="@drawable/checkmarkgreen_sm25x25" />
+                    </RelativeLayout>
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -123,6 +147,7 @@
                         android:id="@+id/textView5"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/xmin_padding"
                         android:text="Nomor Handphone" />
 
                     <RelativeLayout
@@ -165,6 +190,7 @@
                         android:id="@+id/textView6"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/xmin_padding"
                         android:text="Jenis Rental" />
 
                     <RelativeLayout
@@ -204,6 +230,7 @@
                         android:id="@+id/textView11"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/xmin_padding"
                         android:text="Password" />
 
                     <EditText
@@ -229,6 +256,7 @@
                         android:id="@+id/textView12"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/xmin_padding"
                         android:text="Konfirmasi Password" />
 
                     <EditText
@@ -277,12 +305,13 @@
                 android:id="@+id/terms_service"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/med_padding"
                 android:layout_marginTop="@dimen/med_padding"
                 android:padding="@dimen/xmin_padding"
                 android:text="@string/agreement_link"
                 android:textAlignment="center"
                 android:textColor="@color/colorWhite"
-                android:textSize="10sp"/>
+                android:textSize="10sp" />
 
         </LinearLayout>
 
