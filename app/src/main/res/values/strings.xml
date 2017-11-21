@@ -138,6 +138,7 @@
         <item>Elektronik</item>
         <item>Sepeda</item>
         <item>Peralatan Kantor</item>
+        <item>Pakaian</item>
     </string-array>
 
     <string-array name="asset_subcategory_entries">
@@ -169,7 +170,7 @@
     <string-array name="medic_subcategory_entries">
         <item>Paket</item>
         <item>Satuan</item>
-        <item>Perawat</item>
+        <!--<item>Perawat</item>-->
         <item>Others</item>
     </string-array>
 
@@ -188,7 +189,7 @@
         <item>Educational Toys</item>
         <item>Playhouse</item>
         <item>Ride On</item>
-        <item>Ourdoor</item>
+        <item>Outdoor</item>
         <item>Others</item>
     </string-array>
 

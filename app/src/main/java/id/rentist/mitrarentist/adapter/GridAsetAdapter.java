@@ -37,11 +37,12 @@ public class GridAsetAdapter extends RecyclerView.Adapter<GridAsetAdapter.ViewHo
         itemCategory = new ArrayList<ItemCategoryModul>();
         ItemCategoryModul category;
         sm = new SessionManager(context);
+        String[] asset_category = context.getResources().getStringArray(R.array.asset_category_entries);
 
         if (sm.getPreferences("car").equals("true")) {
             category = new ItemCategoryModul();
             category.setId(1);
-            category.setTitle("Mobil");
+            category.setTitle(asset_category[0]);
             category.setThumbnail(R.drawable.mobil);
             category.setSum(sm.getIntPreferences("sum_car"));
             itemCategory.add(category);
@@ -50,7 +51,7 @@ public class GridAsetAdapter extends RecyclerView.Adapter<GridAsetAdapter.ViewHo
         if (sm.getPreferences("motorcycle").equals("true")) {
             category = new ItemCategoryModul();
             category.setId(2);
-            category.setTitle("Motor");
+            category.setTitle(asset_category[1]);
             category.setThumbnail(R.drawable.motor);
             category.setSum(sm.getIntPreferences("sum_motor"));
             itemCategory.add(category);
@@ -59,7 +60,7 @@ public class GridAsetAdapter extends RecyclerView.Adapter<GridAsetAdapter.ViewHo
         if (sm.getPreferences("yacht").equals("true")) {
             category = new ItemCategoryModul();
             category.setId(3);
-            category.setTitle("Kapal Pesiar");
+            category.setTitle(asset_category[2]);
             category.setThumbnail(R.drawable.yatch);
             category.setSum(sm.getIntPreferences("sum_yacht"));
             itemCategory.add(category);
@@ -68,7 +69,7 @@ public class GridAsetAdapter extends RecyclerView.Adapter<GridAsetAdapter.ViewHo
         if (sm.getPreferences("medical_equipment").equals("true")) {
             category = new ItemCategoryModul();
             category.setId(4);
-            category.setTitle("Peralatan Medis");
+            category.setTitle(asset_category[3]);
             category.setThumbnail(R.drawable.medical_equipment);
             category.setSum(sm.getIntPreferences("sum_medic"));
             itemCategory.add(category);
@@ -77,7 +78,7 @@ public class GridAsetAdapter extends RecyclerView.Adapter<GridAsetAdapter.ViewHo
         if (sm.getPreferences("photography").equals("true")) {
             category = new ItemCategoryModul();
             category.setId(5);
-            category.setTitle("Fotografi");
+            category.setTitle(asset_category[4]);
             category.setThumbnail(R.drawable.camera);
             category.setSum(sm.getIntPreferences("sum_photography"));
             itemCategory.add(category);
@@ -86,7 +87,7 @@ public class GridAsetAdapter extends RecyclerView.Adapter<GridAsetAdapter.ViewHo
         if (sm.getPreferences("toys").equals("true")) {
             category = new ItemCategoryModul();
             category.setId(6);
-            category.setTitle("Mainan Anak");
+            category.setTitle(asset_category[5]);
             category.setThumbnail(R.drawable.mianan_anak);
             category.setSum(sm.getIntPreferences("sum_toys"));
             itemCategory.add(category);
@@ -95,7 +96,7 @@ public class GridAsetAdapter extends RecyclerView.Adapter<GridAsetAdapter.ViewHo
         if (sm.getPreferences("adventure").equals("true")) {
             category = new ItemCategoryModul();
             category.setId(7);
-            category.setTitle("Olahraga & Petualangan");
+            category.setTitle(asset_category[6]);
             category.setThumbnail(R.drawable.adventure);
             category.setSum(sm.getIntPreferences("sum_adventure"));
             itemCategory.add(category);
@@ -104,7 +105,7 @@ public class GridAsetAdapter extends RecyclerView.Adapter<GridAsetAdapter.ViewHo
         if (sm.getPreferences("maternity").equals("true")) {
             category = new ItemCategoryModul();
             category.setId(8);
-            category.setTitle("Ibu & Anak");
+            category.setTitle(asset_category[7]);
             category.setThumbnail(R.drawable.maternity);
             category.setSum(sm.getIntPreferences("sum_maternity"));
             itemCategory.add(category);
@@ -113,7 +114,7 @@ public class GridAsetAdapter extends RecyclerView.Adapter<GridAsetAdapter.ViewHo
         if (sm.getPreferences("electronic").equals("true")) {
             category = new ItemCategoryModul();
             category.setId(9);
-            category.setTitle("Elektronik");
+            category.setTitle(asset_category[8]);
             category.setThumbnail(R.drawable.elektronik);
             category.setSum(sm.getIntPreferences("sum_electronic"));
             itemCategory.add(category);
@@ -122,7 +123,7 @@ public class GridAsetAdapter extends RecyclerView.Adapter<GridAsetAdapter.ViewHo
         if (sm.getPreferences("bicycle").equals("true")) {
             category = new ItemCategoryModul();
             category.setId(10);
-            category.setTitle("Sepeda");
+            category.setTitle(asset_category[9]);
             category.setThumbnail(R.drawable.sepeda);
             category.setSum(sm.getIntPreferences("sum_bicycle"));
             itemCategory.add(category);
@@ -131,7 +132,7 @@ public class GridAsetAdapter extends RecyclerView.Adapter<GridAsetAdapter.ViewHo
         if (sm.getPreferences("office").equals("true")) {
             category = new ItemCategoryModul();
             category.setId(11);
-            category.setTitle("Peralatan Kantor");
+            category.setTitle(asset_category[10]);
             category.setThumbnail(R.drawable.office_equipmen);
             category.setSum(sm.getIntPreferences("sum_office"));
             itemCategory.add(category);
@@ -140,7 +141,7 @@ public class GridAsetAdapter extends RecyclerView.Adapter<GridAsetAdapter.ViewHo
         if (sm.getPreferences("fashion").equals("true")) {
             category = new ItemCategoryModul();
             category.setId(12);
-            category.setTitle("Pakaian");
+            category.setTitle(asset_category[11]);
             category.setThumbnail(R.drawable.fashion);
             category.setSum(sm.getIntPreferences("sum_fashion"));
             itemCategory.add(category);
@@ -167,6 +168,7 @@ public class GridAsetAdapter extends RecyclerView.Adapter<GridAsetAdapter.ViewHo
     public int getItemCount(){
         return itemCategory.size();
     }
+
 
     class ViewHolder extends RecyclerView.ViewHolder{
         private TextView title, sum;

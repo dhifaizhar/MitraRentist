@@ -2,16 +2,21 @@ package id.rentist.mitrarentist.tools;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.support.v7.app.AlertDialog;
 import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 
 import java.io.ByteArrayOutputStream;
@@ -207,4 +212,26 @@ public class Tools {
             return null;
         }
     }
+
+    public static void deleteImage(final ImageButton button, final ImageView image, Context context){
+        AlertDialog.Builder showAlert = new AlertDialog.Builder(context);
+        showAlert.setMessage("Hapus gambar ?");
+        showAlert.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1) {
+                image.setImageResource(R.drawable.add_picture);
+                button.setVisibility(View.GONE);
+            }
+        });
+        showAlert.setNegativeButton("Tidak",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // close dialog
+            }
+        });
+
+        AlertDialog alertDialog = showAlert.create();
+        alertDialog.show();
+    }
+
 }

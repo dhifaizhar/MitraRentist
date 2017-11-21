@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import id.rentist.mitrarentist.tools.SessionManager;
 
@@ -31,6 +32,19 @@ public class SetupCategoryActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        TextView tCar = (TextView) findViewById(R.id.title_car);
+        TextView tMotor = (TextView) findViewById(R.id.title_motor);
+        TextView tYacht = (TextView) findViewById(R.id.title_yacht);
+        TextView tMedic = (TextView) findViewById(R.id.title_medic);
+        TextView tPhoto = (TextView) findViewById(R.id.title_photo);
+        TextView tToys = (TextView) findViewById(R.id.title_toys);
+        TextView tAdventure = (TextView) findViewById(R.id.title_adventure);
+        TextView tMaternity = (TextView) findViewById(R.id.title_maternity);
+        TextView tElectronic = (TextView) findViewById(R.id.title_electronic);
+        TextView tOffice = (TextView) findViewById(R.id.title_office);
+        TextView tBicycle = (TextView) findViewById(R.id.title_bicycle);
+        TextView tFashion = (TextView) findViewById(R.id.title_fashion);
+
         car = (Switch) findViewById(R.id.sw_car);
         motorcycle = (Switch) findViewById(R.id.sw_motorcycle);
         yacht = (Switch) findViewById(R.id.sw_yacht);
@@ -44,6 +58,20 @@ public class SetupCategoryActivity extends AppCompatActivity {
         office  = (Switch) findViewById(R.id.sw_office);
         fashion  = (Switch) findViewById(R.id.sw_fashion);
         btnApply= (Button) findViewById(R.id.btn_apply);
+
+        String[] asset_category = getResources().getStringArray(R.array.asset_category_entries);
+        tCar.setText(asset_category[0] + " (" + sm.getIntPreferences("sum_car") + ")");
+        tMotor.setText(asset_category[1] + " (" + sm.getIntPreferences("sum_motor") + ")");
+        tYacht.setText(asset_category[2] + " (" + sm.getIntPreferences("sum_yacht") + ")");
+        tMedic.setText(asset_category[3] + " (" + sm.getIntPreferences("sum_medic") + ")");
+        tPhoto.setText(asset_category[4] + " (" + sm.getIntPreferences("sum_photography") + ")");
+        tToys.setText(asset_category[5] + " (" + sm.getIntPreferences("sum_toys") + ")");
+        tAdventure.setText(asset_category[6] + " (" + sm.getIntPreferences("sum_adventure") + ")");
+        tMaternity.setText(asset_category[7] + " (" + sm.getIntPreferences("sum_maternity") + ")");
+        tElectronic.setText(asset_category[8] + " (" + sm.getIntPreferences("sum_electronic") + ")");
+        tBicycle.setText(asset_category[9] + " (" + sm.getIntPreferences("sum_bicycle") + ")");
+        tOffice.setText(asset_category[10] + " (" + sm.getIntPreferences("sum_office") + ")");
+        tFashion.setText(asset_category[11] + " (" + sm.getIntPreferences("sum_fashion") + ")");
 
         if (sm.getPreferences("car").equals("true")){car.setChecked(true);}
         if (sm.getPreferences("motorcycle").equals("true")){motorcycle.setChecked(true);}

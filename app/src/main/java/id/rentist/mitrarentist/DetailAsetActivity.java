@@ -292,9 +292,11 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
 
             @Override
             public void onErrorResponse(VolleyError error) {
+                showProgress(false);
                 Log.e(TAG, "Get Aset List Fetch Error : " +  error.toString());
                 Toast.makeText(getApplicationContext(), "Connection error, try again.",
                         Toast.LENGTH_LONG).show();
+
             }
         }) {
             @Override
@@ -305,6 +307,7 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
                 return params;
             }
         };
+
         requestQueue.add(stringRequest);
     }
 
@@ -921,8 +924,6 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
         getAssetDetail();
     }
 
-
-
     public void setDateEvent(String date) {
         new setDateEventTask(date).execute();
     }
@@ -950,7 +951,6 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    showProgress(false);
                     Log.e(TAG, "Event Fetch Error : " + error.toString());
                     Toast.makeText(getApplicationContext(), "Connection error, try again.",
                             Toast.LENGTH_LONG).show();
@@ -998,7 +998,7 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
 
     private class getDateEvent extends AsyncTask<String, String, String> {
 
-        private String errorMsg, responseEvent;
+        private String errorMsg, responseEvent="";
 
         private getDateEvent() {}
 

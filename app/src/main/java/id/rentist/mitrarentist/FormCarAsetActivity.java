@@ -25,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -57,6 +58,8 @@ import id.rentist.mitrarentist.tools.SessionManager;
 import id.rentist.mitrarentist.tools.Tools;
 
 public class FormCarAsetActivity extends AppCompatActivity {
+    private Activity currentActivity = FormCarAsetActivity.this;
+
     private AsyncTask mAddAssetTask = null;
     private ProgressDialog pDialog;
     private SessionManager sm;
@@ -79,7 +82,8 @@ public class FormCarAsetActivity extends AppCompatActivity {
     String[] imagesArray = {AppConfig.URL_IMAGE_ASSETS + "default.png"};
     int img = 0;
     ImageView aImgSTNK, aMainImage, aSecondImage, aThirdImage, aFourthImage, aFifthImage;
-    ImageButton btnCamSTNK, btnFileSTNK;
+    ImageButton btnCamSTNK, btnFileSTNK, delSecondImage, delThirdImage, delFourthImage, delFifthImage;
+    RelativeLayout conSecondImage, conThirdImage, conFourthImage, conFifthImage;
     String isiimage, imgStringMain = "", imgStringSecond = "", imgStringThird = "", imgStringFourth = "", imgStringFifth = "",
             imgStringSTNK = "";
     private int PICK_IMAGE_REQUEST = 1;
@@ -153,6 +157,10 @@ public class FormCarAsetActivity extends AppCompatActivity {
         aVerified = (RadioButton) findViewById(R.id.r_verified);
         aSmartCon = (RadioButton) findViewById(R.id.r_smart_con);
 
+        conSecondImage = (RelativeLayout) findViewById(R.id.con_second_image);
+        conThirdImage = (RelativeLayout) findViewById(R.id.con_third_image);
+        conFourthImage = (RelativeLayout) findViewById(R.id.con_fourth_image);
+        conFifthImage = (RelativeLayout) findViewById(R.id.con_fifth_image);
         aImgSTNK = (ImageView) findViewById(R.id.stnk_image);
         aMainImage = (ImageView) findViewById(R.id.main_image);
         aSecondImage = (ImageView) findViewById(R.id.second_image);
@@ -160,6 +168,10 @@ public class FormCarAsetActivity extends AppCompatActivity {
         aFourthImage = (ImageView) findViewById(R.id.fourth_image);
         aFifthImage = (ImageView) findViewById(R.id.fifth_image);
 
+        delSecondImage = (ImageButton) findViewById(R.id.delete_second_image);
+        delThirdImage = (ImageButton) findViewById(R.id.delete_third_image);
+        delFourthImage = (ImageButton) findViewById(R.id.delete_fourth_image);
+        delFifthImage = (ImageButton) findViewById(R.id.delete_fifth_image);
         btnFileSTNK = (ImageButton) findViewById(R.id.btn_photo);
         btnCamSTNK = (ImageButton) findViewById(R.id.btn_camera);
         btnCamSTNK.setOnClickListener(new View.OnClickListener() {
@@ -222,6 +234,38 @@ public class FormCarAsetActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 showFileChooser("STNK");
+            }
+        });
+
+        delSecondImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Tools.deleteImage(delSecondImage, aSecondImage, currentActivity);
+                imgStringSecond = iFormAsset.getStringExtra("action").equals("update") ? "default.png" : "";
+            }
+        });
+
+        delThirdImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Tools.deleteImage(delThirdImage, aThirdImage, currentActivity);
+                imgStringThird = iFormAsset.getStringExtra("action").equals("update") ? "default.png" : "";
+            }
+        });
+
+        delFourthImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Tools.deleteImage(delFourthImage, aFourthImage, currentActivity);
+                imgStringFourth = iFormAsset.getStringExtra("action").equals("update") ? "default.png" : "";
+            }
+        });
+
+        delFifthImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Tools.deleteImage(delFifthImage, aFifthImage, currentActivity);
+                imgStringFifth = iFormAsset.getStringExtra("action").equals("update") ? "default.png" : "";
             }
         });
 
@@ -503,27 +547,32 @@ public class FormCarAsetActivity extends AppCompatActivity {
         Tools.setSpinnerValue(iFormAsset.getStringExtra("merk"), aMerk, R.array.car_brand_entries, getApplicationContext());
         Tools.setSpinnerValue(iFormAsset.getStringExtra("color"), aColor, R.array.color_entries, getApplicationContext());
         Tools.setSpinnerValue(iFormAsset.getStringExtra("fuel"), aFuel, R.array.fuel_entries, getApplicationContext());
-        Tools.setSpinnerValue(iFormAsset.getStringExtra("seat") + "cc", aSeat, R.array.seats_entries, getApplicationContext());
+        Tools.setSpinnerValue(iFormAsset.getStringExtra("seat"), aSeat, R.array.seats_entries, getApplicationContext());
         Tools.setSpinnerValue(iFormAsset.getStringExtra("year"), aYear, R.array.year_entries, getApplicationContext());
+        Tools.setSpinnerValue(iFormAsset.getStringExtra("engine_cap")+"cc", aEngCap, R.array.engine_cap_car_entries, getApplicationContext());
 
         //Image
         if(!iFormAsset.getStringExtra("main_image").isEmpty()) {
             String imageUrl = AppConfig.URL_IMAGE_ASSETS + iFormAsset.getStringExtra("main_image");
             Picasso.with(getApplicationContext()).load(imageUrl).into(aMainImage);
-            aSecondImage.setVisibility(View.VISIBLE);
+            conSecondImage.setVisibility(View.VISIBLE);
         }
         imagesArray = iFormAsset.getStringArrayExtra("images");
         if (imagesArray.length > 1){
-            aThirdImage.setVisibility(View.VISIBLE);
+            conThirdImage.setVisibility(View.VISIBLE);
             Picasso.with(getApplicationContext()).load(imagesArray[1]).into(aSecondImage);
+            delSecondImage.setVisibility(View.VISIBLE);
             if (imagesArray.length > 2) {
-                aFourthImage.setVisibility(View.VISIBLE);
+                conFourthImage.setVisibility(View.VISIBLE);
                 Picasso.with(getApplicationContext()).load(imagesArray[2]).into(aThirdImage);
+                delThirdImage.setVisibility(View.VISIBLE);
                 if (imagesArray.length > 3) {
-                    aFifthImage.setVisibility(View.VISIBLE);
+                    conFifthImage.setVisibility(View.VISIBLE);
                     Picasso.with(getApplicationContext()).load(imagesArray[3]).into(aFourthImage);
+                    delFourthImage.setVisibility(View.VISIBLE);
                     if (imagesArray.length > 4) {
                         Picasso.with(getApplicationContext()).load(imagesArray[4]).into(aFifthImage);
+                        delFifthImage.setVisibility(View.VISIBLE);
                     }
                 }
             }
@@ -534,9 +583,9 @@ public class FormCarAsetActivity extends AppCompatActivity {
             Picasso.with(getApplicationContext()).load(imageSTNKUrl).into(aImgSTNK);
         }
 
-        if (iFormAsset.getStringExtra("assurance").equals("true")){aAssurace.setChecked(true);}
-        if (iFormAsset.getStringExtra("air_bag").equals("true")){aAb.setChecked(true);}
-        if (iFormAsset.getStringExtra("air_cond").equals("true")){aAc.setChecked(true);}
+        if (iFormAsset.getStringExtra("assurance").equals("false")) aAssurace.setChecked(false);
+        if (iFormAsset.getStringExtra("air_bag").equals("false"))aAb.setChecked(false);
+        if (iFormAsset.getStringExtra("air_cond").equals("false")){aAc.setChecked(false);}
 
         if(iFormAsset.getStringExtra("transmission").equals("manual")) {
             ((RadioButton)aTransmisionGroup.getChildAt(0)).setChecked(true);
@@ -550,23 +599,16 @@ public class FormCarAsetActivity extends AppCompatActivity {
             ((RadioButton) aRentReqGroup.getChildAt(1)).setChecked(true);
         }else  ((RadioButton) aRentReqGroup.getChildAt(2)).setChecked(true);
 
-
-        if (iFormAsset.getStringExtra("delivery_method").equals("both")){
-            aPickup.setChecked(true);
-            aDelivery.setChecked(true);
-        }else if (iFormAsset.getStringExtra("delivery_method").equals("pickup")){
-            aPickup.setChecked(true);
+        if (iFormAsset.getStringExtra("delivery_method").equals("pickup")){
+            aDelivery.setChecked(false);
         }else if (iFormAsset.getStringExtra("delivery_method").equals("deliver")){
-            aDelivery.setChecked(true);
+            aPickup.setChecked(false);
         }
 
-        if (iFormAsset.getStringExtra("driver").equals("both")){
-            aNoDriver.setChecked(true);
-            aDriver.setChecked(true);
-        }else if (iFormAsset.getStringExtra("driver").equals("true")){
-            aDriver.setChecked(true);
+       if (iFormAsset.getStringExtra("driver").equals("true")){
+            aNoDriver.setChecked(false);
         }else if (iFormAsset.getStringExtra("driver").equals("false")){
-            aNoDriver.setChecked(true);
+            aDriver.setChecked(false);
         }
 
         // Parsing data price
@@ -680,8 +722,7 @@ public class FormCarAsetActivity extends AppCompatActivity {
 
                 isiimage = Tools.getStringImage(bitmap);
                 imgStringMain = ext +"," + isiimage;
-                aSecondImage.setVisibility(View.VISIBLE);
-                img++;
+                conSecondImage.setVisibility(View.VISIBLE);
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -699,8 +740,8 @@ public class FormCarAsetActivity extends AppCompatActivity {
 
                 isiimage = Tools.getStringImage(bitmap);
                 imgStringSecond = ext +"," + isiimage;
-                aThirdImage.setVisibility(View.VISIBLE);
-                img++;
+                delSecondImage.setVisibility(View.VISIBLE);
+                conThirdImage.setVisibility(View.VISIBLE);
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -718,8 +759,8 @@ public class FormCarAsetActivity extends AppCompatActivity {
 
                 isiimage = Tools.getStringImage(bitmap);
                 imgStringThird = ext +"," + isiimage;
-                aFourthImage.setVisibility(View.VISIBLE);
-                img++;
+                delThirdImage.setVisibility(View.VISIBLE);
+                conFourthImage.setVisibility(View.VISIBLE);
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -737,8 +778,8 @@ public class FormCarAsetActivity extends AppCompatActivity {
 
                 isiimage = Tools.getStringImage(bitmap);
                 imgStringFourth = ext +"," + isiimage;
-                aFifthImage.setVisibility(View.VISIBLE);
-                img++;
+                delFourthImage.setVisibility(View.VISIBLE);
+                conFifthImage.setVisibility(View.VISIBLE);
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -756,7 +797,7 @@ public class FormCarAsetActivity extends AppCompatActivity {
 
                 isiimage = Tools.getStringImage(bitmap);
                 imgStringFifth = ext +"," + isiimage;
-                img++;
+                delFifthImage.setVisibility(View.VISIBLE);
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -1006,7 +1047,7 @@ public class FormCarAsetActivity extends AppCompatActivity {
                     keys.put("type", aType.getText().toString());
                     keys.put("year", aYear.getSelectedItem().toString());
                     keys.put("colour", aColor.getSelectedItem().toString());
-                    keys.put("engine_capacity", aEngCap.getSelectedItem().toString());
+                    keys.put("engine_capacity", aEngCap.getSelectedItem().toString().replace("cc",""));
                     keys.put("license_plat", aPlatStart.getText().toString().trim()+" "+aPlat.getText().toString().trim()+" "+aPlatEnd.getText().toString().trim());
                     keys.put("seat", aSeat.getSelectedItem().toString());
                     keys.put("air_bag", String.valueOf(aAb.isChecked()));
@@ -1030,7 +1071,7 @@ public class FormCarAsetActivity extends AppCompatActivity {
                     if(!imgStringFourth.isEmpty()){keys.put("file3", imgStringFourth);}
                     if(!imgStringFifth.isEmpty()){keys.put("file4", imgStringFifth);}
 
-                    Log.e(TAG, "Value Object : " + keys.toString());
+                    Log.e(TAG, "String img 2: " + imgStringSecond);
                     return keys;
                 }
 
@@ -1120,7 +1161,7 @@ public class FormCarAsetActivity extends AppCompatActivity {
                     keys.put("type", aType.getText().toString());
                     keys.put("year", aYear.getSelectedItem().toString());
                     keys.put("colour", aColor.getSelectedItem().toString());
-                    keys.put("engine_capacity", aEngCap.getSelectedItem().toString());
+                    keys.put("engine_capacity", aEngCap.getSelectedItem().toString().replace("cc",""));
                     keys.put("license_plat", aPlatStart.getText().toString().trim()+" "+aPlat.getText().toString().trim()+" "+aPlatEnd.getText().toString().trim());
                     keys.put("seat", aSeat.getSelectedItem().toString());
                     keys.put("air_bag", String.valueOf(aAb.isChecked()));
@@ -1144,6 +1185,8 @@ public class FormCarAsetActivity extends AppCompatActivity {
                     if(!imgStringFifth.isEmpty()){keys.put("file4", imgStringFifth);}
 
                     Log.e(TAG, "Asset Keys: " + String.valueOf(keys));
+                    Log.e(TAG, "String img 2: " + imgStringSecond);
+
                     return keys;
                 }
 

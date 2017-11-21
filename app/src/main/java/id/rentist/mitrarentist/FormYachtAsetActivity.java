@@ -21,10 +21,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -58,6 +60,7 @@ import id.rentist.mitrarentist.tools.SessionManager;
 import id.rentist.mitrarentist.tools.Tools;
 
 public class FormYachtAsetActivity extends AppCompatActivity {
+    private Activity currentActivity = FormYachtAsetActivity.this;
     private AsyncTask mAddAssetTask = null;
     private ProgressDialog pDialog;
     private SessionManager sm;
@@ -82,6 +85,8 @@ public class FormYachtAsetActivity extends AppCompatActivity {
     //Image Initial
     String[] imagesArray = {AppConfig.URL_IMAGE_ASSETS + "default.png"};
     ImageView aMainImage, aSecondImage, aThirdImage, aFourthImage, aFifthImage;
+    ImageButton delSecondImage, delThirdImage, delFourthImage, delFifthImage;
+    RelativeLayout conSecondImage, conThirdImage, conFourthImage, conFifthImage;
     String isiimage, imgStringMain = "", imgStringSecond = "", imgStringThird = "", imgStringFourth = "", imgStringFifth = "";
     private int PICK_IMAGE_REQUEST = 1;
     private int PICK_IMAGE_SECOND_REQUEST = 2;
@@ -123,7 +128,6 @@ public class FormYachtAsetActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         contentcontrol();
-
     }
 
     private void contentcontrol() {
@@ -142,11 +146,11 @@ public class FormYachtAsetActivity extends AppCompatActivity {
         aLength = (TextView) findViewById(R.id.as_length);
         aBeam = (TextView) findViewById(R.id.as_beam);
         aDraft = (TextView) findViewById(R.id.as_draft);
+        aAssurace = (CheckBox) findViewById(R.id.as_ck_assurance);
         aCruisingSpeed = (TextView) findViewById(R.id.as_cruising_speed);
         aTopSpeed = (TextView) findViewById(R.id.as_top_speed);
         aGrossTon = (TextView) findViewById(R.id.as_gross_tonnage);
         aMinDayRent = (TextView) findViewById(R.id.as_min_rent_day);
-        aAssurace = (CheckBox) findViewById(R.id.as_ck_assurance);
         aDelivery = (CheckBox) findViewById(R.id.as_ck_delivery);
         aPickup = (CheckBox) findViewById(R.id.as_ck_pickup);
         aAddress = (TextView) findViewById(R.id.as_address);
@@ -155,11 +159,20 @@ public class FormYachtAsetActivity extends AppCompatActivity {
         aVerified = (RadioButton) findViewById(R.id.r_verified);
         aSmartCon = (RadioButton) findViewById(R.id.r_smart_con);
 
+        conSecondImage = (RelativeLayout) findViewById(R.id.con_second_image);
+        conThirdImage = (RelativeLayout) findViewById(R.id.con_third_image);
+        conFourthImage = (RelativeLayout) findViewById(R.id.con_fourth_image);
+        conFifthImage = (RelativeLayout) findViewById(R.id.con_fifth_image);
         aMainImage = (ImageView) findViewById(R.id.main_image);
         aSecondImage = (ImageView) findViewById(R.id.second_image);
         aThirdImage = (ImageView) findViewById(R.id.third_image);
         aFourthImage = (ImageView) findViewById(R.id.fourth_image);
         aFifthImage = (ImageView) findViewById(R.id.fifth_image);
+
+        delSecondImage = (ImageButton) findViewById(R.id.delete_second_image);
+        delThirdImage = (ImageButton) findViewById(R.id.delete_third_image);
+        delFourthImage = (ImageButton) findViewById(R.id.delete_fourth_image);
+        delFifthImage = (ImageButton) findViewById(R.id.delete_fifth_image);
 
         aAddress.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -207,6 +220,39 @@ public class FormYachtAsetActivity extends AppCompatActivity {
                 showFileChooser("fifth");
             }
         });
+
+        delSecondImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Tools.deleteImage(delSecondImage, aSecondImage, currentActivity);
+                imgStringSecond = iFormAsset.getStringExtra("action").equals("update") ? "default.png" : "";
+            }
+        });
+
+        delThirdImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Tools.deleteImage(delThirdImage, aThirdImage, currentActivity);
+                imgStringThird = iFormAsset.getStringExtra("action").equals("update") ? "default.png" : "";
+            }
+        });
+
+        delFourthImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Tools.deleteImage(delFourthImage, aFourthImage, currentActivity);
+                imgStringFourth = iFormAsset.getStringExtra("action").equals("update") ? "default.png" : "";
+            }
+        });
+
+        delFifthImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Tools.deleteImage(delFifthImage, aFifthImage, currentActivity);
+                imgStringFifth = iFormAsset.getStringExtra("action").equals("update") ? "default.png" : "";
+            }
+        });
+
         //PRICING
         aBasicPriceDisp = (TextView) findViewById(R.id.as_price_basic_disp);
         aBasicPrice = (EditText) findViewById(R.id.as_price_basic);
@@ -484,15 +530,10 @@ public class FormYachtAsetActivity extends AppCompatActivity {
             ((RadioButton) aRentReqGroup.getChildAt(1)).setChecked(true);
         }else  ((RadioButton) aRentReqGroup.getChildAt(2)).setChecked(true);
 
-        if (iFormAsset.getStringExtra("assurance").equals("true")){aAssurace.setChecked(true);}
-
-        if (iFormAsset.getStringExtra("delivery_method").equals("both")){
-            aPickup.setChecked(true);
-            aDelivery.setChecked(true);
-        }else if (iFormAsset.getStringExtra("delivery_method").equals("pickup")){
-            aPickup.setChecked(true);
+        if (iFormAsset.getStringExtra("delivery_method").equals("pickup")){
+            aDelivery.setChecked(false);
         }else if (iFormAsset.getStringExtra("delivery_method").equals("deliver")){
-            aDelivery.setChecked(true);
+            aPickup.setChecked(false);
         }
 
         //spinner
@@ -502,20 +543,24 @@ public class FormYachtAsetActivity extends AppCompatActivity {
         if(!iFormAsset.getStringExtra("main_image").isEmpty()) {
             String imageUrl = AppConfig.URL_IMAGE_ASSETS + iFormAsset.getStringExtra("main_image");
             Picasso.with(getApplicationContext()).load(imageUrl).into(aMainImage);
-            aSecondImage.setVisibility(View.VISIBLE);
+            conSecondImage.setVisibility(View.VISIBLE);
         }
         imagesArray = iFormAsset.getStringArrayExtra("images");
         if (imagesArray.length > 1){
-            aThirdImage.setVisibility(View.VISIBLE);
+            conThirdImage.setVisibility(View.VISIBLE);
             Picasso.with(getApplicationContext()).load(imagesArray[1]).into(aSecondImage);
+            delSecondImage.setVisibility(View.VISIBLE);
             if (imagesArray.length > 2) {
-                aFourthImage.setVisibility(View.VISIBLE);
+                conFourthImage.setVisibility(View.VISIBLE);
                 Picasso.with(getApplicationContext()).load(imagesArray[2]).into(aThirdImage);
+                delThirdImage.setVisibility(View.VISIBLE);
                 if (imagesArray.length > 3) {
-                    aFifthImage.setVisibility(View.VISIBLE);
+                    conFifthImage.setVisibility(View.VISIBLE);
                     Picasso.with(getApplicationContext()).load(imagesArray[3]).into(aFourthImage);
+                    delFourthImage.setVisibility(View.VISIBLE);
                     if (imagesArray.length > 4) {
                         Picasso.with(getApplicationContext()).load(imagesArray[4]).into(aFifthImage);
+                        delFifthImage.setVisibility(View.VISIBLE);
                     }
                 }
             }
@@ -620,7 +665,7 @@ public class FormYachtAsetActivity extends AppCompatActivity {
 
                 isiimage = Tools.getStringImage(bitmap);
                 imgStringMain = ext +"," + isiimage;
-                aSecondImage.setVisibility(View.VISIBLE);
+                conSecondImage.setVisibility(View.VISIBLE);
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -638,7 +683,8 @@ public class FormYachtAsetActivity extends AppCompatActivity {
 
                 isiimage = Tools.getStringImage(bitmap);
                 imgStringSecond = ext +"," + isiimage;
-                aThirdImage.setVisibility(View.VISIBLE);
+                delSecondImage.setVisibility(View.VISIBLE);
+                conThirdImage.setVisibility(View.VISIBLE);
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -656,7 +702,8 @@ public class FormYachtAsetActivity extends AppCompatActivity {
 
                 isiimage = Tools.getStringImage(bitmap);
                 imgStringThird = ext +"," + isiimage;
-                aFourthImage.setVisibility(View.VISIBLE);
+                delThirdImage.setVisibility(View.VISIBLE);
+                conFourthImage.setVisibility(View.VISIBLE);
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -674,7 +721,8 @@ public class FormYachtAsetActivity extends AppCompatActivity {
 
                 isiimage = Tools.getStringImage(bitmap);
                 imgStringFourth = ext +"," + isiimage;
-                aFifthImage.setVisibility(View.VISIBLE);
+                delFourthImage.setVisibility(View.VISIBLE);
+                conFifthImage.setVisibility(View.VISIBLE);
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -692,7 +740,7 @@ public class FormYachtAsetActivity extends AppCompatActivity {
 
                 isiimage = Tools.getStringImage(bitmap);
                 imgStringFifth = ext +"," + isiimage;
-
+                delFifthImage.setVisibility(View.VISIBLE);
 
             } catch (IOException e) {
                 e.printStackTrace();

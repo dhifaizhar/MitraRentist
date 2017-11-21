@@ -65,6 +65,7 @@
                         android:src="@drawable/mobil_32" />
 
                     <TextView
+                        android:id="@+id/title_car"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -72,7 +73,7 @@
                         android:layout_toEndOf="@id/ico_car"
                         android:text="Mobil"
                         android:textColor="@color/colorBlack"
-                        android:textSize="@dimen/medium_text" />
+                        android:textSize="@dimen/small_text" />
 
                     <Switch
                         android:id="@+id/sw_car"
@@ -97,6 +98,7 @@
                         android:src="@drawable/motor_32" />
 
                     <TextView
+                        android:id="@+id/title_motor"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -104,7 +106,7 @@
                         android:layout_toEndOf="@id/ico_motor"
                         android:text="Motor"
                         android:textColor="@color/colorBlack"
-                        android:textSize="@dimen/medium_text" />
+                        android:textSize="@dimen/small_text" />
 
                     <Switch
                         android:id="@+id/sw_motorcycle"
@@ -129,6 +131,7 @@
                         android:src="@drawable/yatch_32" />
 
                     <TextView
+                        android:id="@+id/title_yacht"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -136,7 +139,7 @@
                         android:layout_toEndOf="@id/ico_yacht"
                         android:text="Kapal Pesiar"
                         android:textColor="@color/colorBlack"
-                        android:textSize="@dimen/medium_text" />
+                        android:textSize="@dimen/small_text" />
 
                     <Switch
                         android:id="@+id/sw_yacht"
@@ -161,14 +164,14 @@
                         android:src="@drawable/medical_equipment_32" />
 
                     <TextView
+                        android:id="@+id/title_medic"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignBaseline="@+id/sw_medic"
-                        android:layout_alignBottom="@+id/sw_medic"
                         android:layout_toEndOf="@+id/ico_medic"
                         android:text="Peralatan Medis"
+                        android:layout_centerVertical="true"
                         android:textColor="@color/colorBlack"
-                        android:textSize="@dimen/medium_text" />
+                        android:textSize="@dimen/small_text" />
 
                     <Switch
                         android:id="@+id/sw_medic"
@@ -193,6 +196,7 @@
                         android:src="@drawable/camera_32" />
 
                     <TextView
+                        android:id="@+id/title_photo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -200,7 +204,7 @@
                         android:layout_toEndOf="@id/ico_photo"
                         android:text="Fotografi"
                         android:textColor="@color/colorBlack"
-                        android:textSize="@dimen/medium_text" />
+                        android:textSize="@dimen/small_text" />
 
                     <Switch
                         android:id="@+id/sw_photo"
@@ -225,6 +229,7 @@
                         android:src="@drawable/mainan_anak_32" />
 
                     <TextView
+                        android:id="@+id/title_toys"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -232,7 +237,7 @@
                         android:layout_toEndOf="@id/ico_toys"
                         android:text="Mainan Anak"
                         android:textColor="@color/colorBlack"
-                        android:textSize="@dimen/medium_text" />
+                        android:textSize="@dimen/small_text" />
 
                     <Switch
                         android:id="@+id/sw_toys"
@@ -257,6 +262,7 @@
                         android:src="@drawable/adventure_36" />
 
                     <TextView
+                        android:id="@+id/title_adventure"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -264,7 +270,7 @@
                         android:layout_toEndOf="@id/ico_adventure"
                         android:text="Olahraga &amp; Petualangan"
                         android:textColor="@color/colorBlack"
-                        android:textSize="@dimen/medium_text" />
+                        android:textSize="@dimen/small_text" />
 
                     <Switch
                         android:id="@+id/sw_adventure"
@@ -289,11 +295,13 @@
                         android:src="@drawable/maternity_32" />
 
                     <TextView
+                        android:id="@+id/title_maternity"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Ibu &amp; Anak"
                         android:textColor="@color/colorBlack"
-                        android:textSize="@dimen/medium_text"
+                        android:textSize="@dimen/small_text"
+                        android:layout_centerVertical="true"
                         android:layout_alignBottom="@+id/ico_maternity"
                         android:layout_toEndOf="@+id/ico_maternity" />
 
@@ -320,6 +328,7 @@
                         android:src="@drawable/elektronik_36" />
 
                     <TextView
+                        android:id="@+id/title_electronic"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -327,7 +336,7 @@
                         android:layout_toEndOf="@id/ico_electronic"
                         android:text="Elektronik"
                         android:textColor="@color/colorBlack"
-                        android:textSize="@dimen/medium_text" />
+                        android:textSize="@dimen/small_text" />
 
                     <Switch
                         android:id="@+id/sw_electronic"
@@ -352,6 +361,7 @@
                         android:src="@drawable/sepeda_32" />
 
                     <TextView
+                        android:id="@+id/title_bicycle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -359,7 +369,7 @@
                         android:layout_toEndOf="@id/ico_bicycle"
                         android:text="Sepeda"
                         android:textColor="@color/colorBlack"
-                        android:textSize="@dimen/medium_text" />
+                        android:textSize="@dimen/small_text" />
 
                     <Switch
                         android:id="@+id/sw_bicycle"
@@ -384,6 +394,7 @@
                         android:src="@drawable/office_equipmen_32" />
 
                     <TextView
+                        android:id="@+id/title_office"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -391,7 +402,7 @@
                         android:layout_toEndOf="@id/ico_office"
                         android:text="Peralatan Kantor"
                         android:textColor="@color/colorBlack"
-                        android:textSize="@dimen/medium_text" />
+                        android:textSize="@dimen/small_text" />
 
                     <Switch
                         android:id="@+id/sw_office"
@@ -416,6 +427,7 @@
                         android:src="@drawable/fashion_36" />
 
                     <TextView
+                        android:id="@+id/title_fashion"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -423,7 +435,7 @@
                         android:layout_toEndOf="@id/ico_fashion"
                         android:text="Pakaian"
                         android:textColor="@color/colorBlack"
-                        android:textSize="@dimen/medium_text" />
+                        android:textSize="@dimen/small_text" />
 
                     <Switch
                         android:id="@+id/sw_fashion"
@@ -452,6 +464,6 @@
         android:padding="0dp"
         android:text="Terapkan"
         android:textColor="@color/colorWhite"
-        android:textSize="@dimen/medium_text" />
+        android:textSize="@dimen/small_text" />
 
 </RelativeLayout>

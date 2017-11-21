@@ -292,6 +292,11 @@ public class DashboardActivity extends AppCompatActivity
 //        }
 //    }
 
+    public void onRestart() {
+        super.onRestart();
+        new getDataTask(tenant).execute();
+    }
+
     private void retrieveDashboardData(String tenant) {
         pBar.setVisibility(View.VISIBLE);
         new getDataTask(tenant).execute();
