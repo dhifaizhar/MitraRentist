@@ -11,9 +11,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -58,6 +60,7 @@ public class RegistrationActivity extends AppCompatActivity {
     Spinner rRole;
     CheckBox checkBoxAgreement;
     Button btnSave;
+    ImageView emailCheckIc;
 
     private static final String TAG = "RegistActivity";
     private static final String TOKEN = "secretissecret";
@@ -95,9 +98,16 @@ public class RegistrationActivity extends AppCompatActivity {
         btnSave = (Button) findViewById(R.id.btn_save);
         countryCode =(CountryCodePicker) findViewById(R.id.country_code);
         termsService = (TextView)findViewById(R.id.terms_service);
-
+        emailCheckIc = (ImageView)findViewById(R.id.email_check);
 
         // set content control value
+        rEmail.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+//                emailCheckIc.setImageResource(R.drawable.);
+                return false;
+            }
+        });
 
         // set action
         btnSave.setOnClickListener(new View.OnClickListener() {
