@@ -6,6 +6,7 @@
     <color name="colorPrimarySoft">#f8fcfd</color>
     <color name="colorPrimaryTrans">#9d009ddd</color>
     <color name="colorGrayTrans">#9d7d7f80</color>
+    <color name="colorWhiteTrans">#d2ffffff</color>
     <color name="colorAccent">#55f2dd</color>
     <color name="colorWhite">#ffffff</color>
     <color name="colorNearWhite">#f9f9f9</color>
@@ -25,5 +26,6 @@
     <color name="colorGreen">#54cf46</color>
     <color name="colorGreenSoft">#9bd996</color>
     <color name="colorGreenLight">#99cc00</color>
+    <color name="colorInactive">#ff5050</color>
 
 </resources>

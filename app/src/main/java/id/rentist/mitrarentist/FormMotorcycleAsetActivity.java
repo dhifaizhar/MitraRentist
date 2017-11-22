@@ -563,27 +563,32 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
             Picasso.with(getApplicationContext()).load(imageUrl).into(aMainImage);
             conSecondImage.setVisibility(View.VISIBLE);
         }
-        imagesArray = iFormAsset.getStringArrayExtra("images");
-        if (imagesArray.length > 1){
+        String secondImg = iFormAsset.getStringExtra("second_image");
+        String thirdImg = iFormAsset.getStringExtra("third_image");
+        String fourthImg = iFormAsset.getStringExtra("fourth_image");
+        String fifthImg = iFormAsset.getStringExtra("fifth_image");
+        if (!secondImg.isEmpty() && !secondImg.equals("default.png")) {
             conThirdImage.setVisibility(View.VISIBLE);
-            Picasso.with(getApplicationContext()).load(imagesArray[1]).into(aSecondImage);
+            Picasso.with(getApplicationContext()).load(AppConfig.URL_IMAGE_ASSETS + secondImg).into(aSecondImage);
             delSecondImage.setVisibility(View.VISIBLE);
-            if (imagesArray.length > 2) {
-                conFourthImage.setVisibility(View.VISIBLE);
-                Picasso.with(getApplicationContext()).load(imagesArray[2]).into(aThirdImage);
-                delThirdImage.setVisibility(View.VISIBLE);
-                if (imagesArray.length > 3) {
-                    conFifthImage.setVisibility(View.VISIBLE);
-                    Picasso.with(getApplicationContext()).load(imagesArray[3]).into(aFourthImage);
-                    delFourthImage.setVisibility(View.VISIBLE);
-                    if (imagesArray.length > 4) {
-                        Picasso.with(getApplicationContext()).load(imagesArray[4]).into(aFifthImage);
-                        delFifthImage.setVisibility(View.VISIBLE);
-                    }
-                }
-            }
         }
-
+        if (!thirdImg.isEmpty() && !thirdImg.equals("default.png")) {
+            conThirdImage.setVisibility(View.VISIBLE);
+            conFourthImage.setVisibility(View.VISIBLE);
+            Picasso.with(getApplicationContext()).load(AppConfig.URL_IMAGE_ASSETS + thirdImg).into(aThirdImage);
+            delThirdImage.setVisibility(View.VISIBLE);
+        }
+        if (!fourthImg.isEmpty() && !fourthImg.equals("default.png")) {
+            conFourthImage.setVisibility(View.VISIBLE);
+            conFifthImage.setVisibility(View.VISIBLE);
+            Picasso.with(getApplicationContext()).load(AppConfig.URL_IMAGE_ASSETS + fourthImg).into(aFourthImage);
+            delFourthImage.setVisibility(View.VISIBLE);
+        }
+        if (!fifthImg.isEmpty() && !fifthImg.equals("default.png")) {
+            conFifthImage.setVisibility(View.VISIBLE);
+            Picasso.with(getApplicationContext()).load(AppConfig.URL_IMAGE_ASSETS + fifthImg).into(aFifthImage);
+            delFifthImage.setVisibility(View.VISIBLE);
+        }
         if(!iFormAsset.getStringExtra("no_stnk").isEmpty()) {
             String imageSTNKUrl = AppConfig.URL_IMAGE_DOCUMENTS + iFormAsset.getStringExtra("no_stnk");
             Picasso.with(getApplicationContext()).load(imageSTNKUrl).into(aImgSTNK);

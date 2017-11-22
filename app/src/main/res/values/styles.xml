@@ -32,4 +32,9 @@
         <item name="colorControlActivated">@color/colorWhite</item>
     </style>
 
+    <style name="SwitchCompatTheme" parent="Theme.AppCompat.Light">
+        <item name="colorControlActivated">@color/colorPrimary</item>
+        <item name="colorControlNormal">@color/colorInactive</item>
+    </style>
+
 </resources>

@@ -63,8 +63,6 @@ public class FormKebijakanActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         controlContent();
-
-
     }
 
     private void controlContent() {

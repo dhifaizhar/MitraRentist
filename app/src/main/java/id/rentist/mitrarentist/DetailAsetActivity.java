@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -83,8 +84,8 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
 
     Integer aId, position;
     String changeStatus = "active",aAsetName, aName, aType, aSubType,  aStatus, aCat, aSubCat, aVerified, aLongitude, aLatitude,
-            aInsurance, aMinRentDay, aDeliveryMethod, category, category_url, aDesc, aMainImage, aWeight,
-            aAssetValue,
+            aInsurance, aMinRentDay, aDeliveryMethod, category, category_url, aDesc, aWeight,
+            aAssetValue, aMainImage, aSecondImage, aThirdImage, aFourthImage, aFifthImage,
             //Car&Motor
             aPlat, aYear, aNoStnk , aColor, aTransmission, aEngineCap, aFuel, aSeat, aAirBag, aAirCond, aDriver,
             //Yacht
@@ -101,6 +102,7 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
     LinearLayout cCarMotor, cCarOnly, cYachtInfo, cYachtFeature, cSmallAssetFeature, rDesc;
     ImageView imgThumbnail, no_stnk;
     CarouselView aAssetImages;
+    Switch swStatus;
     String[] imagesArray = {AppConfig.URL_IMAGE_ASSETS + "default.png"};
 
     private static final String TAG = "DetailAssetActivity";
@@ -193,6 +195,7 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
         //initialize view
         aAssetImages = (CarouselView) findViewById(R.id.carouselView);
 
+        swStatus = (Switch) findViewById(R.id.sw_status);
         imgThumbnail = (ImageView)findViewById(R.id.as_thumb_aset);
         aset_name = (TextView) findViewById(R.id.as_aset_name);
         mark = (TextView) findViewById(R.id.as_mark_det);
@@ -254,12 +257,20 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
 
         aAssetImages.setPageCount(imagesArray.length);
         aAssetImages.setImageListener(imageUrlListener);
+        swStatus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeStatAset();
+            }
+        });
+
         status.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 changeStatAset();
             }
         });
+
     }
 
     private void getAssetDetail() {
@@ -338,6 +349,10 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
                         aLatitude = jsonobject.getString("latitude");
                         aLongitude = jsonobject.getString("longitude");
                         aMainImage = jsonobject.getString("main_image");
+                        aSecondImage = jsonobject.getString("second_image");
+                        aThirdImage = jsonobject.getString("third_image");
+                        aFourthImage = jsonobject.getString("fourth_image");
+                        aFifthImage = jsonobject.getString("fifth_image");
 
                         if (aCat.equals("3")) {
                             aName = jsonobject.getString("sub_type");
@@ -386,7 +401,16 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
 
                         aset_name.setText(aAsetName);
                         subcat.setText(aSubCat);
-                        status.setText(aStatus);
+
+                        if (aStatus.equals("inactive")){
+                            status.setText("Non-Aktif");
+                            status.setTextColor(getResources().getColor(R.color.colorInactive));
+                            swStatus.setChecked(false);
+                        }else{
+                            status.setText("Aktif");
+                            status.setTextColor(getResources().getColor(R.color.colorPrimary));
+                            swStatus.setChecked(true);
+                        }
 
                         if (aDeliveryMethod.equals("both")) {
                             delivery_method.setText("Dikirim, Diambil");
@@ -530,14 +554,17 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
     };
 
     private void changeStatAset() {
+        final String nowStatus = aStatus;
+
         showAlert = new AlertDialog.Builder(this);
-        showAlert.setMessage("Ubah status aset ini ?");
+        showAlert.setMessage("Ubah status aset ?");
         showAlert.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface arg0, int arg1) {
-                String nowStatus = "active";
                 if(nowStatus.equals("active")){
                     changeStatus = "inactive";
+                }else{
+                    changeStatus = "active";
                 }
                 pDialog.setMessage("loading ...");
                 showProgress(true);
@@ -547,7 +574,11 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
         showAlert.setNegativeButton("Tidak",new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // close dialog
+                if(nowStatus.equals("active")){
+                    swStatus.setChecked(true);
+                }else{
+                    swStatus.setChecked(false);
+                }
             }
         });
 
@@ -615,6 +646,7 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
         protected void onPostExecute(String status) {
             mDetailAssetTask = null;
             showProgress(false);
+            getAssetDetail();
 
             if(status != null){
                 Toast.makeText(getApplicationContext(),"Data sukses diubah", Toast.LENGTH_LONG).show();
@@ -792,7 +824,6 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
                     iAsetEdit.putExtra("assurance", aInsurance);
                     iAsetEdit.putExtra("transmission", aTransmission);
                     iAsetEdit.putExtra("min_rent_day", aMinRentDay);
-                    iAsetEdit.putExtra("main_image", aMainImage);
                     iAsetEdit.putExtra("delivery_method", aDeliveryMethod);
                     iAsetEdit.putExtra("cat", aCat);
                     iAsetEdit.putExtra("subcat", aSubCat);
@@ -802,6 +833,11 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
                     iAsetEdit.putExtra("longitude", aLongitude);
                     iAsetEdit.putExtra("latitude", aLatitude);
                     iAsetEdit.putExtra("images", imagesArray);
+                    iAsetEdit.putExtra("main_image", aMainImage);
+                    iAsetEdit.putExtra("second_image", aSecondImage);
+                    iAsetEdit.putExtra("third_image", aThirdImage);
+                    iAsetEdit.putExtra("fourth_image", aFourthImage);
+                    iAsetEdit.putExtra("fifth_image", aFifthImage);
                     startActivity(iAsetEdit);
                     break;
                 case "2":
@@ -831,6 +867,10 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
                     iAsetEdit.putExtra("longitude", aLongitude);
                     iAsetEdit.putExtra("latitude", aLatitude);
                     iAsetEdit.putExtra("images", imagesArray);
+                    iAsetEdit.putExtra("second_image", aSecondImage);
+                    iAsetEdit.putExtra("third_image", aThirdImage);
+                    iAsetEdit.putExtra("fourth_image", aFourthImage);
+                    iAsetEdit.putExtra("fifth_image", aFifthImage);
                     startActivity(iAsetEdit);
                     break;
                 case "3":
@@ -866,6 +906,10 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
                     iAsetEdit.putExtra("longitude", aLongitude);
                     iAsetEdit.putExtra("latitude", aLatitude);
                     iAsetEdit.putExtra("images", imagesArray);
+                    iAsetEdit.putExtra("second_image", aSecondImage);
+                    iAsetEdit.putExtra("third_image", aThirdImage);
+                    iAsetEdit.putExtra("fourth_image", aFourthImage);
+                    iAsetEdit.putExtra("fifth_image", aFifthImage);
                     startActivity(iAsetEdit);
 
                     break;
@@ -900,6 +944,10 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
                     iAsetEdit.putExtra("images", imagesArray);
                     iAsetEdit.putExtra("longitude", aLongitude);
                     iAsetEdit.putExtra("latitude", aLatitude);
+                    iAsetEdit.putExtra("second_image", aSecondImage);
+                    iAsetEdit.putExtra("third_image", aThirdImage);
+                    iAsetEdit.putExtra("fourth_image", aFourthImage);
+                    iAsetEdit.putExtra("fifth_image", aFifthImage);
                     if(!aCat.equals("10")){
                         iAsetEdit.putExtra("asset_value", aAssetValue.toString());
                         iAsetEdit.putExtra("weight", aWeight);
