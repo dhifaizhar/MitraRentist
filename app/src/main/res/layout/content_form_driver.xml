@@ -134,16 +134,33 @@
                     android:text="Nomor Telepon"
                     android:textColor="@color/colorBlack" />
 
-                <EditText
-                    android:id="@+id/dr_phone"
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorNearWhite"
-                    android:ems="10"
-                    android:hint="Nomor Telepon"
-                    android:imeOptions="actionNext"
-                    android:inputType="phone"
-                    android:padding="@dimen/min_padding" />
+                    android:background="@color/colorNearWhite">
+
+                    <com.hbb20.CountryCodePicker
+                        android:id="@+id/country_code"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_centerVertical="true"
+                        app:ccp_defaultNameCode="ID"
+                        app:ccp_showFlag="false" />
+
+                    <EditText
+                        android:id="@+id/dr_phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@+id/country_code"
+                        android:background="@color/colorNearWhite"
+                        android:ems="10"
+                        android:hint="8xx xxxx xxxx"
+                        android:imeOptions="actionNext"
+                        android:inputType="phone"
+                        android:padding="@dimen/min_padding" />
+
+                </RelativeLayout>
+
             </LinearLayout>
 
             <LinearLayout

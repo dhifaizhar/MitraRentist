@@ -15,6 +15,8 @@ public class AppConfig {
 
     public static String URL_LOGIN = SERVER + "login/tenant/";
     public static String URL_REGISTER = SERVER + "register/tenant/";
+    public static String URL_VERIFY_EMAIL = SERVER + "verify/email/";
+    public static String URL_VERIFY_PHONE = SERVER + "verify/phone/";
     public static String URL_RESET_PASSWORD = SERVER + "reset/mitra/";
     public static String URL_ACTIVATION = SERVER + "tenant/active/";
     public static String URL_RESEND_CODE = SERVER + "mitra/resend/";

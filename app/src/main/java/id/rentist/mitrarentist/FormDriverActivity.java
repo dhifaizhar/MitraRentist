@@ -24,6 +24,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.hbb20.CountryCodePicker;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,10 +39,11 @@ public class FormDriverActivity extends AppCompatActivity {
     private Intent formDriver;
     RadioGroup aGenderGroup;
     RadioButton aGenderButton;
+    CountryCodePicker countryCode;
 
     int genderId;
     String tenant, aId, birthdate;
-    TextView name, sim, bdate, gender;
+    TextView name, sim, bdate, gender, phone;
     ImageView profilePic;
 
     private static final String TAG = "FormDriverActivity";
@@ -73,6 +75,8 @@ public class FormDriverActivity extends AppCompatActivity {
         name = (TextView)findViewById(R.id.dr_driver_name);
         sim = (TextView)findViewById(R.id.dr_sim_number);
         bdate = (TextView)findViewById(R.id.dr_bdate);
+        phone = (TextView)findViewById(R.id.dr_phone);
+        countryCode =(CountryCodePicker) findViewById(R.id.country_code);
 
         // set content control value
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));

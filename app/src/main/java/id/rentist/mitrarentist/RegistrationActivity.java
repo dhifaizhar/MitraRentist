@@ -101,10 +101,80 @@ public class RegistrationActivity extends AppCompatActivity {
         emailCheckIc = (ImageView)findViewById(R.id.email_check);
 
         // set content control value
-        rEmail.setOnKeyListener(new View.OnKeyListener() {
+        rEmail.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+
+                String URL = AppConfig.URL_VERIFY_EMAIL;
+                RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+                StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        String responseEmail = response;
+
+                        if(responseEmail != null){
+                            try {
+                                JSONObject registEmail = new JSONObject(responseEmail);
+                                try{
+                                    String status = registEmail.getString("status");
+                                    if(!status.equals("found")){
+                                        emailCheckIc.setVisibility(View.VISIBLE);
+                                    }else{
+                                        rEmail.setError(status);
+                                        focusView = rEmail;
+                                        focusView.requestFocus();
+                                    }
+                                }catch (JSONException e){
+                                    e.printStackTrace();
+                                    Log.d(TAG, "JSON Error : " + e);
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                Log.d(TAG, "JSON Error : " + e);
+                            }
+                        }else{
+                            Toast.makeText(getApplicationContext(),"Email sudah ada.", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e(TAG, "Check Email Fetch Error : " + error.toString());
+                        Toast.makeText(getApplicationContext(), "Connection error, try again.",
+                                Toast.LENGTH_LONG).show();
+                    }
+                }){
+                    @Override
+                    protected Map<String, String> getParams() {
+                        // Posting parameters to url
+                        Map<String, String> keys = new HashMap<String, String>();
+                        keys.put("email", email);
+                        Log.e(TAG, "Key Body : " + keys.toString());
+                        return keys;
+                    }
+
+                    @Override
+                    public Map<String, String> getHeaders() throws AuthFailureError {
+                        Map<String, String> keys = new HashMap<String, String>();
+                        keys.put("token", TOKEN);
+                        return keys;
+                    }
+                };
+
+                try {
+                    requestQueue.add(stringRequest);
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                return false;
+            }
+        });
+
+        rPhone.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
-//                emailCheckIc.setImageResource(R.drawable.);
                 return false;
             }
         });
@@ -384,6 +454,11 @@ public class RegistrationActivity extends AppCompatActivity {
 
         RequestQueue rQueue = Volley.newRequestQueue(RegistrationActivity.this);
         rQueue.add(request);
+    }
+
+    private void checkEmailTask(final String email){
+
+
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
