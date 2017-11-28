@@ -1,6 +1,9 @@
 package id.rentist.mitrarentist.adapter;
 
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +14,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import id.rentist.mitrarentist.FormKebijakanActivity;
 import id.rentist.mitrarentist.R;
 import id.rentist.mitrarentist.modul.KebijakanModul;
 
@@ -18,45 +22,28 @@ import id.rentist.mitrarentist.modul.KebijakanModul;
 public class KebijakanUmumAdapter extends RecyclerView.Adapter<KebijakanUmumAdapter.ViewHolder> {
 
     private final List<KebijakanModul> mUmum;
+    private Context context;
     private int j;
 
-    public KebijakanUmumAdapter(List<KebijakanModul> mUmum) {
+    public KebijakanUmumAdapter(final Context context, List<KebijakanModul> mUmum) {
         super();
         this.mUmum = mUmum;
-        KebijakanModul kbj;
-
-        for (j = 1; j < 5;j++){
-            kbj = new KebijakanModul();
-            kbj.setTitle("Aturan Menerima Order");
-            kbj.setDesc("Waktu Menerima order adalah 5 menit, jika lebih dari itu maka otomatis tertolak");
-
-            this.mUmum.add(kbj);
-        }
+        this.context = context;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.kebijakan_umum_view, viewGroup, false);
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.kebijakan_khusus_view, viewGroup, false);
         return new ViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
-        KebijakanModul kbjm = mUmum.get(i);
-
+        final KebijakanModul kbjm = mUmum.get(i);
         viewHolder.title.setText(kbjm.getTitle());
         viewHolder.desc.setText(kbjm.getDesc());
 
-//        viewHolder.mView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (null != mListener) {
-//                    // Notify the active callbacks interface (the activity, if the
-//                    // fragment is attached to one) that an item has been selected.
-//                    mListener.onListFragmentInteraction(holder.mItem);
-//                }
-//            }
-//        });
+        viewHolder.btnEdit.setVisibility(View.GONE);
     }
 
     @Override
@@ -65,10 +52,9 @@ public class KebijakanUmumAdapter extends RecyclerView.Adapter<KebijakanUmumAdap
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView title, desc;
-        public ImageView btn_expand;
-        public RelativeLayout mItemExpand;
-        public RelativeLayout mItemDescription;
+        private TextView title, desc, btnEdit;
+        private ImageView btn_expand;
+        private RelativeLayout mItemExpand, mItemDescription;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -77,6 +63,7 @@ public class KebijakanUmumAdapter extends RecyclerView.Adapter<KebijakanUmumAdap
             btn_expand = (ImageView) itemView.findViewById(R.id.expandable_toggle_button);
             mItemExpand = (RelativeLayout) itemView.findViewById(R.id.expand);
             mItemDescription = (RelativeLayout) itemView.findViewById(R.id.expandable);
+            btnEdit = (TextView) itemView.findViewById(R.id.kbj_edit);
 
             mItemExpand.setOnClickListener(new View.OnClickListener(){
                 @Override
@@ -91,12 +78,11 @@ public class KebijakanUmumAdapter extends RecyclerView.Adapter<KebijakanUmumAdap
                         btn_expand.setImageResource(R.drawable.ic_keyboard_arrow_down_black_18dp);
                     }
 
+                    @SuppressLint("ObjectAnimatorBinding")
                     ObjectAnimator animation = ObjectAnimator.ofInt(mItemDescription, "layout_height", mItemDescription.getHeight());
                     animation.setDuration(200).start();
                 }
             });
-
-
         }
     }
 }

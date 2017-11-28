@@ -29,16 +29,7 @@ public class ComplainAdapter extends RecyclerView.Adapter<ComplainAdapter.ViewHo
         super();
         this.mMsg = mMsg;
         this.context = context;
-        ComplainModul msg;
 
-        for(j = 1;j < 4;j++){
-            msg = new ComplainModul();
-
-            msg.setNamaPelanggan("Pelanggan " + j);
-            msg.setPerihal("Slow Respon Banget");
-            msg.setTglKirim("20 April 2017");
-            this.mMsg.add(msg);
-        }
     }
 
     @Override

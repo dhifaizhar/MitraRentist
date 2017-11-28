@@ -66,7 +66,7 @@ public class TransDetailActivity extends AppCompatActivity {
     private Intent itransDet;
 
     TextView mAset, mPrice, mCodeTrans, mMember, mStartDate, mEndDate, mDriver, mPicktime, mAddress,
-            mNote, feature_name;
+            mNote, feature_name, mOrderDate;
     LinearLayout mAdditional, con_add_feature;
 
     ImageView mAsetThumb;
@@ -107,7 +107,9 @@ public class TransDetailActivity extends AppCompatActivity {
             public void onMapReady(GoogleMap map) {
                 googleMap = map;
 
-                LatLng coordinate = new LatLng(-6.5819281,106.8001397);
+                Double lat = Double.parseDouble(itransDet.getStringExtra("latitude"));
+                Double lon = Double.parseDouble(itransDet.getStringExtra("longitude"));
+                LatLng coordinate = new LatLng(lat,lon);
                 CameraPosition cameraPosition = new CameraPosition.Builder().target(coordinate).
                         zoom(12).build();
 
@@ -124,6 +126,30 @@ public class TransDetailActivity extends AppCompatActivity {
         controlContent();
     }
 
+    @Override
+    public void onResume() {
+        mapView.onResume();
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mapView.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mapView.onDestroy();
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mapView.onLowMemory();
+    }
+
     private void controlContent() {
         mAsetThumb = (ImageView) findViewById(R.id.detTrans_thumb);
         mAset = (TextView) findViewById(R.id.detTrans_aset);
@@ -137,6 +163,7 @@ public class TransDetailActivity extends AppCompatActivity {
         mNote = (TextView) findViewById(R.id.detTrans_note);
         mDriver = (TextView) findViewById(R.id.driver);
         mAdditional = (LinearLayout) findViewById(R.id.additional);
+        mOrderDate = (TextView) findViewById(R.id.detTrans_orderDate);
 
         LinearLayout btnContainer = (LinearLayout) findViewById(R.id.btnContainer);
         Display display = getWindowManager().getDefaultDisplay();
@@ -186,12 +213,13 @@ public class TransDetailActivity extends AppCompatActivity {
         mAset.setText(itransDet.getStringExtra("aset"));
         mPrice.setText(PricingTools.PriceFormat(Integer.parseInt(itransDet.getStringExtra("price"))));
         mCodeTrans.setText(itransDet.getStringExtra("code_trans"));
+        mOrderDate.setText(itransDet.getStringExtra("orderDate"));
         mMember.setText(itransDet.getStringExtra("member"));
         mStartDate.setText(itransDet.getStringExtra("startDate"));
         mEndDate.setText(itransDet.getStringExtra("endDate"));
         mPicktime.setText(itransDet.getStringExtra("pickup_time"));
         mAddress.setText(itransDet.getStringExtra("address"));
-        mNote.setText(itransDet.getStringExtra("note"));
+        mNote.setText(itransDet.getStringExtra("note").equals("null") ? "-" : itransDet.getStringExtra("note"));
 
         getAdditionalFeature();
 
@@ -251,7 +279,7 @@ public class TransDetailActivity extends AppCompatActivity {
                     if (imgString.equals("")){
                         Toast.makeText(getApplicationContext(),"Harap masukan bukti aset berhasil diantar", Toast.LENGTH_LONG).show();
                     }else{
-                    transAction(transId);
+                        transAction(transId);
                     }
                 }
             });
@@ -382,11 +410,7 @@ public class TransDetailActivity extends AppCompatActivity {
                 new TransDetailActivity.postTransDropTask(transId).execute();
             }
         } else if (itransDet.getStringExtra("status").equals("ongoing")) {
-//            if (imgString.equals("")){
-//                Toast.makeText(getApplicationContext(),"Aset berhasil diambil", Toast.LENGTH_LONG).show();
-//            } else {
-                new TransDetailActivity.postTransTakeTask(transId).execute();
-//            }
+            new TransDetailActivity.postTransTakeTask(transId).execute();
         }
     }
 
@@ -547,8 +571,6 @@ public class TransDetailActivity extends AppCompatActivity {
 
             Toast.makeText(getApplicationContext(),msg, Toast.LENGTH_LONG).show();
 
-
-
         }
 
         @Override
@@ -633,7 +655,6 @@ public class TransDetailActivity extends AppCompatActivity {
                     intent.putExtra("id_member", member);
                     startActivity(intent);
                     finish();
-
 
                 } catch (JSONException e) {
                     e.printStackTrace();

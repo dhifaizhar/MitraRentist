@@ -44,8 +44,8 @@ public class TestimonyAdapter extends RecyclerView.Adapter<TestimonyAdapter.View
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        private TextView tNameMember, tPhone, tEmail, tContent, tDate;
-        private SimpleRatingBar tRating;
+        private TextView tContent, tDate ,tNameMember;
+        private SimpleRatingBar clean, neat, honest, com;
         private CardView cardDetAset;
 
         public ViewHolder(View itemView){
@@ -53,10 +53,10 @@ public class TestimonyAdapter extends RecyclerView.Adapter<TestimonyAdapter.View
             tNameMember = (TextView) itemView.findViewById(R.id.tm_member_name);
             tContent = (TextView) itemView.findViewById(R.id.tm_member_content);
             tDate = (TextView) itemView.findViewById(R.id.tm_member_date);
-            tRating = (SimpleRatingBar) itemView.findViewById(R.id.tm_aset_rating);
-            //tPhone = (TextView) itemView.findViewById(R.id.tm_mem);
-            //tEmail = (TextView) itemView.findViewById(R.id.as_seat_det);
-            cardDetAset = (CardView) itemView.findViewById(R.id.card_testimoni_view);
+            clean = (SimpleRatingBar) itemView.findViewById(R.id.tm_cleanliness);
+            neat = (SimpleRatingBar) itemView.findViewById(R.id.tm_neatness);
+            honest = (SimpleRatingBar) itemView.findViewById(R.id.tm_honesty);
+            com = (SimpleRatingBar) itemView.findViewById(R.id.tm_comunication);
         }
     }
 
@@ -65,9 +65,12 @@ public class TestimonyAdapter extends RecyclerView.Adapter<TestimonyAdapter.View
         TestimonyModul tm = mTesti.get(i);
 
 //        simpan value dalam object
-        viewHolder.tNameMember.setText(tm.getNameMember());
+        viewHolder.tNameMember.setText(tm.getMember());
         viewHolder.tContent.setText(tm.getContent());
         viewHolder.tDate.setText(tm.getDate());
-        viewHolder.tRating.setRating(tm.getRating());
+        viewHolder.clean.setRating(tm.getCleanliness());
+        viewHolder.neat.setRating(tm.getNeatness());
+        viewHolder.honest.setRating(tm.getHonesty());
+        viewHolder.com.setRating(tm.getComunication());
     }
 }

@@ -131,13 +131,13 @@ public class MemberProfileActivity extends AppCompatActivity {
             Picasso.with(getApplicationContext()).load(thumbURL).transform(new CircleTransform()).into(mProfilePic);
 
             if(dataObject.getString("ktp").equals("null")) mKTP.setVisibility(View.GONE);
-            else Picasso.with(getApplicationContext()).load(AppConfig.URL_IMAGE_DOCUMENTS + dataObject.getString("ktp")).transform(new CircleTransform()).into(mKTP);
+            else Picasso.with(getApplicationContext()).load(AppConfig.URL_IMAGE_DOCUMENTS + dataObject.getString("ktp")).into(mKTP);
 
             if(dataObject.getString("family_card").equals("null")) mKK.setVisibility(View.GONE);
-            else Picasso.with(getApplicationContext()).load(AppConfig.URL_IMAGE_DOCUMENTS + dataObject.getString("family_card")).transform(new CircleTransform()).into(mKK);
+            else Picasso.with(getApplicationContext()).load(AppConfig.URL_IMAGE_DOCUMENTS + dataObject.getString("family_card")).into(mKK);
 
             if(dataObject.getString("electricity_bills").equals("null")) mRekListrik.setVisibility(View.GONE);
-            else Picasso.with(getApplicationContext()).load(AppConfig.URL_IMAGE_DOCUMENTS + dataObject.getString("electricity_bills")).transform(new CircleTransform()).into(mRekListrik);
+            else Picasso.with(getApplicationContext()).load(AppConfig.URL_IMAGE_DOCUMENTS + dataObject.getString("electricity_bills")).into(mRekListrik);
 
             Float clean = Float.parseFloat(ratingObject.getString("cleanliness"))/ratingObject.getInt("counts");
             Float neat = Float.parseFloat(ratingObject.getString("neatness"))/ratingObject.getInt("counts");

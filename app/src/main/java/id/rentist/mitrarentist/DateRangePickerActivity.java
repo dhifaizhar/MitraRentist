@@ -53,8 +53,8 @@ public class DateRangePickerActivity extends AppCompatActivity {
 
       calendar = (CalendarPickerView) findViewById(R.id.calendar_view);
       calendar.init(lastYear.getTime(), nextYear.getTime())
-              .inMode(SelectionMode.SINGLE)
-              .withSelectedDate(new Date());
+              .inMode(SelectionMode.SINGLE);
+//              .withSelectedDate(new Date());
       initButtonListeners(nextYear, lastYear);
 
       calendar.setCustomDayView(new DefaultDayViewAdapter());

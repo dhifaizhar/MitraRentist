@@ -1,12 +1,9 @@
 package id.rentist.mitrarentist;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -55,10 +52,11 @@ public class TransactionaNewActivity extends AppCompatActivity {
     private TextView noTransText;
     private SpinKitView pBar;
     private SessionManager sm;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     private static final String TAG = "TransactionaNewActivity";
     private static final String TOKEN = "secretissecret";
-    String tenant;
+    String tenant, trans_sum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,34 +76,156 @@ public class TransactionaNewActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
-        getNewTransactionDataList(tenant);
+//        getNewTransactionDataList(tenant);
+        getTransaction();
 
-        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
-                new IntentFilter("transaction-new"));
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mTrans.clear();
+                getTransaction();
+            }
+        });
+
     }
-
-    public BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent i) {
-            // Get extra data included in the Intent
-            Intent iTrans = new Intent(TransactionaNewActivity.this, TransDetailActivity.class);
-            iTrans.putExtra("status", "new");
-            iTrans.putExtra("id_trans", i.getStringExtra("id_trans"));
-            iTrans.putExtra("code_trans", i.getStringExtra("code_trans"));
-            iTrans.putExtra("price", i.getStringExtra("price"));
-            iTrans.putExtra("aset", i.getStringExtra("aset"));
-            iTrans.putExtra("id_member", i.getStringExtra("id_member"));
-            iTrans.putExtra("member", i.getStringExtra("member"));
-            iTrans.putExtra("startDate", i.getStringExtra("startDate"));
-            iTrans.putExtra("endDate", i.getStringExtra("endDate"));
-            startActivityForResult(iTrans, 2);
-        }
-    };
 
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
+    }
+
+    private void getTransaction() {
+        String newURL = AppConfig.URL_TRANSACTION_NEW + tenant;
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        StringRequest strReq = new StringRequest(Request.Method.GET, newURL, new
+                Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        transactionData(response);
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "Get Trans Fetch Error : " +  error.toString());
+                Toast.makeText(getApplicationContext(), "Connection error, try again.",
+                        Toast.LENGTH_LONG).show();
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("token", TOKEN);
+
+                return params;
+            }
+        };
+        queue.add(strReq);
+    }
+
+    private void transactionData(String transaction) {
+        pBar.setVisibility(View.GONE);
+        mSwipeRefreshLayout.setRefreshing(false);
+
+        String errorMsg, aIdTrans, aCodeTrans, aThumb, aMember, aStartDate, aEndDate, aNominal, aAsetName, aIdMember;
+
+        if (transaction != null) {
+            try {
+                JSONArray jsonArray = new JSONArray(transaction);
+                trans_sum = String.valueOf(jsonArray.length());
+                setTitle("Pesanan Baru (" + trans_sum + ")");
+
+                if(jsonArray.length() > 0){
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        errorMsg = "-";
+                        JSONObject transObject = jsonArray.getJSONObject(i);
+                        Log.e(TAG, "Transaction Data : " + String.valueOf(transObject));
+
+                        JSONObject idTrans = transObject.getJSONObject("id_transaction");
+                        JSONObject memberObject = transObject.getJSONObject("id_member");
+                        JSONArray items = transObject.getJSONArray("item");
+                        JSONObject item;
+
+                        aIdTrans = transObject.getString("id");
+                        aAsetName = "- Item Kosong -";
+                        String aAsetThumb = "null";
+
+                        if(items.length() > 0){
+                            if (items.length() == 1){
+                                item = items.getJSONObject(0);
+                                aAsetThumb = item.getString("main_image");
+                                if (item.getString("id_asset_category").equals("3")){
+                                    aAsetName = item.getString("type") + " " + item.getString("sub_type");
+                                }else {
+                                    aAsetName = item.getString("brand") + " " + item.getString("type");
+                                }
+                            }
+                        }
+
+                        JSONArray additional = transObject.getJSONArray("additional");
+                        ArrayList<String> idAdditional = new ArrayList<String>();
+                        if(additional.length() > 0) {
+                            for (int j = 0; j < additional.length(); j++) {
+                                JSONObject add = additional.getJSONObject(j);
+                                JSONObject add_feature = add.getJSONObject("id_feature_item");
+                                idAdditional.add(add_feature.getString("id_additional_feature"));
+                            }
+                        }
+
+                        aCodeTrans = idTrans.getString("transaction_code");
+                        aNominal = transObject.getString("nominal");
+                        aIdMember = memberObject.getString("id");
+                        aMember = memberObject.getString("firstname") + " " + memberObject.getString("lastname");
+                        aStartDate = transObject.getString("start_date").replace("-","/").substring(0,10);
+                        aEndDate = transObject.getString("end_date").replace("-","/").substring(0,10);
+                        aThumb = memberObject.getString("profil_pic");
+
+                        ItemTransaksiModul itemTrans = new ItemTransaksiModul();
+                        itemTrans.setStatus("new");
+                        itemTrans.setCodeTrans(aCodeTrans);
+                        itemTrans.setIdTrans(aIdTrans);
+                        itemTrans.setAsetThumb(aAsetThumb);
+                        itemTrans.setAsetName(aAsetName);
+                        itemTrans.setIdMember(aIdMember);
+                        itemTrans.setMember(aMember);
+                        itemTrans.setPrice(aNominal);
+                        itemTrans.setThumbnail(aThumb);
+                        itemTrans.setStartDate(Tools.dateFormat(aStartDate));
+                        itemTrans.setEndDate(Tools.dateFormat(aEndDate));
+                        itemTrans.setPickTime(transObject.getString("pickup_time"));
+                        itemTrans.setLat(transObject.getString("latitude"));
+                        itemTrans.setLong(transObject.getString("longitude"));
+                        itemTrans.setAddress(transObject.getString("address"));
+                        itemTrans.setNote(transObject.getString("notes"));
+                        itemTrans.setIdAddtional(idAdditional.toString());
+                        itemTrans.setOrderDate(transObject.getString("createdAt"));
+
+                        mTrans.add(itemTrans);
+                    }
+
+                    mRecyclerView = (RecyclerView) findViewById(R.id.tr_recyclerView);
+                    mLayoutManager = new LinearLayoutManager(getApplicationContext());
+                    mAdapter = new TransaksiAdapter(getApplicationContext(), mTrans);
+
+                    mRecyclerView.setLayoutManager(mLayoutManager);
+                    mRecyclerView.setAdapter(mAdapter);
+
+                }else{
+                    errorMsg = "Tidak ada pesanan baru";
+                    noTransImage.setVisibility(View.VISIBLE);
+                    noTransText.setText(errorMsg);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                errorMsg = "Transaksi Tidak Ditemukan";
+                noTransImage.setVisibility(View.VISIBLE);
+                noTransText.setText(errorMsg);
+            }
+        }
+
     }
 
     public void getNewTransactionDataList(String tenant) {
@@ -279,7 +399,7 @@ public class TransactionaNewActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_refresh_option, menu);
+//        getMenuInflater().inflate(R.menu.menu_refresh_option, menu);
         return true;
     }
 
@@ -287,10 +407,10 @@ public class TransactionaNewActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_refresh) {
-            mTrans.clear();
-            getNewTransactionDataList(tenant);
-        }
+//        if (id == R.id.action_refresh) {
+//            mTrans.clear();
+//            getNewTransactionDataList(tenant);
+//        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -299,7 +419,7 @@ public class TransactionaNewActivity extends AppCompatActivity {
     public void onRestart(){
         super.onRestart();
         mTrans.clear();
-        getNewTransactionDataList(tenant);
+        getTransaction();
 
     }
 }

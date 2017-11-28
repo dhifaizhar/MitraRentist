@@ -20,6 +20,7 @@ import id.rentist.mitrarentist.modul.ItemTransaksiModul;
 import id.rentist.mitrarentist.tools.AppConfig;
 import id.rentist.mitrarentist.tools.CircleTransform;
 import id.rentist.mitrarentist.tools.PricingTools;
+import id.rentist.mitrarentist.tools.Tools;
 
 /**
  * Created by mdhif on 18/06/2017.
@@ -49,7 +50,7 @@ public class TransaksiAdapter extends RecyclerView.Adapter<TransaksiAdapter.View
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        private TextView title, idTrans, transCode, member, stardDate, endDate, nominal, asetName;
+        private TextView orderDate, idTrans, transCode, member, stardDate, endDate, nominal, asetName;
         CardView cardDetTrans;
         ImageView thumb;
 
@@ -63,27 +64,23 @@ public class TransaksiAdapter extends RecyclerView.Adapter<TransaksiAdapter.View
             asetName = (TextView) itemView.findViewById(R.id.tr_new_aset);
             cardDetTrans = (CardView) itemView.findViewById(R.id.card_view_newtransaksi);
             thumb = (ImageView) itemView.findViewById(R.id.tr_new_thumb);
-
+            orderDate = (TextView) itemView.findViewById(R.id.tr_order_date);
         }
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, int i ){
-        String aset, member, startDate, endDate;
+        final String aset, member, startDate, endDate, orderDate;
         final ItemTransaksiModul trx = mTransaksi.get(i);
 
+        orderDate = Tools.hoursCreatedFormat(trx.getOrderDate());
         aset = ": " + trx.getAsetName();
         member = ": " + trx.getMember();
         startDate = ": " + trx.getStartDate();
         endDate = ": " + trx.getEndDate();
 
-        if (trx.getThumbnail().equals("null")){
-            String imageUrl = AppConfig.URL_IMAGE_PROFIL + "default.png";
-            Picasso.with(context).load(imageUrl).transform(new CircleTransform()).into(viewHolder.thumb);
-        }else{
-            String imageUrl = AppConfig.URL_IMAGE_PROFIL + trx.getThumbnail();
-            Picasso.with(context).load(imageUrl).transform(new CircleTransform()).into(viewHolder.thumb);
-        }
+        String imageUrl = AppConfig.URL_IMAGE_PROFIL + (trx.getThumbnail().equals("null") ? "default.png" : trx.getThumbnail());
+        Picasso.with(context).load(imageUrl).transform(new CircleTransform()).into(viewHolder.thumb);
 
         //  simpan value dalam object
         viewHolder.transCode.setText(trx.getCodeTrans());
@@ -92,13 +89,14 @@ public class TransaksiAdapter extends RecyclerView.Adapter<TransaksiAdapter.View
         viewHolder.member.setText(member);
         viewHolder.stardDate.setText(startDate);
         viewHolder.endDate.setText(endDate);
+        viewHolder.orderDate.setText(orderDate);
         viewHolder.cardDetTrans.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent iDetTrans = new Intent(context, TransDetailActivity.class);
 //                Intent iDetTrans = new Intent("transaction-new");
 
-                iDetTrans.putExtra("status", "new");
+                iDetTrans.putExtra("status", trx.getStatus());
                 iDetTrans.putExtra("id_trans", trx.getIdTrans());
                 iDetTrans.putExtra("code_trans", viewHolder.transCode.getText());
                 iDetTrans.putExtra("price", trx.getPrice());
@@ -114,8 +112,7 @@ public class TransaksiAdapter extends RecyclerView.Adapter<TransaksiAdapter.View
                 iDetTrans.putExtra("address", trx.getAddress());
                 iDetTrans.putExtra("note", trx.getNote());
                 iDetTrans.putExtra("id_additional", trx.getIdAddtional());
-
-//                LocalBroadcastManager.getInstance(context).sendBroadcast(iDetTrans);
+                iDetTrans.putExtra("orderDate", orderDate);
 
                 iDetTrans.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(iDetTrans);

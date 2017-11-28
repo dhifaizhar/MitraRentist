@@ -7,7 +7,7 @@ android {
         applicationId "id.rentist.mitrarentist"
         minSdkVersion 19
         targetSdkVersion 25
-        versionCode 13
+        versionCode 14
         versionName "1.0"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
@@ -63,6 +63,7 @@ dependencies {
     compile 'com.android.support:multidex:1.0.1'
 //    compile 'com.google.android.gms:play-services:11.0.4'
     compile 'com.google.android.gms:play-services-places:11.0.4'
+    compile 'com.google.android.gms:play-services-maps:11.0.4'
     compile 'com.synnapps:carouselview:0.1.4'
     compile 'com.prolificinteractive:material-calendarview:1.4.3'
 

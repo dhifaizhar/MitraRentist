@@ -455,6 +455,12 @@
     <string name="resend_code"><u>KIRIM ULANG</u></string>
     <string name="agreement_link">Dengan DAFTAR, saya setuju dengan <u>Syarat dan Kebijakan</u> yang berlaku.</string>
 
+    <string name="role_superadmin">SuperAdmin</string>
+    <string name="role_admin">Admin</string>
+    <string name="role_operation">Operation</string>
+    <string name="role_finance">Finance</string>
+    <string name="role_delivery">Delivery</string>
+
     <string name="member_badge_basic">Basic</string>
     <string name="member_badge_verified">Verified</string>
     <string name="member_badge_smart_con">Smart Consumer</string>

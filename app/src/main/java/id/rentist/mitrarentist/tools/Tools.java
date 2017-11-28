@@ -183,6 +183,22 @@ public class Tools {
         return dateFormat.format(c.getTime());
     }
 
+    public static String hoursCreatedFormat(String date){
+        String subDate = date.substring(0, 19);
+        SimpleDateFormat currentFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        Calendar c = Calendar.getInstance();
+
+        try {
+            c.setTime(currentFormat.parse(subDate));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        c.add(Calendar.HOUR_OF_DAY, 7);  // number of days to add, can also use Calendar.DAY_OF_MONTH in place of Calendar.DATE
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss, dd MMM yyyy");
+
+        return dateFormat.format(c.getTime());
+    }
+
     public static String getLongitude(String LatLong){
         String pattern = "([^(,a-z]*),([^a-z,)]*)";
 

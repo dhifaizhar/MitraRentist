@@ -58,7 +58,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginStart="@dimen/xmin_padding"
-                        android:layout_toEndOf="@id/text_status"
+                        android:layout_toStartOf="@+id/sw_status"
                         android:gravity="center_vertical"
                         android:text="@string/status_aktif"
                         android:textSize="18sp"
@@ -71,6 +71,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="@dimen/min_padding"
+                        android:layout_marginStart="@dimen/min_padding"
                         android:gravity="center_vertical|end"
                         android:theme="@style/SwitchCompatTheme"
                         />

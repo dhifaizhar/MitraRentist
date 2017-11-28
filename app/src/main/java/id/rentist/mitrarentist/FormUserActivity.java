@@ -48,7 +48,8 @@ import id.rentist.mitrarentist.tools.CircleTransform;
 import id.rentist.mitrarentist.tools.FormValidation;
 import id.rentist.mitrarentist.tools.SessionManager;
 
-public class FormUserActivity extends AppCompatActivity {
+public class
+FormUserActivity extends AppCompatActivity {
     private AsyncTask mDetailUserTask = null;
     private ProgressDialog pDialog;
     private SessionManager sm;

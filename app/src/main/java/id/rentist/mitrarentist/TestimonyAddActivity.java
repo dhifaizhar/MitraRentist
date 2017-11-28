@@ -49,8 +49,6 @@ public class TestimonyAddActivity extends AppCompatActivity {
         submit = (Button) findViewById(R.id.btn_submit) ;
 
         iTesti = getIntent();
-
-
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -64,10 +62,7 @@ public class TestimonyAddActivity extends AppCompatActivity {
     }
 
     public void getData() {
-
-
         String url = AppConfig.URL_TESTIMONY_SUBMIT;
-
 
         RequestQueue queue = Volley.newRequestQueue(this);
         Map<String, String> params = new HashMap<String, String>();
@@ -107,7 +102,6 @@ public class TestimonyAddActivity extends AppCompatActivity {
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("token", "secretissecret");
-
 
                 return params;
             }

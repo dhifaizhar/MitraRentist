@@ -46,6 +46,7 @@ public class TestimonyActivity extends AppCompatActivity {
     private AsyncTask mTestiTask = null;
     private ProgressDialog pDialog;
     private SessionManager sm;
+    private String tenant;
 
     private static final String TAG = "TestiActivity";
     private static final String TOKEN = "secretissecret";
@@ -66,8 +67,74 @@ public class TestimonyActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         // action retrieve data aset
-        String tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
-        getTestiDataList(tenant);
+        tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
+        getTestimonyList();
+    }
+
+    private void getTestimonyList() {
+        String URL = AppConfig.URL_LIST_TESTIMONY + tenant;
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                showProgress(false);
+
+                if (response != null) {
+                    try {
+                        JSONArray jsonArray = new JSONArray(response);
+                        Log.e(TAG, "Testimony : " + jsonArray);
+                        if(jsonArray.length() > 0){
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                TestimonyModul testimonyModul = new TestimonyModul();
+                                JSONObject jsonobject = jsonArray.getJSONObject(i);
+
+                                JSONArray itemArray = jsonobject.getJSONArray("item");
+                                JSONObject itemObject = itemArray.getJSONObject(0);
+
+                                testimonyModul.setMember(itemObject.getString("firstname") + " " + itemObject.getString("lastname"));
+                                testimonyModul.setContent(jsonobject.getString("content"));
+                                testimonyModul.setDate(jsonobject.getString("createdAt"));
+                                testimonyModul.setCleanliness(jsonobject.getInt("cleanliness"));
+                                testimonyModul.setNeatness(jsonobject.getInt("neatness"));
+                                testimonyModul.setHonesty(jsonobject.getInt("honesty"));
+                                testimonyModul.setComunication(jsonobject.getInt("communication"));
+
+                                mTesti.add(testimonyModul);
+                            }
+
+                            mRecyclerView = (RecyclerView) findViewById(R.id.tm_recyclerView);
+                            mLayoutManager = new LinearLayoutManager(getApplicationContext());
+                            mAdapter = new TestimonyAdapter(getApplicationContext(),mTesti);
+
+                            mRecyclerView.setLayoutManager(mLayoutManager);
+                            mRecyclerView.setAdapter(mAdapter);
+
+                        }else{
+                            Toast.makeText(getApplicationContext(),"Belum Ada Testimony", Toast.LENGTH_LONG).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Toast.makeText(getApplicationContext(),"Error", Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "Get Trans Fetch Error : " +  error.toString());
+                Toast.makeText(getApplicationContext(), "Connection error, try again.",
+                        Toast.LENGTH_LONG).show();
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("token", TOKEN);
+
+                return params;
+            }
+        };
+        queue.add(stringRequest);
     }
 
     private void getTestiDataList(String tenant) {
@@ -90,6 +157,7 @@ public class TestimonyActivity extends AppCompatActivity {
     }
 
     @Override
+
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
@@ -166,7 +234,7 @@ public class TestimonyActivity extends AppCompatActivity {
 //
                                 tContent = jsonobject.getString("content");
                                 tRating = jsonobject.getInt("rating");
-                                testimonyModul.setRating(tRating);
+//                                testimonyModul.setRating(tRating);
                                 testimonyModul.setContent(tContent);
 //
 //                                Log.e(TAG, "What Data Detail : " + String.valueOf(detailobject));

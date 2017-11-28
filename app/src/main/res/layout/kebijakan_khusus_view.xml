@@ -80,6 +80,7 @@
                 android:paddingRight="@dimen/min_padding"
                 android:paddingLeft="@dimen/min_padding"
                 android:paddingBottom="@dimen/min_padding"
+                android:visibility="gone"
                 >
 
                 <View

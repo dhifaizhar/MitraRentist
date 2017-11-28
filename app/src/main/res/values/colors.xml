@@ -28,4 +28,9 @@
     <color name="colorGreenLight">#99cc00</color>
     <color name="colorInactive">#ff5050</color>
 
+    <color name="roleSuperadmin">#ff2828</color>
+    <color name="roleAdmin">#99cc00</color>
+    <color name="roleOperation">#33b5e5</color>
+    <color name="roleFinance">#f19800</color>
+
 </resources>
