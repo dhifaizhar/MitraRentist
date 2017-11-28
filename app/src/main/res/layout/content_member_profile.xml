@@ -63,12 +63,11 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="@dimen/xmin_padding"
+                        android:background="@color/colorBlack54"
                         android:paddingEnd="@dimen/xmin_padding"
                         android:paddingStart="@dimen/xmin_padding"
                         android:textColor="@color/colorWhite"
-                        android:background="@color/colorBlack54"
-                        android:textSize="@dimen/almost_tiny_text"
-                        />
+                        android:textSize="@dimen/almost_tiny_text" />
 
                 </LinearLayout>
 
@@ -186,9 +185,9 @@
                                 android:id="@+id/ownertext"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/xmin_padding"
                                 android:layout_marginLeft="@dimen/xmin_padding"
                                 android:layout_toEndOf="@+id/mp_birthday_ico"
-                                android:layout_marginBottom="@dimen/xmin_padding"
                                 android:text="Tanggal Lahir"
                                 android:textSize="12sp" />
 
@@ -226,9 +225,9 @@
                                 android:id="@+id/alamattext"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/xmin_padding"
                                 android:layout_marginLeft="@dimen/xmin_padding"
                                 android:layout_toEndOf="@+id/mp_address_ico"
-                                android:layout_marginBottom="@dimen/xmin_padding"
                                 android:text="Alamat"
                                 android:textSize="12sp" />
 
@@ -243,54 +242,54 @@
                                 android:textSize="@dimen/small_text" />
 
                             <!--<TextView-->
-                                <!--android:id="@+id/pr_postal_code"-->
-                                <!--android:layout_width="wrap_content"-->
-                                <!--android:layout_height="wrap_content"-->
-                                <!--android:layout_below="@+id/pr_address_name"-->
-                                <!--android:layout_marginLeft="@dimen/xmin_padding"-->
-                                <!--android:layout_toEndOf="@+id/mp_address_ico"-->
-                                <!--android:text="-"-->
-                                <!--android:textSize="@dimen/small_text" />-->
+                            <!--android:id="@+id/pr_postal_code"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_below="@+id/pr_address_name"-->
+                            <!--android:layout_marginLeft="@dimen/xmin_padding"-->
+                            <!--android:layout_toEndOf="@+id/mp_address_ico"-->
+                            <!--android:text="-"-->
+                            <!--android:textSize="@dimen/small_text" />-->
 
                             <!--<TextView-->
-                                <!--android:id="@+id/pr_village"-->
-                                <!--android:layout_width="wrap_content"-->
-                                <!--android:layout_height="wrap_content"-->
-                                <!--android:layout_below="@+id/pr_postal_code"-->
-                                <!--android:layout_marginLeft="@dimen/xmin_padding"-->
-                                <!--android:layout_toEndOf="@+id/mp_address_ico"-->
-                                <!--android:text=""-->
-                                <!--android:textSize="@dimen/small_text" />-->
+                            <!--android:id="@+id/pr_village"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_below="@+id/pr_postal_code"-->
+                            <!--android:layout_marginLeft="@dimen/xmin_padding"-->
+                            <!--android:layout_toEndOf="@+id/mp_address_ico"-->
+                            <!--android:text=""-->
+                            <!--android:textSize="@dimen/small_text" />-->
 
                             <!--<TextView-->
-                                <!--android:id="@+id/pr_distric"-->
-                                <!--android:layout_width="wrap_content"-->
-                                <!--android:layout_height="wrap_content"-->
-                                <!--android:layout_below="@+id/pr_postal_code"-->
-                                <!--android:layout_marginLeft="@dimen/xmin_padding"-->
-                                <!--android:layout_toEndOf="@+id/pr_village"-->
-                                <!--android:text=""-->
-                                <!--android:textSize="@dimen/small_text" />-->
+                            <!--android:id="@+id/pr_distric"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_below="@+id/pr_postal_code"-->
+                            <!--android:layout_marginLeft="@dimen/xmin_padding"-->
+                            <!--android:layout_toEndOf="@+id/pr_village"-->
+                            <!--android:text=""-->
+                            <!--android:textSize="@dimen/small_text" />-->
 
                             <!--<TextView-->
-                                <!--android:id="@+id/pr_city"-->
-                                <!--android:layout_width="wrap_content"-->
-                                <!--android:layout_height="wrap_content"-->
-                                <!--android:layout_below="@+id/pr_village"-->
-                                <!--android:layout_marginLeft="@dimen/xmin_padding"-->
-                                <!--android:layout_toEndOf="@+id/mp_address_ico"-->
-                                <!--android:text=""-->
-                                <!--android:textSize="@dimen/small_text" />-->
+                            <!--android:id="@+id/pr_city"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_below="@+id/pr_village"-->
+                            <!--android:layout_marginLeft="@dimen/xmin_padding"-->
+                            <!--android:layout_toEndOf="@+id/mp_address_ico"-->
+                            <!--android:text=""-->
+                            <!--android:textSize="@dimen/small_text" />-->
 
                             <!--<TextView-->
-                                <!--android:id="@+id/pr_province"-->
-                                <!--android:layout_width="wrap_content"-->
-                                <!--android:layout_height="wrap_content"-->
-                                <!--android:layout_below="@+id/pr_village"-->
-                                <!--android:layout_marginLeft="@dimen/xmin_padding"-->
-                                <!--android:layout_toEndOf="@+id/pr_city"-->
-                                <!--android:text=""-->
-                                <!--android:textSize="@dimen/small_text" />-->
+                            <!--android:id="@+id/pr_province"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_below="@+id/pr_village"-->
+                            <!--android:layout_marginLeft="@dimen/xmin_padding"-->
+                            <!--android:layout_toEndOf="@+id/pr_city"-->
+                            <!--android:text=""-->
+                            <!--android:textSize="@dimen/small_text" />-->
 
                         </RelativeLayout>
 
@@ -322,50 +321,95 @@
                                 android:textSize="12sp" />
 
                             <!--<TextView-->
-                                <!--android:id="@+id/mp_ktp"-->
-                                <!--android:layout_width="wrap_content"-->
-                                <!--android:layout_height="wrap_content"-->
-                                <!--android:layout_below="@+id/files"-->
-                                <!--android:layout_marginStart="@dimen/xmin_padding"-->
-                                <!--android:layout_toEndOf="@+id/mp_files_ico"-->
-                                <!--android:text="KTP/KTM/KITAS/Passport"-->
-                                <!--android:textSize="@dimen/tiny_text" />-->
+                            <!--android:id="@+id/mp_ktp"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_below="@+id/files"-->
+                            <!--android:layout_marginStart="@dimen/xmin_padding"-->
+                            <!--android:layout_toEndOf="@+id/mp_files_ico"-->
+                            <!--android:text="KTP/KTM/KITAS/Passport"-->
+                            <!--android:textSize="@dimen/tiny_text" />-->
 
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_below="@+id/files"
                                 android:layout_alignStart="@+id/files"
+                                android:layout_below="@+id/files"
                                 android:orientation="horizontal">
 
-                                <ImageView
-                                    android:id="@+id/mp_ktp_img"
+                                <LinearLayout
                                     android:layout_width="@dimen/files_image"
-                                    android:layout_height="@dimen/files_image"
-                                    android:adjustViewBounds="false"
-                                    android:src="@drawable/img_default"
-                                    />
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical">
 
-                                <ImageView
-                                    android:id="@+id/mp_kk_img"
-                                    android:layout_width="@dimen/files_image"
-                                    android:layout_height="@dimen/files_image"
-                                    android:adjustViewBounds="false"
-                                    android:src="@drawable/img_default"
-                                    android:layout_marginStart="@dimen/xmin_padding"
-                                    />
+                                    <ImageView
+                                        android:id="@+id/mp_ktp_img"
+                                        android:layout_width="@dimen/files_image"
+                                        android:layout_height="@dimen/files_image"
+                                        android:adjustViewBounds="false"
+                                        android:src="@drawable/img_default" />
 
-                                <ImageView
-                                    android:id="@+id/mp_rek_listrik_img"
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="9sp"
+                                        android:paddingTop="@dimen/small_space"
+                                        android:layout_gravity="center_horizontal"
+                                        android:text="KTP"/>
+
+                                </LinearLayout>
+
+
+                                <LinearLayout
                                     android:layout_width="@dimen/files_image"
-                                    android:layout_height="@dimen/files_image"
-                                    android:adjustViewBounds="false"
-                                    android:src="@drawable/img_default"
+                                    android:layout_height="wrap_content"
                                     android:layout_marginStart="@dimen/xmin_padding"
-                                    />
+
+                                    android:orientation="vertical">
+
+                                    <ImageView
+                                        android:id="@+id/mp_kk_img"
+                                        android:layout_width="@dimen/files_image"
+                                        android:layout_height="@dimen/files_image"
+                                        android:adjustViewBounds="false"
+                                        android:src="@drawable/img_default" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_horizontal"
+                                        android:paddingTop="@dimen/small_space"
+                                        android:text="KK"
+                                        android:textSize="9sp" />
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="@dimen/files_image"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:layout_marginStart="@dimen/xmin_padding"
+                                    >
+
+                                    <ImageView
+                                        android:id="@+id/mp_rek_listrik_img"
+                                        android:layout_width="@dimen/files_image"
+                                        android:layout_height="@dimen/files_image"
+                                        android:adjustViewBounds="false"
+                                        android:src="@drawable/img_default" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="9sp"
+                                        android:paddingTop="@dimen/small_space"
+                                        android:layout_gravity="center_horizontal"
+                                        android:textAlignment="center"
+                                        android:text="Rekening Listrik"/>
+
+                                </LinearLayout>
 
                             </LinearLayout>
-
 
 
                         </RelativeLayout>
@@ -400,40 +444,40 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_below="@+id/rating"
-                                android:layout_toEndOf="@+id/mp_rating_ico"
                                 android:layout_marginBottom="@dimen/min_padding"
+                                android:layout_toEndOf="@+id/mp_rating_ico"
                                 android:orientation="horizontal">
 
                                 <RelativeLayout
-                                    android:layout_weight="1"
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content">
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1">
 
                                     <TextView
                                         android:id="@+id/cleanliness"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="Kebersihan"
                                         android:layout_centerHorizontal="true"
+                                        android:text="Kebersihan"
                                         android:textSize="@dimen/under_small_text" />
 
                                     <com.iarcuschin.simpleratingbar.SimpleRatingBar
                                         android:id="@+id/mp_cleanliness_rating"
                                         style="@style/CustomRatingBar"
-                                        android:layout_below="@+id/cleanliness"
                                         android:layout_width="wrap_content"
-                                        app:srb_starSize="@dimen/star_small"
                                         android:layout_height="25dp"
-                                        app:srb_isIndicator="true"
+                                        android:layout_below="@+id/cleanliness"
                                         android:layout_centerHorizontal="true"
-                                        android:layout_gravity="center_horizontal"/>
+                                        android:layout_gravity="center_horizontal"
+                                        app:srb_isIndicator="true"
+                                        app:srb_starSize="@dimen/star_small" />
 
                                 </RelativeLayout>
 
                                 <RelativeLayout
-                                    android:layout_weight="1"
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content">
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1">
 
                                     <TextView
                                         android:id="@+id/neatness"
@@ -446,13 +490,13 @@
                                     <com.iarcuschin.simpleratingbar.SimpleRatingBar
                                         android:id="@+id/mp_neatness_rating"
                                         style="@style/CustomRatingBar"
-                                        android:layout_below="@+id/neatness"
                                         android:layout_width="wrap_content"
-                                        app:srb_starSize="@dimen/star_small"
-                                        app:srb_isIndicator="true"
                                         android:layout_height="25dp"
+                                        android:layout_below="@+id/neatness"
                                         android:layout_centerHorizontal="true"
-                                        android:layout_gravity="center_horizontal"/>
+                                        android:layout_gravity="center_horizontal"
+                                        app:srb_isIndicator="true"
+                                        app:srb_starSize="@dimen/star_small" />
 
                                 </RelativeLayout>
                             </LinearLayout>
@@ -466,35 +510,35 @@
                                 android:orientation="horizontal">
 
                                 <RelativeLayout
-                                    android:layout_weight="1"
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content">
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1">
 
                                     <TextView
                                         android:id="@+id/honesty"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="Kejujuran"
                                         android:layout_centerHorizontal="true"
+                                        android:text="Kejujuran"
                                         android:textSize="@dimen/under_small_text" />
 
                                     <com.iarcuschin.simpleratingbar.SimpleRatingBar
                                         android:id="@+id/mp_honesty_rating"
                                         style="@style/CustomRatingBar"
-                                        android:layout_below="@+id/honesty"
                                         android:layout_width="wrap_content"
-                                        app:srb_starSize="@dimen/star_small"
-                                        app:srb_isIndicator="true"
                                         android:layout_height="25dp"
+                                        android:layout_below="@+id/honesty"
                                         android:layout_centerHorizontal="true"
-                                        android:layout_gravity="center_horizontal"/>
+                                        android:layout_gravity="center_horizontal"
+                                        app:srb_isIndicator="true"
+                                        app:srb_starSize="@dimen/star_small" />
 
                                 </RelativeLayout>
 
                                 <RelativeLayout
-                                    android:layout_weight="1"
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content">
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1">
 
                                     <TextView
                                         android:id="@+id/comunication"
@@ -507,20 +551,18 @@
                                     <com.iarcuschin.simpleratingbar.SimpleRatingBar
                                         android:id="@+id/mp_comunication_rating"
                                         style="@style/CustomRatingBar"
-                                        android:layout_below="@+id/comunication"
                                         android:layout_width="wrap_content"
-                                        app:srb_starSize="@dimen/star_small"
-                                        app:srb_isIndicator="true"
                                         android:layout_height="25dp"
+                                        android:layout_below="@+id/comunication"
                                         android:layout_centerHorizontal="true"
-                                        android:layout_gravity="center_horizontal"/>
+                                        android:layout_gravity="center_horizontal"
+                                        app:srb_isIndicator="true"
+                                        app:srb_starSize="@dimen/star_small" />
 
                                 </RelativeLayout>
 
 
                             </LinearLayout>
-
-
 
 
                         </RelativeLayout>

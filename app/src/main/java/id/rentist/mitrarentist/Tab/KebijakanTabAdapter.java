@@ -15,7 +15,7 @@ import id.rentist.mitrarentist.fragment.KebijakanUmumFragment;
 
 public class KebijakanTabAdapter extends FragmentPagerAdapter {
     private Context mContext;
-    private String[] titles={"Rentist","Mitra"};
+    private String[] titles={"Rentist","Partner"};
 
     private int current_position=0;
 
@@ -51,7 +51,7 @@ public class KebijakanTabAdapter extends FragmentPagerAdapter {
         if (position == current_position) {
             return "Rentist";
         } else if (position == current_position+1) {
-            return "Mitra";
+            return "Partner";
         }
 
         return null;

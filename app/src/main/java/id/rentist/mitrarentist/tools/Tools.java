@@ -183,7 +183,24 @@ public class Tools {
         return dateFormat.format(c.getTime());
     }
 
-    public static String hoursCreatedFormat(String date){
+    // Date +1. exp: 2017-10-20 --> 21 Oct 2017
+    public static String dateFineFormat(String date){
+        SimpleDateFormat currentFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar c = Calendar.getInstance();
+
+        try {
+            c.setTime(currentFormat.parse(date));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        c.add(Calendar.DATE, 1);  // number of days to add, can also use Calendar.DAY_OF_MONTH in place of Calendar.DATE
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy");
+
+        return dateFormat.format(c.getTime());
+    }
+
+    // Hour +7. exp: 2017-10-20T12:30:30 --> 19:30:30, 20 Oct 2017
+    public static String dateHourFormat(String date){
         String subDate = date.substring(0, 19);
         SimpleDateFormat currentFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         Calendar c = Calendar.getInstance();

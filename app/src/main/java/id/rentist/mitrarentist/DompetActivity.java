@@ -86,10 +86,6 @@ public class DompetActivity extends AppCompatActivity {
         his_wd = (TextView)findViewById(R.id.btn_history_withdrawal);
         lastWithdrawal = (CardView) findViewById(R.id.last_withdrawal);
 
-        // set content control value
-//        credit.setText("7.000.000 IDR");
-//        tunai.setText("0 IDR");
-
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
         retrieveDompetData(tenant);
 
@@ -118,7 +114,93 @@ public class DompetActivity extends AppCompatActivity {
     private void retrieveDompetData(String tenant) {
         pDialog.setMessage("loading ...");
         showProgress(true);
-        new getDataDompetTask(tenant).execute();
+//        new getDataDompetTask(tenant).execute();
+
+        String URL = AppConfig.URL_DOMPET + tenant;
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                showProgress(false);
+                String errorMsg;
+
+                if(response != null){
+                    try {
+                        JSONObject dataObject = new JSONObject(response);
+                        JSONArray lastWithdrawalArray = new JSONArray(String.valueOf(dataObject.getJSONArray("last")));
+                        JSONArray TransArray = new JSONArray(String.valueOf(dataObject.getJSONArray("data")));
+                        JSONArray balanceArray = new JSONArray(String.valueOf(dataObject.getJSONArray("total")));
+
+                        if(lastWithdrawalArray.length() > 0){
+                            lastWithdrawal.setVisibility(View.VISIBLE);
+
+                            for (int i = 0; i < lastWithdrawalArray.length(); i++) {
+                                JSONObject last = lastWithdrawalArray.getJSONObject(i);
+                                String dt = last.getString("createdAt").substring(0,10);
+                                String vNominal = ": " +  last.getString("nominal") + " IDR";
+                                String vDesc = ": " + last.getString("description");
+                                String vStatus = ": " + last.getString("status");
+                                date.setText(dt);
+                                nominal.setText(vNominal);
+                                desc.setText(vDesc);
+                                status.setText(vStatus);
+                            }
+
+                        } else {
+                            errorMsg = "Anda belum mengajukan withdrawal";
+                            Toast.makeText(getApplicationContext(),errorMsg, Toast.LENGTH_LONG).show();
+                        }
+
+                        if(TransArray.length() > 0){
+                            for (int i = 0; i < TransArray.length(); i++) {
+                                JSONObject trans = TransArray.getJSONObject(i);
+                                transId.add(trans.getString("id"));
+                            }
+
+                        } else {
+                            errorMsg = "Note : Anda tidak memiliki cukup saldo untuk melakukan withdrawal";
+                            note.setText(errorMsg);
+                            withdrawal.setEnabled(false);
+                            withdrawal.setBackgroundColor(getResources().getColor(R.color.colorButtonDefault));
+                            withdrawal.setTextColor(getResources().getColor(R.color.colorBlack54));
+                        }
+
+                        if(balanceArray.length() > 0) {
+                            JSONObject balanceObject = balanceArray.getJSONObject(0);
+
+                            if (balanceObject.getString("nominal").equals("null")){
+                                balance = "0";
+                            } else {
+                                balance = PricingTools.PriceStringFormat(balanceObject.getString("nominal"));
+                            }
+                        }
+                        credit.setText(balance);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Log.e(TAG, "JSON Error : " + e);
+                    }
+                }else{
+                    Toast.makeText(getApplicationContext(),"Gagal memuat data.", Toast.LENGTH_LONG).show();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "Dompet Data Fetch Error : " + error.toString());
+                Toast.makeText(getApplicationContext(), "Connection error, try again.",
+                        Toast.LENGTH_LONG).show();
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> keys = new HashMap<String, String>();
+                keys.put("token", TOKEN);
+                return keys;
+            }
+        };
+
+        requestQueue.add(stringRequest);
     }
 
     private class getDataDompetTask extends AsyncTask<String, String, String>{
@@ -172,23 +254,18 @@ public class DompetActivity extends AppCompatActivity {
 
             if(user != null){
                 try {
-
                     JSONObject dataObject = new JSONObject(user);
                     JSONArray lastWithdrawalArray = new JSONArray(String.valueOf(dataObject.getJSONArray("last")));
                     JSONArray TransArray = new JSONArray(String.valueOf(dataObject.getJSONArray("data")));
                     JSONArray balanceArray = new JSONArray(String.valueOf(dataObject.getJSONArray("total")));
-
 
                     if(lastWithdrawalArray.length() > 0){
                         errorMsg = "-";
                         lastWithdrawal.setVisibility(View.VISIBLE);
 
                         for (int i = 0; i < lastWithdrawalArray.length(); i++) {
-
                             JSONObject last = lastWithdrawalArray.getJSONObject(i);
-
                             String dt = last.getString("createdAt").substring(0,10);
-
                             String vNominal = ": " +  last.getString("nominal") + " IDR";
                             String vDesc = ": " + last.getString("description");
                             String vStatus = ": " + last.getString("status");
@@ -205,10 +282,8 @@ public class DompetActivity extends AppCompatActivity {
 
                     if(TransArray.length() > 0){
                         errorMsg = "-";
-
                         for (int i = 0; i < TransArray.length(); i++) {
                             JSONObject trans = TransArray.getJSONObject(i);
-
                             transId.add(trans.getString("id"));
                         }
 
@@ -220,7 +295,6 @@ public class DompetActivity extends AppCompatActivity {
                         withdrawal.setBackgroundColor(getResources().getColor(R.color.colorButtonDefault));
                         withdrawal.setTextColor(getResources().getColor(R.color.colorBlack54));
 
-//                        Toast.makeText(getApplicationContext(),errorMsg, Toast.LENGTH_LONG).show();
                     }
 
                     if(balanceArray.length() > 0) {
@@ -294,8 +368,6 @@ public class DompetActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-
 
     @Override
     public boolean onSupportNavigateUp() {

@@ -73,7 +73,7 @@ public class TransaksiAdapter extends RecyclerView.Adapter<TransaksiAdapter.View
         final String aset, member, startDate, endDate, orderDate;
         final ItemTransaksiModul trx = mTransaksi.get(i);
 
-        orderDate = Tools.hoursCreatedFormat(trx.getOrderDate());
+        orderDate = Tools.dateHourFormat(trx.getOrderDate());
         aset = ": " + trx.getAsetName();
         member = ": " + trx.getMember();
         startDate = ": " + trx.getStartDate();

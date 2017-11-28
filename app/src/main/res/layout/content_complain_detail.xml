@@ -27,57 +27,55 @@
             android:textSize="@dimen/medium_text" />
 
         <TextView
-            android:id="@+id/textView18"
+            android:id="@+id/cd_member"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:text="Superman"
+            android:text=""
             android:textSize="@dimen/medium_text"
             android:textStyle="bold" />
     </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/xmin_padding">
+    <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:padding="@dimen/xmin_padding">-->
 
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:text="Perihal :"
-            android:textSize="@dimen/medium_text" />
+        <!--<TextView-->
+            <!--android:id="@+id/textView1"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentStart="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:text="Perihal :"-->
+            <!--android:textSize="@dimen/medium_text" />-->
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:text="Respon"
-            android:textSize="@dimen/medium_text"
-            android:textStyle="bold" />
-    </RelativeLayout>
+        <!--<TextView-->
+            <!--android:id="@+id/textView2"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentEnd="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:text="Respon"-->
+            <!--android:textSize="@dimen/medium_text"-->
+            <!--android:textStyle="bold" />-->
+    <!--</RelativeLayout>-->
 
     <TextView
         android:id="@+id/textView20"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/backgoundLighter"
         android:padding="@dimen/xmin_padding"
         android:text="Keluhan :"
         android:textSize="@dimen/medium_text" />
 
     <TextView
-        android:id="@+id/textView21"
+        android:id="@+id/cd_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/min_padding"
         android:padding="@dimen/min_padding"
-        android:text="Saya bla bla bla kecewa sekali bla bla bla. Tolong perbaiki respon kepada pelanggan."
         android:textAlignment="textStart" />
 
     <RelativeLayout

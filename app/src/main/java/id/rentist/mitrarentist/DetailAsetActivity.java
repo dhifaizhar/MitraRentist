@@ -75,7 +75,7 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
     MaterialCalendarView calendarView;
     Intent iAsetEdit;
 
-    List<CalendarDay> dayEvent;
+    List<CalendarDay> dayTrans, daySchedule;
     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
     private List<PriceModul> mPrice = new ArrayList<>();
     RecyclerView mRecyclerView;
@@ -466,7 +466,7 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
                                 rDesc.setVisibility(View.GONE);
                                 cCarMotor.setVisibility(View.VISIBLE);
 
-                                String stnkUrl = "http://assets.rentist.id/documents/" + aNoStnk;
+                                String stnkUrl = AppConfig.URL_IMAGE_DOCUMENTS + aNoStnk;
                                 Picasso.with(getApplicationContext()).load(stnkUrl).into(no_stnk);
 
                                 mark.setText(aName + " " + aType);
@@ -1110,7 +1110,9 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
                     JSONArray eventArray = new JSONArray(eventObject.getString("transaction"));
                     JSONArray scheduleArray = new JSONArray(eventObject.getString("schedules"));
 
-                    ArrayList<CalendarDay> dates = new ArrayList<>();
+                    ArrayList<CalendarDay> dateTrans = new ArrayList<>();
+                    ArrayList<CalendarDay> dateSchedule = new ArrayList<>();
+
                     if (eventArray.length() > 0){
                         for (int i = 0; i < eventArray.length(); i++) {
                             JSONObject arrayObject = eventArray.getJSONObject(i);
@@ -1129,7 +1131,7 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
                                 while(!cal.after(cal2))
                                 {
                                     dateDay = CalendarDay.from(cal.getTime());
-                                    dates.add(dateDay);
+                                    dateTrans.add(dateDay);
                                     cal.add(Calendar.DATE, 1);
                                     Log.e(TAG, "date : " + dateDay);
                                 }
@@ -1148,17 +1150,20 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
                             try {
                                 Date schedule = format.parse(scheduleObject.getString("start_date"));
                                 CalendarDay daySchedule = CalendarDay.from(schedule);
-                                dates.add(daySchedule);
+                                dateSchedule.add(daySchedule);
                             } catch (ParseException e) {
                                 e.printStackTrace();
                             }
                         }
                     }
 
-                    dayEvent = dates;
-                    calendarView.addDecorator(new EventDecorator(Color.RED, dayEvent));
+//                    dayEvent = dates;
+                    daySchedule = dateSchedule;
+                    dayTrans = dateTrans;
+                    calendarView.addDecorator(new EventDecorator(Color.RED, dateSchedule));
+                    calendarView.addDecorator(new EventDecorator(Color.BLUE, dateTrans));
 
-                    Log.e(TAG, "Event : " + dayEvent);
+//                    Log.e(TAG, "Event : " + dayEvent);
 
 
                 } catch (JSONException e) {

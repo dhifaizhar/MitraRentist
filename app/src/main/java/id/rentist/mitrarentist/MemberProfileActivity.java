@@ -28,6 +28,7 @@ import java.util.Map;
 
 import id.rentist.mitrarentist.tools.AppConfig;
 import id.rentist.mitrarentist.tools.CircleTransform;
+import id.rentist.mitrarentist.tools.Tools;
 
 public class MemberProfileActivity extends AppCompatActivity {
     private Intent iMember;
@@ -113,10 +114,10 @@ public class MemberProfileActivity extends AppCompatActivity {
             JSONObject ratingObject = new JSONObject(String.valueOf(dataObject.getJSONObject("ratings")));
 
             mName.setText(dataObject.getString("firstname") + " " + dataObject.getString("lastname"));
-            mPhone.setText(dataObject.getString("phone"));
+            mPhone.setText("+" + dataObject.getString("phone"));
             mEmail.setText(dataObject.getString("email"));
             mAddress.setText(dataObject.getString("address"));
-            mBirthday.setText(dataObject.getString("birthdate"));
+            mBirthday.setText(Tools.dateFineFormat(dataObject.getString("birthdate").substring(0,10)));
 
             mLevel.setText(dataObject.getString("badge"));
             if (mLevel.getText().equals(getResources().getString(R.string.member_badge_verified))) {

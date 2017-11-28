@@ -32,6 +32,7 @@ import id.rentist.mitrarentist.adapter.ComplainAdapter;
 import id.rentist.mitrarentist.modul.ComplainModul;
 import id.rentist.mitrarentist.tools.AppConfig;
 import id.rentist.mitrarentist.tools.SessionManager;
+import id.rentist.mitrarentist.tools.Tools;
 
 public class ComplainActivity extends AppCompatActivity {
     RecyclerView.Adapter mAdapter;
@@ -104,7 +105,7 @@ public class ComplainActivity extends AppCompatActivity {
                                             " " + member.getString("lastname"));
                                         itemModul.setPerihal(jsonobject.getString("title"));
                                         itemModul.setDetilKeluhan(jsonobject.getString("content"));
-                                        itemModul.setTglKirim(jsonobject.getString("createdAt").substring(0,10));
+                                        itemModul.setTglKirim(Tools.dateHourFormat(jsonobject.getString("createdAt").substring(0,19)));
 
                                         mMsg.add(itemModul);
                                     }

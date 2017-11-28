@@ -41,7 +41,7 @@ public class ComplainAdapter extends RecyclerView.Adapter<ComplainAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
-        ComplainModul msg = mMsg.get(i);
+        final ComplainModul msg = mMsg.get(i);
 
         viewHolder.nama.setText(msg.getNamaPelanggan());
         viewHolder.hal.setText(msg.getPerihal());
@@ -50,6 +50,9 @@ public class ComplainAdapter extends RecyclerView.Adapter<ComplainAdapter.ViewHo
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, ComplainDetailActivity.class);
+                intent.putExtra("date", msg.getTglKirim());
+                intent.putExtra("member", msg.getNamaPelanggan());
+                intent.putExtra("content", msg.getPerihal());
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }
