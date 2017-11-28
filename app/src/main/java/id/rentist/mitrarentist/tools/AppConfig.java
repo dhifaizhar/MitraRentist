@@ -8,7 +8,7 @@ public class AppConfig {
     private static String SERVER = "https://api.rentist.id:8443/";
 //    private static String SERVER = "http://192.168.100.49:1337/";
 //
-    private static String ASSETS_SERVER = "http://assets.rentist.id/";
+    private static String ASSETS_SERVER = "https://assets.rentist.id/";
     public static String URL_IMAGE_PROFIL = ASSETS_SERVER + "images/";
     public static String URL_IMAGE_ASSETS = ASSETS_SERVER + "assets/";
     public static String URL_IMAGE_DOCUMENTS = ASSETS_SERVER + "documents/";
@@ -110,6 +110,7 @@ public class AppConfig {
     public static  String URL_LIST_KEBIJAKAN = SERVER + "list/kebijakan/";
 
     public static  String URL_CRITIC_SUGGESTION = SERVER + "critics/";
+    public static String URL_LIST_COMPLAIN = SERVER + "list/complain/";
 
     public static  String URL_PROVINCE = SERVER + "place/province/";
     public static  String URL_CITY = SERVER + "place/city/";
