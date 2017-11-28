@@ -163,18 +163,32 @@
                             app:ccp_defaultNameCode="ID"
                             app:ccp_showFlag="false" />
 
-                        <EditText
-                            android:id="@+id/reg_phone"
+                        <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_toEndOf="@+id/country_code"
-                            android:background="@color/colorNearWhite"
-                            android:ems="10"
-                            android:hint="8xx xxxx xxxx"
-                            android:imeOptions="actionNext"
-                            android:inputType="phone"
-                            android:padding="@dimen/min_padding" />
+                            android:layout_height="match_parent"
+                            android:layout_toEndOf="@+id/country_code">
 
+                            <EditText
+                                android:id="@+id/reg_phone"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@color/colorNearWhite"
+                                android:ems="10"
+                                android:hint="8xxxxxxxxxx"
+                                android:imeOptions="actionNext"
+                                android:inputType="phone"
+                                android:padding="@dimen/min_padding" />
+
+                            <ImageView
+                                android:id="@+id/phone_check"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:layout_margin="@dimen/xmin_padding"
+                                android:visibility="gone"
+                                app:srcCompat="@drawable/checkmarkgreen_sm25x25" />
+                        </RelativeLayout>
                     </RelativeLayout>
 
                 </LinearLayout>

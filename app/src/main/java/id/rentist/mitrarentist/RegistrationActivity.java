@@ -13,6 +13,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -60,7 +61,7 @@ public class RegistrationActivity extends AppCompatActivity {
     Spinner rRole;
     CheckBox checkBoxAgreement;
     Button btnSave;
-    ImageView emailCheckIc;
+    ImageView emailCheckIc, phoneCheckIc;
 
     private static final String TAG = "RegistActivity";
     private static final String TOKEN = "secretissecret";
@@ -99,83 +100,148 @@ public class RegistrationActivity extends AppCompatActivity {
         countryCode =(CountryCodePicker) findViewById(R.id.country_code);
         termsService = (TextView)findViewById(R.id.terms_service);
         emailCheckIc = (ImageView)findViewById(R.id.email_check);
+        phoneCheckIc = (ImageView)findViewById(R.id.phone_check);
 
         // set content control value
         rEmail.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_NEXT) {
+                    String URL = AppConfig.URL_VERIFY_EMAIL;
+                    RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+                    StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String responseEmail) {
 
-                String URL = AppConfig.URL_VERIFY_EMAIL;
-                RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-                StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        String responseEmail = response;
-
-                        if(responseEmail != null){
-                            try {
-                                JSONObject registEmail = new JSONObject(responseEmail);
-                                try{
-                                    String status = registEmail.getString("status");
-                                    if(!status.equals("found")){
-                                        emailCheckIc.setVisibility(View.VISIBLE);
-                                    }else{
-                                        rEmail.setError(status);
-                                        focusView = rEmail;
-                                        focusView.requestFocus();
+                            if(responseEmail != null){
+                                Log.e(TAG, "Email Verify : OK");
+                                try {
+                                    JSONObject registEmail = new JSONObject(responseEmail);
+                                    try{
+                                        String status = registEmail.getString("status");
+                                        if(status.equals("ok")){
+                                            emailCheckIc.setVisibility(View.VISIBLE);
+                                        }else{
+                                            rEmail.setError("Email sudah terdaftar");
+                                            focusView = rEmail;
+                                            focusView.requestFocus();
+                                        }
+                                    }catch (JSONException e){
+                                        e.printStackTrace();
+                                        Log.d(TAG, "JSON Error : " + e);
                                     }
-                                }catch (JSONException e){
+                                } catch (JSONException e) {
                                     e.printStackTrace();
                                     Log.d(TAG, "JSON Error : " + e);
                                 }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                                Log.d(TAG, "JSON Error : " + e);
+                            }else{
+                                Toast.makeText(getApplicationContext(),"Email sudah ada.", Toast.LENGTH_LONG).show();
                             }
-                        }else{
-                            Toast.makeText(getApplicationContext(),"Email sudah ada.", Toast.LENGTH_LONG).show();
                         }
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.e(TAG, "Check Email Fetch Error : " + error.toString());
-                        Toast.makeText(getApplicationContext(), "Connection error, try again.",
-                                Toast.LENGTH_LONG).show();
-                    }
-                }){
-                    @Override
-                    protected Map<String, String> getParams() {
-                        // Posting parameters to url
-                        Map<String, String> keys = new HashMap<String, String>();
-                        keys.put("email", email);
-                        Log.e(TAG, "Key Body : " + keys.toString());
-                        return keys;
-                    }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e(TAG, "Check Email Fetch Error : " + error.toString());
+                            Toast.makeText(getApplicationContext(), "Connection error, try again.",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    }){
+                        @Override
+                        protected Map<String, String> getParams() {
+                            // Posting parameters to url
+                            Map<String, String> keys = new HashMap<String, String>();
+                            keys.put("email", rEmail.getText().toString());
+                            Log.e(TAG, "Key Body : " + keys.toString());
+                            return keys;
+                        }
 
-                    @Override
-                    public Map<String, String> getHeaders() throws AuthFailureError {
-                        Map<String, String> keys = new HashMap<String, String>();
-                        keys.put("token", TOKEN);
-                        return keys;
-                    }
-                };
+                        @Override
+                        public Map<String, String> getHeaders() throws AuthFailureError {
+                            Map<String, String> keys = new HashMap<String, String>();
+                            keys.put("token", TOKEN);
+                            return keys;
+                        }
+                    };
 
-                try {
-                    requestQueue.add(stringRequest);
-                    Thread.sleep(3000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    try {
+                        requestQueue.add(stringRequest);
+                        Thread.sleep(3000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
-
-                return false;
+                return true;
             }
         });
 
-        rPhone.setOnKeyListener(new View.OnKeyListener() {
+        rPhone.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                return false;
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_NEXT) {
+                    String URL = AppConfig.URL_VERIFY_PHONE;
+                    RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+                    StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String responsePhone) {
+
+                            if(responsePhone != null){
+                                Log.e(TAG, "Phone Verify : OK");
+                                try {
+                                    JSONObject registPhone = new JSONObject(responsePhone);
+                                    try{
+                                        String status = registPhone.getString("status");
+                                        if(status.equals("ok")){
+                                            phoneCheckIc.setVisibility(View.VISIBLE);
+                                        }else{
+                                            rPhone.setError("Nomor Telepon sudah terdaftar");
+                                            focusView = rPhone;
+                                            focusView.requestFocus();
+                                        }
+                                    }catch (JSONException e){
+                                        e.printStackTrace();
+                                        Log.d(TAG, "JSON Error : " + e);
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                    Log.d(TAG, "JSON Error : " + e);
+                                }
+                            }else{
+                                Toast.makeText(getApplicationContext(),"Nomor Telepon sudah ada.", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e(TAG, "Check Phone Fetch Error : " + error.toString());
+                            Toast.makeText(getApplicationContext(), "Connection error, try again.",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    }){
+                        @Override
+                        protected Map<String, String> getParams() {
+                            // Posting parameters to url
+                            Map<String, String> keys = new HashMap<String, String>();
+                            keys.put("phone", rEmail.getText().toString());
+                            Log.e(TAG, "Key Body : " + keys.toString());
+                            return keys;
+                        }
+
+                        @Override
+                        public Map<String, String> getHeaders() throws AuthFailureError {
+                            Map<String, String> keys = new HashMap<String, String>();
+                            keys.put("token", TOKEN);
+                            return keys;
+                        }
+                    };
+
+                    try {
+                        requestQueue.add(stringRequest);
+                        Thread.sleep(3000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                return true;
             }
         });
 
@@ -201,10 +267,8 @@ public class RegistrationActivity extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
-                    // User is signed in
                     Log.d(TAG, "onAuthStateChanged : signed_in: " + user.getUid());
                 } else {
-                    // User is signed out
                     Log.d(TAG, "onAuthStateChanged : signed_out ");
                 }
             }
@@ -454,11 +518,6 @@ public class RegistrationActivity extends AppCompatActivity {
 
         RequestQueue rQueue = Volley.newRequestQueue(RegistrationActivity.this);
         rQueue.add(request);
-    }
-
-    private void checkEmailTask(final String email){
-
-
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
