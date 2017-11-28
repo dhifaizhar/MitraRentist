@@ -1,16 +1,24 @@
 package id.rentist.mitrarentist;
 
 import android.annotation.TargetApi;
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -26,8 +34,12 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.hbb20.CountryCodePicker;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TimeZone;
 
 import id.rentist.mitrarentist.tools.AppConfig;
 import id.rentist.mitrarentist.tools.SessionManager;
@@ -37,15 +49,19 @@ public class FormDriverActivity extends AppCompatActivity {
     private ProgressDialog pDialog;
     private SessionManager sm;
     private Intent formDriver;
+    Bitmap bitmap;
     RadioGroup aGenderGroup;
     RadioButton aGenderButton;
     CountryCodePicker countryCode;
 
     int genderId;
-    String tenant, aId, birthdate;
+    String tenant, aId, birthdate,encodedImage, isiimage = "", ext, imgString;
     TextView name, sim, bdate, gender, phone;
     ImageView profilePic;
+    Button btnUploadFoto;
 
+    private int PICK_IMAGE_REQUEST = 1;
+    private static final int RESULT_LOAD_IMAGE = 1;
     private static final String TAG = "FormDriverActivity";
     private static final String TOKEN = "secretissecret";
 
@@ -77,6 +93,7 @@ public class FormDriverActivity extends AppCompatActivity {
         bdate = (TextView)findViewById(R.id.dr_bdate);
         phone = (TextView)findViewById(R.id.dr_phone);
         countryCode =(CountryCodePicker) findViewById(R.id.country_code);
+        btnUploadFoto = (Button) findViewById(R.id.btnUploadFoto);
 
         // set content control value
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
@@ -96,6 +113,34 @@ public class FormDriverActivity extends AppCompatActivity {
         }
 
         // set action
+        bdate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus) {
+                    Calendar cal = Calendar.getInstance(TimeZone.getDefault());
+                    DatePickerDialog datePicker = new DatePickerDialog(FormDriverActivity.this,
+                            R.style.CardView_Dark,
+                            datePickerListener,
+                            cal.get(Calendar.YEAR),
+                            cal.get(Calendar.MONTH),
+                            cal.get(Calendar.DAY_OF_MONTH));
+
+                    datePicker.setCancelable(true);
+                    datePicker.setTitle("Pilih Tanggal Lahir");
+                    datePicker.show();
+                }
+            }
+        });
+
+        btnUploadFoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+            }
+        });
     }
 
     private void formDriverTenant(String tenant, String id) {
@@ -145,8 +190,11 @@ public class FormDriverActivity extends AppCompatActivity {
                     keys.put("id_tenant", mTenant);
                     keys.put("fullname", name.getText().toString());
                     keys.put("gender", aGenderButton.getText().toString());
+                    keys.put("phone", countryCode.getSelectedCountryCode() + phone.getText().toString());
                     keys.put("no_sim", sim.getText().toString());
                     keys.put("birthdate", bdate.getText().toString());
+                    if(!isiimage.equals("null")) keys.put("file", isiimage);
+
                     Log.e(TAG, "Key Body : " + keys.toString());
                     return keys;
                 }
@@ -284,6 +332,54 @@ public class FormDriverActivity extends AppCompatActivity {
             if (pDialog.isShowing()){
                 pDialog.dismiss();
             }
+        }
+    }
+
+    private DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener() {
+
+        public void onDateSet(DatePicker view, int selectedYear, int selectedMonth, int selectedDay) {
+            String year1 = String.valueOf(selectedYear);
+            String month1 = String.valueOf(selectedMonth + 1);
+            String day1 = String.valueOf(selectedDay);
+
+            bdate.setText(year1 + "-" + month1 + "-" + day1);
+        }
+    };
+
+    public String getStringImage(Bitmap bmp){
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] imageBytes = baos.toByteArray();
+        return Base64.encodeToString(imageBytes, Base64.DEFAULT);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null &&
+                data.getData() != null) {
+            Uri filePath = data.getData();
+            try {
+                //Getting the Bitmap from Gallery
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+
+                String imgStr = data.toString();
+
+                ext = imgStr.substring(imgStr.indexOf("typ")+4, imgStr.indexOf("flg")-1);
+                Log.e(TAG, "ext: " + ext);
+
+                //Setting the Bitmap to ImageView
+                profilePic.setImageBitmap(bitmap);
+                isiimage = getStringImage(bitmap);
+
+                imgString = ext +"," + isiimage;
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }else{
+            isiimage = "";
         }
     }
 
