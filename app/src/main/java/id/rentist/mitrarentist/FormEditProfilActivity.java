@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -41,7 +40,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -163,12 +161,13 @@ public class FormEditProfilActivity extends AppCompatActivity {
             Picasso.with(getApplicationContext()).load(imageUrl).transform(new CircleTransform()).into(profilePhoto);
         }
 
-        btnUploadFoto.setOnClickListener(new View.OnClickListener() {
+        // GAK KEPAKE BRO
+        /*btnUploadFoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 uploadPic();
             }
-        });
+        });*/
 
         btnUploadFoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -182,6 +181,7 @@ public class FormEditProfilActivity extends AppCompatActivity {
 
     }
 
+    /*
     private void uploadPic() {
         //invoke image gallery
         Intent igetGallery = new Intent(Intent.ACTION_PICK);
@@ -198,6 +198,7 @@ public class FormEditProfilActivity extends AppCompatActivity {
 
         startActivityForResult(igetGallery, RESULT_LOAD_IMAGE);
     }
+    */
 
     private void updateProfileRent() {
         rName.setError(null);
@@ -405,16 +406,6 @@ public class FormEditProfilActivity extends AppCompatActivity {
             showProgress(false);
         }
     }
-
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if(requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && data != null){
-//            Uri selectedImage = data.getData();
-//            profilePhoto.setImageURI(selectedImage);
-//            Toast.makeText(getApplicationContext(),selectedImage.toString(), Toast.LENGTH_LONG).show();
-//        }
-//    }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     private void showProgress(final boolean show) {

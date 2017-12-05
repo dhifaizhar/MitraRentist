@@ -1,10 +1,8 @@
 package id.rentist.mitrarentist;
 
-import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -88,22 +86,7 @@ public class DriverActivity extends AppCompatActivity {
 
     private void getDriverDataList(String tenant) {
         pBar.setVisibility(View.VISIBLE);
-//        pDialog.setMessage("loading ...");
-//        showProgress(true);
         new getDriverListTask(tenant).execute();
-    }
-
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    private void showProgress(final boolean show) {
-        if(show){
-            if (!pDialog.isShowing()){
-                pDialog.show();
-            }
-        }else{
-            if (pDialog.isShowing()){
-                pDialog.dismiss();
-            }
-        }
     }
 
     @Override
@@ -237,7 +220,6 @@ public class DriverActivity extends AppCompatActivity {
             mDriverTask = null;
             mSwipeRefreshLayout.setRefreshing(false);
             pBar.setVisibility(View.GONE);
-//            showProgress(false);
         }
     }
 
