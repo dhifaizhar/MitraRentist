@@ -153,8 +153,6 @@ public class GridAsetAdapter extends RecyclerView.Adapter<GridAsetAdapter.ViewHo
         category.setThumbnail(R.drawable.ic_add_black_48dp);
         itemCategory.add(category);
 
-//
-
     }
 
     @Override

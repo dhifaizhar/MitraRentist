@@ -113,7 +113,10 @@ public class TransaksiAdapter extends RecyclerView.Adapter<TransaksiAdapter.View
                 iDetTrans.putExtra("note", trx.getNote());
                 iDetTrans.putExtra("id_additional", trx.getIdAddtional());
                 iDetTrans.putExtra("orderDate", orderDate);
-
+                if (trx.getStatus().matches("accepted|ongoing|completed")){
+                    iDetTrans.putExtra("with_driver", trx.getDriverIncluded());
+                    iDetTrans.putExtra("driver_name", trx.getDriverName());
+                }
                 iDetTrans.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(iDetTrans);
             }

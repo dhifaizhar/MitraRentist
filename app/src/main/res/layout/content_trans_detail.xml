@@ -62,6 +62,7 @@
                 </RelativeLayout>
 
                 <LinearLayout
+                    android:id="@+id/detTrans_con_voucher"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/detTrans_thumb"
@@ -76,6 +77,7 @@
                         android:textSize="@dimen/almost_tiny_text" />
 
                     <TextView
+                        android:id="@+id/detTrans_voucher_value"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="(Disk. 10%) "
@@ -84,6 +86,7 @@
                         android:textSize="@dimen/almost_tiny_text" />
 
                     <TextView
+                        android:id="@+id/detTrans_voucher_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="MURAH10"
@@ -359,7 +362,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/xmin_padding"
                                 android:orientation="vertical"
-                                android:visibility="gone">
+                                android:visibility="gone"
+                                >
 
                                 <TextView
                                     android:layout_width="match_parent"
@@ -384,7 +388,8 @@
                                         android:layout_centerVertical="true"
                                         android:padding="@dimen/xmin_padding"
                                         android:text="Pengemudi : -"
-                                        android:visibility="gone" />
+                                        android:visibility="gone"
+                                         />
 
                                     <Button
                                         android:id="@+id/btn_assign_driver"
@@ -396,7 +401,9 @@
                                         android:text="Pilih Driver"
                                         android:textColor="@color/colorWhite"
                                         android:textSize="12sp"
-                                        android:visibility="gone" />
+                                        android:visibility="gone"
+
+                                        />
 
                                 </RelativeLayout>
 
@@ -404,7 +411,8 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:padding="@dimen/xmin_padding"
-                                    android:text="Fitur Tambahan :" />
+                                    android:text="Fitur Tambahan :"
+                                    android:layout_marginStart="@dimen/xmin_padding"/>
 
                                 <LinearLayout
                                     android:id="@+id/con_add_feature"

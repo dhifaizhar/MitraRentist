@@ -7,8 +7,8 @@
     android:orientation="vertical"
     android:padding="@dimen/min_padding"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="id.rentist.mitrarentist.CriticSuggestionActivity"
-    tools:showIn="@layout/activity_critic_suggestion">
+    tools:context="id.rentist.mitrarentist.FormComplainActivity"
+    tools:showIn="@layout/activity_form_complain">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -31,74 +31,10 @@
                 android:padding="@dimen/xmin_padding">
 
                 <TextView
-                    android:id="@+id/textView36"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Kategori Aset"
-                    android:textColor="@color/colorBlack" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:background="@color/colorNearWhite"
-                    android:padding="@dimen/xmin_padding">
-
-                    <Spinner
-                        android:id="@+id/as_cat_spinner"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:entries="@array/asset_category_entries"
-                        android:padding="@dimen/xmin_padding" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="@dimen/xmin_padding"
-                android:orientation="vertical"
-                android:padding="@dimen/xmin_padding">
-
-                <TextView
-                    android:id="@+id/textView31"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Tipe"
-                    android:textColor="@color/colorBlack" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:background="@color/colorNearWhite"
-                    android:padding="@dimen/xmin_padding">
-
-                    <Spinner
-                        android:id="@+id/type_spinner"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:entries="@array/critic_suggest_entries"
-                        android:padding="@dimen/xmin_padding"
-                         />
-
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="@dimen/xmin_padding"
-                android:orientation="vertical"
-                android:padding="@dimen/xmin_padding">
-
-                <TextView
                     android:id="@+id/textView3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Judul"
+                    android:text="Perihal"
                     android:textColor="@color/colorBlack" />
 
                 <EditText
@@ -107,8 +43,8 @@
                     android:layout_height="wrap_content"
                     android:background="@color/colorNearWhite"
                     android:ems="10"
-                    android:hint="judul"
-                    android:inputType="textPersonName"
+                    android:hint="Perihal"
+                    android:inputType="textPersonName|textCapWords"
                     android:padding="@dimen/min_padding" />
             </LinearLayout>
 
@@ -123,7 +59,7 @@
                     android:id="@+id/textView23"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Deskripsi"
+                    android:text="Konten"
                     android:textColor="@color/colorBlack" />
 
                 <EditText
@@ -132,10 +68,10 @@
                     android:layout_height="wrap_content"
                     android:background="@color/colorNearWhite"
                     android:ems="10"
-                    android:hint="deskripsi"
-                    android:inputType="textMultiLine"
+                    android:hint="Konten"
+                    android:inputType="textMultiLine|textCapSentences"
                     android:lines="3"
-                    android:maxLines="5"
+                    android:maxLines="10"
                     android:padding="@dimen/min_padding" />
             </LinearLayout>
 

@@ -36,7 +36,6 @@ public class AsetActivity extends AppCompatActivity {
     RecyclerView.LayoutManager mLayoutManager;
     private SessionManager sm;
 
-//    CardView addAset;
     String tenant;
 
     private static final String TAG = "AsetActivity";

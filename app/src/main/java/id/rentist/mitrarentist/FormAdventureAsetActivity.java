@@ -82,6 +82,7 @@ public class FormAdventureAsetActivity extends AppCompatActivity {
     Spinner subcategory;
     RadioGroup aRentReqGroup;
     RadioButton aBasic, aVerified, aSmartCon;
+    LinearLayout conSmallFeature;
 
     //Image Initial
     String[] imagesArray = {AppConfig.URL_IMAGE_ASSETS + "default.png"};
@@ -114,7 +115,7 @@ public class FormAdventureAsetActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_form_medic_aset);
+        setContentView(R.layout.activity_form_adventure_aset);
         setTitle(TITLE);
 
         iFormAsset = getIntent();
@@ -150,6 +151,7 @@ public class FormAdventureAsetActivity extends AppCompatActivity {
         aBasic = (RadioButton) findViewById(R.id.r_basic);
         aVerified = (RadioButton) findViewById(R.id.r_verified);
         aSmartCon = (RadioButton) findViewById(R.id.r_smart_con);
+        conSmallFeature = (LinearLayout) findViewById(R.id.con_feature_small_aset);
 
         conSecondImage = (RelativeLayout) findViewById(R.id.con_second_image);
         conThirdImage = (RelativeLayout) findViewById(R.id.con_third_image);
@@ -165,6 +167,8 @@ public class FormAdventureAsetActivity extends AppCompatActivity {
         delThirdImage = (ImageButton) findViewById(R.id.delete_third_image);
         delFourthImage = (ImageButton) findViewById(R.id.delete_fourth_image);
         delFifthImage = (ImageButton) findViewById(R.id.delete_fifth_image);
+
+        conSmallFeature.setVisibility(View.GONE);
 
         Tools.setSpinnerValue("", subcategory, subCategotyArray, getApplicationContext());
         aAddress.setOnClickListener(new View.OnClickListener() {

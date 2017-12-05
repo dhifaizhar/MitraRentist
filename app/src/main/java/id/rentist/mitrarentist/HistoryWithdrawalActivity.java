@@ -32,7 +32,9 @@ import java.util.Map;
 import id.rentist.mitrarentist.adapter.HistoryWithdrawalAdapter;
 import id.rentist.mitrarentist.modul.WithdrawalModul;
 import id.rentist.mitrarentist.tools.AppConfig;
+import id.rentist.mitrarentist.tools.PricingTools;
 import id.rentist.mitrarentist.tools.SessionManager;
+import id.rentist.mitrarentist.tools.Tools;
 
 public class HistoryWithdrawalActivity extends AppCompatActivity {
     RecyclerView mRecyclerView;
@@ -138,10 +140,10 @@ public class HistoryWithdrawalActivity extends AppCompatActivity {
 
                             JSONObject jsonobject = jsonArray.getJSONObject(i);
 //                            aId = jsonobject.getInt("id");
-                            aNominal = jsonobject.getString("nominal");
+                            aNominal = PricingTools.PriceStringFormat(jsonobject.getString("nominal"));
                             aDesc = jsonobject.getString("description");
-                            aStatus = jsonobject.getString("status");
-                            aDate = jsonobject.getString("createdAt").substring(0,10);
+                            aStatus = jsonobject.getString("status").toUpperCase();
+                            aDate = Tools.dateHourFormat(jsonobject.getString("createdAt").substring(0,19));
                             Log.e(TAG, "What Data : " + String.valueOf(jsonobject));
 
                             WithdrawalModul wd = new WithdrawalModul();

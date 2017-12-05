@@ -165,7 +165,6 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
                 scheduleAlert.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
-//                        setDateEvent(dateSend);
                          setDateEvent(dateSend);
 
                     }
@@ -257,6 +256,7 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
 
         aAssetImages.setPageCount(imagesArray.length);
         aAssetImages.setImageListener(imageUrlListener);
+
         swStatus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -307,7 +307,6 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
                 Log.e(TAG, "Get Aset List Fetch Error : " +  error.toString());
                 Toast.makeText(getApplicationContext(), "Connection error, try again.",
                         Toast.LENGTH_LONG).show();
-
             }
         }) {
             @Override
@@ -386,6 +385,7 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
                         mRecyclerView.setLayoutManager(mLayoutManager);
                         mRecyclerView.setAdapter(mAdapter);
 
+                        // Images Banner
                         JSONArray images = jsonobject.getJSONArray("images");
                         imagesArray = new String[images.length()];
                         for (int k = 0; k < images.length(); k++) {
@@ -967,8 +967,6 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
     @Override
     public void onRestart() {
         super.onRestart();
-
-//        getAssetDataList();
         getAssetDetail();
     }
 

@@ -91,11 +91,91 @@ public class FeatureActivity extends AppCompatActivity {
     private void getFeatureDataList(String tenant) {
         pBar.setVisibility(View.VISIBLE);
 
-        if (mFeatureTask != null) {
-            return;
-        }
+//        if (mFeatureTask != null) {
+//            return;
+//        }
+//
+//        new getFeatureListTask(tenant).execute();
 
-        new getFeatureListTask(tenant).execute();
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        String newURL = AppConfig.URL_LIST_FEATURE + tenant;
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, newURL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                mSwipeRefreshLayout.setRefreshing(false);
+                pBar.setVisibility(View.GONE);
+                String aId, aName, aPrice, aQty, aUseQty;
+                Integer dataLength;
+
+                if (response != null) {
+                    try {
+                        dataObject = new JSONObject(response);
+                        dataArray = new JSONArray(dataObject.getString("data"));
+                        dataLength = dataArray.length();
+                        mFeature.clear();
+                        if(dataLength > 0){
+                            for (int i = 0; i < dataArray.length(); i++) {
+                                objectFeature = dataArray.getJSONObject(i);
+                                try {
+                                    objectFeatureDetail = new JSONObject(objectFeature.getString("id_additional_feature"));
+                                    if(objectFeatureDetail.length() > 0){
+                                        aName = objectFeatureDetail.getString("feature_name");
+                                    }else{
+                                        aName = "Unknown Item";
+                                    }
+                                }catch (JSONException e){
+                                    e.printStackTrace();
+                                    aName = "Unknown Item";
+                                }
+
+                                aId = objectFeature.getString("id");
+                                aQty = objectFeature.getString("quantity");
+                                aUseQty = objectFeature.getString("used_quantity");
+                                aPrice = objectFeature.getString("price");
+                                Log.e(TAG, "What Data : " + String.valueOf(objectFeature));
+
+                                ItemFeatureModul featureModul = new ItemFeatureModul();
+                                featureModul.setId(aId);
+                                featureModul.setName(aName);
+                                featureModul.setPrice(aPrice);
+                                featureModul.setQty(aQty);
+                                featureModul.setUseQty(aUseQty);
+                                mFeature.add(featureModul);
+                            }
+
+                            mRecyclerView = (RecyclerView) findViewById(R.id.fr_recyclerView);
+                            mLayoutManager = new LinearLayoutManager(getApplicationContext());
+                            mAdapter = new FeatureAdapter(FeatureActivity.this,mFeature);
+
+                            mRecyclerView.setLayoutManager(mLayoutManager);
+                            mRecyclerView.setAdapter(mAdapter);
+
+                        }else{
+                            Toast.makeText(getApplicationContext(),"Anda belum memiliki Fitur Tambahan", Toast.LENGTH_LONG).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Toast.makeText(getApplicationContext(),"Fitur Tambahan tidak ditemukan", Toast.LENGTH_LONG).show();
+                    }
+                }               }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "Feature Fetch Error : " + error.toString());
+                Toast.makeText(getApplicationContext(), "Connection error, try again.",
+                        Toast.LENGTH_LONG).show();
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                // Posting parameters to login url
+                Map<String, String> keys = new HashMap<String, String>();
+                keys.put("token", TOKEN);
+                return keys;
+            }
+        };
+
+        requestQueue.add(stringRequest);
     }
 
     private class getFeatureListTask extends AsyncTask<String, String, String> {
@@ -113,8 +193,7 @@ public class FeatureActivity extends AppCompatActivity {
             StringRequest stringRequest = new StringRequest(Request.Method.GET, newURL, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                    responseFeature = response;
-                }
+                                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
@@ -244,9 +323,9 @@ public class FeatureActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        mFeature.clear();
 
         if (mRecyclerView != null) {
-            mFeature.clear();
             mRecyclerView.setAdapter(null);
         }
         getFeatureDataList(tenant);

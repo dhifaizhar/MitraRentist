@@ -7,7 +7,7 @@ package id.rentist.mitrarentist.modul;
 public class ItemTransaksiModul {
     private String mTitle, mIdTrans, mAsetName, mCodeTrans, mDriverName, mPrice, mAsetThumb, mIdAddtional, mOrderDate,
             mStatus;
-    private Boolean mDriverIncluded;
+    private String mDriverIncluded;
     private String mIdMember, mMember, mThumbnail;
     private String mDate, mStartDate, mEndDate, mPickTime, mNote, mLat, mLong, mAddress;
 
@@ -151,10 +151,10 @@ public class ItemTransaksiModul {
         return mAddress;
     }
 
-    public Boolean getDriverIncluded() {
+    public String getDriverIncluded() {
         return mDriverIncluded;
     }
-    public void setDriverIncluded(Boolean mDriverIncluded) {
+    public void setDriverIncluded(String mDriverIncluded) {
         this.mDriverIncluded = mDriverIncluded;
     }
 

@@ -11,6 +11,10 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +25,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,10 +41,12 @@ public class FormFeatureActivity extends AppCompatActivity {
     ProgressDialog pDialog;
     SessionManager sm;
     Intent formFeature;
+    Map<Integer,String> nameMap;
 
     int featureId;
-    String tenant, fId, category = "1";
+    String tenant, fId, category = "1", fIdName;
     TextView name, price, qty;
+    Spinner featureName;
 
     private static final String TAG = "FormFeatureActivity";
     private static final String TOKEN = "secretissecret";
@@ -65,6 +75,8 @@ public class FormFeatureActivity extends AppCompatActivity {
         name = (TextView)findViewById(R.id.fr_feature_name);
         price = (TextView)findViewById(R.id.fr_price);
         qty = (TextView)findViewById(R.id.fr_qty);
+        featureName = (Spinner) findViewById(R.id.fr_name);
+        getfeatureName();
 
         // set content control value
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
@@ -77,6 +89,64 @@ public class FormFeatureActivity extends AppCompatActivity {
         }
 
         // set action
+    }
+
+    public void getfeatureName() {
+
+        String URL = AppConfig.URL_FEATURE_NAME;
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String data) {
+                try {
+                    JSONArray respArray = new JSONArray(data);
+                    if(respArray.length() > 0){
+                        String[] nameArray = new String[respArray.length()];
+                        nameMap = new HashMap<Integer,String>();
+                        for (int i = 0; i < respArray.length(); i++) {
+                            JSONObject respObject = respArray.getJSONObject(i);
+                            nameMap.put(i,respObject.getString("id"));
+                            nameArray[i] = respObject.getString("feature_name");
+                        }
+
+                        ArrayAdapter<String> nameAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item, nameArray);
+                        nameAdapter.setDropDownViewResource(android.R.layout.select_dialog_item);
+                        featureName.setAdapter(nameAdapter);
+
+                        featureName.setEnabled(true);
+                        featureName.setClickable(true);
+
+                        featureName.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                fIdName = nameMap.get(featureName.getSelectedItemPosition());
+                            }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> parent) {
+
+                            }
+                        });
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "Feature Name Fetch Error : " + error.toString());
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> keys = new HashMap<String, String>();
+                keys.put("token", TOKEN);
+                return keys;
+            }
+        };
+        requestQueue.add(stringRequest);
     }
 
     private void formFeatureTenant(String tenant, String category, String id) {
@@ -122,7 +192,7 @@ public class FormFeatureActivity extends AppCompatActivity {
                     // Posting parameters to url
                     Map<String, String> keys = new HashMap<String, String>();
                     keys.put("id_tenant", mTenant);
-                    keys.put("feature_name", name.getText().toString());
+                    keys.put("feature_name", fIdName);
                     keys.put("price", price.getText().toString());
                     keys.put("quantity", qty.getText().toString());
                     Log.e(TAG, "Key Body : " + keys.toString());
@@ -203,7 +273,7 @@ public class FormFeatureActivity extends AppCompatActivity {
                     Map<String, String> keys = new HashMap<String, String>();
                     keys.put("id_feature_item", idFeature);
                     keys.put("id_tenant", mTenant);
-                    keys.put("feature_name", name.getText().toString());
+                    keys.put("feature_name", fIdName);
                     keys.put("price", price.getText().toString());
                     keys.put("quantity", qty.getText().toString());
                     Log.e(TAG, "Key Body : " + keys.toString());

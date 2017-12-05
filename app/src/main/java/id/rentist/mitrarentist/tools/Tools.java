@@ -183,6 +183,20 @@ public class Tools {
         return dateFormat.format(c.getTime());
     }
 
+    public static String dateCreatedFormat(String date){
+        SimpleDateFormat currentFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        Calendar c = Calendar.getInstance();
+
+        try {
+            c.setTime(currentFormat.parse(date));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss, dd MMM yyyy");
+
+        return dateFormat.format(c.getTime());
+    }
+
     // Date +1. exp: 2017-10-20 --> 21 Oct 2017
     public static String dateFineFormat(String date){
         SimpleDateFormat currentFormat = new SimpleDateFormat("yyyy-MM-dd");

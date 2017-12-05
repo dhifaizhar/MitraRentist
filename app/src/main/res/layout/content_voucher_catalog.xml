@@ -7,16 +7,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="id.rentist.mitrarentist.AsetActivity"
+    tools:context="id.rentist.mitrarentist.VoucherCatalogActivity"
     android:background="@color/colorBackgound"
-    tools:showIn="@layout/activity_aset">
+    tools:showIn="@layout/activity_voucher_catalog">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/ac_recyclerView"
+        android:id="@+id/vc_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/xmin_padding"
         >
     </android.support.v7.widget.RecyclerView>
+
+    <com.github.ybq.android.spinkit.SpinKitView
+        android:id="@+id/progressBar"
+        style="@style/SpinKitView.FadingCircle"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/btn_lmedium_height"
+        android:background="@android:color/transparent"
+        android:padding="@dimen/min_padding"
+        android:visibility="gone"
+        app:SpinKit_Color="@color/colorWhite" />
 
 </LinearLayout >

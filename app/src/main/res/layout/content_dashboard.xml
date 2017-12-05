@@ -266,6 +266,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/breadcrumb_height"
                 android:layout_marginBottom="@dimen/xmin_padding"
+                android:clickable="true"
                 android:background="@color/colorPrimarySoft">
 
                 <LinearLayout
@@ -303,9 +304,10 @@
                     android:id="@+id/btn_to_saldo"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_alignParentEnd="true"
                     android:background="@color/colorNearWhite"
-                    app:srcCompat="@drawable/ic_chevron_right_black_36dp" />
+                    app:srcCompat="@drawable/ic_chevron_right_black_36dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true" />
 
             </RelativeLayout>
 

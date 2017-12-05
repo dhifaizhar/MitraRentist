@@ -40,6 +40,7 @@ import id.rentist.mitrarentist.adapter.VoucherAdapter;
 import id.rentist.mitrarentist.modul.VoucherModul;
 import id.rentist.mitrarentist.tools.AppConfig;
 import id.rentist.mitrarentist.tools.SessionManager;
+import id.rentist.mitrarentist.tools.Tools;
 
 public class VoucherActivity extends AppCompatActivity {
     RecyclerView mRecyclerView;
@@ -94,7 +95,97 @@ public class VoucherActivity extends AppCompatActivity {
     private void getVoucherDataList(String tenant) {
 //        pDialog.setMessage("loading ...");
 //        showProgress(true);
-        new getVoucherListTask(tenant).execute();
+//        new getVoucherListTask(tenant).execute();
+
+        final String mTenant;
+        String errorMsg;
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        String newURL = AppConfig.URL_LIST_VOUCHER + tenant;
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, newURL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                mSwipeRefreshLayout.setRefreshing(false);
+                pBar.setVisibility(View.GONE);
+                int vId;
+                String vName,vCode,startDate,endDate,vDesc,vType,vNominal,vPercen, vSdate;
+                Integer dataLength;
+
+                if (response != null) {
+                    try {
+                        JSONArray jsonArray = new JSONArray(response);
+                        Log.e(TAG, "User : " + jsonArray);
+                        dataLength = jsonArray.length();
+                        if(dataLength > 0){
+                            mVoucher.clear();
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject jsonobject = jsonArray.getJSONObject(i);
+                                vId = jsonobject.getInt("id");
+                                vName = jsonobject.getString("voucher_name");
+                                vCode = jsonobject.getString("voucher_code");
+                                vDesc = jsonobject.getString("description");
+                                startDate = Tools.dateFormat(jsonobject.getString("start_date").substring(0,10));
+                                endDate = Tools.dateFormat(jsonobject.getString("end_date").substring(0,10));
+                                vType = jsonobject.getString("type");
+                                vNominal = jsonobject.getString("nominal");
+                                vPercen = jsonobject.getString("percentage");
+                                Log.e(TAG, "What Data : " + String.valueOf(jsonobject));
+
+                                VoucherModul vModul = new VoucherModul();
+                                vModul.setId(vId);
+                                vModul.setName(vName);
+                                vModul.setCode(vCode);
+                                vModul.setStartDate(startDate);
+                                vModul.setEndDate(endDate);
+                                vModul.setDesc(vDesc);
+                                vModul.setAmount(jsonobject.getString("quantity"));
+                                vModul.setNominal(vNominal);
+                                vModul.setPercen(vPercen);
+                                vModul.setType(vType);
+                                vModul.setAsCategory(jsonobject.getString("id_asset_category"));
+
+                                mVoucher.add(vModul);
+                            }
+
+                            mRecyclerView = (RecyclerView) findViewById(R.id.v_recyclerView);
+                            mLayoutManager = new LinearLayoutManager(getApplicationContext());
+                            mAdapter = new VoucherAdapter(getApplicationContext(), mVoucher);
+
+                            mRecyclerView.setLayoutManager(mLayoutManager);
+                            mRecyclerView.setAdapter(mAdapter);
+
+                        }else{
+                            Toast.makeText(getApplicationContext(),"Anda belum memiliki Voucher", Toast.LENGTH_LONG).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Toast.makeText(getApplicationContext(),"Voucher Tidak Ditemukan", Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "Voucher Fetch Error : " + error.toString());
+                Toast.makeText(getApplicationContext(), "Connection error, try again.",
+                        Toast.LENGTH_LONG).show();
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                // Posting parameters to login url
+                Map<String, String> keys = new HashMap<String, String>();
+                keys.put("token", TOKEN);
+                return keys;
+            }
+        };
+
+//        try {
+            requestQueue.add(stringRequest);
+//            Thread.sleep(3000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
     }
 
     private class getVoucherListTask extends AsyncTask<String, String, String> {
@@ -166,8 +257,8 @@ public class VoucherActivity extends AppCompatActivity {
                             vName = jsonobject.getString("voucher_name");
                             vCode = jsonobject.getString("voucher_code");
                             vDesc = jsonobject.getString("description");
-                            startDate = jsonobject.getString("start_date");
-                            endDate = jsonobject.getString("end_date");
+                            startDate = Tools.dateFormat(jsonobject.getString("start_date").substring(0,10));
+                            endDate = Tools.dateFormat(jsonobject.getString("end_date").substring(0,10));
                             vType = jsonobject.getString("type");
                             vNominal = jsonobject.getString("nominal");
                             vPercen = jsonobject.getString("percentage");
@@ -177,8 +268,8 @@ public class VoucherActivity extends AppCompatActivity {
                             vModul.setId(vId);
                             vModul.setName(vName);
                             vModul.setCode(vCode);
-                            vModul.setStartDate(startDate.substring(0,10));
-                            vModul.setEndDate(endDate.substring(0,10));
+                            vModul.setStartDate(startDate);
+                            vModul.setEndDate(endDate);
                             vModul.setDesc(vDesc);
                             vModul.setAmount(jsonobject.getString("quantity"));
                             vModul.setNominal(vNominal);
@@ -238,6 +329,8 @@ public class VoucherActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_add_option, menu);
+        getMenuInflater().inflate(R.menu.menu_catalog, menu);
+
         return true;
     }
 
@@ -253,6 +346,13 @@ public class VoucherActivity extends AppCompatActivity {
             startActivity(iFormVou);
 
         }
+
+        if (id == R.id.action_catalog) {
+            iFormVou = new Intent(VoucherActivity.this, VoucherCatalogActivity.class);
+            startActivity(iFormVou);
+
+        }
+
 
         return super.onOptionsItemSelected(item);
     }

@@ -26,8 +26,10 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import id.rentist.mitrarentist.tools.AppConfig;
@@ -74,23 +76,16 @@ public class WithdrawalActivity extends AppCompatActivity {
         credit = (TextView)findViewById(R.id.wd_credit);
         description = (TextView)findViewById(R.id.wd_desc);
         withdrawal = (Button)findViewById(R.id.btn_withdrawal);
-//        reset = (ImageButton)findViewById(R.id.reset_button);
-
         credit.setEnabled(false);
 
         transId = iWithdrawal.getStringArrayListExtra("transId");
+        NumberFormat formatter = NumberFormat.getInstance(Locale.GERMANY);
 
         Log.e(TAG, "Trans id array : " + transId);
 
         // set content control value
         balance = iWithdrawal.getStringExtra("balance");
-        credit.setText(balance);
-//        reset.setOnClickListener(new View.OnClickListener(){
-//            @Override
-//            public void onClick(View v) {
-//                credit.setText("0");
-//            }
-//        });
+        credit.setText(formatter.format(Integer.parseInt(balance)));
         withdrawal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -141,11 +136,10 @@ public class WithdrawalActivity extends AppCompatActivity {
                     keys.put("id_tenant", mTenant);
                     keys.put("nominal", iWithdrawal.getStringExtra("balance").replace(".",""));
                     keys.put("description", description.getText().toString());
-//
+
                     if (transId.size() > 0) {
                         trans = "";
-
-                            for (int i = 0; i < transId.size(); i++) {
+                        for (int i = 0; i < transId.size(); i++) {
                             trans +=  transId.get(i);
                                 if (i != transId.size()-1){
                                     trans += ",";
@@ -184,12 +178,9 @@ public class WithdrawalActivity extends AppCompatActivity {
             showProgress(false);
 
             if(wd != null){
-//                Intent iWd = new Intent(WithdrawalActivity.this, DompetActivity.class);
-//                startActivity(iWd);
                 try {
                     JSONObject wdObject = new JSONObject(wd);
                     Log.e(TAG, "Response : " + wdObject);
-
 
                     resMsg = wdObject.getString("response");
                     if (resMsg.equals("Already Request")){

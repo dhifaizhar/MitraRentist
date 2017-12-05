@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!--menu yang akan tampil pada toolbar-->
+    <item
+        android:id="@+id/action_catalog"
+        android:orderInCategory="100"
+        android:title="Katalog"
+        android:icon="@drawable/ic_store_mall_directory_white_36dp"
+        app:showAsAction="always" />
+</menu>

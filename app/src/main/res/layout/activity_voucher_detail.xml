@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    tools:context="id.rentist.mitrarentist.VoucherDetailActivity"
+    android:orientation="vertical">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorPrimarySoft"
+                    android:orientation="vertical"
+                    android:padding="@dimen/min_padding">
+
+
+                    <ImageView
+                        android:id="@+id/vd_image"
+                        android:layout_width="@dimen/thumb_med_width"
+                        android:layout_height="@dimen/thumb_med_height"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="@dimen/xmin_padding"
+                        android:layout_weight="1"
+                        android:adjustViewBounds="false"
+                        android:cropToPadding="false"
+                        android:src="@drawable/img_default" />
+
+
+                    <TextView
+                        android:id="@+id/vd_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/xmin_padding"
+                        android:paddingBottom="@dimen/xmin_padding"
+                        android:paddingLeft="@dimen/med_padding"
+                        android:paddingRight="@dimen/med_padding"
+                        android:paddingTop="@dimen/xmin_padding"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="@dimen/medium_text"
+                        android:textStyle="bold"
+                        android:text=""/>
+
+                    <TextView
+                        android:id="@+id/vd_poin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/xmin_padding"
+                        android:textSize="@dimen/almost_tiny_text"
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/min_padding">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Deskripsi :"/>
+
+                    <TextView
+                        android:id="@+id/vd_desc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:layout_marginTop="@dimen/min_padding"
+                        android:layout_marginLeft="@dimen/min_padding"
+                        android:textSize="@dimen/almost_tiny_text"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </ScrollView>
+
+        <Button
+            android:id="@+id/btn_purchase"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/btn_lmedium_height"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom"
+            android:layout_margin="5dp"
+            android:background="@color/colorPrimaryDark"
+            android:padding="0dp"
+            android:text="Beli Kupon"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/medium_text"
+            />
+
+    </RelativeLayout>
+
+
+</LinearLayout>

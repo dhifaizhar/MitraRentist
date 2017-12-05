@@ -58,6 +58,10 @@ public class HistoryWithdrawalAdapter extends RecyclerView.Adapter<HistoryWithdr
         viewHolder.nominal.setText(wd.getNominal());
         viewHolder.desc.setText(wd.getDesc());
         viewHolder.date.setText(wd.getDate());
+
+//        if (wd.getStatus().equals("PENDING")){
+//            viewHolder.status.setBackgroundColor(context.getResources().getColor(R.color.colorPrice));
+//        }
         viewHolder.status.setText(wd.getStatus());
     }
 

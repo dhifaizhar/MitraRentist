@@ -63,7 +63,7 @@ public class FormFashionAsetActivity extends AppCompatActivity {
     private String URL = AppConfig.URL_FASHION;
     private int subCategotyArray = R.array.fashion_subcategory_entries;
     private Activity currentActivity = FormFashionAsetActivity.this;
-    private static final String TITLE = "Aset Pakaian";
+
     private static final String TAG = "FormAssetActivity";
     private static final String TOKEN = "secretissecret";
 
@@ -115,7 +115,8 @@ public class FormFashionAsetActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form_medic_aset);
-        setTitle(TITLE);
+        String[] asset_category = getApplicationContext().getResources().getStringArray(R.array.asset_category_entries);
+        setTitle("Aset " + asset_category[11]);
 
         iFormAsset = getIntent();
         sm = new SessionManager(getApplicationContext());

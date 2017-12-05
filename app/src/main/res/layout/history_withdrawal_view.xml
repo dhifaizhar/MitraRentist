@@ -28,6 +28,7 @@
                 android:layout_height="wrap_content"
                 android:text="-"
                 android:layout_marginStart="@dimen/xmin_padding"
+                android:textSize="@dimen/tiny_text"
                 android:textColor="@color/colorGrey" />
 
             <TextView
@@ -39,6 +40,8 @@
                 android:textColor="@color/colorGrey"
                 android:layout_marginEnd="@dimen/xmin_padding"
                 android:layout_alignParentTop="true"
+                android:paddingEnd="@dimen/small_space"
+                android:paddingStart="@dimen/small_space"
                 android:layout_alignParentStart="true" />
 
             <LinearLayout
@@ -83,16 +86,6 @@
                             android:textColor="@color/colorPrice"
                             android:textSize="@dimen/medium_text" />
 
-                        <TextView
-                            android:id="@+id/textView12"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:text="IDR"
-                            android:layout_alignParentEnd="true"
-                            android:textSize="12sp" />
-
-
                     </RelativeLayout>
 
                     <RelativeLayout
@@ -108,9 +101,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentStart="true"
-                            android:layout_alignParentTop="true"
                             android:layout_marginLeft="@dimen/xmin_padding"
                             android:text="Kerangan :"
+                            android:layout_centerVertical="true"
                             android:textSize="12sp" />
 
 
@@ -120,7 +113,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="80dp"
                             android:text="-"
-                            android:textSize="@dimen/medium_text" />
+                            android:textSize="@dimen/almost_tiny_text" />
 
 
                     </RelativeLayout>

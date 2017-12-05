@@ -1,9 +1,11 @@
 package id.rentist.mitrarentist;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,7 +14,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import id.rentist.mitrarentist.tools.AppConfig;
 import id.rentist.mitrarentist.tools.CircleTransform;
@@ -26,6 +42,10 @@ public class ProfileActivity extends AppCompatActivity {
     ImageView profilePhoto;
     ImageButton vAll;
     String imageUrl, tenantCity;
+    private ProgressDialog pDialog;
+
+    private static final String TAG = "ProfileActivity";
+    private static final String TOKEN = "secretissecret";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +53,9 @@ public class ProfileActivity extends AppCompatActivity {
         sm = new SessionManager(getApplicationContext());
         setContentView(R.layout.activity_profile);
         setTitle(sm.getPreferences("nama_rental"));
+
+        pDialog = new ProgressDialog(getApplicationContext());
+        pDialog.setCancelable(false);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_profile);
         setSupportActionBar(toolbar);
@@ -77,9 +100,6 @@ public class ProfileActivity extends AppCompatActivity {
         rBranch.setText("Cabang : " + String.valueOf(sm.getPreferences("branch").isEmpty()?"-":sm.getPreferences("branch")));
         rPostalCode.setText(sm.getPreferences("kode_pos"));
 
-//        String[] sCity = getResources().getStringArray(R.array.city_entries);
-//        Log.e("City List", sCity.toString());
-
         if(!String.valueOf(sm.getIntPreferences("city")).isEmpty()){
             rCity.setText("");
         }else{
@@ -93,6 +113,21 @@ public class ProfileActivity extends AppCompatActivity {
         } else {
             imageUrl = AppConfig.URL_IMAGE_PROFIL + sm.getPreferences("foto_profil_tenant");
             Picasso.with(getApplicationContext()).load(imageUrl).transform(new CircleTransform()).into(profilePhoto);
+        }
+
+        Log.e(TAG, sm.getPreferences("village_name") + " | " + sm.getPreferences("distric_name") + " | " +
+                sm.getPreferences("city_name") + " | " + sm.getPreferences("province_name"));
+        if(sm.getPreferences("province_name").isEmpty() ||
+                sm.getPreferences("city_name").isEmpty() ||
+                sm.getPreferences("distric_name").isEmpty() ||
+                sm.getPreferences("village_name").isEmpty()){
+            Log.e(TAG, "Reuqest");
+            getAddress();
+        } else {
+            rVillage.setText(sm.getPreferences("village_name") + ", ");
+            rDistrict.setText(sm.getPreferences("distric_name"));
+            rCity.setText(sm.getPreferences("city_name") + ", ");
+            rProvince.setText(sm.getPreferences("province_name"));
         }
 
         vAll.setOnClickListener(new View.OnClickListener() {
@@ -144,4 +179,182 @@ public class ProfileActivity extends AppCompatActivity {
         }
 
     }
+
+    private void getAddress(){
+        final int id_province, id_city, id_distric, id_village;
+
+        id_province = sm.getIntPreferences("province");
+        id_city = sm.getIntPreferences("city");
+        id_distric = sm.getIntPreferences("distric");
+        id_village = sm.getIntPreferences("village");
+
+        String URL = AppConfig.URL_PROVINCE;
+        final RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+
+        final StringRequest villageRequest = new StringRequest(Request.Method.POST, AppConfig.URL_VILLAGE, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONArray provinceArray = new JSONArray(response);
+                    if(provinceArray.length() > 0){
+                        for (int i = 0; i < provinceArray.length(); i++) {
+                            JSONObject provinceObject = provinceArray.getJSONObject(i);
+                            if(provinceObject.getInt("id") == id_village){
+                                rVillage.setText(provinceObject.getString("village_name") + ", ");
+                                sm.setPreferences("village_name", provinceObject.getString("village_name"));
+                            }
+                        }
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "Province Data Fetch Error : " + error.toString());
+                Toast.makeText(getApplicationContext(), "Connection error, try again.",
+                        Toast.LENGTH_LONG).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() {
+                // Posting parameters to url
+                Map<String, String> keys = new HashMap<String, String>();
+                keys.put("id_distric", String.valueOf(id_distric));
+                return keys;
+            }
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> keys = new HashMap<String, String>();
+                keys.put("token", TOKEN);
+                return keys;
+            }
+        };
+
+        final StringRequest districRequest = new StringRequest(Request.Method.POST, AppConfig.URL_DISTRIC, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONArray provinceArray = new JSONArray(response);
+                    if(provinceArray.length() > 0){
+                        for (int i = 0; i < provinceArray.length(); i++) {
+                            JSONObject provinceObject = provinceArray.getJSONObject(i);
+                            if(provinceObject.getInt("id") == id_distric){
+                                rDistrict.setText(provinceObject.getString("distric_name"));
+                                sm.setPreferences("distric_name", provinceObject.getString("distric_name"));
+                            }
+                        }
+                    }
+                    requestQueue.add(villageRequest);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "Province Data Fetch Error : " + error.toString());
+                Toast.makeText(getApplicationContext(), "Connection error, try again.",
+                        Toast.LENGTH_LONG).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() {
+                // Posting parameters to url
+                Map<String, String> keys = new HashMap<String, String>();
+                keys.put("id_city", String.valueOf(id_city));
+                return keys;
+            }
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> keys = new HashMap<String, String>();
+                keys.put("token", TOKEN);
+                return keys;
+            }
+        };
+
+        final StringRequest cityRequest = new StringRequest(Request.Method.POST, AppConfig.URL_CITY, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONArray provinceArray = new JSONArray(response);
+                    if(provinceArray.length() > 0){
+                        for (int i = 0; i < provinceArray.length(); i++) {
+                            JSONObject provinceObject = provinceArray.getJSONObject(i);
+                            if(provinceObject.getInt("id") == id_city){
+                                rCity.setText(provinceObject.getString("city_name") + " ,");
+                                sm.setPreferences("city_name", provinceObject.getString("city_name"));
+                            }
+                        }
+                    }
+                    requestQueue.add(districRequest);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "Province Data Fetch Error : " + error.toString());
+                Toast.makeText(getApplicationContext(), "Connection error, try again.",
+                        Toast.LENGTH_LONG).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() {
+                // Posting parameters to url
+                Map<String, String> keys = new HashMap<String, String>();
+                keys.put("id_province", String.valueOf(id_province));
+                return keys;
+            }
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> keys = new HashMap<String, String>();
+                keys.put("token", TOKEN);
+                return keys;
+            }
+        };
+
+        StringRequest provinceRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONArray provinceArray = new JSONArray(response);
+                    if(provinceArray.length() > 0){
+                        for (int i = 0; i < provinceArray.length(); i++) {
+                            JSONObject provinceObject = provinceArray.getJSONObject(i);
+                            if(provinceObject.getInt("id") == id_province){
+                                rProvince.setText(provinceObject.getString("province_name"));
+                                sm.setPreferences("province_name", provinceObject.getString("province_name"));
+                            }
+                        }
+                    }
+                    requestQueue.add(cityRequest);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "Province Data Fetch Error : " + error.toString());
+                Toast.makeText(getApplicationContext(), "Connection error, try again.",
+                        Toast.LENGTH_LONG).show();
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> keys = new HashMap<String, String>();
+                keys.put("token", TOKEN);
+                return keys;
+            }
+        };
+
+        requestQueue.add(provinceRequest);
+    }
+
 }

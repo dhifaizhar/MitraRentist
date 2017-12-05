@@ -12,6 +12,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,6 +54,7 @@ public class DriverAssignActivity extends AppCompatActivity {
 
     String tenant, idTrans, id_driver, driver_name;
     RadioGroup aTypeGroup;
+    RadioButton rDriver;
     TextView msgDriver, msgUser;
 
     private static final String TAG = "AssignDriverActivity";
@@ -74,6 +76,7 @@ public class DriverAssignActivity extends AppCompatActivity {
         mRecycleUser = (RecyclerView) findViewById(R.id.dr_user);
         msgDriver = (TextView) findViewById(R.id.driver_msg);
         msgUser = (TextView) findViewById(R.id.user_msg);
+        rDriver = (RadioButton) findViewById(R.id.r_driver);
 
         pBar.setVisibility(View.VISIBLE);
         iDriver = getIntent();
@@ -86,17 +89,18 @@ public class DriverAssignActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 // checkedId is the RadioButton selected
+                msgUser.setVisibility(View.GONE);
+                msgDriver.setVisibility(View.GONE);
+                mRecycleUser.setVisibility(View.GONE);
+                mRecycleDriver.setVisibility(View.GONE);
+
                 if(checkedId == R.id.r_driver){
                     mRecycleDriver.setVisibility(View.VISIBLE);
-                    mRecycleUser.setVisibility(View.GONE);
-                    msgUser.setVisibility(View.GONE);
                     if(!msgDriver.getText().toString().isEmpty()){
                         msgDriver.setVisibility(View.VISIBLE);
                     }
                 } else {
-                    mRecycleDriver.setVisibility(View.GONE);
                     mRecycleUser.setVisibility(View.VISIBLE);
-                    msgDriver.setVisibility(View.GONE);
                     if(!msgUser.getText().toString().isEmpty()){
                         msgUser.setVisibility(View.VISIBLE);
                     }
@@ -285,7 +289,6 @@ public class DriverAssignActivity extends AppCompatActivity {
                 mRecycleUser.setAdapter(mAdapterUser);
 
             }else{
-                msgUser.setVisibility(View.VISIBLE);
                 msgUser.setText("Anda tidak memiliki jenis pengguna delivery");
             }
         } catch (JSONException e) {

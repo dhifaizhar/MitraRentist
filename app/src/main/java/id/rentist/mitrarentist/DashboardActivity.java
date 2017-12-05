@@ -81,7 +81,7 @@ public class DashboardActivity extends AppCompatActivity
 //    NetworkImageView rentImgProfile;
     ImageButton btnNewTrans, btnToSaldo, btnWorkDate, btnEditProfpic;
     DrawerLayout drawer;
-    RelativeLayout rlNewTrans;
+    RelativeLayout rlNewTrans, rlSaldo, rlPoin;
 
     private static final String TAG = "DashboardActivity";
     private static final String TOKEN = "secretissecret";
@@ -125,6 +125,8 @@ public class DashboardActivity extends AppCompatActivity
         accountDataNotif = (LinearLayout) findViewById(R.id.account_data_notif);
         accountDataVerifNotif = (LinearLayout) findViewById(R.id.account_data_verif_notif);
         rlNewTrans = (RelativeLayout) findViewById(R.id.rl_new_trans);
+        rlSaldo = (RelativeLayout) findViewById(R.id.rl_rev_saldo);
+        rlPoin = (RelativeLayout) findViewById(R.id.rl_rev_poin);
         rentName = (TextView) findViewById(R.id.rentName);
         rentNameDrawer = (TextView) navHeaderView.findViewById(R.id.navRentName);
         rentImgProfile = (ImageView) navHeaderView.findViewById(R.id.navImageProfile);
@@ -229,6 +231,24 @@ public class DashboardActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 Intent iTrans = new Intent(DashboardActivity.this, TransactionaNewActivity.class);
+                iTrans.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(iTrans);
+            }
+        });
+
+        rlSaldo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent iTrans = new Intent(DashboardActivity.this, DompetActivity.class);
+                iTrans.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(iTrans);
+            }
+        });
+
+        rlPoin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent iTrans = new Intent(DashboardActivity.this, VoucherCatalogActivity.class);
                 iTrans.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(iTrans);
             }
@@ -494,7 +514,6 @@ public class DashboardActivity extends AppCompatActivity
         }
 
         if (id == R.id.action_refresh) {
-//retrieveDashboardData(tenant);
             getDashboardData();
         }
 

@@ -149,6 +149,7 @@ public class TransactionAcceptFragment extends Fragment {
                     JSONObject memberObject = transObject.getJSONObject("id_member");
                     JSONObject item;
 
+                    itemTrans.setDriverIncluded(transObject.getString("with_driver"));
                     if (transObject.has("id_driver")) {
                         JSONObject driverObject = transObject.getJSONObject("id_driver");
                         aDriverName = driverObject.getString("fullname");
@@ -170,11 +171,11 @@ public class TransactionAcceptFragment extends Fragment {
                             if (item.getString("id_asset_category").equals("3")){
                                 aAsetName = item.getString("type") + " " + item.getString("subtype");
                             }else {
-                                if (item.getInt("id_asset_category") == 1 ){
-                                    String driverStat = item.getString("driver_included");
-                                    aDriverIncluded = item.getInt("id_asset_category") == 1 && driverStat != "false";
-                                    itemTrans.setDriverIncluded(aDriverIncluded);
-                                }
+//                                if (item.getInt("id_asset_category") == 1 ){
+//                                    String driverStat = item.getString("driver_included");
+//                                    aDriverIncluded = item.getInt("id_asset_category") == 1 && driverStat != "false";
+//                                    itemTrans.setDriverIncluded(aDriverIncluded);
+//                                }
                                 aAsetName = item.getString("brand") + " " + item.getString("type");
                             }
                         }

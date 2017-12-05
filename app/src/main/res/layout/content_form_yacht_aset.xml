@@ -891,7 +891,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/xmin_padding"
-                        android:padding="@dimen/xmin_padding">
+                        android:padding="@dimen/xmin_padding"
+                        android:visibility="gone">
 
                         <CheckBox
                             android:id="@+id/as_ck_assurance"

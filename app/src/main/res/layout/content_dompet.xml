@@ -80,10 +80,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/credit_info"
             android:layout_margin="@dimen/xmin_padding"
-            android:clickable="true"
             android:foreground="?selectableItemBackground"
-            android:visibility="gone"
             app:cardBackgroundColor="@color/colorWhite"
+            android:visibility="gone"
             app:cardElevation="1dp">
 
             <RelativeLayout
@@ -104,6 +103,8 @@
                     android:layout_height="wrap_content"
                     android:gravity="end"
                     android:text="date"
+                    android:layout_alignBottom="@+id/textView23"
+                    android:textSize="@dimen/tiny_text"
                     android:textColor="@color/colorGrey" />
 
                 <LinearLayout
@@ -178,7 +179,7 @@
                                 android:layout_marginLeft="@dimen/min_padding"
                                 android:layout_toEndOf="@+id/a"
                                 android:text="-"
-                                android:textSize="@dimen/small_text" />
+                                android:textSize="@dimen/almost_tiny_text" />
 
                         </RelativeLayout>
 

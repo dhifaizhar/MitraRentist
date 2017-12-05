@@ -38,6 +38,7 @@ import id.rentist.mitrarentist.modul.DompetModul;
 import id.rentist.mitrarentist.tools.AppConfig;
 import id.rentist.mitrarentist.tools.PricingTools;
 import id.rentist.mitrarentist.tools.SessionManager;
+import id.rentist.mitrarentist.tools.Tools;
 
 public class DompetActivity extends AppCompatActivity {
     private List<DompetModul> mDompet = new ArrayList<>();
@@ -131,15 +132,26 @@ public class DompetActivity extends AppCompatActivity {
                         JSONArray TransArray = new JSONArray(String.valueOf(dataObject.getJSONArray("data")));
                         JSONArray balanceArray = new JSONArray(String.valueOf(dataObject.getJSONArray("total")));
 
+                        if(balanceArray.length() > 0) {
+                            JSONObject balanceObject = balanceArray.getJSONObject(0);
+
+                            if (balanceObject.getString("nominal").equals("null")){
+                                balance = "0";
+                            } else {
+                                balance = balanceObject.getString("nominal");
+                            }
+                        }
+                        credit.setText(PricingTools.PriceStringFormat(balance));
+
                         if(lastWithdrawalArray.length() > 0){
                             lastWithdrawal.setVisibility(View.VISIBLE);
 
                             for (int i = 0; i < lastWithdrawalArray.length(); i++) {
                                 JSONObject last = lastWithdrawalArray.getJSONObject(i);
-                                String dt = last.getString("createdAt").substring(0,10);
-                                String vNominal = ": " +  last.getString("nominal") + " IDR";
-                                String vDesc = ": " + last.getString("description");
-                                String vStatus = ": " + last.getString("status");
+                                String dt = Tools.dateHourFormat(last.getString("createdAt").substring(0,19));
+                                String vNominal = ": " +  PricingTools.PriceStringFormat(last.getString("nominal"));
+                                String vDesc = ": " + (last.getString("description").equals("null") ? "-" : last.getString("description"));
+                                String vStatus = ": " + last.getString("status").toUpperCase();
                                 date.setText(dt);
                                 nominal.setText(vNominal);
                                 desc.setText(vDesc);
@@ -165,16 +177,6 @@ public class DompetActivity extends AppCompatActivity {
                             withdrawal.setTextColor(getResources().getColor(R.color.colorBlack54));
                         }
 
-                        if(balanceArray.length() > 0) {
-                            JSONObject balanceObject = balanceArray.getJSONObject(0);
-
-                            if (balanceObject.getString("nominal").equals("null")){
-                                balance = "0";
-                            } else {
-                                balance = PricingTools.PriceStringFormat(balanceObject.getString("nominal"));
-                            }
-                        }
-                        credit.setText(balance);
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -202,6 +204,12 @@ public class DompetActivity extends AppCompatActivity {
 
         requestQueue.add(stringRequest);
     }
+
+    public void onRestart() {
+        super.onRestart();
+        retrieveDompetData(tenant);
+    }
+
 
     private class getDataDompetTask extends AsyncTask<String, String, String>{
         private final String mTenant;
@@ -259,16 +267,27 @@ public class DompetActivity extends AppCompatActivity {
                     JSONArray TransArray = new JSONArray(String.valueOf(dataObject.getJSONArray("data")));
                     JSONArray balanceArray = new JSONArray(String.valueOf(dataObject.getJSONArray("total")));
 
+                    if(balanceArray.length() > 0) {
+                        JSONObject balanceObject = balanceArray.getJSONObject(0);
+
+                        if (balanceObject.getString("nominal").equals("null")){
+                            balance = "0";
+                        } else {
+                            balance = balanceObject.getString("nominal");
+                        }
+                    }
+
+                    credit.setText(PricingTools.PriceStringFormat(balance));
                     if(lastWithdrawalArray.length() > 0){
                         errorMsg = "-";
                         lastWithdrawal.setVisibility(View.VISIBLE);
 
                         for (int i = 0; i < lastWithdrawalArray.length(); i++) {
                             JSONObject last = lastWithdrawalArray.getJSONObject(i);
-                            String dt = last.getString("createdAt").substring(0,10);
-                            String vNominal = ": " +  last.getString("nominal") + " IDR";
-                            String vDesc = ": " + last.getString("description");
-                            String vStatus = ": " + last.getString("status");
+                            String dt = Tools.dateCreatedFormat(last.getString("createdAt").substring(0,10));
+                            String vNominal = ": " +  PricingTools.PriceStringFormat(last.getString("nominal"));
+                            String vDesc = ": " + (last.getString("description").equals("null") ? "-" : last.getString("description"));
+                            String vStatus = ": " + last.getString("status").toUpperCase();
                             date.setText(dt);
                             nominal.setText(vNominal);
                             desc.setText(vDesc);
@@ -291,22 +310,9 @@ public class DompetActivity extends AppCompatActivity {
                         errorMsg = "Note : Anda tidak memiliki cukup saldo untuk melakukan withdrawal";
                         note.setText(errorMsg);
                         withdrawal.setEnabled(false);
-//                        withdrawal.setVisibility(View.INVISIBLE);
                         withdrawal.setBackgroundColor(getResources().getColor(R.color.colorButtonDefault));
                         withdrawal.setTextColor(getResources().getColor(R.color.colorBlack54));
-
                     }
-
-                    if(balanceArray.length() > 0) {
-                        JSONObject balanceObject = balanceArray.getJSONObject(0);
-
-                        if (balanceObject.getString("nominal").equals("null")){
-                            balance = "0";
-                        } else {
-                            balance = PricingTools.PriceStringFormat(balanceObject.getString("nominal"));
-                        }
-                    }
-                    credit.setText(balance);
 
                 } catch (JSONException e) {
                     e.printStackTrace();

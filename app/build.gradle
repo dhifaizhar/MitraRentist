@@ -38,6 +38,9 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
+    //    compile 'com.google.android.gms:play-services:11.0.4'
+
+
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:design:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
@@ -61,12 +64,10 @@ dependencies {
     compile 'com.aldoapps:autoformatedittext:0.9.3'
     compile 'com.firebase:firebase-client-android:2.5.2'
     compile 'com.android.support:multidex:1.0.1'
-//    compile 'com.google.android.gms:play-services:11.0.4'
     compile 'com.google.android.gms:play-services-places:11.0.4'
     compile 'com.google.android.gms:play-services-maps:11.0.4'
     compile 'com.synnapps:carouselview:0.1.4'
     compile 'com.prolificinteractive:material-calendarview:1.4.3'
-
     testCompile 'junit:junit:4.12'
 }
 

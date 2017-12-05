@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="id.rentist.mitrarentist">
+
     <meta-data
         android:name="com.google.android.geo.API_KEY"
-        android:value="AIzaSyASlk5weV-2lDF4-KZbj9p69AQ_i7zKk4Q"/>
+        android:value="AIzaSyASlk5weV-2lDF4-KZbj9p69AQ_i7zKk4Q" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -24,14 +25,12 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <meta-data
             android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version"/>
-
+            android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDVcxOCRKB1G7FbpVopMTjrXnRtZrswjbI"/>
+            android:value="AIzaSyDVcxOCRKB1G7FbpVopMTjrXnRtZrswjbI" />
 
         <activity android:name=".SplashScreen">
             <intent-filter>
@@ -209,10 +208,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".FormMedicAsetActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            >
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".FormPhotographyAsetActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -278,10 +274,17 @@
             android:label="Berikan Testimoni Anda"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
-        <activity android:name=".MemberProfileActivity"
+        <activity
+            android:name=".MemberProfileActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-
-
+        <activity
+            android:name=".FormComplainActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".VoucherCatalogActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".VoucherDetailActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

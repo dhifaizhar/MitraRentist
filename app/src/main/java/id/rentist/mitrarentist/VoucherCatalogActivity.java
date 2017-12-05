@@ -1,14 +1,11 @@
 package id.rentist.mitrarentist;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -31,72 +28,49 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import id.rentist.mitrarentist.adapter.ComplainAdapter;
-import id.rentist.mitrarentist.modul.ComplainModul;
+import id.rentist.mitrarentist.adapter.GridVoucherCatalogAdapter;
+import id.rentist.mitrarentist.modul.VoucherCatalogModul;
 import id.rentist.mitrarentist.tools.AppConfig;
 import id.rentist.mitrarentist.tools.SessionManager;
-import id.rentist.mitrarentist.tools.Tools;
 
-public class ComplainActivity extends AppCompatActivity {
+public class VoucherCatalogActivity extends AppCompatActivity {
+    RecyclerView mRecyclerView;
     RecyclerView.Adapter mAdapter;
     RecyclerView.LayoutManager mLayoutManager;
-    private List<ComplainModul> mMsg = new ArrayList<>();
-
+    private List<VoucherCatalogModul> mVou = new ArrayList<>();
+    private SessionManager sm;
     private SpinKitView pBar;
-    SessionManager sm;
+
     String tenant;
 
-    private static final String TAG = "ComplainActivity";
+    private static final String TAG = "VoucherCatalogActivity";
     private static final String TOKEN = "secretissecret";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_complain);
-        setTitle("Pengaduan Pelanggan");
+        setContentView(R.layout.activity_voucher_catalog);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        setTitle("Katalog Kupon");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         sm = new SessionManager(getApplicationContext());
+        tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
         pBar = (SpinKitView)findViewById(R.id.progressBar);
         FadingCircle fadingCircle = new FadingCircle();
         pBar.setIndeterminateDrawable(fadingCircle);
 
-        tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
+        getVoucherData();
+
+    }
+
+    private void getVoucherData(){
         pBar.setVisibility(View.VISIBLE);
-        getComplainList();
-    }
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_add_option, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_add) {
-            Intent intent = new Intent(ComplainActivity.this, FormComplainActivity.class);
-            startActivity(intent);
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    public void getComplainList() {
-        String URL = AppConfig.URL_LIST_COMPLAIN + tenant;
+        String URL = AppConfig.URL_VOUCHER_CATALOG;
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         StringRequest strReq = new StringRequest(Request.Method.GET, URL, new
                 Response.Listener<String>() {
@@ -106,36 +80,38 @@ public class ComplainActivity extends AppCompatActivity {
 
                         if (response != null) {
                             try {
-                                JSONArray jsonArray = new JSONArray(response);
-                                Log.e(TAG, "Complain : " + jsonArray);
-                                mMsg.clear();
+                                JSONObject responseObject = new JSONObject(response);
+                                JSONArray data = responseObject.getJSONArray("data");
 
-                                if(jsonArray.length() > 0){
-                                    for (int i = 0; i < jsonArray.length(); i++) {
-                                        JSONObject jsonobject = jsonArray.getJSONObject(i);
-                                        JSONObject member = jsonobject.getJSONObject("id_member");
+                                Log.e(TAG, "Voucher : " + data);
+                                mVou.clear();
 
-                                        ComplainModul itemModul = new ComplainModul();
-                                        itemModul.setNamaPelanggan(member.getString("firstname") +
-                                            " " + member.getString("lastname"));
-                                        itemModul.setPerihal(jsonobject.getString("title"));
-                                        itemModul.setDetilKeluhan(jsonobject.getString("content"));
-                                        itemModul.setTglKirim(Tools.dateHourFormat(jsonobject.getString("createdAt").substring(0,19)));
+                                if(data.length() > 0){
+                                    for (int i = 0; i < data.length(); i++) {
+                                        JSONObject voucher = data.getJSONObject(i);
 
-                                        mMsg.add(itemModul);
+                                        VoucherCatalogModul itemModul = new VoucherCatalogModul();
+                                        itemModul.setId(voucher.getString("id"));
+                                        itemModul.setName(voucher.getString("name"));
+                                        itemModul.setPrice(voucher.getString("price"));
+                                        itemModul.setDescription(voucher.getString("description"));
+                                        itemModul.setQuantity(voucher.getString("quantity"));
+                                        itemModul.setCreatedDate(voucher.getString("createdAt"));
+
+                                        mVou.add(itemModul);
                                     }
 
-                                    RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.msg_recyclerView);
-                                    mLayoutManager = new LinearLayoutManager(getApplicationContext());
-                                    mAdapter = new ComplainAdapter(ComplainActivity.this, mMsg);
-
+                                    mRecyclerView = (RecyclerView) findViewById(R.id.vc_recyclerView);
+                                    mRecyclerView.setHasFixedSize(true);
+                                    mLayoutManager = new GridLayoutManager(getApplicationContext(),2);
+                                    mAdapter = new GridVoucherCatalogAdapter(getApplicationContext(), mVou);
                                     mRecyclerView.setLayoutManager(mLayoutManager);
                                     mRecyclerView.setAdapter(mAdapter);
 
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
-                                Toast.makeText(getApplicationContext(),"Tidak Ada Pengaduan" , Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(),"Tidak Ada Kupon" , Toast.LENGTH_LONG).show();
                             }
                         }
                     }
@@ -143,7 +119,7 @@ public class ComplainActivity extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e(TAG, "Get Aset List Fetch Error : " +  error.toString());
+                Log.e(TAG, "Get Voucher List Fetch Error : " +  error.toString());
                 Toast.makeText(getApplicationContext(), "Connection error, try again.",
                         Toast.LENGTH_LONG).show();
             }
@@ -157,5 +133,11 @@ public class ComplainActivity extends AppCompatActivity {
             }
         };
         queue.add(strReq);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

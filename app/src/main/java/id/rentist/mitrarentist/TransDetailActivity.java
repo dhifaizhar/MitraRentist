@@ -232,10 +232,15 @@ public class TransDetailActivity extends AppCompatActivity {
             }
         });
 
-        if(itransDet.getBooleanExtra("driver", false)){
-            mAdditional.setVisibility(View.VISIBLE);
-            mDriver.setVisibility(View.VISIBLE);
-            mDriver.setText("Pengemudi : " + itransDet.getStringExtra("driver_name"));
+        // Get Driver Name
+        if (itransDet.getStringExtra("status").matches("accepted|ongoing|completed")){
+            if(itransDet.getStringExtra("with_driver").equals("true")){
+                mAdditional.setVisibility(View.VISIBLE);
+                mDriver.setVisibility(View.VISIBLE);
+                if(!itransDet.getStringExtra("driver_name").equals("null")){
+                    mDriver.setText("Pengemudi : " + itransDet.getStringExtra("driver_name"));
+                }
+            }
         }
 
         // Button Action Configure
@@ -248,7 +253,7 @@ public class TransDetailActivity extends AppCompatActivity {
 
             btnCamera.setVisibility(View.VISIBLE);
 
-            if(itransDet.getBooleanExtra("driver", false)){
+            if(itransDet.getStringExtra("with_driver").equals("true")){
                 btnDriver.setVisibility(View.VISIBLE);
             }
 
@@ -312,11 +317,11 @@ public class TransDetailActivity extends AppCompatActivity {
                     transConfirm(transId, "rejected");
                 }
             });
-
         }
 
     }
 
+    // Get Additional Feature
     private void getAdditionalFeature() {
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         StringRequest strReq = new StringRequest(Request.Method.POST, AppConfig.URL_ITEM_FEATURE , new

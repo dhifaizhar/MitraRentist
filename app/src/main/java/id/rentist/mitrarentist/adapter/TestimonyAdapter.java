@@ -14,6 +14,7 @@ import java.util.List;
 
 import id.rentist.mitrarentist.R;
 import id.rentist.mitrarentist.modul.TestimonyModul;
+import id.rentist.mitrarentist.tools.Tools;
 
 /**
  * Created by mdhif on 21/06/2017.
@@ -67,7 +68,7 @@ public class TestimonyAdapter extends RecyclerView.Adapter<TestimonyAdapter.View
 //        simpan value dalam object
         viewHolder.tNameMember.setText(tm.getMember());
         viewHolder.tContent.setText(tm.getContent());
-        viewHolder.tDate.setText(tm.getDate());
+        viewHolder.tDate.setText(Tools.dateHourFormat(tm.getDate().substring(0,19)));
         viewHolder.clean.setRating(tm.getCleanliness());
         viewHolder.neat.setRating(tm.getNeatness());
         viewHolder.honest.setRating(tm.getHonesty());

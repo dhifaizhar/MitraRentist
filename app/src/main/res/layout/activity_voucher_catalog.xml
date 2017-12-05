@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackgound"
-    tools:context="id.rentist.mitrarentist.FeatureActivity">
+    tools:context="id.rentist.mitrarentist.VoucherCatalogActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -21,17 +20,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_feature" />
-
-    <com.github.ybq.android.spinkit.SpinKitView
-        android:id="@+id/progressBar"
-        style="@style/SpinKitView.FadingCircle"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/btn_medium_height"
-        android:layout_marginTop="@dimen/thumb_med_height"
-        android:background="@android:color/transparent"
-        android:padding="@dimen/xmin_padding"
-        android:visibility="gone"
-        app:SpinKit_Color="@color/colorPrimary" />
+    <include layout="@layout/content_voucher_catalog" />
 
 </android.support.design.widget.CoordinatorLayout>

@@ -248,11 +248,11 @@ public class TransactionTabAdapter extends FragmentPagerAdapter {
                             if (item.getString("id_asset_category").equals("3")){
                                 aAsetName = item.getString("type") + " " + item.getString("subtype");
                             }else {
-                                if (item.getInt("id_asset_category") == 1 ){
-                                    String driverStat = item.getString("driver_included");
-                                    aDriverIncluded = item.getInt("id_asset_category") == 1 && driverStat != "false";
-                                    itemTrans.setDriverIncluded(aDriverIncluded);
-                                }
+//                                if (item.getInt("id_asset_category") == 1 ){
+//                                    String driverStat = item.getString("driver_included");
+//                                    aDriverIncluded = item.getInt("id_asset_category") == 1 && driverStat != "false";
+//                                    itemTrans.setDriverIncluded(aDriverIncluded);
+//                                }
                                 aAsetName = item.getString("brand") + " " + item.getString("type");
                             }
                         }

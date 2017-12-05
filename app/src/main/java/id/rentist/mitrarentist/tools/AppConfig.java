@@ -87,11 +87,13 @@ public class AppConfig {
     public static  String URL_ADD_VOUCHER = SERVER + "tenant/voucher/";
     public static  String URL_UPDATE_VOUCHER = SERVER + "update/voucher/";
     public static  String URL_DELETE_VOUCHER = SERVER + "delete/voucher/";
+    public static  String URL_VOUCHER_CATALOG = SERVER + "tenant/voucher/catalog/";
+    public static  String URL_VOUCHER_PURCHASE = SERVER + "tenant/purchase/voucher/";
 
     public static  String URL_DOMPET = SERVER + "list/request/";
-    public static  String URL_LIST_TESTIMONY = SERVER + "list/testimony/";
     public static  String URL_WITHDRAWAL = SERVER + "withdrawal/request/";
     public static  String URL_HISTORY_WITHDRAWAL = SERVER + "list/withdrawal/";
+    public static  String URL_HISTORY_SALDO = SERVER + "finance/history/";
 
     public static  String URL_LIST_DRIVER = SERVER + "list/driver/";
     public static  String URL_DETAIL_DRIVER = SERVER + "view/driver/";
@@ -100,17 +102,19 @@ public class AppConfig {
     public static  String URL_DELETE_DRIVER = SERVER + "delete/driver/";
     public static  String URL_ASSIGN_DRIVER = SERVER + "assign/driver/";
 
+    public static String URL_FEATURE_NAME = SERVER + "category/feature/";
     public static  String URL_LIST_FEATURE = SERVER + "list/additional/";
     public static  String URL_FEATURE = SERVER + "item/feature/";
     public static  String URL_DELETE_FEATURE = SERVER + "delete/feature/";
     public static  String URL_ITEM_FEATURE = SERVER + "item/additional/";
 
     public static  String URL_TESTIMONY_SUBMIT = SERVER + "testimony/submit/";
-    public static  String URL_HISTORY_SALDO = SERVER + "finance/history/";
     public static  String URL_LIST_KEBIJAKAN = SERVER + "list/kebijakan/";
 
     public static  String URL_CRITIC_SUGGESTION = SERVER + "critics/";
     public static String URL_LIST_COMPLAIN = SERVER + "list/complain/";
+    public static  String URL_LIST_TESTIMONY = SERVER + "list/testimony/";
+    public static String URL_COMPLAIN = SERVER + "complain/";
 
     public static  String URL_PROVINCE = SERVER + "place/province/";
     public static  String URL_CITY = SERVER + "place/city/";

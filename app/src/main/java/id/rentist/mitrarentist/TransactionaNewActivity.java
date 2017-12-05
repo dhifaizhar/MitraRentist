@@ -228,6 +228,24 @@ public class TransactionaNewActivity extends AppCompatActivity {
 
     }
 
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == RESULT_OK) {
+            mTrans.clear();
+            getNewTransactionDataList(tenant);
+        }
+
+    }
+
+    @Override
+    public void onRestart(){
+        super.onRestart();
+        mTrans.clear();
+        getTransaction();
+
+    }
+
     public void getNewTransactionDataList(String tenant) {
         pBar.setVisibility(View.VISIBLE);
         new TransactionaNewActivity.getNewTransactionDataListTask(tenant).execute();
@@ -387,15 +405,6 @@ public class TransactionaNewActivity extends AppCompatActivity {
         }
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if(resultCode == RESULT_OK) {
-            mTrans.clear();
-            getNewTransactionDataList(tenant);
-        }
-
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -415,11 +424,5 @@ public class TransactionaNewActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onRestart(){
-        super.onRestart();
-        mTrans.clear();
-        getTransaction();
 
-    }
 }
