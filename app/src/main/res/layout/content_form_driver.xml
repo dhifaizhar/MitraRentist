@@ -34,8 +34,7 @@
                     android:layout_width="@dimen/thumb_height"
                     android:layout_height="@dimen/thumb_height"
                     android:layout_weight="1"
-                    android:background="@drawable/cirle_default_label"
-                    android:src="@drawable/img" />
+                    android:src="@drawable/img_default" />
 
                 <Button
                     android:id="@+id/btnUploadFoto"
@@ -105,7 +104,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:paddingRight="@dimen/med_padding"
-                            android:text="male" />
+                            android:text="Pria" />
 
                         <RadioButton
                             android:id="@+id/radioFemale"
@@ -114,7 +113,7 @@
                             android:layout_weight="1"
                             android:padding="@dimen/xmin_padding"
                             android:paddingRight="@dimen/med_padding"
-                            android:text="female" />
+                            android:text="Wanita" />
 
                     </RadioGroup>
 

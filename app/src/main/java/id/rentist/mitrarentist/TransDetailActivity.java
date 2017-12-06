@@ -67,9 +67,9 @@ public class TransDetailActivity extends AppCompatActivity {
 
     TextView mAset, mPrice, mCodeTrans, mMember, mStartDate, mEndDate, mDriver, mPicktime, mAddress,
             mNote, feature_name, mOrderDate;
-    LinearLayout mAdditional, con_add_feature;
+    LinearLayout mAdditional, con_add_feature, con_voucher,con_insurance, con_additonal;
 
-    ImageView mAsetThumb;
+    ImageView mAsetThumb, withDriverCheck;
 
     private static int PICK_DRIVER_REQUEST = 3;
     private static final int CAMERA_REQUEST = 1888;
@@ -98,10 +98,11 @@ public class TransDetailActivity extends AppCompatActivity {
         sm = new SessionManager(getApplicationContext());
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
+        itransDet = getIntent();
 
+        // MapView
         mapView = (MapView) findViewById(R.id.detTrans_map);
         mapView.onCreate(savedInstanceState);
-
         mapView.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(GoogleMap map) {
@@ -114,7 +115,7 @@ public class TransDetailActivity extends AppCompatActivity {
                         zoom(12).build();
 
                 googleMap.addMarker(new MarkerOptions().position(coordinate)
-                        .title("Lokasi Pertemuan"));
+                        .title("Lokasi Pemesan"));
                 googleMap.moveCamera(CameraUpdateFactory.newLatLng(coordinate));
                 googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
                 googleMap.getCameraPosition();
@@ -122,7 +123,6 @@ public class TransDetailActivity extends AppCompatActivity {
             }
         });
 
-        itransDet = getIntent();
         controlContent();
     }
 
@@ -164,6 +164,13 @@ public class TransDetailActivity extends AppCompatActivity {
         mDriver = (TextView) findViewById(R.id.driver);
         mAdditional = (LinearLayout) findViewById(R.id.additional);
         mOrderDate = (TextView) findViewById(R.id.detTrans_orderDate);
+        con_add_feature = (LinearLayout) findViewById(R.id.con_add_feature);
+        con_voucher = (LinearLayout) findViewById(R.id.detTrans_con_voucher);
+        con_insurance = (LinearLayout) findViewById(R.id.detTrans_con_insurance);
+        con_additonal = (LinearLayout) findViewById(R.id.detTrans_con_additional_feature);
+        withDriverCheck = (ImageView) findViewById(R.id.detTrans_with_driver);
+        btnCamera = (ImageButton) findViewById(R.id.btn_camera);
+        btnDriver = (Button) findViewById(R.id.btn_assign_driver);
 
         LinearLayout btnContainer = (LinearLayout) findViewById(R.id.btnContainer);
         Display display = getWindowManager().getDefaultDisplay();
@@ -199,14 +206,12 @@ public class TransDetailActivity extends AppCompatActivity {
         btnCancel.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         btnCancel.setLayoutParams(startGravity);
 
-        con_add_feature = (LinearLayout) findViewById(R.id.con_add_feature);
         feature_name = new TextView(this);
         feature_name.setTextSize(13);
 
-        // Value
+        // Set Value
         Picasso.with(getApplicationContext()).load(
-                AppConfig.URL_IMAGE_ASSETS + itransDet.getStringExtra("aset_thumb"))
-                .into(mAsetThumb);
+                AppConfig.URL_IMAGE_ASSETS + itransDet.getStringExtra("aset_thumb")).into(mAsetThumb);
 
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
         transId = itransDet.getStringExtra("id_trans");
@@ -220,6 +225,7 @@ public class TransDetailActivity extends AppCompatActivity {
         mPicktime.setText(itransDet.getStringExtra("pickup_time"));
         mAddress.setText(itransDet.getStringExtra("address"));
         mNote.setText(itransDet.getStringExtra("note").equals("null") ? "-" : itransDet.getStringExtra("note"));
+        if(itransDet.getStringExtra("insurance").equals("true")) {con_insurance.setVisibility(View.VISIBLE);}
 
         getAdditionalFeature();
 
@@ -233,14 +239,33 @@ public class TransDetailActivity extends AppCompatActivity {
         });
 
         // Get Driver Name
-        if (itransDet.getStringExtra("status").matches("accepted|ongoing|completed")){
+        Log.e(TAG, itransDet.getStringExtra("with_driver"));
+        if (itransDet.getStringExtra("status").matches("new|accepted|ongoing|completed")){
             if(itransDet.getStringExtra("with_driver").equals("true")){
                 mAdditional.setVisibility(View.VISIBLE);
                 mDriver.setVisibility(View.VISIBLE);
-                if(!itransDet.getStringExtra("driver_name").equals("null")){
-                    mDriver.setText("Pengemudi : " + itransDet.getStringExtra("driver_name"));
+                if(itransDet.getStringExtra("status").equals("new")){
+                    withDriverCheck.setVisibility(View.VISIBLE);
+                }else{
+                    if(!itransDet.getStringExtra("driver_name").equals("null")){
+                        mDriver.setText("Pengemudi : " + itransDet.getStringExtra("driver_name"));
+                    }else  mDriver.setText("Pengemudi : -");
+                }
+
+                if(itransDet.getStringExtra("status").equals("accepted")){
+                    btnDriver.setVisibility(View.VISIBLE);
                 }
             }
+        }
+
+        if (itransDet.hasExtra("voucher_code")){
+            con_voucher.setVisibility(View.VISIBLE);
+
+            TextView mVoucherCode = (TextView) findViewById(R.id.detTrans_voucher_code);
+            TextView mVoucherDisc = (TextView) findViewById(R.id.detTrans_voucher_value);
+
+            mVoucherCode.setText(itransDet.getStringExtra("voucher_code"));
+            mVoucherDisc.setText(itransDet.getStringExtra("voucher_disc"));
         }
 
         // Button Action Configure
@@ -248,14 +273,7 @@ public class TransDetailActivity extends AppCompatActivity {
             btnAction.setText("Berhasil Diantar");
             btnContainer.addView(btnAction);
 
-            btnCamera = (ImageButton) findViewById(R.id.btn_camera);
-            btnDriver = (Button) findViewById(R.id.btn_assign_driver);
-
             btnCamera.setVisibility(View.VISIBLE);
-
-            if(itransDet.getStringExtra("with_driver").equals("true")){
-                btnDriver.setVisibility(View.VISIBLE);
-            }
 
             // Capture button clicks
             btnDriver.setOnClickListener(new View.OnClickListener() {
@@ -334,12 +352,10 @@ public class TransDetailActivity extends AppCompatActivity {
 
                             if(data.length() > 0) {
                                 mAdditional.setVisibility(View.VISIBLE);
-
+                                con_additonal.setVisibility(View.VISIBLE);
                                 for (int i = 0; i < data.length(); i++) {
-
                                     JSONObject feature = data.getJSONObject(i);
-                                    feature_name.setText(feature.getString("feature_name"));
-
+                                    feature_name.setText("- " + feature.getString("feature_name"));
                                     con_add_feature.addView(feature_name);
                                 }
                             }

@@ -14,7 +14,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -48,7 +47,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -640,17 +638,6 @@ public class FormYachtAsetActivity extends AppCompatActivity {
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), request);
     }
 
-    public String getStringImage(Bitmap bmp){
-        if(bmp != null){
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-            byte[] imageBytes = baos.toByteArray();
-            return Base64.encodeToString(imageBytes, Base64.DEFAULT);
-        }else{
-            return null;
-        }
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -795,7 +782,6 @@ public class FormYachtAsetActivity extends AppCompatActivity {
                 aEndDate3.setText(resultEnd);
             }
             if (resultCode == Activity.RESULT_CANCELED) {
-                //Write your code if there's no result
             }
         }
         if (requestCode == PICK_DATE_REQUEST4) {
@@ -825,6 +811,11 @@ public class FormYachtAsetActivity extends AppCompatActivity {
             tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
             category = iFormAsset.getStringExtra("cat");
             idAsset = iFormAsset.getIntExtra("id_asset",0);
+
+            int rentReqId = aRentReqGroup.getCheckedRadioButtonId();
+            if (rentReqId == aBasic.getId()) aRentReq = getResources().getString(R.string.member_badge_basic);
+            else if (rentReqId == aVerified.getId()) aRentReq = getResources().getString(R.string.member_badge_verified);
+            else aRentReq = getResources().getString(R.string.member_badge_smart_con);
 
             if(aDelivery.isChecked() && aPickup.isChecked()){aDeliveryMethod = "both";}
             else if (aDelivery.isChecked()){ aDeliveryMethod = "deliver";}
@@ -898,7 +889,7 @@ public class FormYachtAsetActivity extends AppCompatActivity {
                     keys.put("naval_architect", aNavalArc.getText().toString());
                     keys.put("interior_designer", aIntDesign.getText().toString());
                     keys.put("exterior_designer", aExtDesign.getText().toString());
-                    keys.put("insurance", String.valueOf(aAssurace.isChecked()));
+//                    keys.put("insurance", String.valueOf(aAssurace.isChecked()));
                     keys.put("min_rent_day", aMinDayRent.getText().toString());
                     keys.put("delivery_method", aDeliveryMethod);
                     keys.put("address", aAddress.getText().toString());
@@ -1121,6 +1112,7 @@ public class FormYachtAsetActivity extends AppCompatActivity {
             pricingArray.add(pricingObject.toString().replace("=", ":"));
         }
     }
+
     public void postPriceCheck(final String price) {
         final String URL_PRICE_CHECK = AppConfig.URL_PRICE_CHECK ;
 

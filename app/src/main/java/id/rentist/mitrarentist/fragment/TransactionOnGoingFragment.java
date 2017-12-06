@@ -38,6 +38,7 @@ import id.rentist.mitrarentist.R;
 import id.rentist.mitrarentist.adapter.TransaksiAdapter;
 import id.rentist.mitrarentist.modul.ItemTransaksiModul;
 import id.rentist.mitrarentist.tools.AppConfig;
+import id.rentist.mitrarentist.tools.PricingTools;
 import id.rentist.mitrarentist.tools.SessionManager;
 import id.rentist.mitrarentist.tools.Tools;
 
@@ -164,6 +165,7 @@ public class TransactionOnGoingFragment extends Fragment {
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject transObject = jsonArray.getJSONObject(i);
                     ItemTransaksiModul itemTrans = new ItemTransaksiModul();
+                    String aVoucherCode = "", aVoucherDisc = "";
 
                     Log.e(TAG, "Ongoing Data : " + String.valueOf(transObject));
 
@@ -182,8 +184,14 @@ public class TransactionOnGoingFragment extends Fragment {
                         aDriverName = userObject.getString("name");
                     }
 
-                    if (transObject.getString("with_driver").equals("true")){
-                        itemTrans.setDriverIncluded(transObject.getString("with_driver"));
+                    if (transObject.has("id_voucher")){
+                        JSONObject voucherObject = transObject.getJSONObject("id_voucher");
+                        aVoucherCode = voucherObject.getString("voucher_code");
+                        if (voucherObject.getInt("nominal") == 0){
+                            aVoucherDisc = "(Disk. " + voucherObject.getInt("percentage") + "%)";
+                        }else{
+                            aVoucherDisc = "(Disk. " + PricingTools.PriceFormat(voucherObject.getInt("nominal")) + ")";
+                        }
                     }
 
                     aIdTrans = transObject.getString("id");
@@ -245,7 +253,11 @@ public class TransactionOnGoingFragment extends Fragment {
                     itemTrans.setAddress(transObject.getString("address"));
                     itemTrans.setNote(transObject.getString("notes"));
                     itemTrans.setIdAddtional(idAdditional.toString());
+                    itemTrans.setDriverIncluded(transObject.getString("with_driver"));
                     itemTrans.setOrderDate(transObject.getString("createdAt"));
+                    itemTrans.setInsurance(transObject.getString("insurance"));
+                    itemTrans.setVoucherCode(aVoucherCode);
+                    itemTrans.setVoucherDisc(aVoucherDisc);
 
                     mTrans.add(itemTrans);
                 }

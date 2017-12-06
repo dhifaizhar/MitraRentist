@@ -25,6 +25,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,6 +39,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import id.rentist.mitrarentist.tools.AppConfig;
+import id.rentist.mitrarentist.tools.CircleTransform;
 import id.rentist.mitrarentist.tools.SessionManager;
 
 public class DriverDetailActivity extends AppCompatActivity {
@@ -48,7 +50,7 @@ public class DriverDetailActivity extends AppCompatActivity {
     private Intent detIntent;
 
     String tenant, aId, birthdate;
-    TextView name, sim, bdate, gender;
+    TextView name, sim, bdate, gender, phone;
     ImageView profilePic;
     FloatingActionButton fab;
 
@@ -81,6 +83,7 @@ public class DriverDetailActivity extends AppCompatActivity {
         sim = (TextView)findViewById(R.id.det_dr_sim);
         bdate = (TextView)findViewById(R.id.det_dr_bdate);
         gender = (TextView) findViewById(R.id.det_dr_gender);
+        phone = (TextView) findViewById(R.id.det_dr_phone_number);
 
         // set content control value
         aId = detIntent.getStringExtra("id_driver");
@@ -151,13 +154,13 @@ public class DriverDetailActivity extends AppCompatActivity {
                     JSONObject driverObject = jsonArray.getJSONObject(0);
                     Log.d(TAG, String.valueOf(driverObject));
 
-                    if(driverObject.getString("profile_pic") != null){
-                        profilePic.setImageResource(R.drawable.user_ava_man);
-                    }
+                    Picasso.with(getApplicationContext()).load(
+                            AppConfig.URL_IMAGE_PROFIL + driverObject.getString("profile_pic")).transform(new CircleTransform()).into(profilePic);
+
                     name.setText(driverObject.getString("fullname"));
                     sim.setText(driverObject.getString("no_sim"));
-                    gender.setText(driverObject.getString("gender"));
-
+                    gender.setText(driverObject.getString("gender").equals("male") ? "Pria" : "Wanita");
+                    phone.setText(driverObject.getString("phone"));
                     birthdate = driverObject.getString("birthdate");
                     // formatter
                     SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
@@ -172,7 +175,6 @@ public class DriverDetailActivity extends AppCompatActivity {
                     Log.d(TAG, "JSON Error : " + e);
                 } catch (ParseException e) {
                     e.printStackTrace();
-                    Log.d(TAG, "Parse Error : " + e);
                 }
             }else{
                 Toast.makeText(getApplicationContext(),"Gagal memuat data.", Toast.LENGTH_LONG).show();

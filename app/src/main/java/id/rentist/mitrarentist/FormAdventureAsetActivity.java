@@ -1005,9 +1005,9 @@ public class FormAdventureAsetActivity extends AppCompatActivity {
                     keys.put("latitude", aLatitude);
                     keys.put("longitude", aLongitude);
                     keys.put("price", pricingArray.toString());
-                    keys.put("asset_value", aAssetValue.getText().toString().replace(",",""));
-                    keys.put("weight", aWeight.getText().toString());
-                    keys.put("dimension", aDimension);
+//                    keys.put("asset_value", aAssetValue.getText().toString().replace(",",""));
+//                    keys.put("weight", aWeight.getText().toString());
+//                    keys.put("dimension", aDimension);
                     keys.put("member_badge", aRentReq);
                     if(!imgStringMain.isEmpty()){ keys.put("file", imgStringMain);}
                     if(!imgStringSecond.isEmpty()){keys.put("file1", imgStringSecond);}
@@ -1107,9 +1107,9 @@ public class FormAdventureAsetActivity extends AppCompatActivity {
                     keys.put("latitude", aLatitude);
                     keys.put("longitude", aLongitude);
                     keys.put("price", pricingArray.toString());
-                    keys.put("asset_value", aAssetValue.getText().toString().replace(",",""));
-                    keys.put("weight", aWeight.getText().toString());
-                    keys.put("dimension", aDimension);
+//                    keys.put("asset_value", aAssetValue.getText().toString().replace(",",""));
+//                    keys.put("weight", aWeight.getText().toString());
+//                    keys.put("dimension", aDimension);
                     keys.put("member_badge", aRentReq);
                     if(!imgStringMain.isEmpty()){ keys.put("file", imgStringMain);}
                     if(!imgStringSecond.isEmpty()){keys.put("file1", imgStringSecond);}

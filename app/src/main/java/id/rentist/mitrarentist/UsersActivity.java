@@ -89,12 +89,90 @@ public class UsersActivity extends AppCompatActivity {
 
     private void getUserDataList(String tenant) {
         pBar.setVisibility(View.VISIBLE);
+//        mSwipeRefreshLayout.setRefreshing(true);
 
         if (mUserTask != null) {
             return;
         }
 
-        new getUserListTask(tenant).execute();
+//        new getUserListTask(tenant).execute();
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        String newURL = AppConfig.URL_LIST_USER + tenant;
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, newURL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                mSwipeRefreshLayout.setRefreshing(false);
+                pBar.setVisibility(View.GONE);
+                String aName, aEmail, aRole, aThumbPhoto, aPhone;
+                Integer aId, dataLength;
+
+                if (response != null) {
+                    Log.e(TAG, "User Result : " + response);
+
+                    try {
+                        JSONArray jsonArray = new JSONArray(response);
+                        Log.e(TAG, "User : " + jsonArray);
+                        dataLength = jsonArray.length();
+                        if(dataLength > 0){
+                            mUser.clear();
+                            for (int i = 0; i < jsonArray.length(); i++) {
+
+                                JSONObject jsonobject = jsonArray.getJSONObject(i);
+                                aId = jsonobject.getInt("id");
+                                aName = jsonobject.getString("name");
+                                aEmail = jsonobject.getString("email");
+                                aRole = jsonobject.getString("role");
+                                aPhone = jsonobject.getString("phone");
+                                aThumbPhoto = jsonobject.getString("profile_pic");
+                                Log.e(TAG, "What Data : " + String.valueOf(jsonobject));
+
+                                UserModul userModul = new UserModul();
+                                userModul.setId(aId);
+                                userModul.setName(aName);
+                                userModul.setEmail(aEmail);
+                                userModul.setPhone(aPhone);
+                                userModul.setRole(aRole);
+                                userModul.setThumbnail(aThumbPhoto);
+
+                                if(!Objects.equals(aId, sm.getIntPreferences("id"))){
+                                    mUser.add(userModul);
+                                }
+                            }
+
+                            mRecyclerView = (RecyclerView) findViewById(R.id.user_recyclerView);
+                            mLayoutManager = new LinearLayoutManager(getApplicationContext());
+                            mAdapter = new UserAdapter(UsersActivity.this,mUser);
+                            mRecyclerView.setLayoutManager(mLayoutManager);
+                            mRecyclerView.setAdapter(mAdapter);
+
+                        }else{
+                            Toast.makeText(getApplicationContext(),"Anda belum memiliki Pengguna", Toast.LENGTH_LONG).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Toast.makeText(getApplicationContext(),"Pengguna Tidak Ditemukan", Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "User Fetch Error : " + error.toString());
+                Toast.makeText(getApplicationContext(), "Connection error, try again.",
+                        Toast.LENGTH_LONG).show();
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                // Posting parameters to login url
+                Map<String, String> keys = new HashMap<String, String>();
+                keys.put("token", TOKEN);
+                return keys;
+            }
+        };
+
+        requestQueue.add(stringRequest);
     }
 
     private class getUserListTask extends AsyncTask<String, String, String> {
@@ -239,14 +317,9 @@ public class UsersActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//
-//        if (mRecyclerView != null) {
-//            mUser.clear();
-//            mRecyclerView.setAdapter(null);
-//        }
-//        getUserDataList(tenant);
-//    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getUserDataList(tenant);
+    }
 }

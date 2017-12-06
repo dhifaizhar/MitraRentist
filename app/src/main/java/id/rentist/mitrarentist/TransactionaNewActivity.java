@@ -38,6 +38,7 @@ import java.util.Map;
 import id.rentist.mitrarentist.adapter.TransaksiAdapter;
 import id.rentist.mitrarentist.modul.ItemTransaksiModul;
 import id.rentist.mitrarentist.tools.AppConfig;
+import id.rentist.mitrarentist.tools.PricingTools;
 import id.rentist.mitrarentist.tools.SessionManager;
 import id.rentist.mitrarentist.tools.Tools;
 
@@ -144,6 +145,9 @@ public class TransactionaNewActivity extends AppCompatActivity {
                         JSONObject transObject = jsonArray.getJSONObject(i);
                         Log.e(TAG, "Transaction Data : " + String.valueOf(transObject));
 
+                        ItemTransaksiModul itemTrans = new ItemTransaksiModul();
+                        String aVoucherCode = "", aVoucherDisc = "";
+
                         JSONObject idTrans = transObject.getJSONObject("id_transaction");
                         JSONObject memberObject = transObject.getJSONObject("id_member");
                         JSONArray items = transObject.getJSONArray("item");
@@ -165,6 +169,16 @@ public class TransactionaNewActivity extends AppCompatActivity {
                             }
                         }
 
+                        if (transObject.has("id_voucher")){
+                            JSONObject voucherObject = transObject.getJSONObject("id_voucher");
+                            aVoucherCode = voucherObject.getString("voucher_code");
+                            if (voucherObject.getInt("nominal") == 0){
+                                aVoucherDisc = "(Disk. " + voucherObject.getInt("percentage") + "%)";
+                            }else{
+                                aVoucherDisc = "(Disk. " + PricingTools.PriceFormat(voucherObject.getInt("nominal")) + ")";
+                            }
+                        }
+
                         JSONArray additional = transObject.getJSONArray("additional");
                         ArrayList<String> idAdditional = new ArrayList<String>();
                         if(additional.length() > 0) {
@@ -183,7 +197,6 @@ public class TransactionaNewActivity extends AppCompatActivity {
                         aEndDate = transObject.getString("end_date").replace("-","/").substring(0,10);
                         aThumb = memberObject.getString("profil_pic");
 
-                        ItemTransaksiModul itemTrans = new ItemTransaksiModul();
                         itemTrans.setStatus("new");
                         itemTrans.setCodeTrans(aCodeTrans);
                         itemTrans.setIdTrans(aIdTrans);
@@ -202,6 +215,10 @@ public class TransactionaNewActivity extends AppCompatActivity {
                         itemTrans.setNote(transObject.getString("notes"));
                         itemTrans.setIdAddtional(idAdditional.toString());
                         itemTrans.setOrderDate(transObject.getString("createdAt"));
+                        itemTrans.setInsurance(transObject.getString("insurance"));
+                        itemTrans.setDriverIncluded(transObject.getString("with_driver"));
+                        itemTrans.setVoucherCode(aVoucherCode);
+                        itemTrans.setVoucherDisc(aVoucherDisc);
 
                         mTrans.add(itemTrans);
                     }

@@ -38,6 +38,7 @@ import id.rentist.mitrarentist.R;
 import id.rentist.mitrarentist.adapter.TransaksiAdapter;
 import id.rentist.mitrarentist.modul.ItemTransaksiModul;
 import id.rentist.mitrarentist.tools.AppConfig;
+import id.rentist.mitrarentist.tools.PricingTools;
 import id.rentist.mitrarentist.tools.SessionManager;
 import id.rentist.mitrarentist.tools.Tools;
 
@@ -143,6 +144,7 @@ public class TransactionCompletedFragment extends Fragment {
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject transObject = jsonArray.getJSONObject(i);
                     ItemTransaksiModul itemTrans = new ItemTransaksiModul();
+                    String aVoucherCode = "", aVoucherDisc = "";
 
                     Log.e(TAG, "Accepted Data : " + String.valueOf(transObject));
 
@@ -159,6 +161,16 @@ public class TransactionCompletedFragment extends Fragment {
                     if (transObject.has("id_tenant_user")) {
                         JSONObject userObject = transObject.getJSONObject("id_tenant_user");
                         aDriverName = userObject.getString("name");
+                    }
+
+                    if (transObject.has("id_voucher")){
+                        JSONObject voucherObject = transObject.getJSONObject("id_voucher");
+                        aVoucherCode = voucherObject.getString("voucher_code");
+                        if (voucherObject.getInt("nominal") == 0){
+                            aVoucherDisc = "(Disk. " + voucherObject.getInt("percentage") + "%)";
+                        }else{
+                            aVoucherDisc = "(Disk. " + PricingTools.PriceFormat(voucherObject.getInt("nominal")) + ")";
+                        }
                     }
 
                     itemTrans.setDriverIncluded(transObject.getString("with_driver"));
@@ -223,6 +235,9 @@ public class TransactionCompletedFragment extends Fragment {
                     itemTrans.setNote(transObject.getString("notes"));
                     itemTrans.setIdAddtional(idAdditional.toString());
                     itemTrans.setOrderDate(transObject.getString("createdAt"));
+                    itemTrans.setInsurance(transObject.getString("insurance"));
+                    itemTrans.setVoucherCode(aVoucherCode);
+                    itemTrans.setVoucherDisc(aVoucherDisc);
 
                     mTrans.add(itemTrans);
                 }

@@ -32,7 +32,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="1"
                     android:adjustViewBounds="false"
-                    android:background="@drawable/img"
+                    android:src="@drawable/img"
                     android:cropToPadding="false" />
 
                 <TextView
@@ -184,7 +184,6 @@
                         android:id="@+id/pr_bdate_info"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/colorPrimarySoft"
                         android:padding="@dimen/min_padding"
                         tools:ignore="UselessParent">
 

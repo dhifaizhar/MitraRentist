@@ -5,7 +5,7 @@ package id.rentist.mitrarentist.modul;
  */
 
 public class ItemDriverModul {
-    private String mId, mName, mTelp, mEmail, mSIM, mGender, mBDate,mThumb;
+    private String mId, mName, mTelp, mEmail, mSIM, mGender, mBDate,mThumb, mProfPic;
     private int mThumbnail;
 
     public void setName(String mName) {
@@ -48,6 +48,13 @@ public class ItemDriverModul {
     }
     public void setId(String mId) {
         this.mId = mId;
+    }
+
+    public String getProfPic() {
+        return mProfPic;
+    }
+    public void setProfPic(String mProfPic) {
+        this.mProfPic = mProfPic;
     }
 
     public String getSIM() {

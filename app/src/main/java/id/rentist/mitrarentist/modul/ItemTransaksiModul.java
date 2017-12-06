@@ -6,7 +6,7 @@ package id.rentist.mitrarentist.modul;
 
 public class ItemTransaksiModul {
     private String mTitle, mIdTrans, mAsetName, mCodeTrans, mDriverName, mPrice, mAsetThumb, mIdAddtional, mOrderDate,
-            mStatus;
+            mStatus, mVoucherCode, mVoucherDisc, mInsurance;
     private String mDriverIncluded;
     private String mIdMember, mMember, mThumbnail;
     private String mDate, mStartDate, mEndDate, mPickTime, mNote, mLat, mLong, mAddress;
@@ -163,5 +163,26 @@ public class ItemTransaksiModul {
     }
     public String getOrderDate() {
         return mOrderDate;
+    }
+
+    public void setVoucherCode(String mVoucherCode) {
+        this.mVoucherCode = mVoucherCode;
+    }
+    public String getVoucherCode() {
+        return mVoucherCode;
+    }
+
+    public void setVoucherDisc(String mVoucherDisc) {
+        this.mVoucherDisc = mVoucherDisc;
+    }
+    public String getVoucherDisc() {
+        return mVoucherDisc;
+    }
+
+    public void setInsurance(String mInsurance) {
+        this.mInsurance = mInsurance;
+    }
+    public String getInsurance() {
+        return mInsurance;
     }
 }

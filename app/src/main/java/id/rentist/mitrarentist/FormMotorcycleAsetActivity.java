@@ -40,6 +40,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.squareup.picasso.Picasso;
 
@@ -545,9 +546,9 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
 
         //spinner
         Tools.setSpinnerValue(iFormAsset.getStringExtra("subcat"), subcategory, R.array.motorcycle_subcategory_entries, getApplicationContext());
-        Tools.setSpinnerValue(iFormAsset.getStringExtra("merk"), subcategory, R.array.motor_brand_entries, getApplicationContext());
-        Tools.setSpinnerValue(iFormAsset.getStringExtra("color"), subcategory, R.array.color_entries, getApplicationContext());
-        Tools.setSpinnerValue(iFormAsset.getStringExtra("fuel"), subcategory, R.array.fuel_entries, getApplicationContext());
+        Tools.setSpinnerValue(iFormAsset.getStringExtra("merk"), aMerk, R.array.motor_brand_entries, getApplicationContext());
+        Tools.setSpinnerValue(iFormAsset.getStringExtra("color"), aColor, R.array.color_entries, getApplicationContext());
+        Tools.setSpinnerValue(iFormAsset.getStringExtra("fuel"), aFuel, R.array.fuel_entries, getApplicationContext());
         Tools.setSpinnerValue(iFormAsset.getStringExtra("year"), aYear, R.array.year_entries, getApplicationContext());
         Tools.setSpinnerValue(iFormAsset.getStringExtra("engine_cap")+"cc", aEngCap, R.array.engine_cap_motor_entries, getApplicationContext());
 
@@ -803,6 +804,17 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
             aImgSTNK.setImageBitmap(photo);
         }
 
+        if (requestCode == PICK_LOCATION_REQUEST){
+            if(resultCode == RESULT_OK){
+                Place location = PlacePicker.getPlace(data,this);
+                String address = String.valueOf(location.getAddress());
+                aAddress.setText(address);
+
+                String LatLong = String.valueOf(location.getLatLng());
+                aLatitude = Tools.getLatitude(LatLong);
+                aLongitude = Tools.getLongitude(LatLong);
+            }
+        }
 
         if (requestCode == PICK_DATE_REQUEST) {
             if(resultCode == Activity.RESULT_OK){

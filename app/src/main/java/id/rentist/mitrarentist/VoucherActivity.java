@@ -124,8 +124,8 @@ public class VoucherActivity extends AppCompatActivity {
                                 vName = jsonobject.getString("voucher_name");
                                 vCode = jsonobject.getString("voucher_code");
                                 vDesc = jsonobject.getString("description");
-                                startDate = Tools.dateFormat(jsonobject.getString("start_date").substring(0,10));
-                                endDate = Tools.dateFormat(jsonobject.getString("end_date").substring(0,10));
+                                startDate = jsonobject.getString("start_date").substring(0,10);
+                                endDate = jsonobject.getString("end_date").substring(0,10);
                                 vType = jsonobject.getString("type");
                                 vNominal = jsonobject.getString("nominal");
                                 vPercen = jsonobject.getString("percentage");

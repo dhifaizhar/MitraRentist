@@ -55,7 +55,7 @@ public class FormDriverActivity extends AppCompatActivity {
     CountryCodePicker countryCode;
 
     int genderId;
-    String tenant, aId, birthdate,encodedImage, isiimage = "", ext, imgString;
+    String tenant, aId, birthdate,encodedImage, isiimage = "", ext, imgString, aGender;
     TextView name, sim, bdate, gender, phone;
     ImageView profilePic;
     Button btnUploadFoto;
@@ -148,6 +148,11 @@ public class FormDriverActivity extends AppCompatActivity {
         showProgress(true);
         genderId = aGenderGroup.getCheckedRadioButtonId();
         aGenderButton = (RadioButton) findViewById(genderId);
+        if(aGenderButton.getText().toString().equals("Pria")){
+            aGender = "male";
+        }else{
+            aGender = "female";
+        }
         if(formDriver.getStringExtra("action").equals("add")){
             new getformDriverAddTask(tenant, id).execute();
         }else if(formDriver.getStringExtra("action").equals("update")){
@@ -189,11 +194,11 @@ public class FormDriverActivity extends AppCompatActivity {
                     Map<String, String> keys = new HashMap<String, String>();
                     keys.put("id_tenant", mTenant);
                     keys.put("fullname", name.getText().toString());
-                    keys.put("gender", aGenderButton.getText().toString());
+                    keys.put("gender", aGender);
                     keys.put("phone", countryCode.getSelectedCountryCode() + phone.getText().toString());
                     keys.put("no_sim", sim.getText().toString());
                     keys.put("birthdate", bdate.getText().toString());
-                    if(!isiimage.equals("null")) keys.put("file", isiimage);
+                    if(!imgString.equals("null")) keys.put("file", imgString);
 
                     Log.e(TAG, "Key Body : " + keys.toString());
                     return keys;
@@ -278,6 +283,8 @@ public class FormDriverActivity extends AppCompatActivity {
                     keys.put("gender", aGenderButton.getText().toString());
                     keys.put("no_sim", sim.getText().toString());
                     keys.put("birthdate", bdate.getText().toString());
+                    if(!imgString.equals("null")) keys.put("file", imgString);
+
                     Log.e(TAG, "Key Body : " + keys.toString());
                     return keys;
                 }

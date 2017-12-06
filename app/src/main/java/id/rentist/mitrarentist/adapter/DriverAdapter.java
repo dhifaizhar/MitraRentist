@@ -10,11 +10,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 import id.rentist.mitrarentist.DriverDetailActivity;
 import id.rentist.mitrarentist.R;
 import id.rentist.mitrarentist.modul.ItemDriverModul;
+import id.rentist.mitrarentist.tools.AppConfig;
+import id.rentist.mitrarentist.tools.CircleTransform;
 
 /**
  * Created by mdhif on 16/07/2017.
@@ -68,7 +72,9 @@ public class DriverAdapter extends RecyclerView.Adapter<DriverAdapter.ViewHolder
 
 //        simpan value dalam object
         viewHolder.nama.setText(driver.getName());
-        viewHolder.imgThumbnail.setImageResource(driver.getThumbnail());
+        String imageUrl = AppConfig.URL_IMAGE_PROFIL + (driver.getProfPic().equals("null") ? "default.png" : driver.getProfPic());
+        Picasso.with(context).load(imageUrl).transform(new CircleTransform()).into(viewHolder.imgThumbnail);
+
         viewHolder.cardDetAset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

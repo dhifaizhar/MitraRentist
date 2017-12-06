@@ -67,7 +67,8 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/detTrans_thumb"
                     android:orientation="horizontal"
-                    android:padding="@dimen/xmin_padding">
+                    android:padding="@dimen/xmin_padding"
+                    android:visibility="gone">
 
                     <TextView
                         android:layout_width="match_parent"
@@ -80,13 +81,14 @@
                         android:id="@+id/detTrans_voucher_value"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="(Disk. 10%) "
+                        android:text="(Disk. 10%)"
                         android:textStyle="bold"
+                        android:layout_marginEnd="@dimen/xmin_padding"
                         android:layout_gravity="center_vertical"
                         android:textSize="@dimen/almost_tiny_text" />
 
                     <TextView
-                        android:id="@+id/detTrans_voucher_name"
+                        android:id="@+id/detTrans_voucher_code"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="MURAH10"
@@ -99,7 +101,6 @@
                         android:textStyle="bold" />
 
                 </LinearLayout>
-
 
             </RelativeLayout>
 
@@ -339,9 +340,10 @@
                                     android:id="@+id/note"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_alignParentStart="true"
                                     android:text="Catatan Pemesan"
-                                    android:textSize="@dimen/under_small_text" />
+                                    android:textSize="@dimen/under_small_text"
+                                    android:layout_alignParentTop="true"
+                                    android:layout_alignParentStart="true" />
 
                                 <TextView
                                     android:id="@+id/detTrans_note"
@@ -362,8 +364,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/xmin_padding"
                                 android:orientation="vertical"
-                                android:visibility="gone"
-                                >
+                                android:visibility="visible">
 
                                 <TextView
                                     android:layout_width="match_parent"
@@ -383,45 +384,90 @@
 
                                     <TextView
                                         android:id="@+id/driver"
-                                        android:layout_width="match_parent"
+                                        android:layout_width="@dimen/text_label_med"
                                         android:layout_height="wrap_content"
                                         android:layout_centerVertical="true"
                                         android:padding="@dimen/xmin_padding"
-                                        android:text="Pengemudi : -"
-                                        android:visibility="gone"
-                                         />
+                                        android:textSize="@dimen/under_small_text"
+                                        android:text="Pengemudi : "
+                                        android:visibility="gone" />
+
+                                    <ImageView
+                                        android:id="@+id/detTrans_with_driver"
+                                        android:layout_width="20dp"
+                                        android:layout_height="20dp"
+                                        android:layout_gravity="center_vertical"
+                                        android:layout_marginStart="@dimen/xmin_padding"
+                                        android:src="@drawable/verified"
+                                        android:layout_toEndOf="@+id/driver"
+                                        android:layout_centerVertical="true"
+                                        android:visibility="gone"/>
 
                                     <Button
                                         android:id="@+id/btn_assign_driver"
                                         android:layout_width="wrap_content"
                                         android:layout_height="40dp"
-                                        android:layout_alignEnd="@+id/driver"
                                         android:background="@android:color/holo_green_light"
                                         android:clickable="true"
                                         android:text="Pilih Driver"
                                         android:textColor="@color/colorWhite"
                                         android:textSize="12sp"
-                                        android:visibility="gone"
-
-                                        />
+                                        android:layout_alignParentEnd="true"
+                                        android:visibility="gone" />
 
                                 </RelativeLayout>
 
-                                <TextView
+                                <LinearLayout
+                                    android:id="@+id/detTrans_con_insurance"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
                                     android:padding="@dimen/xmin_padding"
-                                    android:text="Fitur Tambahan :"
-                                    android:layout_marginStart="@dimen/xmin_padding"/>
+                                    android:visibility="gone">
+
+                                    <TextView
+                                        android:layout_width="@dimen/text_label_med"
+                                        android:layout_height="wrap_content"
+                                        android:padding="@dimen/small_space"
+                                        android:text="Asuransi :"
+                                        android:textSize="@dimen/under_small_text" />
+
+                                    <ImageView
+                                        android:layout_width="20dp"
+                                        android:layout_height="20dp"
+                                        android:layout_gravity="center_vertical"
+                                        android:src="@drawable/verified"
+                                        android:layout_marginStart="@dimen/xmin_padding"
+                                        />
+
+                                </LinearLayout>
 
                                 <LinearLayout
-                                    android:id="@+id/con_add_feature"
+                                    android:id="@+id/detTrans_con_additional_feature"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/med_padding"
                                     android:orientation="vertical"
-                                    android:padding="@dimen/xmin_padding"
-                                    android:paddingBottom="@dimen/min_padding">
+                                    android:visibility="gone">
+
+                                    <TextView
+                                        android:id="@+id/textView35"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="@dimen/xmin_padding"
+                                        android:padding="6dp"
+                                        android:text="Fitur Tambahan :"
+                                        android:textSize="@dimen/under_small_text"/>
+
+                                    <LinearLayout
+                                        android:id="@+id/con_add_feature"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="@dimen/med_padding"
+                                        android:orientation="vertical"
+                                        android:padding="@dimen/xmin_padding"
+                                        android:paddingBottom="@dimen/min_padding">
+
+                                    </LinearLayout>
 
                                 </LinearLayout>
 

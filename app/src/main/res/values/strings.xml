@@ -203,6 +203,11 @@
         <item>Flying Fish</item>
         <item>Diving</item>
         <item>Package</item>
+        <item>Para Scooter</item>
+        <item>Water Scooter</item>
+        <item>Fishing</item>
+        <item>Horse Ride</item>
+        <item>Camping</item>
         <item>Others</item>
     </string-array>
 

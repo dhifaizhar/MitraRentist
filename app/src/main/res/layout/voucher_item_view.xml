@@ -122,8 +122,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:text="07 Juli 2017"
-                            android:textColor="@android:color/black"
-                            android:textSize="@dimen/small_text" />
+                            android:textSize="@dimen/under_small_text" />
 
                         <TextView
                             android:id="@+id/vou_sampai"
@@ -131,8 +130,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:text=" s/d "
-                            android:textColor="@android:color/darker_gray"
-                            android:textSize="@dimen/small_text" />
+                            android:textSize="@dimen/under_small_text" />
 
                         <TextView
                             android:id="@+id/vou_endDate"
@@ -140,8 +138,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:text="21 Juli 2017"
-                            android:textColor="@android:color/black"
-                            android:textSize="@dimen/small_text" />
+                            android:textSize="@dimen/under_small_text" />
                     </LinearLayout>
                 </RelativeLayout>
 
@@ -163,10 +160,11 @@
                         android:id="@+id/vou_type"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toEndOf="@+id/tipetext"
                         android:text="Mobile, Web"
-                        android:textColor="@color/colorBlack87"
-                        android:textSize="@dimen/small_text" />
+                        android:textSize="@dimen/under_small_text"
+                        android:layout_alignBaseline="@+id/tipetext"
+                        android:layout_alignBottom="@+id/tipetext"
+                        android:layout_toEndOf="@+id/tipetext" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -189,8 +187,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toEndOf="@+id/sumtext"
                         android:text="124"
-                        android:textColor="@color/colorBlack87"
-                        android:textSize="@dimen/small_text" />
+                        android:textSize="@dimen/under_small_text" />
                 </RelativeLayout>
 
                 <LinearLayout

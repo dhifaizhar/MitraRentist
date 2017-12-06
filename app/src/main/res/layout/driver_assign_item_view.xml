@@ -35,7 +35,6 @@
                     android:layout_marginEnd="@dimen/min_padding"
                     android:layout_marginStart="@dimen/xmin_padding"
                     android:layout_marginTop="@dimen/xmin_padding"
-                    android:background="@drawable/user_ava_man"
                     android:contentDescription="item Driver"
                     android:foregroundGravity="center_horizontal|center_vertical" />
 

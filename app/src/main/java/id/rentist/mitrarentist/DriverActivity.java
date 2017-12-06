@@ -78,7 +78,6 @@ public class DriverActivity extends AppCompatActivity {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mDriver.clear();
                 getDriverDataList(tenant);
             }
         });
@@ -86,7 +85,75 @@ public class DriverActivity extends AppCompatActivity {
 
     private void getDriverDataList(String tenant) {
         pBar.setVisibility(View.VISIBLE);
-        new getDriverListTask(tenant).execute();
+//        new getDriverListTask(tenant).execute();
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        String newURL = AppConfig.URL_LIST_DRIVER + tenant;
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, newURL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                mSwipeRefreshLayout.setRefreshing(false);
+                pBar.setVisibility(View.GONE);
+                String aId, aName, aSIM, aThumbPhoto, aPhone;
+                Integer dataLength;
+
+                if (response != null) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        JSONArray jsonArray = jsonObject.getJSONArray("driver");
+                        Log.e(TAG, "User : " + jsonArray);
+                        dataLength = jsonArray.length();
+                        if(dataLength > 0){
+                            mDriver.clear();
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject jsonobject = jsonArray.getJSONObject(i);
+                                aId = jsonobject.getString("id");
+                                aName = jsonobject.getString("fullname");
+                                aSIM = jsonobject.getString("no_sim");
+                                aThumbPhoto = jsonobject.getString("profile_pic");
+                                Log.e(TAG, "What Data : " + String.valueOf(jsonobject));
+
+                                ItemDriverModul driverModul = new ItemDriverModul();
+                                driverModul.setId(aId);
+                                driverModul.setName(aName);
+                                driverModul.setSIM(aSIM);
+                                driverModul.setProfPic(aThumbPhoto);
+                                mDriver.add(driverModul);
+                            }
+
+                            mRecyclerView = (RecyclerView) findViewById(R.id.dr_recyclerView);
+                            mLayoutManager = new LinearLayoutManager(getApplicationContext());
+                            mAdapter = new DriverAdapter(getApplicationContext(),mDriver);
+
+                            mRecyclerView.setLayoutManager(mLayoutManager);
+                            mRecyclerView.setAdapter(mAdapter);
+
+                        }else{
+                            Toast.makeText(getApplicationContext(),"Anda belum memiliki Driver", Toast.LENGTH_LONG).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Toast.makeText(getApplicationContext(),"Driver Tidak Ditemukan", Toast.LENGTH_LONG).show();
+                    }
+                }            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "Driver Fetch Error : " + error.toString());
+                Toast.makeText(getApplicationContext(), "Connection error, try again.",
+                        Toast.LENGTH_LONG).show();
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                // Posting parameters to login url
+                Map<String, String> keys = new HashMap<String, String>();
+                keys.put("token", TOKEN);
+                return keys;
+            }
+        };
+
+        requestQueue.add(stringRequest);
     }
 
     @Override
@@ -190,9 +257,7 @@ public class DriverActivity extends AppCompatActivity {
                             driverModul.setId(aId);
                             driverModul.setName(aName);
                             driverModul.setSIM(aSIM);
-                            if(aThumbPhoto != null){
-                                driverModul.setThumbnail(R.drawable.user_ava_man);
-                            }
+                            driverModul.setProfPic(aThumbPhoto);
                             mDriver.add(driverModul);
                         }
 
@@ -231,6 +296,13 @@ public class DriverActivity extends AppCompatActivity {
             Intent ii = new Intent(DriverActivity.this,DriverActivity.class);
             startActivity(ii);
         }
+
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        getDriverDataList(tenant);
 
     }
 }

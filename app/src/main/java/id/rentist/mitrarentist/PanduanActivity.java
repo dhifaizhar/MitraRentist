@@ -22,7 +22,7 @@ public class PanduanActivity extends AppCompatActivity {
 
         webView = (WebView) findViewById(R.id.webview);
         webView.getSettings().setJavaScriptEnabled(true);
-        webView.loadUrl("https://rentist.id/tutorial");
+        webView.loadUrl("https://rentist.id/front/tutorial");
 
     }
 

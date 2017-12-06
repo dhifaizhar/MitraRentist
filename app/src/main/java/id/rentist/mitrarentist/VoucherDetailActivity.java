@@ -127,7 +127,6 @@ public class VoucherDetailActivity extends AppCompatActivity {
         queue.add(strReq);
     }
 
-
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();

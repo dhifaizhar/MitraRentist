@@ -39,6 +39,7 @@
     <dimen name="msg_thumb_height">64dp</dimen>
     <dimen name="text_margin">16dp</dimen>
     <dimen name="text_label">75dp</dimen>
+    <dimen name="text_label_med">100dp</dimen>
 
     <dimen name="slight_margin">4dp</dimen>
     <dimen name="recycler_item_size">192dp</dimen>

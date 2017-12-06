@@ -250,7 +250,7 @@
                             android:layout_height="wrap_content"
                             android:background="@color/colorNearWhite"
                             android:ems="10"
-                            android:hint="Nacal Architect"
+                            android:hint="Naval Architect"
                             android:imeOptions="actionNext"
                             android:inputType="textPersonName|textCapWords"
                             android:padding="@dimen/min_padding"

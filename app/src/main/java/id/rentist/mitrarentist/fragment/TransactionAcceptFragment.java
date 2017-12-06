@@ -37,6 +37,7 @@ import id.rentist.mitrarentist.R;
 import id.rentist.mitrarentist.adapter.TransaksiAdapter;
 import id.rentist.mitrarentist.modul.ItemTransaksiModul;
 import id.rentist.mitrarentist.tools.AppConfig;
+import id.rentist.mitrarentist.tools.PricingTools;
 import id.rentist.mitrarentist.tools.SessionManager;
 import id.rentist.mitrarentist.tools.Tools;
 
@@ -141,6 +142,7 @@ public class TransactionAcceptFragment extends Fragment {
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject transObject = jsonArray.getJSONObject(i);
                     ItemTransaksiModul itemTrans = new ItemTransaksiModul();
+                    String aVoucherCode = "", aVoucherDisc = "";
 
                     Log.e(TAG, "Accepted Data : " + String.valueOf(transObject));
 
@@ -149,7 +151,6 @@ public class TransactionAcceptFragment extends Fragment {
                     JSONObject memberObject = transObject.getJSONObject("id_member");
                     JSONObject item;
 
-                    itemTrans.setDriverIncluded(transObject.getString("with_driver"));
                     if (transObject.has("id_driver")) {
                         JSONObject driverObject = transObject.getJSONObject("id_driver");
                         aDriverName = driverObject.getString("fullname");
@@ -171,13 +172,18 @@ public class TransactionAcceptFragment extends Fragment {
                             if (item.getString("id_asset_category").equals("3")){
                                 aAsetName = item.getString("type") + " " + item.getString("subtype");
                             }else {
-//                                if (item.getInt("id_asset_category") == 1 ){
-//                                    String driverStat = item.getString("driver_included");
-//                                    aDriverIncluded = item.getInt("id_asset_category") == 1 && driverStat != "false";
-//                                    itemTrans.setDriverIncluded(aDriverIncluded);
-//                                }
                                 aAsetName = item.getString("brand") + " " + item.getString("type");
                             }
+                        }
+                    }
+
+                    if (transObject.has("id_voucher")){
+                        JSONObject voucherObject = transObject.getJSONObject("id_voucher");
+                        aVoucherCode = voucherObject.getString("voucher_code");
+                        if (voucherObject.getInt("nominal") == 0){
+                            aVoucherDisc = "(Disk. " + voucherObject.getInt("percentage") + "%)";
+                        }else{
+                            aVoucherDisc = "(Disk. " + PricingTools.PriceFormat(voucherObject.getInt("nominal")) + ")";
                         }
                     }
 
@@ -218,6 +224,10 @@ public class TransactionAcceptFragment extends Fragment {
                     itemTrans.setNote(transObject.getString("notes"));
                     itemTrans.setIdAddtional(idAdditional.toString());
                     itemTrans.setOrderDate(transObject.getString("createdAt"));
+                    itemTrans.setDriverIncluded(transObject.getString("with_driver"));
+                    itemTrans.setInsurance(transObject.getString("insurance"));
+                    itemTrans.setVoucherCode(aVoucherCode);
+                    itemTrans.setVoucherDisc(aVoucherDisc);
 
                     mTrans.add(itemTrans);
                 }

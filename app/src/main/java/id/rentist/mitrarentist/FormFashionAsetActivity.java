@@ -60,13 +60,14 @@ import id.rentist.mitrarentist.tools.SessionManager;
 import id.rentist.mitrarentist.tools.Tools;
 
 public class FormFashionAsetActivity extends AppCompatActivity {
-    private String URL = AppConfig.URL_FASHION;
-    private int subCategotyArray = R.array.fashion_subcategory_entries;
     private Activity currentActivity = FormFashionAsetActivity.this;
+    private int subCategotyArray = R.array.fashion_subcategory_entries;
+    private int layout = R.layout.activity_form_fashion_aset;
+    private int cat_num = 11;
+    private String URL = AppConfig.URL_FASHION;
 
     private static final String TAG = "FormAssetActivity";
     private static final String TOKEN = "secretissecret";
-
     private AsyncTask mAddAssetTask = null;
     private ProgressDialog pDialog;
     private SessionManager sm;
@@ -114,9 +115,9 @@ public class FormFashionAsetActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_form_medic_aset);
+        setContentView(layout);
         String[] asset_category = getApplicationContext().getResources().getStringArray(R.array.asset_category_entries);
-        setTitle("Aset " + asset_category[11]);
+        setTitle("Aset " + asset_category[cat_num]);
 
         iFormAsset = getIntent();
         sm = new SessionManager(getApplicationContext());

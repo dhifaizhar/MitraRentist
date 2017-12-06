@@ -45,8 +45,8 @@ public class VoucherAdapter extends RecyclerView.Adapter<VoucherAdapter.ViewHold
         }else{
             viewHolder.discount.setText(vou.getPercen() + " %");
         }
-        viewHolder.startDate.setText(Tools.dateFormat(vou.getStartDate()));
-        viewHolder.endDate.setText(Tools.dateFormat(vou.getEndDate()));
+        viewHolder.startDate.setText(Tools.dateFineFormat(vou.getStartDate()));
+        viewHolder.endDate.setText(Tools.dateFineFormat(vou.getEndDate()));
         if(vou.getType().equals("both")){
             viewHolder.type.setText("mobile, web");
         }else{

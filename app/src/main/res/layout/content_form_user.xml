@@ -162,7 +162,7 @@
                         android:layout_toEndOf="@+id/country_code"
                         android:background="@color/colorNearWhite"
                         android:ems="10"
-                        android:hint="Nomor Telepon"
+                        android:hint="8xx xxxx xxxx"
                         android:imeOptions="actionNext"
                         android:inputType="phone"
                         android:padding="@dimen/min_padding" />

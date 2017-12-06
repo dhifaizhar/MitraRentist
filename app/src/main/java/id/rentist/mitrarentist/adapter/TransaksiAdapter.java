@@ -113,7 +113,12 @@ public class TransaksiAdapter extends RecyclerView.Adapter<TransaksiAdapter.View
                 iDetTrans.putExtra("note", trx.getNote());
                 iDetTrans.putExtra("id_additional", trx.getIdAddtional());
                 iDetTrans.putExtra("orderDate", orderDate);
-                if (trx.getStatus().matches("accepted|ongoing|completed")){
+                iDetTrans.putExtra("insurance", trx.getInsurance());
+                if (!trx.getVoucherCode().equals("")){
+                    iDetTrans.putExtra("voucher_code", trx.getVoucherCode());
+                    iDetTrans.putExtra("voucher_disc", trx.getVoucherDisc());
+                }
+                if (trx.getStatus().matches("new|accepted|ongoing|completed")){
                     iDetTrans.putExtra("with_driver", trx.getDriverIncluded());
                     iDetTrans.putExtra("driver_name", trx.getDriverName());
                 }

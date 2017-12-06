@@ -63,7 +63,7 @@ public class FormOfficeAsetActivity extends AppCompatActivity {
     private String URL = AppConfig.URL_OFFICE;
     private int subCategotyArray = R.array.office_subcategory_entries;
     private Activity currentActivity = FormOfficeAsetActivity.this;
-    private static final String TITLE = "Aset Perlatan Kantor";
+    private static final String TITLE = "Aset Peralatan Kantor";
     private static final String TAG = "FormAssetActivity";
     private static final String TOKEN = "secretissecret";
 
