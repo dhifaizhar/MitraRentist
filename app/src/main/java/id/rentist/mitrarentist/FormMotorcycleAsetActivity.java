@@ -66,7 +66,7 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
     Intent iFormAsset;
     String URL = AppConfig.URL_MOTOR;
 
-    TextView aName, aType, aPlat, aPlatStart, aPlatEnd, aMinDayRent, aAddress;//, aYear;
+    TextView aName, aType, aPlat, aPlatStart, aPlatEnd, aMinDayRent, aAddress, aNoRangka, aNoMesin;//, aYear;
     Integer idAsset;
     String aLatitude, aLongitude, aRentPackage, tenant, category,
             aDeliveryMethod, aRentReq;
@@ -155,6 +155,8 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
         aBasic = (RadioButton) findViewById(R.id.r_basic);
         aVerified = (RadioButton) findViewById(R.id.r_verified);
         aSmartCon = (RadioButton) findViewById(R.id.r_smart_con);
+        aNoRangka = (TextView) findViewById(R.id.as_no_rangka);
+        aNoMesin = (TextView) findViewById(R.id.as_no_mesin);
 
         conSecondImage = (RelativeLayout) findViewById(R.id.con_second_image);
         conThirdImage = (RelativeLayout) findViewById(R.id.con_third_image);
@@ -527,6 +529,8 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
         aAddress.setText(iFormAsset.getStringExtra("address"));
         aLatitude = iFormAsset.getStringExtra("latitude");
         aLongitude = iFormAsset.getStringExtra("longitude");
+        aNoRangka.setText(iFormAsset.getStringExtra("no_rangka"));
+        aNoMesin.setText(iFormAsset.getStringExtra("no_mesin"));
 
         String plat = iFormAsset.getStringExtra("plat");
         String a,b,c;
@@ -1088,6 +1092,8 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
                     if(!imgStringThird.isEmpty()){keys.put("file2", imgStringThird);}
                     if(!imgStringFourth.isEmpty()){keys.put("file3", imgStringFourth);}
                     if(!imgStringFifth.isEmpty()){keys.put("file4", imgStringFifth);}
+                    keys.put("no_rangka", aNoRangka.getText().toString());
+                    keys.put("no_mesin", aNoMesin.getText().toString());
                     Log.e(TAG, "Post Data : " + keys.toString());
                     return keys;
                 }
@@ -1167,7 +1173,7 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
                 protected Map<String, String> getParams() {
                     // Posting parameters to url
                     Map<String, String> keys = new HashMap<String, String>();
-                    keys.put("id_asset", mIdAset);
+                    keys.put("id_asset", String.valueOf(idAsset));
                     keys.put("name", aName.getText().toString());
                     keys.put("slug", aName.getText().toString().replace(" ","-"));
                     keys.put("brand", aMerk.getSelectedItem().toString());
@@ -1188,12 +1194,13 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
                     keys.put("longitude", aLongitude);
                     keys.put("member_badge", aRentReq);
                     keys.put("price", pricingArray.toString());
-                    if(!imgStringSTNK.isEmpty()) { keys.put("stnk", imgStringSTNK);}
                     if(!imgStringMain.isEmpty()){ keys.put("file", imgStringMain);}
                     if(!imgStringSecond.isEmpty()){keys.put("file1", imgStringSecond);}
                     if(!imgStringThird.isEmpty()){keys.put("file2", imgStringThird);}
                     if(!imgStringFourth.isEmpty()){keys.put("file3", imgStringFourth);}
                     if(!imgStringFifth.isEmpty()){keys.put("file4", imgStringFifth);}
+                    keys.put("no_rangka", aNoRangka.getText().toString());
+                    keys.put("no_mesin", aNoMesin.getText().toString());
                     Log.e(TAG, "Post Data : " + keys.toString());
                     return keys;
                 }

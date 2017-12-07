@@ -87,7 +87,8 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
             aInsurance, aMinRentDay, aDeliveryMethod, category, category_url, aDesc, aWeight,
             aAssetValue, aMainImage, aSecondImage, aThirdImage, aFourthImage, aFifthImage,
             //Car&Motor
-            aPlat, aYear, aNoStnk , aColor, aTransmission, aEngineCap, aFuel, aSeat, aAirBag, aAirCond, aDriver,
+            aPlat, aYear, aNoStnk , aColor, aTransmission, aEngineCap, aFuel, aSeat, aAirBag, aAirCond,
+                    aDriver, aEstPrice,
             //Yacht
             aModel, aLength, aBeam, aGrossTon, aDraft, aCruisSpeed, aTopSpeed, aBuilder, aNaval, aIntDesign, aExtDesign,
             aGuest, aCabin, aCrew;
@@ -95,11 +96,11 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
     TextView aset_name, mark, status, subcat, insurance, min_rent_day, delivery_method, desc, address, member_badge,
             plat, year,  color, transmission, engine_cap, fuel, seats, air_bag, air_cond, driver,
             model, length, beam, gross_ton, draft, cruise_speed, top_speed, builder, naval, int_design, ext_design,
-            guest, cabin, crew, asset_value, weight, dimension;
+            guest, cabin, crew, asset_value, weight, dimension, no_rangka, no_mesin, est_value;
 
     String aPrice;// = new ArrayList<>();
 
-    LinearLayout cCarMotor, cCarOnly, cYachtInfo, cYachtFeature, cSmallAssetFeature, rDesc;
+    LinearLayout cCarMotor, cCarOnly, cYachtInfo, cYachtFeature, cSmallAssetFeature, rDesc, rEstValue;
     ImageView imgThumbnail, no_stnk;
     CarouselView aAssetImages;
     Switch swStatus;
@@ -217,6 +218,7 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
         cYachtInfo = (LinearLayout) findViewById(R.id.con_yacht_info);
         cYachtFeature = (LinearLayout) findViewById(R.id.con_yacht_feature);
         cSmallAssetFeature = (LinearLayout) findViewById(R.id.con_feature_small_aset);
+        rEstValue = (LinearLayout) findViewById(R.id.row_est_value);
 
         //Car & Motor
         plat = (TextView) findViewById(R.id.as_plat_det);
@@ -226,14 +228,17 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
         transmission = (TextView) findViewById(R.id.as_transmission);
         engine_cap = (TextView) findViewById(R.id.as_engine_capacity);
         fuel = (TextView) findViewById(R.id.as_fuel);
+        no_rangka = (TextView) findViewById(R.id.as_no_rangka);
+        no_mesin = (TextView) findViewById(R.id.as_no_mesin);
 
         //Car Only
         seats = (TextView) findViewById(R.id.as_seat);
         air_bag = (TextView) findViewById(R.id.as_air_bag);
         air_cond = (TextView) findViewById(R.id.as_air_conditioner);
         driver = (TextView) findViewById(R.id.as_driver);
+        est_value = (TextView) findViewById(R.id.as_est_value);
 
-        //Tacht
+        //Yacht
         model = (TextView) findViewById(R.id.as_yacht_model);
         length = (TextView) findViewById(R.id.as_yacht_length);
         beam = (TextView) findViewById(R.id.as_yacht_beam);
@@ -251,7 +256,6 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
 
         // set content control value
         aId = detIntent.getIntExtra("id_asset", 0);
-//        getAssetDataList();
         getAssetDetail();
 
         aAssetImages.setPageCount(imagesArray.length);
@@ -438,14 +442,17 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
                         switch (aCat) {
                             case "1":
                                 cCarOnly.setVisibility(View.VISIBLE);
+                                rEstValue.setVisibility(View.VISIBLE);
                                 aAirBag = jsonobject.getString("air_bag");
                                 aAirCond = jsonobject.getString("air_conditioner");
                                 aDriver = jsonobject.getString("driver_included");
                                 aSeat = jsonobject.getString("seat");
+                                aEstPrice = jsonobject.getString("estimated_price");
 
                                 seats.setText(aSeat);
                                 air_bag.setText(aAirBag.equals("true") ? "Tersedia" : "Tidak Tersedia");
                                 air_cond.setText(aAirCond.equals("true") ? "Tersedia" : "Tidak Tersedia");
+                                est_value.setText("Kurang dari " + aEstPrice);
 
                                 if (aDriver.equals("both")) {
                                     driver.setText("Tersedia, Tidak Tersedia");
@@ -476,6 +483,9 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
                                 transmission.setText(aTransmission);
                                 engine_cap.setText(aEngineCap + "cc");
                                 fuel.setText(aFuel);
+                                no_rangka.setText(jsonobject.getString("no_rangka"));
+                                no_mesin.setText(jsonobject.getString("no_mesin"));
+
                                 break;
                             case "3":
                                 cYachtInfo.setVisibility(View.VISIBLE);
@@ -838,6 +848,10 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
                     iAsetEdit.putExtra("third_image", aThirdImage);
                     iAsetEdit.putExtra("fourth_image", aFourthImage);
                     iAsetEdit.putExtra("fifth_image", aFifthImage);
+                    iAsetEdit.putExtra("no_rangka", no_rangka.getText().toString());
+                    iAsetEdit.putExtra("no_mesin", no_mesin.getText().toString());
+                    iAsetEdit.putExtra("est_price", aEstPrice);
+
                     startActivity(iAsetEdit);
                     break;
                 case "2":
@@ -871,6 +885,8 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
                     iAsetEdit.putExtra("third_image", aThirdImage);
                     iAsetEdit.putExtra("fourth_image", aFourthImage);
                     iAsetEdit.putExtra("fifth_image", aFifthImage);
+                    iAsetEdit.putExtra("no_rangka", no_rangka.getText().toString());
+                    iAsetEdit.putExtra("no_mesin", no_mesin.getText().toString());
                     startActivity(iAsetEdit);
                     break;
                 case "3":

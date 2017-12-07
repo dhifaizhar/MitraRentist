@@ -186,6 +186,7 @@ public class AsetListActivity extends AppCompatActivity {
 
                             JSONObject jsonobject = jsonArray.getJSONObject(i);
                             aId = jsonobject.getInt("id");
+                            aName = jsonobject.getString("name");
                             aType = jsonobject.getString("type");
                             aStatus = jsonobject.getString("status");
                             aSubCat = jsonobject.getString("subcategory");
@@ -208,14 +209,16 @@ public class AsetListActivity extends AppCompatActivity {
                                 itemModul.setYear(aYear);
                             }
 
-                            if (idCate != 3){
-                                aName = jsonobject.getString("brand");
-                                itemModul.setMark(aName + " " + aType);
-                                itemModul.setMerk(aName);
-                            } else {
-                                aSubType = jsonobject.getString("sub_type");
-                                itemModul.setMark(aType + " " + aSubType);
-                            }
+                            itemModul.setMark(aName);
+
+//                            if (idCate != 3){
+////                                aName = jsonobject.getString("brand");
+//                                itemModul.setMark(aName);
+////                                itemModul.setMerk(aName);
+//                            } else {
+//                                aSubType = jsonobject.getString("sub_type");
+//                                itemModul.setMark(aName);
+//                            }
                             itemModul.setStatus(aStatus);
                             Log.e(TAG, "What Data : " + String.valueOf(itemModul));
                             mAset.add(itemModul);
@@ -287,6 +290,7 @@ public class AsetListActivity extends AppCompatActivity {
 
                                         JSONObject jsonobject = jsonArray.getJSONObject(i);
                                         aId = jsonobject.getInt("id");
+                                        aName = jsonobject.getString("name");
                                         aType = jsonobject.getString("type");
                                         aStatus = jsonobject.getString("status");
                                         aSubCat = jsonobject.getString("subcategory");
@@ -295,6 +299,7 @@ public class AsetListActivity extends AppCompatActivity {
 
                                         ItemAsetModul itemModul = new ItemAsetModul();
                                         itemModul.setAssetId(aId);
+                                        itemModul.setMark(aName);
                                         itemModul.setThumbnail(aThumbnail);
                                         itemModul.setType(aType);
                                         itemModul.setSubCat(aSubCat);
@@ -309,14 +314,14 @@ public class AsetListActivity extends AppCompatActivity {
                                             itemModul.setYear(aYear);
                                         }
 
-                                        if (idCate != 3){
-                                            aName = jsonobject.getString("brand");
-                                            itemModul.setMark(aName + " " + aType);
-                                            itemModul.setMerk(aName);
-                                        } else {
-                                            aSubType = jsonobject.getString("sub_type");
-                                            itemModul.setMark(aType + " " + aSubType);
-                                        }
+//                                        if (idCate != 3){
+//                                            aName = jsonobject.getString("brand");
+//                                            itemModul.setMark(aName + " " + aType);
+//                                            itemModul.setMerk(aName);
+//                                        } else {
+//                                            aSubType = jsonobject.getString("sub_type");
+//                                            itemModul.setMark(aType + " " + aSubType);
+//                                        }
                                         itemModul.setStatus(aStatus);
                                         Log.e(TAG, "What Data : " + String.valueOf(itemModul));
                                         mAset.add(itemModul);

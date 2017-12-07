@@ -334,6 +334,39 @@
                         android:padding="@dimen/xmin_padding">
 
                         <TextView
+                            android:id="@+id/textView30"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Kapasitas Mesin"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="12sp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@color/colorNearWhite"
+                            android:orientation="vertical"
+                            android:padding="@dimen/xmin_padding">
+
+                            <Spinner
+                                android:id="@+id/as_engcap"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:entries="@array/engine_cap_car_entries"
+                                android:padding="@dimen/xmin_padding"
+                                android:spinnerMode="dialog" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="@dimen/xmin_padding"
+                        android:orientation="vertical"
+                        android:padding="@dimen/xmin_padding">
+
+                        <TextView
                             android:id="@+id/textView29"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -386,27 +419,120 @@
                         android:padding="@dimen/xmin_padding">
 
                         <TextView
-                            android:id="@+id/textView30"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Kapasitas Mesin"
+                            android:text="Nomor Rangka"
                             android:textColor="@color/colorBlack"
                             android:textSize="12sp" />
+
+                        <EditText
+                            android:id="@+id/as_no_rangka"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorNearWhite"
+                            android:ems="10"
+                            android:hint="Nomor Rangka"
+                            android:imeOptions="actionNext"
+                            android:inputType="textCapCharacters"
+                            android:padding="@dimen/min_padding"
+                            android:maxLength="17"
+                            android:text="" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="@dimen/xmin_padding"
+                        android:orientation="vertical"
+                        android:padding="@dimen/xmin_padding">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Nomor Mesin"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="12sp" />
+
+                        <EditText
+                            android:id="@+id/as_no_mesin"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorNearWhite"
+                            android:ems="10"
+                            android:hint="Nomor Mesin"
+                            android:imeOptions="actionNext"
+                            android:inputType="textCapCharacters"
+                            android:padding="@dimen/min_padding"
+                            android:maxLength="12"
+                            android:text="" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:padding="@dimen/xmin_padding">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Perkiraan Harga Aset"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="12sp" />
+
+                        <!--<RadioGroup-->
+                            <!--android:id="@+id/estimate_price_group"-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="match_parent"-->
+                            <!--android:background="@color/colorNearWhite"-->
+                            <!--android:checkedButton="@+id/r_manual"-->
+                            <!--android:orientation="vertical"-->
+                            <!--android:padding="@dimen/xmin_padding"-->
+                            <!--android:visibility="gone">-->
+
+                            <!--<RadioButton-->
+                                <!--android:id="@+id/r_500jt"-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:layout_marginEnd="10dp"-->
+                                <!--android:layout_weight="1"-->
+                                <!--android:buttonTint="@color/colorPrimary"-->
+                                <!--android:checked="true"-->
+                                <!--android:contextClickable="false"-->
+                                <!--android:text=" Kurang dari 500 Juta" />-->
+
+                            <!--<RadioButton-->
+                                <!--android:id="@+id/r_1m"-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:layout_weight="1"-->
+                                <!--android:buttonTint="@color/colorPrimary"-->
+                                <!--android:text=" Kurang dari 1 Miliar" />-->
+
+                        <!--</RadioGroup>-->
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:background="@color/colorNearWhite"
-                            android:orientation="vertical"
+                            android:orientation="horizontal"
                             android:padding="@dimen/xmin_padding">
 
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Kurang dari "
+                                android:textColor="@color/colorBlack"
+                                android:layout_gravity="center_vertical"
+                                android:textSize="12sp" />
+
                             <Spinner
-                                android:id="@+id/as_engcap"
+                                android:id="@+id/as_est_price"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:entries="@array/engine_cap_car_entries"
+                                android:entries="@array/estimated_price_entries"
                                 android:padding="@dimen/xmin_padding"
-                                android:spinnerMode="dialog" />
+                                android:spinnerMode="dropdown" />
 
                         </LinearLayout>
                     </LinearLayout>
@@ -440,6 +566,7 @@
                     </LinearLayout>
 
                 </LinearLayout>
+
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
@@ -635,6 +762,44 @@
                                 android:checked="true"
                                 android:padding="@dimen/xmin_padding"
                                 android:text="Air Bag" />
+
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="@dimen/xmin_padding"
+                        android:orientation="vertical"
+                        android:padding="@dimen/xmin_padding">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Asuransi"
+                                android:textColor="@color/colorBlack"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="*Aset memiliki asuransi?"
+                                android:layout_marginStart="@dimen/xmin_padding"
+                                android:textSize="@dimen/almost_tiny_text" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorNearWhite"
+                            android:orientation="horizontal">
 
                             <CheckBox
                                 android:id="@+id/as_ck_assurance"

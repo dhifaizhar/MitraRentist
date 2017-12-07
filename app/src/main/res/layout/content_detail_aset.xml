@@ -260,7 +260,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Nomor STNK "
+                                android:text="Foto STNK "
                                 android:textColor="@color/colorBlack54"
                                 android:textSize="@dimen/calendar_text_small" />
 
@@ -380,6 +380,88 @@
                                 android:textColor="@color/colorBlack"
                                 android:textSize="@dimen/calendar_text_small"
                                 tools:text="Pertamax" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/row_no_rangka"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/small_space"
+                            android:background="@color/colorPrimarySoft"
+                            android:orientation="horizontal"
+                            android:padding="@dimen/xmin_padding">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Nomor Rangka"
+                                android:textColor="@color/colorBlack54"
+                                android:textSize="@dimen/calendar_text_small" />
+
+                            <TextView
+                                android:id="@+id/as_no_rangka"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textAlignment="textEnd"
+                                android:textColor="@color/colorBlack"
+                                android:textSize="@dimen/calendar_text_small"
+                                tools:text="ABCDE12345678910" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/row_no_mesin"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/small_space"
+                            android:background="@color/colorPrimarySoft"
+                            android:orientation="horizontal"
+                            android:padding="@dimen/xmin_padding">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Nomor Mesin"
+                                android:textColor="@color/colorBlack54"
+                                android:textSize="@dimen/calendar_text_small" />
+
+                            <TextView
+                                android:id="@+id/as_no_mesin"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textAlignment="textEnd"
+                                android:textColor="@color/colorBlack"
+                                android:textSize="@dimen/calendar_text_small"
+                                tools:text="ABCDE1234567" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/row_est_value"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/small_space"
+                            android:background="@color/colorPrimarySoft"
+                            android:orientation="horizontal"
+                            android:padding="@dimen/xmin_padding"
+                            android:visibility="gone">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Perkiraan Harga Aset"
+                                android:textColor="@color/colorBlack54"
+                                android:textSize="@dimen/calendar_text_small" />
+
+                            <TextView
+                                android:id="@+id/as_est_value"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textAlignment="textEnd"
+                                android:textColor="@color/colorBlack"
+                                android:textSize="@dimen/calendar_text_small"
+                                tools:text="Kurang dari 500 Juta" />
 
                         </LinearLayout>
 

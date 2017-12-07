@@ -335,6 +335,40 @@
                         android:padding="@dimen/xmin_padding">
 
                         <TextView
+                            android:id="@+id/textView30"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Kapasitas Mesin"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="12sp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:background="@color/colorNearWhite"
+                            android:padding="@dimen/xmin_padding">
+
+                            <Spinner
+                                android:id="@+id/as_engcap"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:entries="@array/engine_cap_motor_entries"
+                                android:padding="@dimen/xmin_padding"
+                                android:spinnerMode="dialog" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="@dimen/xmin_padding"
+                        android:orientation="vertical"
+                        android:padding="@dimen/xmin_padding">
+
+                        <TextView
                             android:id="@+id/textView29"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -389,29 +423,52 @@
                         android:padding="@dimen/xmin_padding">
 
                         <TextView
-                            android:id="@+id/textView30"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Kapasitas Mesin"
+                            android:text="Nomor Rangka"
                             android:textColor="@color/colorBlack"
                             android:textSize="12sp" />
 
-                        <LinearLayout
+                        <EditText
+                            android:id="@+id/as_no_rangka"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical"
+                            android:layout_height="wrap_content"
                             android:background="@color/colorNearWhite"
-                            android:padding="@dimen/xmin_padding">
+                            android:ems="10"
+                            android:hint="Nomor Rangka"
+                            android:imeOptions="actionNext"
+                            android:inputType="textCapCharacters"
+                            android:padding="@dimen/min_padding"
+                            android:maxLength="17"
+                            android:text="" />
+                    </LinearLayout>
 
-                            <Spinner
-                                android:id="@+id/as_engcap"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:entries="@array/engine_cap_motor_entries"
-                                android:padding="@dimen/xmin_padding"
-                                android:spinnerMode="dialog" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="@dimen/xmin_padding"
+                        android:orientation="vertical"
+                        android:padding="@dimen/xmin_padding">
 
-                        </LinearLayout>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Nomor Mesin"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="12sp" />
+
+                        <EditText
+                            android:id="@+id/as_no_mesin"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorNearWhite"
+                            android:ems="10"
+                            android:hint="Nomor Mesin"
+                            android:imeOptions="actionNext"
+                            android:inputType="textCapCharacters"
+                            android:padding="@dimen/min_padding"
+                            android:maxLength="12"
+                            android:text="" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -565,12 +622,26 @@
                         android:orientation="vertical"
                         android:padding="@dimen/xmin_padding">
 
-                        <TextView
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Fitur"
-                            android:textColor="@color/colorBlack"
-                            android:textSize="12sp" />
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Asuransi"
+                                android:textColor="@color/colorBlack"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="*Aset memiliki asuransi?"
+                                android:layout_marginStart="@dimen/xmin_padding"
+                                android:textSize="@dimen/almost_tiny_text" />
+
+                        </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"

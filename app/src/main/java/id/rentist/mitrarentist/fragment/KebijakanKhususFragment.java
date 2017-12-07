@@ -127,11 +127,9 @@ public class KebijakanKhususFragment extends Fragment {
     private class getKebijakanListTask extends AsyncTask<String, String, String> {
         private final String mTenant;
         private String errorMsg, responseKebijakan;
-
         private getKebijakanListTask(String tenant) {
             mTenant = tenant;
         }
-
         @Override
         protected String doInBackground(String... params) {
             RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
@@ -158,17 +156,14 @@ public class KebijakanKhususFragment extends Fragment {
                     return keys;
                 }
             };
-
             try {
                 requestQueue.add(stringRequest);
                 Thread.sleep(3000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
             return responseKebijakan;
         }
-
         @Override
         protected void onPostExecute(String kebijakan) {
             mKebijakanTask = null;

@@ -65,14 +65,14 @@ public class FormCarAsetActivity extends AppCompatActivity {
     private SessionManager sm;
     Intent iFormAsset;
 
-    TextView aName,  aType, aPlat, aPlatStart, aPlatEnd, aDesc, aMinRentDay, aAddress;
+    TextView aName,  aType, aPlat, aPlatStart, aPlatEnd, aDesc, aMinRentDay, aAddress, aNoRangka, aNoMesin;
     Integer idAsset;
     String  aRentPackage, tenant, category, encodedImage,  aDriverStatus, aDeliveryMethod,
             aRentReq, aLatitude, aLongitude;
     CheckBox aAc, aAb, aDriver, aNoDriver, aAssurace, aDelivery, aPickup;
     RadioGroup aTransmisionGroup, aRentReqGroup;
     RadioButton aTransmisionButton, aBasic, aVerified, aSmartCon;
-    Spinner subcategory, aMerk, aColor, aFuel, aEngCap, aSeat, aYear;
+    Spinner subcategory, aMerk, aColor, aFuel, aEngCap, aSeat, aYear, aEstPrice;
 
     private int PICK_LOCATION_REQUEST = 10;
     private static final String TAG = "FormAssetActivity";
@@ -156,6 +156,9 @@ public class FormCarAsetActivity extends AppCompatActivity {
         aBasic = (RadioButton) findViewById(R.id.r_basic);
         aVerified = (RadioButton) findViewById(R.id.r_verified);
         aSmartCon = (RadioButton) findViewById(R.id.r_smart_con);
+        aNoRangka = (TextView) findViewById(R.id.as_no_rangka);
+        aNoMesin = (TextView) findViewById(R.id.as_no_mesin);
+        aEstPrice = (Spinner) findViewById(R.id.as_est_price);
 
         conSecondImage = (RelativeLayout) findViewById(R.id.con_second_image);
         conThirdImage = (RelativeLayout) findViewById(R.id.con_third_image);
@@ -523,6 +526,9 @@ public class FormCarAsetActivity extends AppCompatActivity {
         aType.setText(iFormAsset.getStringExtra("type"));
         aMinRentDay.setText(iFormAsset.getStringExtra("min_rent_day"));
         aAddress.setText(iFormAsset.getStringExtra("address"));
+        aNoRangka.setText(iFormAsset.getStringExtra("no_rangka"));
+        aNoMesin.setText(iFormAsset.getStringExtra("no_mesin"));
+
         aLatitude = iFormAsset.getStringExtra("latitude");
         aLongitude = iFormAsset.getStringExtra("longitude");
 
@@ -550,6 +556,7 @@ public class FormCarAsetActivity extends AppCompatActivity {
         Tools.setSpinnerValue(iFormAsset.getStringExtra("seat"), aSeat, R.array.seats_entries, getApplicationContext());
         Tools.setSpinnerValue(iFormAsset.getStringExtra("year"), aYear, R.array.year_entries, getApplicationContext());
         Tools.setSpinnerValue(iFormAsset.getStringExtra("engine_cap")+"cc", aEngCap, R.array.engine_cap_car_entries, getApplicationContext());
+        if(!iFormAsset.getStringExtra("est_price").equals("")) Tools.setSpinnerValue(iFormAsset.getStringExtra("est_price"), aEstPrice, R.array.estimated_price_entries, getApplicationContext());
 
         //Image
         if(!iFormAsset.getStringExtra("main_image").isEmpty()) {
@@ -693,6 +700,10 @@ public class FormCarAsetActivity extends AppCompatActivity {
             else if (aDelivery.isChecked()){ aDeliveryMethod = "deliver";}
             else if (aPickup.isChecked()){ aDeliveryMethod = "pickup";}
             else { aDeliveryMethod = "nodefine";}
+
+//            int estValueId = aEstValueGroup.getCheckedRadioButtonId();
+//            if (estValueId == a500jt.getId()) aEstPrice = getResources().getString(R.string.value_500jt);
+//            else aEstPrice = getResources().getString(R.string.value_1m);
 
             if (aBasicPrice.getText().toString().isEmpty() || aDeliveryMethod.equals("nodefine") || aDriverStatus.equals("nodefine") ||
                     aType.toString().isEmpty() || aPlat.toString().isEmpty() || aPlatStart.toString().isEmpty() || aPlatEnd.toString().isEmpty() ){
@@ -1077,6 +1088,10 @@ public class FormCarAsetActivity extends AppCompatActivity {
                     if(!imgStringFourth.isEmpty()){keys.put("file3", imgStringFourth);}
                     if(!imgStringFifth.isEmpty()){keys.put("file4", imgStringFifth);}
 
+                    keys.put("no_rangka", aNoRangka.getText().toString());
+                    keys.put("no_mesin", aNoMesin.getText().toString());
+                    keys.put("estimated_price", aEstPrice.getSelectedItem().toString());
+
                     Log.e(TAG, "String img 2: " + imgStringSecond);
                     return keys;
                 }
@@ -1190,9 +1205,11 @@ public class FormCarAsetActivity extends AppCompatActivity {
                     if(!imgStringFourth.isEmpty()){keys.put("file3", imgStringFourth);}
                     if(!imgStringFifth.isEmpty()){keys.put("file4", imgStringFifth);}
 
-                    Log.e(TAG, "Asset Keys: " + String.valueOf(keys));
-                    Log.e(TAG, "String img 2: " + imgStringSecond);
+                    keys.put("no_rangka", aNoRangka.getText().toString());
+                    keys.put("no_mesin", aNoMesin.getText().toString());
+                    keys.put("estimated_price", aEstPrice.getSelectedItem().toString());
 
+                    Log.e(TAG, "Asset Keys: " + String.valueOf(keys));
                     return keys;
                 }
 

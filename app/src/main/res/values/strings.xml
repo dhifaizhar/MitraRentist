@@ -419,6 +419,12 @@
         <item>Hapus</item>
     </string-array>
 
+    <string-array name="estimated_price_entries">
+        <item>500 Juta</item>
+        <item>1 Miliar</item>
+    </string-array>
+
+
     <string-array name="multi_select_list_preference_default_value" />
 
     <string name="pref_title_system_sync_settings">System sync settings</string>
@@ -469,7 +475,13 @@
     <string name="member_badge_basic">Basic</string>
     <string name="member_badge_verified">Verified</string>
     <string name="member_badge_smart_con">Smart Consumer</string>
-    <string name="basic_desc">* Informasi dasar penyewa (nama, email dan nomor telepon).</string>
+    <string name="basic_desc">"\u2022" Informasi dasar penyewa (nama, email dan nomor telepon).</string>
     <string name="verified_desc">"\u2022" Basic. \n"\u2022" 2 dokumen penyewa/1 dokumen dan 1 akun sosial media.</string>
     <string name="smart_cust_desc">"\u2022" Verified. \n"\u2022" 5 Transaksi sukses.</string>
+
+    <string name="value_500jt">500 Juta</string>
+    <string name="value_1m">1 Miliar</string>
+    <string name="view_500jt">Kurang dari 500 Juta</string>
+    <string name="view_1m">Kurang dari 1 Miliar</string>
+
 </resources>
