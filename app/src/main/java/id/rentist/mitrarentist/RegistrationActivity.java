@@ -120,11 +120,15 @@ public class  RegistrationActivity extends AppCompatActivity {
                                     try{
                                         String status = registEmail.getString("status");
                                         if(status.equals("ok")){
-                                            emailCheckIc.setVisibility(View.VISIBLE);
+                                            if(formValidation.isEmailValid(rEmail.getText().toString())) {
+                                                emailCheckIc.setVisibility(View.VISIBLE);
+                                            } else{
+                                                emailCheckIc.setVisibility(View.GONE);
+                                                rEmail.setError(getString(R.string.error_invalid_email));
+                                            }
                                         }else{
+                                            emailCheckIc.setVisibility(View.GONE);
                                             rEmail.setError("Email sudah terdaftar");
-                                            focusView = rEmail;
-                                            focusView.requestFocus();
                                         }
                                     }catch (JSONException e){
                                         e.printStackTrace();
@@ -163,15 +167,84 @@ public class  RegistrationActivity extends AppCompatActivity {
                         }
                     };
 
-                    try {
+//                    try {
                         requestQueue.add(stringRequest);
-                        Thread.sleep(3000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+//                        Thread.sleep(3000);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
                 }
                 return true;
             }
+        });
+
+        rEmail.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    String URL = AppConfig.URL_VERIFY_EMAIL;
+                    RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+                    StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String responseEmail) {
+
+                            if(responseEmail != null){
+                                Log.e(TAG, "Email Verify : OK");
+                                try {
+                                    JSONObject registEmail = new JSONObject(responseEmail);
+                                    try{
+                                        String status = registEmail.getString("status");
+                                        if(status.equals("ok")){
+                                            if(formValidation.isEmailValid(rEmail.getText().toString())) {
+                                                emailCheckIc.setVisibility(View.VISIBLE);
+                                            } else{
+                                                emailCheckIc.setVisibility(View.GONE);
+                                                rEmail.setError(getString(R.string.error_invalid_email));
+                                            }
+                                        }else{
+                                            emailCheckIc.setVisibility(View.GONE);
+                                            rEmail.setError("Email sudah terdaftar");
+                                        }
+                                    }catch (JSONException e){
+                                        e.printStackTrace();
+                                        Log.d(TAG, "JSON Error : " + e);
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                    Log.d(TAG, "JSON Error : " + e);
+                                }
+                            }else{
+                                Toast.makeText(getApplicationContext(),"Email sudah ada.", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e(TAG, "Check Email Fetch Error : " + error.toString());
+                            Toast.makeText(getApplicationContext(), "Connection error, try again.",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    }){
+                        @Override
+                        protected Map<String, String> getParams() {
+                            // Posting parameters to url
+                            Map<String, String> keys = new HashMap<String, String>();
+                            keys.put("email", rEmail.getText().toString());
+                            Log.e(TAG, "Key Body : " + keys.toString());
+                            return keys;
+                        }
+
+                        @Override
+                        public Map<String, String> getHeaders() throws AuthFailureError {
+                            Map<String, String> keys = new HashMap<String, String>();
+                            keys.put("token", TOKEN);
+                            return keys;
+                        }
+                    };
+
+                    requestQueue.add(stringRequest);
+
+            }}
         });
 
         rPhone.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -191,11 +264,16 @@ public class  RegistrationActivity extends AppCompatActivity {
                                     try{
                                         String status = registPhone.getString("status");
                                         if(status.equals("ok")){
-                                            phoneCheckIc.setVisibility(View.VISIBLE);
+                                            if(formValidation.isPhoneValid(countryCode.getSelectedCountryCode() + rPhone.getText().toString())) {
+                                                phoneCheckIc.setVisibility(View.VISIBLE);
+                                            }else{
+                                                phoneCheckIc.setVisibility(View.GONE);
+                                                rPhone.setError(getString(R.string.error_invalid_phone));
+                                            }
                                         }else{
+                                            phoneCheckIc.setVisibility(View.GONE);
                                             rPhone.setError("Nomor Telepon sudah terdaftar");
-                                            focusView = rPhone;
-                                            focusView.requestFocus();
+
                                         }
                                     }catch (JSONException e){
                                         e.printStackTrace();
@@ -242,6 +320,76 @@ public class  RegistrationActivity extends AppCompatActivity {
                     }
                 }
                 return true;
+            }
+        });
+
+        rPhone.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    String URL = AppConfig.URL_VERIFY_PHONE;
+                    RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+                    StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String responsePhone) {
+
+                            if(responsePhone != null){
+                                Log.e(TAG, "Phone Verify : OK");
+                                try {
+                                    JSONObject registPhone = new JSONObject(responsePhone);
+                                    try{
+                                        String status = registPhone.getString("status");
+                                        if(status.equals("ok")){
+                                            if(formValidation.isPhoneValid(countryCode.getSelectedCountryCode() + rPhone.getText().toString())) {
+                                                phoneCheckIc.setVisibility(View.VISIBLE);
+                                            }else{
+                                                phoneCheckIc.setVisibility(View.GONE);
+                                                rPhone.setError(getString(R.string.error_invalid_phone));
+                                            }
+                                        }else{
+                                            phoneCheckIc.setVisibility(View.GONE);
+                                            rPhone.setError("Nomor Telepon sudah terdaftar");
+                                        }
+                                    }catch (JSONException e){
+                                        e.printStackTrace();
+                                        Log.d(TAG, "JSON Error : " + e);
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                    Log.d(TAG, "JSON Error : " + e);
+                                }
+                            }else{
+                                Toast.makeText(getApplicationContext(),"Nomor Telepon sudah ada.", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e(TAG, "Check Phone Fetch Error : " + error.toString());
+                            Toast.makeText(getApplicationContext(), "Connection error, try again.",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    }){
+                        @Override
+                        protected Map<String, String> getParams() {
+                            // Posting parameters to url
+                            Map<String, String> keys = new HashMap<String, String>();
+                            keys.put("phone", rEmail.getText().toString());
+                            Log.e(TAG, "Key Body : " + keys.toString());
+                            return keys;
+                        }
+
+                        @Override
+                        public Map<String, String> getHeaders() throws AuthFailureError {
+                            Map<String, String> keys = new HashMap<String, String>();
+                            keys.put("token", TOKEN);
+                            return keys;
+                        }
+                    };
+
+                    requestQueue.add(stringRequest);
+
+                }
             }
         });
 

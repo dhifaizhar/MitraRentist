@@ -286,7 +286,11 @@
         <activity
             android:name=".VoucherDetailActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ImageZoomActivity"></activity>
+        <activity android:name=".ImageZoomActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            />
     </application>
 
 </manifest>

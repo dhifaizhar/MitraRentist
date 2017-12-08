@@ -36,6 +36,7 @@ public class MemberProfileActivity extends AppCompatActivity {
     TextView mName, mLevel, mPhone, mEmail, mBirthday, mAddress;
     ImageView mProfilePic, mKTP, mKK, mRekListrik;
     SimpleRatingBar mCleanliness, mNeatness, mHonesty, mComunication;
+    String URLKTP,URLKK, URLElectrical, thumbURL;
 
     private static final String TAG = "MemberProfileActivity";
     private static final String TOKEN = "secretissecret";
@@ -69,6 +70,46 @@ public class MemberProfileActivity extends AppCompatActivity {
         mComunication = (SimpleRatingBar) findViewById(R.id.mp_comunication_rating);
 
         getDataMember();
+
+        mKTP.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent iZoom = new Intent(getApplicationContext(), ImageZoomActivity.class);
+                iZoom.putExtra("image", URLKTP);
+                iZoom.putExtra("title", "KTP");
+                startActivity(iZoom);
+            }
+        });
+
+        mKK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent iZoom = new Intent(getApplicationContext(), ImageZoomActivity.class);
+                iZoom.putExtra("image", URLKK);
+                iZoom.putExtra("title", "KK");
+                startActivity(iZoom);
+            }
+        });
+
+        mRekListrik.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent iZoom = new Intent(getApplicationContext(), ImageZoomActivity.class);
+                iZoom.putExtra("image", URLElectrical);
+                iZoom.putExtra("title", "Rekening Listrik");
+                startActivity(iZoom);
+            }
+        });
+
+        mProfilePic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent iZoom = new Intent(getApplicationContext(), ImageZoomActivity.class);
+                iZoom.putExtra("image", thumbURL);
+                iZoom.putExtra("title", "Foto Profil");
+                startActivity(iZoom);
+            }
+        });
     }
 
     @Override
@@ -126,19 +167,23 @@ public class MemberProfileActivity extends AppCompatActivity {
                 mLevel.setBackgroundColor(getResources().getColor(R.color.colorGreen));
             }
 
-            String thumbURL = dataObject.getString("profil_pic").equals("null") ? AppConfig.URL_IMAGE_PROFIL + "img_default.png" :
+            thumbURL = dataObject.getString("profil_pic").equals("null") ? AppConfig.URL_IMAGE_PROFIL + "img_default.png" :
                     AppConfig.URL_IMAGE_PROFIL + dataObject.getString("profil_pic");
 
             Picasso.with(getApplicationContext()).load(thumbURL).transform(new CircleTransform()).into(mProfilePic);
 
+            URLKTP = AppConfig.URL_IMAGE_DOCUMENTS + dataObject.getString("ktp");
+            URLKK = AppConfig.URL_IMAGE_DOCUMENTS + dataObject.getString("family_card");
+            URLElectrical = AppConfig.URL_IMAGE_DOCUMENTS + dataObject.getString("electricity_bills");
+
             if(dataObject.getString("ktp").equals("null")) mKTP.setVisibility(View.GONE);
-            else Picasso.with(getApplicationContext()).load(AppConfig.URL_IMAGE_DOCUMENTS + dataObject.getString("ktp")).into(mKTP);
+            else Picasso.with(getApplicationContext()).load(URLKTP).into(mKTP);
 
             if(dataObject.getString("family_card").equals("null")) mKK.setVisibility(View.GONE);
-            else Picasso.with(getApplicationContext()).load(AppConfig.URL_IMAGE_DOCUMENTS + dataObject.getString("family_card")).into(mKK);
+            else Picasso.with(getApplicationContext()).load(URLKK).into(mKK);
 
             if(dataObject.getString("electricity_bills").equals("null")) mRekListrik.setVisibility(View.GONE);
-            else Picasso.with(getApplicationContext()).load(AppConfig.URL_IMAGE_DOCUMENTS + dataObject.getString("electricity_bills")).into(mRekListrik);
+            else Picasso.with(getApplicationContext()).load(URLElectrical).into(mRekListrik);
 
             Float clean = Float.parseFloat(ratingObject.getString("cleanliness"))/ratingObject.getInt("counts");
             Float neat = Float.parseFloat(ratingObject.getString("neatness"))/ratingObject.getInt("counts");
