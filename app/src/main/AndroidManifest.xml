@@ -283,8 +283,10 @@
         <activity
             android:name=".VoucherCatalogActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".VoucherDetailActivity"
+        <activity
+            android:name=".VoucherDetailActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ImageZoomActivity"></activity>
     </application>
 
 </manifest>

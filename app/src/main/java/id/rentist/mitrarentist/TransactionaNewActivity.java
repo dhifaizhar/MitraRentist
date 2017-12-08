@@ -161,11 +161,13 @@ public class TransactionaNewActivity extends AppCompatActivity {
                             if (items.length() == 1){
                                 item = items.getJSONObject(0);
                                 aAsetThumb = item.getString("main_image");
-                                if (item.getString("id_asset_category").equals("3")){
-                                    aAsetName = item.getString("type") + " " + item.getString("sub_type");
-                                }else {
-                                    aAsetName = item.getString("brand") + " " + item.getString("type");
-                                }
+                                aAsetName = item.getString("name");
+
+//                                if (item.getString("id_asset_category").equals("3")){
+//                                    aAsetName = item.getString("type") + " " + item.getString("sub_type");
+//                                }else {
+//                                    aAsetName = item.getString("brand") + " " + item.getString("type");
+//                                }
                             }
                         }
 
@@ -238,6 +240,7 @@ public class TransactionaNewActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
                 errorMsg = "Transaksi Tidak Ditemukan";
+                Log.e(TAG, "JSON Error : " + e);
                 noTransImage.setVisibility(View.VISIBLE);
                 noTransText.setText(errorMsg);
             }

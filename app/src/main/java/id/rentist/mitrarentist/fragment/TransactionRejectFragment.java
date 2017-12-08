@@ -154,11 +154,13 @@ public class TransactionRejectFragment extends Fragment {
                         if (items.length() == 1) {
                             item = items.getJSONObject(0);
                             aAsetThumb = item.getString("main_image");
-                            if (item.getString("id_asset_category").equals("3")){
-                                aAsetName = item.getString("type") + " " + item.getString("subtype");
-                            }else {
-                                aAsetName = item.getString("brand") + " " + item.getString("type");
-                            }
+                            aAsetName = item.getString("name");
+//
+//                            if (item.getString("id_asset_category").equals("3")){
+//                                aAsetName = item.getString("type") + " " + item.getString("subtype");
+//                            }else {
+//                                aAsetName = item.getString("brand") + " " + item.getString("type");
+//                            }
                         } else {
 
                         }

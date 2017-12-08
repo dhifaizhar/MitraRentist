@@ -149,9 +149,9 @@ public class DashboardActivity extends AppCompatActivity
         conAset = (LinearLayout) findViewById(R.id.con_aset);
 
         // set content control value
-        Log.e(TAG, "Tenant Data : " + sm.getPreferences("nama_pemilik") +  sm.getPreferences("nama_rental") + sm.getPreferences("nama") +
-                sm.getPreferences("alamat") + sm.getPreferences("telepon") + sm.getPreferences("email") + sm.getIntPreferences("city") +
-                sm.getPreferences("bank_name") + sm.getPreferences("bank_account") + sm.getPreferences("branch") + sm.getPreferences("account_name"));
+        Log.e(TAG, "Tenant Data : " + sm.getPreferences("nama_pemilik") + "|" +  sm.getPreferences("nama_rental") + "|" +  sm.getPreferences("nama") + "|" +
+                sm.getPreferences("alamat") + "|" +  sm.getPreferences("telepon") + "|" +  sm.getPreferences("email") + "|" +  sm.getIntPreferences("city") + "|" +
+                sm.getPreferences("bank_name") + "|" +  sm.getPreferences("bank_account") + "|" +  sm.getPreferences("branch") + "|" +  sm.getPreferences("account_name"));
 
         if(!sm.getPreferences("nama_pemilik").isEmpty() &&
                 !sm.getPreferences("nama_rental").isEmpty() &&
@@ -165,7 +165,6 @@ public class DashboardActivity extends AppCompatActivity
                 !sm.getPreferences("branch").isEmpty() &&
                 !sm.getPreferences("account_name").isEmpty()){
             accountDataNotif.setVisibility(View.GONE);
-
             if (sm.getPreferences("verified").equals("false")) {
                 accountDataVerifNotif.setVisibility(View.VISIBLE);
             }
@@ -409,8 +408,21 @@ public class DashboardActivity extends AppCompatActivity
 
                 sm.setPreferences("verified", dataObject.getString("verified"));
                 if (sm.getPreferences("verified").equals("false")){
-                    accountDataVerifNotif.setVisibility(View.VISIBLE);
-                    verifIco.setVisibility(View.GONE);
+                    if(!sm.getPreferences("nama_pemilik").isEmpty() &&
+                            !sm.getPreferences("nama_rental").isEmpty() &&
+                            !sm.getPreferences("nama").isEmpty() &&
+                            !sm.getPreferences("alamat").isEmpty() &&
+                            !sm.getPreferences("telepon").isEmpty() &&
+                            !sm.getPreferences("email").isEmpty() &&
+                            !String.valueOf(sm.getIntPreferences("city")).isEmpty() &&
+                            !sm.getPreferences("bank_name").isEmpty() &&
+                            !sm.getPreferences("bank_account").isEmpty() &&
+                            !sm.getPreferences("branch").isEmpty() &&
+                            !sm.getPreferences("account_name").isEmpty()){
+
+                            accountDataVerifNotif.setVisibility(View.VISIBLE);
+                            verifIco.setVisibility(View.GONE);
+                        }
                 } else  {
                     accountDataVerifNotif.setVisibility(View.GONE);
                     verifIco.setVisibility(View.VISIBLE);

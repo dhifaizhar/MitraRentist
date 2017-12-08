@@ -113,16 +113,20 @@ public class ComplainActivity extends AppCompatActivity {
                                 if(jsonArray.length() > 0){
                                     for (int i = 0; i < jsonArray.length(); i++) {
                                         JSONObject jsonobject = jsonArray.getJSONObject(i);
-                                        JSONObject member = jsonobject.getJSONObject("id_member");
-
                                         ComplainModul itemModul = new ComplainModul();
-                                        itemModul.setNamaPelanggan(member.getString("firstname") +
-                                            " " + member.getString("lastname"));
-                                        itemModul.setPerihal(jsonobject.getString("title"));
-                                        itemModul.setDetilKeluhan(jsonobject.getString("content"));
-                                        itemModul.setTglKirim(Tools.dateHourFormat(jsonobject.getString("createdAt").substring(0,19)));
 
-                                        mMsg.add(itemModul);
+                                        if (jsonobject.has("id_member")){
+                                            JSONObject member = jsonobject.getJSONObject("id_member");
+
+                                            itemModul.setNamaPelanggan(member.getString("firstname") +
+                                                    " " + member.getString("lastname"));
+                                            itemModul.setPerihal(jsonobject.getString("title"));
+                                            itemModul.setDetilKeluhan(jsonobject.getString("content"));
+                                            itemModul.setTglKirim(Tools.dateHourFormat(jsonobject.getString("createdAt").substring(0,19)));
+
+                                            mMsg.add(itemModul);
+                                        }
+
                                     }
 
                                     RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.msg_recyclerView);
@@ -132,10 +136,12 @@ public class ComplainActivity extends AppCompatActivity {
                                     mRecyclerView.setLayoutManager(mLayoutManager);
                                     mRecyclerView.setAdapter(mAdapter);
 
+                                }else{
+                                    Toast.makeText(getApplicationContext(),"Tidak Ada Pengaduan" , Toast.LENGTH_LONG).show();
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
-                                Toast.makeText(getApplicationContext(),"Tidak Ada Pengaduan" , Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(),"Pengaduan Tidak Ditemukan" , Toast.LENGTH_LONG).show();
                             }
                         }
                     }

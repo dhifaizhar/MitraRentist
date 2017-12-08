@@ -297,7 +297,7 @@ public class UsersActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (sm.getPreferences("role").equals("SuperAdmin")){
+        if (sm.getPreferences("role").matches("SuperAdmin|Admin")){
             getMenuInflater().inflate(R.menu.menu_add_option, menu);
         }
         return true;

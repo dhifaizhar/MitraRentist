@@ -45,7 +45,7 @@ import java.util.Map;
 import id.rentist.mitrarentist.tools.AppConfig;
 import id.rentist.mitrarentist.tools.FormValidation;
 
-public class RegistrationActivity extends AppCompatActivity {
+public class  RegistrationActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
@@ -309,11 +309,11 @@ public class RegistrationActivity extends AppCompatActivity {
                                             .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<AuthResult> task) {
-                                                    Log.d(TAG, "createUserWithEmail : onComplete:" + task.isSuccessful());
+                                                    Log.e(TAG, "createUserWithEmail : onComplete:" + task.isSuccessful());
 
                                                     if (!task.isSuccessful()) {
                                                         showProgress(false);
-                                                        Toast.makeText(RegistrationActivity.this, "Gagal mendaftarkan akun", Toast.LENGTH_LONG).show();
+                                                        Toast.makeText(RegistrationActivity.this, "Harap Masukan Email atau Nomor Telepon yang Lain", Toast.LENGTH_LONG).show();
                                                     }else{
                                                         mRegisterTask = new postRegisterTask().execute();
                                                     }
