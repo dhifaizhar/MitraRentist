@@ -1174,8 +1174,8 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
 //                    dayEvent = dates;
                     daySchedule = dateSchedule;
                     dayTrans = dateTrans;
-                    calendarView.addDecorator(new EventDecorator(Color.RED, dateSchedule));
-                    calendarView.addDecorator(new EventDecorator(Color.BLUE, dateTrans));
+                    calendarView.addDecorator(new EventDecorator(Color.RED, getResources().getDrawable(R.drawable.today_circle_background), dateSchedule));
+                    calendarView.addDecorator(new EventDecorator(Color.BLUE, getResources().getDrawable(R.drawable.today_circle_background), dateTrans));
 
 //                    Log.e(TAG, "Event : " + dayEvent);
 

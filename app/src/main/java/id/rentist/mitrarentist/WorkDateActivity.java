@@ -186,7 +186,7 @@ public class WorkDateActivity extends AppCompatActivity implements OnDateSelecte
                     }
 
                     dayEvent = dates;
-                    calendarView.addDecorator(new EventDecorator(Color.RED, dayEvent));
+                    calendarView.addDecorator(new EventDecorator(Color.RED, getResources().getDrawable(R.drawable.today_circle_background), dayEvent));
 
                 } catch (JSONException e) {
                     e.printStackTrace();

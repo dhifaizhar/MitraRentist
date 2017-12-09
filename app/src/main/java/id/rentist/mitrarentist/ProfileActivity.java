@@ -91,7 +91,7 @@ public class ProfileActivity extends AppCompatActivity {
         rName.setText(sm.getPreferences("nama_rental"));
         rOwner.setText(sm.getPreferences("nama_pemilik"));
         rAddress.setText(String.valueOf(sm.getPreferences("alamat").isEmpty()?"-":sm.getPreferences("alamat")));
-        rPhone.setText(sm.getPreferences("telepon"));
+        rPhone.setText("+"+sm.getPreferences("telepon"));
         rEmail.setText(sm.getPreferences("email_rental"));
         rBankName.setText(String.valueOf(sm.getPreferences("bank_name").isEmpty()?"-":sm.getPreferences("bank_name")));
         rBankAccount.setText(String.valueOf(sm.getPreferences("bank_account").isEmpty()?"-":sm.getPreferences("bank_account")));
