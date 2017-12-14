@@ -39,7 +39,7 @@ public class KebijakanActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_help_option, menu);
+//        getMenuInflater().inflate(R.menu.menu_help_option, menu);
         return true;
     }
 
@@ -49,11 +49,11 @@ public class KebijakanActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_help) {
-
-            //ubah dengan fungsi
-            return true;
-        }
+//        if (id == R.id.action_help) {
+//
+//            //ubah dengan fungsi
+//            return true;
+//        }
 
         return super.onOptionsItemSelected(item);
     }

@@ -637,7 +637,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="*Aset memiliki asuransi?"
+                                android:text="@string/label_insurance"
                                 android:layout_marginStart="@dimen/xmin_padding"
                                 android:textSize="@dimen/almost_tiny_text" />
 
@@ -731,7 +731,9 @@
                                 android:padding="@dimen/min_padding"
                                 android:inputType="number"
                                 android:imeOptions="actionNext"
-                                android:text="1" />
+                                android:text="1"
+                                android:layout_alignParentTop="true"
+                                android:layout_alignParentStart="true" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -961,7 +963,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentStart="true"
                             android:layout_centerVertical="true"
-                            android:text="Harga Sewa"
+                            android:text="@string/label_harga_sewa"
                             android:textAlignment="center"
                             android:textColor="@color/colorWhite"
                             android:textSize="@dimen/medium_text"
@@ -1756,7 +1758,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
                         android:clickable="true"
-                        android:text="+ Tambah Harga Advance"
+                        android:text="@string/label_tambah_harga"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/small_text" />
 

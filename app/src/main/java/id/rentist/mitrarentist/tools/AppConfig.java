@@ -120,4 +120,7 @@ public class AppConfig {
     public static String URL_DISTRIC = SERVER + "place/distric/";
     public static String URL_VILLAGE = SERVER + "place/village/";
 
+    public static String URL_LIST_DELIVERY_PRICE = SERVER + "list/delivery/";
+    public static String URL_DELIVERY_PRICE = SERVER + "create/delivery/";
+
 }

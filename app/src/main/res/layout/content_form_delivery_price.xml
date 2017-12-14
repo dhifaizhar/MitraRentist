@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/min_padding"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="id.rentist.mitrarentist.FormDeliveryPriceActivity"
+    tools:showIn="@layout/activity_form_delivery_price">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="@dimen/btn_lmedium_height">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical"
+            android:padding="@dimen/xmin_padding">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/xmin_padding"
+                android:orientation="vertical"
+                android:padding="@dimen/xmin_padding">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Kategori Aset"
+                        android:textColor="@color/colorBlack" />
+
+                    <ImageView
+                        android:id="@+id/expandable_toggle_button"
+                        app:srcCompat="@drawable/ic_keyboard_arrow_down_black_18dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorWhite"
+                        android:layout_gravity="end|center_vertical"
+                        android:layout_alignParentEnd="true"/>
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/category"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorNearWhite"
+                    android:orientation="vertical">
+
+                    <CheckBox
+                        android:id="@+id/ck_medic"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:checked="false" />
+
+                    <CheckBox
+                        android:id="@+id/ck_photo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:checked="false" />
+
+                    <CheckBox
+                        android:id="@+id/ck_toys"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:checked="false" />
+
+                    <CheckBox
+                        android:id="@+id/ck_maternity"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:checked="false" />
+
+                    <CheckBox
+                        android:id="@+id/ck_elektronic"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:checked="false" />
+
+                    <CheckBox
+                        android:id="@+id/ck_office"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:checked="false" />
+
+                    <CheckBox
+                        android:id="@+id/ck_fashion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:checked="false" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/xmin_padding"
+                android:orientation="vertical"
+                android:padding="@dimen/xmin_padding">
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Maksimal Jarak"
+                    android:textColor="@color/colorBlack" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/distance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorNearWhite"
+                        android:ems="10"
+                        android:hint="E.g. 10"
+                        android:text="1"
+                        android:inputType="number"
+                        android:imeOptions="actionNext"
+                        android:padding="@dimen/min_padding" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/min_padding"
+                        android:text="KM"
+                        android:textColor="@color/colorBlack54"
+                        android:textSize="@dimen/medium_text" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/xmin_padding"
+                android:orientation="vertical"
+                android:padding="@dimen/xmin_padding">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Biaya per KM"
+                    android:textColor="@color/colorBlack" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <com.aldoapps.autoformatedittext.AutoFormatEditText
+                            android:id="@+id/price"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorNearWhite"
+                            android:ems="10"
+                            android:hint="0"
+                            android:maxLength="13"
+                            android:padding="@dimen/min_padding"
+                            android:imeOptions="actionDone"
+                            app:isDecimal="false" />
+
+                        <TextView
+                            android:id="@+id/idra"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="@dimen/min_padding"
+                            android:text="IDR"
+                            android:textColor="@color/colorGrey"
+                            android:textSize="@dimen/medium_text" />
+                    </RelativeLayout>
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/min_padding"
+                        android:text="IDR"
+                        android:textColor="@color/colorBlack54"
+                        android:textSize="@dimen/medium_text" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

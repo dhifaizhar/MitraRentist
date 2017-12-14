@@ -1,6 +1,5 @@
 package id.rentist.mitrarentist.decorator;
 
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 
 import com.prolificinteractive.materialcalendarview.CalendarDay;
@@ -34,8 +33,7 @@ public class EventDecorator implements DayViewDecorator {
     @Override
     public void decorate(DayViewFacade view) {
         view.addSpan(new DotSpan(DotSpan.DEFAULT_RADIUS,color));
-        if(color == Color.RED){
-            view.setBackgroundDrawable(drawable);
-        }
+        view.setBackgroundDrawable(drawable);
+
     }
 }

@@ -187,6 +187,9 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
         aAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                pDialog.setTitle("Memuat Peta");
+                showProgress(true);
+                aAddress.setClickable(false);
                 PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
                 Intent intent;
                 try {
@@ -809,6 +812,8 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
         }
 
         if (requestCode == PICK_LOCATION_REQUEST){
+            showProgress(false);
+            aAddress.setClickable(true);
             if(resultCode == RESULT_OK){
                 Place location = PlacePicker.getPlace(data,this);
                 String address = String.valueOf(location.getAddress());
@@ -895,7 +900,9 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
             else { aDeliveryMethod = "nodefine";}
 
             if (aBasicPrice.getText().toString().isEmpty() || aDeliveryMethod.equals("nodefine") ||
-                    aType.toString().isEmpty() || aPlat.toString().isEmpty() || aPlatStart.toString().isEmpty() || aPlatEnd.toString().isEmpty()){
+                    aType.toString().isEmpty() || aPlat.toString().isEmpty() || aPlatStart.toString().isEmpty() || aPlatEnd.toString().isEmpty() ||
+                    aName.getText().toString().isEmpty() || aType.getText().toString().isEmpty() || aMinDayRent.getText().toString().isEmpty() ||
+                    aNoRangka.getText().toString().isEmpty() || aNoMesin.getText().toString().isEmpty() || aAddress.getText().toString().isEmpty()){
 
                 Toast.makeText(getApplicationContext(), R.string.error_field_not_complete,Toast.LENGTH_LONG).show();
             } else{

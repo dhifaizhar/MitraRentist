@@ -86,6 +86,7 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
     String changeStatus = "active",aAsetName, aName, aType, aSubType,  aStatus, aCat, aSubCat, aVerified, aLongitude, aLatitude,
             aInsurance, aMinRentDay, aDeliveryMethod, category, category_url, aDesc, aWeight,
             aAssetValue, aMainImage, aSecondImage, aThirdImage, aFourthImage, aFifthImage,
+            aDeposit, aDepositValue, aIdDelivery,
             //Car&Motor
             aPlat, aYear, aNoStnk , aColor, aTransmission, aEngineCap, aFuel, aSeat, aAirBag, aAirCond,
                     aDriver, aEstPrice,
@@ -96,11 +97,13 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
     TextView aset_name, mark, status, subcat, insurance, min_rent_day, delivery_method, desc, address, member_badge,
             plat, year,  color, transmission, engine_cap, fuel, seats, air_bag, air_cond, driver,
             model, length, beam, gross_ton, draft, cruise_speed, top_speed, builder, naval, int_design, ext_design,
-            guest, cabin, crew, asset_value, weight, dimension, no_rangka, no_mesin, est_value;
+            guest, cabin, crew, asset_value, weight, dimension, no_rangka, no_mesin, est_value,
+            delivery_distance, delivery_price, deposit, deposit_value;
 
     String aPrice;// = new ArrayList<>();
 
-    LinearLayout cCarMotor, cCarOnly, cYachtInfo, cYachtFeature, cSmallAssetFeature, rDesc, rEstValue;
+    LinearLayout cCarMotor, cCarOnly, cYachtInfo, cYachtFeature, cSmallAssetFeature, rDesc, rEstValue,
+        rDeliveryPrice, rDeposit;
     ImageView imgThumbnail, no_stnk;
     CarouselView aAssetImages;
     Switch swStatus;
@@ -211,6 +214,11 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
         weight = (TextView) findViewById(R.id.as_weight);
         dimension = (TextView) findViewById(R.id.as_dimension);
 
+        delivery_distance = (TextView) findViewById(R.id.as_delivery_distance);
+        delivery_price = (TextView) findViewById(R.id.as_delivery_price);
+        deposit = (TextView) findViewById(R.id.as_deposit);
+        deposit_value = (TextView) findViewById(R.id.as_nominal_deposit);
+
         //Row Container
         rDesc= (LinearLayout) findViewById(R.id.row_desc);
         cCarMotor = (LinearLayout) findViewById(R.id.con_car_motor);
@@ -219,6 +227,8 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
         cYachtFeature = (LinearLayout) findViewById(R.id.con_yacht_feature);
         cSmallAssetFeature = (LinearLayout) findViewById(R.id.con_feature_small_aset);
         rEstValue = (LinearLayout) findViewById(R.id.row_est_value);
+        rDeliveryPrice = (LinearLayout) findViewById(R.id.row_delivery_price);
+        rDeposit = (LinearLayout) findViewById(R.id.row_deposit);
 
         //Car & Motor
         plat = (TextView) findViewById(R.id.as_plat_det);
@@ -421,8 +431,32 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
                         } else {
                             if (aDeliveryMethod.equals("pickup"))
                                 delivery_method.setText("Diambil");
-                            else delivery_method.setText("Dikirim");
+                            else {
+                                delivery_method.setText("Dikirim");
+
+                                if(jsonobject.has("id_delivery")){
+                                    rDeliveryPrice.setVisibility(View.VISIBLE);
+
+                                    JSONObject deliveryObject = jsonobject.getJSONObject("id_delivery");
+                                    aIdDelivery = deliveryObject.getString("id");
+
+                                    delivery_distance.setText(deliveryObject.getInt("max_distance") + " KM");
+                                    delivery_price.setText(PricingTools.PriceStringFormat(deliveryObject.getString("price_per_km")));
+                                }
+                            }
                         }
+
+                        if(jsonobject.has("deposit")){
+                            aDeposit = jsonobject.getString("deposit");
+                            aDepositValue = jsonobject.getString("nominal_deposit");
+                            deposit.setText(aDeposit.equals("true") ? "Ya" : "Tidak");
+
+                            if(aDeposit.equals("true")){
+                                rDeposit.setVisibility(View.VISIBLE);
+                                deposit_value.setText(PricingTools.PriceStringFormat(aDepositValue));
+                            }
+                        }
+
 
                         if (aInsurance.equals("true")) insurance.setText("Tersedia");
                         else insurance.setText("Tidak Tersedia");
@@ -951,7 +985,6 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
                     iAsetEdit.putExtra("type", aType);
                     iAsetEdit.putExtra("assurance", aInsurance);
                     iAsetEdit.putExtra("description", aDesc);
-                    iAsetEdit.putExtra("delivery_method", aDeliveryMethod);
                     iAsetEdit.putExtra("cat", aCat);
                     iAsetEdit.putExtra("subcat", aSubCat);
                     iAsetEdit.putExtra("price", aPrice);
@@ -969,6 +1002,14 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
                         iAsetEdit.putExtra("weight", aWeight);
                         iAsetEdit.putExtra("dimension", dimension.getText().toString());
                     }
+                    iAsetEdit.putExtra("delivery_method", aDeliveryMethod);
+                    if(aDeliveryMethod.equals("deliver")){
+                        iAsetEdit.putExtra("id_delivery", aIdDelivery);
+                        iAsetEdit.putExtra("delivery_detail", "Jarak Maksimal: " + delivery_distance.getText().toString() +
+                            ", Biaya per KM: " + delivery_price.getText().toString());
+                    }
+                    iAsetEdit.putExtra("deposit", aDeposit);
+                    if (aDeposit.equals("true")) iAsetEdit.putExtra("nominal_deposit", aDepositValue);
 
                     startActivityForResult(iAsetEdit, 2);
                     break;
@@ -1174,8 +1215,8 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
 //                    dayEvent = dates;
                     daySchedule = dateSchedule;
                     dayTrans = dateTrans;
-                    calendarView.addDecorator(new EventDecorator(Color.RED, getResources().getDrawable(R.drawable.today_circle_background), dateSchedule));
-                    calendarView.addDecorator(new EventDecorator(Color.BLUE, getResources().getDrawable(R.drawable.today_circle_background), dateTrans));
+                    calendarView.addDecorator(new EventDecorator(Color.GREEN, getResources().getDrawable(R.drawable.schedule_circle_bacground), dateSchedule));
+                    calendarView.addDecorator(new EventDecorator(Color.RED, getResources().getDrawable(R.drawable.trans_cirle_background), dateTrans));
 
 //                    Log.e(TAG, "Event : " + dayEvent);
 

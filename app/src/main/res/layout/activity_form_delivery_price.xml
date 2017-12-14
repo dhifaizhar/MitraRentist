@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="id.rentist.mitrarentist.FormDeliveryPriceActivity">
+
+    <include layout="@layout/content_form_delivery_price" />
+
+    <Button
+        android:id="@+id/btn_add"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/btn_lmedium_height"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:layout_margin="@dimen/xmin_padding"
+        android:background="@color/colorPrimaryDark"
+        android:padding="0dp"
+        android:text="Tambah"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/medium_text" />
+
+</android.support.design.widget.CoordinatorLayout>

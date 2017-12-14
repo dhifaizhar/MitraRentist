@@ -167,6 +167,7 @@ public class AsetActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_delivery_pricing_option, menu);
         getMenuInflater().inflate(R.menu.menu_preference_option, menu);
         return true;
     }
@@ -174,6 +175,11 @@ public class AsetActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+
+        if (id == R.id.action_delivery_pricing) {
+            Intent iDeliv = new Intent(AsetActivity.this, DeliveryPricingActivity.class);
+            startActivity(iDeliv);
+        }
 
         if (id == R.id.action_preference) {
             Intent iSetup = new Intent(AsetActivity.this, SetupCategoryActivity.class);

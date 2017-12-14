@@ -233,7 +233,7 @@
             android:background="@drawable/radius_primary"
             android:clickable="true"
             android:layout_alignParentEnd="true"
-            android:text="Riwayat Withdrawal"
+            android:text="Riwayat Penarikan Dana"
             android:textStyle="bold"
             android:layout_margin="@dimen/xmin_padding"
             android:padding="@dimen/xmin_padding"
@@ -312,7 +312,7 @@
             android:layout_alignParentBottom="true"
             android:layout_margin="@dimen/xmin_padding"
             android:background="@android:color/holo_green_light"
-            android:text="WithDrawal"
+            android:text="Tarik Dana"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/medium_text"
             android:textStyle="bold" />

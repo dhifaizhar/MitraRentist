@@ -43,7 +43,7 @@ public class GridAsetAdapter extends RecyclerView.Adapter<GridAsetAdapter.ViewHo
             category = new ItemCategoryModul();
             category.setId(1);
             category.setTitle(asset_category[0]);
-            category.setThumbnail(R.drawable.mobil);
+            category.setThumbnail(R.drawable.car_blue);
             category.setSum(sm.getIntPreferences("sum_car"));
             itemCategory.add(category);
         }
@@ -52,7 +52,7 @@ public class GridAsetAdapter extends RecyclerView.Adapter<GridAsetAdapter.ViewHo
             category = new ItemCategoryModul();
             category.setId(2);
             category.setTitle(asset_category[1]);
-            category.setThumbnail(R.drawable.motor);
+            category.setThumbnail(R.drawable.motor_blue);
             category.setSum(sm.getIntPreferences("sum_motor"));
             itemCategory.add(category);
         }
@@ -61,7 +61,7 @@ public class GridAsetAdapter extends RecyclerView.Adapter<GridAsetAdapter.ViewHo
             category = new ItemCategoryModul();
             category.setId(3);
             category.setTitle(asset_category[2]);
-            category.setThumbnail(R.drawable.yatch);
+            category.setThumbnail(R.drawable.yacth_blue);
             category.setSum(sm.getIntPreferences("sum_yacht"));
             itemCategory.add(category);
         }
@@ -70,7 +70,7 @@ public class GridAsetAdapter extends RecyclerView.Adapter<GridAsetAdapter.ViewHo
             category = new ItemCategoryModul();
             category.setId(4);
             category.setTitle(asset_category[3]);
-            category.setThumbnail(R.drawable.medical_equipment);
+            category.setThumbnail(R.drawable.medical_blue);
             category.setSum(sm.getIntPreferences("sum_medic"));
             itemCategory.add(category);
         }
@@ -79,7 +79,7 @@ public class GridAsetAdapter extends RecyclerView.Adapter<GridAsetAdapter.ViewHo
             category = new ItemCategoryModul();
             category.setId(5);
             category.setTitle(asset_category[4]);
-            category.setThumbnail(R.drawable.camera);
+            category.setThumbnail(R.drawable.camera_blue);
             category.setSum(sm.getIntPreferences("sum_photography"));
             itemCategory.add(category);
         }
@@ -88,7 +88,7 @@ public class GridAsetAdapter extends RecyclerView.Adapter<GridAsetAdapter.ViewHo
             category = new ItemCategoryModul();
             category.setId(6);
             category.setTitle(asset_category[5]);
-            category.setThumbnail(R.drawable.mianan_anak);
+            category.setThumbnail(R.drawable.kidtoys_blue);
             category.setSum(sm.getIntPreferences("sum_toys"));
             itemCategory.add(category);
         }
@@ -97,7 +97,7 @@ public class GridAsetAdapter extends RecyclerView.Adapter<GridAsetAdapter.ViewHo
             category = new ItemCategoryModul();
             category.setId(7);
             category.setTitle(asset_category[6]);
-            category.setThumbnail(R.drawable.adventure);
+            category.setThumbnail(R.drawable.adventure_blue);
             category.setSum(sm.getIntPreferences("sum_adventure"));
             itemCategory.add(category);
         }
@@ -106,7 +106,7 @@ public class GridAsetAdapter extends RecyclerView.Adapter<GridAsetAdapter.ViewHo
             category = new ItemCategoryModul();
             category.setId(8);
             category.setTitle(asset_category[7]);
-            category.setThumbnail(R.drawable.maternity);
+            category.setThumbnail(R.drawable.maternity_blue);
             category.setSum(sm.getIntPreferences("sum_maternity"));
             itemCategory.add(category);
         }
@@ -115,7 +115,7 @@ public class GridAsetAdapter extends RecyclerView.Adapter<GridAsetAdapter.ViewHo
             category = new ItemCategoryModul();
             category.setId(9);
             category.setTitle(asset_category[8]);
-            category.setThumbnail(R.drawable.elektronik);
+            category.setThumbnail(R.drawable.elektronik_blue);
             category.setSum(sm.getIntPreferences("sum_electronic"));
             itemCategory.add(category);
         }
@@ -124,7 +124,7 @@ public class GridAsetAdapter extends RecyclerView.Adapter<GridAsetAdapter.ViewHo
             category = new ItemCategoryModul();
             category.setId(10);
             category.setTitle(asset_category[9]);
-            category.setThumbnail(R.drawable.sepeda);
+            category.setThumbnail(R.drawable.sepeda_blue);
             category.setSum(sm.getIntPreferences("sum_bicycle"));
             itemCategory.add(category);
         }
@@ -133,7 +133,7 @@ public class GridAsetAdapter extends RecyclerView.Adapter<GridAsetAdapter.ViewHo
             category = new ItemCategoryModul();
             category.setId(11);
             category.setTitle(asset_category[10]);
-            category.setThumbnail(R.drawable.office_equipmen);
+            category.setThumbnail(R.drawable.office_blue);
             category.setSum(sm.getIntPreferences("sum_office"));
             itemCategory.add(category);
         }
@@ -142,7 +142,7 @@ public class GridAsetAdapter extends RecyclerView.Adapter<GridAsetAdapter.ViewHo
             category = new ItemCategoryModul();
             category.setId(12);
             category.setTitle(asset_category[11]);
-            category.setThumbnail(R.drawable.fashion);
+            category.setThumbnail(R.drawable.fashion_blue);
             category.setSum(sm.getIntPreferences("sum_fashion"));
             itemCategory.add(category);
         }

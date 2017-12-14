@@ -15,9 +15,8 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -51,8 +50,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import id.rentist.mitrarentist.tools.AppConfig;
 import id.rentist.mitrarentist.tools.PricingTools;
@@ -60,10 +57,14 @@ import id.rentist.mitrarentist.tools.SessionManager;
 import id.rentist.mitrarentist.tools.Tools;
 
 public class FormAdventureAsetActivity extends AppCompatActivity {
-    private String URL = AppConfig.URL_ADVENTURE;
-    private int subCategotyArray = R.array.adventure_subcategory_entries;
     private Activity currentActivity = FormAdventureAsetActivity.this;
-    private static final String TITLE = "Aset Olahraga & Petualangan";
+    private int subCategotyArray = R.array.adventure_subcategory_entries;
+    private int layout = R.layout.activity_form_adventure_aset;
+    private int cat_num = 7;
+    private String URL = AppConfig.URL_ADVENTURE;
+    private String fee_cat = "fee_adventure";
+
+    String[] asset_category;
     private static final String TAG = "FormAssetActivity";
     private static final String TOKEN = "secretissecret";
 
@@ -78,11 +79,21 @@ public class FormAdventureAsetActivity extends AppCompatActivity {
     Integer idAsset;
     String aLatitude, aLongitude, aRentPackage, tenant, category, encodedImage, aDeliveryMethod,
             aDimension,  aRentReq;
-    CheckBox aAssurace, aDelivery, aPickup;
+    CheckBox aAssurace;
     Spinner subcategory;
     RadioGroup aRentReqGroup;
     RadioButton aBasic, aVerified, aSmartCon;
-    LinearLayout conSmallFeature;
+    Button bSaveButton;
+    LinearLayout conSmallFeature,rowMinRentDay;
+
+    //Delivery & Deposit
+    String aIdDelivery = "", aDepositStatus;
+    RadioGroup aDeliveryMethodGroup, aDepositGroup;
+    RadioButton rPickup, rDelivery, aLogistic, rbDepositYes, rbDepositNo;
+    LinearLayout rDeliveryPrice, rDeposit, rDepositValue;
+    TextView detDeliveryPrice;
+    EditText aDepositValue;
+    private int SET_DELIVERY_PRICE = 11;
 
     //Image Initial
     String[] imagesArray = {AppConfig.URL_IMAGE_ASSETS + "default.png"};
@@ -115,8 +126,9 @@ public class FormAdventureAsetActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_form_adventure_aset);
-        setTitle(TITLE);
+        setContentView(layout);
+        asset_category = getApplicationContext().getResources().getStringArray(R.array.asset_category_entries);
+        setTitle("Aset " + asset_category[cat_num-1]);
 
         iFormAsset = getIntent();
         sm = new SessionManager(getApplicationContext());
@@ -132,6 +144,8 @@ public class FormAdventureAsetActivity extends AppCompatActivity {
     }
 
     private void contentcontrol() {
+        bSaveButton = (Button) findViewById(R.id.btn_save);
+
         subcategory = (Spinner) findViewById(R.id.as_subcat_spinner);
         aName = (TextView) findViewById(R.id.as_name);
         aMerk = (TextView) findViewById(R.id.as_merk);
@@ -139,8 +153,6 @@ public class FormAdventureAsetActivity extends AppCompatActivity {
         aAssurace = (CheckBox) findViewById(R.id.as_ck_assurance);
         aDesc = (TextView) findViewById(R.id.as_desc);
         aMinDayRent = (TextView) findViewById(R.id.as_min_day_rent);
-        aDelivery = (CheckBox) findViewById(R.id.as_ck_delivery);
-        aPickup = (CheckBox) findViewById(R.id.as_ck_pickup);
         aAddress = (TextView) findViewById(R.id.as_address);
         aAssetValue = (TextView) findViewById(R.id.as_value);
         aWeight = (TextView) findViewById(R.id.as_weight);
@@ -151,8 +163,13 @@ public class FormAdventureAsetActivity extends AppCompatActivity {
         aBasic = (RadioButton) findViewById(R.id.r_basic);
         aVerified = (RadioButton) findViewById(R.id.r_verified);
         aSmartCon = (RadioButton) findViewById(R.id.r_smart_con);
-        conSmallFeature = (LinearLayout) findViewById(R.id.con_feature_small_aset);
 
+        conSmallFeature = (LinearLayout) findViewById(R.id.con_feature_small_aset);
+        rowMinRentDay = (LinearLayout) findViewById(R.id.row_min_rent_day);
+        rowMinRentDay.setVisibility(View.GONE);
+        conSmallFeature.setVisibility(View.GONE);
+
+        //Image
         conSecondImage = (RelativeLayout) findViewById(R.id.con_second_image);
         conThirdImage = (RelativeLayout) findViewById(R.id.con_third_image);
         conFourthImage = (RelativeLayout) findViewById(R.id.con_fourth_image);
@@ -162,18 +179,17 @@ public class FormAdventureAsetActivity extends AppCompatActivity {
         aThirdImage = (ImageView) findViewById(R.id.third_image);
         aFourthImage = (ImageView) findViewById(R.id.fourth_image);
         aFifthImage = (ImageView) findViewById(R.id.fifth_image);
-
         delSecondImage = (ImageButton) findViewById(R.id.delete_second_image);
         delThirdImage = (ImageButton) findViewById(R.id.delete_third_image);
         delFourthImage = (ImageButton) findViewById(R.id.delete_fourth_image);
         delFifthImage = (ImageButton) findViewById(R.id.delete_fifth_image);
 
-        conSmallFeature.setVisibility(View.GONE);
-
         Tools.setSpinnerValue("", subcategory, subCategotyArray, getApplicationContext());
         aAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                showProgress(true);
+                aAddress.setClickable(false);
                 PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
                 Intent intent;
                 try {
@@ -250,6 +266,52 @@ public class FormAdventureAsetActivity extends AppCompatActivity {
             }
         });
 
+        //Deliver & Deposit
+        aDeliveryMethodGroup = (RadioGroup) findViewById(R.id.delivery_group);
+        rPickup = (RadioButton) findViewById(R.id.r_pickup);
+        rDelivery = (RadioButton) findViewById(R.id.r_deliver);
+        rDeliveryPrice = (LinearLayout) findViewById(R.id.delivery_detail);
+        detDeliveryPrice = (TextView) findViewById(R.id.delivery_price);
+
+        aDepositGroup = (RadioGroup) findViewById(R.id.deposit_group);
+        rbDepositYes = (RadioButton) findViewById(R.id.r_deposit);
+        rbDepositNo = (RadioButton) findViewById(R.id.r_no_deposit);
+        rDepositValue = (LinearLayout) findViewById(R.id.row_deposit_value);
+        aDepositValue = (EditText) findViewById(R.id.as_nominal_deposit);
+
+        aDeliveryMethodGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if(checkedId == R.id.r_deliver) {
+                    rDeliveryPrice.setVisibility(View.VISIBLE);
+                } else {
+                    rDeliveryPrice.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        aDepositGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if(checkedId == R.id.r_deposit) {
+                    rDepositValue.setVisibility(View.VISIBLE);
+                } else {
+                    rDepositValue.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        detDeliveryPrice.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent iDeliveryPrce = new Intent(currentActivity, ListDeliveryPriceActivity.class);
+                iDeliveryPrce.putExtra("id_asset_category", String.valueOf(cat_num));
+                startActivityForResult(iDeliveryPrce, SET_DELIVERY_PRICE);
+            }
+        });
+
         //PRICING
         aBasicPriceDisp = (TextView) findViewById(R.id.as_price_basic_disp);
         aBasicPrice = (EditText) findViewById(R.id.as_price_basic);
@@ -283,7 +345,7 @@ public class FormAdventureAsetActivity extends AppCompatActivity {
         aDispText3 = (TextView) findViewById(R.id.disptext3);
         aDispText4 = (TextView) findViewById(R.id.disptext4);
         aDispText5 = (TextView) findViewById(R.id.disptext5);
-        fee = Integer.parseInt(sm.getPreferences("fee_medic"));
+        fee = Integer.parseInt(sm.getPreferences(fee_cat));
 
         aFeeMsg = "Harga yang akan anda terima (-" + fee + "%):";
         aDispText.setText(aFeeMsg);
@@ -491,10 +553,65 @@ public class FormAdventureAsetActivity extends AppCompatActivity {
             }
         });
 
-
         if(iFormAsset.getStringExtra("action").equals("update")){
             getDataUpdate();
         }
+
+        bSaveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
+                category = iFormAsset.getStringExtra("cat");
+                idAsset = iFormAsset.getIntExtra("id_asset",0);
+                aDimension = String.valueOf(aDimensionP.getText() + "x" + aDimensionL.getText() + "x" + aDimensionT.getText());
+
+                int rentReqId = aRentReqGroup.getCheckedRadioButtonId();
+                if (rentReqId == aBasic.getId()) aRentReq = getResources().getString(R.string.member_badge_basic);
+                else if (rentReqId == aVerified.getId()) aRentReq = getResources().getString(R.string.member_badge_verified);
+                else aRentReq = getResources().getString(R.string.member_badge_smart_con);
+
+                Boolean delivMethodValid = true;
+                int deliveryMethodId = aDeliveryMethodGroup.getCheckedRadioButtonId();
+                if (deliveryMethodId == rPickup.getId()) aDeliveryMethod = getResources().getString(R.string.delivery_pickup);
+                else if (deliveryMethodId == rDelivery.getId()) {
+                    aDeliveryMethod = getResources().getString(R.string.delivery_deliver);
+                    if(aIdDelivery.isEmpty()){
+                        delivMethodValid = false;
+                    }
+                }
+
+                Boolean depositValid = true;
+                int depositId = aDepositGroup.getCheckedRadioButtonId();
+                if (depositId == rbDepositNo.getId()) {
+                    aDepositStatus = "false";
+                } else {
+                    aDepositStatus = "true";
+                    if(aDepositValue.getText().toString().isEmpty()){
+                        depositValid = false;
+                    }
+                }
+
+                if (aBasicPrice.getText().toString().isEmpty() ||
+                        aName.getText().toString().isEmpty() ||
+                        aMerk.getText().toString().isEmpty() ||
+                        aType.getText().toString().isEmpty() ||
+                        aAddress.getText().toString().isEmpty() ||
+                        aMinDayRent.getText().toString().isEmpty() ||
+                        aDesc.getText().toString().isEmpty() ||
+                        aAssetValue.getText().toString().isEmpty() ||
+                        aWeight.getText().toString().isEmpty() ||
+                        aDimension.isEmpty() ||
+                        delivMethodValid.equals(false) ||
+                        depositValid.equals(false)
+                        ){
+                    Toast.makeText(getApplicationContext(), getString(R.string.error_field_not_complete),Toast.LENGTH_LONG).show();
+                } else{
+                    pricingArray.clear();
+                    getPrice();
+                    postPriceCheck(pricingArray.toString());
+                }
+            }
+        });
     }
 
     private void getDataUpdate(){
@@ -506,24 +623,24 @@ public class FormAdventureAsetActivity extends AppCompatActivity {
         aAddress.setText(iFormAsset.getStringExtra("address"));
         aLatitude = iFormAsset.getStringExtra("latitude");
         aLongitude = iFormAsset.getStringExtra("longitude");
-        aAssetValue.setText(iFormAsset.getStringExtra("asset_value"));
-        aWeight.setText(iFormAsset.getStringExtra("weight"));
-
-        String pattern = "([^a-zA-z]*)[a-zA-z]([^a-zA-z]*)[a-zA-z]([^a-zA-z]*)";
-        Pattern r = Pattern.compile(pattern);
-        Matcher m = r.matcher(iFormAsset.getStringExtra("dimension"));
-        while (m.find()) {
-            aDimensionP.setText(m.group(1));
-            aDimensionL.setText(m.group(2));
-            aDimensionT.setText(m.group(3));
-        }
 
         if (iFormAsset.getStringExtra("assurance").equals("true")){aAssurace.setChecked(true);}
 
-        if (iFormAsset.getStringExtra("delivery_method").equals("pickup")){
-            aDelivery.setChecked(false);
-        }else if (iFormAsset.getStringExtra("delivery_method").equals("deliver")){
-            aPickup.setChecked(false);
+        if (iFormAsset.getStringExtra("delivery_method").equals(getResources().getString(R.string.delivery_pickup))) {
+            ((RadioButton) aDeliveryMethodGroup.getChildAt(0)).setChecked(true);
+        } else if (iFormAsset.getStringExtra("delivery_method").equals(getResources().getString(R.string.delivery_deliver))) {
+            ((RadioButton) aDeliveryMethodGroup.getChildAt(1)).setChecked(true);
+            rDeliveryPrice.setVisibility(View.VISIBLE);
+            detDeliveryPrice.setText(iFormAsset.getStringExtra("delivery_detail"));
+            aIdDelivery = iFormAsset.getStringExtra("id_delivery");
+        }
+
+        if (iFormAsset.getStringExtra("deposit").equals("false")) {
+            ((RadioButton) aDepositGroup.getChildAt(0)).setChecked(true);
+        } else {
+            ((RadioButton) aDepositGroup.getChildAt(1)).setChecked(true);
+            rDepositValue.setVisibility(View.VISIBLE);
+            aDepositValue.setText(iFormAsset.getStringExtra("nominal_deposit"));
         }
 
         if (iFormAsset.getStringExtra("member_badge").equals(getResources().getString(R.string.member_badge_basic))) {
@@ -740,6 +857,8 @@ public class FormAdventureAsetActivity extends AppCompatActivity {
         }
 
         if (requestCode == PICK_LOCATION_REQUEST){
+            showProgress(false);
+            aAddress.setClickable(true);
             if(resultCode == RESULT_OK){
                 Place location = PlacePicker.getPlace(data,this);
                 String address = String.valueOf(location.getAddress());
@@ -749,6 +868,11 @@ public class FormAdventureAsetActivity extends AppCompatActivity {
                 aLatitude = Tools.getLatitude(LatLong);
                 aLongitude = Tools.getLongitude(LatLong);
             }
+        }
+
+        if (requestCode == SET_DELIVERY_PRICE && resultCode == Activity.RESULT_OK) {
+            aIdDelivery = data.getStringExtra("id_delivery");
+            detDeliveryPrice.setText(data.getStringExtra("delivery_detail"));
         }
 
         if (requestCode == PICK_DATE_REQUEST) {
@@ -799,48 +923,6 @@ public class FormAdventureAsetActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_save_option, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_save) {
-            tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
-            category = iFormAsset.getStringExtra("cat");
-            idAsset = iFormAsset.getIntExtra("id_asset",0);
-            aDimension = String.valueOf(aDimensionP.getText() + "x" + aDimensionL.getText() + "x" + aDimensionT.getText());
-
-            int rentReqId = aRentReqGroup.getCheckedRadioButtonId();
-            if (rentReqId == aBasic.getId()) aRentReq = getResources().getString(R.string.member_badge_basic);
-            else if (rentReqId == aVerified.getId()) aRentReq = getResources().getString(R.string.member_badge_verified);
-            else aRentReq = getResources().getString(R.string.member_badge_smart_con);
-
-            if(aDelivery.isChecked() && aPickup.isChecked()){aDeliveryMethod = "both";}
-            else if (aDelivery.isChecked()){ aDeliveryMethod = "deliver";}
-            else if (aPickup.isChecked()){ aDeliveryMethod = "pickup";}
-            else { aDeliveryMethod = "nodefine";}
-
-            if (aBasicPrice.getText().toString().isEmpty() ||
-                    aDeliveryMethod.equals("nodefine") ||
-                    aType.toString().isEmpty() ||
-                    aAssetValue.toString().isEmpty() ||
-                    aWeight.toString().isEmpty() ||
-                    aDimension.isEmpty()){
-                Toast.makeText(getApplicationContext(), getString(R.string.error_field_not_complete),Toast.LENGTH_LONG).show();
-            } else{
-                pricingArray.clear();
-                getPrice();
-                postPriceCheck(pricingArray.toString());
-            }
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     private void getPrice(){
         JSONObject priceBasicObject = new JSONObject();
@@ -976,7 +1058,13 @@ public class FormAdventureAsetActivity extends AppCompatActivity {
             StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                    responseAsset = response;
+                    Log.e(TAG, "resnpose balik" + response);
+                    if(response != null){
+                        Toast.makeText(getApplicationContext(),"Data sukses disimpan", Toast.LENGTH_LONG).show();
+                        finish();
+                    }else{
+                        Toast.makeText(getApplicationContext(),"Gagal meyimpan data", Toast.LENGTH_LONG).show();
+                    }
                 }
             }, new Response.ErrorListener() {
                 @Override
@@ -999,7 +1087,7 @@ public class FormAdventureAsetActivity extends AppCompatActivity {
                     keys.put("brand", aMerk.getText().toString());
                     keys.put("type", aType.getText().toString());
                     keys.put("insurance", String.valueOf(aAssurace.isChecked()));
-                    keys.put("min_rent_day", aMinDayRent.getText().toString());
+//                    keys.put("min_rent_day", aMinDayRent.getText().toString());
                     keys.put("delivery_method", aDeliveryMethod);
                     keys.put("address", aAddress.getText().toString());
                     keys.put("latitude", aLatitude);
@@ -1014,6 +1102,10 @@ public class FormAdventureAsetActivity extends AppCompatActivity {
                     if(!imgStringThird.isEmpty()){keys.put("file2", imgStringThird);}
                     if(!imgStringFourth.isEmpty()){keys.put("file3", imgStringFourth);}
                     if(!imgStringFifth.isEmpty()){keys.put("file4", imgStringFifth);}
+                    if(aDeliveryMethod.equals("deliver")) keys.put("id_delivery", aIdDelivery);
+                    keys.put("deposit", aDepositStatus);
+                    if(aDepositStatus.equals("true")) keys.put("nominal_deposit", aDepositValue.getText().toString().replace(",",""));
+
                     Log.e(TAG, "Value Object : " + keys.toString());
                     return keys;
                 }
@@ -1037,19 +1129,6 @@ public class FormAdventureAsetActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(String aset) {
-            mAddAssetTask = null;
-            showProgress(false);
-
-            if(aset != null){
-                Toast.makeText(getApplicationContext(),"Data sukses disimpan", Toast.LENGTH_LONG).show();
-                finish();
-            }else{
-                Toast.makeText(getApplicationContext(),"Gagal meyimpan data", Toast.LENGTH_LONG).show();
-            }
-        }
-
-        @Override
         protected void onCancelled() {
             mAddAssetTask = null;
             showProgress(false);
@@ -1058,13 +1137,12 @@ public class FormAdventureAsetActivity extends AppCompatActivity {
 
     private void updateDataAset(String category) {
         aRentPackage = "-";
-
         pDialog.setMessage("loading ...");
         showProgress(true);
         new updateAsetTask(category).execute();
     }
 
-    private class updateAsetTask extends AsyncTask<String, String, String> {
+    private class updateAsetTask extends AsyncTask<String, String, String>  {
         private final String mCategory;
         private String errorMsg, responseAsset;
 
@@ -1078,7 +1156,13 @@ public class FormAdventureAsetActivity extends AppCompatActivity {
             StringRequest stringRequest = new StringRequest(Request.Method.PUT, URL, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                    responseAsset = response;
+                    Log.e(TAG, "resnpose balik" + response);
+                    if(response != null){
+                        Toast.makeText(getApplicationContext(),"Data sukses disimpan", Toast.LENGTH_LONG).show();
+                        finish();
+                    }else{
+                        Toast.makeText(getApplicationContext(),"Gagal meyimpan data", Toast.LENGTH_LONG).show();
+                    }
                 }
             }, new Response.ErrorListener() {
                 @Override
@@ -1101,7 +1185,7 @@ public class FormAdventureAsetActivity extends AppCompatActivity {
                     keys.put("brand", aMerk.getText().toString());
                     keys.put("type", aType.getText().toString());
                     keys.put("insurance", String.valueOf(aAssurace.isChecked()));
-                    keys.put("min_rent_day", aMinDayRent.getText().toString());
+//                    keys.put("min_rent_day", aMinDayRent.getText().toString());
                     keys.put("delivery_method", aDeliveryMethod);
                     keys.put("address", aAddress.getText().toString());
                     keys.put("latitude", aLatitude);
@@ -1116,6 +1200,10 @@ public class FormAdventureAsetActivity extends AppCompatActivity {
                     if(!imgStringThird.isEmpty()){keys.put("file2", imgStringThird);}
                     if(!imgStringFourth.isEmpty()){keys.put("file3", imgStringFourth);}
                     if(!imgStringFifth.isEmpty()){keys.put("file4", imgStringFifth);}
+                    if(aDeliveryMethod.equals("deliver")) keys.put("id_delivery", aIdDelivery);
+                    keys.put("deposit", aDepositStatus);
+                    if(aDepositStatus.equals("true")) keys.put("nominal_deposit", aDepositValue.getText().toString().replace(",",""));
+
                     Log.e(TAG, "Asset Keys: " + String.valueOf(keys));
                     return keys;
                 }
@@ -1138,20 +1226,20 @@ public class FormAdventureAsetActivity extends AppCompatActivity {
             return responseAsset;
         }
 
-        @Override
-        protected void onPostExecute(String aset) {
-            mAddAssetTask = null;
-            showProgress(false);
-            Log.e(TAG, "Asset Respone: " + String.valueOf(aset));
-
-            if(aset != null){
-                Toast.makeText(getApplicationContext(),"Data sukses disimpan", Toast.LENGTH_LONG).show();
-                finish();
-            }else{
-                Toast.makeText(getApplicationContext(),"Gagal meyimpan data", Toast.LENGTH_LONG).show();
-            }
-
-        }
+//        @Override
+//        protected void onPostExecute(String aset) {
+//            mAddAssetTask = null;
+//            showProgress(false);
+//            Log.e(TAG, "Asset Respone: " + String.valueOf(aset));
+//
+//            if(aset != null){
+//                Toast.makeText(getApplicationContext(),"Data sukses disimpan", Toast.LENGTH_LONG).show();
+//                finish();
+//            }else{
+//                Toast.makeText(getApplicationContext(),"Gagal meyimpan data", Toast.LENGTH_LONG).show();
+//            }
+//
+//        }
 
         @Override
         protected void onCancelled() {

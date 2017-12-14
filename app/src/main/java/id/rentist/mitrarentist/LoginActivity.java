@@ -65,7 +65,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     private ProgressDialog pDialog;
     View mLoginFormView, focusView;
     JSONObject userObject, tenantObject, setCatObject, responseMessage;
-    String user, pic, mToken;
+    String user, pic, mToken="";
 
     private static final String TAG = "LoginActivity";
     private static final String TOKEN = "secretissecret";
@@ -188,7 +188,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
         mToken = FirebaseInstanceId.getInstance().getToken();
-        //Log.e("onCreate Token: ",mToken);
+        Log.e(TAG, "onCreate Token: " + mToken);
 
         // Check for a valid email & password, if the user entered one.
         if(formValidation.isEmailValid(email)){
@@ -345,7 +345,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                     Map<String, String> keys = new HashMap<String, String>();
                     keys.put("email", mEmail);
                     keys.put("password", mPassword);
-                    //keys.put("firebase_token" , mToken);
+                    keys.put("firebase_token" , mToken);
                     return keys;
                 }
 
@@ -433,11 +433,19 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                     if(!tenantObject.isNull("id_village")){
                         sm.setIntPreferences("village", tenantObject.getInt("id_village"));
                     }
+                    sm.setPreferences("province_name", "null");
 
                     sm.setPreferences("bank_name", tenantObject.getString("bank_name"));
                     sm.setPreferences("bank_account", tenantObject.getString("bank_account"));
                     sm.setPreferences("account_name", tenantObject.getString("account_name"));
                     sm.setPreferences("branch", tenantObject.getString("branch"));
+
+                    if(!tenantObject.getString("postal_code").equals("null")){
+                        sm.setPreferences("kode_pos", tenantObject.getString("postal_code"));
+
+                    } else {
+                        sm.setPreferences("kode_pos", "");
+                    }
 
                     sm.setPreferences("car", setCatObject.getString("car"));
                     sm.setPreferences("motorcycle", setCatObject.getString("motorcycle"));

@@ -263,17 +263,6 @@
                             android:textColor="@color/colorBlack"
                             android:textSize="12sp" />
 
-                        <!--<EditText-->
-                        <!--android:id="@+id/as_year"-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:background="@color/colorNearWhite"-->
-                        <!--android:ems="10"-->
-                        <!--android:hint="Tahun Produksi"-->
-                        <!--android:inputType="date"-->
-                        <!--android:padding="@dimen/min_padding"-->
-                        <!--android:text="" />-->
-
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -789,7 +778,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="*Aset memiliki asuransi?"
+                                android:text="@string/label_insurance"
                                 android:layout_marginStart="@dimen/xmin_padding"
                                 android:textSize="@dimen/almost_tiny_text" />
 
@@ -1149,7 +1138,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentStart="true"
                             android:layout_centerVertical="true"
-                            android:text="Harga Sewa"
+                            android:text="@string/label_harga_sewa"
                             android:textAlignment="center"
                             android:textColor="@color/colorWhite"
                             android:textSize="@dimen/medium_text"
@@ -1948,7 +1937,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
                         android:clickable="true"
-                        android:text="+ Tambah Harga Advance"
+                        android:text="@string/label_tambah_harga"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/small_text" />
 
@@ -1985,13 +1974,26 @@
                             android:layout_marginBottom="@dimen/xmin_padding"
                             android:orientation="horizontal">
 
-                            <ImageView
-                                android:id="@+id/main_image"
-                                android:layout_width="@dimen/thumb_width"
-                                android:layout_height="@dimen/thumb_width"
-                                android:layout_margin="@dimen/small_space"
-                                android:background="@color/colorNearWhite"
-                                app:srcCompat="@drawable/add_picture" />
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+                                <ImageView
+                                    android:id="@+id/main_image"
+                                    android:layout_width="@dimen/thumb_width"
+                                    android:layout_height="@dimen/thumb_width"
+                                    android:layout_margin="@dimen/small_space"
+                                    android:background="@color/colorNearWhite"
+                                    app:srcCompat="@drawable/add_picture" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Tampak Depan"
+                                    android:textSize="@dimen/tiny_text"
+                                    android:layout_gravity="center_horizontal"/>
+                            </LinearLayout>
+
 
                             <RelativeLayout
                                 android:id="@+id/con_second_image"
@@ -2007,6 +2009,14 @@
                                     android:src="@drawable/add_picture"
                                     android:layout_margin="@dimen/small_space"
                                     />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Tampak Kiri"
+                                    android:layout_below="@+id/second_image"
+                                    android:textSize="@dimen/tiny_text"
+                                    android:layout_centerHorizontal="true"/>
 
                                 <ImageButton
                                     android:id="@+id/delete_second_image"
@@ -2032,6 +2042,14 @@
                                     android:layout_margin="@dimen/small_space"
                                     />
 
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Tampak Kanan"
+                                    android:layout_below="@+id/third_image"
+                                    android:textSize="@dimen/tiny_text"
+                                    android:layout_centerHorizontal="true"/>
+
                                 <ImageButton
                                     android:id="@+id/delete_third_image"
                                     android:layout_width="wrap_content"
@@ -2056,6 +2074,14 @@
                                     android:layout_margin="@dimen/small_space"
                                     />
 
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Tampak Belakang"
+                                    android:layout_below="@+id/fourth_image"
+                                    android:textSize="@dimen/tiny_text"
+                                    android:layout_centerHorizontal="true"/>
+
                                 <ImageButton
                                     android:id="@+id/delete_fourth_image"
                                     android:layout_width="wrap_content"
@@ -2079,6 +2105,14 @@
                                     android:src="@drawable/add_picture"
                                     android:layout_margin="@dimen/small_space"
                                     />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Tampak Dalam"
+                                    android:layout_below="@+id/fifth_image"
+                                    android:textSize="@dimen/tiny_text"
+                                    android:layout_centerHorizontal="true"/>
 
                                 <ImageButton
                                     android:id="@+id/delete_fifth_image"

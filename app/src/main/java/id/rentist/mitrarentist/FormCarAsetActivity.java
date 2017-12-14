@@ -120,6 +120,7 @@ public class FormCarAsetActivity extends AppCompatActivity {
         sm = new SessionManager(getApplicationContext());
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
+        pDialog.setMessage("loading ...");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -189,6 +190,9 @@ public class FormCarAsetActivity extends AppCompatActivity {
         aAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                pDialog.setTitle("Memuat Peta");
+                showProgress(true);
+                aAddress.setClickable(false);
                 PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
                 Intent intent;
                 try {
@@ -701,12 +705,10 @@ public class FormCarAsetActivity extends AppCompatActivity {
             else if (aPickup.isChecked()){ aDeliveryMethod = "pickup";}
             else { aDeliveryMethod = "nodefine";}
 
-//            int estValueId = aEstValueGroup.getCheckedRadioButtonId();
-//            if (estValueId == a500jt.getId()) aEstPrice = getResources().getString(R.string.value_500jt);
-//            else aEstPrice = getResources().getString(R.string.value_1m);
-
             if (aBasicPrice.getText().toString().isEmpty() || aDeliveryMethod.equals("nodefine") || aDriverStatus.equals("nodefine") ||
-                    aType.toString().isEmpty() || aPlat.toString().isEmpty() || aPlatStart.toString().isEmpty() || aPlatEnd.toString().isEmpty() ){
+                    aAddress.getText().toString().isEmpty() || aType.getText().toString().isEmpty() || aPlat.toString().isEmpty() || aPlatStart.toString().isEmpty() || aPlatEnd.toString().isEmpty() ||
+                    aName.getText().toString().isEmpty() || aNoRangka.getText().toString().isEmpty() || aNoMesin.getText().toString().isEmpty() ||
+                    aMinRentDay.getText().toString().isEmpty()){
                 Toast.makeText(getApplicationContext(), R.string.error_field_not_complete,Toast.LENGTH_LONG).show();
             } else{
                 pricingArray.clear();
@@ -845,6 +847,8 @@ public class FormCarAsetActivity extends AppCompatActivity {
         }
 
         if (requestCode == PICK_LOCATION_REQUEST){
+            showProgress(false);
+            aAddress.setClickable(true);
             if(resultCode == RESULT_OK){
                 Place location = PlacePicker.getPlace(data,this);
                 String address = String.valueOf(location.getAddress());
@@ -1092,7 +1096,7 @@ public class FormCarAsetActivity extends AppCompatActivity {
                     keys.put("no_mesin", aNoMesin.getText().toString());
                     keys.put("estimated_price", aEstPrice.getSelectedItem().toString());
 
-                    Log.e(TAG, "String img 2: " + imgStringSecond);
+                    Log.e(TAG, "POST DATA: " + keys);
                     return keys;
                 }
 
@@ -1139,7 +1143,6 @@ public class FormCarAsetActivity extends AppCompatActivity {
         aTransmisionButton = (RadioButton) findViewById(transmissionId);
         aRentPackage = "-";
 
-        pDialog.setMessage("loading ...");
         showProgress(true);
         new updateAsetTask(category).execute();
     }
@@ -1235,6 +1238,7 @@ public class FormCarAsetActivity extends AppCompatActivity {
         protected void onPostExecute(String aset) {
             mAddAssetTask = null;
             showProgress(false);
+            Log.e(TAG, "Response: " + aset);
 
             if(aset != null){
                 Toast.makeText(getApplicationContext(),"Data sukses disimpan", Toast.LENGTH_LONG).show();

@@ -49,12 +49,29 @@
                     android:orientation="vertical"
                     android:padding="@dimen/xmin_padding">
 
-                    <TextView
-                        android:id="@+id/textView2"
-                        android:layout_width="match_parent"
+                    <LinearLayout
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/xmin_padding"
-                        android:text="Nama Rental" />
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/xmin_padding"
+                            android:text="Nama Rental" />
+
+                        <TextView
+                            android:id="@+id/textView44"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/xmin_padding"
+                            android:text="*Untuk keperluan administrasi"
+                            android:layout_marginStart="@dimen/min_padding"
+                            android:textSize="@dimen/tiny_text" />
+
+                    </LinearLayout>
+
 
                     <EditText
                         android:id="@+id/reg_rent_name"
@@ -65,6 +82,8 @@
                         android:imeOptions="actionNext"
                         android:inputType="text|textCapWords"
                         android:padding="@dimen/min_padding" />
+
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -90,6 +109,47 @@
                         android:imeOptions="actionNext"
                         android:inputType="text|textCapWords"
                         android:padding="@dimen/min_padding" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/xmin_padding"
+                    android:orientation="vertical"
+                    android:padding="@dimen/xmin_padding">
+
+                    <TextView
+                        android:id="@+id/textView6"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/xmin_padding"
+                        android:text="Jenis Rental" />
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/xmin_padding"
+                        android:background="@color/colorNearWhite">
+
+                        <Spinner
+                            android:id="@+id/reg_role"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:entries="@array/role_rental"
+                            android:fadingEdge="horizontal"
+                            android:padding="@dimen/xmin_padding"
+                            app:layout_gravity="bottom" />
+
+                        <View
+                            android:id="@+id/line"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_alignBottom="@id/reg_role"
+                            android:background="@android:color/darker_gray"
+                            android:paddingLeft="@dimen/min_padding"
+                            android:paddingRight="@dimen/min_padding" />
+
+                    </RelativeLayout>
                 </LinearLayout>
 
                 <LinearLayout
@@ -191,46 +251,6 @@
                         </RelativeLayout>
                     </RelativeLayout>
 
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="@dimen/xmin_padding"
-                    android:orientation="vertical"
-                    android:padding="@dimen/xmin_padding">
-
-                    <TextView
-                        android:id="@+id/textView6"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/xmin_padding"
-                        android:text="Jenis Rental" />
-
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="@dimen/min_padding">
-
-                        <Spinner
-                            android:id="@+id/reg_role"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:entries="@array/role_rental"
-                            android:fadingEdge="horizontal"
-                            android:padding="@dimen/xmin_padding"
-                            app:layout_gravity="bottom" />
-
-                        <View
-                            android:id="@+id/line"
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_alignBottom="@id/reg_role"
-                            android:background="@android:color/darker_gray"
-                            android:paddingLeft="@dimen/min_padding"
-                            android:paddingRight="@dimen/min_padding" />
-
-                    </RelativeLayout>
                 </LinearLayout>
 
                 <LinearLayout

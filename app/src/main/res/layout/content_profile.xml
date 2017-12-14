@@ -110,7 +110,7 @@
                                 android:layout_toEndOf="@+id/pr_owner_ico"
                                 android:layout_marginBottom="@dimen/xmin_padding"
 
-                                android:text="Pemilik Rental"
+                                android:text="Nama Pemilik/Penanggungjawab"
                                 android:textSize="12sp" />
 
 
@@ -150,7 +150,7 @@
                                 android:layout_marginLeft="@dimen/xmin_padding"
                                 android:layout_toEndOf="@+id/pr_address_ico"
                                 android:layout_marginBottom="@dimen/xmin_padding"
-                                android:text="Alamat"
+                                android:text="Alamat Usaha"
                                 android:textSize="12sp" />
 
                             <TextView
@@ -371,6 +371,15 @@
                                 android:text="-"
                                 android:textSize="@dimen/almost_tiny_text"
                                  />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/xmin_padding"
+                                android:layout_marginStart="@dimen/xmin_padding"
+                                android:layout_below="@+id/pr_branch"
+                                android:text="* Apabila selain bank BCA biaya transfer dibebankan kepada partner dan dana akan diterima pada satu hari kerja berikutnya."
+                                android:textSize="@dimen/tiny_text" />
 
                         </RelativeLayout>
 

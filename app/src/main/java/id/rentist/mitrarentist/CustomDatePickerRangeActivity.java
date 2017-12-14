@@ -30,7 +30,8 @@ public class CustomDatePickerRangeActivity extends AppCompatActivity {
         Calendar nextYear = Calendar.getInstance();
         nextYear.add(Calendar.YEAR, 1);
         Date today = new Date();
-        calendar.init(today, nextYear.getTime())
+        calendar.init(today
+                , nextYear.getTime())
                 .withSelectedDate(today).inMode(CalendarPickerView.SelectionMode.RANGE);
 
         findViewById(R.id.btn_done).setOnClickListener(new View.OnClickListener() {

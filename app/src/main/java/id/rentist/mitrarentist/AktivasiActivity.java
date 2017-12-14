@@ -3,9 +3,11 @@ package id.rentist.mitrarentist;
 import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -41,10 +43,11 @@ public class AktivasiActivity extends AppCompatActivity {
     private JSONObject userObject, tenantObject, responseMessage;
     Intent actIntent;
 
-    TextView refresh;
+    TextView refresh, countdown, counterZero;
     String userMail, phone, activation;
     EditText mCode;
     Button aktif_btn;
+    Boolean status = false;
 
     private static final String TAG = "ActivationActivity";
     private static final String TOKEN = "secretissecret";
@@ -68,14 +71,21 @@ public class AktivasiActivity extends AppCompatActivity {
         // action retrieve data aset
         aktif_btn = (Button) findViewById(R.id.aktif_button);
         refresh = (TextView) findViewById(R.id.getNewCode);
+        countdown = (TextView) findViewById(R.id.resendCountdown);
+        counterZero = (TextView) findViewById(R.id.counterZero);
+
         if(actIntent.hasExtra("action")){
             userMail = actIntent.getStringExtra("email_rental");
-            phone = actIntent.getStringExtra("email_rental");
+            phone = actIntent.getStringExtra("telepon");
+            countDown();
         }else{
             userMail = sm.getPreferences("email_rental");
             phone = sm.getPreferences("telepon");
+            countdown.setVisibility(View.GONE);
+            status = true;
         }
         mCode = (EditText)findViewById(R.id.aktif_code);
+
 
         aktif_btn.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -86,9 +96,32 @@ public class AktivasiActivity extends AppCompatActivity {
         refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                refreshCodeActivation(phone);
+                if (status.equals(true)){
+                    refreshCodeActivation(phone);
+                    countDown();
+                }
             }
         });
+    }
+
+    private void countDown(){
+        status = false;
+        countdown.setVisibility(View.VISIBLE);
+        refresh.setClickable(false);
+        refresh.setTextColor(Color.parseColor("#CCCCCC"));
+        new CountDownTimer(61500, 1000){
+            int counter = 60;
+            public void onTick(long millisUntilFinished){
+                countdown.setText("( " + String.valueOf(counter) + " )");
+                counter--;
+            }
+            public  void onFinish(){
+                refresh.setClickable(true);
+                refresh.setTextColor(Color.parseColor("#FFFFFF"));
+                countdown.setVisibility(View.GONE);
+                status = true;
+            }
+        }.start();
     }
 
     private void refreshCodeActivation(String phone) {
@@ -112,7 +145,15 @@ public class AktivasiActivity extends AppCompatActivity {
             StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                    responseResendCode = response;
+                    if(response.equals("resend is limited")){
+                        showProgress(false);
+                        countdown.setVisibility(View.GONE);
+                        refresh.setVisibility(View.GONE);
+                        counterZero.setVisibility(View.VISIBLE);
+                        counterZero.setText("Anda sudah tidak dapat melakukan kirim ulang kode verifikasi, periksa email anda jika tetap tidak mendapatkan SMS verifikasi");
+                    }else{
+                        Toast.makeText(getApplicationContext(),"Sukses meminta kode baru.", Toast.LENGTH_LONG).show();
+                    }
                 }
             }, new Response.ErrorListener() {
                 @Override
@@ -150,17 +191,17 @@ public class AktivasiActivity extends AppCompatActivity {
             return responseResendCode;
         }
 
-        @Override
-        protected void onPostExecute(String code) {
-            mResendCodeTask = null;
-            showProgress(false);
-
-            if(code != null){
-                Toast.makeText(getApplicationContext(),"Sukses meminta kode baru.", Toast.LENGTH_LONG).show();
-            }else{
-                Toast.makeText(getApplicationContext(),"Gagal meminta kode baru", Toast.LENGTH_LONG).show();
-            }
-        }
+//        @Override
+//        protected void onPostExecute(String code) {
+//            mResendCodeTask = null;
+//            showProgress(false);
+//
+//            if(code != null){
+//                Toast.makeText(getApplicationContext(),"Sukses meminta kode baru.", Toast.LENGTH_LONG).show();
+//            }else{
+//                Toast.makeText(getApplicationContext(),"Gagal meminta kode baru", Toast.LENGTH_LONG).show();
+//            }
+//        }
 
         @Override
         protected void onCancelled() {
@@ -290,7 +331,31 @@ public class AktivasiActivity extends AppCompatActivity {
     }
 
     public boolean onSupportNavigateUp() {
+        logout();
         onBackPressed();
         return true;
+    }
+
+    public void logout(){
+        final Intent iLogin = new Intent(this, LoginActivity.class);
+//        AlertDialog.Builder showAlert = new AlertDialog.Builder(this);
+//        showAlert.setMessage("Akhiri sesi pengguna aplikasi ?");
+//        showAlert.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface arg0, int arg1) {
+                sm.clearPreferences();
+                startActivity(iLogin);
+                finish();
+//            }
+//        });
+//        showAlert.setNegativeButton("Tidak",new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                // close dialog
+//            }
+//        });
+//
+//        AlertDialog alertDialog = showAlert.create();
+//        alertDialog.show();
     }
 }

@@ -13,9 +13,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/breadcrumb_height"
         android:orientation="vertical"
-        android:padding="20dp"
-        android:layout_marginTop="@dimen/breadcrumb_height">
+        android:padding="20dp">
 
         <TextView
             android:id="@+id/aktif_text"
@@ -69,14 +69,35 @@
             android:layout_marginTop="@dimen/thumb_med_height"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/xmin_padding"
-                android:text="Tidak Menerima Kode Aktifasi?"
-                android:textAlignment="center"
-                android:textColor="@color/colorWhite" />
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/xmin_padding"
+                    android:text="Tidak Menerima Kode Aktifasi?"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorWhite" />
+
+                <TextView
+                    android:id="@+id/resendCountdown"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/xmin_padding"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/getNewCode"
@@ -88,7 +109,22 @@
                 android:textAllCaps="false"
                 android:textColor="@color/colorWhite"
                 android:textSize="18sp"
+                android:clickable="false"
                 android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/counterZero"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/xmin_padding"
+                android:text=""
+                android:layout_gravity="center_horizontal"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/under_small_text"
+                android:visibility="gone"
+                />
         </LinearLayout>
 
     </LinearLayout>

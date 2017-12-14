@@ -286,11 +286,25 @@
         <activity
             android:name=".VoucherDetailActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ImageZoomActivity"
+        <activity
+            android:name=".ImageZoomActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar"
-            />
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".DeliveryPricingActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".FormDeliveryPriceActivity"
+            android:configChanges="orientation"
+            android:label="Tambah Biaya Pengiriman"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
+        <activity android:name=".ListDeliveryPriceActivity"
+            android:configChanges="orientation"
+            android:label="Pilih Biaya Pengiriman"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
     </application>
 
 </manifest>

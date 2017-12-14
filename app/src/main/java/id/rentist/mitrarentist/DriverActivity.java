@@ -135,7 +135,8 @@ public class DriverActivity extends AppCompatActivity {
                         e.printStackTrace();
                         Toast.makeText(getApplicationContext(),"Driver Tidak Ditemukan", Toast.LENGTH_LONG).show();
                     }
-                }            }
+                }
+            }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {

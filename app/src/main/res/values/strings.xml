@@ -207,7 +207,7 @@
         <item>Water Scooter</item>
         <item>Fishing</item>
         <item>Horse Ride</item>
-        <item>Camping</item>
+        <!--<item>Camping</item>-->
         <item>Others</item>
     </string-array>
 
@@ -475,13 +475,22 @@
     <string name="member_badge_basic">Basic</string>
     <string name="member_badge_verified">Verified</string>
     <string name="member_badge_smart_con">Smart Consumer</string>
-    <string name="basic_desc">"\u2022" Informasi dasar penyewa (nama, email dan nomor telepon).</string>
-    <string name="verified_desc">"\u2022" Basic. \n"\u2022" 2 dokumen penyewa/1 dokumen dan 1 akun sosial media.</string>
-    <string name="smart_cust_desc">"\u2022" Verified. \n"\u2022" 5 Transaksi sukses.</string>
+    <string name="basic_desc">"\u2022" Memiliki informasi dasar (Nama, Email dan no. HP)</string>
+    <string name="verified_desc">"\u2022" Basic \n"\u2022" KTP dan KK / Rekening Listrik atau KTP dan 1 akun sosial media</string>
+    <string name="smart_cust_desc">"\u2022" Verified. \n"\u2022" Telah menyelesaikan minimal 5 kali transaksi</string>
 
     <string name="value_500jt">500 Juta</string>
     <string name="value_1m">1 Miliar</string>
     <string name="view_500jt">Kurang dari 500 Juta</string>
     <string name="view_1m">Kurang dari 1 Miliar</string>
+
+    <string name="label_insurance">*Apakah aset memiliki asuransi?</string>
+    <string name="label_harga_sewa">Harga Sewa/Hari</string>
+    <string name="label_tambah_harga">+ Tambah Harga (Pilihan)</string>
+    
+    <string name="delivery_pickup">pickup</string>
+    <string name="delivery_deliver">deliver</string>
+    <string name="delivery_logistic">logistic</string>
+
 
 </resources>

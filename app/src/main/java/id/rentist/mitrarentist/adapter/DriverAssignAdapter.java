@@ -84,7 +84,6 @@ public class DriverAssignAdapter extends RecyclerView.Adapter<DriverAssignAdapte
         viewHolder.cardDetAset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intent = new Intent("custom-message");
                 intent.putExtra("id_driver",driver.getId());
                 intent.putExtra("driver_name",driver.getName());

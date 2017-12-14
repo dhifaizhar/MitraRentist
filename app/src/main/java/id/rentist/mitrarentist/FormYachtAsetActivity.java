@@ -175,6 +175,9 @@ public class FormYachtAsetActivity extends AppCompatActivity {
         aAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                pDialog.setTitle("Memuat Peta");
+                showProgress(true);
+                aAddress.setClickable(false);
                 PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
                 Intent intent;
                 try {
@@ -741,6 +744,8 @@ public class FormYachtAsetActivity extends AppCompatActivity {
         }
 
         if (requestCode == PICK_LOCATION_REQUEST){
+            showProgress(false);
+            aAddress.setClickable(true);
             if(resultCode == RESULT_OK){
                 Place location = PlacePicker.getPlace(data,this);
                 String address = String.valueOf(location.getAddress());
@@ -822,7 +827,13 @@ public class FormYachtAsetActivity extends AppCompatActivity {
             else if (aPickup.isChecked()){ aDeliveryMethod = "pickup";}
             else { aDeliveryMethod = "nodefine";}
 
-            if (aBasicPrice.getText().toString().isEmpty() || aDeliveryMethod.equals("nodefine") ){
+            if (aBasicPrice.getText().toString().isEmpty() || aDeliveryMethod.equals("nodefine") || aAddress.getText().toString().isEmpty() ||
+                    aName.getText().toString().isEmpty() || aType.getText().toString().isEmpty() ||aSubType.getText().toString().isEmpty() ||
+                    aModel.getText().toString().isEmpty() || aBuilder.getText().toString().isEmpty() || aNavalArc.getText().toString().isEmpty() ||
+                    aIntDesign.getText().toString().isEmpty() || aExtDesign.getText().toString().isEmpty() || aGuest.getText().toString().isEmpty() ||
+                    aCabin.getText().toString().isEmpty() || aCrew.getText().toString().isEmpty() || aLength.getText().toString().isEmpty() ||
+                    aBeam.getText().toString().isEmpty() || aDraft.getText().toString().isEmpty() || aCruisingSpeed.getText().toString().isEmpty() ||
+                    aTopSpeed.getText().toString().isEmpty() || aGrossTon.getText().toString().isEmpty() || aMinDayRent.getText().toString().isEmpty()){
                 Toast.makeText(getApplicationContext(), "Harap Lengkapi Form",Toast.LENGTH_LONG).show();
             } else{
                 pricingArray.clear();

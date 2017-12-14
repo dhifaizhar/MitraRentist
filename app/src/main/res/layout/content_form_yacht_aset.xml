@@ -1121,7 +1121,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentStart="true"
                             android:layout_centerVertical="true"
-                            android:text="Harga Sewa"
+                            android:text="@string/label_harga_sewa"
                             android:textAlignment="center"
                             android:textColor="@color/colorWhite"
                             android:textSize="@dimen/medium_text"
@@ -1916,7 +1916,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
                         android:clickable="true"
-                        android:text="+ Tambah Harga Advance"
+                        android:text="@string/label_tambah_harga"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/small_text" />
 

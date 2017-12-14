@@ -123,6 +123,7 @@ public class AsetAdapter extends RecyclerView.Adapter<AsetAdapter.ViewHolder> {
 
             if (as.getStatus().equals("active")){
                 viewHolder.status.setText("Aktif");
+                viewHolder.status.setTextColor(0xff00aeee);
             } else {
                 viewHolder.status.setText("Non-Aktif");
                 viewHolder.status.setTextColor(0xffff5050);

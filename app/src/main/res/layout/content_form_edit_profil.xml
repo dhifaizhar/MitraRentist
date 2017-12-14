@@ -116,7 +116,7 @@
                     android:id="@+id/textView38"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Nama Pemilik"
+                    android:text="Nama Pemilik/Penanggungjawab"
                     android:textColor="@color/colorBlack" />
 
                 <EditText
@@ -340,7 +340,7 @@
                     android:id="@+id/textView40"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Alamat"
+                    android:text="Alamat Usaha"
                     android:textColor="@color/colorBlack" />
 
                 <EditText
