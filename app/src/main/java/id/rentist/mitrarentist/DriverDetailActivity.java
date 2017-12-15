@@ -43,13 +43,13 @@ import id.rentist.mitrarentist.tools.CircleTransform;
 import id.rentist.mitrarentist.tools.SessionManager;
 
 public class DriverDetailActivity extends AppCompatActivity {
-    private AsyncTask mDetailDriverTask = null;
-    private Toolbar toolbar;
+    AsyncTask mDetailDriverTask = null;
+    Toolbar toolbar;
     private ProgressDialog pDialog;
     private SessionManager sm;
     private Intent detIntent;
 
-    String tenant, aId, birthdate;
+    String tenant, aId, birthdate, fotoname;
     TextView name, sim, bdate, gender, phone;
     ImageView profilePic;
     FloatingActionButton fab;
@@ -157,6 +157,7 @@ public class DriverDetailActivity extends AppCompatActivity {
                     Picasso.with(getApplicationContext()).load(
                             AppConfig.URL_IMAGE_PROFIL + driverObject.getString("profile_pic")).transform(new CircleTransform()).into(profilePic);
 
+                    fotoname = driverObject.getString("profile_pic");
                     name.setText(driverObject.getString("fullname"));
                     sim.setText(driverObject.getString("no_sim"));
                     gender.setText(driverObject.getString("gender").equals("male") ? "Pria" : "Wanita");
@@ -229,6 +230,7 @@ public class DriverDetailActivity extends AppCompatActivity {
             detIntent.putExtra("no_sim", sim.getText());
             detIntent.putExtra("birthdate", bdate.getText());
             detIntent.putExtra("gender", gender.getText());
+            detIntent.putExtra("profilepic", fotoname);
             startActivityForResult(detIntent, 2);
         } else if (id == R.id.action_delete){
             deleteDataDriver(tenant, aId);

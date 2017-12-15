@@ -203,14 +203,15 @@
                     android:textColor="@color/colorBlack" />
 
                 <EditText
-                android:id="@+id/dr_bdate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorNearWhite"
-                android:ems="10"
-                android:hint="YYYY-mm-dd"
-                android:inputType="date"
-                android:padding="@dimen/min_padding" />
+                    android:id="@+id/dr_bdate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorNearWhite"
+                    android:drawableEnd="@drawable/ic_date_range_black_24dp"
+                    android:ems="10"
+                    android:hint="YYYY-mm-dd"
+                    android:inputType="date"
+                    android:padding="@dimen/min_padding" />
 
                 <!--<android.support.v7.widget.AppCompatEditText-->
                     <!--android:id="@+id/dr_bdate"-->

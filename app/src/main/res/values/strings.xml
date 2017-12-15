@@ -10,7 +10,7 @@
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password </string>
     <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
+    <string name="action_sign_in_short">Masuk</string>
     <string name="error_invalid_email">Gunakan alamat surel yang valid</string>
     <string name="error_invalid_password">Minimal 7 karakter ( hanya angka atau huruf )</string>
     <string name="error_invalid_confirm_password">Konfirmasi Password tidak sesuai</string>
@@ -25,9 +25,9 @@
     </string>
     <string name="forgot_text">
     Link untuk merubah password anda
-        akan kami kirimkan ke email valid anda</string>
-    <string name="login_text">Sign in to your account</string>
-    <string name="forgot_password">Forgot Password?</string>
+        akan kami kirimkan ke email valid Anda</string>
+    <string name="login_text">Masuk ke Akun Anda</string>
+    <string name="forgot_password">Lupa Password?</string>
     <string name="help">Help</string>
     <string name="aktif_text">Masukan kode aktifasi</string>
 
@@ -446,7 +446,7 @@
 
     <string name="slide_1_title">Rentist</string>
     <string name="slide_1_desc">Solusi Partner Rental</string>
-    <string name="slide_2_title">Partner Terpecaya</string>
+    <string name="slide_2_title">Partner Terpercaya</string>
     <string name="slide_2_desc">Jadilah Partner terpercaya dengan melengkapi informasi akun Rental Anda dan dapatkan kemudahan dalam bertransaksi.</string>
     <string name="slide_3_title">Perlindungan Aset</string>
     <string name="slide_3_desc">Lingdungi aset Anda dengan Syarat dan Kebijakan yang dapat Anda tentukan sendiri.</string>

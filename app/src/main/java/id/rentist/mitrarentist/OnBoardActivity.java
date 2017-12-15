@@ -57,7 +57,9 @@ public class OnBoardActivity extends AppCompatActivity {
         btnSkip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                launchActivityMain();
+                int current = layouts.length;
+                viewPager.setCurrentItem(current);
+                //launchActivityMain();
             }
         });
 
@@ -113,10 +115,10 @@ public class OnBoardActivity extends AppCompatActivity {
             addBottomDots(position);
 
             if (position == layouts.length - 1) {
-                btnNext.setText("GOT IT");
+                btnNext.setText("MULAI");
                 btnSkip.setVisibility(View.GONE);
             } else {
-                btnNext.setText("NEXT");
+                btnNext.setText("BERIKUTNYA");
                 btnSkip.setVisibility(View.VISIBLE);
             }
         }

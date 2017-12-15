@@ -7,7 +7,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -26,14 +25,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 import id.rentist.mitrarentist.tools.AppConfig;
+import id.rentist.mitrarentist.tools.FormValidation;
 import id.rentist.mitrarentist.tools.SessionManager;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
-    private AsyncTask mForgotTask = null;
     private ProgressDialog pDialog;
-    private SessionManager sm;
+    AsyncTask mForgotTask = null;
+    SessionManager sm;
+    FormValidation formValidation;
     EditText vEmail;
-//    private View mForgotFormView;
 
     private static final String TAG = "ForgotPasswordActivity";
     private static final String TOKEN = "secretissecret";
@@ -42,17 +42,18 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_password);
-        setTitle("Forgot Password");
+        setTitle("");
 
+        formValidation = new FormValidation(ForgotPasswordActivity.this);
         sm = new SessionManager(getApplicationContext());
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_forgot);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-//        mForgotFormView = findViewById(R.id.forgot_form);
         vEmail = (EditText) findViewById(R.id.email_forgot);
-
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -62,31 +63,21 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 attemptReset();
-//                startActivity(new Intent(ForgotPasswordActivity.this, LoginActivity.class));
             }
         });
     }
 
     private void attemptReset() {
-
         vEmail.setError(null);
-
         String email = vEmail.getText().toString();
-
         View focusView;
 
-        if (isEmailValid(email)) {
+        if (formValidation.isEmailValid(email)) {
             pDialog.setMessage("sending email ...");
             showProgress(true);
             Log.e(TAG, "Email Reset: " + email);
             new ForgotPasswordActivity.postReset(email).execute();
-        } else if(TextUtils.isEmpty(email)) {
-            if(TextUtils.isEmpty(email)) {
-                focusView = vEmail;
-                focusView.requestFocus();
-                Toast.makeText(getApplicationContext(), "Tidak dapat memproses email yang kosong", Toast.LENGTH_LONG).show();
-            }
-        } else if(!isEmailValid(email)) {
+        } else {
             focusView = vEmail;
             focusView.requestFocus();
             Log.e(TAG, "Email Reset: " + email);
@@ -151,8 +142,6 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             showProgress(false);
 
             if(reset != null){
-//                Intent iPolicy = new Intent(FormKebijakanActivity.this, KebijakanActivity.class);
-//                startActivity(iPolicy);
                 Toast.makeText(getApplicationContext(),"Email sukses dikirim", Toast.LENGTH_LONG).show();
                 finish();
             }else{
@@ -179,19 +168,6 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                 pDialog.dismiss();
             }
         }
-    }
-
-    private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
-
-        boolean result = false;
-        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
-
-        if(email.matches(emailPattern) && email.length() > 0){
-            result = true;
-        }
-
-        return result;
     }
 
     public boolean onSupportNavigateUp() {

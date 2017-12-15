@@ -161,14 +161,6 @@ public class FormEditProfilActivity extends AppCompatActivity {
             Picasso.with(getApplicationContext()).load(imageUrl).transform(new CircleTransform()).into(profilePhoto);
         }
 
-        // GAK KEPAKE BRO
-        /*btnUploadFoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                uploadPic();
-            }
-        });*/
-
         btnUploadFoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -180,25 +172,6 @@ public class FormEditProfilActivity extends AppCompatActivity {
         });
 
     }
-
-    /*
-    private void uploadPic() {
-        //invoke image gallery
-        Intent igetGallery = new Intent(Intent.ACTION_PICK);
-
-        // where to find data
-        File picDrectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        String picDirPath = picDrectory.getPath();
-
-        // get URI representation
-        Uri data = Uri.parse(picDirPath);
-
-        // get all image
-        igetGallery.setDataAndType(data, "image/*");
-
-        startActivityForResult(igetGallery, RESULT_LOAD_IMAGE);
-    }
-    */
 
     private void updateProfileRent() {
         rName.setError(null);

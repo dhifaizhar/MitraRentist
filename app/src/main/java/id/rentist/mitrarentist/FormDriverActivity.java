@@ -33,6 +33,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.hbb20.CountryCodePicker;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -42,6 +43,7 @@ import java.util.Map;
 import java.util.TimeZone;
 
 import id.rentist.mitrarentist.tools.AppConfig;
+import id.rentist.mitrarentist.tools.CircleTransform;
 import id.rentist.mitrarentist.tools.SessionManager;
 
 public class FormDriverActivity extends AppCompatActivity {
@@ -110,25 +112,27 @@ public class FormDriverActivity extends AppCompatActivity {
                 RadioButton aFemaleButton = (RadioButton) findViewById(R.id.radioFemale);
                 aFemaleButton.setChecked(true);
             }
+
+            if(!formDriver.getStringExtra("profilepic").isEmpty()){
+                Picasso.with(getApplicationContext()).load(
+                        AppConfig.URL_IMAGE_PROFIL + formDriver.getStringExtra("profilepic")).transform(new CircleTransform()).into(profilePic);
+            }
         }
 
         // set action
-        bdate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        bdate.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(hasFocus) {
-                    Calendar cal = Calendar.getInstance(TimeZone.getDefault());
-                    DatePickerDialog datePicker = new DatePickerDialog(FormDriverActivity.this,
-                            R.style.CardView_Dark,
-                            datePickerListener,
-                            cal.get(Calendar.YEAR),
-                            cal.get(Calendar.MONTH),
-                            cal.get(Calendar.DAY_OF_MONTH));
+            public void onClick(View v) {
+                Calendar cal = Calendar.getInstance(TimeZone.getDefault());
+                DatePickerDialog datePicker = new DatePickerDialog(FormDriverActivity.this,
+                        datePickerListener,
+                        cal.get(Calendar.YEAR),
+                        cal.get(Calendar.MONTH),
+                        cal.get(Calendar.DAY_OF_MONTH));
 
-                    datePicker.setCancelable(true);
-                    datePicker.setTitle("Pilih Tanggal Lahir");
-                    datePicker.show();
-                }
+                datePicker.setCancelable(false);
+                datePicker.setTitle("Pilih Tanggal Lahir");
+                datePicker.show();
             }
         });
 
@@ -283,7 +287,10 @@ public class FormDriverActivity extends AppCompatActivity {
                     keys.put("gender", aGenderButton.getText().toString());
                     keys.put("no_sim", sim.getText().toString());
                     keys.put("birthdate", bdate.getText().toString());
-                    if(!imgString.equals("null")) keys.put("file", imgString);
+                    Log.e(TAG, "File Body : " + imgString);
+                    if(imgString != null && !imgString.equals("null") && !imgString.equals(formDriver.getStringExtra("profilepic"))){
+                        keys.put("file", imgString);
+                    }
 
                     Log.e(TAG, "Key Body : " + keys.toString());
                     return keys;
@@ -348,7 +355,6 @@ public class FormDriverActivity extends AppCompatActivity {
             String year1 = String.valueOf(selectedYear);
             String month1 = String.valueOf(selectedMonth + 1);
             String day1 = String.valueOf(selectedDay);
-
             bdate.setText(year1 + "-" + month1 + "-" + day1);
         }
     };

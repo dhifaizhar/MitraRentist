@@ -1,4 +1,5 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -13,7 +14,6 @@
     tools:context="id.rentist.mitrarentist.LoginActivity">
 
     <!-- Login progress -->
-
     <ImageView
         android:id="@+id/logo"
         android:layout_width="300dp"
@@ -117,7 +117,7 @@
                 android:clickable="true"
                 android:fontFamily="sans-serif"
                 android:gravity="center"
-                android:text="Didn't have an account ? Register here !"
+                android:text="Belum punya akun ? Daftar di sini !"
                 android:textColor="@android:color/white"
                 android:textSize="14sp"/>
 
