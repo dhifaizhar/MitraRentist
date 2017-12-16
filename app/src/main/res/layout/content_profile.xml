@@ -58,15 +58,33 @@
                         android:textSize="@dimen/medium_text"
                         android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/pr_rental_type"
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="@dimen/xmin_padding"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/almost_tiny_text"
-                         />
+                        android:orientation="horizontal"
+                        android:layout_gravity="center_horizontal">
+
+                        <TextView
+                            android:id="@+id/pr_rental_code"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/xmin_padding"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="@dimen/almost_tiny_text"
+                            android:text="ID Rental : 1170000000129"
+                            android:layout_marginEnd="@dimen/xmin_padding"
+                            />
+
+                        <TextView
+                            android:id="@+id/pr_rental_type"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/xmin_padding"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="@dimen/almost_tiny_text"
+                            android:text="(Personal)"
+                            />
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -147,9 +165,9 @@
                                 android:id="@+id/alamattext"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/xmin_padding"
                                 android:layout_marginLeft="@dimen/xmin_padding"
                                 android:layout_toEndOf="@+id/pr_address_ico"
-                                android:layout_marginBottom="@dimen/xmin_padding"
                                 android:text="Alamat Usaha"
                                 android:textSize="12sp" />
 

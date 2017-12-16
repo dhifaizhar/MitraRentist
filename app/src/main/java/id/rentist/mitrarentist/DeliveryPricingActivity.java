@@ -86,8 +86,9 @@ public class DeliveryPricingActivity extends AppCompatActivity {
         toFormAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent iTrans = new Intent(DeliveryPricingActivity.this, FormDeliveryPriceActivity.class);
-                startActivity(iTrans);
+                Intent intent = new Intent(DeliveryPricingActivity.this, FormDeliveryPriceActivity.class);
+                intent.putExtra("from", "list");
+                startActivity(intent);
             }
         });
     }

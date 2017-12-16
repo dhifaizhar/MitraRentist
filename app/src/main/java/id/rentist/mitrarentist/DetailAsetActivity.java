@@ -442,6 +442,8 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
 
                                     delivery_distance.setText(deliveryObject.getInt("max_distance") + " KM");
                                     delivery_price.setText(PricingTools.PriceStringFormat(deliveryObject.getString("price_per_km")));
+                                }else{
+                                    rDeliveryPrice.setVisibility(View.GONE);
                                 }
                             }
                         }
@@ -454,6 +456,8 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
                             if(aDeposit.equals("true")){
                                 rDeposit.setVisibility(View.VISIBLE);
                                 deposit_value.setText(PricingTools.PriceStringFormat(aDepositValue));
+                            }else{
+                                rDeposit.setVisibility(View.GONE);
                             }
                         }
 
@@ -885,6 +889,14 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
                     iAsetEdit.putExtra("no_rangka", no_rangka.getText().toString());
                     iAsetEdit.putExtra("no_mesin", no_mesin.getText().toString());
                     iAsetEdit.putExtra("est_price", aEstPrice);
+                    iAsetEdit.putExtra("delivery_method", aDeliveryMethod);
+                    if(aDeliveryMethod.equals("deliver")){
+                        iAsetEdit.putExtra("id_delivery", aIdDelivery);
+                        iAsetEdit.putExtra("delivery_detail", "Jarak Maksimal: " + delivery_distance.getText().toString() +
+                                ", Biaya per KM: " + delivery_price.getText().toString());
+                    }
+                    iAsetEdit.putExtra("deposit", aDeposit);
+                    if (aDeposit.equals("true")) iAsetEdit.putExtra("nominal_deposit", aDepositValue);
 
                     startActivity(iAsetEdit);
                     break;
@@ -921,6 +933,14 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
                     iAsetEdit.putExtra("fifth_image", aFifthImage);
                     iAsetEdit.putExtra("no_rangka", no_rangka.getText().toString());
                     iAsetEdit.putExtra("no_mesin", no_mesin.getText().toString());
+                    if(aDeliveryMethod.equals("deliver")){
+                        iAsetEdit.putExtra("id_delivery", aIdDelivery);
+                        iAsetEdit.putExtra("delivery_detail", "Jarak Maksimal: " + delivery_distance.getText().toString() +
+                                ", Biaya per KM: " + delivery_price.getText().toString());
+                    }
+                    iAsetEdit.putExtra("deposit", aDeposit);
+                    if (aDeposit.equals("true")) iAsetEdit.putExtra("nominal_deposit", aDepositValue);
+
                     startActivity(iAsetEdit);
                     break;
                 case "3":
@@ -960,6 +980,14 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
                     iAsetEdit.putExtra("third_image", aThirdImage);
                     iAsetEdit.putExtra("fourth_image", aFourthImage);
                     iAsetEdit.putExtra("fifth_image", aFifthImage);
+                    if(aDeliveryMethod.equals("deliver")){
+                        iAsetEdit.putExtra("id_delivery", aIdDelivery);
+                        iAsetEdit.putExtra("delivery_detail", "Jarak Maksimal: " + delivery_distance.getText().toString() +
+                                ", Biaya per KM: " + delivery_price.getText().toString());
+                    }
+                    iAsetEdit.putExtra("deposit", aDeposit);
+                    if (aDeposit.equals("true")) iAsetEdit.putExtra("nominal_deposit", aDepositValue);
+
                     startActivity(iAsetEdit);
 
                     break;

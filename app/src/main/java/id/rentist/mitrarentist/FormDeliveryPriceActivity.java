@@ -3,6 +3,7 @@ package id.rentist.mitrarentist;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -34,9 +35,11 @@ public class FormDeliveryPriceActivity extends AppCompatActivity {
     private ProgressDialog pDialog;
     private SessionManager sm;
 
+    Intent iDelivery;
     String tenant;
     EditText distance, price;
-    CheckBox medic, photo, toys, maternity, elektronic, office, fashion;
+    LinearLayout rowCategory;
+    CheckBox car, motor, yacht, medic, photo, toys, adventure, maternity, elektronic, bicycle, office, fashion;
     List<Integer> category = new ArrayList<>();
 
     private static final String TAG = "DeliveryPriceActivity";
@@ -53,22 +56,39 @@ public class FormDeliveryPriceActivity extends AppCompatActivity {
         tenant = sm.getIntPreferences("id_tenant").toString();
         distance = (EditText) findViewById(R.id.distance);
         price = (EditText) findViewById(R.id.price);
+        rowCategory = (LinearLayout) findViewById(R.id.row_asset_category);
+        car = (CheckBox) findViewById(R.id.ck_car);
+        motor = (CheckBox) findViewById(R.id.ck_motor);
+        yacht = (CheckBox) findViewById(R.id.ck_yacht);
         medic = (CheckBox) findViewById(R.id.ck_medic);
         photo = (CheckBox) findViewById(R.id.ck_photo);
         toys = (CheckBox) findViewById(R.id.ck_toys);
+        adventure = (CheckBox) findViewById(R.id.ck_adventure);
         maternity  = (CheckBox) findViewById(R.id.ck_maternity);
         elektronic = (CheckBox) findViewById(R.id.ck_elektronic);
+        bicycle = (CheckBox) findViewById(R.id.ck_bicycle);
         office = (CheckBox) findViewById(R.id.ck_office);
         fashion = (CheckBox) findViewById(R.id.ck_fashion);
 
         String[] asset_category = getApplicationContext().getResources().getStringArray(R.array.asset_category_entries);
+        car.setText(asset_category[0]);
+        motor.setText(asset_category[1]);
+        yacht.setText(asset_category[2]);
         medic.setText(asset_category[3]);
         photo.setText(asset_category[4]);
         toys.setText(asset_category[5]);
+        adventure.setText(asset_category[6]);
         maternity.setText(asset_category[7]);
         elektronic.setText(asset_category[8]);
+        bicycle.setText(asset_category[9]);
         office.setText(asset_category[10]);
         fashion.setText(asset_category[11]);
+
+        iDelivery = getIntent();
+        if (!iDelivery.getStringExtra("from").equals("list")){
+            rowCategory.setVisibility(View.GONE);
+            category.add(Integer.parseInt(iDelivery.getStringExtra("id_asset_category")));
+        }
 
         final ImageView btn_expand = (ImageView) findViewById(R.id.expandable_toggle_button);
         final LinearLayout mItemExpand = (LinearLayout) findViewById(R.id.category);
@@ -79,11 +99,11 @@ public class FormDeliveryPriceActivity extends AppCompatActivity {
                 if (mItemExpand.getVisibility() == View.GONE) {
                     // it's collapsed - expand it
                     mItemExpand.setVisibility(View.VISIBLE);
-                    btn_expand.setImageResource(R.drawable.ic_keyboard_arrow_up_black_18dp);
+                    btn_expand.setImageResource(R.drawable.ic_keyboard_arrow_down_black_18dp);
                 } else {
                     // it's expanded - collapse it
                     mItemExpand.setVisibility(View.GONE);
-                    btn_expand.setImageResource(R.drawable.ic_keyboard_arrow_down_black_18dp);
+                    btn_expand.setImageResource(R.drawable.ic_keyboard_arrow_up_black_18dp);
                 }
 
                 @SuppressLint("ObjectAnimatorBinding")
@@ -96,7 +116,13 @@ public class FormDeliveryPriceActivity extends AppCompatActivity {
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addData();
+                if(distance.getText().toString().isEmpty() || price.getText().toString().isEmpty()){
+                    Toast.makeText(getApplicationContext(), "Harap Lengkapi Form",Toast.LENGTH_LONG).show();
+
+                }else{
+                    addData();
+
+                }
             }
         });
     }
@@ -104,14 +130,20 @@ public class FormDeliveryPriceActivity extends AppCompatActivity {
     private void addData() {
         pDialog.setMessage("Menyimpan Data...");
         showProgress(true);
-        if(medic.isChecked()) category.add(4);
-        if(photo.isChecked()) category.add(5);
-        if(toys.isChecked()) category.add(6);
-        if(maternity.isChecked()) category.add(8);
-        if(elektronic.isChecked()) category.add(9);
-        if(office.isChecked()) category.add(11);
-        if(fashion.isChecked()) category.add(12);
-
+        if (!iDelivery.getStringExtra("from").equals("list")) {
+            if (car.isChecked()) category.add(1);
+            if (motor.isChecked()) category.add(2);
+            if (yacht.isChecked()) category.add(3);
+            if (medic.isChecked()) category.add(4);
+            if (photo.isChecked()) category.add(5);
+            if (toys.isChecked()) category.add(6);
+            if (adventure.isChecked()) category.add(7);
+            if (maternity.isChecked()) category.add(8);
+            if (elektronic.isChecked()) category.add(9);
+            if (bicycle.isChecked()) category.add(10);
+            if (office.isChecked()) category.add(11);
+            if (fashion.isChecked()) category.add(12);
+        }
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.URL_DELIVERY_PRICE, new Response.Listener<String>() {
             @Override

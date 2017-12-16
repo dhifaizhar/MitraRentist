@@ -78,6 +78,8 @@ public class ListDeliveryPriceActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent iDeliveryPrce = new Intent(ListDeliveryPriceActivity.this, FormDeliveryPriceActivity.class);
+                iDeliveryPrce.putExtra("from", "aset");
+                iDeliveryPrce.putExtra("id_asset_category", iDelivery.getStringExtra("id_asset_category"));
                 startActivity(iDeliveryPrce);
             }
         });

@@ -1062,11 +1062,13 @@ public class FormBicycleAsetActivity extends AppCompatActivity {
                         finish();
                     }else{
                         Toast.makeText(getApplicationContext(),"Gagal meyimpan data", Toast.LENGTH_LONG).show();
+                        finish();
                     }
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                    showProgress(false);
                     errorMsg = error.toString();
                     Log.e(TAG, "Form Asset Fetch Error : " + errorMsg);
                     Toast.makeText(getApplicationContext(), "Connection error, try again.",
@@ -1158,11 +1160,13 @@ public class FormBicycleAsetActivity extends AppCompatActivity {
                         finish();
                     }else{
                         Toast.makeText(getApplicationContext(),"Gagal meyimpan data", Toast.LENGTH_LONG).show();
+                        finish();
                     }
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                    showProgress(false);
                     errorMsg = error.toString();
                     Log.e(TAG, "Form Asset Fetch Error : " + errorMsg);
                     Toast.makeText(getApplicationContext(), "Connection error, try again.",

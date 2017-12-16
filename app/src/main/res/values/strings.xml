@@ -142,7 +142,7 @@
         <item>Fashion</item>
     </string-array>
 
-    <string-array name="asset_subcategory_entries">
+    <string-array name="car_subcategory_entries">
         <item>Classic</item>
         <item>Family</item>
         <item>Luxury</item>
@@ -492,5 +492,7 @@
     <string name="delivery_deliver">deliver</string>
     <string name="delivery_logistic">logistic</string>
 
-
+    <string name="btn_save">Simpan</string>
+    
+    <string name="activation_text_check">Mohon periksa SMS dan email anda \n"untuk mendapatkan kode aktivasi</string>
 </resources>

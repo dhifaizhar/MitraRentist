@@ -37,7 +37,7 @@ import id.rentist.mitrarentist.tools.SessionManager;
 public class ProfileActivity extends AppCompatActivity {
     private SessionManager sm;
     Intent iEditRent;
-    TextView rName, rOwner, rAddress, rEmail, rPhone, rBankAccount, rBankName,
+    TextView rName, rOwner, rAddress, rEmail, rPhone, rBankAccount, rBankName, rTenantCode,
             rAccountOwner, rBranch, rCity, rProvince, rVillage, rDistrict, rRentalType, rPostalCode;
     ImageView profilePhoto;
     ImageButton vAll;
@@ -84,6 +84,7 @@ public class ProfileActivity extends AppCompatActivity {
         rRentalType = (TextView) findViewById(R.id.pr_rental_type);
         profilePhoto = (ImageView) findViewById(R.id.pr_thumb);
         rPostalCode = (TextView) findViewById(R.id.pr_postal_code);
+        rTenantCode = (TextView) findViewById(R.id.pr_rental_code);
 
         vAll = (ImageButton) findViewById(R.id.view_testi);
 
@@ -91,14 +92,15 @@ public class ProfileActivity extends AppCompatActivity {
         rName.setText(sm.getPreferences("nama_rental"));
         rOwner.setText(sm.getPreferences("nama_pemilik"));
         rAddress.setText(String.valueOf(sm.getPreferences("alamat").isEmpty()?"-":sm.getPreferences("alamat")));
-        rPhone.setText("+"+sm.getPreferences("telepon"));
+        rPhone.setText(String.valueOf("+"+sm.getPreferences("telepon")));
         rEmail.setText(sm.getPreferences("email_rental"));
         rBankName.setText(String.valueOf(sm.getPreferences("bank_name").isEmpty()?"-":sm.getPreferences("bank_name")));
         rBankAccount.setText(String.valueOf(sm.getPreferences("bank_account").isEmpty()?"-":sm.getPreferences("bank_account")));
         rAccountOwner.setText(sm.getPreferences("account_name"));
-        rRentalType.setText("Rental " + sm.getPreferences("rental_type"));
+        rRentalType.setText("(" + sm.getPreferences("rental_type") + ")");
         rBranch.setText("Cabang : " + String.valueOf(sm.getPreferences("branch").isEmpty()?"-":sm.getPreferences("branch")));
         rPostalCode.setText(sm.getPreferences("kode_pos"));
+        rTenantCode.setText(String.valueOf("ID Rental : " + sm.getPreferences("tenant_code")));
 
         if(!String.valueOf(sm.getIntPreferences("city")).isEmpty()){
             rCity.setText("");

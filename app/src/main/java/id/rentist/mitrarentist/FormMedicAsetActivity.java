@@ -1122,11 +1122,13 @@ public class FormMedicAsetActivity extends AppCompatActivity {
                         finish();
                     }else{
                         Toast.makeText(getApplicationContext(),"Gagal meyimpan data", Toast.LENGTH_LONG).show();
+                        finish();
                     }
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                    showProgress(false);
                     errorMsg = error.toString();
                     Log.e(TAG, "Form Asset Fetch Error : " + errorMsg);
                     Toast.makeText(getApplicationContext(), "Connection error, try again.",
@@ -1221,11 +1223,13 @@ public class FormMedicAsetActivity extends AppCompatActivity {
                         finish();
                     }else{
                         Toast.makeText(getApplicationContext(),"Gagal meyimpan data", Toast.LENGTH_LONG).show();
+                        finish();
                     }
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                    showProgress(false);
                     errorMsg = error.toString();
                     Log.e(TAG, "Form Asset Fetch Error : " + errorMsg);
                     Toast.makeText(getApplicationContext(), "Connection error, try again.",
@@ -1285,20 +1289,6 @@ public class FormMedicAsetActivity extends AppCompatActivity {
             return responseAsset;
         }
 
-//        @Override
-//        protected void onPostExecute(String aset) {
-//            mAddAssetTask = null;
-//            showProgress(false);
-//            Log.e(TAG, "Asset Respone: " + String.valueOf(aset));
-//
-//            if(aset != null){
-//                Toast.makeText(getApplicationContext(),"Data sukses disimpan", Toast.LENGTH_LONG).show();
-//                finish();
-//            }else{
-//                Toast.makeText(getApplicationContext(),"Gagal meyimpan data", Toast.LENGTH_LONG).show();
-//            }
-//
-//        }
 
         @Override
         protected void onCancelled() {

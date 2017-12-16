@@ -280,7 +280,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         private final String mEmail;
         private final String mPassword;
 
-        String sEmail, sEmailRental, sNama, sNamaRent, sNamaPem, sTelp, sRole, sAlamat, sStat, sPic, tCode, tPic, sVerif;
+        String sEmail, sEmailRental, sNama, sNamaRent, sNamaPem, sTelp, sRole, sAlamat, sStat, sPic, tCode, tPic, sVerif, sTenantCode;
         Integer sId, sIdTenant, sImg;
 
 
@@ -397,6 +397,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                         tPic = tenantObject.getString("profil_pic");
                         tCode = tenantObject.getString("tenant_code");
                         sVerif = tenantObject.getString("verified");
+                        sTenantCode = tenantObject.getString("tenant_code");
 
                         Log.e(TAG, "What Data Detail : " + String.valueOf(tenantObject));
                     }
@@ -418,6 +419,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                     sm.setPreferences("foto_profil",sPic);
                     sm.setPreferences("foto_profil_tenant",tPic);
                     sm.setPreferences("verified", sVerif);
+                    sm.setPreferences("tenant_code", sTenantCode);
 
                     sm.setPreferences("rental_type", tenantObject.getString("rental_type"));
 

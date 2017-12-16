@@ -26,6 +26,7 @@
             android:padding="@dimen/xmin_padding">
 
             <LinearLayout
+                android:id="@+id/row_asset_category"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="@dimen/xmin_padding"
@@ -44,7 +45,7 @@
 
                     <ImageView
                         android:id="@+id/expandable_toggle_button"
-                        app:srcCompat="@drawable/ic_keyboard_arrow_down_black_18dp"
+                        app:srcCompat="@drawable/ic_keyboard_arrow_up_black_18dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@color/colorWhite"
@@ -58,6 +59,24 @@
                     android:layout_height="wrap_content"
                     android:background="@color/colorNearWhite"
                     android:orientation="vertical">
+
+                    <CheckBox
+                        android:id="@+id/ck_car"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:checked="false" />
+
+                    <CheckBox
+                        android:id="@+id/ck_motor"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:checked="false" />
+
+                    <CheckBox
+                        android:id="@+id/ck_yacht"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:checked="false" />
 
                     <CheckBox
                         android:id="@+id/ck_medic"
@@ -78,6 +97,12 @@
                         android:checked="false" />
 
                     <CheckBox
+                        android:id="@+id/ck_adventure"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:checked="false" />
+
+                    <CheckBox
                         android:id="@+id/ck_maternity"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -85,6 +110,12 @@
 
                     <CheckBox
                         android:id="@+id/ck_elektronic"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:checked="false" />
+
+                    <CheckBox
+                        android:id="@+id/ck_bicycle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:checked="false" />

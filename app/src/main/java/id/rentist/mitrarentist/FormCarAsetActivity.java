@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -59,6 +60,13 @@ import id.rentist.mitrarentist.tools.Tools;
 
 public class FormCarAsetActivity extends AppCompatActivity {
     private Activity currentActivity = FormCarAsetActivity.this;
+    private int subCategotyArray = R.array.car_subcategory_entries;
+    private int layout = R.layout.activity_form_car_aset;
+    private int cat_num = 1;
+    private String URL = AppConfig.URL_MOBIL;
+    private String fee_cat = "fee_car";
+
+    String[] asset_category;
 
     private AsyncTask mAddAssetTask = null;
     private ProgressDialog pDialog;
@@ -77,6 +85,17 @@ public class FormCarAsetActivity extends AppCompatActivity {
     private int PICK_LOCATION_REQUEST = 10;
     private static final String TAG = "FormAssetActivity";
     private static final String TOKEN = "secretissecret";
+
+    Button bSaveButton;
+
+    //Delivery & Deposit
+    String aIdDelivery = "", aDepositStatus;
+    RadioGroup aDeliveryMethodGroup, aDepositGroup;
+    RadioButton rPickup, rDelivery, aLogistic, rbDepositYes, rbDepositNo;
+    LinearLayout rDeliveryPrice, rDeposit, rDepositValue;
+    TextView detDeliveryPrice;
+    EditText aDepositValue;
+    private int SET_DELIVERY_PRICE = 15;
 
     //Image Initial
     String[] imagesArray = {AppConfig.URL_IMAGE_ASSETS + "default.png"};
@@ -113,8 +132,9 @@ public class FormCarAsetActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_form_car_aset);
-        setTitle("Aset Mobil");
+        setContentView(layout);
+        asset_category = getApplicationContext().getResources().getStringArray(R.array.asset_category_entries);
+        setTitle("Aset " + asset_category[cat_num-1]);
 
         iFormAsset = getIntent();
         sm = new SessionManager(getApplicationContext());
@@ -190,7 +210,6 @@ public class FormCarAsetActivity extends AppCompatActivity {
         aAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pDialog.setTitle("Memuat Peta");
                 showProgress(true);
                 aAddress.setClickable(false);
                 PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
@@ -276,6 +295,52 @@ public class FormCarAsetActivity extends AppCompatActivity {
             }
         });
 
+        //Deliver & Deposit
+        aDeliveryMethodGroup = (RadioGroup) findViewById(R.id.delivery_group);
+        rPickup = (RadioButton) findViewById(R.id.r_pickup);
+        rDelivery = (RadioButton) findViewById(R.id.r_deliver);
+        rDeliveryPrice = (LinearLayout) findViewById(R.id.delivery_detail);
+        detDeliveryPrice = (TextView) findViewById(R.id.delivery_price);
+
+        aDepositGroup = (RadioGroup) findViewById(R.id.deposit_group);
+        rbDepositYes = (RadioButton) findViewById(R.id.r_deposit);
+        rbDepositNo = (RadioButton) findViewById(R.id.r_no_deposit);
+        rDepositValue = (LinearLayout) findViewById(R.id.row_deposit_value);
+        aDepositValue = (EditText) findViewById(R.id.as_nominal_deposit);
+
+        aDeliveryMethodGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if(checkedId == R.id.r_deliver) {
+                    rDeliveryPrice.setVisibility(View.VISIBLE);
+                } else {
+                    rDeliveryPrice.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        aDepositGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if(checkedId == R.id.r_deposit) {
+                    rDepositValue.setVisibility(View.VISIBLE);
+                } else {
+                    rDepositValue.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        detDeliveryPrice.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent iDeliveryPrce = new Intent(currentActivity, ListDeliveryPriceActivity.class);
+                iDeliveryPrce.putExtra("id_asset_category", String.valueOf(cat_num));
+                startActivityForResult(iDeliveryPrce, SET_DELIVERY_PRICE);
+            }
+        });
+
         //PRICING
         aBasicPriceDisp = (TextView) findViewById(R.id.as_price_basic_disp);
         aBasicPrice = (EditText) findViewById(R.id.as_price_basic);
@@ -310,7 +375,7 @@ public class FormCarAsetActivity extends AppCompatActivity {
         aDispText4 = (TextView) findViewById(R.id.disptext4);
         aDispText5 = (TextView) findViewById(R.id.disptext5);
 
-        fee = Integer.parseInt(sm.getPreferences("fee_car"));
+        fee = Integer.parseInt(sm.getPreferences(fee_cat));
         aFeeMsg = "Harga yang akan anda terima (-" + fee + "%):";
         aDispText.setText(aFeeMsg);
         aDispText2.setText(aFeeMsg);
@@ -520,6 +585,65 @@ public class FormCarAsetActivity extends AppCompatActivity {
         if(iFormAsset.getStringExtra("action").equals("update")){
            getDataUpdate();
         }
+
+        bSaveButton = (Button) findViewById(R.id.btn_save);
+        bSaveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
+                category = iFormAsset.getStringExtra("cat");
+                idAsset = iFormAsset.getIntExtra("id_asset",0);
+
+                int rentReqId = aRentReqGroup.getCheckedRadioButtonId();
+                if (rentReqId == aBasic.getId()) aRentReq = getResources().getString(R.string.member_badge_basic);
+                else if (rentReqId == aVerified.getId()) aRentReq = getResources().getString(R.string.member_badge_verified);
+                else aRentReq = getResources().getString(R.string.member_badge_smart_con);
+
+                if(aDriver.isChecked() && aNoDriver.isChecked()){aDriverStatus = "both";}
+                else if (aDriver.isChecked()){ aDriverStatus = "true";}
+                else if (aNoDriver.isChecked()){ aDriverStatus = "false";}
+                else { aDriverStatus = "nodefine";}
+
+                Boolean delivMethodValid = true;
+                int deliveryMethodId = aDeliveryMethodGroup.getCheckedRadioButtonId();
+                if (deliveryMethodId == rPickup.getId()) aDeliveryMethod = getResources().getString(R.string.delivery_pickup);
+                else if (deliveryMethodId == rDelivery.getId()) {
+                    aDeliveryMethod = getResources().getString(R.string.delivery_deliver);
+                    if(aIdDelivery.isEmpty()){
+                        delivMethodValid = false;
+                    }
+                }
+
+                Boolean depositValid = true;
+                int depositId = aDepositGroup.getCheckedRadioButtonId();
+                if (depositId == rbDepositNo.getId()) {
+                    aDepositStatus = "false";
+                } else {
+                    aDepositStatus = "true";
+                    if(aDepositValue.getText().toString().isEmpty()){
+                        depositValid = false;
+                    }
+                }
+
+                if (aBasicPrice.getText().toString().isEmpty() ||
+                        aDriverStatus.equals("nodefine") ||
+                        aAddress.getText().toString().isEmpty() ||
+                        aType.getText().toString().isEmpty() ||
+                        aPlat.toString().isEmpty() || aPlatStart.toString().isEmpty() || aPlatEnd.toString().isEmpty() ||
+                        aName.getText().toString().isEmpty() ||
+                        aNoRangka.getText().toString().isEmpty() ||
+                        aNoMesin.getText().toString().isEmpty() ||
+                        aMinRentDay.getText().toString().isEmpty() ||
+                        delivMethodValid.equals(false) ||
+                        depositValid.equals(false)){
+                    Toast.makeText(getApplicationContext(), getString(R.string.error_field_not_complete),Toast.LENGTH_LONG).show();
+                } else{
+                    pricingArray.clear();
+                    getPrice();
+                    postPriceCheck(pricingArray.toString());
+                }
+            }
+        });
     }
 
     private void getDataUpdate(){
@@ -553,7 +677,7 @@ public class FormCarAsetActivity extends AppCompatActivity {
         Log.e(TAG, "Awal :" + a +" tengah "+ b +" akhir "+ c);
 
         //spinner
-        Tools.setSpinnerValue(iFormAsset.getStringExtra("subcat"), subcategory, R.array.asset_subcategory_entries, getApplicationContext());
+        Tools.setSpinnerValue(iFormAsset.getStringExtra("subcat"), subcategory, subCategotyArray, getApplicationContext());
         Tools.setSpinnerValue(iFormAsset.getStringExtra("merk"), aMerk, R.array.car_brand_entries, getApplicationContext());
         Tools.setSpinnerValue(iFormAsset.getStringExtra("color"), aColor, R.array.color_entries, getApplicationContext());
         Tools.setSpinnerValue(iFormAsset.getStringExtra("fuel"), aFuel, R.array.fuel_entries, getApplicationContext());
@@ -616,10 +740,26 @@ public class FormCarAsetActivity extends AppCompatActivity {
             ((RadioButton) aRentReqGroup.getChildAt(1)).setChecked(true);
         }else  ((RadioButton) aRentReqGroup.getChildAt(2)).setChecked(true);
 
-        if (iFormAsset.getStringExtra("delivery_method").equals("pickup")){
-            aDelivery.setChecked(false);
-        }else if (iFormAsset.getStringExtra("delivery_method").equals("deliver")){
-            aPickup.setChecked(false);
+//        if (iFormAsset.getStringExtra("delivery_method").equals("pickup")){
+//            aDelivery.setChecked(false);
+//        }else if (iFormAsset.getStringExtra("delivery_method").equals("deliver")){
+//            aPickup.setChecked(false);
+//        }
+        if (iFormAsset.getStringExtra("delivery_method").equals(getResources().getString(R.string.delivery_pickup))) {
+            ((RadioButton) aDeliveryMethodGroup.getChildAt(0)).setChecked(true);
+        } else if (iFormAsset.getStringExtra("delivery_method").equals(getResources().getString(R.string.delivery_deliver))) {
+            ((RadioButton) aDeliveryMethodGroup.getChildAt(1)).setChecked(true);
+            rDeliveryPrice.setVisibility(View.VISIBLE);
+            detDeliveryPrice.setText(iFormAsset.getStringExtra("delivery_detail"));
+            aIdDelivery = iFormAsset.getStringExtra("id_delivery");
+        }
+
+        if (iFormAsset.getStringExtra("deposit").equals("false")) {
+            ((RadioButton) aDepositGroup.getChildAt(0)).setChecked(true);
+        } else {
+            ((RadioButton) aDepositGroup.getChildAt(1)).setChecked(true);
+            rDepositValue.setVisibility(View.VISIBLE);
+            aDepositValue.setText(iFormAsset.getStringExtra("nominal_deposit"));
         }
 
        if (iFormAsset.getStringExtra("driver").equals("true")){
@@ -859,6 +999,12 @@ public class FormCarAsetActivity extends AppCompatActivity {
                 aLongitude = Tools.getLongitude(LatLong);
             }
         }
+
+        if (requestCode == SET_DELIVERY_PRICE && resultCode == Activity.RESULT_OK) {
+            aIdDelivery = data.getStringExtra("id_delivery");
+            detDeliveryPrice.setText(data.getStringExtra("delivery_detail"));
+        }
+
         if (requestCode == PICK_DATE_REQUEST) {
             if(resultCode == Activity.RESULT_OK){
                 String resultStart = data.getStringExtra("startDate");
@@ -1046,10 +1192,21 @@ public class FormCarAsetActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(String response) {
                     responseAsset = response;
+                    Log.e(TAG, "Response: " + response);
+
+                    if(response != null){
+                        Toast.makeText(getApplicationContext(),"Data sukses disimpan, Aset sedang di verifikasi", Toast.LENGTH_LONG).show();
+                        finish();
+                    }else{
+                        showProgress(false);
+                        Toast.makeText(getApplicationContext(),"Gagal meyimpan data", Toast.LENGTH_LONG).show();
+                        finish();
+                    }
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                    showProgress(false);
                     errorMsg = error.toString();
                     Log.e(TAG, "Form Asset Fetch Error : " + errorMsg);
                     Toast.makeText(getApplicationContext(), "Connection error, try again.",
@@ -1096,6 +1253,10 @@ public class FormCarAsetActivity extends AppCompatActivity {
                     keys.put("no_mesin", aNoMesin.getText().toString());
                     keys.put("estimated_price", aEstPrice.getSelectedItem().toString());
 
+                    if(aDeliveryMethod.equals("deliver")) keys.put("id_delivery", aIdDelivery);
+                    keys.put("deposit", aDepositStatus);
+                    if(aDepositStatus.equals("true")) keys.put("nominal_deposit", aDepositValue.getText().toString().replace(",",""));
+
                     Log.e(TAG, "POST DATA: " + keys);
                     return keys;
                 }
@@ -1116,19 +1277,6 @@ public class FormCarAsetActivity extends AppCompatActivity {
             }
 
             return responseAsset;
-        }
-
-        @Override
-        protected void onPostExecute(String aset) {
-            mAddAssetTask = null;
-            showProgress(false);
-
-            if(aset != null){
-                Toast.makeText(getApplicationContext(),"Data sukses disimpan, Aset sedang di verifikasi", Toast.LENGTH_LONG).show();
-                finish();
-            }else{
-                Toast.makeText(getApplicationContext(),"Gagal meyimpan data", Toast.LENGTH_LONG).show();
-            }
         }
 
         @Override
@@ -1163,10 +1311,21 @@ public class FormCarAsetActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(String response) {
                     responseAsset = response;
+                    Log.e(TAG, "Response: " + response);
+
+                    if(response != null){
+                        Toast.makeText(getApplicationContext(),"Data sukses disimpan", Toast.LENGTH_LONG).show();
+                        finish();
+                    }else{
+                        showProgress(false);
+                        Toast.makeText(getApplicationContext(),"Gagal meyimpan data", Toast.LENGTH_LONG).show();
+                        finish();
+                    }
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                    showProgress(false);
                     errorMsg = error.toString();
                     Log.e(TAG, "Form Asset Fetch Error : " + errorMsg);
                     Toast.makeText(getApplicationContext(), "Connection error, try again.",
@@ -1212,6 +1371,10 @@ public class FormCarAsetActivity extends AppCompatActivity {
                     keys.put("no_mesin", aNoMesin.getText().toString());
                     keys.put("estimated_price", aEstPrice.getSelectedItem().toString());
 
+                    if(aDeliveryMethod.equals("deliver")) keys.put("id_delivery", aIdDelivery);
+                    keys.put("deposit", aDepositStatus);
+                    if(aDepositStatus.equals("true")) keys.put("nominal_deposit", aDepositValue.getText().toString().replace(",",""));
+
                     Log.e(TAG, "Asset Keys: " + String.valueOf(keys));
                     return keys;
                 }
@@ -1234,20 +1397,6 @@ public class FormCarAsetActivity extends AppCompatActivity {
             return responseAsset;
         }
 
-        @Override
-        protected void onPostExecute(String aset) {
-            mAddAssetTask = null;
-            showProgress(false);
-            Log.e(TAG, "Response: " + aset);
-
-            if(aset != null){
-                Toast.makeText(getApplicationContext(),"Data sukses disimpan", Toast.LENGTH_LONG).show();
-                finish();
-            }else{
-                Toast.makeText(getApplicationContext(),"Gagal meyimpan data", Toast.LENGTH_LONG).show();
-            }
-
-        }
 
         @Override
         protected void onCancelled() {
@@ -1295,7 +1444,7 @@ public class FormCarAsetActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_save_option, menu);
+//        getMenuInflater().inflate(R.menu.menu_save_option, menu);
         return true;
     }
 }
