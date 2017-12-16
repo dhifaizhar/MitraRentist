@@ -49,6 +49,7 @@ public class KebijakanKhususAdapter extends RecyclerView.Adapter<KebijakanKhusus
                 Intent i = new Intent(context, FormKebijakanActivity.class);
                 i.putExtra("action","update");
                 i.putExtra("id", kbjm.getId());
+                i.putExtra("id_asset_cat", kbjm.getaCategory());
                 i.putExtra("title", kbjm.getTitle());
                 i.putExtra("desc", kbjm.getDesc());
 

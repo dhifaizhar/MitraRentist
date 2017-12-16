@@ -14,7 +14,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,7 +43,8 @@ public class FormKebijakanActivity extends AppCompatActivity {
 
     Integer id;
     String tenant, kId;
-    TextView kTitle, kDesc;
+    TextView kTitle, kDesc, aCatValue;
+    Spinner aCat;
     Button btnSavePolicy;
 
     private static final String TAG = "FormPolicyActivity";
@@ -69,17 +73,31 @@ public class FormKebijakanActivity extends AppCompatActivity {
         kTitle = (TextView) findViewById(R.id.kbj_title);
         kDesc = (TextView) findViewById(R.id.kbj_desc);
         btnSavePolicy = (Button) findViewById(R.id.btn_add);
+        aCat = (Spinner) findViewById(R.id.kbj_asset_cat);
+        aCatValue = (EditText) findViewById(R.id.kbj_asset_cat_val);
 
+        aCat.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                aCatValue.setText(String.valueOf(position+1));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                aCatValue.setText("1");
+            }
+        });
         if(formKebijakan.getStringExtra("action").equals("update")){
             id = formKebijakan.getIntExtra("id", 0);
             kId = id.toString();
 //            kId = formKebijakan.getStringExtra("id");
             kTitle.setText(formKebijakan.getStringExtra("title"));
             kDesc.setText(formKebijakan.getStringExtra("desc"));
+            aCatValue.setText(formKebijakan.getStringExtra("id_asset_cat"));
+            aCat.setSelection(Integer.parseInt(formKebijakan.getStringExtra("id_asset_cat"))-1);
         }
 
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
-
 
         btnSavePolicy.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,6 +166,7 @@ public class FormKebijakanActivity extends AppCompatActivity {
                     // Posting parameters to url
                     Map<String, String> keys = new HashMap<String, String>();
                     keys.put("id_tenant", mTenant);
+                    keys.put("id_asset_category", String.valueOf(aCatValue.getText()));
                     keys.put("title", kTitle.getText().toString());
                     keys.put("description", kDesc.getText().toString());
                     return keys;
@@ -228,6 +247,7 @@ public class FormKebijakanActivity extends AppCompatActivity {
                     Map<String, String> keys = new HashMap<String, String>();
                     keys.put("id_tenant", mTenant);
                     keys.put("id_policy", idKebijakan);
+                    keys.put("id_asset_category", String.valueOf(aCatValue.getText()));
                     keys.put("title", kTitle.getText().toString());
                     keys.put("description", kDesc.getText().toString());
                     Log.e(TAG, "Key Body : " + keys.toString());

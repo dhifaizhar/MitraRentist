@@ -7,7 +7,7 @@ package id.rentist.mitrarentist.modul;
 public class KebijakanModul {
     private int mId;
 
-    private String sId, mTitle;
+    private String sId, mTitle, aCategory;
     private String mDesc;
 
     public int getId() {
@@ -37,5 +37,13 @@ public class KebijakanModul {
 
     public void setsId(String sId) {
         this.sId = sId;
+    }
+
+    public String getaCategory() {
+        return aCategory;
+    }
+
+    public void setaCategory(String aCategory) {
+        this.aCategory = aCategory;
     }
 }

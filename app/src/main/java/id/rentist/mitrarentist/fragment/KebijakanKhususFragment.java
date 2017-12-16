@@ -168,7 +168,7 @@ public class KebijakanKhususFragment extends Fragment {
         protected void onPostExecute(String kebijakan) {
             mKebijakanTask = null;
             showProgress(false);
-            String aTitle, aDesc, aDate;
+            String aTitle, aDesc, aDate, aCat;
             Integer aId, dataLength;
 
             if (kebijakan != null) {
@@ -185,9 +185,16 @@ public class KebijakanKhususFragment extends Fragment {
                             aTitle = jsonobject.getString("title");
                             aDesc = jsonobject.getString("description");
                             aDate = jsonobject.getString("createdAt");
+                            aCat = jsonobject.getString("id_asset_category");
+                            if(aCat.equals("null")){
+                                aCat = "1";
+                            }
+
+                            Log.e(TAG,aCat);
 
                             KebijakanModul kebijakanModul = new KebijakanModul();
                             kebijakanModul.setId(aId);
+                            kebijakanModul.setaCategory(aCat);
                             kebijakanModul.setTitle(aTitle);
                             kebijakanModul.setDesc(aDesc);
                             mKebijakan.add(kebijakanModul);
@@ -199,12 +206,12 @@ public class KebijakanKhususFragment extends Fragment {
                         mRecyclerView.setAdapter(mAdapter);
 
                     }else{
-                        errorMsg = "Riwayat Selesai Tidak Ditemukan";
+                        errorMsg = "Data Kebijakan Khusus Tidak Ditemukan";
                         Toast.makeText(getActivity(),errorMsg, Toast.LENGTH_LONG).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    errorMsg = "Riwayat Tidak Ditemukan";
+                    errorMsg = "Data Kebijakan Khusus Tidak Ditemukan";
                     Toast.makeText(getActivity(),errorMsg, Toast.LENGTH_LONG).show();
                 }
             }

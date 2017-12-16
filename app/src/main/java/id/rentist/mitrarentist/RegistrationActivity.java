@@ -29,9 +29,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.firebase.client.Firebase;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.hbb20.CountryCodePicker;
@@ -201,6 +198,8 @@ public class  RegistrationActivity extends AppCompatActivity {
                                     pDialog.setMessage("registering account ...");
                                     showProgress(true);
 
+                                    mRegisterTask = new postRegisterTask().execute();
+                                    /*
                                     mAuth.createUserWithEmailAndPassword(email, password)
                                             .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                                                 @Override
@@ -215,6 +214,7 @@ public class  RegistrationActivity extends AppCompatActivity {
                                                     }
                                                 }
                                             });
+                                     */
                                 }else{
                                     Toast.makeText(getApplicationContext(),"Mohon konfirmasi bahwa anda telah membaca Syarat dan Kebijakan Rentist", Toast.LENGTH_LONG).show();
                                 }

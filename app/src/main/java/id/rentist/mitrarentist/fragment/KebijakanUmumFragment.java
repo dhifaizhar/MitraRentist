@@ -156,12 +156,12 @@ public class KebijakanUmumFragment extends Fragment {
                         mRecyclerView.setAdapter(mAdapter);
 
                     }else{
-                        errorMsg = "Riwayat Selesai Tidak Ditemukan";
+                        errorMsg = "Data Kebijakan Umum Tidak Ditemukan";
                         Toast.makeText(getActivity(),errorMsg, Toast.LENGTH_LONG).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    errorMsg = "Riwayat Tidak Ditemukan";
+                    errorMsg = "Data Kebijakan Umum Tidak Ditemukan";
                     Toast.makeText(getActivity(),errorMsg, Toast.LENGTH_LONG).show();
                 }
             }
