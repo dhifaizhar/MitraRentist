@@ -155,9 +155,9 @@ public class MemberProfileActivity extends AppCompatActivity {
             JSONObject ratingObject = new JSONObject(String.valueOf(dataObject.getJSONObject("ratings")));
 
             mName.setText(dataObject.getString("firstname") + " " + dataObject.getString("lastname"));
-            mPhone.setText("+" + dataObject.getString("phone"));
+            mPhone.setText(String.valueOf("+" + dataObject.getString("phone")));
             mEmail.setText(dataObject.getString("email"));
-            mAddress.setText(dataObject.getString("address"));
+            mAddress.setText(dataObject.getString("address").equals("null")? "-" : dataObject.getString("address"));
             mBirthday.setText(Tools.dateFineFormat(dataObject.getString("birthdate").substring(0,10)));
 
             mLevel.setText(dataObject.getString("badge"));

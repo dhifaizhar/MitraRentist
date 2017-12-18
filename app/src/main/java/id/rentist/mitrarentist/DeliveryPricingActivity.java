@@ -178,7 +178,7 @@ public class DeliveryPricingActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_add) {
             Intent iAdd = new Intent(DeliveryPricingActivity.this, FormDeliveryPriceActivity.class);
-            iAdd.putExtra("action","add");
+            iAdd.putExtra("from", "list");
             startActivity(iAdd);
         }
 

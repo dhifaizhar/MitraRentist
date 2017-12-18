@@ -252,8 +252,9 @@ public class Tools {
     public static String getStringImage(Bitmap bmp){
         if(bmp != null){
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bmp.compress(Bitmap.CompressFormat.JPEG, 50, baos);
             Log.e("BITMAP", String.valueOf(bmp.getRowBytes() * bmp.getHeight()));
-            bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+
             byte[] imageBytes = baos.toByteArray();
             return Base64.encodeToString(imageBytes, Base64.DEFAULT);
         }else{

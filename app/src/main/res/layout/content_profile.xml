@@ -146,10 +146,52 @@
                         </RelativeLayout>
 
                         <RelativeLayout
+                            android:id="@+id/pr_ktp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorWhite"
+                            android:padding="@dimen/min_padding"
+                            tools:ignore="UselessParent">
+
+                            <ImageView
+                                android:id="@+id/pr_ktp_ico"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="@dimen/min_padding"
+                                app:srcCompat="@drawable/ic_credit_card_black_24dp" />
+
+                            <TextView
+                                android:id="@+id/ktptext"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/xmin_padding"
+                                android:layout_toEndOf="@+id/pr_ktp_ico"
+                                android:layout_marginBottom="@dimen/xmin_padding"
+                                android:text="Nomor KTP"
+                                android:textSize="12sp" />
+
+
+                            <TextView
+                                android:id="@+id/pr_no_ktp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/ktptext"
+                                android:layout_marginLeft="@dimen/xmin_padding"
+                                android:layout_toEndOf="@+id/pr_ktp_ico"
+                                android:text="-"
+                                android:textSize="@dimen/medium_text" />
+
+
+                        </RelativeLayout>
+
+
+                        <RelativeLayout
                             android:id="@+id/pr_address"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="@dimen/min_padding"
+                            android:background="@color/colorPrimarySoft"
                             tools:ignore="UselessParent">
 
                             <ImageView
@@ -237,7 +279,6 @@
                             android:id="@+id/pr_no_telp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@color/colorPrimarySoft"
                             android:padding="@dimen/min_padding"
                             tools:ignore="UselessParent">
 
@@ -278,6 +319,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="@dimen/min_padding"
+                            android:background="@color/colorPrimarySoft"
                             tools:ignore="UselessParent">
 
                             <ImageView
@@ -315,7 +357,6 @@
                             android:id="@+id/pr_bank_info"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@color/colorPrimarySoft"
                             android:padding="@dimen/min_padding"
                             tools:ignore="UselessParent">
 
@@ -395,6 +436,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="@dimen/xmin_padding"
                                 android:layout_marginStart="@dimen/xmin_padding"
+                                android:layout_marginTop="@dimen/xmin_padding"
                                 android:layout_below="@+id/pr_branch"
                                 android:text="* Apabila selain bank BCA biaya transfer dibebankan kepada partner dan dana akan diterima pada satu hari kerja berikutnya."
                                 android:textSize="@dimen/tiny_text" />

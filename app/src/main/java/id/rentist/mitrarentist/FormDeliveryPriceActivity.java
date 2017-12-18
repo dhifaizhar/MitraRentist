@@ -85,7 +85,10 @@ public class FormDeliveryPriceActivity extends AppCompatActivity {
         fashion.setText(asset_category[11]);
 
         iDelivery = getIntent();
-        if (!iDelivery.getStringExtra("from").equals("list")){
+        Log.e(TAG, "FROM" +iDelivery.getStringExtra("from") );
+        if (iDelivery.getStringExtra("from").equals("list")){
+            rowCategory.setVisibility(View.VISIBLE);
+        } else {
             rowCategory.setVisibility(View.GONE);
             category.add(Integer.parseInt(iDelivery.getStringExtra("id_asset_category")));
         }

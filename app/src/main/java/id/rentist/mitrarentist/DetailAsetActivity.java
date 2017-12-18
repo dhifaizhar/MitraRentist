@@ -75,7 +75,9 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
     MaterialCalendarView calendarView;
     Intent iAsetEdit;
 
-    List<CalendarDay> dayTrans, daySchedule;
+    List<CalendarDay> dayTrans = new ArrayList<>();
+    List<CalendarDay> daySchedule = new ArrayList<>();
+    List<Integer> idSchedules;
     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
     private List<PriceModul> mPrice = new ArrayList<>();
     RecyclerView mRecyclerView;
@@ -160,28 +162,56 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
 
         calendarView.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
-            public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
+            public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull final CalendarDay date, boolean selected) {
                 String dateSelected = date.getDay() + "-" +  (date.getMonth() + 1) + "-" + date.getYear();
                 final String dateSend = date.getYear() +"-"+ (date.getMonth() + 1) +"-"+ date.getDay();
 
-                scheduleAlert = new AlertDialog.Builder(DetailAsetActivity.this);
-                scheduleAlert.setMessage("Ubah status aset pada  " +  dateSelected + " menjadi inaktif ?");
-                scheduleAlert.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface arg0, int arg1) {
-                         setDateEvent(dateSend);
+                try {
+                    Log.e(TAG, "Date Select:" + CalendarDay.from(format.parse(dateSend)));
+                    if (daySchedule.contains( CalendarDay.from(format.parse(dateSend)))){
+                        final int index = daySchedule.indexOf(CalendarDay.from(format.parse(dateSend)));
+                        scheduleAlert = new AlertDialog.Builder(DetailAsetActivity.this);
+                        scheduleAlert.setMessage("Ubah status aset pada  " +  dateSelected + " menjadi Aktif ?");
+                        scheduleAlert.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface arg0, int arg1) {
+                                new deleteDateEventTask(index).execute();
+                            }
+                        });
+                        scheduleAlert.setNegativeButton("Tidak",new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // close dialog
+                            }
+                        });
 
-                    }
-                });
-                scheduleAlert.setNegativeButton("Tidak",new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // close dialog
-                    }
-                });
+                        scheduleAlertDialog = scheduleAlert.create();
+                        scheduleAlertDialog.show();
 
-                scheduleAlertDialog = scheduleAlert.create();
-                scheduleAlertDialog.show();
+                    }else{
+                        scheduleAlert = new AlertDialog.Builder(DetailAsetActivity.this);
+                        scheduleAlert.setMessage("Ubah status aset pada  " +  dateSelected + " menjadi Non-Aktif ?");
+                        scheduleAlert.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface arg0, int arg1) {
+                                setDateEvent(dateSend);
+
+                            }
+                        });
+                        scheduleAlert.setNegativeButton("Tidak",new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // close dialog
+                            }
+                        });
+
+                        scheduleAlertDialog = scheduleAlert.create();
+                        scheduleAlertDialog.show();
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
             }
         });
     }
@@ -1195,6 +1225,7 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
 
                     ArrayList<CalendarDay> dateTrans = new ArrayList<>();
                     ArrayList<CalendarDay> dateSchedule = new ArrayList<>();
+                    ArrayList<Integer> idSchedule = new ArrayList<>();
 
                     if (eventArray.length() > 0){
                         for (int i = 0; i < eventArray.length(); i++) {
@@ -1216,9 +1247,7 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
                                     dateDay = CalendarDay.from(cal.getTime());
                                     dateTrans.add(dateDay);
                                     cal.add(Calendar.DATE, 1);
-                                    Log.e(TAG, "date : " + dateDay);
                                 }
-
 
                             }catch (ParseException e) {
                                 e.printStackTrace();
@@ -1229,7 +1258,7 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
                     if (scheduleArray.length() > 0) {
                         for (int i = 0; i < scheduleArray.length(); i++) {
                             JSONObject scheduleObject = scheduleArray.getJSONObject(i);
-
+                            idSchedule.add(scheduleObject.getInt("id_schedule"));
                             try {
                                 Date schedule = format.parse(scheduleObject.getString("start_date"));
                                 CalendarDay daySchedule = CalendarDay.from(schedule);
@@ -1241,13 +1270,14 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
                     }
 
 //                    dayEvent = dates;
+                    idSchedules = idSchedule;
                     daySchedule = dateSchedule;
                     dayTrans = dateTrans;
                     calendarView.addDecorator(new EventDecorator(Color.GREEN, getResources().getDrawable(R.drawable.schedule_circle_bacground), dateSchedule));
                     calendarView.addDecorator(new EventDecorator(Color.RED, getResources().getDrawable(R.drawable.trans_cirle_background), dateTrans));
 
-//                    Log.e(TAG, "Event : " + dayEvent);
-
+                    Log.e(TAG, "Tanggal:" + String.valueOf(daySchedule));
+                    Log.e(TAG, "ID:" + String.valueOf(idSchedules));
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -1261,52 +1291,58 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
         }
     }
 
-    public void getAssetDataList() {
-        pDialog.setMessage("loading data...");
-        showProgress(true);
-        new getAssetListTask(aId).execute();
-    }
+    private class deleteDateEventTask extends AsyncTask<String, String, String> {
+        private final int mIndex;
+        private String errorMsg, responseEvent;
 
-    private class getAssetListTask extends AsyncTask<String, String, String> {
-        private final String id;
-        private String errorMsg, responseAsset;
-
-        private getAssetListTask(int aId) {
-            id = String.valueOf(aId);
-        }
+        private deleteDateEventTask(int index) {mIndex = index;}
 
         @Override
-        protected String doInBackground(String... params) {
-            String URL = "";
-            switch (category) {
-                case "1": URL = AppConfig.URL_MOBIL; break;
-                case "2": URL = AppConfig.URL_MOTOR; break;
-                case "3": URL = AppConfig.URL_YACHT; break;
-                case "4": URL = AppConfig.URL_MEDIC; break;
-                case "5": URL = AppConfig.URL_PHOTOGRAPHY; break;
-                case "6": URL = AppConfig.URL_TOYS; break;
-                case "7": URL = AppConfig.URL_ADVENTURE; break;
-                case "8": URL = AppConfig.URL_MATERNITY; break;
-                case "9": URL = AppConfig.URL_ELECTRONIC; break;
-                case "10": URL = AppConfig.URL_BICYCLE; break;
-                case "11": URL = AppConfig.URL_OFFICE; break;
-                case "12": URL = AppConfig.URL_FASHION; break;
-            }
+        protected String doInBackground(String... voids) {
+            final int id_schedule = idSchedules.get(mIndex);
+
+            String URL = AppConfig.URL_DELETE_EVENT;
             RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-            StringRequest stringRequest = new StringRequest(Request.Method.GET, URL + id, new Response.Listener<String>() {
+            StringRequest stringRequest = new StringRequest(Request.Method.PUT, URL, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                    responseAsset = response;
+                    try {
+                        JSONArray eventArray = new JSONArray(response);
+                        JSONObject eventObject = eventArray.getJSONObject(0);
+
+                        String date = eventObject.getString("start_date").substring(0,10);
+                        calendarView.removeDecorators();
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    Toast.makeText(getApplicationContext(), "Berhasil diubah",
+                            Toast.LENGTH_LONG).show();
+
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    errorMsg = error.toString();
-                    Log.e(TAG, "Asset Fetch Error : " + errorMsg);
+                    Log.e(TAG, "Event Fetch Error : " + error.toString());
                     Toast.makeText(getApplicationContext(), "Connection error, try again.",
                             Toast.LENGTH_LONG).show();
                 }
             }){
+                @Override
+                protected Map<String, String> getParams() {
+                    // Posting parameters to login url
+                    Map<String, String> keys = new HashMap<String, String>();
+                    keys.put("id_tenant", String.valueOf(sm.getIntPreferences("id_tenant")));
+                    keys.put("id_asset", String.valueOf(aId));
+                    keys.put("id_asset_category", detIntent.getStringExtra("id_asset_category"));
+                    keys.put("id_schedule", String.valueOf(id_schedule));
+
+                    Log.e(TAG, "POST DATA:" + String.valueOf(keys));
+;                    return keys;
+                }
+
                 @Override
                 public Map<String, String> getHeaders() throws AuthFailureError {
                     // Posting parameters to login url
@@ -1318,221 +1354,21 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
 
             try {
                 requestQueue.add(stringRequest);
-                Thread.sleep(3000);
+                Thread.sleep(2000);
+
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
 
-            return responseAsset;
+            return responseEvent;
         }
 
         @Override
-        protected void onPostExecute(String aset){
-            mDetailAssetTask = null;
-            showProgress(false);
-            Integer dataLength, aId;
+        protected void onPostExecute(String event) {
+            mWorkTask = null;
+            new getDateEvent().execute();
 
-            if (aset != null) {
-                try {
-                    JSONArray jsonArray = new JSONArray(aset);
-                    Log.e(TAG, "Asset Detail : " + jsonArray);
-                    dataLength = jsonArray.length();
-                    if(dataLength > 0){
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            errorMsg = "-";
-                            JSONObject jsonobject = jsonArray.getJSONObject(i);
-                            aCat = jsonobject.getString("id_asset_category");
-                            aAsetName = jsonobject.getString("name");
-                            aType = jsonobject.getString("type");
-                            aStatus = jsonobject.getString("status");
-                            aVerified = jsonobject.getString("verified");
-                            aSubCat = jsonobject.getString("subcategory");
-                            aInsurance = jsonobject.getString("insurance");
-                            aMinRentDay = jsonobject.getString("min_rent_day");
-                            aDeliveryMethod = jsonobject.getString("delivery_method");
-                            aLatitude = jsonobject.getString("latitude");
-                            aLongitude = jsonobject.getString("longitude");
-                            aMainImage = jsonobject.getString("main_image");
-
-                            if(aCat.equals("3")){ aName = jsonobject.getString("sub_type");}
-                            else{aName = jsonobject.getString("brand");}
-
-                            //Price
-                            JSONArray priceArray = jsonobject.getJSONArray("price");
-                            aPrice = priceArray.toString();
-                            Log.e(TAG, "Price : " + priceArray);
-
-                            ArrayList<PriceModul> ePrice = new ArrayList<PriceModul>();
-
-                            if(priceArray.length() > 0){
-                                mPrice.clear();
-                                for (int j = 0; j < priceArray.length(); j++) {
-                                    JSONObject priceObject = priceArray.getJSONObject(j);
-
-                                    PriceModul priceModul = new PriceModul();
-                                    priceModul.setRangeName(priceObject.getString("range_name"));
-                                    priceModul.setStartDate(priceObject.getString("start_date"));
-                                    priceModul.setEndDate(priceObject.getString("end_date"));
-                                    priceModul.setPrice(PricingTools.PriceStringFormat(priceObject.getString("price")));
-
-                                    mPrice.add(priceModul);
-                                }
-                            }
-
-                            mRecyclerView = (RecyclerView) findViewById(R.id.as_price_recyclerView);
-                            mLayoutManager = new LinearLayoutManager(getApplicationContext());
-                            mAdapter = new PriceAdapter(getApplicationContext(),mPrice);
-                            mRecyclerView.setLayoutManager(mLayoutManager);
-                            mRecyclerView.setAdapter(mAdapter);
-
-                            JSONArray images = jsonobject.getJSONArray("images");
-                            imagesArray = new String[images.length()];
-                            for (int k = 0; k < images.length(); k++) {
-                                imagesArray[k] = AppConfig.URL_IMAGE_ASSETS + images.getString(k);
-                            }
-
-                            aAssetImages.setPageCount(images.length());
-                            aAssetImages.setImageListener(imageUrlListener);
-
-                            if (aVerified.equals("true")){
-                                ImageView verifIco = (ImageView) findViewById(R.id.as_verif);
-                                verifIco.setVisibility(View.VISIBLE);
-                            }
-
-                            aset_name.setText(aAsetName);
-                            subcat.setText(aSubCat);
-                            status.setText(aStatus);
-
-                            if (aDeliveryMethod.equals("both")){
-                                delivery_method.setText("Dikirim, Diambil");
-                            }else{
-                                if (aDeliveryMethod.equals("pickup")) delivery_method.setText("Diambil");
-                                else delivery_method.setText("Dikirim");
-                            }
-
-                            if (aInsurance.equals("true"))insurance.setText("Tersedia");
-                            else insurance.setText("Tidak Tersedia");
-
-                            address.setText(jsonobject.getString("address"));
-
-                            member_badge.setText(jsonobject.getString("member_badge"));
-                            if(member_badge.getText().equals(getResources().getString(R.string.member_badge_verified))){
-                                member_badge.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
-                            } else if (member_badge.getText().equals(getResources().getString(R.string.member_badge_smart_con))){
-                                member_badge.setBackgroundColor(getResources().getColor(R.color.colorGreen));
-                            }
-
-                            String minHari = aMinRentDay + " Hari";
-                            min_rent_day.setText(minHari);
-
-                            switch (aCat) {
-                                case "1":
-                                    cCarOnly.setVisibility(View.VISIBLE);
-                                    aAirBag = jsonobject.getString("air_bag");
-                                    aAirCond = jsonobject.getString("air_conditioner");
-                                    aDriver = jsonobject.getString("driver_included");
-                                    aSeat = jsonobject.getString("seat");
-
-                                    seats.setText(aSeat);
-                                    air_bag.setText(aAirBag.equals("true")?"Tersedia":"Tidak Tersedia");
-                                    air_cond.setText(aAirCond.equals("true")?"Tersedia":"Tidak Tersedia");
-
-                                    if (aDriver.equals("both")){
-                                        driver.setText("Tersedia, Tidak Tersedia");
-                                    }else{
-                                        driver.setText(aDriver.equals("true")?"Tersedia":"Tidak Tersedia");
-                                    }
-                                case "2":
-                                    aPlat = jsonobject.getString("license_plat");
-                                    aYear = jsonobject.getString("year");
-                                    aNoStnk = jsonobject.getString("no_stnk");
-                                    aColor = jsonobject.getString("colour");
-                                    aTransmission = jsonobject.getString("transmission");
-                                    aEngineCap = jsonobject.getString("engine_capacity");
-                                    aFuel = jsonobject.getString("fuel");
-
-                                    plat.setVisibility(View.VISIBLE);
-                                    year.setVisibility(View.VISIBLE);
-                                    rDesc.setVisibility(View.GONE);
-                                    cCarMotor.setVisibility(View.VISIBLE);
-
-                                    String stnkUrl = "http://assets.rentist.id/documents/" + aNoStnk;
-                                    Picasso.with(getApplicationContext()).load(stnkUrl).into(no_stnk);
-
-                                    mark.setText(aName + " " + aType);
-                                    plat.setText(aPlat);
-                                    year.setText(aYear);
-                                    color.setText(aColor);
-                                    transmission.setText(aTransmission);
-                                    engine_cap.setText(aEngineCap + "cc");
-                                    fuel.setText(aFuel);
-                                    break;
-                                case "3":
-                                    cYachtInfo.setVisibility(View.VISIBLE);
-                                    cYachtFeature.setVisibility(View.VISIBLE);
-                                    desc.setVisibility(View.GONE);
-
-                                    aSubType = jsonobject.getString("sub_type");
-                                    aModel = jsonobject.getString("model");
-                                    aLength = jsonobject.getString("length");
-                                    aBeam = jsonobject.getString("beam");
-                                    aGrossTon = jsonobject.getString("gross_tonnage");
-                                    aDraft = jsonobject.getString("draft");
-                                    aCruisSpeed = jsonobject.getString("cruising_speed");
-                                    aTopSpeed = jsonobject.getString("top_speed");
-                                    aBuilder = jsonobject.getString("builder");
-                                    aNaval = jsonobject.getString("naval_architect");
-                                    aIntDesign = jsonobject.getString("interior_designer");
-                                    aExtDesign = jsonobject.getString("exterior_designer");
-                                    aGuest = jsonobject.getString("guest");
-                                    aCrew = jsonobject.getString("crew");
-                                    aCabin = jsonobject.getString("cabin");
-
-                                    model.setText(aModel);
-                                    length.setText(aLength);
-                                    beam.setText(aBeam);
-                                    gross_ton.setText(aGrossTon);
-                                    draft.setText(aDraft);
-                                    cruise_speed.setText(aCruisSpeed);
-                                    top_speed.setText(aTopSpeed);
-                                    builder.setText(aBuilder);
-                                    naval.setText(aNaval);
-                                    int_design.setText(aIntDesign);
-                                    ext_design.setText(aExtDesign);
-                                    guest.setText(aGuest);
-                                    crew.setText(aCrew);
-                                    cabin.setText(aCabin);
-                                    mark.setText(aType + " " + aSubType);
-                                    break;
-                                default:
-                                    aDesc = jsonobject.getString("description");
-
-                                    desc.setText(aDesc);
-                                    mark.setText(aName + " " + aType);
-
-                                    break;
-                            }
-
-                        }
-
-                    }else{
-                        errorMsg = "Gagal Memuat Data";
-                        Toast.makeText(getApplicationContext(),errorMsg, Toast.LENGTH_LONG).show();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    errorMsg = "Gagal Memuat Data";
-                    Toast.makeText(getApplicationContext(),errorMsg, Toast.LENGTH_LONG).show();
-                }
-            }
-
-        }
-
-        @Override
-        protected void onCancelled() {
-            mDetailAssetTask = null;
-//            pBar.setVisibility(View.GONE);
-            showProgress(false);
         }
     }
+
 }

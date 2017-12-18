@@ -231,6 +231,8 @@ public class TransactionaNewActivity extends AppCompatActivity {
 
                     mRecyclerView.setLayoutManager(mLayoutManager);
                     mRecyclerView.setAdapter(mAdapter);
+                    noTransImage.setVisibility(View.GONE);
+
 
                 }else{
                     errorMsg = "Tidak ada pesanan baru";

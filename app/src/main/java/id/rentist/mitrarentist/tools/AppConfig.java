@@ -36,6 +36,7 @@ public class AppConfig {
     public static String URL_VIEW_OFFICE = SERVER + "view/officetools/";
     public static String URL_VIEW_EVENT = SERVER + "schedule/view/";
     public static String URL_SET_EVENT = SERVER + "schedule/asset/";
+    public static String URL_DELETE_EVENT = SERVER + "schedule/delete/";
 
     public static String URL_PRICE_CHECK = SERVER + "price/check/";
 
@@ -122,5 +123,7 @@ public class AppConfig {
 
     public static String URL_LIST_DELIVERY_PRICE = SERVER + "list/delivery/";
     public static String URL_DELIVERY_PRICE = SERVER + "create/delivery/";
+
+    public static String URL_SETUP_CATEGORY = SERVER + "tenant/setup/";
 
 }

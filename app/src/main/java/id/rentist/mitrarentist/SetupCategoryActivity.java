@@ -4,11 +4,25 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import id.rentist.mitrarentist.tools.AppConfig;
 import id.rentist.mitrarentist.tools.SessionManager;
 
 public class SetupCategoryActivity extends AppCompatActivity {
@@ -18,7 +32,7 @@ public class SetupCategoryActivity extends AppCompatActivity {
     Button btnApply;
 
     private static final String TAG = "SetupAssetActivity";
-
+    private static final String TOKEN = "secretissecret";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +116,8 @@ public class SetupCategoryActivity extends AppCompatActivity {
                 if (office.isChecked())sm.setPreferences("office","true");else sm.setPreferences("office","false");
                 if (fashion.isChecked())sm.setPreferences("fashion","true");else sm.setPreferences("fashion","false");
 
+                saveSetup();
+
                 int sum_cat = 0;
                 if (sm.getPreferences("car").equals("true")){sum_cat += 1;}
                 if (sm.getPreferences("motorcycle").equals("true")){sum_cat += 1;}
@@ -123,8 +139,59 @@ public class SetupCategoryActivity extends AppCompatActivity {
             }
         });
 
+    }
 
+    private void saveSetup() {
+        String tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
 
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        StringRequest stringRequest = new StringRequest(Request.Method.PUT, AppConfig.URL_SETUP_CATEGORY + tenant, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                if(response != null){
+                    finish();
+                }else{
+                    Toast.makeText(getApplicationContext(),"Gagal menyimpan data", Toast.LENGTH_LONG).show();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "Setup Fetch Error : " + error.toString());
+                Toast.makeText(getApplicationContext(), "Connection error, try again.",
+                        Toast.LENGTH_LONG).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() {
+                // Posting parameters to url
+                Map<String, String> keys = new HashMap<String, String>();
+                if (sm.getPreferences("car").equals("true")) keys.put("car", "true");
+                if (sm.getPreferences("motorcycle").equals("true")) keys.put("motorcycle", "true");
+                if (sm.getPreferences("yacht").equals("true")) keys.put("yacht", "true");
+                if (sm.getPreferences("medical_equipment").equals("true")) keys.put("medical_equipment", "true");
+                if (sm.getPreferences("photography").equals("true")) keys.put("photography", "true");
+                if (sm.getPreferences("toys").equals("true")) keys.put("toys", "true");
+                if (sm.getPreferences("adventure").equals("true")) keys.put("adventure", "true");
+                if (sm.getPreferences("maternity").equals("true")) keys.put("maternity", "true");
+                if (sm.getPreferences("electronic").equals("true")) keys.put("electronic", "true");
+                if (sm.getPreferences("bicycle").equals("true")) keys.put("bicycle", "true");
+                if (sm.getPreferences("office").equals("true")) keys.put("office", "true");
+                if (sm.getPreferences("fashion").equals("true")) keys.put("fashion", "true");
+
+                Log.e(TAG, "Post Data : " + String.valueOf(keys));
+                return keys;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> keys = new HashMap<String, String>();
+                keys.put("token", TOKEN);
+                return keys;
+            }
+        };
+
+        requestQueue.add(stringRequest);
     }
 
     @Override

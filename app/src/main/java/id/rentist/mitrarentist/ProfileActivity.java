@@ -38,7 +38,8 @@ public class ProfileActivity extends AppCompatActivity {
     private SessionManager sm;
     Intent iEditRent;
     TextView rName, rOwner, rAddress, rEmail, rPhone, rBankAccount, rBankName, rTenantCode,
-            rAccountOwner, rBranch, rCity, rProvince, rVillage, rDistrict, rRentalType, rPostalCode;
+            rAccountOwner, rBranch, rCity, rProvince, rVillage, rDistrict, rRentalType,
+            rPostalCode, rNoKTP;
     ImageView profilePhoto;
     ImageButton vAll;
     String imageUrl, tenantCity;
@@ -85,12 +86,14 @@ public class ProfileActivity extends AppCompatActivity {
         profilePhoto = (ImageView) findViewById(R.id.pr_thumb);
         rPostalCode = (TextView) findViewById(R.id.pr_postal_code);
         rTenantCode = (TextView) findViewById(R.id.pr_rental_code);
+        rNoKTP = (TextView) findViewById(R.id.pr_no_ktp);
 
         vAll = (ImageButton) findViewById(R.id.view_testi);
 
         // set content control value
         rName.setText(sm.getPreferences("nama_rental"));
         rOwner.setText(sm.getPreferences("nama_pemilik"));
+        rNoKTP.setText(sm.getPreferences("no_ktp"));
         rAddress.setText(String.valueOf(sm.getPreferences("alamat").isEmpty()?"-":sm.getPreferences("alamat")));
         rPhone.setText(String.valueOf("+"+sm.getPreferences("telepon")));
         rEmail.setText(sm.getPreferences("email_rental"));
@@ -163,7 +166,7 @@ public class ProfileActivity extends AppCompatActivity {
                 iEditRent = new Intent(ProfileActivity.this, FormEditProfilActivity.class);
                 startActivityForResult(iEditRent, 2);
             }else{
-                Toast.makeText(getApplicationContext(), "Hanya untuk Administrator", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Hanya untuk SuperAdmin", Toast.LENGTH_LONG).show();
             }
         }
 

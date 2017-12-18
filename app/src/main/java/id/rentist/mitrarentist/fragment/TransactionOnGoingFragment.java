@@ -269,6 +269,8 @@ public class TransactionOnGoingFragment extends Fragment {
                 mRecyclerView.setLayoutManager(mLayoutManager);
                 mAdapter = new TransaksiAdapter(getActivity(),mTrans);
                 mRecyclerView.setAdapter(mAdapter);
+                noTransImage.setVisibility(View.GONE);
+
 
             }else{
                 errorMsg = "Tidak Ada Transaksi Berlangsung";
