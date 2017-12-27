@@ -103,6 +103,43 @@
                     </RelativeLayout>
 
                     <RelativeLayout
+                        android:id="@+id/pr_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/min_padding"
+                        tools:ignore="UselessParent">
+
+                        <ImageView
+                            android:id="@+id/pr_email_ico"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="@dimen/min_padding"
+                            android:contentDescription="phone"
+                            app:srcCompat="@drawable/ic_mail_black_24dp" />
+
+                        <TextView
+                            android:id="@+id/det_dr_email"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/xmin_padding"
+                            android:layout_marginLeft="@dimen/xmin_padding"
+                            android:layout_toEndOf="@+id/pr_email_ico"
+                            android:text="-"
+                            android:textSize="@dimen/medium_text" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/det_dr_email"
+                            android:layout_marginLeft="@dimen/xmin_padding"
+                            android:layout_toEndOf="@+id/pr_email_ico"
+                            android:text="Email"
+                            android:textSize="12sp" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
                         android:id="@+id/pr_no_telp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

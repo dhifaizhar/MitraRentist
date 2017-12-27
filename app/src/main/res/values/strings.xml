@@ -12,13 +12,14 @@
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Masuk</string>
     <string name="error_invalid_email">Gunakan alamat surel yang valid</string>
-    <string name="error_invalid_password">Minimal 7 karakter ( hanya angka atau huruf )</string>
+    <string name="error_invalid_password">Minimal 8 karakter ( hanya angka atau huruf )</string>
     <string name="error_invalid_confirm_password">Konfirmasi Password tidak sesuai</string>
     <string name="error_invalid_phone">Minimal 10 dan maksimal 12 karakter ( hanya angka )</string>
     <string name="error_incorrect_password">Kata kunci tidak sesuai</string>
     <string name="error_field_required">Wajib diisi!</string>
     <string name="error_field_not_complete">Harap Lengkapi Form</string>
     <string name="error_main_image_not_complete">Harap Masukan Gambar Aset</string>
+    <string name="error_field_sim">Wajib diisi dengan 12 nomor SIM</string>
 
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
@@ -29,7 +30,7 @@
     <string name="login_text">Masuk ke Akun Anda</string>
     <string name="forgot_password">Lupa Password?</string>
     <string name="help">Help</string>
-    <string name="aktif_text">Masukan kode aktifasi</string>
+    <string name="aktif_text">Masukan kode aktivasi</string>
 
     <string name="title_activity_asset_detail">AssetDetail</string>
 
@@ -476,7 +477,7 @@
     <string name="member_badge_verified">Verified</string>
     <string name="member_badge_smart_con">Smart Consumer</string>
     <string name="basic_desc">"\u2022" Memiliki informasi dasar (Nama, Email dan no. HP)</string>
-    <string name="verified_desc">"\u2022" Basic \n"\u2022" KTP dan KK / Rekening Listrik atau KTP dan \n"1 akun sosial media</string>
+    <string name="verified_desc">"\u2022" Basic \n"\u2022" KTP dan KK / Rekening Listrik atau KTP dan 1 akun sosial media</string>
     <string name="smart_cust_desc">"\u2022" Verified. \n"\u2022" Telah menyelesaikan minimal 5 kali transaksi</string>
 
     <string name="value_500jt">500 Juta</string>

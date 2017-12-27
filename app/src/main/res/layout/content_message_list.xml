@@ -9,6 +9,25 @@
     tools:context="id.rentist.mitrarentist.MessageListActivity"
     tools:showIn="@layout/activity_message_list">
 
+    <LinearLayout
+        android:id="@+id/no_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/explorer_item_size"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="@color/colorBlack54"
+            android:textStyle="bold"
+            android:text="Anda tidak memiliki pesan" />
+
+
+    </LinearLayout>
+
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"

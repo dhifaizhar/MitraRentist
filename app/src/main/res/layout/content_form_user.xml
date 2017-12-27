@@ -33,8 +33,7 @@
                     android:layout_width="@dimen/thumb_height"
                     android:layout_height="@dimen/thumb_height"
                     android:layout_weight="1"
-                    android:background="@drawable/cirle_default_label"
-                    android:src="@drawable/img" />
+                    android:src="@drawable/img_default" />
 
                 <Button
                     android:id="@+id/btnUploadFoto"
@@ -68,6 +67,7 @@
                     android:hint="Nama"
                     android:imeOptions="actionNext"
                     android:inputType="textPersonName|textCapWords"
+                    android:maxLength="30"
                     android:padding="@dimen/min_padding" />
             </LinearLayout>
 
@@ -126,6 +126,7 @@
                     android:hint="Email"
                     android:imeOptions="actionNext"
                     android:inputType="textEmailAddress"
+                    android:maxLength="50"
                     android:padding="@dimen/min_padding" />
             </LinearLayout>
 
@@ -165,6 +166,7 @@
                         android:hint="8xx xxxx xxxx"
                         android:imeOptions="actionNext"
                         android:inputType="phone"
+                        android:maxLength="11"
                         android:padding="@dimen/min_padding" />
 
                 </RelativeLayout>
@@ -221,6 +223,20 @@
                     android:inputType="textPassword"
                     android:padding="@dimen/min_padding" />
             </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_save"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/btn_lmedium_height"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="bottom"
+                android:layout_marginTop="@dimen/xmin_padding"
+                android:layout_marginBottom="@dimen/xmin_padding"
+                android:background="@color/colorPrimaryDark"
+                android:textAlignment="center"
+                android:text="@string/btn_save"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/medium_text" />
         </LinearLayout>
 
     </ScrollView>

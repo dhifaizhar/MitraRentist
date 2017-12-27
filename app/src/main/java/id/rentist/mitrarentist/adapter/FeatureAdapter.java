@@ -102,24 +102,26 @@ public class FeatureAdapter extends RecyclerView.Adapter<FeatureAdapter.ViewHold
     public void onBindViewHolder(final ViewHolder viewHolder, int i ){
         final ItemFeatureModul feature = mFeature.get(i);
         final int iPosition = i;
-
 //        simpan value dalam object
         viewHolder.nama.setText(feature.getName());
         viewHolder.price.setText(feature.getPrice() + " IDR");
         viewHolder.qty.setText("Stok : " + feature.getQty());
-        viewHolder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                viewHolder.linearAction.setVisibility(v.VISIBLE);
-                return true;
-            }
-        });
-        viewHolder.hideBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                viewHolder.linearAction.setVisibility(v.GONE);
-            }
-        });
+//        viewHolder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View v) {
+//                viewHolder.linearAction.setVisibility(v.VISIBLE);
+//                return true;
+//            }
+//        });
+        viewHolder.linearAction.setVisibility(View.VISIBLE);
+        viewHolder.hideBtn.setVisibility(View.GONE);
+
+//        viewHolder.hideBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                viewHolder.linearAction.setVisibility(v.GONE);
+//            }
+//        });
         viewHolder.editBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -129,12 +131,14 @@ public class FeatureAdapter extends RecyclerView.Adapter<FeatureAdapter.ViewHold
                 iFeature.putExtra("fname",feature.getName());
                 iFeature.putExtra("fprice",feature.getPrice());
                 iFeature.putExtra("fqty",feature.getQty());
+                iFeature.putExtra("id_asset_cat",feature.getIdAssetCat());
                 context.startActivity(iFeature);
             }
         });
         viewHolder.deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.e("CLICK","DELETE");
                 deleteFeatureItem(feature.getId(), iPosition);
             }
         });
@@ -176,11 +180,12 @@ public class FeatureAdapter extends RecyclerView.Adapter<FeatureAdapter.ViewHold
         protected String doInBackground(String... params) {
             String feature_url = AppConfig.URL_DELETE_FEATURE;
             Log.e(TAG, "Feature Fetch URL: " + feature_url);
-            RequestQueue requestQueue = Volley.newRequestQueue(context.getApplicationContext());
+            RequestQueue requestQueue = Volley.newRequestQueue(context);
             StringRequest stringRequest = new StringRequest(Request.Method.PUT, feature_url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     responseFeature = response;
+                    Log.e(TAG, "FResponse: " + responseFeature);
                 }
             }, new Response.ErrorListener() {
                 @Override
@@ -197,8 +202,8 @@ public class FeatureAdapter extends RecyclerView.Adapter<FeatureAdapter.ViewHold
                     Map<String, String> keys = new HashMap<String, String>();
                     keys.put("id_feature_item", mFeature);
                     Log.e(TAG, "Delete Data : " + String.valueOf(keys));
-//                    return keys;
-                    return null;
+                  return keys;
+//                    return null;
                 }
 
                 @Override

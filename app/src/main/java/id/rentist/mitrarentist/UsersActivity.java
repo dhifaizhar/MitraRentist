@@ -1,7 +1,10 @@
 package id.rentist.mitrarentist;
 
+import android.annotation.TargetApi;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +15,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -22,7 +27,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.github.ybq.android.spinkit.SpinKitView;
-import com.github.ybq.android.spinkit.style.FadingCircle;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,7 +52,10 @@ public class UsersActivity extends AppCompatActivity {
     private AsyncTask mUserTask = null;
     private SpinKitView pBar;
     private SessionManager sm;
+    private ProgressDialog pDialog;
+
     Intent iUserAdd;
+    LinearLayout noData;
 
     private static final String TAG = "UserActivity";
     private static final String TOKEN = "secretissecret";
@@ -60,9 +67,11 @@ public class UsersActivity extends AppCompatActivity {
         setContentView(R.layout.activity_users);
 
         sm = new SessionManager(getApplicationContext());
-        pBar = (SpinKitView)findViewById(R.id.progressBar);
-        FadingCircle fadingCircle = new FadingCircle();
-        pBar.setIndeterminateDrawable(fadingCircle);
+        pDialog = new ProgressDialog(this);
+        pDialog.setCancelable(false);
+//        pBar = (SpinKitView)findViewById(R.id.progressBar);
+//        FadingCircle fadingCircle = new FadingCircle();
+//        pBar.setIndeterminateDrawable(fadingCircle);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -72,6 +81,7 @@ public class UsersActivity extends AppCompatActivity {
 
         // action retrieve data aset
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
+        showProgress(true);
         getUserDataList(tenant);
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
@@ -85,17 +95,24 @@ public class UsersActivity extends AppCompatActivity {
                 getUserDataList(tenant);
             }
         });
+
+        noData = (LinearLayout) findViewById(R.id.no_data);
+        TextView toFormAdd = (TextView) findViewById(R.id.toFormAdd);
+        toFormAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(UsersActivity.this, FormUserActivity.class);
+                intent.putExtra("action","add");
+                startActivity(intent);
+            }
+        });
     }
 
     private void getUserDataList(String tenant) {
-        pBar.setVisibility(View.VISIBLE);
-//        mSwipeRefreshLayout.setRefreshing(true);
-
+//        pBar.setVisibility(View.VISIBLE);
         if (mUserTask != null) {
             return;
         }
-
-//        new getUserListTask(tenant).execute();
 
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         String newURL = AppConfig.URL_LIST_USER + tenant;
@@ -103,7 +120,9 @@ public class UsersActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 mSwipeRefreshLayout.setRefreshing(false);
-                pBar.setVisibility(View.GONE);
+//                pBar.setVisibility(View.GONE);
+                showProgress(false);
+
                 String aName, aEmail, aRole, aThumbPhoto, aPhone;
                 Integer aId, dataLength;
 
@@ -114,8 +133,8 @@ public class UsersActivity extends AppCompatActivity {
                         JSONArray jsonArray = new JSONArray(response);
                         Log.e(TAG, "User : " + jsonArray);
                         dataLength = jsonArray.length();
-                        if(dataLength > 0){
-                            mUser.clear();
+                        mUser.clear();
+                        if(dataLength > 1){
                             for (int i = 0; i < jsonArray.length(); i++) {
 
                                 JSONObject jsonobject = jsonArray.getJSONObject(i);
@@ -145,9 +164,10 @@ public class UsersActivity extends AppCompatActivity {
                             mAdapter = new UserAdapter(UsersActivity.this,mUser);
                             mRecyclerView.setLayoutManager(mLayoutManager);
                             mRecyclerView.setAdapter(mAdapter);
-
+                            noData.setVisibility(View.GONE);
                         }else{
-                            Toast.makeText(getApplicationContext(),"Anda belum memiliki Pengguna", Toast.LENGTH_LONG).show();
+                            noData.setVisibility(View.VISIBLE);
+//                            Toast.makeText(getApplicationContext(),"Anda belum memiliki Pengguna", Toast.LENGTH_LONG).show();
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -158,6 +178,7 @@ public class UsersActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                showProgress(false);
                 Log.e(TAG, "User Fetch Error : " + error.toString());
                 Toast.makeText(getApplicationContext(), "Connection error, try again.",
                         Toast.LENGTH_LONG).show();
@@ -173,6 +194,60 @@ public class UsersActivity extends AppCompatActivity {
         };
 
         requestQueue.add(stringRequest);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        this.finish();
+        return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (sm.getPreferences("role").matches("SuperAdmin|Admin")){
+            getMenuInflater().inflate(R.menu.menu_add_option, menu);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_add) {
+            iUserAdd = new Intent(UsersActivity.this, FormUserActivity.class);
+            iUserAdd.putExtra("action","add");
+            startActivity(iUserAdd);
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getUserDataList(tenant);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        getUserDataList(tenant);
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+    private void showProgress(final boolean show) {
+        if(show){
+            if (!pDialog.isShowing()){
+                pDialog.show();
+            }
+        }else{
+            if (pDialog.isShowing()){
+                pDialog.dismiss();
+            }
+        }
     }
 
     private class getUserListTask extends AsyncTask<String, String, String> {
@@ -288,38 +363,4 @@ public class UsersActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        this.finish();
-        return true;
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        if (sm.getPreferences("role").matches("SuperAdmin|Admin")){
-            getMenuInflater().inflate(R.menu.menu_add_option, menu);
-        }
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_add) {
-            iUserAdd = new Intent(UsersActivity.this, FormUserActivity.class);
-            iUserAdd.putExtra("action","add");
-            startActivity(iUserAdd);
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        getUserDataList(tenant);
-    }
 }

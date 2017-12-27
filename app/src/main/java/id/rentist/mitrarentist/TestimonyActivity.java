@@ -10,6 +10,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -48,6 +50,8 @@ public class TestimonyActivity extends AppCompatActivity {
     private SessionManager sm;
     private String tenant;
 
+    LinearLayout noData;
+
     private static final String TAG = "TestiActivity";
     private static final String TOKEN = "secretissecret";
 
@@ -62,13 +66,16 @@ public class TestimonyActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        setTitle("Testimony Pelanggan");
+        setTitle("Testimoni Pelanggan");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         // action retrieve data aset
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
         getTestimonyList();
+
+        noData = (LinearLayout) findViewById(R.id.no_data);
+
     }
 
     private void getTestimonyList() {
@@ -88,8 +95,8 @@ public class TestimonyActivity extends AppCompatActivity {
                                 TestimonyModul testimonyModul = new TestimonyModul();
                                 JSONObject jsonobject = jsonArray.getJSONObject(i);
 
-                                JSONArray itemArray = jsonobject.getJSONArray("item");
-                                JSONObject itemObject = itemArray.getJSONObject(0);
+//                                JSONArray itemArray = jsonobject.getJSONArray("item");
+                                JSONObject itemObject = jsonobject.getJSONObject("id_member");
 
                                 testimonyModul.setMember(itemObject.getString("firstname") + " " + itemObject.getString("lastname"));
                                 testimonyModul.setContent(jsonobject.getString("content"));
@@ -108,8 +115,11 @@ public class TestimonyActivity extends AppCompatActivity {
 
                             mRecyclerView.setLayoutManager(mLayoutManager);
                             mRecyclerView.setAdapter(mAdapter);
+                            noData.setVisibility(View.GONE);
 
                         }else{
+                            noData.setVisibility(View.VISIBLE);
+
                             Toast.makeText(getApplicationContext(),"Belum Ada Testimony", Toast.LENGTH_LONG).show();
                         }
                     } catch (JSONException e) {

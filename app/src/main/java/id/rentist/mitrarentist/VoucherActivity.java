@@ -15,6 +15,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -25,7 +27,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.github.ybq.android.spinkit.SpinKitView;
-import com.github.ybq.android.spinkit.style.FadingCircle;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -55,6 +56,7 @@ public class VoucherActivity extends AppCompatActivity {
     private SpinKitView pBar;
 
     private Intent iVoucherAdd;
+    LinearLayout noData;
 
     private static final String TAG = "VoucherActivity";
     private static final String TOKEN = "secretissecret";
@@ -66,11 +68,11 @@ public class VoucherActivity extends AppCompatActivity {
         setContentView(R.layout.activity_voucher);
 
         sm = new SessionManager(getApplicationContext());
-        pBar = (SpinKitView)findViewById(R.id.progressBar);
-        FadingCircle fadingCircle = new FadingCircle();
-        pBar.setIndeterminateDrawable(fadingCircle);
-//        pDialog = new ProgressDialog(this);
-//        pDialog.setCancelable(false);
+//        pBar = (SpinKitView)findViewById(R.id.progressBar);
+//        FadingCircle fadingCircle = new FadingCircle();
+//        pBar.setIndeterminateDrawable(fadingCircle);
+        pDialog = new ProgressDialog(this);
+        pDialog.setCancelable(false);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -79,7 +81,9 @@ public class VoucherActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
-        pBar.setVisibility(View.VISIBLE);
+//        pBar.setVisibility(View.VISIBLE);
+        pDialog.setMessage("loading ...");
+        showProgress(true);
         getVoucherDataList(tenant);
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
@@ -88,6 +92,18 @@ public class VoucherActivity extends AppCompatActivity {
             public void onRefresh() {
                 mVoucher.clear();
                 getVoucherDataList(tenant);
+            }
+        });
+
+        noData = (LinearLayout) findViewById(R.id.no_data);
+        TextView toFormAdd = (TextView) findViewById(R.id.toFormAdd);
+        toFormAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(VoucherActivity.this, FormVoucherActivity.class);
+                intent.putExtra("action","add");
+                intent.putExtra("dateStat", "false");
+                startActivity(intent);
             }
         });
     }
@@ -106,7 +122,8 @@ public class VoucherActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 mSwipeRefreshLayout.setRefreshing(false);
-                pBar.setVisibility(View.GONE);
+                showProgress(false);
+//                pBar.setVisibility(View.GONE);
                 int vId;
                 String vName,vCode,startDate,endDate,vDesc,vType,vNominal,vPercen, vSdate;
                 Integer dataLength;
@@ -116,8 +133,8 @@ public class VoucherActivity extends AppCompatActivity {
                         JSONArray jsonArray = new JSONArray(response);
                         Log.e(TAG, "User : " + jsonArray);
                         dataLength = jsonArray.length();
+                        mVoucher.clear();
                         if(dataLength > 0){
-                            mVoucher.clear();
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject jsonobject = jsonArray.getJSONObject(i);
                                 vId = jsonobject.getInt("id");
@@ -153,8 +170,10 @@ public class VoucherActivity extends AppCompatActivity {
 
                             mRecyclerView.setLayoutManager(mLayoutManager);
                             mRecyclerView.setAdapter(mAdapter);
+                            noData.setVisibility(View.GONE);
 
                         }else{
+                            noData.setVisibility(View.VISIBLE);
                             Toast.makeText(getApplicationContext(),"Anda belum memiliki Voucher", Toast.LENGTH_LONG).show();
                         }
                     } catch (JSONException e) {
@@ -166,6 +185,7 @@ public class VoucherActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                showProgress(false);
                 Log.e(TAG, "Voucher Fetch Error : " + error.toString());
                 Toast.makeText(getApplicationContext(), "Connection error, try again.",
                         Toast.LENGTH_LONG).show();
@@ -180,12 +200,62 @@ public class VoucherActivity extends AppCompatActivity {
             }
         };
 
-//        try {
-            requestQueue.add(stringRequest);
-//            Thread.sleep(3000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
+        requestQueue.add(stringRequest);
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+    private void showProgress(final boolean show) {
+        if(show){
+            if (!pDialog.isShowing()){
+                pDialog.show();
+            }
+        }else{
+            if (pDialog.isShowing()){
+                pDialog.dismiss();
+            }
+        }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_add_option, menu);
+        getMenuInflater().inflate(R.menu.menu_catalog, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_add) {
+            iFormVou = new Intent(VoucherActivity.this, FormVoucherActivity.class);
+            iFormVou.putExtra("action","add");
+            iFormVou.putExtra("dateStat", "false");
+            startActivity(iFormVou);
+        }
+
+        if (id == R.id.action_catalog) {
+            iFormVou = new Intent(VoucherActivity.this, VoucherCatalogActivity.class);
+            startActivity(iFormVou);
+        }
+
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onRestart(){
+        super.onRestart();
+//        pBar.setVisibility(View.VISIBLE);
+        getVoucherDataList(tenant);
     }
 
     private class getVoucherListTask extends AsyncTask<String, String, String> {
@@ -305,63 +375,6 @@ public class VoucherActivity extends AppCompatActivity {
             mSwipeRefreshLayout.setRefreshing(false);
             pBar.setVisibility(View.GONE);
         }
-    }
-
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    private void showProgress(final boolean show) {
-        if(show){
-            if (!pDialog.isShowing()){
-                pDialog.show();
-            }
-        }else{
-            if (pDialog.isShowing()){
-                pDialog.dismiss();
-            }
-        }
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_add_option, menu);
-        getMenuInflater().inflate(R.menu.menu_catalog, menu);
-
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_add) {
-            iFormVou = new Intent(VoucherActivity.this, FormVoucherActivity.class);
-            iFormVou.putExtra("action","add");
-            iFormVou.putExtra("dateStat", "false");
-            startActivity(iFormVou);
-
-        }
-
-        if (id == R.id.action_catalog) {
-            iFormVou = new Intent(VoucherActivity.this, VoucherCatalogActivity.class);
-            startActivity(iFormVou);
-
-        }
-
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onRestart(){
-        super.onRestart();
-        pBar.setVisibility(View.VISIBLE);
-        getVoucherDataList(tenant);
     }
 
 }

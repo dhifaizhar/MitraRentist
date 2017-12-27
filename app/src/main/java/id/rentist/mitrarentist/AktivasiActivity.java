@@ -108,7 +108,7 @@ public class AktivasiActivity extends AppCompatActivity {
         status = false;
         countdown.setVisibility(View.VISIBLE);
         refresh.setClickable(false);
-        refresh.setTextColor(Color.parseColor("#CCCCCC"));
+        refresh.setTextColor(Color.parseColor("#999999"));
         new CountDownTimer(61500, 1000){
             int counter = 60;
             public void onTick(long millisUntilFinished){
@@ -145,8 +145,8 @@ public class AktivasiActivity extends AppCompatActivity {
             StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
+                    showProgress(false);
                     if(response.equals("resend is limited")){
-                        showProgress(false);
                         countdown.setVisibility(View.GONE);
                         refresh.setVisibility(View.GONE);
                         counterZero.setVisibility(View.VISIBLE);
@@ -158,6 +158,7 @@ public class AktivasiActivity extends AppCompatActivity {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                    showProgress(false);
                     errorMsg = error.toString();
                     Log.e(TAG, "Resend Code User Fetch Error : " + errorMsg);
                     Toast.makeText(getApplicationContext(), "Connection error, try again.",
@@ -249,7 +250,7 @@ public class AktivasiActivity extends AppCompatActivity {
                     Map<String, String> keys = new HashMap<String, String>();
                     keys.put("token", mCode.getText().toString());
                     keys.put("email", mEmail);
-                    Log.e(TAG, "Activated User Fetch Error : " + String.valueOf(keys));
+                    Log.e(TAG, "POST DATA : " + String.valueOf(keys));
                     return keys;
                 }
 
@@ -278,17 +279,17 @@ public class AktivasiActivity extends AppCompatActivity {
             String mStat;
             Integer dataLength;
 
+            Log.e(TAG, "Data:" + activation);
             if(activation != null){
                 try {
-                    JSONArray jsonArray = new JSONArray(activation);
-                    Log.d(TAG, String.valueOf(jsonArray));
-                    dataLength = jsonArray.length();
-                    if(dataLength > 0){
-                        JSONObject jsonobject = jsonArray.getJSONObject(0);
-                        mStat = jsonobject.getString("is_activated");
+                    JSONObject jsonObject= new JSONObject(activation);
+                    JSONArray dataArray = jsonObject.getJSONArray("data");
+                    if(dataArray.length() > 0){
+                        JSONObject data = dataArray.getJSONObject(0);
+                        mStat = data.getString("is_activated");
                         sm.setPreferences("status",mStat);
 
-                        Toast.makeText(getApplicationContext(),"Sukses mengaktifkan akun.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(),"Sukses Mengaktifkan Akun", Toast.LENGTH_LONG).show();
                         if(actIntent.hasExtra("action")){
                             startActivity(new Intent(AktivasiActivity.this, LoginActivity.class));
                             finish();
@@ -297,7 +298,7 @@ public class AktivasiActivity extends AppCompatActivity {
                             finish();
                         }
                     }else{
-                        errorMsg = "Gagal aktifasi akun";
+                        errorMsg = "Kode Aktivasi Salah";
                         Toast.makeText(getApplicationContext(),errorMsg, Toast.LENGTH_LONG).show();
                     }
                 } catch (JSONException e) {
@@ -305,7 +306,7 @@ public class AktivasiActivity extends AppCompatActivity {
                     Log.d(TAG, "JSON Error : " + e);
                 }
             }else{
-                Toast.makeText(getApplicationContext(),"Gagal aktifasi akun", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"Aktivasi akun gagal", Toast.LENGTH_LONG).show();
             }
         }
 

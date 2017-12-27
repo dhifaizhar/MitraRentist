@@ -18,6 +18,19 @@
         android:padding="20dp">
 
         <TextView
+            android:id="@+id/resendCountdown"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/xmin_padding"
+            android:text=""
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textColor="@color/colorWhite"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="@dimen/min_padding"/>
+
+        <TextView
             android:id="@+id/aktif_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -66,8 +79,34 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/thumb_med_height"
+            android:layout_marginTop="@dimen/med_padding"
             android:orientation="vertical">
+
+            <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:paddingBottom="@dimen/xmin_padding">-->
+
+                <!--<TextView-->
+                    <!--id-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:padding="@dimen/xmin_padding"-->
+                    <!--android:text="+628658446489"-->
+                    <!--android:textAlignment="center"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:textColor="@color/colorWhite" />-->
+
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:padding="@dimen/xmin_padding"-->
+                    <!--android:text="+628658446489"-->
+                    <!--android:textAlignment="center"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:textColor="@color/colorWhite" />-->
+            <!--</LinearLayout>-->
 
             <TextView
                 android:layout_width="match_parent"
@@ -92,18 +131,6 @@
                     android:textAlignment="center"
                     android:textColor="@color/colorWhite" />
 
-                <TextView
-                    android:id="@+id/resendCountdown"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/xmin_padding"
-                    android:text=""
-                    android:textAlignment="center"
-                    android:textAllCaps="false"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
 
             </LinearLayout>
 
@@ -111,28 +138,28 @@
                 android:id="@+id/getNewCode"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:clickable="false"
                 android:padding="@dimen/min_padding"
                 android:text="@string/resend_code"
                 android:textAlignment="center"
                 android:textAllCaps="false"
                 android:textColor="@color/colorWhite"
                 android:textSize="18sp"
-                android:clickable="false"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/counterZero"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:padding="@dimen/xmin_padding"
                 android:text=""
-                android:layout_gravity="center_horizontal"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/colorWhite"
+                android:textColor="@color/roleSuperadmin"
+                android:textStyle="bold"
                 android:textSize="@dimen/under_small_text"
-                android:visibility="gone"
-                />
+                android:visibility="gone" />
         </LinearLayout>
 
     </LinearLayout>

@@ -101,7 +101,9 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         forgotPassword.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this, ForgotPasswordActivity.class));
+                Intent iForgot = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
+                if(!mEmailView.getText().toString().isEmpty()) iForgot.putExtra("email", mEmailView.getText().toString());
+                startActivity(iForgot);
             }
         });
 
@@ -185,13 +187,20 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
+        String emailField = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
+        String email;
+        char firstChar = emailField.charAt(0);
+        if(firstChar == '+'){
+            email = emailField.substring(1);
+        }else{
+            email = emailField;
+        }
         mToken = FirebaseInstanceId.getInstance().getToken();
-        Log.e(TAG, "onCreate Token: " + mToken);
+        Log.e(TAG, "Data: " + mToken + "|" + email);
 
         // Check for a valid email & password, if the user entered one.
-        if(formValidation.isEmailValid(email)){
+//        if(formValidation.isEmailValid(email)){
             if(formValidation.isPasswordValid(password)){
                 pDialog.setMessage("authentication request ...");
                 showProgress(true);
@@ -202,11 +211,11 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 focusView = mPasswordView;
                 focusView.requestFocus();
             }
-        }else{
-            mEmailView.setError(getString(R.string.error_invalid_email));
-            focusView = mEmailView;
-            focusView.requestFocus();
-        }
+//        }else{
+//            mEmailView.setError(getString(R.string.error_invalid_email));
+//            focusView = mEmailView;
+//            focusView.requestFocus();
+//        }
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
@@ -379,7 +388,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                     userObject = new JSONObject(user);
                     tenantObject = new JSONObject(String.valueOf(userObject.getJSONObject("id_tenant")));
                     setCatObject = userObject.getJSONObject("data_setup");
-                    Log.d(TAG, String.valueOf(userObject));
+                    Log.e(TAG, String.valueOf(userObject));
 
                     sId = userObject.getInt("id");
                     sEmail = userObject.getString("email");

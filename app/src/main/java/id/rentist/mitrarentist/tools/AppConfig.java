@@ -63,7 +63,7 @@ public class AppConfig {
     public static String URL_DELETE_MATERNITY = SERVER + "delete/maternity/";
     public static String URL_DELETE_ELECTRONIC = SERVER + "delete/electronic/";
     public static String URL_DELETE_BICYCLE = SERVER + "delete/bicycle/";
-    public static String URL_DELETE_OFFICE = SERVER + "delete/officetools/";
+    public static String URL_DELETE_OFFICE = SERVER + "delete/office/";
     public static String URL_DELETE_FASHION = SERVER + "delete/fashion/";
 
     public static String URL_TRANSACTION_NEW = SERVER + "order/received/";

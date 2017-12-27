@@ -2,6 +2,7 @@ package id.rentist.mitrarentist;
 
 import android.annotation.TargetApi;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,6 +22,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,6 +38,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     SessionManager sm;
     FormValidation formValidation;
     EditText vEmail;
+    Intent iForgot;
 
     private static final String TAG = "ForgotPasswordActivity";
     private static final String TOKEN = "secretissecret";
@@ -54,9 +59,15 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         vEmail = (EditText) findViewById(R.id.email_forgot);
+        vEmail.clearFocus();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        iForgot = getIntent();
+        if(iForgot.hasExtra("email")){
+            vEmail.setText(iForgot.getStringExtra("email"));
+        }
 
         Button forgot_button = (Button) findViewById(R.id.forgot_button);
         forgot_button.setOnClickListener(new View.OnClickListener() {
@@ -140,12 +151,22 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         protected void onPostExecute(String reset) {
             mForgotTask = null;
             showProgress(false);
-
+            Log.e(TAG, "response:" + reset + "respo");
             if(reset != null){
-                Toast.makeText(getApplicationContext(),"Email sukses dikirim", Toast.LENGTH_LONG).show();
-                finish();
+                try {
+                    JSONObject responseObject = new JSONObject(reset);
+                    String msg = responseObject.getString("data");
+                    if(msg.equals("Invalid Body")){
+                        Toast.makeText(getApplicationContext(),"Gagal mengirim email, masukan email yang terdaftar", Toast.LENGTH_LONG).show();
+                    }else{
+                        Toast.makeText(getApplicationContext(),"Email sukses dikirim", Toast.LENGTH_LONG).show();
+                        finish();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }else{
-                Toast.makeText(getApplicationContext(),"Gagal mengirim email, masukan email valid", Toast.LENGTH_LONG).show();
+                Log.e(TAG, "response: Email tidak ditemukan");
             }
 
         }

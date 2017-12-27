@@ -147,11 +147,17 @@ public class GridAsetAdapter extends RecyclerView.Adapter<GridAsetAdapter.ViewHo
             itemCategory.add(category);
         }
 
-        category = new ItemCategoryModul();
-        category.setId(13);
-        category.setTitle("Tambah Aset");
-        category.setThumbnail(R.drawable.ic_add_black_48dp);
-        itemCategory.add(category);
+
+        if (!sm.getPreferences("role").equals(context.getString(R.string.role_finance))) {
+           if ( !sm.getPreferences("role").equals(context.getString(R.string.role_delivery))) {
+               category = new ItemCategoryModul();
+               category.setId(13);
+               category.setTitle("Tambah Aset");
+               category.setThumbnail(R.drawable.ic_add_black_48dp);
+               itemCategory.add(category);
+           }
+        }
+
 
     }
 

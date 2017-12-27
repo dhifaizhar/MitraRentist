@@ -59,7 +59,7 @@ public class MessageDetailActivity extends AppCompatActivity {
 
         Firebase.setAndroidContext(this);
 
-        final String member_phone = "6283819964917", nama1 = "Dhifaizhar", nama2 = "Riski";
+//        final String member_phone = "6283819964917", nama1 = "Dhifaizhar", nama2 = "Riski";
         reference1 = new Firebase("https://rentistid-174904.firebaseio.com/messages/" + detIntent.getStringExtra("key") + "/" + sm.getPreferences("hp"));
         reference2 = new Firebase("https://rentistid-174904.firebaseio.com/messages/" + detIntent.getStringExtra("key") + "/" + detIntent.getStringExtra("phone"));
 

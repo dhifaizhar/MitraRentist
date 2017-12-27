@@ -143,7 +143,7 @@ public class FormVoucherActivity extends AppCompatActivity implements View.OnCli
             vName.setText(formVoucher.getStringExtra("name"));
             vCode.setText(formVoucher.getStringExtra("code"));
             vDesc.setText(formVoucher.getStringExtra("desc"));
-            vCategory.setSelection(formVoucher.getIntExtra("category",0));
+            vCategory.setSelection(formVoucher.getIntExtra("category",0)-1);
             if (!formVoucher.getStringExtra("nominal").equals("0")){
                 rPercent.setVisibility(View.GONE);
                 rNominal.setVisibility(View.VISIBLE);
@@ -158,16 +158,12 @@ public class FormVoucherActivity extends AppCompatActivity implements View.OnCli
             vPercentage.setText(formVoucher.getStringExtra("percent"));
             vKuota.setText(formVoucher.getStringExtra("quantity"));
 
+            vStartDate= "";
+            vEndDate= "";
+
             Log.e(TAG, "Data Voucher to update : " + formVoucher.getStringExtra("action") + "id_vou: " + vId + ", Date: " + rangeDate);
         }
-//        } else if (formVoucher.getStringExtra("action").equals("add")) {
-//            vId = null;
-//            vDate.setText(formVoucher.getStringExtra("range_date"));
-//            vStartDate = formVoucher.getStringExtra("start_date");
-//            vEndDate = formVoucher.getStringExtra("end_date");
-//
-//
-//        }
+
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
 
         // set action
@@ -199,21 +195,64 @@ public class FormVoucherActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void formVoucher(String tenant, String id) {
+
+
+        Boolean valid = formValidation();
+        if(valid.equals(true)) {
+            pDialog.setMessage("loading ...");
+            showProgress(true);
+            if (formVoucher.getStringExtra("action").equals("add")) {
+                new FormVoucherActivity.postVoucherTask(tenant).execute();
+            } else if (formVoucher.getStringExtra("action").equals("update")) {
+                new FormVoucherActivity.putUpdateVoucherTask(tenant, id).execute();
+            }
+        }
+    }
+
+    private boolean formValidation(){
+        Boolean valid = true;
+        vName.setError(null);
+        vCode.setError(null);
+        vKuota.setError(null);
+        vDate.setError(null);
+        vNominal.setError(null);
+        vPercentage.setError(null);
+
         if(vTypeWeb.isChecked() && vTypeMobile.isChecked()){
             vType = "both";
         }else if(vTypeWeb.isChecked()){
             vType = "web";
         }else if(vTypeMobile.isChecked()){
             vType = "mobile";
-        }else { vType = "nodefine";}
-
-        pDialog.setMessage("loading ...");
-        showProgress(true);
-        if(formVoucher.getStringExtra("action").equals("add")){
-            new FormVoucherActivity.postVoucherTask(tenant).execute();
-        }else if(formVoucher.getStringExtra("action").equals("update")){
-            new FormVoucherActivity.putUpdateVoucherTask(tenant, id).execute();
+        }else {
+            vType = "nodefine";
+            valid = false;
+            Toast.makeText(getApplicationContext(), "Harap pilih tipe kupon",
+                    Toast.LENGTH_LONG).show();
         }
+
+        if(vName.getText().toString().isEmpty()){
+            vName.setError(getString(R.string.error_field_required));
+            valid = false;
+        }
+
+        if(vCode.getText().toString().isEmpty()){
+            vCode.setError(getString(R.string.error_field_required));
+            valid = false;
+        }
+
+
+        if(vKuota.getText().toString().isEmpty()){
+            vKuota.setError(getString(R.string.error_field_required));
+            valid = false;
+        }
+
+        if(vDate.getText().toString().isEmpty()){
+            vDate.setError(getString(R.string.error_field_required));
+            valid = false;
+        }
+
+        return valid;
     }
 
     private class postVoucherTask extends AsyncTask<String, String, String> {
@@ -254,11 +293,6 @@ public class FormVoucherActivity extends AppCompatActivity implements View.OnCli
                     keys.put("type", vType);
                     keys.put("quantity", vKuota.getText().toString());
                     keys.put("id_asset_category", String.valueOf(vCategory.getSelectedItemId()+1));
-//                    nominalV = vNominal.getText().toString();
-//                    percentageV = vPercentage.getText().toString();
-//                    if(!nominalV.equals("") && !percentageV.equals("")){
-//                        percentageV = "0";
-//                    }
                     keys.put("nominal",  vNominal.getText().toString().replace(",",""));
                     keys.put("percentage", vPercentage.getText().toString());
                     Log.e(TAG, "Post Data : " + String.valueOf(keys));
@@ -357,6 +391,9 @@ public class FormVoucherActivity extends AppCompatActivity implements View.OnCli
                     keys.put("nominal", vNominal.getText().toString().replace(",",""));
                     keys.put("quantity", vKuota.getText().toString());
                     keys.put("percentage", vPercentage.getText().toString());
+                    if (!vStartDate.equals("")) keys.put("start_date", vStartDate);
+                    if (!vEndDate.equals(""))  keys.put("end_date", vEndDate);
+                    keys.put("id_asset_category", String.valueOf(vCategory.getSelectedItemId()+1));
                     Log.e(TAG, "Key Body : " + keys.toString());
                     return keys;
                 }
@@ -406,7 +443,6 @@ public class FormVoucherActivity extends AppCompatActivity implements View.OnCli
 
         if(formVoucher.getStringExtra("action").equals("update")) {
             getMenuInflater().inflate(R.menu.menu_delete_option, menu);
-            getMenuInflater().inflate(R.menu.menu_save_option, menu);
         }
 
         return true;
@@ -416,10 +452,6 @@ public class FormVoucherActivity extends AppCompatActivity implements View.OnCli
     public boolean onOptionsItemSelected(MenuItem item) {
 
         int id = item.getItemId();
-
-        if (id == R.id.action_save) {
-            formVoucher(tenant, vId);
-        }
 
         if (id == R.id.action_delete) {
             deleteDataVoucher(tenant, vId);

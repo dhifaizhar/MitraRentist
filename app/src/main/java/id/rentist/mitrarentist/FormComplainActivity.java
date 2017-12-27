@@ -64,9 +64,25 @@ public class FormComplainActivity extends AppCompatActivity {
     }
 
     private void sendComplain() {
-        pDialog.setMessage("loading ...");
-        showProgress(true);
-        new sendComplain().execute();
+        Boolean valid = true;
+        title.setError(null);
+        content.setError(null);
+
+        if(title.getText().toString().isEmpty()){
+            title.setError(getString(R.string.error_field_required));
+            valid = false;
+        }
+
+        if(content.getText().toString().isEmpty()){
+            content.setError(getString(R.string.error_field_required));
+            valid = false;
+        }
+
+        if(valid.equals(true)){
+            pDialog.setMessage("loading ...");
+            showProgress(true);
+            new sendComplain().execute();
+        }
     }
 
     private class sendComplain extends AsyncTask<String, String, String> {

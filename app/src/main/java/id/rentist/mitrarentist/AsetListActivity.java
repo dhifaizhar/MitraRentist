@@ -103,168 +103,6 @@ public class AsetListActivity extends AppCompatActivity {
 
     }
 
-    public void getAssetDataList(String category) {
-        tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
-
-        new getAssetListTask(tenant, category).execute();
-    }
-
-    private class getAssetListTask extends AsyncTask<String, String, String> {
-        private final String mTenant, mCategory;
-        private String errorMsg, responseAsset;
-
-        private getAssetListTask(String tenant, String category) {
-            mTenant = tenant;
-            mCategory = category;
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            String URL = AppConfig.URL_LIST_ASSET + mCategory;
-            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    responseAsset = response;
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    errorMsg = error.toString();
-                    Log.e(TAG, "Asset Fetch Error : " + errorMsg);
-                    Toast.makeText(getApplicationContext(), "Connection error, try again.",
-                            Toast.LENGTH_LONG).show();
-                }
-            }){
-                @Override
-                protected Map<String, String> getParams() {
-                    // Posting parameters to login url
-                    Map<String, String> keys = new HashMap<String, String>();
-                    keys.put("id_tenant", mTenant);
-                    return keys;
-                }
-
-                @Override
-                public Map<String, String> getHeaders() throws AuthFailureError {
-                    // Posting parameters to login url
-                    Map<String, String> keys = new HashMap<String, String>();
-                    keys.put("token", TOKEN);
-                    return keys;
-                }
-            };
-
-            try {
-                requestQueue.add(stringRequest);
-                Thread.sleep(3000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            Log.e(TAG, String.valueOf(mTenant + " | " + TOKEN));
-
-            return responseAsset;
-        }
-
-        @Override
-        protected void onPostExecute(String aset) {
-            mAssetTask = null;
-            mSwipeRefreshLayout.setRefreshing(false);
-            pBar.setVisibility(View.GONE);
-//            showProgress(false);
-            String aName, aType, aPlat, aYear, aStatus, aSubCat, aSubType, aThumbnail, aVerif;
-            Integer dataLength, aId;
-
-            if (aset != null) {
-                try {
-                    JSONArray jsonArray = new JSONArray(aset);
-                    Log.e(TAG, "Asset : " + jsonArray);
-                    dataLength = jsonArray.length();
-                    mAset.clear();
-
-                    if(dataLength > 0){
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            errorMsg = "-";
-
-                            JSONObject jsonobject = jsonArray.getJSONObject(i);
-                            aId = jsonobject.getInt("id");
-                            aName = jsonobject.getString("name");
-                            aType = jsonobject.getString("type");
-                            aStatus = jsonobject.getString("status");
-                            aSubCat = jsonobject.getString("subcategory");
-                            aThumbnail = jsonobject.getString("main_image");
-                            aVerif = jsonobject.getString("verified");
-
-                            ItemAsetModul itemModul = new ItemAsetModul();
-                            itemModul.setAssetId(aId);
-                            itemModul.setThumbnail(aThumbnail);
-                            itemModul.setType(aType);
-                            itemModul.setSubCat(aSubCat);
-                            itemModul.setVerif(aVerif);
-
-                            int idCate = jsonobject.getInt("id_asset_category");
-
-                            if (idCate == 1 || idCate == 2 ) {
-                                aPlat = jsonobject.getString("license_plat");
-                                aYear = jsonobject.getString("year");
-                                itemModul.setPlat(aPlat);
-                                itemModul.setYear(aYear);
-                            }
-
-                            itemModul.setMark(aName);
-
-//                            if (idCate != 3){
-////                                aName = jsonobject.getString("brand");
-//                                itemModul.setMark(aName);
-////                                itemModul.setMerk(aName);
-//                            } else {
-//                                aSubType = jsonobject.getString("sub_type");
-//                                itemModul.setMark(aName);
-//                            }
-                            itemModul.setStatus(aStatus);
-                            Log.e(TAG, "What Data : " + String.valueOf(itemModul));
-                            mAset.add(itemModul);
-                        }
-
-                        mRecyclerView = (RecyclerView) findViewById(R.id.as_recyclerView);
-                        mLayoutManager = new LinearLayoutManager(getApplicationContext());
-                        mAdapter = new AsetAdapter(AsetListActivity.this,mAset,category);
-
-                        mRecyclerView.setLayoutManager(mLayoutManager);
-                        mRecyclerView.setAdapter(mAdapter);
-
-                    }else{
-                        ItemAsetModul itemModul = new ItemAsetModul();
-                        itemModul.setThumbnail("add");
-                        itemModul.setMark("Tambah Aset");
-
-                        mAset.add(itemModul);
-                        mRecyclerView = (RecyclerView) findViewById(R.id.as_recyclerView);
-                        mLayoutManager = new LinearLayoutManager(getApplicationContext());
-                        mAdapter = new AsetAdapter(AsetListActivity.this,mAset,category);
-
-                        mRecyclerView.setLayoutManager(mLayoutManager);
-                        mRecyclerView.setAdapter(mAdapter);
-                        errorMsg = "Anda belum memiliki Aset " + name_category;
-//                        noAset.setVisibility(View.VISIBLE);
-                        Toast.makeText(getApplicationContext(),errorMsg, Toast.LENGTH_LONG).show();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    noAset.setVisibility(View.VISIBLE);
-                    errorMsg = "Anda belum memiliki Aset " + name_category;
-                    Toast.makeText(getApplicationContext(),errorMsg, Toast.LENGTH_LONG).show();
-                }
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAssetTask = null;
-            pBar.setVisibility(View.GONE);
-            mSwipeRefreshLayout.setRefreshing(false);
-//            showProgress(false);
-        }
-    }
-
     private void getAssetList() {
         String URL = AppConfig.URL_LIST_ASSET + category;
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
@@ -296,6 +134,12 @@ public class AsetListActivity extends AppCompatActivity {
                                         aSubCat = jsonobject.getString("subcategory");
                                         aThumbnail = jsonobject.getString("main_image");
                                         aVerif = jsonobject.getString("verified");
+                                        int idCate = jsonobject.getInt("id_asset_category");
+                                        if (idCate == 1){
+                                            aThumbnail = jsonobject.getString("image_1");
+                                        } else{
+                                            aThumbnail = jsonobject.getString("main_image");
+                                        }
 
                                         ItemAsetModul itemModul = new ItemAsetModul();
                                         itemModul.setAssetId(aId);
@@ -304,8 +148,6 @@ public class AsetListActivity extends AppCompatActivity {
                                         itemModul.setType(aType);
                                         itemModul.setSubCat(aSubCat);
                                         itemModul.setVerif(aVerif);
-
-                                        int idCate = jsonobject.getInt("id_asset_category");
 
                                         if (idCate == 1 || idCate == 2 ) {
                                             aPlat = jsonobject.getString("license_plat");
@@ -339,7 +181,11 @@ public class AsetListActivity extends AppCompatActivity {
                                     itemModul.setThumbnail("add");
                                     itemModul.setMark("Tambah Aset");
 
-                                    mAset.add(itemModul);
+                                    if (!sm.getPreferences("role").equals(getString(R.string.role_finance))){
+                                        if( !sm.getPreferences("role").equals(getString(R.string.role_delivery))){
+                                            mAset.add(itemModul);
+                                        }
+                                    }
                                     mRecyclerView = (RecyclerView) findViewById(R.id.as_recyclerView);
                                     mLayoutManager = new LinearLayoutManager(getApplicationContext());
                                     mAdapter = new AsetAdapter(AsetListActivity.this,mAset,category);
@@ -347,7 +193,6 @@ public class AsetListActivity extends AppCompatActivity {
                                     mRecyclerView.setLayoutManager(mLayoutManager);
                                     mRecyclerView.setAdapter(mAdapter);
                                     errorMsg = "Anda belum memiliki Aset " + name_category;
-//                        noAset.setVisibility(View.VISIBLE);
                                     Toast.makeText(getApplicationContext(),errorMsg, Toast.LENGTH_LONG).show();
                                 }
                             } catch (JSONException e) {
@@ -414,7 +259,11 @@ public class AsetListActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_add_option, menu);
+        if (!sm.getPreferences("role").equals(getString(R.string.role_finance))){
+            if( !sm.getPreferences("role").equals(getString(R.string.role_delivery))){
+                getMenuInflater().inflate(R.menu.menu_add_option, menu);
+            }
+        }
         return true;
     }
 
@@ -522,5 +371,162 @@ public class AsetListActivity extends AppCompatActivity {
 
         mSwipeRefreshLayout.setRefreshing(true);
         getAssetList();
+    }
+
+    public void getAssetDataList(String category) {
+        tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
+
+        new getAssetListTask(tenant, category).execute();
+    }
+
+    private class getAssetListTask extends AsyncTask<String, String, String> {
+        private final String mTenant, mCategory;
+        private String errorMsg, responseAsset;
+
+        private getAssetListTask(String tenant, String category) {
+            mTenant = tenant;
+            mCategory = category;
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            String URL = AppConfig.URL_LIST_ASSET + mCategory;
+            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    responseAsset = response;
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    errorMsg = error.toString();
+                    Log.e(TAG, "Asset Fetch Error : " + errorMsg);
+                    Toast.makeText(getApplicationContext(), "Connection error, try again.",
+                            Toast.LENGTH_LONG).show();
+                }
+            }){
+                @Override
+                protected Map<String, String> getParams() {
+                    // Posting parameters to login url
+                    Map<String, String> keys = new HashMap<String, String>();
+                    keys.put("id_tenant", mTenant);
+                    return keys;
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    // Posting parameters to login url
+                    Map<String, String> keys = new HashMap<String, String>();
+                    keys.put("token", TOKEN);
+                    return keys;
+                }
+            };
+
+            try {
+                requestQueue.add(stringRequest);
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            Log.e(TAG, String.valueOf(mTenant + " | " + TOKEN));
+
+            return responseAsset;
+        }
+
+        @Override
+        protected void onPostExecute(String aset) {
+            mAssetTask = null;
+            mSwipeRefreshLayout.setRefreshing(false);
+            pBar.setVisibility(View.GONE);
+//            showProgress(false);
+            String aName, aType, aPlat, aYear, aStatus, aSubCat, aSubType, aThumbnail, aVerif;
+            Integer dataLength, aId;
+
+            if (aset != null) {
+                try {
+                    JSONArray jsonArray = new JSONArray(aset);
+                    Log.e(TAG, "Asset : " + jsonArray);
+                    dataLength = jsonArray.length();
+                    mAset.clear();
+
+                    if(dataLength > 0){
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            errorMsg = "-";
+
+                            JSONObject jsonobject = jsonArray.getJSONObject(i);
+                            aId = jsonobject.getInt("id");
+                            aName = jsonobject.getString("name");
+                            aType = jsonobject.getString("type");
+                            aStatus = jsonobject.getString("status");
+                            aSubCat = jsonobject.getString("subcategory");
+                            aVerif = jsonobject.getString("verified");
+                            int idCate = jsonobject.getInt("id_asset_category");
+
+                            if (idCate == 1){
+                                aThumbnail = jsonobject.getString("image_1");
+                            } else{
+                                aThumbnail = jsonobject.getString("main_image");
+                            }
+
+                            ItemAsetModul itemModul = new ItemAsetModul();
+                            itemModul.setAssetId(aId);
+                            itemModul.setThumbnail(aThumbnail);
+                            itemModul.setType(aType);
+                            itemModul.setSubCat(aSubCat);
+                            itemModul.setVerif(aVerif);
+
+                            if (idCate == 1 || idCate == 2 ) {
+                                aPlat = jsonobject.getString("license_plat");
+                                aYear = jsonobject.getString("year");
+                                itemModul.setPlat(aPlat);
+                                itemModul.setYear(aYear);
+                            }
+
+                            itemModul.setMark(aName);
+                            itemModul.setStatus(aStatus);
+                            Log.e(TAG, "What Data : " + String.valueOf(itemModul));
+                            mAset.add(itemModul);
+                        }
+
+                        mRecyclerView = (RecyclerView) findViewById(R.id.as_recyclerView);
+                        mLayoutManager = new LinearLayoutManager(getApplicationContext());
+                        mAdapter = new AsetAdapter(AsetListActivity.this,mAset,category);
+
+                        mRecyclerView.setLayoutManager(mLayoutManager);
+                        mRecyclerView.setAdapter(mAdapter);
+
+                    }else{
+                        ItemAsetModul itemModul = new ItemAsetModul();
+                        itemModul.setThumbnail("add");
+                        itemModul.setMark("Tambah Aset");
+
+                        mAset.add(itemModul);
+                        mRecyclerView = (RecyclerView) findViewById(R.id.as_recyclerView);
+                        mLayoutManager = new LinearLayoutManager(getApplicationContext());
+                        mAdapter = new AsetAdapter(AsetListActivity.this,mAset,category);
+
+                        mRecyclerView.setLayoutManager(mLayoutManager);
+                        mRecyclerView.setAdapter(mAdapter);
+                        errorMsg = "Anda belum memiliki Aset " + name_category;
+//                        noAset.setVisibility(View.VISIBLE);
+                        Toast.makeText(getApplicationContext(),errorMsg, Toast.LENGTH_LONG).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    noAset.setVisibility(View.VISIBLE);
+                    errorMsg = "Anda belum memiliki Aset " + name_category;
+                    Toast.makeText(getApplicationContext(),errorMsg, Toast.LENGTH_LONG).show();
+                }
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            mAssetTask = null;
+            pBar.setVisibility(View.GONE);
+            mSwipeRefreshLayout.setRefreshing(false);
+//            showProgress(false);
+        }
     }
 }

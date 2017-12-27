@@ -16,8 +16,10 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -77,7 +79,7 @@ public class TransDetailActivity extends AppCompatActivity {
 
     private static final String TAG = "DetailTransActivity";
     private static final String TOKEN = "secretissecret";
-    String transId;
+    String transId, rejectReason = "";
 
     MapView mapView;
     GoogleMap googleMap;
@@ -239,7 +241,6 @@ public class TransDetailActivity extends AppCompatActivity {
         });
 
         // Get Driver Name
-        Log.e(TAG, itransDet.getStringExtra("with_driver"));
         if (itransDet.getStringExtra("status").matches("new|accepted|ongoing|completed")){
             if(itransDet.getStringExtra("with_driver").equals("true")){
                 mAdditional.setVisibility(View.VISIBLE);
@@ -253,7 +254,11 @@ public class TransDetailActivity extends AppCompatActivity {
                 }
 
                 if(itransDet.getStringExtra("status").equals("accepted")){
-                    btnDriver.setVisibility(View.VISIBLE);
+                    if (!sm.getPreferences("role").equals(getString(R.string.role_delivery))) {
+                        if(!sm.getPreferences("role").equals(getString(R.string.role_finance))){
+                            btnDriver.setVisibility(View.VISIBLE);
+                        }
+                    }
                 }
             }
         }
@@ -337,6 +342,18 @@ public class TransDetailActivity extends AppCompatActivity {
             });
         }
 
+        switch (sm.getPreferences("role")) {
+            case "Operation":
+                break;
+            case "Finance":
+                btnCamera.setVisibility(View.GONE);
+                btnAction.setVisibility(View.GONE);
+                break;
+            case "Delivery":
+                mPrice.setVisibility(View.GONE);
+                break;
+        }
+
     }
 
     // Get Additional Feature
@@ -400,13 +417,25 @@ public class TransDetailActivity extends AppCompatActivity {
             new TransDetailActivity.postTransConfirmTask(transId, status).execute();
         } else {
             AlertDialog.Builder showAlert = new AlertDialog.Builder(this);
+            LayoutInflater inflater = this.getLayoutInflater();
+            final View dialogView = inflater.inflate(R.layout.reject_dialog, null);
+            showAlert.setView(dialogView);
+
+            final EditText edt = (EditText) dialogView.findViewById(R.id.reason);
+
             showAlert.setMessage("Anda yakin menolak transaksi ?");
             showAlert.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface arg0, int arg1) {
                     pDialog.setMessage("loading ...");
                     showProgress(true);
-                    new TransDetailActivity.postTransConfirmTask(transId, status).execute();
+                    if(!edt.getText().toString().isEmpty()){
+                        rejectReason = edt.getText().toString();
+                        new TransDetailActivity.postTransConfirmTask(transId, status).execute();
+                    }else{
+                        Toast.makeText(getApplicationContext(), "Harap isi alasan anda menolak pesanan",
+                                Toast.LENGTH_LONG).show();
+                    }
                 }
             });
             showAlert.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
@@ -468,6 +497,7 @@ public class TransDetailActivity extends AppCompatActivity {
                     Map<String, String> keys = new HashMap<String, String>();
                     keys.put("id_tenant", tenant);
                     keys.put("status", mStatus);
+                    if (!rejectReason.equals("")) keys.put("reject_reason", rejectReason);
 
                     Log.e(TAG, "Post Data : ID = "+ mTransId + "|" + String.valueOf(keys));
                     return keys;

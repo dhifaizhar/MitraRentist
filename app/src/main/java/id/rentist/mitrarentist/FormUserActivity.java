@@ -12,7 +12,6 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -38,7 +37,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -47,6 +45,7 @@ import id.rentist.mitrarentist.tools.AppConfig;
 import id.rentist.mitrarentist.tools.CircleTransform;
 import id.rentist.mitrarentist.tools.FormValidation;
 import id.rentist.mitrarentist.tools.SessionManager;
+import id.rentist.mitrarentist.tools.Tools;
 
 public class
 FormUserActivity extends AppCompatActivity {
@@ -61,7 +60,7 @@ FormUserActivity extends AppCompatActivity {
     TextView nama, email, pass, cpass, phone;
     Spinner role;
     ImageView profilPic;
-    Button btnUploadFoto;
+    Button btnUploadFoto, bSaveButton;
     CountryCodePicker countryCode;
     LinearLayout layoutPass, layoutConfirmPass;
 
@@ -145,6 +144,14 @@ FormUserActivity extends AppCompatActivity {
                 startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
             }
         });
+
+        bSaveButton = (Button) findViewById(R.id.btn_save);
+        bSaveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                formUserTenant(tenant, aId);
+            }
+        });
     }
 
     private void formUserTenant(String tenant, String id) {
@@ -165,9 +172,9 @@ FormUserActivity extends AppCompatActivity {
                     if(formUser.getStringExtra("action").equals("add")){
                         if(formValidation.isPasswordValid(pass.getText().toString())){
                             if(formValidation.isConfirmPasswordValid(pass.getText().toString(),cpass.getText().toString())){
+                                new getFormUserAddTask(tenant, id).execute();
                                 pDialog.setMessage("loading ...");
                                 showProgress(true);
-                                new getFormUserAddTask(tenant, id).execute();
                             }else{
                                 cpass.setError(getString(R.string.error_invalid_confirm_password));
                                 focusView = cpass;
@@ -218,6 +225,26 @@ FormUserActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(String response) {
                     responseUser = response;
+                    showProgress(false);
+
+                    if(response != null){
+                        try {
+                            JSONObject resp = new JSONObject(responseUser);
+                            if (resp.has("info")){
+                                Toast.makeText(getApplicationContext(),"Email Sudah Terdaftar.", Toast.LENGTH_LONG).show();
+                            }else{
+                                Toast.makeText(getApplicationContext(),"Sukses menambahkan data.", Toast.LENGTH_LONG).show();
+                                new Intent(FormUserActivity.this,UsersActivity.class);
+                                finish();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }else{
+                        Toast.makeText(getApplicationContext(),"Gagal menyimpan data.", Toast.LENGTH_LONG).show();
+                    }
+                    Log.e(TAG, "response : " + response);
+
                 }
             }, new Response.ErrorListener() {
                 @Override
@@ -238,7 +265,7 @@ FormUserActivity extends AppCompatActivity {
                     keys.put("password", pass.getText().toString());
                     keys.put("email", email.getText().toString());
                     keys.put("phone", countryCode.getSelectedCountryCode()+phone.getText().toString().trim());
-                    keys.put("file", imgString);
+                    if(!imgString.equals("")) keys.put("file", imgString);
                     Log.e(TAG, "Key Body : " + keys.toString());
                     return keys;
                 }
@@ -261,19 +288,6 @@ FormUserActivity extends AppCompatActivity {
             return responseUser;
         }
 
-        @Override
-        protected void onPostExecute(String user) {
-            mDetailUserTask = null;
-            showProgress(false);
-
-            if(user != null){
-                Toast.makeText(getApplicationContext(),"Sukses menambahkan data.", Toast.LENGTH_LONG).show();
-                new Intent(FormUserActivity.this,UsersActivity.class);
-                finish();
-            }else{
-                Toast.makeText(getApplicationContext(),"Gagal memuat data.", Toast.LENGTH_LONG).show();
-            }
-        }
 
         @Override
         protected void onCancelled() {
@@ -382,13 +396,6 @@ FormUserActivity extends AppCompatActivity {
 
     }
 
-    public String getStringImage(Bitmap bmp){
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        byte[] imageBytes = baos.toByteArray();
-        return Base64.encodeToString(imageBytes, Base64.DEFAULT);
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -398,17 +405,14 @@ FormUserActivity extends AppCompatActivity {
             Uri filePath = data.getData();
 
             try {
-                //Getting the Bitmap from Gallery
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-
                 String imgStr = data.toString();
 
                 String ext = imgStr.substring(imgStr.indexOf("typ")+4, imgStr.indexOf("flg")-1);
                 Log.e(TAG, "ext: " + ext);
 
-                //Setting the Bitmap to ImageView
-                profilPic.setImageBitmap(bitmap);
-                isiimage = getStringImage(bitmap);
+//                profilPic.setImageBitmap(bitmap);
+                isiimage = Tools.getStringImageView(bitmap, profilPic);
                 imgString = ext +"," + isiimage;
             } catch (IOException e) {
                 e.printStackTrace();
@@ -440,7 +444,7 @@ FormUserActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_save_option, menu);
+//        getMenuInflater().inflate(R.menu.menu_save_option, menu);
         return true;
     }
 

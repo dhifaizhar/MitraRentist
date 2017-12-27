@@ -124,9 +124,10 @@ public class DeliveryPricingActivity extends AppCompatActivity {
 
                                     mRecyclerView = (RecyclerView) findViewById(R.id.dp_recyclerView);
                                     mLayoutManager = new LinearLayoutManager(getApplicationContext());
-                                    mAdapter = new DeliveryPriceAdapter(getApplicationContext(),mDelivPrice);
+                                    mAdapter = new DeliveryPriceAdapter(getApplicationContext(),mDelivPrice,"menu");
                                     mRecyclerView.setLayoutManager(mLayoutManager);
                                     mRecyclerView.setAdapter(mAdapter);
+                                    noData.setVisibility(View.GONE);
                                 } else {
                                     noData.setVisibility(View.VISIBLE);
                                 }

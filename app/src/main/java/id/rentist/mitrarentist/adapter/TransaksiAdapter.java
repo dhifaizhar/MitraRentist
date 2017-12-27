@@ -20,6 +20,7 @@ import id.rentist.mitrarentist.modul.ItemTransaksiModul;
 import id.rentist.mitrarentist.tools.AppConfig;
 import id.rentist.mitrarentist.tools.CircleTransform;
 import id.rentist.mitrarentist.tools.PricingTools;
+import id.rentist.mitrarentist.tools.SessionManager;
 import id.rentist.mitrarentist.tools.Tools;
 
 /**
@@ -73,6 +74,11 @@ public class TransaksiAdapter extends RecyclerView.Adapter<TransaksiAdapter.View
         final String aset, member, startDate, endDate, orderDate;
         final ItemTransaksiModul trx = mTransaksi.get(i);
 
+        SessionManager sm = new SessionManager(context);
+        if (sm.getPreferences("role").equals(context.getString(R.string.role_delivery))){
+            viewHolder.nominal.setVisibility(View.GONE);
+        }
+
         orderDate = Tools.dateHourFormat(trx.getOrderDate());
         aset = ": " + trx.getAsetName();
         member = ": " + trx.getMember();
@@ -94,8 +100,6 @@ public class TransaksiAdapter extends RecyclerView.Adapter<TransaksiAdapter.View
             @Override
             public void onClick(View v) {
                 Intent iDetTrans = new Intent(context, TransDetailActivity.class);
-//                Intent iDetTrans = new Intent("transaction-new");
-
                 iDetTrans.putExtra("status", trx.getStatus());
                 iDetTrans.putExtra("id_trans", trx.getIdTrans());
                 iDetTrans.putExtra("code_trans", viewHolder.transCode.getText());

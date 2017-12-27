@@ -194,17 +194,17 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
 
-                                <com.aldoapps.autoformatedittext.AutoFormatEditText
+                                <EditText
                                     android:id="@+id/as_value"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="@color/colorNearWhite"
                                     android:ems="10"
                                     android:hint="0"
-                                    android:maxLength="13"
+                                    android:maxLength="11"
+                                    android:inputType="number"
                                     android:padding="@dimen/min_padding"
-                                    android:imeOptions="actionNext"
-                                    app:isDecimal="false" />
+                                    />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -283,7 +283,7 @@
                                 <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text=" *dalam satuan meter"
+                                    android:text=" (dalam satuan centimeter)"
                                     android:textColor="@color/colorBlack54"
                                     android:textSize="@dimen/almost_tiny_text" />
 
@@ -555,17 +555,19 @@
                                     <TextView
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:text="*sentuh untuk memilih biaya pengiriman"
+                                        android:text=" (sentuh untuk memilih biaya pengiriman)"
                                         android:textColor="@color/colorBlack54"
                                         android:textSize="@dimen/tiny_text" />
 
                                 </LinearLayout>
 
                                 <TextView
+                                    android:layout_marginTop="@dimen/xmin_padding"
                                     android:id="@+id/delivery_price"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:background="@color/colorButtonDefault"
+                                    android:background="@drawable/radius_primary"
+                                    android:textColor="@color/colorWhite"
                                     android:clickable="true"
                                     android:padding="@dimen/xmin_padding"
                                     android:text="Pilih Biaya Pengiriman"
@@ -677,16 +679,17 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
 
-                                <com.aldoapps.autoformatedittext.AutoFormatEditText
+                                <EditText
                                     android:id="@+id/as_nominal_deposit"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="@color/colorNearWhite"
                                     android:ems="10"
                                     android:hint="0"
-                                    android:maxLength="13"
+                                    android:maxLength="11"
+                                    android:inputType="number"
                                     android:padding="@dimen/min_padding"
-                                    app:isDecimal="false" />
+                                    />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -884,7 +887,7 @@
                             <RelativeLayout
                                 android:id="@+id/verified_info"
                                 android:layout_width="match_parent"
-                                android:layout_height="@dimen/breadcrumb_height"
+                                android:layout_height="wrap_content"
                                 android:layout_below="@+id/basic_info"
                                 android:layout_toEndOf="@id/rent_req_group"
                                 android:background="@color/colorPrimarySoft"
@@ -966,6 +969,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/xmin_padding"
+                        android:background="@color/colorPrimary"
                         android:padding="@dimen/min_padding">
 
                         <TextView
@@ -976,7 +980,7 @@
                             android:layout_centerVertical="true"
                             android:text="@string/label_harga_sewa"
                             android:textAlignment="center"
-                            android:textColor="@color/colorPrimary"
+                            android:textColor="@color/colorWhite"
                             android:textSize="@dimen/medium_text"
                             android:textStyle="bold" />
 
@@ -1015,16 +1019,17 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
-                            <com.aldoapps.autoformatedittext.AutoFormatEditText
+                            <EditText
                                 android:id="@+id/as_price_basic"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:background="@color/colorNearWhite"
                                 android:ems="10"
                                 android:hint="0"
-                                android:maxLength="13"
+                                android:maxLength="11"
                                 android:padding="@dimen/min_padding"
-                                app:isDecimal="false" />
+                                android:inputType="number"
+                                />
 
                             <TextView
                                 android:id="@+id/idra"
@@ -1091,6 +1096,17 @@
                                 android:text="Nama Periode"
                                 android:textColor="@color/colorBlack"
                                 android:textSize="12sp" />
+
+                            <!--<EditText-->
+                            <!--android:id="@+id/as_range_name"-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:background="@color/colorNearWhite"-->
+                            <!--android:ems="10"-->
+                            <!--android:hint="Nama Periode"-->
+                            <!--android:inputType="textPersonName|textCapWords"-->
+                            <!--android:padding="@dimen/min_padding"-->
+                            <!--android:text="" />-->
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -1188,16 +1204,17 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
 
-                                <com.aldoapps.autoformatedittext.AutoFormatEditText
+                                <EditText
                                     android:id="@+id/as_price_advance"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="@color/colorNearWhite"
                                     android:ems="10"
                                     android:hint="0"
-                                    android:maxLength="13"
+                                    android:maxLength="11"
                                     android:padding="@dimen/min_padding"
-                                    app:isDecimal="false" />
+                                    android:inputType="number"
+                                    />
 
                                 <TextView
                                     android:id="@+id/daye"
@@ -1360,16 +1377,18 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
 
-                                <com.aldoapps.autoformatedittext.AutoFormatEditText
+                                <EditText
                                     android:id="@+id/as_price_advance2"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="@color/colorNearWhite"
                                     android:ems="10"
                                     android:hint="0"
-                                    android:maxLength="13"
+                                    android:maxLength="11"
                                     android:padding="@dimen/min_padding"
-                                    app:isDecimal="false" />
+                                    android:inputType="number"
+                                    />
+
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -1533,16 +1552,18 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
 
-                                <com.aldoapps.autoformatedittext.AutoFormatEditText
+                                <EditText
                                     android:id="@+id/as_price_advance3"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="@color/colorNearWhite"
                                     android:ems="10"
                                     android:hint="0"
-                                    android:maxLength="13"
+                                    android:maxLength="11"
                                     android:padding="@dimen/min_padding"
-                                    app:isDecimal="false" />
+                                    android:inputType="number"
+                                    />
+
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -1704,16 +1725,18 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
 
-                                <com.aldoapps.autoformatedittext.AutoFormatEditText
+                                <EditText
                                     android:id="@+id/as_price_advance4"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="@color/colorNearWhite"
                                     android:ems="10"
                                     android:hint="0"
-                                    android:maxLength="13"
+                                    android:maxLength="11"
                                     android:padding="@dimen/min_padding"
-                                    app:isDecimal="false" />
+                                    android:inputType="number"
+                                    />
+
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -1917,7 +1940,7 @@
                 android:layout_marginBottom="@dimen/xmin_padding"
                 android:background="@color/colorPrimaryDark"
                 android:textAlignment="center"
-                android:text="Tambah"
+                android:text="@string/btn_save"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/medium_text" />
 

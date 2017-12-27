@@ -14,6 +14,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,8 +47,10 @@ public class FormFeatureActivity extends AppCompatActivity {
 
     int featureId;
     String tenant, fId, category = "1", fIdName;
-    TextView name, price, qty;
-    Spinner featureName;
+    TextView name, price, qty, aCatValue;
+    Spinner featureName, aCat;
+    Button bSaveButton;
+
 
     private static final String TAG = "FormFeatureActivity";
     private static final String TOKEN = "secretissecret";
@@ -76,19 +80,44 @@ public class FormFeatureActivity extends AppCompatActivity {
         price = (TextView)findViewById(R.id.fr_price);
         qty = (TextView)findViewById(R.id.fr_qty);
         featureName = (Spinner) findViewById(R.id.fr_name);
+        aCat = (Spinner) findViewById(R.id.fr_asset_cat);
+        aCatValue = (EditText) findViewById(R.id.fr_asset_cat_val);
+
+        aCat.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                aCatValue.setText(String.valueOf(position+1));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                aCatValue.setText("1");
+            }
+        });
+
         getfeatureName();
 
         // set content control value
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
         if(formFeature.getStringExtra("action").equals("update")){
             fId = formFeature.getStringExtra("id_feature");
-            Log.e(TAG, "Id Tenant Form Feature : " + fId);
             name.setText(formFeature.getStringExtra("fname"));
             price.setText(formFeature.getStringExtra("fprice"));
             qty.setText(formFeature.getStringExtra("fqty"));
+            aCatValue.setText(formFeature.getStringExtra("id_asset_cat"));
+            aCat.setSelection(Integer.parseInt(formFeature.getStringExtra("id_asset_cat"))-1);
+            Log.e(TAG, "Id Tenant Form Feature : " + formFeature.getStringExtra("id_asset_cat"));
+
         }
 
         // set action
+        bSaveButton = (Button) findViewById(R.id.btn_save);
+        bSaveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                formFeatureTenant(tenant, category, fId);
+            }
+        });
     }
 
     public void getfeatureName() {
@@ -150,13 +179,34 @@ public class FormFeatureActivity extends AppCompatActivity {
     }
 
     private void formFeatureTenant(String tenant, String category, String id) {
-        pDialog.setMessage("loading ...");
-        showProgress(true);
-        if(formFeature.getStringExtra("action").equals("add")){
-            new featureAddTask(tenant, category).execute();
-        }else if(formFeature.getStringExtra("action").equals("update")){
-            new featureUpdateTask(tenant, id).execute();
+        Boolean valid = formValidation();
+        if(valid.equals(true)) {
+            pDialog.setMessage("loading ...");
+            showProgress(true);
+            if (formFeature.getStringExtra("action").equals("add")) {
+                new featureAddTask(tenant, category).execute();
+            } else if (formFeature.getStringExtra("action").equals("update")) {
+                new featureUpdateTask(tenant, id).execute();
+            }
         }
+    }
+
+    private boolean formValidation(){
+        Boolean valid = true;
+        price.setError(null);
+        qty.setError(null);
+
+        if(price.getText().toString().isEmpty()){
+            price.setError(getString(R.string.error_field_required));
+            valid = false;
+        }
+
+        if(qty.getText().toString().isEmpty()){
+            qty.setError(getString(R.string.error_field_required));
+            valid = false;
+        }
+
+        return valid;
     }
 
     private class featureAddTask extends AsyncTask<String, String, String>{
@@ -195,6 +245,7 @@ public class FormFeatureActivity extends AppCompatActivity {
                     keys.put("feature_name", fIdName);
                     keys.put("price", price.getText().toString());
                     keys.put("quantity", qty.getText().toString());
+                    keys.put("id_asset_category", String.valueOf(aCatValue.getText()));
                     Log.e(TAG, "Key Body : " + keys.toString());
                     return keys;
                 }
@@ -276,6 +327,7 @@ public class FormFeatureActivity extends AppCompatActivity {
                     keys.put("feature_name", fIdName);
                     keys.put("price", price.getText().toString());
                     keys.put("quantity", qty.getText().toString());
+                    keys.put("id_asset_category", String.valueOf(aCatValue.getText()));
                     Log.e(TAG, "Key Body : " + keys.toString());
                     return keys;
                 }
@@ -340,7 +392,7 @@ public class FormFeatureActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_save_option, menu);
+//        getMenuInflater().inflate(R.menu.menu_save_option, menu);
         return true;
     }
 

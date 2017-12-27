@@ -152,7 +152,9 @@ public class ProfileActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_edit_option, menu);
+        if(sm.getPreferences("role").equals(getString(R.string.role_superadmin))) {
+            getMenuInflater().inflate(R.menu.menu_edit_option, menu);
+        }
         return true;
     }
 
@@ -162,12 +164,9 @@ public class ProfileActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_edit) {
-            if(sm.getPreferences("role").equals("SuperAdmin")){
                 iEditRent = new Intent(ProfileActivity.this, FormEditProfilActivity.class);
                 startActivityForResult(iEditRent, 2);
-            }else{
-                Toast.makeText(getApplicationContext(), "Hanya untuk SuperAdmin", Toast.LENGTH_LONG).show();
-            }
+
         }
 
         return super.onOptionsItemSelected(item);

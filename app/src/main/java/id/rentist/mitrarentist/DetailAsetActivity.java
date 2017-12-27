@@ -91,7 +91,7 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
             aDeposit, aDepositValue, aIdDelivery,
             //Car&Motor
             aPlat, aYear, aNoStnk , aColor, aTransmission, aEngineCap, aFuel, aSeat, aAirBag, aAirCond,
-                    aDriver, aEstPrice,
+                    aDriver, aEstPrice, aAsu1Image, aAsu2Image, aAsu3Image,
             //Yacht
             aModel, aLength, aBeam, aGrossTon, aDraft, aCruisSpeed, aTopSpeed, aBuilder, aNaval, aIntDesign, aExtDesign,
             aGuest, aCabin, aCrew;
@@ -159,61 +159,6 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
 
         mWorkTask =  new getDateEvent().execute();
 //        getDateEventAssset();
-
-        calendarView.setOnDateChangedListener(new OnDateSelectedListener() {
-            @Override
-            public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull final CalendarDay date, boolean selected) {
-                String dateSelected = date.getDay() + "-" +  (date.getMonth() + 1) + "-" + date.getYear();
-                final String dateSend = date.getYear() +"-"+ (date.getMonth() + 1) +"-"+ date.getDay();
-
-                try {
-                    Log.e(TAG, "Date Select:" + CalendarDay.from(format.parse(dateSend)));
-                    if (daySchedule.contains( CalendarDay.from(format.parse(dateSend)))){
-                        final int index = daySchedule.indexOf(CalendarDay.from(format.parse(dateSend)));
-                        scheduleAlert = new AlertDialog.Builder(DetailAsetActivity.this);
-                        scheduleAlert.setMessage("Ubah status aset pada  " +  dateSelected + " menjadi Aktif ?");
-                        scheduleAlert.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface arg0, int arg1) {
-                                new deleteDateEventTask(index).execute();
-                            }
-                        });
-                        scheduleAlert.setNegativeButton("Tidak",new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // close dialog
-                            }
-                        });
-
-                        scheduleAlertDialog = scheduleAlert.create();
-                        scheduleAlertDialog.show();
-
-                    }else{
-                        scheduleAlert = new AlertDialog.Builder(DetailAsetActivity.this);
-                        scheduleAlert.setMessage("Ubah status aset pada  " +  dateSelected + " menjadi Non-Aktif ?");
-                        scheduleAlert.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface arg0, int arg1) {
-                                setDateEvent(dateSend);
-
-                            }
-                        });
-                        scheduleAlert.setNegativeButton("Tidak",new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // close dialog
-                            }
-                        });
-
-                        scheduleAlertDialog = scheduleAlert.create();
-                        scheduleAlertDialog.show();
-                    }
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        });
     }
 
     @Override
@@ -307,14 +252,19 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
                 changeStatAset();
             }
         });
+        swStatus.setVisibility(View.GONE);
 
-        status.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                changeStatAset();
+        if (!sm.getPreferences("role").equals(getString(R.string.role_finance))){
+            if( !sm.getPreferences("role").equals(getString(R.string.role_delivery))){
+                swStatus.setVisibility(View.VISIBLE);
+                status.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        changeStatAset();
+                    }
+                });
             }
-        });
-
+        }
     }
 
     private void getAssetDetail() {
@@ -407,9 +357,8 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
                         JSONArray priceArray = jsonobject.getJSONArray("price");
                         aPrice = priceArray.toString();
                         Log.e(TAG, "Price : " + priceArray);
-
+                        mPrice.clear();
                         if (priceArray.length() > 0) {
-                            mPrice.clear();
                             for (int j = 0; j < priceArray.length(); j++) {
                                 JSONObject priceObject = priceArray.getJSONObject(j);
 
@@ -428,6 +377,12 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
                         mAdapter = new PriceAdapter(getApplicationContext(), mPrice);
                         mRecyclerView.setLayoutManager(mLayoutManager);
                         mRecyclerView.setAdapter(mAdapter);
+
+                        if(sm.getPreferences("role").equals(getString(R.string.role_delivery))){
+                            mRecyclerView.setVisibility(View.GONE);
+                            TextView textHarga = (TextView) findViewById(R.id.textharga);
+                            textHarga.setVisibility(View.GONE);
+                        }
 
                         // Images Banner
                         JSONArray images = jsonobject.getJSONArray("images");
@@ -459,8 +414,10 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
                         if (aDeliveryMethod.equals("both")) {
                             delivery_method.setText("Dikirim, Diambil");
                         } else {
-                            if (aDeliveryMethod.equals("pickup"))
+                            if (aDeliveryMethod.equals("pickup")) {
                                 delivery_method.setText("Diambil");
+                                rDeliveryPrice.setVisibility(View.GONE);
+                            }
                             else {
                                 delivery_method.setText("Dikirim");
 
@@ -527,6 +484,11 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
                                 } else {
                                     driver.setText(aDriver.equals("true") ? "Tersedia" : "Tidak Tersedia");
                                 }
+
+                                aAsu1Image = jsonobject.getString("image_1");
+                                aAsu2Image = jsonobject.getString("image_2");
+                                aAsu3Image = jsonobject.getString("image_3");
+
                             case "2":
                                 aPlat = jsonobject.getString("license_plat");
                                 aYear = jsonobject.getString("year");
@@ -593,14 +555,14 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
                                 mark.setText(aType + " " + aSubType);
                                 break;
                             default:
-                                if(!aCat.equals("10")){
+                                if(!aCat.matches("10|7")){
                                     cSmallAssetFeature.setVisibility(View.VISIBLE);
                                     aAssetValue = jsonobject.getString("asset_value").equals("null") ? "0" : jsonobject.getString("asset_value");
                                     aWeight = jsonobject.getString("weight").equals("null") ? "0" : jsonobject.getString("weight");
 
                                     asset_value.setText(PricingTools.PriceStringFormat(aAssetValue));
                                     weight.setText(aWeight + " Kg");
-                                    dimension.setText(jsonobject.getString("dimension").equals("null") ? "-" : jsonobject.getString("dimension") + " m");
+                                    dimension.setText(jsonobject.getString("dimension").equals("null") ? "-" : jsonobject.getString("dimension") + " cm");
                                 }
                                 aDesc = jsonobject.getString("description");
 
@@ -871,7 +833,11 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_edit_delete_option, menu);
+        if (!sm.getPreferences("role").equals(getString(R.string.role_finance))){
+            if( !sm.getPreferences("role").equals(getString(R.string.role_delivery))){
+                getMenuInflater().inflate(R.menu.menu_edit_delete_option, menu);
+            }
+        }
         return true;
     }
 
@@ -927,6 +893,10 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
                     }
                     iAsetEdit.putExtra("deposit", aDeposit);
                     if (aDeposit.equals("true")) iAsetEdit.putExtra("nominal_deposit", aDepositValue);
+
+                    iAsetEdit.putExtra("image_1", aAsu1Image);
+                    iAsetEdit.putExtra("image_2", aAsu2Image);
+                    iAsetEdit.putExtra("image_3", aAsu3Image);
 
                     startActivity(iAsetEdit);
                     break;
@@ -1055,7 +1025,7 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
                     iAsetEdit.putExtra("third_image", aThirdImage);
                     iAsetEdit.putExtra("fourth_image", aFourthImage);
                     iAsetEdit.putExtra("fifth_image", aFifthImage);
-                    if(!aCat.equals("10")){
+                    if(!aCat.matches("10|7")){
                         iAsetEdit.putExtra("asset_value", aAssetValue.toString());
                         iAsetEdit.putExtra("weight", aWeight);
                         iAsetEdit.putExtra("dimension", dimension.getText().toString());

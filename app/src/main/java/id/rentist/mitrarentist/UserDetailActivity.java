@@ -214,7 +214,10 @@ public class UserDetailActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (sm.getPreferences("role").equals("SuperAdmin")){
+        if (sm.getPreferences("role").equals(getString(R.string.role_superadmin))){
+            getMenuInflater().inflate(R.menu.menu_edit_delete_option, menu);
+        }
+        if (sm.getPreferences("role").equals(getString(R.string.role_admin))){
             getMenuInflater().inflate(R.menu.menu_edit_delete_option, menu);
         }
         return true;
@@ -226,17 +229,29 @@ public class UserDetailActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_edit) {
-            detIntent = new Intent(UserDetailActivity.this, FormUserActivity.class);
-            detIntent.putExtra("action","update");
-            detIntent.putExtra("profile_pic", profilpicStr);
-            detIntent.putExtra("id_user", aId.toString());
-            detIntent.putExtra("name", nama.getText());
-            detIntent.putExtra("role", role.getText());
-            detIntent.putExtra("email", email.getText());
-            detIntent.putExtra("phone", phone.getText());
-            startActivityForResult(detIntent, 2);
+            if (sm.getPreferences("role").equals(getString(R.string.role_admin)) &&
+                    role.getText().toString().equals(getString(R.string.role_superadmin))){
+                Toast.makeText(getApplicationContext(), "Tidak bisa mengubah SuperAdmin",
+                        Toast.LENGTH_SHORT).show();
+            }else {
+                detIntent = new Intent(UserDetailActivity.this, FormUserActivity.class);
+                detIntent.putExtra("action", "update");
+                detIntent.putExtra("profile_pic", profilpicStr);
+                detIntent.putExtra("id_user", aId.toString());
+                detIntent.putExtra("name", nama.getText());
+                detIntent.putExtra("role", role.getText());
+                detIntent.putExtra("email", email.getText());
+                detIntent.putExtra("phone", phone.getText());
+                startActivityForResult(detIntent, 2);
+            }
         } else if (id == R.id.action_delete){
-            deleteDataUser(tenant, aId);
+            if (sm.getPreferences("role").equals(getString(R.string.role_admin)) &&
+                    role.getText().toString().equals(getString(R.string.role_superadmin))){
+                Toast.makeText(getApplicationContext(), "Tidak bisa menghapus SuperAdmin",
+                        Toast.LENGTH_SHORT).show();
+            }else {
+                deleteDataUser(tenant, aId);
+            }
         }
 
         return super.onOptionsItemSelected(item);

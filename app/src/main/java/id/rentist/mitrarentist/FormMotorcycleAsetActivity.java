@@ -52,8 +52,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import id.rentist.mitrarentist.tools.AppConfig;
+import id.rentist.mitrarentist.tools.NumberTextWatcherForThousand;
 import id.rentist.mitrarentist.tools.PricingTools;
 import id.rentist.mitrarentist.tools.SessionManager;
 import id.rentist.mitrarentist.tools.Tools;
@@ -320,6 +323,7 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if(checkedId == R.id.r_deposit) {
+                    aDepositValue.addTextChangedListener(new NumberTextWatcherForThousand(aDepositValue));
                     rDepositValue.setVisibility(View.VISIBLE);
                 } else {
                     rDepositValue.setVisibility(View.GONE);
@@ -406,11 +410,12 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
             }
         });
 
+        aBasicPrice.addTextChangedListener(new NumberTextWatcherForThousand(aBasicPrice));
         aBasicPrice.addTextChangedListener(new TextWatcher(){
             @Override
             public void afterTextChanged(Editable arg0) {
                 if(!aBasicPrice.getText().toString().isEmpty()){
-                    Integer price = Integer.parseInt(aBasicPrice.getText().toString().replace(",",""));
+                    Integer price = Integer.parseInt(NumberTextWatcherForThousand.trimCommaOfString(aBasicPrice.getText().toString()));
                     aBasicPriceDisp.setText(PricingTools.PriceFormat(PricingTools.PriceMinFee(price, fee)));
                 } else {
                     aBasicPriceDisp.setText("0 IDR");
@@ -426,11 +431,12 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
 
             }
         });
+        aAdvancePrice.addTextChangedListener(new NumberTextWatcherForThousand(aAdvancePrice));
         aAdvancePrice.addTextChangedListener(new TextWatcher(){
             @Override
             public void afterTextChanged(Editable arg0) {
                 if(!aAdvancePrice.getText().toString().isEmpty()){
-                    Integer price = Integer.parseInt(aAdvancePrice.getText().toString().replace(",",""));
+                    Integer price = Integer.parseInt(NumberTextWatcherForThousand.trimCommaOfString(aAdvancePrice.getText().toString()));
                     aAdvancePriceDisp.setText(PricingTools.PriceFormat(PricingTools.PriceMinFee(price, fee)));
                 } else {
                     aAdvancePriceDisp.setText("0 IDR");
@@ -446,11 +452,12 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
 
             }
         });
+        aAdvancePrice2.addTextChangedListener(new NumberTextWatcherForThousand(aAdvancePrice2));
         aAdvancePrice2.addTextChangedListener(new TextWatcher(){
             @Override
             public void afterTextChanged(Editable arg0) {
                 if(!aAdvancePrice2.getText().toString().isEmpty()){
-                    Integer price = Integer.parseInt(aAdvancePrice2.getText().toString().replace(",",""));
+                    Integer price = Integer.parseInt(NumberTextWatcherForThousand.trimCommaOfString(aAdvancePrice2.getText().toString()));
                     aAdvancePriceDisp2.setText(PricingTools.PriceFormat(PricingTools.PriceMinFee(price, fee)));
                 } else {
                     aAdvancePriceDisp2.setText("0 IDR");
@@ -466,11 +473,12 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
 
             }
         });
+        aAdvancePrice3.addTextChangedListener(new NumberTextWatcherForThousand(aAdvancePrice3));
         aAdvancePrice3.addTextChangedListener(new TextWatcher(){
             @Override
             public void afterTextChanged(Editable arg0) {
                 if(!aAdvancePrice3.getText().toString().isEmpty()){
-                    Integer price = Integer.parseInt(aAdvancePrice3.getText().toString().replace(",",""));
+                    Integer price = Integer.parseInt(NumberTextWatcherForThousand.trimCommaOfString(aAdvancePrice3.getText().toString()));
                     aAdvancePriceDisp3.setText(PricingTools.PriceFormat(PricingTools.PriceMinFee(price, fee)));
                 } else {
                     aAdvancePriceDisp3.setText("0 IDR");
@@ -486,11 +494,12 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
 
             }
         });
+        aAdvancePrice4.addTextChangedListener(new NumberTextWatcherForThousand(aAdvancePrice4));
         aAdvancePrice4.addTextChangedListener(new TextWatcher(){
             @Override
             public void afterTextChanged(Editable arg0) {
                 if(!aAdvancePrice4.getText().toString().isEmpty()){
-                    Integer price = Integer.parseInt(aAdvancePrice4.getText().toString().replace(",",""));
+                    Integer price = Integer.parseInt(NumberTextWatcherForThousand.trimCommaOfString(aAdvancePrice4.getText().toString()));
                     aAdvancePriceDisp4.setText(PricingTools.PriceFormat(PricingTools.PriceMinFee(price, fee)));
                 } else {
                     aAdvancePriceDisp4.setText("0 IDR");
@@ -588,6 +597,9 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
         bSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                pDialog.setMessage("loading ...");
+                showProgress(true);
+
                 int transmissionId = aTransmisionGroup.getCheckedRadioButtonId();
                 aTransmisionButton = (RadioButton) findViewById(transmissionId);
                 tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
@@ -630,12 +642,55 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
                         aNoMesin.getText().toString().isEmpty() ||
                         delivMethodValid.equals(false) ||
                         depositValid.equals(false)){
+                    showProgress(false);
                     Toast.makeText(getApplicationContext(), R.string.error_field_not_complete,Toast.LENGTH_LONG).show();
                 } else{
                     pricingArray.clear();
                     getPrice();
                     postPriceCheck(pricingArray.toString());
 
+                }
+
+                String numplatPattern = "\\d";
+                View focusView;
+                Pattern r = Pattern.compile(numplatPattern);
+                Matcher m = r.matcher(aPlatStart.getText().toString());
+                Matcher n = r.matcher(aPlatEnd.getText().toString());
+
+                Boolean startPlat = !m.find();
+                Boolean endPlat = !n.find();
+
+                if (aBasicPrice.getText().toString().isEmpty() ||
+                        aBasicPrice.getText().toString().isEmpty() ||
+                        aType.getText().toString().isEmpty() ||
+                        aPlat.getText().toString().isEmpty() || aPlatStart.getText().toString().isEmpty() ||
+                        aName.getText().toString().isEmpty() ||
+                        aType.getText().toString().isEmpty() ||
+                        aMinDayRent.getText().toString().isEmpty() ||
+                        aNoRangka.getText().toString().isEmpty() ||
+                        aNoMesin.getText().toString().isEmpty() ||
+                        delivMethodValid.equals(false) ||
+                        depositValid.equals(false)) {
+                    showProgress(false);
+                    Toast.makeText(getApplicationContext(), R.string.error_field_not_complete, Toast.LENGTH_LONG).show();
+                } else {
+                    if (startPlat) {
+                        if (endPlat) {
+                            pricingArray.clear();
+                            getPrice();
+                            postPriceCheck(pricingArray.toString());
+                        } else {
+                            showProgress(false);
+                            aPlatEnd.setError("Tidak boleh memasukan angka untuk Kode Plat Nomer");
+                            focusView = aPlatEnd;
+                            focusView.requestFocus();
+                        }
+                    } else {
+                        showProgress(false);
+                        aPlatStart.setError("Tidak boleh memasukan angka untuk Kode Plat Nomer");
+                        focusView = aPlatStart;
+                        focusView.requestFocus();
+                    }
                 }
             }
 
@@ -830,12 +885,12 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
 
                 //Setting the Bitmap to ImageView
-                aMainImage.setImageBitmap(bitmap);
+//                aMainImage.setImageBitmap(bitmap);
 
                 String imgStr = data.toString();
                 ext = imgStr.substring(imgStr.indexOf("typ")+4, imgStr.indexOf("flg")-1);
 
-                isiimage = Tools.getStringImage(bitmap);
+                isiimage = Tools.getStringImageView(bitmap, aMainImage);
                 imgStringMain = ext +"," + isiimage;
                 conSecondImage.setVisibility(View.VISIBLE);
 
@@ -848,12 +903,13 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
             Uri filePath = data.getData();
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                aSecondImage.setImageBitmap(bitmap);
+//                aSecondImage.setImageBitmap(bitmap);
+                Log.e(TAG, filePath.toString());
 
                 String imgStr = data.toString();
                 ext = imgStr.substring(imgStr.indexOf("typ")+4, imgStr.indexOf("flg")-1);
 
-                isiimage = Tools.getStringImage(bitmap);
+                isiimage = Tools.getStringImageView(bitmap, aSecondImage);
                 imgStringSecond = ext +"," + isiimage;
                 delSecondImage.setVisibility(View.VISIBLE);
                 conThirdImage.setVisibility(View.VISIBLE);
@@ -867,12 +923,12 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
             Uri filePath = data.getData();
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                aThirdImage.setImageBitmap(bitmap);
+//                aThirdImage.setImageBitmap(bitmap);
 
                 String imgStr = data.toString();
                 ext = imgStr.substring(imgStr.indexOf("typ")+4, imgStr.indexOf("flg")-1);
 
-                isiimage = Tools.getStringImage(bitmap);
+                isiimage = Tools.getStringImageView(bitmap, aThirdImage);
                 imgStringThird = ext +"," + isiimage;
                 delThirdImage.setVisibility(View.VISIBLE);
                 conFourthImage.setVisibility(View.VISIBLE);
@@ -886,12 +942,12 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
             Uri filePath = data.getData();
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                aFourthImage.setImageBitmap(bitmap);
+//                aFourthImage.setImageBitmap(bitmap);
 
                 String imgStr = data.toString();
                 ext = imgStr.substring(imgStr.indexOf("typ")+4, imgStr.indexOf("flg")-1);
 
-                isiimage = Tools.getStringImage(bitmap);
+                isiimage = Tools.getStringImageView(bitmap, aFourthImage);
                 imgStringFourth = ext +"," + isiimage;
                 delFourthImage.setVisibility(View.VISIBLE);
                 conFifthImage.setVisibility(View.VISIBLE);
@@ -905,12 +961,12 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
             Uri filePath = data.getData();
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                aFifthImage.setImageBitmap(bitmap);
+//                aFifthImage.setImageBitmap(bitmap);
 
                 String imgStr = data.toString();
                 ext = imgStr.substring(imgStr.indexOf("typ")+4, imgStr.indexOf("flg")-1);
 
-                isiimage = Tools.getStringImage(bitmap);
+                isiimage = Tools.getStringImageView(bitmap, aFifthImage);
                 imgStringFifth = ext +"," + isiimage;
                 delFifthImage.setVisibility(View.VISIBLE);
 
@@ -923,11 +979,11 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
             Uri filePath = data.getData();
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                aImgSTNK.setImageBitmap(bitmap);
+//                aImgSTNK.setImageBitmap(bitmap);
                 String imgStr = data.toString();
                 ext = imgStr.substring(imgStr.indexOf("typ")+4, imgStr.indexOf("flg")-1);
 
-                isiimage = Tools.getStringImage(bitmap);
+                isiimage = Tools.getStringImageView(bitmap, aImgSTNK);
                 imgStringSTNK = ext +"," + isiimage;
 
             } catch (IOException e) {
@@ -1055,7 +1111,7 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
     private void getPrice(){
         JSONObject priceBasicObject = new JSONObject();
         try {
-            priceBasicObject.put("price", aBasicPrice.getText().toString().replace(",",""));
+            priceBasicObject.put("price", NumberTextWatcherForThousand.trimCommaOfString(aBasicPrice.getText().toString()));
             priceBasicObject.put("range_name","BASECOST");
             priceBasicObject.put("start_date","1970-01-01");
             priceBasicObject.put("end_date","1970-01-01");
@@ -1070,7 +1126,7 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
             pricingObject.put("\"range_name\"", "\"" + aRangName.getSelectedItem().toString() + "\"");
             pricingObject.put("\"start_date\"", "\"" + aStartDate.getText().toString() + "\"");
             pricingObject.put("\"end_date\"", "\"" + aEndDate.getText().toString() + "\"");
-            pricingObject.put("\"price\"", "\"" + aAdvancePrice.getText().toString().replace(",", "") + "\"");
+            pricingObject.put("\"price\"", "\"" + NumberTextWatcherForThousand.trimCommaOfString(aAdvancePrice.getText().toString()) + "\"");
 
             pricingArray.add(pricingObject.toString().replace("=", ":"));
         }
@@ -1080,7 +1136,7 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
             pricingObject.put("\"range_name\"", "\"" + aRangName2.getSelectedItem().toString() + "\"");
             pricingObject.put("\"start_date\"", "\"" + aStartDate2.getText().toString() + "\"");
             pricingObject.put("\"end_date\"", "\"" + aEndDate2.getText().toString() + "\"");
-            pricingObject.put("\"price\"", "\"" + aAdvancePrice2.getText().toString().replace(",", "") + "\"");
+            pricingObject.put("\"price\"", "\"" + NumberTextWatcherForThousand.trimCommaOfString(aAdvancePrice2.getText().toString()) + "\"");
 
             pricingArray.add(pricingObject.toString().replace("=", ":"));
         }
@@ -1090,7 +1146,7 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
             pricingObject.put("\"range_name\"", "\"" + aRangName3.getSelectedItem().toString() + "\"");
             pricingObject.put("\"start_date\"", "\"" + aStartDate3.getText().toString() + "\"");
             pricingObject.put("\"end_date\"", "\"" + aEndDate3.getText().toString() + "\"");
-            pricingObject.put("\"price\"", "\"" + aAdvancePrice3.getText().toString().replace(",", "") + "\"");
+            pricingObject.put("\"price\"", "\"" + NumberTextWatcherForThousand.trimCommaOfString(aAdvancePrice3.getText().toString()) + "\"");
 
             pricingArray.add(pricingObject.toString().replace("=", ":"));
         }
@@ -1100,7 +1156,7 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
             pricingObject.put("\"range_name\"", "\"" + aRangName4.getSelectedItem().toString() + "\"");
             pricingObject.put("\"start_date\"", "\"" + aStartDate4.getText().toString() + "\"");
             pricingObject.put("\"end_date\"", "\"" + aEndDate4.getText().toString() + "\"");
-            pricingObject.put("\"price\"", "\"" + aAdvancePrice4.getText().toString().replace(",", "") + "\"");
+            pricingObject.put("\"price\"", "\"" + NumberTextWatcherForThousand.trimCommaOfString(aAdvancePrice4.getText().toString()) + "\"");
 
             pricingArray.add(pricingObject.toString().replace("=", ":"));
         }
@@ -1120,17 +1176,22 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
 
                     priceStatus = responseObj.getString("status");
                     if(priceStatus.equals("OVERLAP")){
+                        showProgress(false);
                         Toast.makeText(getApplicationContext(), responseObj.getString("message"), Toast.LENGTH_LONG).show();
                     }else{
                         if(iFormAsset.getStringExtra("action").equals("update")){
                             updateDataAset(category);
                         }else {
                             if (imgStringSTNK.equals("")) {
+                                showProgress(false);
                                 Toast.makeText(getApplicationContext(), "Harap Lengkapi Foto STNK", Toast.LENGTH_LONG).show();
                             } else {
                                 if (!imgStringMain.isEmpty()) addDataAset(tenant);
-                                else Toast.makeText(getApplicationContext(),
-                                        getString(R.string.error_main_image_not_complete), Toast.LENGTH_LONG).show();
+                                else {
+                                    showProgress(false);
+                                    Toast.makeText(getApplicationContext(),
+                                            getString(R.string.error_main_image_not_complete), Toast.LENGTH_LONG).show();
+                                }
                             }
                         }
                     }
@@ -1173,8 +1234,6 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
     private void addDataAset(String tenant) {
         aRentPackage = "-";
 
-        pDialog.setMessage("loading ...");
-        showProgress(true);
         new addAsetTask(tenant).execute();
     }
 
@@ -1247,7 +1306,7 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
 
                     if(aDeliveryMethod.equals("deliver")) keys.put("id_delivery", aIdDelivery);
                     keys.put("deposit", aDepositStatus);
-                    if(aDepositStatus.equals("true")) keys.put("nominal_deposit", aDepositValue.getText().toString().replace(",",""));
+                    if(aDepositStatus.equals("true")) keys.put("nominal_deposit", NumberTextWatcherForThousand.trimCommaOfString(aDepositValue.getText().toString()));
 
                     return keys;
                 }
@@ -1279,8 +1338,7 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
 
     private void updateDataAset(String id) {
         aRentPackage = "-";
-        pDialog.setMessage("loading ...");
-        showProgress(true);
+
         new updateAsetTask(id).execute();
     }
 
@@ -1350,7 +1408,7 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
 
                     if(aDeliveryMethod.equals("deliver")) keys.put("id_delivery", aIdDelivery);
                     keys.put("deposit", aDepositStatus);
-                    if(aDepositStatus.equals("true")) keys.put("nominal_deposit", aDepositValue.getText().toString().replace(",",""));
+                    if(aDepositStatus.equals("true")) keys.put("nominal_deposit", NumberTextWatcherForThousand.trimCommaOfString(aDepositValue.getText().toString()));
 
                     Log.e(TAG, "Post Data : " + keys.toString());
 

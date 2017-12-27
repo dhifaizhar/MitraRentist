@@ -1,7 +1,10 @@
 package id.rentist.mitrarentist;
 
+import android.annotation.TargetApi;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +15,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -22,7 +26,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.github.ybq.android.spinkit.SpinKitView;
-import com.github.ybq.android.spinkit.style.FadingCircle;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -49,10 +52,12 @@ public class MessageListActivity extends AppCompatActivity {
     private List<MessageListModul> mMsg = new ArrayList<>();
     private List<String> mTrans = new ArrayList<>();
     private SpinKitView pBar;
+    private ProgressDialog pDialog;
     SessionManager sm;
     JSONObject dataObject, objectMessage, objectMessageDetail;
     JSONArray dataArray;
     Intent iMessage;
+    LinearLayout noData;
 
     private static final String TAG = "MessageActivity";
     private static final String TOKEN = "secretissecret";
@@ -65,9 +70,12 @@ public class MessageListActivity extends AppCompatActivity {
         setTitle("Pesan");
 
         sm = new SessionManager(getApplicationContext());
-        pBar = (SpinKitView)findViewById(R.id.progressBar);
-        FadingCircle fadingCircle = new FadingCircle();
-        pBar.setIndeterminateDrawable(fadingCircle);
+        pDialog = new ProgressDialog(this);
+        pDialog.setCancelable(false);
+
+//        pBar = (SpinKitView)findViewById(R.id.progressBar);
+//        FadingCircle fadingCircle = new FadingCircle();
+//        pBar.setIndeterminateDrawable(fadingCircle);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -80,6 +88,8 @@ public class MessageListActivity extends AppCompatActivity {
         getTransactionNew();
 
         getMessageList();
+
+        noData = (LinearLayout) findViewById(R.id.no_data);
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -163,7 +173,7 @@ public class MessageListActivity extends AppCompatActivity {
                             if(jsonArray.length() > 0) {
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     JSONObject transObject = jsonArray.getJSONObject(i);
-//                                    JSONObject memberObject = transObject.getJSONObject("id_member");
+//                                    JSaONObject memberObject = transObject.getJSONObject("id_member");
 
                                     mTrans.add(transObject.getString("id"));
                                 }
@@ -198,7 +208,9 @@ public class MessageListActivity extends AppCompatActivity {
     }
 
     private void getMessageList() {
-        pBar.setVisibility(View.VISIBLE);
+//        pBar.setVisibility(View.VISIBLE);
+        pDialog.setMessage("loading ...");
+        showProgress(true);
 
         if (mMessageTask != null) {
             return;
@@ -247,7 +259,9 @@ public class MessageListActivity extends AppCompatActivity {
         protected void onPostExecute(String msg) {
             mMessageTask = null;
             mSwipeRefreshLayout.setRefreshing(false);
-            pBar.setVisibility(View.GONE);
+//            pBar.setVisibility(View.GONE);
+            showProgress(false);
+
             Integer dataLength;
 
             if (msg != null) {
@@ -258,19 +272,23 @@ public class MessageListActivity extends AppCompatActivity {
 
                     if(dataLength > 0){
                         errorMsg = "-";
+                        Log.e(TAG, "Data lebih dari 1 " );
 
                         Iterator<String> keys = dataObject.keys();
                         while (keys.hasNext())
                         {
                             String keyValue = (String)keys.next();
+                            Log.e(TAG, "keysnya : " + keyValue);
 
                             if (mTrans.contains(keyValue)){
 
                                 JSONObject user = dataObject.getJSONObject(keyValue);
+                                Log.e(TAG, "usernya : " + user);
 
                                 Iterator<String> userKeys = user.keys();
                                 while (userKeys.hasNext()) {
                                     String phone = (String)userKeys.next();
+                                    Log.e(TAG, "phonenya : " + phone);
 
                                     if (!phone.equals(sm.getPreferences("hp"))){
                                         MessageListModul msgModul = new MessageListModul();
@@ -294,7 +312,9 @@ public class MessageListActivity extends AppCompatActivity {
 
                         mRecyclerView.setLayoutManager(mLayoutManager);
                         mRecyclerView.setAdapter(mAdapter);
+                        noData.setVisibility(View.GONE);
                     }else{
+                        noData.setVisibility(View.VISIBLE);
                         errorMsg = "Tidak ada pesan.";
                         Toast.makeText(getApplicationContext(),errorMsg, Toast.LENGTH_LONG).show();
                     }
@@ -336,5 +356,24 @@ public class MessageListActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+    private void showProgress(final boolean show) {
+        if(show){
+            if (!pDialog.isShowing()){
+                pDialog.show();
+            }
+        }else{
+            if (pDialog.isShowing()){
+                pDialog.dismiss();
+            }
+        }
+    }
+
+    @Override
+    public void onRestart(){
+        super.onRestart();
+        getMessageList();
     }
 }

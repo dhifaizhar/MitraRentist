@@ -162,12 +162,6 @@ public class TransactionaNewActivity extends AppCompatActivity {
                                 item = items.getJSONObject(0);
                                 aAsetThumb = item.getString("main_image");
                                 aAsetName = item.getString("name");
-
-//                                if (item.getString("id_asset_category").equals("3")){
-//                                    aAsetName = item.getString("type") + " " + item.getString("sub_type");
-//                                }else {
-//                                    aAsetName = item.getString("brand") + " " + item.getString("type");
-//                                }
                             }
                         }
 
@@ -192,7 +186,7 @@ public class TransactionaNewActivity extends AppCompatActivity {
                         }
 
                         aCodeTrans = idTrans.getString("transaction_code");
-                        aNominal = transObject.getString("nominal");
+                        aNominal = transObject.getString("tenant_income");
                         aIdMember = memberObject.getString("id");
                         aMember = memberObject.getString("firstname") + " " + memberObject.getString("lastname");
                         aStartDate = transObject.getString("start_date").replace("-","/").substring(0,10);

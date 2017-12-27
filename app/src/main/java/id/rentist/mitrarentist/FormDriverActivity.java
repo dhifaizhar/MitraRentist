@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -35,7 +34,6 @@ import com.android.volley.toolbox.Volley;
 import com.hbb20.CountryCodePicker;
 import com.squareup.picasso.Picasso;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -44,7 +42,9 @@ import java.util.TimeZone;
 
 import id.rentist.mitrarentist.tools.AppConfig;
 import id.rentist.mitrarentist.tools.CircleTransform;
+import id.rentist.mitrarentist.tools.FormValidation;
 import id.rentist.mitrarentist.tools.SessionManager;
+import id.rentist.mitrarentist.tools.Tools;
 
 public class FormDriverActivity extends AppCompatActivity {
     private AsyncTask mDetailDriverTask = null;
@@ -55,10 +55,12 @@ public class FormDriverActivity extends AppCompatActivity {
     RadioGroup aGenderGroup;
     RadioButton aGenderButton;
     CountryCodePicker countryCode;
+    FormValidation formValidation;
+    Button bSaveButton;
 
     int genderId;
-    String tenant, aId, birthdate,encodedImage, isiimage = "", ext, imgString, aGender;
-    TextView name, sim, bdate, gender, phone;
+    String tenant, aId, birthdate,encodedImage, isiimage = "", ext, imgString="", aGender;
+    TextView name, sim, bdate, gender, phone, email;
     ImageView profilePic;
     Button btnUploadFoto;
 
@@ -74,6 +76,7 @@ public class FormDriverActivity extends AppCompatActivity {
         setTitle("Form Pengemudi");
 
         formDriver = getIntent();
+        formValidation = new FormValidation(FormDriverActivity.this);
         sm = new SessionManager(getApplicationContext());
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
@@ -94,8 +97,10 @@ public class FormDriverActivity extends AppCompatActivity {
         sim = (TextView)findViewById(R.id.dr_sim_number);
         bdate = (TextView)findViewById(R.id.dr_bdate);
         phone = (TextView)findViewById(R.id.dr_phone);
+        email = (TextView)findViewById(R.id.dr_email);
         countryCode =(CountryCodePicker) findViewById(R.id.country_code);
         btnUploadFoto = (Button) findViewById(R.id.btnUploadFoto);
+//        getDate = (LinearLayout) findViewById(R.id.getDate);
 
         // set content control value
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
@@ -104,6 +109,8 @@ public class FormDriverActivity extends AppCompatActivity {
             Log.e(TAG, "Id Tenant Form Driver : " + aId);
             name.setText(formDriver.getStringExtra("fullname"));
             sim.setText(formDriver.getStringExtra("no_sim"));
+            phone.setText(formDriver.getStringExtra("phone"));
+            email.setText(formDriver.getStringExtra("email"));
             bdate.setText(formDriver.getStringExtra("birthdate"));
             if(formDriver.getStringExtra("gender").equals("male")){
                 RadioButton aMaleButton = (RadioButton) findViewById(R.id.radioMale);
@@ -145,11 +152,20 @@ public class FormDriverActivity extends AppCompatActivity {
                 startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
             }
         });
+
+        bSaveButton = (Button) findViewById(R.id.btn_save);
+        bSaveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                pDialog.setMessage("loading ...");
+                showProgress(true);
+                formDriverTenant(tenant, aId);
+            }
+        });
     }
 
     private void formDriverTenant(String tenant, String id) {
-        pDialog.setMessage("loading ...");
-        showProgress(true);
         genderId = aGenderGroup.getCheckedRadioButtonId();
         aGenderButton = (RadioButton) findViewById(genderId);
         if(aGenderButton.getText().toString().equals("Pria")){
@@ -157,11 +173,53 @@ public class FormDriverActivity extends AppCompatActivity {
         }else{
             aGender = "female";
         }
-        if(formDriver.getStringExtra("action").equals("add")){
-            new getformDriverAddTask(tenant, id).execute();
-        }else if(formDriver.getStringExtra("action").equals("update")){
-            new getFormDriverUpdateTask(tenant, id).execute();
+
+        Boolean valid = formValidation();
+        if(valid.equals(true)){
+            if(formDriver.getStringExtra("action").equals("add")){
+                new getformDriverAddTask(tenant, id).execute();
+            }else if(formDriver.getStringExtra("action").equals("update")){
+                new getFormDriverUpdateTask(tenant, id).execute();
+            }
+        }else{
+            showProgress(false);
         }
+    }
+
+    private boolean formValidation(){
+        Boolean valid = true;
+        name.setError(null);
+        sim.setError(null);
+        email.setError(null);
+        phone.setError(null);
+        bdate.setError(null);
+
+        if(name.getText().toString().isEmpty()){
+            name.setError(getString(R.string.error_field_required));
+            valid = false;
+        }
+
+        if(sim.getText().toString().isEmpty() || sim.getText().toString().length() < 10){
+            sim.setError(getString(R.string.error_field_sim));
+            valid = false;
+        }
+
+        if(!formValidation.isEmailValid(email.getText().toString())){
+            email.setError(getString(R.string.error_invalid_email));
+            valid = false;
+        }
+
+        if(!formValidation.isPhoneValid(phone.getText().toString())){
+            phone.setError(getString(R.string.error_invalid_phone));
+            valid = false;
+        }
+
+        if(bdate.getText().toString().isEmpty()){
+            bdate.setError(getString(R.string.error_field_required));
+            valid = false;
+        }
+
+        return valid;
     }
 
     private class getformDriverAddTask extends AsyncTask<String, String, String>{
@@ -199,10 +257,11 @@ public class FormDriverActivity extends AppCompatActivity {
                     keys.put("id_tenant", mTenant);
                     keys.put("fullname", name.getText().toString());
                     keys.put("gender", aGender);
+                    keys.put("email", email.getText().toString());
                     keys.put("phone", countryCode.getSelectedCountryCode() + phone.getText().toString());
                     keys.put("no_sim", sim.getText().toString());
                     keys.put("birthdate", bdate.getText().toString());
-                    if(!imgString.equals("null")) keys.put("file", imgString);
+                    if(!imgString.equals("")) keys.put("file", imgString);
 
                     Log.e(TAG, "Key Body : " + keys.toString());
                     return keys;
@@ -284,13 +343,12 @@ public class FormDriverActivity extends AppCompatActivity {
                     Map<String, String> keys = new HashMap<String, String>();
                     keys.put("id_driver", idDriver);
                     keys.put("fullname", name.getText().toString());
-                    keys.put("gender", aGenderButton.getText().toString());
+                    keys.put("gender", aGender);
+                    keys.put("email", email.getText().toString());
                     keys.put("no_sim", sim.getText().toString());
                     keys.put("birthdate", bdate.getText().toString());
-                    Log.e(TAG, "File Body : " + imgString);
-                    if(imgString != null && !imgString.equals("null") && !imgString.equals(formDriver.getStringExtra("profilepic"))){
-                        keys.put("file", imgString);
-                    }
+                    keys.put("phone", countryCode.getSelectedCountryCode() + phone.getText().toString());
+                    if(!imgString.equals("")) keys.put("file", imgString);
 
                     Log.e(TAG, "Key Body : " + keys.toString());
                     return keys;
@@ -322,6 +380,7 @@ public class FormDriverActivity extends AppCompatActivity {
             if(user != null){
                 Toast.makeText(getApplicationContext(),"Sukses mengubah data.", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(FormDriverActivity.this,DriverActivity.class);
+                intent.putExtra("id_driver", idDriver);
                 setResult(RESULT_OK, intent);
                 finish();
             }else{
@@ -359,12 +418,6 @@ public class FormDriverActivity extends AppCompatActivity {
         }
     };
 
-    public String getStringImage(Bitmap bmp){
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        byte[] imageBytes = baos.toByteArray();
-        return Base64.encodeToString(imageBytes, Base64.DEFAULT);
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -383,8 +436,8 @@ public class FormDriverActivity extends AppCompatActivity {
                 Log.e(TAG, "ext: " + ext);
 
                 //Setting the Bitmap to ImageView
-                profilePic.setImageBitmap(bitmap);
-                isiimage = getStringImage(bitmap);
+//                profilePic.setImageBitmap(bitmap);
+                isiimage = Tools.getStringImageView(bitmap,profilePic);
 
                 imgString = ext +"," + isiimage;
 
@@ -405,7 +458,7 @@ public class FormDriverActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_save_option, menu);
+//        getMenuInflater().inflate(R.menu.menu_save_option, menu);
         return true;
     }
 

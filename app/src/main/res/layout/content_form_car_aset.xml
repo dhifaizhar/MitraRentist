@@ -966,17 +966,19 @@
                                     <TextView
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:text="*sentuh untuk memilih biaya pengiriman"
+                                        android:text=" (sentuh untuk memilih biaya pengiriman)"
                                         android:textColor="@color/colorBlack54"
                                         android:textSize="@dimen/tiny_text" />
 
                                 </LinearLayout>
 
                                 <TextView
+                                    android:layout_marginTop="@dimen/xmin_padding"
                                     android:id="@+id/delivery_price"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:background="@color/colorButtonDefault"
+                                    android:background="@drawable/radius_primary"
+                                    android:textColor="@color/colorWhite"
                                     android:clickable="true"
                                     android:padding="@dimen/xmin_padding"
                                     android:text="Pilih Biaya Pengiriman"
@@ -1088,16 +1090,17 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
 
-                                <com.aldoapps.autoformatedittext.AutoFormatEditText
+                                <EditText
                                     android:id="@+id/as_nominal_deposit"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="@color/colorNearWhite"
                                     android:ems="10"
                                     android:hint="0"
-                                    android:maxLength="13"
+                                    android:maxLength="11"
+                                    android:inputType="number"
                                     android:padding="@dimen/min_padding"
-                                    app:isDecimal="false" />
+                                     />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -1276,7 +1279,7 @@
                             <RelativeLayout
                                 android:id="@+id/verified_info"
                                 android:layout_width="match_parent"
-                                android:layout_height="@dimen/breadcrumb_height"
+                                android:layout_height="wrap_content"
                                 android:layout_below="@+id/basic_info"
                                 android:layout_toEndOf="@id/rent_req_group"
                                 android:background="@color/colorPrimarySoft"
@@ -1408,16 +1411,17 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
-                            <com.aldoapps.autoformatedittext.AutoFormatEditText
+                            <EditText
                                 android:id="@+id/as_price_basic"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:background="@color/colorNearWhite"
                                 android:ems="10"
                                 android:hint="0"
-                                android:maxLength="13"
+                                android:maxLength="11"
                                 android:padding="@dimen/min_padding"
-                                app:isDecimal="false" />
+                                android:inputType="number"
+                                />
 
                             <TextView
                                 android:id="@+id/idra"
@@ -1592,16 +1596,17 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
 
-                                <com.aldoapps.autoformatedittext.AutoFormatEditText
+                                <EditText
                                     android:id="@+id/as_price_advance"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="@color/colorNearWhite"
                                     android:ems="10"
                                     android:hint="0"
-                                    android:maxLength="13"
+                                    android:maxLength="11"
                                     android:padding="@dimen/min_padding"
-                                    app:isDecimal="false" />
+                                    android:inputType="number"
+                                    />
 
                                 <TextView
                                     android:id="@+id/daye"
@@ -1764,16 +1769,18 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
 
-                                <com.aldoapps.autoformatedittext.AutoFormatEditText
+                                <EditText
                                     android:id="@+id/as_price_advance2"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="@color/colorNearWhite"
                                     android:ems="10"
                                     android:hint="0"
-                                    android:maxLength="13"
+                                    android:maxLength="11"
                                     android:padding="@dimen/min_padding"
-                                    app:isDecimal="false" />
+                                    android:inputType="number"
+                                    />
+
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -1937,16 +1944,18 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
 
-                                <com.aldoapps.autoformatedittext.AutoFormatEditText
+                                <EditText
                                     android:id="@+id/as_price_advance3"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="@color/colorNearWhite"
                                     android:ems="10"
                                     android:hint="0"
-                                    android:maxLength="13"
+                                    android:maxLength="11"
                                     android:padding="@dimen/min_padding"
-                                    app:isDecimal="false" />
+                                    android:inputType="number"
+                                    />
+
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -2108,16 +2117,18 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
 
-                                <com.aldoapps.autoformatedittext.AutoFormatEditText
+                                <EditText
                                     android:id="@+id/as_price_advance4"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="@color/colorNearWhite"
                                     android:ems="10"
                                     android:hint="0"
-                                    android:maxLength="13"
+                                    android:maxLength="11"
                                     android:padding="@dimen/min_padding"
-                                    app:isDecimal="false" />
+                                    android:inputType="number"
+                                    />
+
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -2181,182 +2192,312 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/xmin_padding"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical"
-                    android:padding="@dimen/xmin_padding">
+                    android:orientation="vertical">
 
-                    <TextView
+                    <LinearLayout
+                        android:id="@+id/con_image_asu"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Gambar Aset"
-                        android:textColor="@color/colorBlack"
-                        android:textSize="12sp" />
-
-                    <HorizontalScrollView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_marginBottom="@dimen/xmin_padding"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical"
+                        android:padding="@dimen/xmin_padding">
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="@dimen/xmin_padding"
                             android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Gambar Aset"
+                                android:textColor="@color/colorBlack"
+                                android:layout_marginEnd="@dimen/xmin_padding"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="*Untuk Keperluan Asuransi"
+                                android:textColor="@color/colorBlack54"
+                                android:textSize="@dimen/tiny_text" />
+                        </LinearLayout>
+
+                        <HorizontalScrollView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:orientation="vertical">
-                                <ImageView
-                                    android:id="@+id/main_image"
-                                    android:layout_width="@dimen/thumb_width"
-                                    android:layout_height="@dimen/thumb_width"
-                                    android:layout_margin="@dimen/small_space"
-                                    android:background="@color/colorNearWhite"
-                                    app:srcCompat="@drawable/add_picture" />
+                                android:layout_marginBottom="@dimen/xmin_padding"
+                                android:orientation="horizontal">
 
-                                <TextView
+                                <LinearLayout
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Tampak Depan"
-                                    android:textSize="@dimen/tiny_text"
-                                    android:layout_gravity="center_horizontal"/>
+                                    android:orientation="vertical">
+                                    <ImageView
+                                        android:id="@+id/main_image"
+                                        android:layout_width="@dimen/thumb_width"
+                                        android:layout_height="@dimen/thumb_width"
+                                        android:layout_margin="@dimen/small_space"
+                                        android:background="@color/colorNearWhite"
+                                        app:srcCompat="@drawable/add_picture" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Tampak Depan"
+                                        android:textSize="@dimen/tiny_text"
+                                        android:layout_gravity="center_horizontal"/>
+                                </LinearLayout>
+
+                                <RelativeLayout
+                                    android:id="@+id/con_second_image"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:visibility="visible">
+
+                                    <ImageView
+                                        android:id="@+id/second_image"
+                                        android:layout_width="@dimen/thumb_width"
+                                        android:layout_height="@dimen/thumb_width"
+                                        android:background="@color/colorNearWhite"
+                                        android:src="@drawable/add_picture"
+                                        android:layout_margin="@dimen/small_space"
+                                        />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Tampak Kiri"
+                                        android:layout_below="@+id/second_image"
+                                        android:textSize="@dimen/tiny_text"
+                                        android:layout_centerHorizontal="true"/>
+
+                                    <ImageButton
+                                        android:id="@+id/delete_second_image"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:background="@drawable/cirle_default_label"
+                                        android:src="@drawable/ic_close_black_18dp"
+                                        android:visibility="gone"/>
+                                </RelativeLayout>
+
+                                <RelativeLayout
+                                    android:id="@+id/con_third_image"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:visibility="visible">
+
+                                    <ImageView
+                                        android:id="@+id/third_image"
+                                        android:layout_width="@dimen/thumb_width"
+                                        android:layout_height="@dimen/thumb_width"
+                                        android:background="@color/colorNearWhite"
+                                        android:src="@drawable/add_picture"
+                                        android:layout_margin="@dimen/small_space"
+                                        />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Tampak Kanan"
+                                        android:layout_below="@+id/third_image"
+                                        android:textSize="@dimen/tiny_text"
+                                        android:layout_centerHorizontal="true"/>
+
+                                    <ImageButton
+                                        android:id="@+id/delete_third_image"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:background="@drawable/cirle_default_label"
+                                        android:src="@drawable/ic_close_black_18dp"
+                                        android:visibility="gone"/>
+                                </RelativeLayout>
+
+                                <RelativeLayout
+                                    android:id="@+id/con_fourth_image"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:visibility="visible">
+
+                                    <ImageView
+                                        android:id="@+id/fourth_image"
+                                        android:layout_width="@dimen/thumb_width"
+                                        android:layout_height="@dimen/thumb_width"
+                                        android:background="@color/colorNearWhite"
+                                        android:src="@drawable/add_picture"
+                                        android:layout_margin="@dimen/small_space"
+                                        />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Tampak Belakang"
+                                        android:layout_below="@+id/fourth_image"
+                                        android:textSize="@dimen/tiny_text"
+                                        android:layout_centerHorizontal="true"/>
+
+                                    <ImageButton
+                                        android:id="@+id/delete_fourth_image"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:background="@drawable/cirle_default_label"
+                                        android:src="@drawable/ic_close_black_18dp"
+                                        android:visibility="gone"/>
+                                </RelativeLayout>
+
+                                <RelativeLayout
+                                    android:id="@+id/con_fifth_image"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:visibility="visible">
+
+                                    <ImageView
+                                        android:id="@+id/fifth_image"
+                                        android:layout_width="@dimen/thumb_width"
+                                        android:layout_height="@dimen/thumb_width"
+                                        android:background="@color/colorNearWhite"
+                                        android:src="@drawable/add_picture"
+                                        android:layout_margin="@dimen/small_space"
+                                        />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Tampak Dalam"
+                                        android:layout_below="@+id/fifth_image"
+                                        android:textSize="@dimen/tiny_text"
+                                        android:layout_centerHorizontal="true"/>
+
+                                    <ImageButton
+                                        android:id="@+id/delete_fifth_image"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:background="@drawable/cirle_default_label"
+                                        android:src="@drawable/ic_close_black_18dp"
+                                        android:visibility="gone"/>
+                                </RelativeLayout>
+
                             </LinearLayout>
 
+                        </HorizontalScrollView>
 
-                            <RelativeLayout
-                                android:id="@+id/con_second_image"
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/xmin_padding"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical"
+                        android:padding="@dimen/xmin_padding">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:visibility="gone">
+                                android:text="Gambar Aset"
+                                android:textColor="@color/colorBlack"
+                                android:layout_marginEnd="@dimen/xmin_padding"
+                                android:textSize="12sp" />
 
-                                <ImageView
-                                    android:id="@+id/second_image"
-                                    android:layout_width="@dimen/thumb_width"
-                                    android:layout_height="@dimen/thumb_width"
-                                    android:background="@color/colorNearWhite"
-                                    android:src="@drawable/add_picture"
-                                    android:layout_margin="@dimen/small_space"
-                                    />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Tampak Kiri"
-                                    android:layout_below="@+id/second_image"
-                                    android:textSize="@dimen/tiny_text"
-                                    android:layout_centerHorizontal="true"/>
-
-                                <ImageButton
-                                    android:id="@+id/delete_second_image"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:background="@drawable/cirle_default_label"
-                                    android:src="@drawable/ic_close_black_18dp"
-                                    android:visibility="gone"/>
-                            </RelativeLayout>
-
-                            <RelativeLayout
-                                android:id="@+id/con_third_image"
+                            <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:visibility="gone">
-
-                                <ImageView
-                                    android:id="@+id/third_image"
-                                    android:layout_width="@dimen/thumb_width"
-                                    android:layout_height="@dimen/thumb_width"
-                                    android:background="@color/colorNearWhite"
-                                    android:src="@drawable/add_picture"
-                                    android:layout_margin="@dimen/small_space"
-                                    />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Tampak Kanan"
-                                    android:layout_below="@+id/third_image"
-                                    android:textSize="@dimen/tiny_text"
-                                    android:layout_centerHorizontal="true"/>
-
-                                <ImageButton
-                                    android:id="@+id/delete_third_image"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:background="@drawable/cirle_default_label"
-                                    android:src="@drawable/ic_close_black_18dp"
-                                    android:visibility="gone"/>
-                            </RelativeLayout>
-
-                            <RelativeLayout
-                                android:id="@+id/con_fourth_image"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:visibility="gone">
-
-                                <ImageView
-                                    android:id="@+id/fourth_image"
-                                    android:layout_width="@dimen/thumb_width"
-                                    android:layout_height="@dimen/thumb_width"
-                                    android:background="@color/colorNearWhite"
-                                    android:src="@drawable/add_picture"
-                                    android:layout_margin="@dimen/small_space"
-                                    />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Tampak Belakang"
-                                    android:layout_below="@+id/fourth_image"
-                                    android:textSize="@dimen/tiny_text"
-                                    android:layout_centerHorizontal="true"/>
-
-                                <ImageButton
-                                    android:id="@+id/delete_fourth_image"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:background="@drawable/cirle_default_label"
-                                    android:src="@drawable/ic_close_black_18dp"
-                                    android:visibility="gone"/>
-                            </RelativeLayout>
-
-                            <RelativeLayout
-                                android:id="@+id/con_fifth_image"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:visibility="gone">
-
-                                <ImageView
-                                    android:id="@+id/fifth_image"
-                                    android:layout_width="@dimen/thumb_width"
-                                    android:layout_height="@dimen/thumb_width"
-                                    android:background="@color/colorNearWhite"
-                                    android:src="@drawable/add_picture"
-                                    android:layout_margin="@dimen/small_space"
-                                    />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Tampak Dalam"
-                                    android:layout_below="@+id/fifth_image"
-                                    android:textSize="@dimen/tiny_text"
-                                    android:layout_centerHorizontal="true"/>
-
-                                <ImageButton
-                                    android:id="@+id/delete_fifth_image"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:background="@drawable/cirle_default_label"
-                                    android:src="@drawable/ic_close_black_18dp"
-                                    android:visibility="gone"/>
-                            </RelativeLayout>
-
+                                android:text="*Untuk Ditampilkan"
+                                android:textColor="@color/colorBlack54"
+                                android:textSize="@dimen/tiny_text" />
                         </LinearLayout>
 
-                    </HorizontalScrollView>
+                        <HorizontalScrollView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/xmin_padding"
+                                android:orientation="horizontal">
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical">
+                                    <ImageView
+                                        android:id="@+id/asuransi_1"
+                                        android:layout_width="@dimen/thumb_width"
+                                        android:layout_height="@dimen/thumb_width"
+                                        android:layout_margin="@dimen/small_space"
+                                        android:background="@color/colorNearWhite"
+                                        app:srcCompat="@drawable/add_picture" />
+
+                                </LinearLayout>
+
+                                <RelativeLayout
+                                    android:id="@+id/con_asuransi_2"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:visibility="gone">
+
+                                    <ImageView
+                                        android:id="@+id/asuransi_2"
+                                        android:layout_width="@dimen/thumb_width"
+                                        android:layout_height="@dimen/thumb_width"
+                                        android:background="@color/colorNearWhite"
+                                        android:src="@drawable/add_picture"
+                                        android:layout_margin="@dimen/small_space"
+                                        />
+
+                                    <ImageButton
+                                        android:id="@+id/delete_asuransi_2"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:background="@drawable/cirle_default_label"
+                                        android:src="@drawable/ic_close_black_18dp"
+                                        android:visibility="gone"/>
+                                </RelativeLayout>
+
+                                <RelativeLayout
+                                    android:id="@+id/con_asuransi_3"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:visibility="gone">
+
+                                    <ImageView
+                                        android:id="@+id/asuransi_3"
+                                        android:layout_width="@dimen/thumb_width"
+                                        android:layout_height="@dimen/thumb_width"
+                                        android:background="@color/colorNearWhite"
+                                        android:src="@drawable/add_picture"
+                                        android:layout_margin="@dimen/small_space"
+                                        />
+
+                                    <ImageButton
+                                        android:id="@+id/delete_asuransi_3"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:background="@drawable/cirle_default_label"
+                                        android:src="@drawable/ic_close_black_18dp"
+                                        android:visibility="gone"/>
+                                </RelativeLayout>
+
+
+                            </LinearLayout>
+
+                        </HorizontalScrollView>
+
+                    </LinearLayout>
 
                 </LinearLayout>
+
 
             </android.support.v7.widget.CardView>
 

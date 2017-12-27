@@ -252,9 +252,100 @@ public class Tools {
     public static String getStringImage(Bitmap bmp){
         if(bmp != null){
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            bmp.compress(Bitmap.CompressFormat.JPEG, 50, baos);
-            Log.e("BITMAP", String.valueOf(bmp.getRowBytes() * bmp.getHeight()));
 
+            Log.e("BITMAPWidthHeight", bmp.getHeight() + "|" + bmp.getWidth());
+            Log.e("BITMAPSize", String.valueOf(bmp.getRowBytes() * bmp.getHeight()));
+            Bitmap resized = null;
+            if (bmp.getHeight() > 1024){
+                if (bmp.getHeight() > 2500){
+                    if(bmp.getHeight() > 4000) {
+                        resized = Bitmap.createScaledBitmap(bmp, (int) (bmp.getWidth() * 0.25), (int) (bmp.getHeight() * 0.25), true);
+                    }else{
+                        resized = Bitmap.createScaledBitmap(bmp, (int) (bmp.getWidth() * 0.4), (int) (bmp.getHeight() * 0.4), true);
+                    }
+                }
+            }else {
+                resized = Bitmap.createScaledBitmap(bmp, 1024, 1024, true);
+            }
+            
+            int size = resized.getRowBytes() * resized.getHeight();
+            Log.e("BITMAP2WidthHeight", resized.getHeight() + "|" + resized.getWidth());
+            Log.e("BITMAPReSize", String.valueOf(size));
+
+            if (size > 1000000){
+                if (size > 10000000) {
+                    if (size > 30000000) {
+                        Log.e("COMPRESSBig", "YES");
+                        resized.compress(Bitmap.CompressFormat.JPEG, 10, baos);
+                    }else{
+                        Log.e("COMPRESSUnderBig", "YES");
+                        resized.compress(Bitmap.CompressFormat.JPEG, 25, baos);
+                    }
+                }else{
+                    Log.e("COMPRESSSmall", "YES");
+                    resized.compress(Bitmap.CompressFormat.JPEG, 60, baos);
+                }
+            }else{
+                Log.e("COMPRESS", "NO");
+                resized.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            }
+
+            byte[] imageBytes = baos.toByteArray();
+            return Base64.encodeToString(imageBytes, Base64.DEFAULT);
+        }else{
+            return null;
+        }
+    }
+
+    public static String getStringImageView(Bitmap bmp, ImageView imageview){
+        if(bmp != null){
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+            Log.e("BITMAPWidthHeight", bmp.getHeight() + "|" + bmp.getWidth());
+            Log.e("BITMAPSize", String.valueOf(bmp.getRowBytes() * bmp.getHeight()));
+            Bitmap resized;
+            if (bmp.getHeight() > 1024){
+                if (bmp.getHeight() > 2500) {
+                    if (bmp.getHeight() > 4000) {
+                        resized = Bitmap.createScaledBitmap(bmp, (int) (bmp.getWidth() * 0.25), (int) (bmp.getHeight() * 0.25), true);
+                    } else {
+                        resized = Bitmap.createScaledBitmap(bmp, (int) (bmp.getWidth() * 0.4), (int) (bmp.getHeight() * 0.4), true);
+                    }
+                }else{
+                    resized = Bitmap.createScaledBitmap(bmp, (int) (bmp.getWidth() * 0.7), (int) (bmp.getHeight() * 0.7), true);
+                }
+            }else{
+                resized = Bitmap.createScaledBitmap(bmp, bmp.getWidth(), bmp.getHeight(), true);
+            }
+
+            int size = resized.getRowBytes() * resized.getHeight();
+            Log.e("BITMAP2WidthHeight", resized.getHeight() + "|" + resized.getWidth());
+            Log.e("BITMAPReSize", String.valueOf(size));
+
+            if (size > 1000000){
+                if (size > 5000000) {
+                    if (size > 10000000) {
+                        if (size > 30000000) {
+                            Log.e("COMPRESSBig", "YES");
+                            resized.compress(Bitmap.CompressFormat.JPEG, 10, baos);
+                        } else {
+                            Log.e("COMPRESSUnderBig", "YES");
+                            resized.compress(Bitmap.CompressFormat.JPEG, 25, baos);
+                        }
+                    } else {
+                        Log.e("COMPRESSSmallUP", "YES");
+                        resized.compress(Bitmap.CompressFormat.JPEG, 35, baos);
+                    }
+                }else {
+                    Log.e("COMPRESSSmall", "YES");
+                    resized.compress(Bitmap.CompressFormat.JPEG, 50, baos);
+                }
+            }else{
+                Log.e("COMPRESS", "NO");
+                resized.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            }
+
+            imageview.setImageBitmap(resized);
             byte[] imageBytes = baos.toByteArray();
             return Base64.encodeToString(imageBytes, Base64.DEFAULT);
         }else{

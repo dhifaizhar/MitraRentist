@@ -26,12 +26,14 @@ public class DeliveryPriceAdapter extends RecyclerView.Adapter<DeliveryPriceAdap
 
     private List<ItemDeliveryPrice> mDelivPrice;
     private Context context;
+    private String from;
     private static final String TAG = "DeliveryPriceAdapter";
 
-    public DeliveryPriceAdapter(final Context context, final List<ItemDeliveryPrice> mDelivPrice) {
+    public DeliveryPriceAdapter(final Context context, final List<ItemDeliveryPrice> mDelivPrice, String from) {
         super();
         this.mDelivPrice = mDelivPrice;
         this.context = context;
+        this.from = from;
     }
 
     @Override
@@ -45,6 +47,12 @@ public class DeliveryPriceAdapter extends RecyclerView.Adapter<DeliveryPriceAdap
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
         final ItemDeliveryPrice item = mDelivPrice.get(i);
 
+        if (from.equals("asset")){
+            viewHolder.frommenu.setVisibility(View.GONE);
+        }else{
+            viewHolder.frommenu.setVisibility(View.GONE);
+            viewHolder.fromasset.setVisibility(View.GONE);
+        }
 
         String[] asset_category = context.getResources().getStringArray(R.array.asset_category_entries);
 //        int category[] = item.getCategory();
@@ -96,7 +104,7 @@ public class DeliveryPriceAdapter extends RecyclerView.Adapter<DeliveryPriceAdap
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView category, distance, price;
         private CardView cardDet;
-        LinearLayout row_cat;
+        LinearLayout row_cat, fromasset, frommenu;
 
         public ViewHolder(View itemView){
             super(itemView);
@@ -104,6 +112,8 @@ public class DeliveryPriceAdapter extends RecyclerView.Adapter<DeliveryPriceAdap
             distance = (TextView) itemView.findViewById(R.id.dp_max_distance);
             price = (TextView) itemView.findViewById(R.id.dp_price);
             row_cat = (LinearLayout) itemView.findViewById(R.id.row_category);
+            fromasset = (LinearLayout) itemView.findViewById(R.id.from_asset);
+            frommenu = (LinearLayout) itemView.findViewById(R.id.from_menu);
             cardDet = (CardView) itemView.findViewById(R.id.card_det);
 
         }

@@ -19,7 +19,7 @@
         android:layout_width="300dp"
         android:layout_height="124dp"
         android:layout_gravity="center"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="@dimen/xmin_padding"
         android:src="@drawable/logo_white_500"
         android:contentDescription="@string/app_name" />
 
@@ -39,8 +39,8 @@
                 android:id="@+id/loginText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="25dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="20dp"
                 android:fontFamily="sans-serif"
                 android:gravity="center"
                 android:text="@string/login_text"
@@ -57,8 +57,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/colorNearWhite"
-                    android:drawableEnd="@drawable/ic_email_white_24dp"
-                    android:hint="@string/prompt_email"
+                    android:drawableEnd="@drawable/ic_person_white_24dp"
+                    android:hint="Email/Phone"
                     android:imeOptions="actionNext"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
@@ -109,17 +109,21 @@
                 android:textColor="@android:color/white"
                 android:textSize="14sp" />
 
-            <TextView
-                android:id="@+id/registerAccount"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:clickable="true"
-                android:fontFamily="sans-serif"
-                android:gravity="center"
-                android:text="Belum punya akun ? Daftar di sini !"
-                android:textColor="@android:color/white"
-                android:textSize="14sp"/>
+                <TextView
+                    android:id="@+id/registerAccount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:padding="@dimen/xmin_padding"
+                    android:text="Tidak Memiliki Akun? Daftar di sini"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="14sp"
+                    android:background="@drawable/radius_white"
+                    />
+
 
         </LinearLayout>
     </ScrollView>

@@ -138,7 +138,7 @@ public class ListDeliveryPriceActivity extends AppCompatActivity {
                                     RecyclerView.Adapter mAdapter;
                                     RecyclerView.LayoutManager mLayoutManager;
                                     mLayoutManager = new LinearLayoutManager(getApplicationContext());
-                                    mAdapter = new DeliveryPriceAdapter(getApplicationContext(),mDelivPrice);
+                                    mAdapter = new DeliveryPriceAdapter(getApplicationContext(),mDelivPrice,"asset");
                                     mRecycleView.setLayoutManager(mLayoutManager);
                                     mRecycleView.setAdapter(mAdapter);
                                     mRecycleView.setVisibility(View.VISIBLE);

@@ -103,7 +103,7 @@
                             android:ems="10"
                             android:hint="Kode Kupon"
                             android:imeOptions="actionNext"
-                            android:inputType="textCapWords"
+                            android:inputType="textCapCharacters"
                             android:maxLength="10"
                             android:padding="@dimen/min_padding"
                             android:text="" />

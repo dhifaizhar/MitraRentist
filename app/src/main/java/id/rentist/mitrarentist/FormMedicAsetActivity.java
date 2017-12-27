@@ -54,6 +54,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import id.rentist.mitrarentist.tools.AppConfig;
+import id.rentist.mitrarentist.tools.NumberTextWatcherForThousand;
 import id.rentist.mitrarentist.tools.PricingTools;
 import id.rentist.mitrarentist.tools.SessionManager;
 import id.rentist.mitrarentist.tools.Tools;
@@ -76,8 +77,7 @@ public class FormMedicAsetActivity extends AppCompatActivity {
     private int PICK_LOCATION_REQUEST = 10;
 
     Intent iFormAsset;
-    TextView aName, aMerk, aType, aMinDayRent, aDesc, aAddress,
-            aAssetValue, aWeight, aDimensionP, aDimensionL, aDimensionT;
+    TextView aName, aMerk, aType, aMinDayRent, aDesc, aAddress, aWeight, aDimensionP, aDimensionL, aDimensionT;
     Integer idAsset;
     String aLatitude, aLongitude, aRentPackage, tenant, category, encodedImage, aDeliveryMethod,
             aDimension,  aRentReq;
@@ -86,6 +86,7 @@ public class FormMedicAsetActivity extends AppCompatActivity {
     RadioGroup aRentReqGroup;
     RadioButton aBasic, aVerified, aSmartCon;
     Button bSaveButton;
+    EditText aAssetValue;
 
     //Delivery & Deposit
     String aIdDelivery = "", aDepositStatus;
@@ -155,7 +156,7 @@ public class FormMedicAsetActivity extends AppCompatActivity {
         aDesc = (TextView) findViewById(R.id.as_desc);
         aMinDayRent = (TextView) findViewById(R.id.as_min_day_rent);
         aAddress = (TextView) findViewById(R.id.as_address);
-        aAssetValue = (TextView) findViewById(R.id.as_value);
+        aAssetValue = (EditText) findViewById(R.id.as_value);
         aWeight = (TextView) findViewById(R.id.as_weight);
         aDimensionP = (TextView) findViewById(R.id.as_dim_p);
         aDimensionL = (TextView) findViewById(R.id.as_dim_l);
@@ -164,6 +165,7 @@ public class FormMedicAsetActivity extends AppCompatActivity {
         aBasic = (RadioButton) findViewById(R.id.r_basic);
         aVerified = (RadioButton) findViewById(R.id.r_verified);
         aSmartCon = (RadioButton) findViewById(R.id.r_smart_con);
+        aAssetValue.addTextChangedListener(new NumberTextWatcherForThousand(aAssetValue));
 
         //Image
         conSecondImage = (RelativeLayout) findViewById(R.id.con_second_image);
@@ -292,6 +294,7 @@ public class FormMedicAsetActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if(checkedId == R.id.r_deposit) {
+                    aDepositValue.addTextChangedListener(new NumberTextWatcherForThousand(aDepositValue));
                     rDepositValue.setVisibility(View.VISIBLE);
                 } else {
                     rDepositValue.setVisibility(View.GONE);
@@ -376,11 +379,12 @@ public class FormMedicAsetActivity extends AppCompatActivity {
             }
         });
 
+        aBasicPrice.addTextChangedListener(new NumberTextWatcherForThousand(aBasicPrice));
         aBasicPrice.addTextChangedListener(new TextWatcher(){
             @Override
             public void afterTextChanged(Editable arg0) {
                 if(!aBasicPrice.getText().toString().isEmpty()){
-                    Integer price = Integer.parseInt(aBasicPrice.getText().toString().replace(",",""));
+                    Integer price = Integer.parseInt(NumberTextWatcherForThousand.trimCommaOfString(aBasicPrice.getText().toString()));
                     aBasicPriceDisp.setText(PricingTools.PriceFormat(PricingTools.PriceMinFee(price, fee)));
                 } else {
                     aBasicPriceDisp.setText("0 IDR");
@@ -396,11 +400,12 @@ public class FormMedicAsetActivity extends AppCompatActivity {
 
             }
         });
+        aAdvancePrice.addTextChangedListener(new NumberTextWatcherForThousand(aAdvancePrice));
         aAdvancePrice.addTextChangedListener(new TextWatcher(){
             @Override
             public void afterTextChanged(Editable arg0) {
                 if(!aAdvancePrice.getText().toString().isEmpty()){
-                    Integer price = Integer.parseInt(aAdvancePrice.getText().toString().replace(",",""));
+                    Integer price = Integer.parseInt(NumberTextWatcherForThousand.trimCommaOfString(aAdvancePrice.getText().toString()));
                     aAdvancePriceDisp.setText(PricingTools.PriceFormat(PricingTools.PriceMinFee(price, fee)));
                 } else {
                     aAdvancePriceDisp.setText("0 IDR");
@@ -416,11 +421,12 @@ public class FormMedicAsetActivity extends AppCompatActivity {
 
             }
         });
+        aAdvancePrice2.addTextChangedListener(new NumberTextWatcherForThousand(aAdvancePrice2));
         aAdvancePrice2.addTextChangedListener(new TextWatcher(){
             @Override
             public void afterTextChanged(Editable arg0) {
                 if(!aAdvancePrice2.getText().toString().isEmpty()){
-                    Integer price = Integer.parseInt(aAdvancePrice2.getText().toString().replace(",",""));
+                    Integer price = Integer.parseInt(NumberTextWatcherForThousand.trimCommaOfString(aAdvancePrice2.getText().toString()));
                     aAdvancePriceDisp2.setText(PricingTools.PriceFormat(PricingTools.PriceMinFee(price, fee)));
                 } else {
                     aAdvancePriceDisp2.setText("0 IDR");
@@ -436,11 +442,12 @@ public class FormMedicAsetActivity extends AppCompatActivity {
 
             }
         });
+        aAdvancePrice3.addTextChangedListener(new NumberTextWatcherForThousand(aAdvancePrice3));
         aAdvancePrice3.addTextChangedListener(new TextWatcher(){
             @Override
             public void afterTextChanged(Editable arg0) {
                 if(!aAdvancePrice3.getText().toString().isEmpty()){
-                    Integer price = Integer.parseInt(aAdvancePrice3.getText().toString().replace(",",""));
+                    Integer price = Integer.parseInt(NumberTextWatcherForThousand.trimCommaOfString(aAdvancePrice3.getText().toString()));
                     aAdvancePriceDisp3.setText(PricingTools.PriceFormat(PricingTools.PriceMinFee(price, fee)));
                 } else {
                     aAdvancePriceDisp3.setText("0 IDR");
@@ -456,11 +463,12 @@ public class FormMedicAsetActivity extends AppCompatActivity {
 
             }
         });
+        aAdvancePrice4.addTextChangedListener(new NumberTextWatcherForThousand(aAdvancePrice4));
         aAdvancePrice4.addTextChangedListener(new TextWatcher(){
             @Override
             public void afterTextChanged(Editable arg0) {
                 if(!aAdvancePrice4.getText().toString().isEmpty()){
-                    Integer price = Integer.parseInt(aAdvancePrice4.getText().toString().replace(",",""));
+                    Integer price = Integer.parseInt(NumberTextWatcherForThousand.trimCommaOfString(aAdvancePrice4.getText().toString()));
                     aAdvancePriceDisp4.setText(PricingTools.PriceFormat(PricingTools.PriceMinFee(price, fee)));
                 } else {
                     aAdvancePriceDisp4.setText("0 IDR");
@@ -556,6 +564,9 @@ public class FormMedicAsetActivity extends AppCompatActivity {
         bSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                pDialog.setMessage("loading ...");
+                showProgress(true);
+
                 tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
                 category = iFormAsset.getStringExtra("cat");
                 idAsset = iFormAsset.getIntExtra("id_asset",0);
@@ -600,6 +611,7 @@ public class FormMedicAsetActivity extends AppCompatActivity {
                         delivMethodValid.equals(false) ||
                         depositValid.equals(false)
                         ){
+                    showProgress(false);
                     Toast.makeText(getApplicationContext(), getString(R.string.error_field_not_complete),Toast.LENGTH_LONG).show();
                 } else{
                     pricingArray.clear();
@@ -774,12 +786,12 @@ public class FormMedicAsetActivity extends AppCompatActivity {
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
 
                 //Setting the Bitmap to ImageView
-                aMainImage.setImageBitmap(bitmap);
+//                aMainImage.setImageBitmap(bitmap);
 
                 String imgStr = data.toString();
                 ext = imgStr.substring(imgStr.indexOf("typ")+4, imgStr.indexOf("flg")-1);
 
-                isiimage = Tools.getStringImage(bitmap);
+                isiimage = Tools.getStringImageView(bitmap, aMainImage);
                 imgStringMain = ext +"," + isiimage;
                 conSecondImage.setVisibility(View.VISIBLE);
 
@@ -792,12 +804,13 @@ public class FormMedicAsetActivity extends AppCompatActivity {
             Uri filePath = data.getData();
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                aSecondImage.setImageBitmap(bitmap);
+//                aSecondImage.setImageBitmap(bitmap);
+                Log.e(TAG, filePath.toString());
 
                 String imgStr = data.toString();
                 ext = imgStr.substring(imgStr.indexOf("typ")+4, imgStr.indexOf("flg")-1);
 
-                isiimage = Tools.getStringImage(bitmap);
+                isiimage = Tools.getStringImageView(bitmap, aSecondImage);
                 imgStringSecond = ext +"," + isiimage;
                 delSecondImage.setVisibility(View.VISIBLE);
                 conThirdImage.setVisibility(View.VISIBLE);
@@ -811,12 +824,12 @@ public class FormMedicAsetActivity extends AppCompatActivity {
             Uri filePath = data.getData();
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                aThirdImage.setImageBitmap(bitmap);
+//                aThirdImage.setImageBitmap(bitmap);
 
                 String imgStr = data.toString();
                 ext = imgStr.substring(imgStr.indexOf("typ")+4, imgStr.indexOf("flg")-1);
 
-                isiimage = Tools.getStringImage(bitmap);
+                isiimage = Tools.getStringImageView(bitmap, aThirdImage);
                 imgStringThird = ext +"," + isiimage;
                 delThirdImage.setVisibility(View.VISIBLE);
                 conFourthImage.setVisibility(View.VISIBLE);
@@ -830,12 +843,12 @@ public class FormMedicAsetActivity extends AppCompatActivity {
             Uri filePath = data.getData();
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                aFourthImage.setImageBitmap(bitmap);
+//                aFourthImage.setImageBitmap(bitmap);
 
                 String imgStr = data.toString();
                 ext = imgStr.substring(imgStr.indexOf("typ")+4, imgStr.indexOf("flg")-1);
 
-                isiimage = Tools.getStringImage(bitmap);
+                isiimage = Tools.getStringImageView(bitmap, aFourthImage);
                 imgStringFourth = ext +"," + isiimage;
                 delFourthImage.setVisibility(View.VISIBLE);
                 conFifthImage.setVisibility(View.VISIBLE);
@@ -849,12 +862,12 @@ public class FormMedicAsetActivity extends AppCompatActivity {
             Uri filePath = data.getData();
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                aFifthImage.setImageBitmap(bitmap);
+//                aFifthImage.setImageBitmap(bitmap);
 
                 String imgStr = data.toString();
                 ext = imgStr.substring(imgStr.indexOf("typ")+4, imgStr.indexOf("flg")-1);
 
-                isiimage = Tools.getStringImage(bitmap);
+                isiimage = Tools.getStringImageView(bitmap, aFifthImage);
                 imgStringFifth = ext +"," + isiimage;
                 delFifthImage.setVisibility(View.VISIBLE);
 
@@ -985,7 +998,7 @@ public class FormMedicAsetActivity extends AppCompatActivity {
     private void getPrice(){
         JSONObject priceBasicObject = new JSONObject();
         try {
-            priceBasicObject.put("price", aBasicPrice.getText().toString().replace(",",""));
+            priceBasicObject.put("price", NumberTextWatcherForThousand.trimCommaOfString(aBasicPrice.getText().toString()));
             priceBasicObject.put("range_name","BASECOST");
             priceBasicObject.put("start_date","1970-01-01");
             priceBasicObject.put("end_date","1970-01-01");
@@ -1000,7 +1013,7 @@ public class FormMedicAsetActivity extends AppCompatActivity {
             pricingObject.put("\"range_name\"", "\"" + aRangName.getSelectedItem().toString() + "\"");
             pricingObject.put("\"start_date\"", "\"" + aStartDate.getText().toString() + "\"");
             pricingObject.put("\"end_date\"", "\"" + aEndDate.getText().toString() + "\"");
-            pricingObject.put("\"price\"", "\"" + aAdvancePrice.getText().toString().replace(",", "") + "\"");
+            pricingObject.put("\"price\"", "\"" + NumberTextWatcherForThousand.trimCommaOfString(aAdvancePrice.getText().toString()) + "\"");
 
             pricingArray.add(pricingObject.toString().replace("=", ":"));
         }
@@ -1010,7 +1023,7 @@ public class FormMedicAsetActivity extends AppCompatActivity {
             pricingObject.put("\"range_name\"", "\"" + aRangName2.getSelectedItem().toString() + "\"");
             pricingObject.put("\"start_date\"", "\"" + aStartDate2.getText().toString() + "\"");
             pricingObject.put("\"end_date\"", "\"" + aEndDate2.getText().toString() + "\"");
-            pricingObject.put("\"price\"", "\"" + aAdvancePrice2.getText().toString().replace(",", "") + "\"");
+            pricingObject.put("\"price\"", "\"" + NumberTextWatcherForThousand.trimCommaOfString(aAdvancePrice2.getText().toString()) + "\"");
 
             pricingArray.add(pricingObject.toString().replace("=", ":"));
         }
@@ -1020,7 +1033,7 @@ public class FormMedicAsetActivity extends AppCompatActivity {
             pricingObject.put("\"range_name\"", "\"" + aRangName3.getSelectedItem().toString() + "\"");
             pricingObject.put("\"start_date\"", "\"" + aStartDate3.getText().toString() + "\"");
             pricingObject.put("\"end_date\"", "\"" + aEndDate3.getText().toString() + "\"");
-            pricingObject.put("\"price\"", "\"" + aAdvancePrice3.getText().toString().replace(",", "") + "\"");
+            pricingObject.put("\"price\"", "\"" + NumberTextWatcherForThousand.trimCommaOfString(aAdvancePrice3.getText().toString()) + "\"");
 
             pricingArray.add(pricingObject.toString().replace("=", ":"));
         }
@@ -1030,7 +1043,7 @@ public class FormMedicAsetActivity extends AppCompatActivity {
             pricingObject.put("\"range_name\"", "\"" + aRangName4.getSelectedItem().toString() + "\"");
             pricingObject.put("\"start_date\"", "\"" + aStartDate4.getText().toString() + "\"");
             pricingObject.put("\"end_date\"", "\"" + aEndDate4.getText().toString() + "\"");
-            pricingObject.put("\"price\"", "\"" + aAdvancePrice4.getText().toString().replace(",", "") + "\"");
+            pricingObject.put("\"price\"", "\"" + NumberTextWatcherForThousand.trimCommaOfString(aAdvancePrice4.getText().toString()) + "\"");
 
             pricingArray.add(pricingObject.toString().replace("=", ":"));
         }
@@ -1050,14 +1063,18 @@ public class FormMedicAsetActivity extends AppCompatActivity {
 
                     priceStatus = responseObj.getString("status");
                     if(priceStatus.equals("OVERLAP")){
+                        showProgress(false);
                         Toast.makeText(getApplicationContext(), responseObj.getString("message"), Toast.LENGTH_LONG).show();
                     }else{
                         if (iFormAsset.getStringExtra("action").equals("update")) {
                             updateDataAset(category);
                         } else {
                             if(!imgStringMain.isEmpty()) addDataAset(tenant);
-                            else Toast.makeText(getApplicationContext(),
-                                    getString(R.string.error_main_image_not_complete), Toast.LENGTH_LONG).show();
+                            else {
+                                showProgress(false);
+                                Toast.makeText(getApplicationContext(),
+                                        getString(R.string.error_main_image_not_complete), Toast.LENGTH_LONG).show();
+                            }
                         }
                     }
 
@@ -1097,8 +1114,6 @@ public class FormMedicAsetActivity extends AppCompatActivity {
     }
 
     private void addDataAset(String tenant) {
-        pDialog.setMessage("loading ...");
-        showProgress(true);
         new addAsetTask(tenant).execute();
     }
 
@@ -1153,7 +1168,7 @@ public class FormMedicAsetActivity extends AppCompatActivity {
                     keys.put("latitude", aLatitude);
                     keys.put("longitude", aLongitude);
                     keys.put("price", pricingArray.toString());
-                    keys.put("asset_value", aAssetValue.getText().toString().replace(",",""));
+                    keys.put("asset_value", NumberTextWatcherForThousand.trimCommaOfString(aAssetValue.getText().toString()));
                     keys.put("weight", aWeight.getText().toString());
                     keys.put("dimension", aDimension);
                     keys.put("member_badge", aRentReq);
@@ -1164,7 +1179,7 @@ public class FormMedicAsetActivity extends AppCompatActivity {
                     if(!imgStringFifth.isEmpty()){keys.put("file4", imgStringFifth);}
                     if(aDeliveryMethod.equals("deliver")) keys.put("id_delivery", aIdDelivery);
                     keys.put("deposit", aDepositStatus);
-                    if(aDepositStatus.equals("true")) keys.put("nominal_deposit", aDepositValue.getText().toString().replace(",",""));
+                    if(aDepositStatus.equals("true")) keys.put("nominal_deposit", NumberTextWatcherForThousand.trimCommaOfString(aDepositValue.getText().toString()));
 
                     Log.e(TAG, "Value Object : " + keys.toString());
                     return keys;
@@ -1198,8 +1213,6 @@ public class FormMedicAsetActivity extends AppCompatActivity {
     private void updateDataAset(String category) {
         aRentPackage = "-";
 
-        pDialog.setMessage("loading ...");
-        showProgress(true);
         new updateAsetTask(category).execute();
     }
 
@@ -1254,7 +1267,7 @@ public class FormMedicAsetActivity extends AppCompatActivity {
                     keys.put("latitude", aLatitude);
                     keys.put("longitude", aLongitude);
                     keys.put("price", pricingArray.toString());
-                    keys.put("asset_value", aAssetValue.getText().toString().replace(",",""));
+                    keys.put("asset_value", NumberTextWatcherForThousand.trimCommaOfString(aAssetValue.getText().toString()));
                     keys.put("weight", aWeight.getText().toString());
                     keys.put("dimension", aDimension);
                     keys.put("member_badge", aRentReq);
@@ -1265,7 +1278,7 @@ public class FormMedicAsetActivity extends AppCompatActivity {
                     if(!imgStringFifth.isEmpty()){keys.put("file4", imgStringFifth);}
                     if(aDeliveryMethod.equals("deliver")) keys.put("id_delivery", aIdDelivery);
                     keys.put("deposit", aDepositStatus);
-                    if(aDepositStatus.equals("true")) keys.put("nominal_deposit", aDepositValue.getText().toString().replace(",",""));
+                    if(aDepositStatus.equals("true")) keys.put("nominal_deposit", NumberTextWatcherForThousand.trimCommaOfString(aDepositValue.getText().toString()));
 
                     Log.e(TAG, "Asset Keys: " + String.valueOf(keys));
                     return keys;

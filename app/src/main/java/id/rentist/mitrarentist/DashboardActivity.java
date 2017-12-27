@@ -54,6 +54,7 @@ import id.rentist.mitrarentist.tools.AppConfig;
 import id.rentist.mitrarentist.tools.CircleTransform;
 import id.rentist.mitrarentist.tools.PricingTools;
 import id.rentist.mitrarentist.tools.SessionManager;
+import id.rentist.mitrarentist.tools.Tools;
 
 public class DashboardActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -170,6 +171,7 @@ public class DashboardActivity extends AppCompatActivity
             }
         }
 
+        //Role Show/Hide
         toFormAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -184,6 +186,7 @@ public class DashboardActivity extends AppCompatActivity
 
         rentName.setText(sm.getPreferences("nama_rental"));
         rentNameDrawer.setText(sm.getPreferences("nama"));
+
         role.setText(sm.getPreferences("role"));
         switch (sm.getPreferences("role")) {
             case "SuperAdmin":
@@ -194,9 +197,15 @@ public class DashboardActivity extends AppCompatActivity
                 break;
             case "Operation":
                 role.setBackgroundColor(getResources().getColor(R.color.roleOperation));
+                rlSaldo.setVisibility(View.GONE);
                 break;
             case "Finance":
                 role.setBackgroundColor(getResources().getColor(R.color.roleFinance));
+                rlNewTrans.setVisibility(View.GONE);
+                break;
+            case "Delivery":
+                rlNewTrans.setVisibility(View.GONE);
+                rlSaldo.setVisibility(View.GONE);
                 break;
         }
 
@@ -235,32 +244,35 @@ public class DashboardActivity extends AppCompatActivity
             }
         });
 
-        rlSaldo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent iTrans = new Intent(DashboardActivity.this, DompetActivity.class);
-                iTrans.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(iTrans);
-            }
-        });
+        if (sm.getPreferences("role").matches("SuperAdmin|Admin|Finance")){
+            rlSaldo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent iTrans = new Intent(DashboardActivity.this, DompetActivity.class);
+                    iTrans.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(iTrans);
+                }
+            });
 
-        rlPoin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent iTrans = new Intent(DashboardActivity.this, VoucherCatalogActivity.class);
-                iTrans.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(iTrans);
-            }
-        });
+            rlPoin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent iTrans = new Intent(DashboardActivity.this, VoucherCatalogActivity.class);
+                    iTrans.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(iTrans);
+                }
+            });
 
-        btnToSaldo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent iSaldo = new Intent(DashboardActivity.this, DompetActivity.class);
-                iSaldo.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(iSaldo);
-            }
-        });
+            btnToSaldo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent iSaldo = new Intent(DashboardActivity.this, DompetActivity.class);
+                    iSaldo.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(iSaldo);
+                }
+            });
+        }
+
         btnWorkDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -323,6 +335,8 @@ public class DashboardActivity extends AppCompatActivity
         navMenuView.findItem(R.id.nav_riwayat).setVisible(false);
         navMenuView.findItem(R.id.nav_dompet).setVisible(false);
         navMenuView.findItem(R.id.nav_voucher).setVisible(false);
+        navMenuView.findItem(R.id.nav_kebijakan).setVisible(false);
+        navMenuView.findItem(R.id.nav_message).setVisible(false);
 
         if(sm.getPreferences("role").equals("SuperAdmin")){
             navMenuView.findItem(R.id.nav_users).setVisible(true);
@@ -332,6 +346,8 @@ public class DashboardActivity extends AppCompatActivity
             navMenuView.findItem(R.id.nav_riwayat).setVisible(true);
             navMenuView.findItem(R.id.nav_dompet).setVisible(true);
             navMenuView.findItem(R.id.nav_voucher).setVisible(true);
+            navMenuView.findItem(R.id.nav_kebijakan).setVisible(true);
+            navMenuView.findItem(R.id.nav_message).setVisible(true);
         }else if(sm.getPreferences("role").equals("Admin")){
             navMenuView.findItem(R.id.nav_users).setVisible(true);
             navMenuView.findItem(R.id.nav_aset).setVisible(true);
@@ -340,6 +356,7 @@ public class DashboardActivity extends AppCompatActivity
             navMenuView.findItem(R.id.nav_riwayat).setVisible(true);
             navMenuView.findItem(R.id.nav_dompet).setVisible(true);
             navMenuView.findItem(R.id.nav_voucher).setVisible(true);
+            navMenuView.findItem(R.id.nav_kebijakan).setVisible(true);
         }else if(sm.getPreferences("role").equals("Operation")){
             navMenuView.findItem(R.id.nav_aset).setVisible(true);
             navMenuView.findItem(R.id.nav_feature).setVisible(true);
@@ -559,7 +576,7 @@ public class DashboardActivity extends AppCompatActivity
 
                 //Setting the Bitmap to ImageView
                 rentImgProfile.setImageBitmap(bitmap);
-                String isiimage = getStringImage(bitmap);
+                String isiimage = Tools.getStringImage(bitmap);
 
                 imgString = ext +"," + isiimage;
 

@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -51,6 +53,7 @@ public class FeatureActivity extends AppCompatActivity {
     JSONObject dataObject, objectFeature, objectFeatureDetail;
     JSONArray dataArray;
     Intent iFeature;
+    LinearLayout noData;
 
     private static final String TAG = "FeatureActivity";
     private static final String TOKEN = "secretissecret";
@@ -84,6 +87,17 @@ public class FeatureActivity extends AppCompatActivity {
                     mRecyclerView.setAdapter(null);
                 }
                 getFeatureDataList(tenant);
+            }
+        });
+
+        noData = (LinearLayout) findViewById(R.id.no_data);
+        TextView toFormAdd = (TextView) findViewById(R.id.toFormAdd);
+        toFormAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(FeatureActivity.this, FormFeatureActivity.class);
+                intent.putExtra("action","add");
+                startActivity(intent);
             }
         });
     }
@@ -140,6 +154,8 @@ public class FeatureActivity extends AppCompatActivity {
                                 featureModul.setPrice(aPrice);
                                 featureModul.setQty(aQty);
                                 featureModul.setUseQty(aUseQty);
+                                featureModul.setIdAssetCat(objectFeature.getString("id_asset_category"));
+
                                 mFeature.add(featureModul);
                             }
 
@@ -149,8 +165,9 @@ public class FeatureActivity extends AppCompatActivity {
 
                             mRecyclerView.setLayoutManager(mLayoutManager);
                             mRecyclerView.setAdapter(mAdapter);
-
+                            noData.setVisibility(View.GONE);
                         }else{
+                            noData.setVisibility(View.VISIBLE);
                             Toast.makeText(getApplicationContext(),"Anda belum memiliki Fitur Tambahan", Toast.LENGTH_LONG).show();
                         }
                     } catch (JSONException e) {
@@ -228,7 +245,7 @@ public class FeatureActivity extends AppCompatActivity {
             mSwipeRefreshLayout.setRefreshing(false);
             pBar.setVisibility(View.GONE);
             String aId, aName, aPrice, aQty, aUseQty;
-            Integer dataLength;
+            Integer dataLength,aIdAssetCat;
 
             if (feature != null) {
                 try {
@@ -255,7 +272,9 @@ public class FeatureActivity extends AppCompatActivity {
                             aQty = objectFeature.getString("quantity");
                             aUseQty = objectFeature.getString("used_quantity");
                             aPrice = objectFeature.getString("price");
+                            aIdAssetCat = objectFeature.getInt("id_asset_category");
                             Log.e(TAG, "What Data : " + String.valueOf(objectFeature));
+                            Log.e(TAG, "Asset Cat: NULL");
 
                             ItemFeatureModul featureModul = new ItemFeatureModul();
                             featureModul.setId(aId);
@@ -263,6 +282,7 @@ public class FeatureActivity extends AppCompatActivity {
                             featureModul.setPrice(aPrice);
                             featureModul.setQty(aQty);
                             featureModul.setUseQty(aUseQty);
+                            featureModul.setIdAssetCat(String.valueOf(aIdAssetCat));
                             mFeature.add(featureModul);
                         }
 
@@ -330,5 +350,7 @@ public class FeatureActivity extends AppCompatActivity {
         }
         getFeatureDataList(tenant);
     }
+
+
 
 }

@@ -1,8 +1,10 @@
 package id.rentist.mitrarentist;
 
+import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +15,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -23,7 +27,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.github.ybq.android.spinkit.SpinKitView;
-import com.github.ybq.android.spinkit.style.FadingCircle;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -49,7 +52,9 @@ public class DriverActivity extends AppCompatActivity {
     private ProgressDialog pDialog;
     private SpinKitView pBar;
     private SessionManager sm;
+
     Intent iDriver;
+    LinearLayout noData;
 
     private static final String TAG = "DriverActivity";
     private static final String TOKEN = "secretissecret";
@@ -61,10 +66,12 @@ public class DriverActivity extends AppCompatActivity {
         setContentView(R.layout.activity_driver);
         setTitle("Pengemudi Terdaftar");
 
+        pDialog = new ProgressDialog(this);
+        pDialog.setCancelable(false);
         sm = new SessionManager(getApplicationContext());
-        pBar = (SpinKitView)findViewById(R.id.progressBar);
-        FadingCircle fadingCircle = new FadingCircle();
-        pBar.setIndeterminateDrawable(fadingCircle);
+//        pBar = (SpinKitView)findViewById(R.id.progressBar);
+//        FadingCircle fadingCircle = new FadingCircle();
+//        pBar.setIndeterminateDrawable(fadingCircle);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -72,6 +79,7 @@ public class DriverActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
+        showProgress(true);
         getDriverDataList(tenant);
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
@@ -81,10 +89,21 @@ public class DriverActivity extends AppCompatActivity {
                 getDriverDataList(tenant);
             }
         });
+
+        noData = (LinearLayout) findViewById(R.id.no_data);
+        TextView toFormAdd = (TextView) findViewById(R.id.toFormAdd);
+        toFormAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DriverActivity.this, FormDriverActivity.class);
+                intent.putExtra("action","add");
+                startActivity(intent);
+            }
+        });
     }
 
     private void getDriverDataList(String tenant) {
-        pBar.setVisibility(View.VISIBLE);
+//        pBar.setVisibility(View.VISIBLE);
 //        new getDriverListTask(tenant).execute();
 
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
@@ -93,8 +112,8 @@ public class DriverActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 mSwipeRefreshLayout.setRefreshing(false);
-                pBar.setVisibility(View.GONE);
-                String aId, aName, aSIM, aThumbPhoto, aPhone;
+                showProgress(false);
+                String aId, aName, aSIM, aThumbPhoto, aPhone, aEmail;
                 Integer dataLength;
 
                 if (response != null) {
@@ -103,12 +122,13 @@ public class DriverActivity extends AppCompatActivity {
                         JSONArray jsonArray = jsonObject.getJSONArray("driver");
                         Log.e(TAG, "User : " + jsonArray);
                         dataLength = jsonArray.length();
+                        mDriver.clear();
                         if(dataLength > 0){
-                            mDriver.clear();
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject jsonobject = jsonArray.getJSONObject(i);
                                 aId = jsonobject.getString("id");
                                 aName = jsonobject.getString("fullname");
+                                aEmail = jsonobject.getString("email");
                                 aSIM = jsonobject.getString("no_sim");
                                 aThumbPhoto = jsonobject.getString("profile_pic");
                                 Log.e(TAG, "What Data : " + String.valueOf(jsonobject));
@@ -118,6 +138,7 @@ public class DriverActivity extends AppCompatActivity {
                                 driverModul.setName(aName);
                                 driverModul.setSIM(aSIM);
                                 driverModul.setProfPic(aThumbPhoto);
+                                driverModul.setEmail(aEmail);
                                 mDriver.add(driverModul);
                             }
 
@@ -127,9 +148,11 @@ public class DriverActivity extends AppCompatActivity {
 
                             mRecyclerView.setLayoutManager(mLayoutManager);
                             mRecyclerView.setAdapter(mAdapter);
+                            noData.setVisibility(View.GONE);
 
                         }else{
-                            Toast.makeText(getApplicationContext(),"Anda belum memiliki Driver", Toast.LENGTH_LONG).show();
+                            noData.setVisibility(View.VISIBLE);
+//                            Toast.makeText(getApplicationContext(),"Anda belum memiliki Driver", Toast.LENGTH_LONG).show();
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -140,6 +163,7 @@ public class DriverActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                showProgress(false);
                 Log.e(TAG, "Driver Fetch Error : " + error.toString());
                 Toast.makeText(getApplicationContext(), "Connection error, try again.",
                         Toast.LENGTH_LONG).show();
@@ -305,5 +329,25 @@ public class DriverActivity extends AppCompatActivity {
         super.onResume();
         getDriverDataList(tenant);
 
+    }
+
+    @Override
+    public void onRestart(){
+        super.onRestart();
+        getDriverDataList(tenant);
+
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+    private void showProgress(final boolean show) {
+        if(show){
+            if (!pDialog.isShowing()){
+                pDialog.show();
+            }
+        }else{
+            if (pDialog.isShowing()){
+                pDialog.dismiss();
+            }
+        }
     }
 }

@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Map;
 
 import id.rentist.mitrarentist.tools.AppConfig;
+import id.rentist.mitrarentist.tools.NumberTextWatcherForThousand;
 import id.rentist.mitrarentist.tools.SessionManager;
 
 public class FormDeliveryPriceActivity extends AppCompatActivity {
@@ -84,6 +85,8 @@ public class FormDeliveryPriceActivity extends AppCompatActivity {
         office.setText(asset_category[10]);
         fashion.setText(asset_category[11]);
 
+        price.addTextChangedListener(new NumberTextWatcherForThousand(price));
+
         iDelivery = getIntent();
         Log.e(TAG, "FROM" +iDelivery.getStringExtra("from") );
         if (iDelivery.getStringExtra("from").equals("list")){
@@ -102,11 +105,11 @@ public class FormDeliveryPriceActivity extends AppCompatActivity {
                 if (mItemExpand.getVisibility() == View.GONE) {
                     // it's collapsed - expand it
                     mItemExpand.setVisibility(View.VISIBLE);
-                    btn_expand.setImageResource(R.drawable.ic_keyboard_arrow_down_black_18dp);
+                    btn_expand.setImageResource(R.drawable.ic_keyboard_arrow_up_black_18dp);
                 } else {
                     // it's expanded - collapse it
                     mItemExpand.setVisibility(View.GONE);
-                    btn_expand.setImageResource(R.drawable.ic_keyboard_arrow_up_black_18dp);
+                    btn_expand.setImageResource(R.drawable.ic_keyboard_arrow_down_black_18dp);
                 }
 
                 @SuppressLint("ObjectAnimatorBinding")
@@ -133,7 +136,7 @@ public class FormDeliveryPriceActivity extends AppCompatActivity {
     private void addData() {
         pDialog.setMessage("Menyimpan Data...");
         showProgress(true);
-        if (!iDelivery.getStringExtra("from").equals("list")) {
+        if (iDelivery.getStringExtra("from").equals("list")) {
             if (car.isChecked()) category.add(1);
             if (motor.isChecked()) category.add(2);
             if (yacht.isChecked()) category.add(3);
@@ -174,7 +177,7 @@ public class FormDeliveryPriceActivity extends AppCompatActivity {
                 Map<String, String> keys = new HashMap<String, String>();
                 keys.put("id_tenant", tenant);
                 keys.put("max_distance", distance.getText().toString());
-                keys.put("price_per_km", price.getText().toString().replace(",",""));
+                keys.put("price_per_km", NumberTextWatcherForThousand.trimCommaOfString(price.getText().toString()));
                 keys.put("id_asset_category", category.toString());
                 Log.e(TAG, "Post Data : " + String.valueOf(keys));
                 return keys;

@@ -167,8 +167,12 @@ public class AsetActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_delivery_pricing_option, menu);
-        getMenuInflater().inflate(R.menu.menu_preference_option, menu);
+        if (!sm.getPreferences("role").equals(getString(R.string.role_finance))){
+           if( !sm.getPreferences("role").equals(getString(R.string.role_delivery))){
+                getMenuInflater().inflate(R.menu.menu_delivery_pricing_option, menu);
+                getMenuInflater().inflate(R.menu.menu_preference_option, menu);
+            }
+        }
         return true;
     }
 

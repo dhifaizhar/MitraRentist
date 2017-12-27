@@ -145,9 +145,9 @@ public class TransactionCanceledFragment extends Fragment {
         try {
             JSONObject jsonObject = new JSONObject(responseJson);
             JSONArray jsonArray = new JSONArray(String.valueOf(jsonObject.getJSONArray("canceled")));
+            mTrans.clear();
             if(jsonArray.length() > 0){
                 noTransImage.setVisibility(View.GONE);
-                mTrans.clear();
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject transObject = jsonArray.getJSONObject(i);
                     ItemTransaksiModul itemTrans = new ItemTransaksiModul();
@@ -200,7 +200,7 @@ public class TransactionCanceledFragment extends Fragment {
                     }
 
                     aCodeTrans = idTrans.getString("transaction_code");
-                    aNominal = transObject.getString("nominal");
+                    aNominal = transObject.getString("tenant_income");
                     aIdMember = memberObject.getString("id");
                     aMember = memberObject.getString("firstname") + " " + memberObject.getString("lastname");
                     aThumb = memberObject.getString("profil_pic");
@@ -229,8 +229,16 @@ public class TransactionCanceledFragment extends Fragment {
                     itemTrans.setVoucherCode(aVoucherCode);
                     itemTrans.setVoucherDisc(aVoucherDisc);
 
-                    mTrans.add(itemTrans);
-                }
+                    if(!sm.getPreferences("role").equals(getString(R.string.role_delivery))){
+                        mTrans.add(itemTrans);
+                    }else{
+                        if (transObject.has("id_tenant_user")) {
+                            JSONObject userObject = transObject.getJSONObject("id_tenant_user");
+                            if (sm.getIntPreferences("id") == userObject.getInt("id")){
+                                mTrans.add(itemTrans);
+                            }
+                        }
+                    }                }
 
                 mRecyclerView = (RecyclerView) view.findViewById(R.id.hcancel_recyclerViewFrag);
                 mLayoutManager = new LinearLayoutManager(getActivity());

@@ -223,4 +223,12 @@ public class KebijakanKhususFragment extends Fragment {
             showProgress(false);
         }
     }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        showProgress(true);
+        mKebijakan.clear();
+        new getKebijakanListTask(tenant).execute();
+    }
 }

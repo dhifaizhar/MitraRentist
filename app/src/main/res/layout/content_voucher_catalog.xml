@@ -9,7 +9,27 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="id.rentist.mitrarentist.VoucherCatalogActivity"
     android:background="@color/colorBackgound"
+    android:orientation="vertical"
     tools:showIn="@layout/activity_voucher_catalog">
+
+    <LinearLayout
+        android:id="@+id/no_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/explorer_item_size"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="@color/colorBlack54"
+            android:textStyle="bold"
+            android:text="Kupon Tidak Ditemukan" />
+
+
+    </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/vc_recyclerView"

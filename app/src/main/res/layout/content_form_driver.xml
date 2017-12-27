@@ -130,6 +130,32 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:text="Email"
+                    android:textColor="@color/colorBlack" />
+
+                <EditText
+                    android:id="@+id/dr_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorNearWhite"
+                    android:ems="10"
+                    android:hint="Email"
+                    android:imeOptions="actionNext"
+                    android:maxLength="50"
+                    android:inputType="textEmailAddress"
+                    android:padding="@dimen/min_padding" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/xmin_padding"
+                android:orientation="vertical"
+                android:padding="@dimen/xmin_padding">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:text="Nomor Telepon"
                     android:textColor="@color/colorBlack" />
 
@@ -156,6 +182,7 @@
                         android:hint="8xx xxxx xxxx"
                         android:imeOptions="actionNext"
                         android:inputType="phone"
+                        android:maxLength="11"
                         android:padding="@dimen/min_padding" />
 
                 </RelativeLayout>
@@ -183,6 +210,7 @@
                     android:background="@color/colorNearWhite"
                     android:ems="10"
                     android:hint="SIM"
+                    android:maxLength="12"
                     android:imeOptions="actionNext"
                     android:inputType="number"
                     android:padding="@dimen/min_padding" />
@@ -202,7 +230,7 @@
                     android:text="Tanggal Lahir"
                     android:textColor="@color/colorBlack" />
 
-                <EditText
+                <TextView
                     android:id="@+id/dr_bdate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -211,7 +239,9 @@
                     android:ems="10"
                     android:hint="YYYY-mm-dd"
                     android:inputType="date"
-                    android:padding="@dimen/min_padding" />
+                    android:padding="@dimen/min_padding"
+                    android:clickable="true"/>
+
 
                 <!--<android.support.v7.widget.AppCompatEditText-->
                     <!--android:id="@+id/dr_bdate"-->
@@ -226,6 +256,20 @@
                     <!--android:textColor="@color/colorBlack"-->
                     <!--android:textSize="16sp" />-->
             </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_save"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/btn_lmedium_height"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="bottom"
+                android:layout_marginTop="@dimen/xmin_padding"
+                android:layout_marginBottom="@dimen/xmin_padding"
+                android:background="@color/colorPrimaryDark"
+                android:textAlignment="center"
+                android:text="@string/btn_save"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/medium_text" />
 
         </LinearLayout>
 

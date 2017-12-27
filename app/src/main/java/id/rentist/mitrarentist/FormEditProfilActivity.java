@@ -50,6 +50,7 @@ import id.rentist.mitrarentist.tools.AppConfig;
 import id.rentist.mitrarentist.tools.CircleTransform;
 import id.rentist.mitrarentist.tools.FormValidation;
 import id.rentist.mitrarentist.tools.SessionManager;
+import id.rentist.mitrarentist.tools.Tools;
 
 public class FormEditProfilActivity extends AppCompatActivity {
     AsyncTask mProfileTask = null;
@@ -455,7 +456,7 @@ public class FormEditProfilActivity extends AppCompatActivity {
 
                 //Setting the Bitmap to ImageView
                 profilePhoto.setImageBitmap(bitmap);
-                isiimage = getStringImage(bitmap);
+                isiimage = Tools.getStringImage(bitmap);
 
                 imgString = ext +"," + isiimage;
 

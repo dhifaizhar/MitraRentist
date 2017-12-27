@@ -108,13 +108,34 @@ public class FormKebijakanActivity extends AppCompatActivity {
     }
 
     private void saveKebijakan(String tenant, String id) {
-        pDialog.setMessage("loading ...");
-        showProgress(true);
-        if(formKebijakan.getStringExtra("action").equals("add")){
-            new FormKebijakanActivity.postPolicyTask(tenant).execute();
-        }else if(formKebijakan.getStringExtra("action").equals("update")){
-            new FormKebijakanActivity.putUpdateKebijakanTask(tenant, id).execute();
+        Boolean valid = formValidation();
+        if(valid.equals(true)) {
+            pDialog.setMessage("loading ...");
+            showProgress(true);
+            if (formKebijakan.getStringExtra("action").equals("add")) {
+                new FormKebijakanActivity.postPolicyTask(tenant).execute();
+            } else if (formKebijakan.getStringExtra("action").equals("update")) {
+                new FormKebijakanActivity.putUpdateKebijakanTask(tenant, id).execute();
+            }
         }
+    }
+
+    private boolean formValidation(){
+        Boolean valid = true;
+        kTitle.setError(null);
+        kDesc.setError(null);
+
+        if(kTitle.getText().toString().isEmpty()){
+            kTitle.setError(getString(R.string.error_field_required));
+            valid = false;
+        }
+
+        if(kDesc.getText().toString().isEmpty()){
+            kDesc.setError(getString(R.string.error_field_required));
+            valid = false;
+        }
+
+        return valid;
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)

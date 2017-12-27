@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <android.support.v7.widget.CardView
@@ -13,77 +15,127 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="@dimen/xmin_padding">
+            android:orientation="horizontal">
 
             <LinearLayout
-                android:id="@+id/row_category"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="@dimen/small_space"
-                android:visibility="gone">
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:padding="@dimen/xmin_padding">
 
-                <TextView
-                    android:layout_width="@dimen/text_label_med"
+                <LinearLayout
+                    android:id="@+id/row_category"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Kategori Aset :"
-                    android:textSize="@dimen/tiny_text"/>
+                    android:orientation="horizontal"
+                    android:padding="@dimen/small_space"
+                    android:visibility="gone">
 
-                <TextView
-                    android:id="@+id/dp_category"
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:layout_width="@dimen/text_label_med"
+                        android:layout_height="wrap_content"
+                        android:text="Kategori Aset :"
+                        android:textSize="@dimen/tiny_text"/>
+
+                    <TextView
+                        android:id="@+id/dp_category"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Maternity, Office"
+                        android:gravity="end"
+                        android:textSize="@dimen/tiny_text"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Maternity, Office"
-                    android:gravity="end"
-                    android:textSize="@dimen/tiny_text"/>
+                    android:orientation="horizontal"
+                    android:padding="@dimen/small_space">
+
+                    <TextView
+                        android:layout_width="@dimen/text_label_med"
+                        android:layout_height="wrap_content"
+                        android:text="Jarak Maksimal :"
+                        android:textSize="@dimen/tiny_text"/>
+
+                    <TextView
+                        android:id="@+id/dp_max_distance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="15 KM"
+                        android:gravity="end"
+                        android:textSize="@dimen/tiny_text"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/small_space">
+
+                    <TextView
+                        android:layout_width="@dimen/text_label_med"
+                        android:layout_height="wrap_content"
+                        android:text="Biaya per KM :"
+                        android:textSize="@dimen/tiny_text"/>
+
+                    <TextView
+                        android:id="@+id/dp_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1.500 IDR"
+                        android:gravity="end"
+                        android:textSize="@dimen/tiny_text"/>
+                </LinearLayout>
+
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:id="@+id/from_asset"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="@dimen/small_space">
+                android:orientation="vertical"
+                android:layout_gravity="center_vertical"
+                >
 
                 <TextView
-                    android:layout_width="@dimen/text_label_med"
-                    android:layout_height="wrap_content"
-                    android:text="Jarak Maksimal :"
-                    android:textSize="@dimen/tiny_text"/>
-
-                <TextView
-                    android:id="@+id/dp_max_distance"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="15 KM"
-                    android:gravity="end"
-                    android:textSize="@dimen/tiny_text"/>
+                    android:text="PILIH"
+                    android:textStyle="bold"
+                    android:background="@drawable/radius_primary"
+                    android:textColor="@color/colorWhite"
+                    android:padding="@dimen/xmin_padding"
+                    android:layout_marginEnd="@dimen/xmin_padding"/>
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:id="@+id/from_menu"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="@dimen/small_space">
+                android:orientation="vertical"
+                android:layout_gravity="center_vertical">
 
-                <TextView
-                    android:layout_width="@dimen/text_label_med"
-                    android:layout_height="wrap_content"
-                    android:text="Biaya per KM :"
-                    android:textSize="@dimen/tiny_text"/>
-
-                <TextView
-                    android:id="@+id/dp_price"
+                <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="1.500 IDR"
-                    android:gravity="end"
-                    android:textSize="@dimen/tiny_text"/>
+                    app:srcCompat="@drawable/ic_edit_black_24dp"
+                    android:background="@drawable/radius_white"
+                    android:padding="@dimen/xmin_padding"
+                    android:layout_marginEnd="@dimen/xmin_padding"/>
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_delete_black_24dp"
+                    android:background="@drawable/radius_white"
+                    android:padding="@dimen/xmin_padding"
+                    android:layout_marginEnd="@dimen/xmin_padding"/>
             </LinearLayout>
+
 
         </LinearLayout>
-
-
 
 
     </android.support.v7.widget.CardView>

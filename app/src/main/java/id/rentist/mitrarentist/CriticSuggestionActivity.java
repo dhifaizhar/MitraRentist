@@ -71,10 +71,32 @@ public class CriticSuggestionActivity extends AppCompatActivity {
     }
 
     private void sendCriticSuggest(String name, String email) {
-        pDialog.setMessage("loading ...");
-        showProgress(true);
-        new CriticSuggestionActivity.postCriticSuggestTask(name, email).execute();
+        Boolean valid = formValidation();
+        if(valid.equals(true)) {
+            pDialog.setMessage("loading ...");
+            showProgress(true);
+            new CriticSuggestionActivity.postCriticSuggestTask(name, email).execute();
+        }
     }
+
+    private boolean formValidation(){
+        Boolean valid = true;
+        title.setError(null);
+        content.setError(null);
+
+        if(title.getText().toString().isEmpty()){
+            title.setError(getString(R.string.error_field_required));
+            valid = false;
+        }
+
+        if(content.getText().toString().isEmpty()){
+            content.setError(getString(R.string.error_field_required));
+            valid = false;
+        }
+
+        return valid;
+    }
+
 
     private class postCriticSuggestTask extends AsyncTask<String, String, String>{
         private final String mName, mEmail;

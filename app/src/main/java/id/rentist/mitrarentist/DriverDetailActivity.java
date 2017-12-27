@@ -50,7 +50,7 @@ public class DriverDetailActivity extends AppCompatActivity {
     private Intent detIntent;
 
     String tenant, aId, birthdate, fotoname;
-    TextView name, sim, bdate, gender, phone;
+    TextView name, sim, bdate, gender, phone, email;
     ImageView profilePic;
     FloatingActionButton fab;
 
@@ -84,6 +84,8 @@ public class DriverDetailActivity extends AppCompatActivity {
         bdate = (TextView)findViewById(R.id.det_dr_bdate);
         gender = (TextView) findViewById(R.id.det_dr_gender);
         phone = (TextView) findViewById(R.id.det_dr_phone_number);
+        email = (TextView) findViewById(R.id.det_dr_email);
+
 
         // set content control value
         aId = detIntent.getStringExtra("id_driver");
@@ -162,7 +164,9 @@ public class DriverDetailActivity extends AppCompatActivity {
                     sim.setText(driverObject.getString("no_sim"));
                     gender.setText(driverObject.getString("gender").equals("male") ? "Pria" : "Wanita");
                     phone.setText(driverObject.getString("phone"));
+                    email.setText(driverObject.getString("email"));
                     birthdate = driverObject.getString("birthdate");
+
                     // formatter
                     SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
                     Date currentDate = new Date(dateformat.parse(birthdate).getTime());
@@ -228,6 +232,8 @@ public class DriverDetailActivity extends AppCompatActivity {
             detIntent.putExtra("id_driver", aId);
             detIntent.putExtra("fullname", name.getText());
             detIntent.putExtra("no_sim", sim.getText());
+            detIntent.putExtra("email", email.getText());
+            detIntent.putExtra("phone", phone.getText());
             detIntent.putExtra("birthdate", bdate.getText());
             detIntent.putExtra("gender", gender.getText());
             detIntent.putExtra("profilepic", fotoname);
