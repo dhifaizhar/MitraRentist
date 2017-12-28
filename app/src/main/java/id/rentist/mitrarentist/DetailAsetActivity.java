@@ -367,7 +367,7 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
                                 priceModul.setStartDate(priceObject.getString("start_date"));
                                 priceModul.setEndDate(priceObject.getString("end_date"));
                                 priceModul.setPrice(PricingTools.PriceStringFormat(priceObject.getString("price")));
-
+                                priceModul.setDriverPrice(priceObject.getString("price_with_driver"));
                                 mPrice.add(priceModul);
                             }
                         }

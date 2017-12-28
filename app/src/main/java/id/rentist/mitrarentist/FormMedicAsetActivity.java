@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -41,6 +42,10 @@ import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.squareup.picasso.Picasso;
+import com.vansuita.pickimage.bean.PickResult;
+import com.vansuita.pickimage.bundle.PickSetup;
+import com.vansuita.pickimage.dialog.PickImageDialog;
+import com.vansuita.pickimage.listeners.IPickResult;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -204,31 +209,89 @@ public class FormMedicAsetActivity extends AppCompatActivity {
         aMainImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showFileChooser("main");
+                PickSetup setup = Tools.imagePickerSetup();
+                PickImageDialog.build(setup, new IPickResult() {
+                    @Override
+                    public void onPickResult(PickResult r) {
+                        r.getBitmap();
+                        r.getError();
+                        r.getUri();
+                        imgStringMain = Tools.getStringImageView(r.getBitmap(), aMainImage);
+                        Log.e("onPickResult: ",imgStringMain);
+                        conSecondImage.setVisibility(View.VISIBLE);
+                    }
+                }).show((FragmentActivity) currentActivity);
             }
         });
         aSecondImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showFileChooser("second");
+                PickSetup setup = Tools.imagePickerSetup();
+                PickImageDialog.build(setup, new IPickResult() {
+                    @Override
+                    public void onPickResult(PickResult r) {
+                        r.getBitmap();
+                        r.getError();
+                        r.getUri();
+                        imgStringSecond = Tools.getStringImageView(r.getBitmap(), aSecondImage);
+                        Log.e("onPickResult: ",imgStringSecond);
+                        delSecondImage.setVisibility(View.VISIBLE);
+                        conThirdImage.setVisibility(View.VISIBLE);
+                    }
+                }).show((FragmentActivity) currentActivity);
             }
         });
         aThirdImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showFileChooser("third");
+                PickSetup setup = Tools.imagePickerSetup();
+                PickImageDialog.build(setup, new IPickResult() {
+                    @Override
+                    public void onPickResult(PickResult r) {
+                        r.getBitmap();
+                        r.getError();
+                        r.getUri();
+                        imgStringThird = Tools.getStringImageView(r.getBitmap(), aThirdImage);
+                        Log.e("onPickResult: ",imgStringThird);
+                        delThirdImage.setVisibility(View.VISIBLE);
+                        conFourthImage.setVisibility(View.VISIBLE);
+                    }
+                }).show((FragmentActivity) currentActivity);
             }
         });
         aFourthImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showFileChooser("fourth");
+                PickSetup setup = Tools.imagePickerSetup();
+                PickImageDialog.build(setup, new IPickResult() {
+                    @Override
+                    public void onPickResult(PickResult r) {
+                        r.getBitmap();
+                        r.getError();
+                        r.getUri();
+                        imgStringFourth = Tools.getStringImageView(r.getBitmap(), aFourthImage);
+                        Log.e("onPickResult: ",imgStringFourth);
+                        delFourthImage.setVisibility(View.VISIBLE);
+                        conFifthImage.setVisibility(View.VISIBLE);
+                    }
+                }).show((FragmentActivity) currentActivity);
             }
         });
         aFifthImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showFileChooser("fifth");
+                PickSetup setup = Tools.imagePickerSetup();
+                PickImageDialog.build(setup, new IPickResult() {
+                    @Override
+                    public void onPickResult(PickResult r) {
+                        r.getBitmap();
+                        r.getError();
+                        r.getUri();
+                        imgStringFifth = Tools.getStringImageView(r.getBitmap(), aFifthImage);
+                        Log.e("onPickResult: ",imgStringFifth);
+                        delFifthImage.setVisibility(View.VISIBLE);
+                    }
+                }).show((FragmentActivity) currentActivity);
             }
         });
 

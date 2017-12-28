@@ -46,6 +46,28 @@ public class PricingTools {
         return  arr;
     }
 
+    public static List PriceStringToArrayCar(String string){
+        Map<String, Object> prop;
+        List<Object> arr = new ArrayList<>();
+
+        String pattern = "\\s*\"range_name\"\\s*:\"\\s*([^\"]*)[^:]*:\"(\\d*-\\d*-\\d*)[^\"]*[^:]*:\"(\\d*-\\d*-\\d*)[^\"]*[^:]*:(\\d*)[^:]*:[^:]*:(\\d*)";
+
+        Pattern r = Pattern.compile(pattern);
+        Matcher m = r.matcher(string);
+
+        while (m.find()) {
+            prop = new HashMap<>();
+            prop.put("range_name", m.group(1));
+            prop.put("start_date", m.group(2));
+            prop.put("end_date", m.group(3));
+            prop.put("price", m.group(4));
+            prop.put("price_with_driver", m.group(5));
+            arr.add(prop);
+        }
+
+        return  arr;
+    }
+
     public static Integer PriceMinFee(Integer price, Integer fee){
         return price - (price/100*fee);
     }

@@ -16,7 +16,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -40,12 +39,15 @@ import com.github.ybq.android.spinkit.SpinKitView;
 import com.github.ybq.android.spinkit.style.FadingCircle;
 import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
+import com.vansuita.pickimage.bean.PickResult;
+import com.vansuita.pickimage.bundle.PickSetup;
+import com.vansuita.pickimage.dialog.PickImageDialog;
+import com.vansuita.pickimage.listeners.IPickResult;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -78,11 +80,11 @@ public class DashboardActivity extends AppCompatActivity
     TextView newTrans, totAsset, totPoin, totRating, totSaldo, rentName, role, rentNameDrawer,
             successRent, ongoRent, toFormAccount, ratCleanliness, ratNeatness, ratHonesty, ratComunication;
     ImageView rentImgProfile, verifIco;
-    LinearLayout accountDataNotif, accountDataVerifNotif, conRating, conAset;
+    LinearLayout accountDataNotif, accountDataVerifNotif, conRating, conAset, rlPoin;
 //    NetworkImageView rentImgProfile;
     ImageButton btnNewTrans, btnToSaldo, btnWorkDate, btnEditProfpic;
     DrawerLayout drawer;
-    RelativeLayout rlNewTrans, rlSaldo, rlPoin;
+    RelativeLayout rlNewTrans, rlSaldo;//,rlPoin ;
 
     private static final String TAG = "DashboardActivity";
     private static final String TOKEN = "secretissecret";
@@ -127,7 +129,7 @@ public class DashboardActivity extends AppCompatActivity
         accountDataVerifNotif = (LinearLayout) findViewById(R.id.account_data_verif_notif);
         rlNewTrans = (RelativeLayout) findViewById(R.id.rl_new_trans);
         rlSaldo = (RelativeLayout) findViewById(R.id.rl_rev_saldo);
-        rlPoin = (RelativeLayout) findViewById(R.id.rl_rev_poin);
+        rlPoin = (LinearLayout) findViewById(R.id.rl_rev_poin);
         rentName = (TextView) findViewById(R.id.rentName);
         rentNameDrawer = (TextView) navHeaderView.findViewById(R.id.navRentName);
         rentImgProfile = (ImageView) navHeaderView.findViewById(R.id.navImageProfile);
@@ -285,10 +287,23 @@ public class DashboardActivity extends AppCompatActivity
         btnEditProfpic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+//                Intent intent = new Intent();
+//                intent.setType("image/*");
+//                intent.setAction(Intent.ACTION_GET_CONTENT);
+//                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+
+                PickSetup setup = Tools.imagePickerSetup();
+                PickImageDialog.build(setup, new IPickResult() {
+                    @Override
+                    public void onPickResult(PickResult r) {
+                        r.getBitmap();
+                        r.getError();
+                        r.getUri();
+                        imgString = Tools.getStringImageView(r.getBitmap(), rentImgProfile);
+                        Log.e("onPickResult: ",imgString );
+                        new updatePhotoProfileTask(tenant, String.valueOf(sm.getIntPreferences("id"))).execute();
+                    }
+                }).show(DashboardActivity.this);
             }
         });
 
@@ -445,7 +460,11 @@ public class DashboardActivity extends AppCompatActivity
                     verifIco.setVisibility(View.VISIBLE);
                 }
 
-                totSaldo.setText(PricingTools.PriceFormat(dataObject.getInt("saldo")));
+                if(dataObject.getInt("saldo") == 0){
+                    totSaldo.setText("0 IDR");
+                }else{
+                    totSaldo.setText(PricingTools.PriceFormat(dataObject.getInt("saldo")));
+                }
 
                 sm.setIntPreferences("sum_car", assetObject.getInt("mobil"));
                 sm.setIntPreferences("sum_motor", assetObject.getInt("motor"));
@@ -550,13 +569,6 @@ public class DashboardActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    public String getStringImage(Bitmap bmp){
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        byte[] imageBytes = baos.toByteArray();
-        return Base64.encodeToString(imageBytes, Base64.DEFAULT);
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -575,8 +587,8 @@ public class DashboardActivity extends AppCompatActivity
                 Log.e(TAG, "ext: " + ext);
 
                 //Setting the Bitmap to ImageView
-                rentImgProfile.setImageBitmap(bitmap);
-                String isiimage = Tools.getStringImage(bitmap);
+//                rentImgProfile.setImageBitmap(bitmap);
+                String isiimage = Tools.getStringImageView(bitmap, rentImgProfile);
 
                 imgString = ext +"," + isiimage;
 

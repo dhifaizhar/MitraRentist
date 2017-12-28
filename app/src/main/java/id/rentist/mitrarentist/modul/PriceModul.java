@@ -5,7 +5,7 @@ package id.rentist.mitrarentist.modul;
  */
 
 public class PriceModul {
-    private String mRangeName, mPrice, mStartDate, mEndDate;
+    private String mRangeName, mPrice, mStartDate, mEndDate, mDriverPrice;
 
     public void setRangeName(String mRangeName) {
         this.mRangeName = mRangeName;
@@ -19,6 +19,13 @@ public class PriceModul {
     }
     public String getPrice() {
         return mPrice;
+    }
+
+    public void setDriverPrice(String mDriverPrice) {
+        this.mDriverPrice = mDriverPrice;
+    }
+    public String getDriverPrice() {
+        return mDriverPrice;
     }
 
     public void setStartDate(String mStartDate) {

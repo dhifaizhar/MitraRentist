@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:padding="@dimen/med_padding">
+
+    <TextView
+        android:id="@+id/textView32"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="@dimen/xmin_padding"
+        android:layout_marginTop="@dimen/med_padding"
+        android:padding="@dimen/min_padding"
+        android:text="@string/slide_2_title"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/large_text"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/textView16"
+        android:layout_alignWithParentIfMissing="false"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="@dimen/med_padding"
+        app:srcCompat="@drawable/ic_info_outline_white_48dp" />
+
+    <TextView
+        android:id="@+id/textView16"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/fastscroll__bubble_size"
+        android:layout_marginTop="@dimen/xmin_padding"
+        android:padding="@dimen/min_padding"
+        android:text="@string/slide_2_desc"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/medium_text" />
+
+</RelativeLayout>

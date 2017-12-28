@@ -37,7 +37,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginBottom="@dimen/xmin_padding"
-                        android:background="@color/colorPrimary"
                         android:padding="@dimen/min_padding">
 
                         <TextView
@@ -48,7 +47,7 @@
                             android:layout_centerVertical="true"
                             android:text="Detail Aset"
                             android:textAlignment="center"
-                            android:textColor="@color/colorWhite"
+                            android:textColor="@color/colorPrimary"
                             android:textSize="@dimen/medium_text"
                             android:textStyle="bold" />
 
@@ -375,8 +374,16 @@
                                 android:layout_width="@dimen/thumb_width"
                                 android:layout_height="@dimen/thumb_width"
                                 android:layout_centerHorizontal="true"
-                                android:src="@drawable/no_image" />
+                                android:src="@drawable/add_picture" />
 
+                            <Button
+                                android:id="@+id/btnUploadFoto"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/stnk_image"
+                                android:layout_centerHorizontal="true"
+                                android:layout_margin="@dimen/xmin_padding"
+                                android:text="Pilih Gambar" />
 
                             <ImageButton
                                 android:id="@+id/btn_camera"
@@ -385,7 +392,8 @@
                                 android:layout_marginTop="@dimen/xmin_padding"
                                 android:layout_toEndOf="@+id/stnk_image"
                                 android:clickable="true"
-                                android:src="@drawable/ic_camera_alt_black_18dp" />
+                                android:src="@drawable/ic_camera_alt_black_18dp"
+                                android:visibility="gone" />
 
                             <ImageButton
                                 android:id="@+id/btn_photo"
@@ -394,7 +402,8 @@
                                 android:layout_below="@+id/btn_camera"
                                 android:layout_toEndOf="@+id/stnk_image"
                                 android:clickable="true"
-                                android:src="@drawable/ic_attach_file_black_18dp" />
+                                android:src="@drawable/ic_attach_file_black_18dp"
+                                android:visibility="gone" />
                         </RelativeLayout>
 
 
@@ -423,8 +432,8 @@
                             android:hint="Nomor Rangka"
                             android:imeOptions="actionNext"
                             android:inputType="textCapCharacters"
-                            android:padding="@dimen/min_padding"
                             android:maxLength="17"
+                            android:padding="@dimen/min_padding"
                             android:text="" />
                     </LinearLayout>
 
@@ -451,8 +460,8 @@
                             android:hint="Nomor Mesin"
                             android:imeOptions="actionNone"
                             android:inputType="textCapCharacters"
-                            android:padding="@dimen/min_padding"
                             android:maxLength="12"
+                            android:padding="@dimen/min_padding"
                             android:text="" />
                     </LinearLayout>
 
@@ -470,33 +479,33 @@
                             android:textSize="12sp" />
 
                         <!--<RadioGroup-->
-                            <!--android:id="@+id/estimate_price_group"-->
-                            <!--android:layout_width="match_parent"-->
-                            <!--android:layout_height="match_parent"-->
-                            <!--android:background="@color/colorNearWhite"-->
-                            <!--android:checkedButton="@+id/r_manual"-->
-                            <!--android:orientation="vertical"-->
-                            <!--android:padding="@dimen/xmin_padding"-->
-                            <!--android:visibility="gone">-->
+                        <!--android:id="@+id/estimate_price_group"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="match_parent"-->
+                        <!--android:background="@color/colorNearWhite"-->
+                        <!--android:checkedButton="@+id/r_manual"-->
+                        <!--android:orientation="vertical"-->
+                        <!--android:padding="@dimen/xmin_padding"-->
+                        <!--android:visibility="gone">-->
 
-                            <!--<RadioButton-->
-                                <!--android:id="@+id/r_500jt"-->
-                                <!--android:layout_width="wrap_content"-->
-                                <!--android:layout_height="wrap_content"-->
-                                <!--android:layout_marginEnd="10dp"-->
-                                <!--android:layout_weight="1"-->
-                                <!--android:buttonTint="@color/colorPrimary"-->
-                                <!--android:checked="true"-->
-                                <!--android:contextClickable="false"-->
-                                <!--android:text=" Kurang dari 500 Juta" />-->
+                        <!--<RadioButton-->
+                        <!--android:id="@+id/r_500jt"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginEnd="10dp"-->
+                        <!--android:layout_weight="1"-->
+                        <!--android:buttonTint="@color/colorPrimary"-->
+                        <!--android:checked="true"-->
+                        <!--android:contextClickable="false"-->
+                        <!--android:text=" Kurang dari 500 Juta" />-->
 
-                            <!--<RadioButton-->
-                                <!--android:id="@+id/r_1m"-->
-                                <!--android:layout_width="wrap_content"-->
-                                <!--android:layout_height="wrap_content"-->
-                                <!--android:layout_weight="1"-->
-                                <!--android:buttonTint="@color/colorPrimary"-->
-                                <!--android:text=" Kurang dari 1 Miliar" />-->
+                        <!--<RadioButton-->
+                        <!--android:id="@+id/r_1m"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_weight="1"-->
+                        <!--android:buttonTint="@color/colorPrimary"-->
+                        <!--android:text=" Kurang dari 1 Miliar" />-->
 
                         <!--</RadioGroup>-->
 
@@ -510,9 +519,9 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
                                 android:text="Kurang dari "
                                 android:textColor="@color/colorBlack"
-                                android:layout_gravity="center_vertical"
                                 android:textSize="12sp" />
 
                             <Spinner
@@ -574,7 +583,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/xmin_padding"
-                        android:background="@color/colorPrimary"
                         android:padding="@dimen/min_padding">
 
                         <TextView
@@ -585,7 +593,7 @@
                             android:layout_centerVertical="true"
                             android:text="Fitur Aset"
                             android:textAlignment="center"
-                            android:textColor="@color/colorWhite"
+                            android:textColor="@color/colorPrimary"
                             android:textSize="@dimen/medium_text"
                             android:textStyle="bold" />
 
@@ -1182,7 +1190,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/xmin_padding"
-                        android:background="@color/colorPrimary"
                         android:padding="@dimen/min_padding">
 
                         <TextView
@@ -1192,7 +1199,7 @@
                             android:layout_centerVertical="true"
                             android:text="Syarat Sewa"
                             android:textAlignment="center"
-                            android:textColor="@color/colorWhite"
+                            android:textColor="@color/colorPrimary"
                             android:textSize="@dimen/medium_text"
                             android:textStyle="bold" />
 
@@ -1361,7 +1368,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/xmin_padding"
-                        android:background="@color/colorPrimary"
                         android:padding="@dimen/min_padding">
 
                         <TextView
@@ -1372,7 +1378,7 @@
                             android:layout_centerVertical="true"
                             android:text="@string/label_harga_sewa"
                             android:textAlignment="center"
-                            android:textColor="@color/colorWhite"
+                            android:textColor="@color/colorPrimary"
                             android:textSize="@dimen/medium_text"
                             android:textStyle="bold" />
 
@@ -1407,59 +1413,151 @@
 
                         </LinearLayout>
 
-                        <RelativeLayout
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
 
-                            <EditText
-                                android:id="@+id/as_price_basic"
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <EditText
+                                    android:id="@+id/as_price_basic"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:background="@color/colorNearWhite"
+                                    android:ems="10"
+                                    android:hint="0"
+                                    android:maxLength="11"
+                                    android:padding="@dimen/min_padding"
+                                    android:inputType="number"
+                                    />
+
+                                <TextView
+                                    android:id="@+id/idra"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginEnd="@dimen/min_padding"
+                                    android:text="IDR"
+                                    android:textColor="@color/colorGrey"
+                                    android:textSize="@dimen/medium_text" />
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:id="@+id/disptext"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/small_space"
+                                    android:text=""
+                                    android:textColor="@color/colorGrey"
+                                    android:textSize="@dimen/almost_tiny_text" />
+
+                                <TextView
+                                    android:id="@+id/as_price_basic_disp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_marginTop="@dimen/small_space"
+                                    android:layout_toEndOf="@+id/disptext"
+                                    android:text="0 IDR"
+                                    android:textAlignment="textEnd"
+                                    android:textColor="@color/colorPrice"
+                                    android:textSize="@dimen/under_small_text" />
+                            </RelativeLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/con_basic_price_wdriver"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_marginTop="@dimen/xmin_padding">
+
+                            <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:background="@color/colorNearWhite"
-                                android:ems="10"
-                                android:hint="0"
-                                android:maxLength="11"
-                                android:padding="@dimen/min_padding"
-                                android:inputType="number"
-                                />
+                                android:orientation="horizontal">
 
-                            <TextView
-                                android:id="@+id/idra"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentEnd="true"
-                                android:layout_centerVertical="true"
-                                android:layout_marginEnd="@dimen/min_padding"
-                                android:text="IDR"
-                                android:textColor="@color/colorGrey"
-                                android:textSize="@dimen/medium_text" />
-                        </RelativeLayout>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Input Harga (dengan Pengemudi)"
+                                    android:textColor="@color/colorBlack"
+                                    android:textSize="12sp" />
 
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="@dimen/xmin_padding"
+                                    android:text="*Wajib diisi"
+                                    android:textColor="@color/colorGrey"
+                                    android:textSize="@dimen/almost_tiny_text" />
 
-                            <TextView
-                                android:id="@+id/disptext"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/small_space"
-                                android:text=""
-                                android:textColor="@color/colorGrey"
-                                android:textSize="@dimen/almost_tiny_text" />
+                            </LinearLayout>
 
-                            <TextView
-                                android:id="@+id/as_price_basic_disp"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentEnd="true"
-                                android:layout_marginTop="@dimen/small_space"
-                                android:layout_toEndOf="@+id/disptext"
-                                android:text="0 IDR"
-                                android:textAlignment="textEnd"
-                                android:textColor="@color/colorPrice"
-                                android:textSize="@dimen/under_small_text" />
-                        </RelativeLayout>
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <EditText
+                                    android:id="@+id/as_basic_price_wdriver"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:background="@color/colorNearWhite"
+                                    android:ems="10"
+                                    android:hint="0"
+                                    android:maxLength="11"
+                                    android:padding="@dimen/min_padding"
+                                    android:inputType="number"
+                                    android:layout_alignParentTop="true"
+                                    android:layout_alignParentStart="true" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginEnd="@dimen/min_padding"
+                                    android:text="IDR"
+                                    android:textColor="@color/colorGrey"
+                                    android:textSize="@dimen/medium_text" />
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:id="@+id/basic_price_wdriver_disptext"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/small_space"
+                                    android:text=""
+                                    android:textColor="@color/colorGrey"
+                                    android:textSize="@dimen/almost_tiny_text" />
+
+                                <TextView
+                                    android:id="@+id/as_basic_price_wdriver_disp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_marginTop="@dimen/small_space"
+                                    android:layout_toEndOf="@+id/basic_price_wdriver_disptext"
+                                    android:text="0 IDR"
+                                    android:textAlignment="textEnd"
+                                    android:textColor="@color/colorPrice"
+                                    android:textSize="@dimen/under_small_text" />
+                            </RelativeLayout>
+
+                        </LinearLayout>
 
                     </LinearLayout>
 
@@ -1488,17 +1586,6 @@
                                 android:text="Nama Periode"
                                 android:textColor="@color/colorBlack"
                                 android:textSize="12sp" />
-
-                            <!--<EditText-->
-                            <!--android:id="@+id/as_range_name"-->
-                            <!--android:layout_width="match_parent"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:background="@color/colorNearWhite"-->
-                            <!--android:ems="10"-->
-                            <!--android:hint="Nama Periode"-->
-                            <!--android:inputType="textPersonName|textCapWords"-->
-                            <!--android:padding="@dimen/min_padding"-->
-                            <!--android:text="" />-->
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -1646,6 +1733,83 @@
                                     android:textColor="@color/colorPrice"
                                     android:textSize="@dimen/under_small_text" />
                             </RelativeLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/con_advance_price_wdriver"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="@dimen/xmin_padding">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Input Harga (dengan Pengemudi)"
+                                    android:textColor="@color/colorBlack"
+                                    android:textSize="12sp" />
+
+                            </LinearLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <EditText
+                                    android:id="@+id/as_advance_price_wdriver"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:background="@color/colorNearWhite"
+                                    android:ems="10"
+                                    android:hint="0"
+                                    android:maxLength="11"
+                                    android:padding="@dimen/min_padding"
+                                    android:inputType="number"
+                                    android:layout_alignParentTop="true"
+                                    android:layout_alignParentStart="true" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginEnd="@dimen/min_padding"
+                                    android:text="IDR"
+                                    android:textColor="@color/colorGrey"
+                                    android:textSize="@dimen/medium_text" />
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:id="@+id/advance_price_wdriver_disptext"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/small_space"
+                                    android:text=""
+                                    android:textColor="@color/colorGrey"
+                                    android:textSize="@dimen/almost_tiny_text" />
+
+                                <TextView
+                                    android:id="@+id/as_advance_price_wdriver_disp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_marginTop="@dimen/small_space"
+                                    android:layout_toEndOf="@+id/advance_price_wdriver_disptext"
+                                    android:text="0 IDR"
+                                    android:textAlignment="textEnd"
+                                    android:textColor="@color/colorPrice"
+                                    android:textSize="@dimen/under_small_text" />
+                            </RelativeLayout>
+
                         </LinearLayout>
 
                     </LinearLayout>
@@ -1821,6 +1985,83 @@
                             </RelativeLayout>
                         </LinearLayout>
 
+                        <LinearLayout
+                            android:id="@+id/con_advance_price2_wdriver"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="@dimen/xmin_padding">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Input Harga (dengan Pengemudi)"
+                                    android:textColor="@color/colorBlack"
+                                    android:textSize="12sp" />
+
+                            </LinearLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <EditText
+                                    android:id="@+id/as_advance_price2_wdriver"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:background="@color/colorNearWhite"
+                                    android:ems="10"
+                                    android:hint="0"
+                                    android:maxLength="11"
+                                    android:padding="@dimen/min_padding"
+                                    android:inputType="number"
+                                    android:layout_alignParentTop="true"
+                                    android:layout_alignParentStart="true" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginEnd="@dimen/min_padding"
+                                    android:text="IDR"
+                                    android:textColor="@color/colorGrey"
+                                    android:textSize="@dimen/medium_text" />
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:id="@+id/advance_price2_wdriver_disptext"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/small_space"
+                                    android:text=""
+                                    android:textColor="@color/colorGrey"
+                                    android:textSize="@dimen/almost_tiny_text" />
+
+                                <TextView
+                                    android:id="@+id/as_advance2_price_wdriver_disp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_marginTop="@dimen/small_space"
+                                    android:layout_toEndOf="@+id/advance_price2_wdriver_disptext"
+                                    android:text="0 IDR"
+                                    android:textAlignment="textEnd"
+                                    android:textColor="@color/colorPrice"
+                                    android:textSize="@dimen/under_small_text" />
+                            </RelativeLayout>
+
+                        </LinearLayout>
+
                     </LinearLayout>
 
                     <LinearLayout
@@ -1834,7 +2075,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
                             android:background="@android:color/darker_gray" />
-
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -1994,6 +2234,83 @@
                                     android:textColor="@color/colorPrice"
                                     android:textSize="@dimen/under_small_text" />
                             </RelativeLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/con_advance_price3_wdriver"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="@dimen/xmin_padding">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Input Harga (dengan Pengemudi)"
+                                    android:textColor="@color/colorBlack"
+                                    android:textSize="12sp" />
+
+                            </LinearLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <EditText
+                                    android:id="@+id/as_advance_price3_wdriver"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:background="@color/colorNearWhite"
+                                    android:ems="10"
+                                    android:hint="0"
+                                    android:maxLength="11"
+                                    android:padding="@dimen/min_padding"
+                                    android:inputType="number"
+                                    android:layout_alignParentTop="true"
+                                    android:layout_alignParentStart="true" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginEnd="@dimen/min_padding"
+                                    android:text="IDR"
+                                    android:textColor="@color/colorGrey"
+                                    android:textSize="@dimen/medium_text" />
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:id="@+id/advance_price3_wdriver_disptext"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/small_space"
+                                    android:text=""
+                                    android:textColor="@color/colorGrey"
+                                    android:textSize="@dimen/almost_tiny_text" />
+
+                                <TextView
+                                    android:id="@+id/as_advance3_price_wdriver_disp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_marginTop="@dimen/small_space"
+                                    android:layout_toEndOf="@+id/advance_price3_wdriver_disptext"
+                                    android:text="0 IDR"
+                                    android:textAlignment="textEnd"
+                                    android:textColor="@color/colorPrice"
+                                    android:textSize="@dimen/under_small_text" />
+                            </RelativeLayout>
+
                         </LinearLayout>
 
                     </LinearLayout>
@@ -2167,6 +2484,83 @@
                                     android:textColor="@color/colorPrice"
                                     android:textSize="@dimen/under_small_text" />
                             </RelativeLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/con_advance_price4_wdriver"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="@dimen/xmin_padding">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Input Harga (dengan Pengemudi)"
+                                    android:textColor="@color/colorBlack"
+                                    android:textSize="12sp" />
+
+                            </LinearLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <EditText
+                                    android:id="@+id/as_advance_price4_wdriver"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:background="@color/colorNearWhite"
+                                    android:ems="10"
+                                    android:hint="0"
+                                    android:maxLength="11"
+                                    android:padding="@dimen/min_padding"
+                                    android:inputType="number"
+                                    android:layout_alignParentTop="true"
+                                    android:layout_alignParentStart="true" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginEnd="@dimen/min_padding"
+                                    android:text="IDR"
+                                    android:textColor="@color/colorGrey"
+                                    android:textSize="@dimen/medium_text" />
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:id="@+id/advance_price4_wdriver_disptext"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/small_space"
+                                    android:text=""
+                                    android:textColor="@color/colorGrey"
+                                    android:textSize="@dimen/almost_tiny_text" />
+
+                                <TextView
+                                    android:id="@+id/as_advance4_price_wdriver_disp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_marginTop="@dimen/small_space"
+                                    android:layout_toEndOf="@+id/advance_price4_wdriver_disptext"
+                                    android:text="0 IDR"
+                                    android:textAlignment="textEnd"
+                                    android:textColor="@color/colorPrice"
+                                    android:textSize="@dimen/under_small_text" />
+                            </RelativeLayout>
+
                         </LinearLayout>
 
                     </LinearLayout>

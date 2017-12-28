@@ -18,19 +18,8 @@
             android:id="@+id/imageView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/logo_white_250" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginTop="@dimen/xmin_padding"
-            android:padding="@dimen/min_padding"
-            android:text="@string/app_slogan"
-            android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/medium_text" />
+            android:padding="@dimen/med_padding"
+            app:srcCompat="@drawable/ss_1" />
 
     </LinearLayout>
 </RelativeLayout>

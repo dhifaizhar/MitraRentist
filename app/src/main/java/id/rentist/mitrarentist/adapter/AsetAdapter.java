@@ -129,8 +129,14 @@ public class AsetAdapter extends RecyclerView.Adapter<AsetAdapter.ViewHolder> {
                 viewHolder.status.setTextColor(0xffff5050);
             }
 
-            if(as.getVerif().equals("true")){ viewHolder.verifIco.setVisibility(View.VISIBLE);}
-            else { viewHolder.verifNotif.setVisibility(View.VISIBLE); }
+            if(as.getVerif().equals("true")){
+                viewHolder.verifIco.setVisibility(View.VISIBLE);
+                viewHolder.verifNotif.setVisibility(View.GONE);
+            }
+            else {
+                viewHolder.verifNotif.setVisibility(View.VISIBLE);
+                viewHolder.verifIco.setVisibility(View.GONE);
+            }
 
             if (!category.equals("10") && !category.equals("3")){
                 viewHolder.year.setText(as.getYear());

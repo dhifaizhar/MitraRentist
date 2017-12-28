@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="@dimen/xmin_padding"
-    android:background="@color/colorBackgound"
+    android:background="#ffffff"
     tools:context="id.rentist.mitrarentist.DashboardActivity"
     tools:showIn="@layout/app_bar_dashboard">
 
@@ -20,13 +19,95 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal"
+                    android:paddingTop="10dp">
+
+                    <TextView
+                        android:id="@+id/rentName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/btn_lmedium_height"
+                        android:padding="@dimen/xmin_padding"
+                        android:text="Royal Rental"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="@dimen/xlarge_text"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/navRentVerif"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@id/rentName"
+                        android:padding="@dimen/min_padding"
+                        android:src="@drawable/ic_check_green" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/rl_rev_poin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal"
+                    android:paddingBottom="5dp">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@id/rentName"
+                        android:padding="@dimen/min_padding"
+                        android:src="@drawable/point_rentist" />
+
+                    <TextView
+                        android:id="@+id/val_poin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/btn_medium_height"
+                        android:padding="@dimen/xmin_padding"
+                        android:text="0"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="@dimen/large_text"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+
+                <com.github.ybq.android.spinkit.SpinKitView
+                    android:id="@+id/progressBar"
+                    style="@style/SpinKitView.FadingCircle"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/btn_lmedium_height"
+                    android:layout_alignParentTop="false"
+                    android:layout_centerInParent="true"
+                    android:background="@color/colorPrimary"
+                    android:padding="@dimen/min_padding"
+                    android:visibility="gone"
+                    app:SpinKit_Color="@color/colorWhite" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/account_data_notif"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/xmin_padding"
-                android:background="@color/colorOrangeSoft"
+                android:background="@color/colorDanger"
                 android:orientation="horizontal"
-                android:padding="@dimen/min_padding">
+                android:paddingBottom="@dimen/min_padding"
+                android:paddingLeft="@dimen/min_padding"
+                android:paddingRight="@dimen/min_padding"
+
+                >
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -37,30 +118,28 @@
                     <TextView
                         android:id="@+id/textView43"
                         android:layout_width="match_parent"
+                        android:paddingTop="15dp"
+                        android:paddingLeft="10dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/xmin_padding"
                         android:text="Mohon Lengkapi Informasi Akun Anda!"
-                        android:textColor="?android:attr/colorMultiSelectHighlight"
+                        android:textColor="@color/colorWhite"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/toFormProfile"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:linksClickable="true"
-                        android:text="@string/perbarui_akun_notif"
-                        android:textColor="?attr/colorPrimary" />
-
                 </LinearLayout>
 
-                <ImageView
-                    android:id="@+id/imageView"
+                <TextView
+                    android:id="@+id/toFormProfile"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
+                    android:background="@color/colorGreenRe"
+                    android:linksClickable="true"
+                    android:layout_marginTop="@dimen/min_padding"
+                    android:textSize="16sp"
                     android:padding="@dimen/xmin_padding"
-                    app:srcCompat="@android:drawable/stat_notify_error" />
+                    android:text="Disini"
+                    android:textColor="@color/colorWhite"
+                    android:textStyle="bold"/>
 
             </LinearLayout>
 
@@ -86,6 +165,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
+                        android:paddingLeft="15dp"
                         android:text="Akun Anda Sedang Diverifikasi"
                         android:textColor="?android:attr/colorMultiSelectHighlight"
                         android:textSize="16sp"
@@ -102,52 +182,6 @@
 
             </LinearLayout>
 
-            <!--head breadsrumb-->
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/xmin_padding"
-                android:background="@color/colorPrimary">
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerInParent="true"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/rentName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/btn_lmedium_height"
-                        android:padding="@dimen/min_padding"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/large_text"
-                        android:textStyle="bold" />
-
-                    <ImageView
-                        android:id="@+id/navRentVerif"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_toEndOf="@id/rentName"
-                        android:src="@drawable/ic_check_circle_white_24dp" />
-
-                </RelativeLayout>
-
-                <com.github.ybq.android.spinkit.SpinKitView
-                    android:id="@+id/progressBar"
-                    style="@style/SpinKitView.FadingCircle"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/btn_lmedium_height"
-                    android:layout_alignParentTop="false"
-                    android:layout_centerInParent="true"
-                    android:background="@color/colorPrimary"
-                    android:padding="@dimen/min_padding"
-                    android:visibility="gone"
-                    app:SpinKit_Color="@color/colorWhite" />
-            </RelativeLayout>
 
             <!--head breadsrumb-->
 
@@ -210,23 +244,22 @@
             <RelativeLayout
                 android:id="@+id/rl_new_trans"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/explorer_item_size"
+                android:layout_height="wrap_content"
                 android:background="@color/colorWhite"
                 android:clickable="true">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_toStartOf="@+id/btn_to_det_new_trans">
+                    android:layout_height="wrap_content">
+                    <!--android:layout_toStartOf="@+id/btn_to_det_new_trans">-->
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:gravity="center"
                         android:orientation="vertical"
                         android:padding="@dimen/xmin_padding"
-                        android:paddingEnd="@dimen/fab_margin"
                         android:paddingStart="@dimen/fab_margin">
 
                         <TextView
@@ -234,67 +267,104 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="50sp"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="100sp"
                             android:textStyle="bold" />
 
-                        <TextView
-                            android:id="@+id/new_trans_info"
+                        <LinearLayout
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="PESANAN BARU"
-                            android:textSize="@dimen/medium_text" />
+                            android:layout_height="match_parent"
+                            android:layout_centerVertical="true"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            android:paddingEnd="@dimen/fab_margin"
+                            android:paddingStart="@dimen/fab_margin">
+
+
+                            <ImageView
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_centerVertical="true"
+                                android:layout_toEndOf="@id/rentName"
+                                android:padding="10dp"
+                                android:src="@drawable/ic_order_green" />
+
+
+                            <TextView
+                                android:id="@+id/new_trans_info"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Pesanan Baru"
+                                android:textColor="@color/colorBlack"
+                                android:textSize="@dimen/medium_text"
+                                android:textStyle="bold" />
+
+                            <ImageButton
+                                android:id="@+id/btn_to_det_new_trans"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentTop="true"
+                                android:layout_marginLeft="40dp"
+                                android:background="@color/colorWhite"
+                                app:srcCompat="@drawable/ic_chevron_right_black_36dp" />
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="2dp"
+                            android:layout_gravity="left"
+                            android:layout_marginBottom="@dimen/xmin_padding"
+                            android:layout_marginLeft="70dp"
+                            android:layout_marginRight="70dp"
+                            android:background="@color/colorGreenRe"
+
+                            />
 
                     </LinearLayout>
 
                 </RelativeLayout>
-
-                <ImageButton
-                    android:id="@+id/btn_to_det_new_trans"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentTop="true"
-                    android:background="@color/colorNearWhite"
-                    app:srcCompat="@drawable/ic_chevron_right_black_36dp" />
 
             </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/rl_rev_saldo"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/breadcrumb_height"
-                android:layout_marginBottom="@dimen/xmin_padding"
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
                 android:clickable="true"
-                android:background="@color/colorPrimarySoft">
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginEnd="@dimen/btn_medium_height"
+                    android:layout_toStartOf="@+id/btn_to_saldo"
                     android:layout_marginStart="@dimen/min_padding"
                     android:orientation="horizontal"
                     android:padding="@dimen/xmin_padding"
-                    android:paddingEnd="@dimen/fab_margin"
+                    android:paddingEnd="@dimen/min_padding"
                     android:paddingStart="@dimen/fab_margin">
 
                     <TextView
                         android:id="@+id/text_saldo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="SALDO"
-                        android:textSize="@dimen/medium_text" />
+                        android:text="Saldo"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/medium_text"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/val_saldo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="0"
+                        android:text="0 IDR"
                         android:textAlignment="textEnd"
-                        android:textColor="@color/colorPrice"
+                        android:textColor="@color/colorGreenRe"
                         android:textSize="22sp"
                         android:textStyle="bold" />
 
@@ -304,66 +374,29 @@
                     android:id="@+id/btn_to_saldo"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:background="@color/colorNearWhite"
-                    app:srcCompat="@drawable/ic_chevron_right_black_36dp"
+                    android:layout_alignParentEnd="true"
                     android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true" />
+                    android:background="@color/colorWhite"
+                    app:srcCompat="@drawable/ic_chevron_right_black_36dp" />
 
             </RelativeLayout>
 
-            <RelativeLayout
-                android:id="@+id/rl_rev_poin"
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/breadcrumb_height"
+                android:layout_height="2dp"
+                android:layout_gravity="left"
                 android:layout_marginBottom="@dimen/xmin_padding"
-                android:background="@color/colorWhite">
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:background="@color/colorGrey"
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="@dimen/min_padding"
-                    android:layout_marginStart="@dimen/min_padding"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/xmin_padding"
-                    android:paddingEnd="@dimen/fab_margin"
-                    android:paddingStart="@dimen/fab_margin">
-
-                    <TextView
-                        android:id="@+id/text_poinaa"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/xmin_padding"
-                        android:text="Anda Memiliki "
-                        android:textSize="20sp" />
-
-                    <TextView
-                        android:id="@+id/val_poin"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="0"
-                        android:textAlignment="textEnd"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/text_poin"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/xmin_padding"
-                        android:text="Poin"
-                        android:textSize="20sp" />
-
-
-                </LinearLayout>
-
-            </RelativeLayout>
+                />
 
             <TableLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/med_padding"
+                android:padding="@dimen/med_padding">
 
                 <TableRow
                     android:layout_width="match_parent"
@@ -377,38 +410,50 @@
                         android:layout_column="0"
                         android:layout_marginEnd="2.5dp"
                         android:layout_weight="1"
-                        android:background="@color/colorWhite"
+                        android:background="@drawable/rounded_menu_nilai"
                         android:orientation="vertical"
-                        android:padding="@dimen/med_padding"
-                        >
+                        android:padding="@dimen/med_padding">
+
+                        <View
+                            android:layout_width="60dp"
+                            android:layout_height="5dp"
+                            android:layout_gravity="left"
+                            android:layout_marginBottom="@dimen/xmin_padding"
+                            android:background="@color/colorWhite"
+
+                            />
 
                         <TextView
                             android:id="@+id/stat_info"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/xmin_padding"
-                            android:gravity="center"
+                            android:gravity="left"
                             android:text="Nilai"
-                            android:textSize="@dimen/small_text" />
-
-                        <ImageView
-                            android:id="@+id/img_stat"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/btn_medium_height"
-                            android:layout_gravity="center"
-                            android:layout_marginBottom="@dimen/xmin_padding"
-                            android:layout_marginTop="@dimen/xmin_padding"
-                            app:srcCompat="@drawable/rating_ico" />
+                            android:textStyle="bold"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="@dimen/medium_text" />
 
                         <TextView
                             android:id="@+id/val_sum_rating"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="0"
-                            android:textAlignment="center"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/large_text"
+                            android:textAlignment="textStart"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="50dp"
                             android:textStyle="bold" />
+
+
+                        <ImageView
+                            android:id="@+id/img_stat"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="right"
+                            android:layout_marginBottom="@dimen/xmin_padding"
+                            android:layout_marginTop="@dimen/xmin_padding"
+                            app:srcCompat="@drawable/ic_menu_nilai" />
+
 
                     </LinearLayout>
 
@@ -419,37 +464,48 @@
                         android:layout_column="1"
                         android:layout_marginStart="2.5dp"
                         android:layout_weight="1"
-                        android:background="@color/colorWhite"
+                        android:background="@drawable/rounded_menu_aset"
                         android:orientation="vertical"
                         android:padding="@dimen/med_padding">
+
+                        <View
+                            android:layout_width="60dp"
+                            android:layout_height="5dp"
+                            android:layout_gravity="left"
+                            android:layout_marginBottom="@dimen/xmin_padding"
+                            android:background="@color/colorWhite"
+
+                            />
 
                         <TextView
                             android:id="@+id/stat_info_2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/xmin_padding"
-                            android:gravity="center"
-                            android:text="Jumlah Aset"
-                            android:textSize="@dimen/small_text" />
-
-                        <ImageView
-                            android:id="@+id/img_stat_2"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/btn_medium_height"
-                            android:layout_gravity="center"
-                            android:layout_marginBottom="@dimen/xmin_padding"
-                            android:layout_marginTop="@dimen/xmin_padding"
-                            app:srcCompat="@drawable/asset_ico" />
+                            android:gravity="left"
+                            android:text="Aset"
+                            android:textStyle="bold"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="@dimen/medium_text"/>
 
                         <TextView
                             android:id="@+id/val_sum_asset"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="0"
-                            android:textAlignment="center"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/large_text"
+                            android:textAlignment="textStart"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="50dp"
                             android:textStyle="bold" />
+
+                        <ImageView
+                            android:id="@+id/img_stat_2"
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:layout_gravity="right"
+                            android:layout_marginBottom="@dimen/xmin_padding"
+                            android:layout_marginTop="@dimen/xmin_padding"
+                            app:srcCompat="@drawable/ic_menu_asset" />
 
                     </LinearLayout>
                 </TableRow>
@@ -465,37 +521,50 @@
                         android:layout_column="0"
                         android:layout_marginEnd="2.5dp"
                         android:layout_weight="1"
-                        android:background="@color/colorWhite"
+                        android:background="@drawable/rounded_menu_sukses"
                         android:orientation="vertical"
                         android:padding="@dimen/med_padding">
+
+
+                        <View
+                            android:layout_width="60dp"
+                            android:layout_height="5dp"
+                            android:layout_gravity="left"
+                            android:layout_marginBottom="@dimen/xmin_padding"
+                            android:background="@color/colorWhite"
+                            />
+
 
                         <TextView
                             android:id="@+id/stat_info_3"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/xmin_padding"
-                            android:gravity="center"
+                            android:gravity="left"
                             android:text="Sukses"
-                            android:textSize="@dimen/small_text" />
-
-                        <ImageView
-                            android:id="@+id/img_stat_3"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/btn_medium_height"
-                            android:layout_gravity="center"
-                            android:layout_marginBottom="@dimen/xmin_padding"
-                            android:layout_marginTop="@dimen/xmin_padding"
-                            app:srcCompat="@drawable/tr_complete_ico" />
+                            android:textStyle="bold"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="@dimen/medium_text" />
 
                         <TextView
                             android:id="@+id/val_success_rent"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="0"
-                            android:textAlignment="center"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/large_text"
+                            android:textAlignment="textStart"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="50dp"
                             android:textStyle="bold" />
+
+
+                        <ImageView
+                            android:id="@+id/img_stat_3"
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:layout_gravity="right"
+                            android:layout_marginBottom="@dimen/xmin_padding"
+                            android:layout_marginTop="@dimen/xmin_padding"
+                            app:srcCompat="@drawable/ic_menu_success" />
 
                     </LinearLayout>
 
@@ -505,37 +574,49 @@
                         android:layout_column="1"
                         android:layout_marginStart="2.5dp"
                         android:layout_weight="1"
-                        android:background="@color/colorWhite"
+                        android:background="@drawable/rounded_menu_berlangsung"
                         android:orientation="vertical"
                         android:padding="@dimen/med_padding">
+
+                        <View
+                            android:layout_width="60dp"
+                            android:layout_height="5dp"
+                            android:layout_gravity="left"
+                            android:layout_marginBottom="@dimen/xmin_padding"
+                            android:background="@color/colorWhite"
+
+                            />
 
                         <TextView
                             android:id="@+id/stat_info_4"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/xmin_padding"
-                            android:gravity="center"
-                            android:text="Sedang Berlangsung"
-                            android:textSize="@dimen/small_text" />
+                            android:gravity="left"
+                            android:text="Berlangsung"
+                            android:textStyle="bold"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="@dimen/medium_text" />
 
-                        <ImageView
-                            android:id="@+id/img_stat_4"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/btn_medium_height"
-                            android:layout_gravity="center"
-                            android:layout_marginBottom="@dimen/xmin_padding"
-                            android:layout_marginTop="@dimen/xmin_padding"
-                            app:srcCompat="@drawable/tr_on_progress_ico" />
 
                         <TextView
                             android:id="@+id/val_ongo_rent"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="0"
-                            android:textAlignment="center"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/large_text"
+                            android:textAlignment="textStart"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="50dp"
                             android:textStyle="bold" />
+
+                        <ImageView
+                            android:id="@+id/img_stat_4"
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:layout_gravity="right"
+                            android:layout_marginBottom="@dimen/xmin_padding"
+                            android:layout_marginTop="@dimen/xmin_padding"
+                            app:srcCompat="@drawable/ic_menu_berlangsung" />
 
                     </LinearLayout>
                 </TableRow>

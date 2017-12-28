@@ -969,18 +969,16 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/xmin_padding"
-                        android:background="@color/colorPrimary"
                         android:padding="@dimen/min_padding">
 
                         <TextView
-                            android:id="@+id/textView11"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentStart="true"
                             android:layout_centerVertical="true"
                             android:text="@string/label_harga_sewa"
                             android:textAlignment="center"
-                            android:textColor="@color/colorWhite"
+                            android:textColor="@color/colorPrimary"
                             android:textSize="@dimen/medium_text"
                             android:textStyle="bold" />
 

@@ -33,6 +33,10 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.hbb20.CountryCodePicker;
 import com.squareup.picasso.Picasso;
+import com.vansuita.pickimage.bean.PickResult;
+import com.vansuita.pickimage.bundle.PickSetup;
+import com.vansuita.pickimage.dialog.PickImageDialog;
+import com.vansuita.pickimage.listeners.IPickResult;
 
 import java.io.IOException;
 import java.util.Calendar;
@@ -146,10 +150,22 @@ public class FormDriverActivity extends AppCompatActivity {
         btnUploadFoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+//                Intent intent = new Intent();
+//                intent.setType("image/*");
+//                intent.setAction(Intent.ACTION_GET_CONTENT);
+//                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+
+                PickSetup setup = Tools.imagePickerSetup();
+                PickImageDialog.build(setup, new IPickResult() {
+                    @Override
+                    public void onPickResult(PickResult r) {
+                        r.getBitmap();
+                        r.getError();
+                        r.getUri();
+                        isiimage = Tools.getStringImageView(r.getBitmap(), profilePic);
+                        Log.e("onPickResult: ",isiimage );
+                    }
+                }).show(FormDriverActivity.this);
             }
         });
 
@@ -199,7 +215,7 @@ public class FormDriverActivity extends AppCompatActivity {
             valid = false;
         }
 
-        if(sim.getText().toString().isEmpty() || sim.getText().toString().length() < 10){
+        if(sim.getText().toString().isEmpty() || sim.getText().toString().length() < 12){
             sim.setError(getString(R.string.error_field_sim));
             valid = false;
         }

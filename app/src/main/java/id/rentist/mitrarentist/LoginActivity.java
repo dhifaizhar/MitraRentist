@@ -431,7 +431,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                     sm.setPreferences("foto_profil_tenant",tPic);
                     sm.setPreferences("verified", sVerif);
                     sm.setPreferences("tenant_code", sTenantCode);
-                    sm.setPreferences("no_ktp", sNoKTP.equals("null")?"-":sNoKTP);
+                    sm.setPreferences("no_ktp", sNoKTP.equals("null")?"":sNoKTP);
 
                     sm.setPreferences("rental_type", tenantObject.getString("rental_type"));
 

@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -43,6 +44,10 @@ import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.squareup.picasso.Picasso;
+import com.vansuita.pickimage.bean.PickResult;
+import com.vansuita.pickimage.bundle.PickSetup;
+import com.vansuita.pickimage.dialog.PickImageDialog;
+import com.vansuita.pickimage.listeners.IPickResult;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -101,6 +106,7 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
     private int SET_DELIVERY_PRICE = 15;
 
     //Image Initial
+    Button btnUploadFoto;
     String[] imagesArray = {AppConfig.URL_IMAGE_ASSETS + "default.png"};
     int img = 0;
     ImageView aImgSTNK, aMainImage, aSecondImage, aThirdImage, aFourthImage, aFifthImage;
@@ -194,15 +200,17 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
         delThirdImage = (ImageButton) findViewById(R.id.delete_third_image);
         delFourthImage = (ImageButton) findViewById(R.id.delete_fourth_image);
         delFifthImage = (ImageButton) findViewById(R.id.delete_fifth_image);
-        btnFileSTNK = (ImageButton) findViewById(R.id.btn_photo);
-        btnCamSTNK = (ImageButton) findViewById(R.id.btn_camera);
-        btnCamSTNK.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(cameraIntent, CAMERA_REQUEST);
-            }
-        });
+        btnUploadFoto = (Button) findViewById(R.id.btnUploadFoto);
+
+//        btnFileSTNK = (ImageButton) findViewById(R.id.btn_photo);
+//        btnCamSTNK = (ImageButton) findViewById(R.id.btn_camera);
+//        btnCamSTNK.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+//                startActivityForResult(cameraIntent, CAMERA_REQUEST);
+//            }
+//        });
 
         //Get Location
         aAddress.setOnClickListener(new View.OnClickListener() {
@@ -226,38 +234,107 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
         aMainImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showFileChooser("main");
+                PickSetup setup = Tools.imagePickerSetup();
+                PickImageDialog.build(setup, new IPickResult() {
+                    @Override
+                    public void onPickResult(PickResult r) {
+                        r.getBitmap();
+                        r.getError();
+                        r.getUri();
+                        imgStringMain = Tools.getStringImageView(r.getBitmap(), aMainImage);
+                        Log.e("onPickResult: ",imgStringMain);
+                        conSecondImage.setVisibility(View.VISIBLE);
+                    }
+                }).show((FragmentActivity) currentActivity);
             }
         });
         aSecondImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showFileChooser("second");
+                PickSetup setup = Tools.imagePickerSetup();
+                PickImageDialog.build(setup, new IPickResult() {
+                    @Override
+                    public void onPickResult(PickResult r) {
+                        r.getBitmap();
+                        r.getError();
+                        r.getUri();
+                        imgStringSecond = Tools.getStringImageView(r.getBitmap(), aSecondImage);
+                        Log.e("onPickResult: ",imgStringSecond);
+                        delSecondImage.setVisibility(View.VISIBLE);
+                        conThirdImage.setVisibility(View.VISIBLE);
+                    }
+                }).show((FragmentActivity) currentActivity);
             }
         });
         aThirdImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showFileChooser("third");
+                PickSetup setup = Tools.imagePickerSetup();
+                PickImageDialog.build(setup, new IPickResult() {
+                    @Override
+                    public void onPickResult(PickResult r) {
+                        r.getBitmap();
+                        r.getError();
+                        r.getUri();
+                        imgStringThird = Tools.getStringImageView(r.getBitmap(), aThirdImage);
+                        Log.e("onPickResult: ",imgStringThird);
+                        delThirdImage.setVisibility(View.VISIBLE);
+                        conFourthImage.setVisibility(View.VISIBLE);
+                    }
+                }).show((FragmentActivity) currentActivity);
             }
         });
         aFourthImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showFileChooser("fourth");
+                PickSetup setup = Tools.imagePickerSetup();
+                PickImageDialog.build(setup, new IPickResult() {
+                    @Override
+                    public void onPickResult(PickResult r) {
+                        r.getBitmap();
+                        r.getError();
+                        r.getUri();
+                        imgStringFourth = Tools.getStringImageView(r.getBitmap(), aFourthImage);
+                        Log.e("onPickResult: ",imgStringFourth);
+                        delFourthImage.setVisibility(View.VISIBLE);
+                        conFifthImage.setVisibility(View.VISIBLE);
+                    }
+                }).show((FragmentActivity) currentActivity);
             }
         });
         aFifthImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showFileChooser("fifth");
+                PickSetup setup = Tools.imagePickerSetup();
+                PickImageDialog.build(setup, new IPickResult() {
+                    @Override
+                    public void onPickResult(PickResult r) {
+                        r.getBitmap();
+                        r.getError();
+                        r.getUri();
+                        imgStringFifth = Tools.getStringImageView(r.getBitmap(), aFifthImage);
+                        Log.e("onPickResult: ",imgStringFifth);
+                        delFifthImage.setVisibility(View.VISIBLE);
+                    }
+                }).show((FragmentActivity) currentActivity);
             }
         });
 
-        btnFileSTNK.setOnClickListener(new View.OnClickListener() {
+        btnUploadFoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showFileChooser("STNK");
+//                showFileChooser("STNK");
+                PickSetup setup = Tools.imagePickerSetup();
+                PickImageDialog.build(setup, new IPickResult() {
+                    @Override
+                    public void onPickResult(PickResult r) {
+                        r.getBitmap();
+                        r.getError();
+                        r.getUri();
+                        imgStringSTNK = Tools.getStringImageView(r.getBitmap(), aImgSTNK);
+                        Log.e("onPickResult: ",imgStringSTNK);
+                    }
+                }).show((FragmentActivity) currentActivity);
             }
         });
 
@@ -993,9 +1070,9 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
 
         if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
             Bitmap photo = (Bitmap) data.getExtras().get("data");
-            String str64b = Tools.getStringImage(photo);
+            String str64b = Tools.getStringImageView(photo, aImgSTNK);
             imgStringSTNK = "image/jpeg," + str64b;
-            aImgSTNK.setImageBitmap(photo);
+//            aImgSTNK.setImageBitmap(photo);
         }
 
         if (requestCode == PICK_LOCATION_REQUEST){
@@ -1205,6 +1282,7 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                showProgress(false);
                 Log.e(TAG, "Price Check Fetch Error : " +  error.toString());
                 Toast.makeText(getApplicationContext(), "Connection error, try again.",
                         Toast.LENGTH_LONG).show();

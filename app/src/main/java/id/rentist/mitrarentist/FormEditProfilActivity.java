@@ -34,6 +34,10 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.hbb20.CountryCodePicker;
 import com.squareup.picasso.Picasso;
+import com.vansuita.pickimage.bean.PickResult;
+import com.vansuita.pickimage.bundle.PickSetup;
+import com.vansuita.pickimage.dialog.PickImageDialog;
+import com.vansuita.pickimage.listeners.IPickResult;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -166,10 +170,24 @@ public class FormEditProfilActivity extends AppCompatActivity {
         btnUploadFoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+//                Intent intent = new Intent();
+//                intent.setType("image/*");
+//                intent.setAction(Intent.ACTION_GET_CONTENT);
+//                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+
+                PickSetup setup = Tools.imagePickerSetup();
+                PickImageDialog.build(setup, new IPickResult() {
+                    @Override
+                    public void onPickResult(PickResult r) {
+                        r.getBitmap();
+                        r.getError();
+                        r.getUri();
+                        isiimage = Tools.getStringImageView(r.getBitmap(), profilePhoto);
+                        Log.e("onPickResult: ",isiimage );
+                    }
+                }).show(FormEditProfilActivity.this);
+
+
             }
         });
 

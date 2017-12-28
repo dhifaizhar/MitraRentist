@@ -5,12 +5,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
 
 import id.rentist.mitrarentist.R;
 import id.rentist.mitrarentist.modul.PriceModul;
+import id.rentist.mitrarentist.tools.PricingTools;
 import id.rentist.mitrarentist.tools.Tools;
 
 /**
@@ -47,8 +49,10 @@ public class PriceAdapter extends RecyclerView.Adapter<PriceAdapter.ViewHolder> 
 
         viewHolder.range_name.setText(price.getRangeName());
         viewHolder.price.setText(price.getPrice());
-
-
+        if (!price.getDriverPrice().equals("0")){
+            viewHolder.con_driver_price.setVisibility(View.VISIBLE);
+            viewHolder.driver_price.setText(PricingTools.PriceStringFormat(price.getDriverPrice()));
+        }
     }
 
     @Override
@@ -57,13 +61,16 @@ public class PriceAdapter extends RecyclerView.Adapter<PriceAdapter.ViewHolder> 
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView range_name, price, startDate, endDate, period, period_text;
+        private TextView range_name, price, driver_price, startDate, endDate, period, period_text;
+        LinearLayout con_driver_price;
         public ViewHolder(View itemView) {
             super(itemView);
             range_name = (TextView) itemView.findViewById(R.id.as_advance_rangename);
             price = (TextView) itemView.findViewById(R.id.as_advance_price);
             period_text = (TextView) itemView.findViewById(R.id.period);
             period = (TextView) itemView.findViewById(R.id.as_advance_period);
+            driver_price = (TextView) itemView.findViewById(R.id.as_driver_price);
+            con_driver_price = (LinearLayout) itemView.findViewById(R.id.con_driver_price);
         }
     }
 }

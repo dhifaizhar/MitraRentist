@@ -35,7 +35,6 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@color/colorPrimary"
                         android:padding="@dimen/min_padding">
 
                         <TextView
@@ -46,7 +45,7 @@
                             android:layout_centerVertical="true"
                             android:text="Detail Aset"
                             android:textAlignment="center"
-                            android:textColor="@color/colorWhite"
+                            android:textColor="@color/colorPrimary"
                             android:textSize="@dimen/medium_text"
                             android:textStyle="bold" />
 
@@ -388,8 +387,17 @@
                                 android:id="@+id/stnk_image"
                                 android:layout_width="@dimen/thumb_width"
                                 android:layout_height="@dimen/thumb_width"
-                                android:src="@drawable/no_image"
+                                android:src="@drawable/add_picture"
                                 android:layout_centerHorizontal="true"/>
+
+                            <Button
+                                android:id="@+id/btnUploadFoto"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/stnk_image"
+                                android:layout_centerHorizontal="true"
+                                android:layout_margin="@dimen/xmin_padding"
+                                android:text="Pilih Gambar" />
 
 
                             <ImageButton
@@ -400,6 +408,7 @@
                                 android:src="@drawable/ic_camera_alt_black_18dp"
                                 android:clickable="true"
                                 android:layout_marginTop="@dimen/xmin_padding"
+                                android:visibility="gone"
                                 />
 
                             <ImageButton
@@ -409,7 +418,9 @@
                                 android:clickable="true"
                                 android:layout_toEndOf="@+id/stnk_image"
                                 android:layout_below="@+id/btn_camera"
-                                android:src="@drawable/ic_attach_file_black_18dp" />
+                                android:src="@drawable/ic_attach_file_black_18dp"
+                                android:visibility="gone"
+                                />
                         </RelativeLayout>
 
 
@@ -519,7 +530,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/xmin_padding"
-                        android:background="@color/colorPrimary"
                         android:padding="@dimen/min_padding">
 
                         <TextView
@@ -530,7 +540,7 @@
                             android:layout_centerVertical="true"
                             android:text="Fitur Aset"
                             android:textAlignment="center"
-                            android:textColor="@color/colorWhite"
+                            android:textColor="@color/colorPrimary"
                             android:textSize="@dimen/medium_text"
                             android:textStyle="bold" />
 
@@ -1000,7 +1010,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/xmin_padding"
-                        android:background="@color/colorPrimary"
                         android:padding="@dimen/min_padding">
 
                         <TextView
@@ -1010,7 +1019,7 @@
                             android:layout_centerVertical="true"
                             android:text="Syarat Sewa"
                             android:textAlignment="center"
-                            android:textColor="@color/colorWhite"
+                            android:textColor="@color/colorPrimary"
                             android:textSize="@dimen/medium_text"
                             android:textStyle="bold" />
 
@@ -1185,7 +1194,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/xmin_padding"
-                        android:background="@color/colorPrimary"
                         android:padding="@dimen/min_padding">
 
                         <TextView
@@ -1196,7 +1204,7 @@
                             android:layout_centerVertical="true"
                             android:text="@string/label_harga_sewa"
                             android:textAlignment="center"
-                            android:textColor="@color/colorWhite"
+                            android:textColor="@color/colorPrimary"
                             android:textSize="@dimen/medium_text"
                             android:textStyle="bold" />
 

@@ -20,7 +20,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -63,7 +62,7 @@ public class TransDetailActivity extends AppCompatActivity {
 
     Button btnClosePopup;
     Button btnDriver;
-    ImageButton btnCamera;
+    ImageView btnCamera;
     private PopupWindow pwindow;
     private Intent itransDet;
 
@@ -171,7 +170,7 @@ public class TransDetailActivity extends AppCompatActivity {
         con_insurance = (LinearLayout) findViewById(R.id.detTrans_con_insurance);
         con_additonal = (LinearLayout) findViewById(R.id.detTrans_con_additional_feature);
         withDriverCheck = (ImageView) findViewById(R.id.detTrans_with_driver);
-        btnCamera = (ImageButton) findViewById(R.id.btn_camera);
+        btnCamera = (ImageView) findViewById(R.id.btn_camera);
         btnDriver = (Button) findViewById(R.id.btn_assign_driver);
 
         LinearLayout btnContainer = (LinearLayout) findViewById(R.id.btnContainer);
@@ -298,8 +297,47 @@ public class TransDetailActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
                     startActivityForResult(cameraIntent, CAMERA_REQUEST);
+
+//                    PickSetup setup = Tools.imagePickerSetup();
+//                    PickImageDialog.build(setup, new IPickResult() {
+//                        @Override
+//                        public void onPickResult(PickResult r) {
+//                            r.getBitmap();
+//                            r.getError();
+//                            r.getUri();
+//                            imgString = Tools.getStringImageView(r.getBitmap(), btnCamera);
+//                            Log.e("onPickResult: ",imgString + r.getError());
+//                        }
+//                    }).show(TransDetailActivity.this);
                 }
             });
+
+//            btnCamera.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    PickSetup setup = new PickSetup()
+//                            .setTitle("Pilih Gambar")
+//                            .setProgressText("Loading ...")
+//                            .setCancelText("Batal")
+//                            .setFlip(true)
+//                            .setMaxSize(500)
+//                            .setPickTypes(EPickType.CAMERA)
+//                            .setIconGravity(Gravity.LEFT)
+//                            .setButtonOrientation(LinearLayoutCompat.HORIZONTAL)
+//                            .setSystemDialog(false);
+//
+//                    PickImageDialog.build(setup, new IPickResult() {
+//                        @Override
+//                        public void onPickResult(PickResult r) {
+//                            r.getBitmap();
+//                            r.getError();
+//                            r.getUri();
+//                            imgString = Tools.getStringImageView(r.getBitmap(), btnCamera);
+//                            Log.e("onPickResult: ",imgString);
+//                        }
+//                    }).show(TransDetailActivity.this);
+//                }
+//            });
 
             btnAction.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -444,6 +482,7 @@ public class TransDetailActivity extends AppCompatActivity {
                     showProgress(false);
                 }
             });
+            showAlert.setCancelable(false);
 
             AlertDialog alertDialog = showAlert.create();
             alertDialog.show();

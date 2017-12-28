@@ -4,12 +4,10 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -41,12 +39,15 @@ import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.squareup.picasso.Picasso;
+import com.vansuita.pickimage.bean.PickResult;
+import com.vansuita.pickimage.bundle.PickSetup;
+import com.vansuita.pickimage.dialog.PickImageDialog;
+import com.vansuita.pickimage.listeners.IPickResult;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -206,31 +207,89 @@ public class FormBicycleAsetActivity extends AppCompatActivity {
         aMainImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showFileChooser("main");
+                PickSetup setup = Tools.imagePickerSetup();
+                PickImageDialog.build(setup, new IPickResult() {
+                    @Override
+                    public void onPickResult(PickResult r) {
+                        r.getBitmap();
+                        r.getError();
+                        r.getUri();
+                        imgStringMain = Tools.getStringImageView(r.getBitmap(), aMainImage);
+                        Log.e("onPickResult: ",imgStringMain);
+                        conSecondImage.setVisibility(View.VISIBLE);
+                    }
+                }).show((FragmentActivity) currentActivity);
             }
         });
         aSecondImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showFileChooser("second");
+                PickSetup setup = Tools.imagePickerSetup();
+                PickImageDialog.build(setup, new IPickResult() {
+                    @Override
+                    public void onPickResult(PickResult r) {
+                        r.getBitmap();
+                        r.getError();
+                        r.getUri();
+                        imgStringSecond = Tools.getStringImageView(r.getBitmap(), aSecondImage);
+                        Log.e("onPickResult: ",imgStringSecond);
+                        delSecondImage.setVisibility(View.VISIBLE);
+                        conThirdImage.setVisibility(View.VISIBLE);
+                    }
+                }).show((FragmentActivity) currentActivity);
             }
         });
         aThirdImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showFileChooser("third");
+                PickSetup setup = Tools.imagePickerSetup();
+                PickImageDialog.build(setup, new IPickResult() {
+                    @Override
+                    public void onPickResult(PickResult r) {
+                        r.getBitmap();
+                        r.getError();
+                        r.getUri();
+                        imgStringThird = Tools.getStringImageView(r.getBitmap(), aThirdImage);
+                        Log.e("onPickResult: ",imgStringThird);
+                        delThirdImage.setVisibility(View.VISIBLE);
+                        conFourthImage.setVisibility(View.VISIBLE);
+                    }
+                }).show((FragmentActivity) currentActivity);
             }
         });
         aFourthImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showFileChooser("fourth");
+                PickSetup setup = Tools.imagePickerSetup();
+                PickImageDialog.build(setup, new IPickResult() {
+                    @Override
+                    public void onPickResult(PickResult r) {
+                        r.getBitmap();
+                        r.getError();
+                        r.getUri();
+                        imgStringFourth = Tools.getStringImageView(r.getBitmap(), aFourthImage);
+                        Log.e("onPickResult: ",imgStringFourth);
+                        delFourthImage.setVisibility(View.VISIBLE);
+                        conFifthImage.setVisibility(View.VISIBLE);
+                    }
+                }).show((FragmentActivity) currentActivity);
             }
         });
         aFifthImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showFileChooser("fifth");
+                PickSetup setup = Tools.imagePickerSetup();
+                PickImageDialog.build(setup, new IPickResult() {
+                    @Override
+                    public void onPickResult(PickResult r) {
+                        r.getBitmap();
+                        r.getError();
+                        r.getUri();
+                        imgStringFifth = Tools.getStringImageView(r.getBitmap(), aFifthImage);
+                        Log.e("onPickResult: ",imgStringFifth);
+                        delFifthImage.setVisibility(View.VISIBLE);
+                    }
+                }).show((FragmentActivity) currentActivity);
             }
         });
 
@@ -746,123 +805,9 @@ public class FormBicycleAsetActivity extends AppCompatActivity {
         }
     }
 
-    private void showFileChooser(String action) {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        int request = 0;
-        switch (action){
-            case "main" : request = PICK_IMAGE_REQUEST; break;
-            case "second" : request = PICK_IMAGE_SECOND_REQUEST; break;
-            case "third" : request = PICK_IMAGE_THIRD_REQUEST; break;
-            case "fourth" : request = PICK_IMAGE_FOURTH_REQUEST; break;
-            case "fifth" : request = PICK_IMAGE_FIFTH_REQUEST; break;
-        }
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), request);
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        Bitmap bitmap;
-        String ext;
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            Uri filePath = data.getData();
-            try {
-                //Getting the Bitmap from Gallery
-                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-
-                //Setting the Bitmap to ImageView
-//                aMainImage.setImageBitmap(bitmap);
-
-                String imgStr = data.toString();
-                ext = imgStr.substring(imgStr.indexOf("typ")+4, imgStr.indexOf("flg")-1);
-
-                isiimage = Tools.getStringImageView(bitmap, aMainImage);
-                imgStringMain = ext +"," + isiimage;
-                conSecondImage.setVisibility(View.VISIBLE);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        if (requestCode == PICK_IMAGE_SECOND_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            Uri filePath = data.getData();
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-//                aSecondImage.setImageBitmap(bitmap);
-                Log.e(TAG, filePath.toString());
-
-                String imgStr = data.toString();
-                ext = imgStr.substring(imgStr.indexOf("typ")+4, imgStr.indexOf("flg")-1);
-
-                isiimage = Tools.getStringImageView(bitmap, aSecondImage);
-                imgStringSecond = ext +"," + isiimage;
-                delSecondImage.setVisibility(View.VISIBLE);
-                conThirdImage.setVisibility(View.VISIBLE);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        if (requestCode == PICK_IMAGE_THIRD_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            Uri filePath = data.getData();
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-//                aThirdImage.setImageBitmap(bitmap);
-
-                String imgStr = data.toString();
-                ext = imgStr.substring(imgStr.indexOf("typ")+4, imgStr.indexOf("flg")-1);
-
-                isiimage = Tools.getStringImageView(bitmap, aThirdImage);
-                imgStringThird = ext +"," + isiimage;
-                delThirdImage.setVisibility(View.VISIBLE);
-                conFourthImage.setVisibility(View.VISIBLE);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        if (requestCode == PICK_IMAGE_FOURTH_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            Uri filePath = data.getData();
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-//                aFourthImage.setImageBitmap(bitmap);
-
-                String imgStr = data.toString();
-                ext = imgStr.substring(imgStr.indexOf("typ")+4, imgStr.indexOf("flg")-1);
-
-                isiimage = Tools.getStringImageView(bitmap, aFourthImage);
-                imgStringFourth = ext +"," + isiimage;
-                delFourthImage.setVisibility(View.VISIBLE);
-                conFifthImage.setVisibility(View.VISIBLE);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        if (requestCode == PICK_IMAGE_FIFTH_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            Uri filePath = data.getData();
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-//                aFifthImage.setImageBitmap(bitmap);
-
-                String imgStr = data.toString();
-                ext = imgStr.substring(imgStr.indexOf("typ")+4, imgStr.indexOf("flg")-1);
-
-                isiimage = Tools.getStringImageView(bitmap, aFifthImage);
-                imgStringFifth = ext +"," + isiimage;
-                delFifthImage.setVisibility(View.VISIBLE);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
 
         if (requestCode == PICK_LOCATION_REQUEST){
             showProgress(false);
@@ -1232,21 +1177,6 @@ public class FormBicycleAsetActivity extends AppCompatActivity {
             return responseAsset;
         }
 
-//        @Override
-//        protected void onPostExecute(String aset) {
-//            mAddAssetTask = null;
-//            showProgress(false);
-//            Log.e(TAG, "Asset Respone: " + String.valueOf(aset));
-//
-//            if(aset != null){
-//                Toast.makeText(getApplicationContext(),"Data sukses disimpan", Toast.LENGTH_LONG).show();
-//                finish();
-//            }else{
-//                Toast.makeText(getApplicationContext(),"Gagal meyimpan data", Toast.LENGTH_LONG).show();
-//            }
-//
-//        }
-
         @Override
         protected void onCancelled() {
             mAddAssetTask = null;
@@ -1272,4 +1202,5 @@ public class FormBicycleAsetActivity extends AppCompatActivity {
         onBackPressed();
         return true;
     }
+
 }

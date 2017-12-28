@@ -7,10 +7,12 @@ import android.graphics.Bitmap;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -18,6 +20,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
+
+import com.vansuita.pickimage.bundle.PickSetup;
+import com.vansuita.pickimage.enums.EPickType;
 
 import java.io.ByteArrayOutputStream;
 import java.text.ParseException;
@@ -374,4 +379,17 @@ public class Tools {
         alertDialog.show();
     }
 
+    public static PickSetup imagePickerSetup(){
+        PickSetup setup = new PickSetup()
+                .setTitle("Pilih Gambar")
+                .setProgressText("Loading ...")
+                .setCancelText("Batal")
+                .setFlip(true)
+                .setMaxSize(500)
+                .setPickTypes( EPickType.CAMERA, EPickType.GALLERY)
+                .setIconGravity(Gravity.LEFT)
+                .setButtonOrientation(LinearLayoutCompat.HORIZONTAL)
+                .setSystemDialog(false);
+        return setup;
+    }
 }

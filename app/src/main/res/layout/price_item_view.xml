@@ -7,9 +7,16 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/small_space"
     android:background="@color/colorPrimarySoft"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:baselineAligned="false"
     android:padding="@dimen/xmin_padding">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -38,28 +45,70 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/period"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorBlack"
-                android:textSize="@dimen/almost_tiny_text"
-                android:text="Periode " />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_centerVertical="true">
 
-            <TextView
-                android:id="@+id/as_advance_period"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingTop="@dimen/xmin_padding"
-                android:textSize="@dimen/almost_tiny_text"
-                android:layout_marginStart="@dimen/med_padding"
-                tools:text="2017-11-09 sd 2017-12-09" />
+                    <TextView
+                        android:id="@+id/period"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/almost_tiny_text"
+                        android:text="Periode " />
+
+                    <TextView
+                        android:id="@+id/as_advance_period"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/xmin_padding"
+                        android:textSize="@dimen/almost_tiny_text"
+                        android:layout_marginStart="@dimen/med_padding"
+                        tools:text="2017-11-09 sd 2017-12-09" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
 
         </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/con_driver_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/xmin_padding"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/min_padding"
+            android:text="Harga dengan pengemudi : "
+            android:textColor="@color/colorBlack54"
+            android:textSize="@dimen/almost_tiny_text" />
+
+        <TextView
+            android:id="@+id/as_driver_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrice"
+            android:layout_marginStart="@dimen/xmin_padding"
+            android:textSize="@dimen/under_small_text"
+            tools:text="150000 IDR" />
+
+    </LinearLayout>
 
 </LinearLayout>

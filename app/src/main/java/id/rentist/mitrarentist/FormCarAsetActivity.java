@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -44,6 +45,10 @@ import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.squareup.picasso.Picasso;
+import com.vansuita.pickimage.bean.PickResult;
+import com.vansuita.pickimage.bundle.PickSetup;
+import com.vansuita.pickimage.dialog.PickImageDialog;
+import com.vansuita.pickimage.listeners.IPickResult;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -102,6 +107,7 @@ public class FormCarAsetActivity extends AppCompatActivity {
     private int SET_DELIVERY_PRICE = 15;
 
     //Image Initial
+    Button btnUploadFoto;
     String[] imagesArray = {AppConfig.URL_IMAGE_ASSETS + "default.png"};
     int img = 0;
     LinearLayout conAsuImages;
@@ -125,13 +131,17 @@ public class FormCarAsetActivity extends AppCompatActivity {
     ArrayList<String> pricingArray = new ArrayList<String>();
     String aFeeMsg,  priceStatus = "";
     private int fee = 0, ap = 0;
-    EditText aBasicPrice, aAdvancePrice, aAdvancePrice2, aAdvancePrice3, aAdvancePrice4;
+    EditText aBasicPrice, aAdvancePrice, aAdvancePrice2, aAdvancePrice3, aAdvancePrice4,
+            aBasicWDriver, aAdvanceWDriver, aAdvanceWDriver2, aAdvanceWDriver3, aAdvanceWDriver4;
     TextView  btnAdvancePrice, aBasicPriceDisp, aAdvancePriceDisp, aAdvancePriceDisp2, aAdvancePriceDisp3, aAdvancePriceDisp4,
+            aBasicDispWDriver, aAdvanceDispWDriver, aAdvanceDisp2WDriver, aAdvanceDisp3WDriver, aAdvanceDisp4WDriver,
             aStartDate, aStartDate2, aStartDate3, aStartDate4,
             aEndDate, aEndDate2, aEndDate3, aEndDate4,
-            aDispText, aDispText2, aDispText3, aDispText4, aDispText5;
+            aDispText, aDispText2, aDispText3, aDispText4, aDispText5,
+            aDispTextWDriver, aDispText2WDriver, aDispText3WDriver, aDispText4WDriver, aDispText5WDriver;
     Spinner aRangName, aRangName2, aRangName3, aRangName4;
-    LinearLayout conAdvancePrice, conAdvancePrice2, conAdvancePrice3, conAdvancePrice4;
+    LinearLayout conAdvancePrice, conAdvancePrice2, conAdvancePrice3, conAdvancePrice4,
+            conBasicWDriver, conAdvanceWDriver, conAdvanceWDriver2, conAdvanceWDriver3,conAdvanceWDriver4;
     private int PICK_DATE_REQUEST = 11;
     private int PICK_DATE_REQUEST2 = 12;
     private int PICK_DATE_REQUEST3 = 13;
@@ -213,15 +223,16 @@ public class FormCarAsetActivity extends AppCompatActivity {
         delAsu2 = (ImageButton) findViewById(R.id.delete_asuransi_2);
         delAsu3 = (ImageButton) findViewById(R.id.delete_asuransi_3);
 
-        btnFileSTNK = (ImageButton) findViewById(R.id.btn_photo);
-        btnCamSTNK = (ImageButton) findViewById(R.id.btn_camera);
-        btnCamSTNK.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(cameraIntent, CAMERA_REQUEST);
-            }
-        });
+        btnUploadFoto = (Button) findViewById(R.id.btnUploadFoto);
+//        btnFileSTNK = (ImageButton) findViewById(R.id.btn_photo);
+//        btnCamSTNK = (ImageButton) findViewById(R.id.btn_camera);
+//        btnCamSTNK.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+//                startActivityForResult(cameraIntent, CAMERA_REQUEST);
+//            }
+//        });
 
         //Get Location
         aAddress.setOnClickListener(new View.OnClickListener() {
@@ -245,37 +256,106 @@ public class FormCarAsetActivity extends AppCompatActivity {
         aMainImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showFileChooser("main");
+                PickSetup setup = Tools.imagePickerSetup();
+                PickImageDialog.build(setup, new IPickResult() {
+                    @Override
+                    public void onPickResult(PickResult r) {
+                        r.getBitmap();
+                        r.getError();
+                        r.getUri();
+                        imgStringMain = Tools.getStringImageView(r.getBitmap(), aMainImage);
+                        Log.e("onPickResult: ",imgStringMain);
+                        conSecondImage.setVisibility(View.VISIBLE);
+                    }
+                }).show((FragmentActivity) currentActivity);
             }
         });
         aSecondImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showFileChooser("second");
+                PickSetup setup = Tools.imagePickerSetup();
+                PickImageDialog.build(setup, new IPickResult() {
+                    @Override
+                    public void onPickResult(PickResult r) {
+                        r.getBitmap();
+                        r.getError();
+                        r.getUri();
+                        imgStringSecond = Tools.getStringImageView(r.getBitmap(), aSecondImage);
+                        Log.e("onPickResult: ",imgStringSecond);
+                        delSecondImage.setVisibility(View.VISIBLE);
+                        conThirdImage.setVisibility(View.VISIBLE);
+                    }
+                }).show((FragmentActivity) currentActivity);
             }
         });
         aThirdImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showFileChooser("third");
+                PickSetup setup = Tools.imagePickerSetup();
+                PickImageDialog.build(setup, new IPickResult() {
+                    @Override
+                    public void onPickResult(PickResult r) {
+                        r.getBitmap();
+                        r.getError();
+                        r.getUri();
+                        imgStringThird = Tools.getStringImageView(r.getBitmap(), aThirdImage);
+                        Log.e("onPickResult: ",imgStringThird);
+                        delThirdImage.setVisibility(View.VISIBLE);
+                        conFourthImage.setVisibility(View.VISIBLE);
+                    }
+                }).show((FragmentActivity) currentActivity);
             }
         });
         aFourthImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showFileChooser("fourth");
+                PickSetup setup = Tools.imagePickerSetup();
+                PickImageDialog.build(setup, new IPickResult() {
+                    @Override
+                    public void onPickResult(PickResult r) {
+                        r.getBitmap();
+                        r.getError();
+                        r.getUri();
+                        imgStringFourth = Tools.getStringImageView(r.getBitmap(), aFourthImage);
+                        Log.e("onPickResult: ",imgStringFourth);
+                        delFourthImage.setVisibility(View.VISIBLE);
+                        conFifthImage.setVisibility(View.VISIBLE);
+                    }
+                }).show((FragmentActivity) currentActivity);
             }
         });
         aFifthImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showFileChooser("fifth");
+                PickSetup setup = Tools.imagePickerSetup();
+                PickImageDialog.build(setup, new IPickResult() {
+                    @Override
+                    public void onPickResult(PickResult r) {
+                        r.getBitmap();
+                        r.getError();
+                        r.getUri();
+                        imgStringFifth = Tools.getStringImageView(r.getBitmap(), aFifthImage);
+                        Log.e("onPickResult: ",imgStringFifth);
+                        delFifthImage.setVisibility(View.VISIBLE);
+                    }
+                }).show((FragmentActivity) currentActivity);
             }
         });
-        btnFileSTNK.setOnClickListener(new View.OnClickListener() {
+        btnUploadFoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showFileChooser("STNK");
+//                showFileChooser("STNK");
+                PickSetup setup = Tools.imagePickerSetup();
+                PickImageDialog.build(setup, new IPickResult() {
+                    @Override
+                    public void onPickResult(PickResult r) {
+                        r.getBitmap();
+                        r.getError();
+                        r.getUri();
+                        imgStringSTNK = Tools.getStringImageView(r.getBitmap(), aImgSTNK);
+                        Log.e("onPickResult: ",imgStringSTNK);
+                    }
+                }).show((FragmentActivity) currentActivity);
             }
         });
 
@@ -290,31 +370,84 @@ public class FormCarAsetActivity extends AppCompatActivity {
                 }else{
                     conAsuImages.setVisibility(View.VISIBLE);
                 }
-
             }
         });
 
         aAsu1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showFileChooser("asu1");
+//                showFileChooser("asu1");
+                PickSetup setup = Tools.imagePickerSetup();
+                PickImageDialog.build(setup, new IPickResult() {
+                    @Override
+                    public void onPickResult(PickResult r) {
+                        r.getBitmap();
+                        r.getError();
+                        r.getUri();
+                        imgStringAsu1 = Tools.getStringImageView(r.getBitmap(), aAsu1);
+                        Log.e("onPickResult: ",imgStringAsu1);
+                        conAsu2.setVisibility(View.VISIBLE);
+
+                    }
+                }).show(FormCarAsetActivity.this);
             }
         });
         aAsu2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showFileChooser("asu2");
+//                showFileChooser("asu2");
+                PickSetup setup = Tools.imagePickerSetup();
+                PickImageDialog.build(setup, new IPickResult() {
+                    @Override
+                    public void onPickResult(PickResult r) {
+                        r.getBitmap();
+                        r.getError();
+                        r.getUri();
+                        imgStringAsu2 = Tools.getStringImageView(r.getBitmap(), aAsu2);
+                        Log.e("onPickResult: ",imgStringAsu2);
+                        conAsu3.setVisibility(View.VISIBLE);
+                        delAsu2.setVisibility(View.VISIBLE);
+                    }
+                }).show(FormCarAsetActivity.this);
             }
         });
         aAsu3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showFileChooser("asu3");
+//                showFileChooser("asu3");
+                PickSetup setup = Tools.imagePickerSetup();
+                PickImageDialog.build(setup, new IPickResult() {
+                    @Override
+                    public void onPickResult(PickResult r) {
+                        r.getBitmap();
+                        r.getError();
+                        r.getUri();
+                        imgStringAsu3 = Tools.getStringImageView(r.getBitmap(), aAsu3);
+                        Log.e("onPickResult: ",imgStringAsu3);
+                        delAsu3.setVisibility(View.VISIBLE);
+
+                    }
+                }).show(FormCarAsetActivity.this);
             }
         });
 
+        delAsu2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Tools.deleteImage(delAsu2, aAsu2, currentActivity);
+                imgStringAsu2 = iFormAsset.getStringExtra("action").equals("update") ? "default.png" : "";
+            }
+        });
 
-//        delSecondImage.setOnClickListener(new View.OnClickListener() {
+        delAsu3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Tools.deleteImage(delAsu3, aAsu3, currentActivity);
+                imgStringAsu3 = iFormAsset.getStringExtra("action").equals("update") ? "default.png" : "";
+            }
+        });
+
+        //        delSecondImage.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
 //                Tools.deleteImage(delSecondImage, aSecondImage, currentActivity);
@@ -345,22 +478,6 @@ public class FormCarAsetActivity extends AppCompatActivity {
 //                imgStringFifth = iFormAsset.getStringExtra("action").equals("update") ? "default.png" : "";
 //            }
 //        });
-
-        delAsu2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Tools.deleteImage(delAsu2, aAsu2, currentActivity);
-                imgStringAsu2 = iFormAsset.getStringExtra("action").equals("update") ? "default.png" : "";
-            }
-        });
-
-        delAsu3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Tools.deleteImage(delAsu3, aAsu3, currentActivity);
-                imgStringAsu3 = iFormAsset.getStringExtra("action").equals("update") ? "default.png" : "";
-            }
-        });
 
         //Deliver & Deposit
         aDeliveryMethodGroup = (RadioGroup) findViewById(R.id.delivery_group);
@@ -443,6 +560,27 @@ public class FormCarAsetActivity extends AppCompatActivity {
         aDispText4 = (TextView) findViewById(R.id.disptext4);
         aDispText5 = (TextView) findViewById(R.id.disptext5);
 
+        aBasicWDriver = (EditText) findViewById(R.id.as_basic_price_wdriver);
+        aAdvanceWDriver = (EditText) findViewById(R.id.as_advance_price_wdriver);
+        aAdvanceWDriver2 = (EditText) findViewById(R.id.as_advance_price2_wdriver);
+        aAdvanceWDriver3 = (EditText) findViewById(R.id.as_advance_price3_wdriver);
+        aAdvanceWDriver4 = (EditText) findViewById(R.id.as_advance_price4_wdriver);
+        aBasicDispWDriver = (TextView) findViewById(R.id.as_basic_price_wdriver_disp);
+        aAdvanceDispWDriver = (TextView) findViewById(R.id.as_advance_price_wdriver_disp);
+        aAdvanceDisp2WDriver = (TextView) findViewById(R.id.as_advance2_price_wdriver_disp);
+        aAdvanceDisp3WDriver = (TextView) findViewById(R.id.as_advance3_price_wdriver_disp);
+        aAdvanceDisp4WDriver = (TextView) findViewById(R.id.as_advance4_price_wdriver_disp);
+        aDispTextWDriver = (TextView) findViewById(R.id.basic_price_wdriver_disptext);
+        aDispText2WDriver = (TextView) findViewById(R.id.advance_price_wdriver_disptext);
+        aDispText3WDriver = (TextView) findViewById(R.id.advance_price2_wdriver_disptext);
+        aDispText4WDriver = (TextView) findViewById(R.id.advance_price3_wdriver_disptext);
+        aDispText5WDriver = (TextView) findViewById(R.id.advance_price4_wdriver_disptext);
+        conBasicWDriver = (LinearLayout) findViewById(R.id.con_basic_price_wdriver);
+        conAdvanceWDriver = (LinearLayout) findViewById(R.id.con_advance_price_wdriver);
+        conAdvanceWDriver2 = (LinearLayout) findViewById(R.id.con_advance_price2_wdriver);
+        conAdvanceWDriver3 = (LinearLayout) findViewById(R.id.con_advance_price3_wdriver);
+        conAdvanceWDriver4 = (LinearLayout) findViewById(R.id.con_advance_price4_wdriver);
+
         fee = Integer.parseInt(sm.getPreferences(fee_cat));
         aFeeMsg = "Harga yang akan anda terima (-" + fee + "%):";
         aDispText.setText(aFeeMsg);
@@ -450,6 +588,31 @@ public class FormCarAsetActivity extends AppCompatActivity {
         aDispText3.setText(aFeeMsg);
         aDispText4.setText(aFeeMsg);
         aDispText5.setText(aFeeMsg);
+        aDispTextWDriver.setText(aFeeMsg);
+        aDispText2WDriver.setText(aFeeMsg);
+        aDispText3WDriver.setText(aFeeMsg);
+        aDispText4WDriver.setText(aFeeMsg);
+        aDispText5WDriver.setText(aFeeMsg);
+
+        aDriver.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+            {
+                if ( isChecked ) {
+                    conBasicWDriver.setVisibility(View.VISIBLE);
+                    conAdvanceWDriver.setVisibility(View.VISIBLE);
+                    conAdvanceWDriver2.setVisibility(View.VISIBLE);
+                    conAdvanceWDriver3.setVisibility(View.VISIBLE);
+                    conAdvanceWDriver4.setVisibility(View.VISIBLE);
+                }else{
+                    conBasicWDriver.setVisibility(View.GONE);
+                    conAdvanceWDriver.setVisibility(View.GONE);
+                    conAdvanceWDriver2.setVisibility(View.GONE);
+                    conAdvanceWDriver3.setVisibility(View.GONE);
+                    conAdvanceWDriver4.setVisibility(View.GONE);                }
+            }
+        });
 
         btnAdvancePrice.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -582,6 +745,112 @@ public class FormCarAsetActivity extends AppCompatActivity {
             }
         });
 
+        aBasicWDriver.addTextChangedListener(new NumberTextWatcherForThousand(aBasicWDriver));
+        aBasicWDriver.addTextChangedListener(new TextWatcher(){
+            @Override
+            public void afterTextChanged(Editable arg0) {
+                if(!aBasicWDriver.getText().toString().isEmpty()){
+                    Integer price = Integer.parseInt(NumberTextWatcherForThousand.trimCommaOfString(aBasicWDriver.getText().toString()));
+                    aBasicDispWDriver.setText(PricingTools.PriceFormat(PricingTools.PriceMinFee(price, fee)));
+                } else {
+                    aBasicDispWDriver.setText("0 IDR");
+                }
+
+            }
+            @Override
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+        });
+        aAdvanceWDriver.addTextChangedListener(new NumberTextWatcherForThousand(aAdvanceWDriver));
+        aAdvanceWDriver.addTextChangedListener(new TextWatcher(){
+            @Override
+            public void afterTextChanged(Editable arg0) {
+                if(!aAdvanceWDriver.getText().toString().isEmpty()){
+                    Integer price = Integer.parseInt(NumberTextWatcherForThousand.trimCommaOfString(aAdvanceWDriver.getText().toString()));
+                    aAdvanceDispWDriver.setText(PricingTools.PriceFormat(PricingTools.PriceMinFee(price, fee)));
+                } else {
+                    aAdvanceDispWDriver.setText("0 IDR");
+                }
+
+            }
+            @Override
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+        });
+        aAdvanceWDriver2.addTextChangedListener(new NumberTextWatcherForThousand(aAdvanceWDriver2));
+        aAdvanceWDriver2.addTextChangedListener(new TextWatcher(){
+            @Override
+            public void afterTextChanged(Editable arg0) {
+                if(!aAdvanceWDriver2.getText().toString().isEmpty()){
+                    Integer price = Integer.parseInt(NumberTextWatcherForThousand.trimCommaOfString(aAdvanceWDriver2.getText().toString()));
+                    aAdvanceDisp2WDriver.setText(PricingTools.PriceFormat(PricingTools.PriceMinFee(price, fee)));
+                } else {
+                    aAdvanceDisp2WDriver.setText("0 IDR");
+                }
+
+            }
+            @Override
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+        });
+        aAdvanceWDriver3.addTextChangedListener(new NumberTextWatcherForThousand(aAdvanceWDriver3));
+        aAdvanceWDriver3.addTextChangedListener(new TextWatcher(){
+            @Override
+            public void afterTextChanged(Editable arg0) {
+                if(!aAdvanceWDriver3.getText().toString().isEmpty()){
+                    Integer price = Integer.parseInt(NumberTextWatcherForThousand.trimCommaOfString(aAdvanceWDriver3.getText().toString()));
+                    aAdvanceDisp3WDriver.setText(PricingTools.PriceFormat(PricingTools.PriceMinFee(price, fee)));
+                } else {
+                    aAdvanceDisp3WDriver.setText("0 IDR");
+                }
+
+            }
+            @Override
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+        });
+        aAdvanceWDriver4.addTextChangedListener(new NumberTextWatcherForThousand(aAdvanceWDriver4));
+        aAdvanceWDriver4.addTextChangedListener(new TextWatcher(){
+            @Override
+            public void afterTextChanged(Editable arg0) {
+                if(!aAdvanceWDriver4.getText().toString().isEmpty()){
+                    Integer price = Integer.parseInt(NumberTextWatcherForThousand.trimCommaOfString(aAdvanceWDriver4.getText().toString()));
+                    aAdvanceDisp4WDriver.setText(PricingTools.PriceFormat(PricingTools.PriceMinFee(price, fee)));
+                } else {
+                    aAdvanceDisp4WDriver.setText("0 IDR");
+                }
+
+            }
+            @Override
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+        });
+
         aEndDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -663,6 +932,9 @@ public class FormCarAsetActivity extends AppCompatActivity {
         bSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                pDialog.setMessage("loading ...");
+                showProgress(true);
+
                 tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
                 category = iFormAsset.getStringExtra("cat");
                 idAsset = iFormAsset.getIntExtra("id_asset",0);
@@ -745,8 +1017,8 @@ public class FormCarAsetActivity extends AppCompatActivity {
     }
 
     private void getDataUpdate(){
-        btnCamSTNK.setVisibility(View.GONE);
-        btnFileSTNK.setVisibility(View.GONE);
+//        btnCamSTNK.setVisibility(View.GONE);
+//        btnFileSTNK.setVisibility(View.GONE);
 
         aName.setText(iFormAsset.getStringExtra("name"));
         aType.setText(iFormAsset.getStringExtra("type"));
@@ -857,11 +1129,6 @@ public class FormCarAsetActivity extends AppCompatActivity {
             ((RadioButton) aRentReqGroup.getChildAt(1)).setChecked(true);
         }else  ((RadioButton) aRentReqGroup.getChildAt(2)).setChecked(true);
 
-//        if (iFormAsset.getStringExtra("delivery_method").equals("pickup")){
-//            aDelivery.setChecked(false);
-//        }else if (iFormAsset.getStringExtra("delivery_method").equals("deliver")){
-//            aPickup.setChecked(false);
-//        }
         if (iFormAsset.getStringExtra("delivery_method").equals(getResources().getString(R.string.delivery_pickup))) {
             ((RadioButton) aDeliveryMethodGroup.getChildAt(0)).setChecked(true);
         } else if (iFormAsset.getStringExtra("delivery_method").equals(getResources().getString(R.string.delivery_deliver))) {
@@ -883,22 +1150,31 @@ public class FormCarAsetActivity extends AppCompatActivity {
             aNoDriver.setChecked(false);
         }else if (iFormAsset.getStringExtra("driver").equals("false")){
             aDriver.setChecked(false);
+           conBasicWDriver.setVisibility(View.VISIBLE);
+           conAdvanceWDriver.setVisibility(View.VISIBLE);
+           conAdvanceWDriver2.setVisibility(View.VISIBLE);
+           conAdvanceWDriver3.setVisibility(View.VISIBLE);
+           conAdvanceWDriver4.setVisibility(View.VISIBLE);
         }
 
         // Parsing data price
-        JSONArray priceArray = new JSONArray(PricingTools.PriceStringToArray(iFormAsset.getStringExtra("price")));
-        Log.e(TAG, "PRICE ARRAY :" + iFormAsset.getStringExtra("price"));
+        Log.e(TAG, "PRICE ARRAY ORI :" + iFormAsset.getStringExtra("price"));
+        JSONArray priceArray = new JSONArray(PricingTools.PriceStringToArrayCar(iFormAsset.getStringExtra("price")));
+        Log.e(TAG, "PRICE ARRAY :" + priceArray);
         if (priceArray.length() > 0){
             try {
                 for (int i = 0; i < priceArray.length(); i++) {
                     JSONObject priceObject = priceArray.getJSONObject(i);
                     if(priceObject.getString("range_name").equals("BASECOST")){
                         aBasicPrice.setText(priceObject.getString("price"));
+                        if(!priceObject.getString("price_with_driver").equals("0")){
+                            aBasicWDriver.setText(priceObject.getString("price_with_driver"));
+                        }
                         priceArray.remove(i);
                     }
                 }
             } catch (JSONException e) {e.printStackTrace();}
-
+            Log.e(TAG, "PRICE ARRAY AFTER REMOVE :" + priceArray);
             if(priceArray.length() > 0){
                 try {
                     conAdvancePrice.setVisibility(View.VISIBLE);
@@ -907,6 +1183,9 @@ public class FormCarAsetActivity extends AppCompatActivity {
                     aAdvancePrice.setText(priceObject.getString("price"));
                     aStartDate.setText(Tools.datePriceAdvanceFormat(priceObject.getString("start_date")));
                     aEndDate.setText(Tools.datePriceAdvanceFormat(priceObject.getString("end_date")));
+                    if(!priceObject.getString("price_with_driver").equals("0")){
+                        aAdvanceWDriver.setText(priceObject.getString("price_with_driver"));
+                    }
                     if (priceArray.length() > 1){
                         conAdvancePrice2.setVisibility(View.VISIBLE);
                         JSONObject priceObject2 = priceArray.getJSONObject(1);
@@ -914,6 +1193,9 @@ public class FormCarAsetActivity extends AppCompatActivity {
                         aAdvancePrice2.setText(priceObject2.getString("price"));
                         aStartDate2.setText(Tools.datePriceAdvanceFormat(priceObject2.getString("start_date")));
                         aEndDate2.setText(Tools.datePriceAdvanceFormat(priceObject2.getString("end_date")));
+                        if(!priceObject.getString("price_with_driver").equals("0")){
+                            aAdvanceWDriver2.setText(priceObject.getString("price_with_driver"));
+                        }
                         if (priceArray.length() > 2){
                             conAdvancePrice3.setVisibility(View.VISIBLE);
                             JSONObject priceObject3 = priceArray.getJSONObject(2);
@@ -921,6 +1203,9 @@ public class FormCarAsetActivity extends AppCompatActivity {
                             aAdvancePrice3.setText(priceObject3.getString("price"));
                             aStartDate3.setText(Tools.datePriceAdvanceFormat(priceObject3.getString("start_date")));
                             aEndDate3.setText(Tools.datePriceAdvanceFormat(priceObject3.getString("end_date")));
+                            if(!priceObject.getString("price_with_driver").equals("0")){
+                                aAdvanceWDriver3.setText(priceObject.getString("price_with_driver"));
+                            }
                             if (priceArray.length() > 3) {
                                 conAdvancePrice4.setVisibility(View.VISIBLE);
                                 JSONObject priceObject4 = priceArray.getJSONObject(3);
@@ -928,6 +1213,9 @@ public class FormCarAsetActivity extends AppCompatActivity {
                                 aAdvancePrice4.setText(priceObject4.getString("price"));
                                 aStartDate4.setText(Tools.datePriceAdvanceFormat(priceObject4.getString("start_date")));
                                 aEndDate4.setText(Tools.datePriceAdvanceFormat(priceObject4.getString("end_date")));
+                                if(!priceObject.getString("price_with_driver").equals("0")){
+                                    aAdvanceWDriver4.setText(priceObject.getString("price_with_driver"));
+                                }
                             }
                         }
                     }
@@ -936,85 +1224,6 @@ public class FormCarAsetActivity extends AppCompatActivity {
                 }
             }
         }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_save) {
-            pDialog.setMessage("loading ...");
-            showProgress(true);
-
-            tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
-            category = iFormAsset.getStringExtra("cat");
-            idAsset = iFormAsset.getIntExtra("id_asset", 0);
-
-            int rentReqId = aRentReqGroup.getCheckedRadioButtonId();
-            if (rentReqId == aBasic.getId())
-                aRentReq = getResources().getString(R.string.member_badge_basic);
-            else if (rentReqId == aVerified.getId())
-                aRentReq = getResources().getString(R.string.member_badge_verified);
-            else aRentReq = getResources().getString(R.string.member_badge_smart_con);
-
-            if (aDriver.isChecked() && aNoDriver.isChecked()) {
-                aDriverStatus = "both";
-            } else if (aDriver.isChecked()) {
-                aDriverStatus = "true";
-            } else if (aNoDriver.isChecked()) {
-                aDriverStatus = "false";
-            } else {
-                aDriverStatus = "nodefine";
-            }
-
-            if (aDelivery.isChecked() && aPickup.isChecked()) {
-                aDeliveryMethod = "both";
-            } else if (aDelivery.isChecked()) {
-                aDeliveryMethod = "deliver";
-            } else if (aPickup.isChecked()) {
-                aDeliveryMethod = "pickup";
-            } else {
-                aDeliveryMethod = "nodefine";
-            }
-
-            aPlatStart.setError(null);
-            aPlatEnd.setError(null);
-
-            String numplatPattern = "\\d";
-            View focusView;
-            Pattern r = Pattern.compile(numplatPattern);
-            Matcher m = r.matcher(aPlatStart.getText().toString());
-            Matcher n = r.matcher(aPlatEnd.getText().toString());
-
-            Boolean startPlat = !m.find();
-            Boolean endPlat = !n.find();
-
-            if (aBasicPrice.getText().toString().isEmpty() || aDeliveryMethod.equals("nodefine") || aDriverStatus.equals("nodefine") ||
-                    aAddress.getText().toString().isEmpty() || aType.getText().toString().isEmpty() || aPlat.toString().isEmpty() || aPlatStart.toString().isEmpty() ||
-                    aName.getText().toString().isEmpty() || aNoRangka.getText().toString().isEmpty() || aNoMesin.getText().toString().isEmpty() ||
-                    aMinRentDay.getText().toString().isEmpty()) {
-                showProgress(false);
-                Toast.makeText(getApplicationContext(), R.string.error_field_not_complete, Toast.LENGTH_LONG).show();
-            } else {
-                if (startPlat) {
-                    if (endPlat) {
-                        pricingArray.clear();
-                        getPrice();
-                        postPriceCheck(pricingArray.toString());
-                    } else {
-                        aPlatEnd.setError("Tidak boleh memasukan angka");
-                        focusView = aPlatEnd;
-                        focusView.requestFocus();
-                    }
-                } else {
-                    aPlatStart.setError("Tidak boleh memasukan angka");
-                    focusView = aPlatStart;
-                    focusView.requestFocus();
-                }
-            }
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     // IMAGE : show in frame
@@ -1139,9 +1348,9 @@ public class FormCarAsetActivity extends AppCompatActivity {
 
         if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
             Bitmap photo = (Bitmap) data.getExtras().get("data");
-            String str64b = Tools.getStringImage(photo);
+            String str64b = Tools.getStringImageView(photo, aImgSTNK);
             imgStringSTNK = "image/jpeg," + str64b;
-            aImgSTNK.setImageBitmap(photo);
+//            aImgSTNK.setImageBitmap(photo);
         }
 
         if (requestCode == PICK_IMAGE_ASU_1_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
@@ -1271,6 +1480,10 @@ public class FormCarAsetActivity extends AppCompatActivity {
             priceBasicObject.put("range_name","BASECOST");
             priceBasicObject.put("start_date","1970-01-01");
             priceBasicObject.put("end_date","1970-01-01");
+            if (aDriver.isChecked()) {
+                priceBasicObject.put("price_with_driver", NumberTextWatcherForThousand.trimCommaOfString(aBasicWDriver.getText().toString()));
+            }
+
 
             pricingArray.add(priceBasicObject.toString().replace("=",":"));
         } catch (JSONException e) {
@@ -1283,7 +1496,9 @@ public class FormCarAsetActivity extends AppCompatActivity {
             pricingObject.put("\"start_date\"", "\"" + aStartDate.getText().toString() + "\"");
             pricingObject.put("\"end_date\"", "\"" + aEndDate.getText().toString() + "\"");
             pricingObject.put("\"price\"", "\"" + NumberTextWatcherForThousand.trimCommaOfString(aAdvancePrice.getText().toString()) + "\"");
-
+            if (aDriver.isChecked()) {
+                pricingObject.put("\"price_with_driver\"","\"" + NumberTextWatcherForThousand.trimCommaOfString(aAdvanceWDriver.getText().toString()) + "\"");
+            }
             pricingArray.add(pricingObject.toString().replace("=", ":"));
         }
 
@@ -1292,8 +1507,10 @@ public class FormCarAsetActivity extends AppCompatActivity {
             pricingObject.put("\"range_name\"", "\"" + aRangName2.getSelectedItem().toString() + "\"");
             pricingObject.put("\"start_date\"", "\"" + aStartDate2.getText().toString() + "\"");
             pricingObject.put("\"end_date\"", "\"" + aEndDate2.getText().toString() + "\"");
-            pricingObject.put("\"price\"", "\"" + NumberTextWatcherForThousand.trimCommaOfString(aAdvancePrice.getText().toString()) + "\"");
-
+            pricingObject.put("\"price\"", "\"" + NumberTextWatcherForThousand.trimCommaOfString(aAdvancePrice2.getText().toString()) + "\"");
+            if (aDriver.isChecked()) {
+                pricingObject.put("\"price_with_driver\"", "\"" + NumberTextWatcherForThousand.trimCommaOfString(aAdvanceWDriver2.getText().toString()) + "\"");
+            }
             pricingArray.add(pricingObject.toString().replace("=", ":"));
         }
 
@@ -1302,8 +1519,10 @@ public class FormCarAsetActivity extends AppCompatActivity {
             pricingObject.put("\"range_name\"", "\"" + aRangName3.getSelectedItem().toString() + "\"");
             pricingObject.put("\"start_date\"", "\"" + aStartDate3.getText().toString() + "\"");
             pricingObject.put("\"end_date\"", "\"" + aEndDate3.getText().toString() + "\"");
-            pricingObject.put("\"price\"", "\"" + NumberTextWatcherForThousand.trimCommaOfString(aAdvancePrice.getText().toString()) + "\"");
-
+            pricingObject.put("\"price\"", "\"" + NumberTextWatcherForThousand.trimCommaOfString(aAdvancePrice3.getText().toString()) + "\"");
+            if (aDriver.isChecked()) {
+                pricingObject.put("\"price_with_driver\"","\"" + NumberTextWatcherForThousand.trimCommaOfString(aAdvanceWDriver3.getText().toString()) + "\"");
+            }
             pricingArray.add(pricingObject.toString().replace("=", ":"));
         }
 
@@ -1312,8 +1531,10 @@ public class FormCarAsetActivity extends AppCompatActivity {
             pricingObject.put("\"range_name\"", "\"" + aRangName4.getSelectedItem().toString() + "\"");
             pricingObject.put("\"start_date\"", "\"" + aStartDate4.getText().toString() + "\"");
             pricingObject.put("\"end_date\"", "\"" + aEndDate4.getText().toString() + "\"");
-            pricingObject.put("\"price\"", "\"" + NumberTextWatcherForThousand.trimCommaOfString(aAdvancePrice.getText().toString()) + "\"");
-
+            pricingObject.put("\"price\"", "\"" + NumberTextWatcherForThousand.trimCommaOfString(aAdvancePrice4.getText().toString()) + "\"");
+            if (aDriver.isChecked()) {
+                pricingObject.put("\"price_with_driver\"","\"" + NumberTextWatcherForThousand.trimCommaOfString(aAdvanceWDriver4.getText().toString()) + "\"");
+            }
             pricingArray.add(pricingObject.toString().replace("=", ":"));
         }
     }
@@ -1360,6 +1581,7 @@ public class FormCarAsetActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                showProgress(false);
                 Log.e(TAG, "Price Check Fetch Error : " +  error.toString());
                 Toast.makeText(getApplicationContext(), "Connection error, try again.",
                         Toast.LENGTH_LONG).show();
@@ -1370,6 +1592,8 @@ public class FormCarAsetActivity extends AppCompatActivity {
                 // Posting parameters to url
                 Map<String, String> keys = new HashMap<String, String>();
                 keys.put("price", price);
+                Log.e(TAG, "Price Check Body : " +  price);
+
                 return keys;
             }
             @Override
@@ -1627,26 +1851,6 @@ public class FormCarAsetActivity extends AppCompatActivity {
         }
     }
 
-    // IMAGE : pick image
-    private void showFileChooser(String action) {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        int request = 0;
-        switch (action){
-            case "main" : request = PICK_IMAGE_REQUEST; break;
-            case "second" : request = PICK_IMAGE_SECOND_REQUEST; break;
-            case "third" : request = PICK_IMAGE_THIRD_REQUEST; break;
-            case "fourth" : request = PICK_IMAGE_FOURTH_REQUEST; break;
-            case "fifth" : request = PICK_IMAGE_FIFTH_REQUEST; break;
-            case "STNK" : request = PICK_IMAGE_STNK_REQUEST; break;
-            case "asu1" : request = PICK_IMAGE_ASU_1_REQUEST; break;
-            case "asu2" : request = PICK_IMAGE_ASU_2_REQUEST; break;
-            case "asu3" : request = PICK_IMAGE_ASU_3_REQUEST; break;
-
-        }
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), request);
-    }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     private void showProgress(final boolean show) {
@@ -1672,5 +1876,106 @@ public class FormCarAsetActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
 //        getMenuInflater().inflate(R.menu.menu_save_option, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_save) {
+            pDialog.setMessage("loading ...");
+            showProgress(true);
+
+            tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
+            category = iFormAsset.getStringExtra("cat");
+            idAsset = iFormAsset.getIntExtra("id_asset", 0);
+
+            int rentReqId = aRentReqGroup.getCheckedRadioButtonId();
+            if (rentReqId == aBasic.getId())
+                aRentReq = getResources().getString(R.string.member_badge_basic);
+            else if (rentReqId == aVerified.getId())
+                aRentReq = getResources().getString(R.string.member_badge_verified);
+            else aRentReq = getResources().getString(R.string.member_badge_smart_con);
+
+            if (aDriver.isChecked() && aNoDriver.isChecked()) {
+                aDriverStatus = "both";
+            } else if (aDriver.isChecked()) {
+                aDriverStatus = "true";
+            } else if (aNoDriver.isChecked()) {
+                aDriverStatus = "false";
+            } else {
+                aDriverStatus = "nodefine";
+            }
+
+            if (aDelivery.isChecked() && aPickup.isChecked()) {
+                aDeliveryMethod = "both";
+            } else if (aDelivery.isChecked()) {
+                aDeliveryMethod = "deliver";
+            } else if (aPickup.isChecked()) {
+                aDeliveryMethod = "pickup";
+            } else {
+                aDeliveryMethod = "nodefine";
+            }
+
+            aPlatStart.setError(null);
+            aPlatEnd.setError(null);
+
+            String numplatPattern = "\\d";
+            View focusView;
+            Pattern r = Pattern.compile(numplatPattern);
+            Matcher m = r.matcher(aPlatStart.getText().toString());
+            Matcher n = r.matcher(aPlatEnd.getText().toString());
+
+            Boolean startPlat = !m.find();
+            Boolean endPlat = !n.find();
+
+            if (aBasicPrice.getText().toString().isEmpty() || aDeliveryMethod.equals("nodefine") || aDriverStatus.equals("nodefine") ||
+                    aAddress.getText().toString().isEmpty() || aType.getText().toString().isEmpty() || aPlat.toString().isEmpty() || aPlatStart.toString().isEmpty() ||
+                    aName.getText().toString().isEmpty() || aNoRangka.getText().toString().isEmpty() || aNoMesin.getText().toString().isEmpty() ||
+                    aMinRentDay.getText().toString().isEmpty()) {
+                showProgress(false);
+                Toast.makeText(getApplicationContext(), R.string.error_field_not_complete, Toast.LENGTH_LONG).show();
+            } else {
+                if (startPlat) {
+                    if (endPlat) {
+                        pricingArray.clear();
+                        getPrice();
+                        postPriceCheck(pricingArray.toString());
+                    } else {
+                        aPlatEnd.setError("Tidak boleh memasukan angka");
+                        focusView = aPlatEnd;
+                        focusView.requestFocus();
+                    }
+                } else {
+                    aPlatStart.setError("Tidak boleh memasukan angka");
+                    focusView = aPlatStart;
+                    focusView.requestFocus();
+                }
+            }
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    // IMAGE : pick image
+    private void showFileChooser(String action) {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        int request = 0;
+        switch (action){
+            case "main" : request = PICK_IMAGE_REQUEST; break;
+            case "second" : request = PICK_IMAGE_SECOND_REQUEST; break;
+            case "third" : request = PICK_IMAGE_THIRD_REQUEST; break;
+            case "fourth" : request = PICK_IMAGE_FOURTH_REQUEST; break;
+            case "fifth" : request = PICK_IMAGE_FIFTH_REQUEST; break;
+            case "STNK" : request = PICK_IMAGE_STNK_REQUEST; break;
+            case "asu1" : request = PICK_IMAGE_ASU_1_REQUEST; break;
+            case "asu2" : request = PICK_IMAGE_ASU_2_REQUEST; break;
+            case "asu3" : request = PICK_IMAGE_ASU_3_REQUEST; break;
+
+        }
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), request);
     }
 }

@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/min_padding"
+    android:background="?attr/colorPrimary"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="id.rentist.mitrarentist.RegistrationActivity"
+    tools:showIn="@layout/activity_registration">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/xmin_padding"
+                android:background="@color/colorWhite"
+                android:focusableInTouchMode="true"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/med_padding"
+                android:paddingLeft="@dimen/min_padding"
+                android:paddingRight="@dimen/min_padding"
+                android:paddingTop="@dimen/med_padding">
+
+                <TextView
+                    android:id="@+id/textView1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/med_padding"
+                    android:padding="@dimen/min_padding"
+                    android:text="Silahkan Lengkapi Informasi Rental Anda"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="16sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/xmin_padding"
+                    android:orientation="vertical"
+                    android:padding="@dimen/xmin_padding">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/xmin_padding"
+                            android:text="Nama Rental" />
+
+                        <TextView
+                            android:id="@+id/textView44"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/xmin_padding"
+                            android:text="*Untuk keperluan administrasi"
+                            android:layout_marginStart="@dimen/min_padding"
+                            android:textSize="@dimen/tiny_text" />
+
+                    </LinearLayout>
+
+
+                    <EditText
+                        android:id="@+id/reg_rent_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorNearWhite"
+                        android:ems="10"
+                        android:imeOptions="actionNext"
+                        android:inputType="text|textCapWords"
+                        android:padding="@dimen/min_padding" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/xmin_padding"
+                    android:orientation="vertical"
+                    android:padding="@dimen/xmin_padding">
+
+                    <TextView
+                        android:id="@+id/textView3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/xmin_padding"
+                        android:text="Pemilik / Penanggungjawab Rental" />
+
+                    <EditText
+                        android:id="@+id/reg_own_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorNearWhite"
+                        android:ems="10"
+                        android:imeOptions="actionNext"
+                        android:inputType="text|textCapWords"
+                        android:padding="@dimen/min_padding" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/xmin_padding"
+                    android:orientation="vertical"
+                    android:padding="@dimen/xmin_padding">
+
+                    <TextView
+                        android:id="@+id/textView6"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/xmin_padding"
+                        android:text="Jenis Rental" />
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/xmin_padding"
+                        android:background="@color/colorNearWhite">
+
+                        <Spinner
+                            android:id="@+id/reg_role"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:entries="@array/role_rental"
+                            android:fadingEdge="horizontal"
+                            android:padding="@dimen/xmin_padding"
+                            app:layout_gravity="bottom" />
+
+                        <View
+                            android:id="@+id/line"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_alignBottom="@id/reg_role"
+                            android:background="@android:color/darker_gray"
+                            android:paddingLeft="@dimen/min_padding"
+                            android:paddingRight="@dimen/min_padding" />
+
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/xmin_padding"
+                    android:orientation="vertical"
+                    android:padding="@dimen/xmin_padding">
+
+                    <TextView
+                        android:id="@+id/textView4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/xmin_padding"
+                        android:text="Email" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <EditText
+                            android:id="@+id/reg_email"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerInParent="false"
+                            android:background="@color/colorNearWhite"
+                            android:ems="10"
+                            android:hint="your_mail@mail.com"
+                            android:imeOptions="actionNext"
+                            android:inputType="textEmailAddress"
+                            android:padding="@dimen/min_padding" />
+
+                        <ImageView
+                            android:id="@+id/email_check"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="@dimen/xmin_padding"
+                            android:visibility="gone"
+                            app:srcCompat="@drawable/checkmarkgreen_sm25x25" />
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/xmin_padding"
+                    android:orientation="vertical"
+                    android:padding="@dimen/xmin_padding">
+
+                    <TextView
+                        android:id="@+id/textView5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/xmin_padding"
+                        android:text="Nomor Handphone" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorNearWhite">
+
+                        <com.hbb20.CountryCodePicker
+                            android:id="@+id/country_code"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_centerVertical="true"
+                            app:ccp_defaultNameCode="ID"
+                            app:ccp_showFlag="false" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_toEndOf="@+id/country_code">
+
+                            <EditText
+                                android:id="@+id/reg_phone"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@color/colorNearWhite"
+                                android:ems="10"
+                                android:hint="8xxxxxxxxxx"
+                                android:imeOptions="actionNext"
+                                android:inputType="phone"
+                                android:padding="@dimen/min_padding" />
+
+                            <ImageView
+                                android:id="@+id/phone_check"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:layout_margin="@dimen/xmin_padding"
+                                android:visibility="gone"
+                                app:srcCompat="@drawable/checkmarkgreen_sm25x25" />
+                        </RelativeLayout>
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/xmin_padding"
+                    android:orientation="vertical"
+                    android:padding="@dimen/xmin_padding">
+
+                    <TextView
+                        android:id="@+id/textView11"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/xmin_padding"
+                        android:text="Password" />
+
+                    <EditText
+                        android:id="@+id/reg_pass"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorNearWhite"
+                        android:ems="10"
+                        android:hint="******"
+                        android:imeOptions="actionNext"
+                        android:inputType="textPassword"
+                        android:padding="@dimen/min_padding" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/xmin_padding"
+                    android:orientation="vertical"
+                    android:padding="@dimen/xmin_padding">
+
+                    <TextView
+                        android:id="@+id/textView12"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/xmin_padding"
+                        android:text="Konfirmasi Password" />
+
+                    <EditText
+                        android:id="@+id/reg_conf_pass"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorNearWhite"
+                        android:ems="10"
+                        android:hint="******"
+                        android:imeOptions="actionDone"
+                        android:inputType="textPassword"
+                        android:padding="@dimen/min_padding" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginBottom="@dimen/xmin_padding"
+                android:layout_weight="1">
+
+                <CheckBox
+                    android:id="@+id/checkBoxAgreement"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/xmin_padding"
+                    android:text="Saya mengerti dengan Kententuan dan Kebijakan yang berlaku."
+                    android:textColor="@color/colorWhite"
+                    android:textSize="10sp" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_save"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
+                android:padding="@dimen/xmin_padding"
+                android:text="Daftar"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/terms_service"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/med_padding"
+                android:layout_marginTop="@dimen/med_padding"
+                android:padding="@dimen/xmin_padding"
+                android:text="@string/agreement_link"
+                android:textAlignment="center"
+                android:textColor="@color/colorWhite"
+                android:textSize="10sp" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>
