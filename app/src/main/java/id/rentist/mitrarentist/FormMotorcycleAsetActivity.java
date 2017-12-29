@@ -775,8 +775,8 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
     }
 
     private void getDataUpdate(){
-        btnCamSTNK.setVisibility(View.GONE);
-        btnFileSTNK.setVisibility(View.GONE);
+//        btnCamSTNK.setVisibility(View.GONE);
+//        btnFileSTNK.setVisibility(View.GONE);
 
         aName.setText(iFormAsset.getStringExtra("name"));
         aType.setText(iFormAsset.getStringExtra("type"));

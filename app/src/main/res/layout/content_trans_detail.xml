@@ -196,15 +196,25 @@
 
                             </LinearLayout>
 
+                            <!--<ImageView-->
+                                <!--android:id="@+id/btn_cameraa"-->
+                                <!--android:layout_width="@dimen/breadcrumb_height"-->
+                                <!--android:layout_height="@dimen/breadcrumb_height"-->
+                                <!--android:layout_alignParentEnd="true"-->
+                                <!--android:layout_centerVertical="true"-->
+                                <!--android:clickable="true"-->
+                                <!--android:src="@drawable/ic_camera_alt_black_24dp"-->
+                                <!--android:visibility="gone" />-->
+
                             <ImageView
                                 android:id="@+id/btn_camera"
                                 android:layout_width="@dimen/breadcrumb_height"
                                 android:layout_height="@dimen/breadcrumb_height"
+                                android:layout_margin="@dimen/small_space"
+                                android:background="@color/colorNearWhite"
                                 android:layout_alignParentEnd="true"
-                                android:layout_centerVertical="true"
-                                android:clickable="true"
-                                android:src="@drawable/ic_camera_alt_black_24dp"
-                                android:visibility="visible" />
+                                app:srcCompat="@drawable/ic_camera_alt_black_24dp"
+                                android:visibility="gone" />
 
                         </RelativeLayout>
 

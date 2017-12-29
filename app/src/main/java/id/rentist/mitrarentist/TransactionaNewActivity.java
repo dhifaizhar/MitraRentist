@@ -84,7 +84,6 @@ public class TransactionaNewActivity extends AppCompatActivity {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mTrans.clear();
                 getTransaction();
             }
         });
@@ -138,7 +137,8 @@ public class TransactionaNewActivity extends AppCompatActivity {
                 JSONArray jsonArray = new JSONArray(transaction);
                 trans_sum = String.valueOf(jsonArray.length());
                 setTitle("Pesanan Baru (" + trans_sum + ")");
-
+                mTrans.clear();
+                mAdapter.notifyDataSetChanged();
                 if(jsonArray.length() > 0){
                     for (int i = 0; i < jsonArray.length(); i++) {
                         errorMsg = "-";

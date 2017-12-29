@@ -993,22 +993,28 @@ public class FormCarAsetActivity extends AppCompatActivity {
                     showProgress(false);
                     Toast.makeText(getApplicationContext(), R.string.error_field_not_complete, Toast.LENGTH_LONG).show();
                 } else {
-                    if (startPlat) {
-                        if (endPlat) {
-                            pricingArray.clear();
-                            getPrice();
-                            postPriceCheck(pricingArray.toString());
+                    boolean status = priceValidate();
+                    if (!status){
+                        showProgress(false);
+                        Toast.makeText(getApplicationContext(), "Harap masukan harga aset dengan pengemudi", Toast.LENGTH_LONG).show();
+                    }else{
+                        if (startPlat) {
+                            if (endPlat) {
+                                pricingArray.clear();
+                                getPrice();
+                                postPriceCheck(pricingArray.toString());
+                            } else {
+                                showProgress(false);
+                                aPlatEnd.setError("Tidak boleh memasukan angka untuk Kode Plat Nomer");
+                                focusView = aPlatEnd;
+                                focusView.requestFocus();
+                            }
                         } else {
                             showProgress(false);
-                            aPlatEnd.setError("Tidak boleh memasukan angka untuk Kode Plat Nomer");
-                            focusView = aPlatEnd;
+                            aPlatStart.setError("Tidak boleh memasukan angka untuk Kode Plat Nomer");
+                            focusView = aPlatStart;
                             focusView.requestFocus();
                         }
-                    } else {
-                        showProgress(false);
-                        aPlatStart.setError("Tidak boleh memasukan angka untuk Kode Plat Nomer");
-                        focusView = aPlatStart;
-                        focusView.requestFocus();
                     }
                 }
             }
@@ -1224,6 +1230,38 @@ public class FormCarAsetActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    private boolean priceValidate(){
+        boolean status = true;
+
+        if (aDriver.isChecked()){
+            if (aBasicWDriver.getText().toString().isEmpty()){
+                status = false;
+            }
+
+            if (!aAdvancePrice.getText().toString().isEmpty() &&
+                    aAdvanceWDriver.getText().toString().isEmpty()){
+                status = false;
+            }
+
+            if (!aAdvancePrice2.getText().toString().isEmpty() &&
+                    aAdvanceWDriver2.getText().toString().isEmpty()){
+                status = false;
+            }
+
+            if (!aAdvancePrice3.getText().toString().isEmpty() &&
+                    aAdvanceWDriver3.getText().toString().isEmpty()){
+                status = false;
+            }
+
+            if (!aAdvancePrice4.getText().toString().isEmpty() &&
+                    aAdvanceWDriver4.getText().toString().isEmpty()){
+                status = false;
+            }
+        }
+
+        return status;
     }
 
     // IMAGE : show in frame
@@ -1483,7 +1521,6 @@ public class FormCarAsetActivity extends AppCompatActivity {
             if (aDriver.isChecked()) {
                 priceBasicObject.put("price_with_driver", NumberTextWatcherForThousand.trimCommaOfString(aBasicWDriver.getText().toString()));
             }
-
 
             pricingArray.add(priceBasicObject.toString().replace("=",":"));
         } catch (JSONException e) {

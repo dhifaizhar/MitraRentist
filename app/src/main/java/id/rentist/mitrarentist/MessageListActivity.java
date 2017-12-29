@@ -134,7 +134,7 @@ public class MessageListActivity extends AppCompatActivity {
                                 }
                             }
 
-                            Log.e(TAG, "Transaction Data Add: " + mTrans);
+                            Log.e(TAG, "Transaction Data History: " + mTrans);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -180,7 +180,7 @@ public class MessageListActivity extends AppCompatActivity {
                             }
 
 
-                            Log.e(TAG, "Transaction Data Add:  " + mTrans);
+                            Log.e(TAG, "Transaction Data New:  " + mTrans);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -263,12 +263,12 @@ public class MessageListActivity extends AppCompatActivity {
             showProgress(false);
 
             Integer dataLength;
+            Log.e(TAG, "Message Response : " + msg);
 
             if (msg != null) {
                 try {
                     dataObject = new JSONObject(msg);
                     dataLength = dataObject.length();
-                    Log.e(TAG, "Message Response : " + msg);
 
                     if(dataLength > 0){
                         errorMsg = "-";
@@ -284,7 +284,7 @@ public class MessageListActivity extends AppCompatActivity {
 
                                 JSONObject user = dataObject.getJSONObject(keyValue);
                                 Log.e(TAG, "usernya : " + user);
-
+                                mMsg.clear();
                                 Iterator<String> userKeys = user.keys();
                                 while (userKeys.hasNext()) {
                                     String phone = (String)userKeys.next();

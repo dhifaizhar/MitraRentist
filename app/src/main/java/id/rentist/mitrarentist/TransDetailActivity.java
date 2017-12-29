@@ -129,8 +129,9 @@ public class TransDetailActivity extends AppCompatActivity {
 
     @Override
     public void onResume() {
-        mapView.onResume();
         super.onResume();
+        mapView.onResume();
+
     }
 
     @Override
