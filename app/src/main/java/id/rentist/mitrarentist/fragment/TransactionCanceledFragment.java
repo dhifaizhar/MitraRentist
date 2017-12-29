@@ -189,6 +189,9 @@ public class TransactionCanceledFragment extends Fragment {
                         }
                     }
 
+                    String aDistance = transObject.getString("distance");
+                    String aDeliveryPrice = transObject.getString("delivery_price");
+
                     JSONArray additional = transObject.getJSONArray("additional");
                     ArrayList<String> idAdditional = new ArrayList<String>();
                     if(additional.length() > 0) {
@@ -199,7 +202,7 @@ public class TransactionCanceledFragment extends Fragment {
                         }
                     }
 
-                    aCodeTrans = idTrans.getString("transaction_code");
+                    aCodeTrans = idTrans.getString("transaction_code") + "-" + transObject.getString("id");
                     aNominal = transObject.getString("tenant_income");
                     aIdMember = memberObject.getString("id");
                     aMember = memberObject.getString("firstname") + " " + memberObject.getString("lastname");
@@ -228,6 +231,8 @@ public class TransactionCanceledFragment extends Fragment {
                     itemTrans.setInsurance(transObject.getString("insurance"));
                     itemTrans.setVoucherCode(aVoucherCode);
                     itemTrans.setVoucherDisc(aVoucherDisc);
+                    itemTrans.setDistance(aDistance);
+                    itemTrans.setDeliveryPrice(aDeliveryPrice);
 
                     if(!sm.getPreferences("role").equals(getString(R.string.role_delivery))){
                         mTrans.add(itemTrans);

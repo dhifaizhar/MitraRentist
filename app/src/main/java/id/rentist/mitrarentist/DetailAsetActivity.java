@@ -159,6 +159,64 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
 
         mWorkTask =  new getDateEvent().execute();
 //        getDateEventAssset();
+
+        calendarView.setOnDateChangedListener(new OnDateSelectedListener() {
+            @Override
+            public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
+                String dateSelected = date.getDay() + "-" +  (date.getMonth() + 1) + "-" + date.getYear();
+                final String dateSend = date.getYear() +"-"+ (date.getMonth() + 1) +"-"+ date.getDay();
+
+                Date schedule = null;
+                try {
+                    schedule = format.parse(dateSend);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                if(!dayTrans.contains(CalendarDay.from(schedule))) {
+                    if (daySchedule.contains(CalendarDay.from(schedule))) {
+                        scheduleAlert = new AlertDialog.Builder(DetailAsetActivity.this);
+                        scheduleAlert.setMessage("Ubah status aset pada  " + dateSelected + " menjadi Aktif ?");
+                        final Date finalSchedule = schedule;
+                        scheduleAlert.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface arg0, int arg1) {
+                                new deleteDateEventTask(daySchedule.indexOf(CalendarDay.from(finalSchedule))).execute();
+
+                            }
+                        });
+                        scheduleAlert.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // close dialog
+                            }
+                        });
+
+                        scheduleAlertDialog = scheduleAlert.create();
+                        scheduleAlertDialog.show();
+                    } else {
+                        scheduleAlert = new AlertDialog.Builder(DetailAsetActivity.this);
+                        scheduleAlert.setMessage("Ubah status aset pada  " + dateSelected + " menjadi Non-Aktif ?");
+                        scheduleAlert.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface arg0, int arg1) {
+                                setDateEvent(dateSend);
+
+                            }
+                        });
+                        scheduleAlert.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // close dialog
+                            }
+                        });
+
+                        scheduleAlertDialog = scheduleAlert.create();
+                        scheduleAlertDialog.show();
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -1339,6 +1397,7 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
             new getDateEvent().execute();
 
         }
+
     }
 
 }

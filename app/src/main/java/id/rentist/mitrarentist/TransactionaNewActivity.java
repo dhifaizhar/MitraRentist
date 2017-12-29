@@ -84,6 +84,8 @@ public class TransactionaNewActivity extends AppCompatActivity {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                mTrans.clear();
+                mAdapter.notifyDataSetChanged();
                 getTransaction();
             }
         });
@@ -137,8 +139,6 @@ public class TransactionaNewActivity extends AppCompatActivity {
                 JSONArray jsonArray = new JSONArray(transaction);
                 trans_sum = String.valueOf(jsonArray.length());
                 setTitle("Pesanan Baru (" + trans_sum + ")");
-                mTrans.clear();
-                mAdapter.notifyDataSetChanged();
                 if(jsonArray.length() > 0){
                     for (int i = 0; i < jsonArray.length(); i++) {
                         errorMsg = "-";
@@ -175,6 +175,9 @@ public class TransactionaNewActivity extends AppCompatActivity {
                             }
                         }
 
+                        String aDistance = transObject.getString("distance");
+                        String aDeliveryPrice = transObject.getString("delivery_price");
+
                         JSONArray additional = transObject.getJSONArray("additional");
                         ArrayList<String> idAdditional = new ArrayList<String>();
                         if(additional.length() > 0) {
@@ -185,7 +188,7 @@ public class TransactionaNewActivity extends AppCompatActivity {
                             }
                         }
 
-                        aCodeTrans = idTrans.getString("transaction_code");
+                        aCodeTrans = idTrans.getString("transaction_code") + "-" + transObject.getString("id");
                         aNominal = transObject.getString("tenant_income");
                         aIdMember = memberObject.getString("id");
                         aMember = memberObject.getString("firstname") + " " + memberObject.getString("lastname");
@@ -215,6 +218,8 @@ public class TransactionaNewActivity extends AppCompatActivity {
                         itemTrans.setDriverIncluded(transObject.getString("with_driver"));
                         itemTrans.setVoucherCode(aVoucherCode);
                         itemTrans.setVoucherDisc(aVoucherDisc);
+                        itemTrans.setDistance(aDistance);
+                        itemTrans.setDeliveryPrice(aDeliveryPrice);
 
                         mTrans.add(itemTrans);
                     }

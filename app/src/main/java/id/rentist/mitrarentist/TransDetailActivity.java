@@ -67,8 +67,8 @@ public class TransDetailActivity extends AppCompatActivity {
     private Intent itransDet;
 
     TextView mAset, mPrice, mCodeTrans, mMember, mStartDate, mEndDate, mDriver, mPicktime, mAddress,
-            mNote, feature_name, mOrderDate;
-    LinearLayout mAdditional, con_add_feature, con_voucher,con_insurance, con_additonal;
+            mNote, feature_name, mOrderDate, mDistance, mDeliveryPrice;
+    LinearLayout mAdditional, con_add_feature, con_voucher,con_insurance, con_additonal, con_deliver;
 
     ImageView mAsetThumb, withDriverCheck;
 
@@ -173,6 +173,9 @@ public class TransDetailActivity extends AppCompatActivity {
         withDriverCheck = (ImageView) findViewById(R.id.detTrans_with_driver);
         btnCamera = (ImageView) findViewById(R.id.btn_camera);
         btnDriver = (Button) findViewById(R.id.btn_assign_driver);
+        con_deliver = (LinearLayout) findViewById(R.id.detTrans_con_deliver);
+        mDistance = (TextView) findViewById(R.id.detTrans_distance);
+        mDeliveryPrice = (TextView) findViewById(R.id.detTrans_delivery_price);
 
         LinearLayout btnContainer = (LinearLayout) findViewById(R.id.btnContainer);
         Display display = getWindowManager().getDefaultDisplay();
@@ -271,6 +274,12 @@ public class TransDetailActivity extends AppCompatActivity {
 
             mVoucherCode.setText(itransDet.getStringExtra("voucher_code"));
             mVoucherDisc.setText(itransDet.getStringExtra("voucher_disc"));
+        }
+
+        if (!itransDet.getStringExtra("distance").equals("0")){
+            con_deliver.setVisibility(View.VISIBLE);
+            mDeliveryPrice.setText(PricingTools.PriceStringFormat(itransDet.getStringExtra("delivery_price")));
+            mDistance.setText(itransDet.getStringExtra("distance"));
         }
 
         // Button Action Configure

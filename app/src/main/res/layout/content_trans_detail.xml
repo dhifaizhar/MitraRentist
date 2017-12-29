@@ -26,7 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/xmin_padding"
-                android:background="@color/colorPrimarySoft">
+                android:background="@color/colorWhite">
 
                 <ImageView
                     android:id="@+id/detTrans_thumb"
@@ -68,9 +68,12 @@
                     android:layout_below="@+id/detTrans_thumb"
                     android:orientation="horizontal"
                     android:padding="@dimen/xmin_padding"
+                    android:background="@color/colorPrimarySoft"
+                    android:layout_marginTop="@dimen/small_space"
                     android:visibility="gone">
 
                     <TextView
+                        android:id="@+id/textView45"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -99,6 +102,55 @@
                         android:background="@color/colorPrimary"
                         android:textColor="@color/colorWhite"
                         android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/detTrans_con_deliver"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/detTrans_con_voucher"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/xmin_padding"
+                    android:background="@color/colorPrimarySoft"
+                    android:layout_marginTop="@dimen/small_space"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Harga Termasuk Biaya Pengiriman :"
+                        android:textSize="@dimen/almost_tiny_text" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:id="@+id/detTrans_distance"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="4.0 KM  X 1.000"
+                            android:layout_marginEnd="@dimen/xmin_padding"
+                            android:layout_gravity="end"
+                            android:textSize="@dimen/almost_tiny_text" />
+
+                        <TextView
+                            android:id="@+id/detTrans_delivery_price"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=" 4.000 IDR"
+                            android:textAlignment="textEnd"
+                            android:textColor="@color/colorPrice"
+                            android:paddingEnd="@dimen/xmin_padding"
+                            android:layout_gravity="end"
+                            android:textSize="@dimen/under_small_text"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 

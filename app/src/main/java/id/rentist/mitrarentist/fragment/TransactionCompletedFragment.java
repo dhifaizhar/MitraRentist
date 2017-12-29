@@ -173,6 +173,9 @@ public class TransactionCompletedFragment extends Fragment {
                         }
                     }
 
+                    String aDistance = transObject.getString("distance");
+                    String aDeliveryPrice = transObject.getString("delivery_price");
+
                     itemTrans.setDriverIncluded(transObject.getString("with_driver"));
 
                     aIdTrans = transObject.getString("id");
@@ -210,7 +213,7 @@ public class TransactionCompletedFragment extends Fragment {
                         }
                     }
 
-                    aCodeTrans = idTrans.getString("transaction_code");
+                    aCodeTrans = idTrans.getString("transaction_code") + "-" + transObject.getString("id");
                     aNominal = transObject.getString("tenant_income");
                     aIdMember = memberObject.getString("id");
                     aMember = memberObject.getString("firstname") + " " + memberObject.getString("lastname");
@@ -240,6 +243,8 @@ public class TransactionCompletedFragment extends Fragment {
                     itemTrans.setInsurance(transObject.getString("insurance"));
                     itemTrans.setVoucherCode(aVoucherCode);
                     itemTrans.setVoucherDisc(aVoucherDisc);
+                    itemTrans.setDistance(aDistance);
+                    itemTrans.setDeliveryPrice(aDeliveryPrice);
 
                     if(!sm.getPreferences("role").equals(getString(R.string.role_delivery))){
                         mTrans.add(itemTrans);

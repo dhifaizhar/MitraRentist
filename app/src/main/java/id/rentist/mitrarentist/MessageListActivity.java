@@ -284,7 +284,6 @@ public class MessageListActivity extends AppCompatActivity {
 
                                 JSONObject user = dataObject.getJSONObject(keyValue);
                                 Log.e(TAG, "usernya : " + user);
-                                mMsg.clear();
                                 Iterator<String> userKeys = user.keys();
                                 while (userKeys.hasNext()) {
                                     String phone = (String)userKeys.next();
@@ -374,6 +373,7 @@ public class MessageListActivity extends AppCompatActivity {
     @Override
     public void onRestart(){
         super.onRestart();
+        mMsg.clear();
         getMessageList();
     }
 }
