@@ -56,7 +56,7 @@
                     <!--android:textCursorDrawable="@null"-->
                     <!--android:textSize="@dimen/large_text" />-->
 
-                    <EditText
+                    <TextView
                         android:id="@+id/wd_credit"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -64,8 +64,7 @@
                         android:layout_alignParentTop="true"
                         android:background="@color/colorNearWhite"
                         android:ems="10"
-                        android:hint=""
-                        android:inputType="number"
+                        android:textColor="@color/colorBlack87"
                         android:padding="@dimen/min_padding"
                         android:textSize="@dimen/large_text" />
 

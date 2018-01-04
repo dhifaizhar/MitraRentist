@@ -8,7 +8,7 @@
         android:id="@+id/action_delivery_pricing"
         android:orderInCategory="100"
         android:title="Daftar Biaya Pengiriman"
-        android:icon="@drawable/ic_rv_hookup_white_24dp"
+        android:icon="@drawable/ic_setting_price"
         app:showAsAction="always" />
 
 </menu>

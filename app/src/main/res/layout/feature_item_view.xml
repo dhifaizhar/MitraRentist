@@ -9,7 +9,7 @@
     <android.support.v7.widget.CardView
         android:id="@+id/card_view_feature"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/xmin_padding"
         android:clickable="true"
         android:foreground="?selectableItemBackground"
@@ -24,7 +24,7 @@
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical"
                 android:padding="@dimen/xmin_padding">
@@ -37,8 +37,8 @@
                     android:layout_weight="1"
                     android:gravity="bottom|left"
                     android:text="Additional Item"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/medium_text"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/small_text"
                     android:textStyle="bold" />
 
                 <LinearLayout
@@ -54,59 +54,87 @@
                         android:layout_gravity="top|center"
                         android:layout_weight="1"
                         android:text="0 IDR"
-                        android:textAlignment="textStart"
-                        android:textColor="@color/colorPrice"
+                        android:textSize="@dimen/medium_text"
+                        android:textColor="@color/colorPrimary"
                         android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/fr_qty"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="top|center"
-                        android:layout_weight="1"
-                        android:text="Stok : 0"
-                        android:textAlignment="textEnd" />
 
                 </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/action_feature"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="gone">
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginRight="10dp">
 
-                <ImageView
-                    android:id="@+id/fr_hide"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="@dimen/xmin_padding"
-                    app:srcCompat="@android:drawable/ic_delete" />
-
-                <ImageButton
-                    android:id="@+id/fr_btn_edit"
+                <TextView
+                    android:id="@+id/fr_qty"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/xmin_padding"
-                    android:layout_marginLeft="@dimen/xmin_padding"
-                    android:background="@color/colorNearWhite"
-                    android:padding="@dimen/small_space"
-                    app:srcCompat="@drawable/ic_edit_black_24dp" />
-
-                <ImageButton
-                    android:id="@+id/fr_btn_delete"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/xmin_padding"
-                    android:layout_marginLeft="@dimen/xmin_padding"
-                    android:background="@color/colorNearWhite"
-                    android:padding="@dimen/small_space"
-                    android:visibility="visible"
-                    app:srcCompat="@drawable/ic_delete_black_24dp" />
+                    android:background="@color/colorGreenRe"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:text="Stok : 0"
+                    android:textSize="18dp"
+                    android:textColor="@color/colorWhite"
+                    android:padding="10dp"
+                    />
 
             </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/fr_btn_delete"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/del_ico"
+                    android:layout_gravity="center_vertical"
+                    />
+
+            </LinearLayout>
+
+            <!--<LinearLayout-->
+                <!--android:id="@+id/action_feature"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:orientation="vertical"-->
+                <!--android:visibility="gone">-->
+
+                <!--<ImageView-->
+                    <!--android:id="@+id/fr_hide"-->
+                    <!--android:layout_width="20dp"-->
+                    <!--android:layout_height="20dp"-->
+                    <!--android:layout_gravity="center_horizontal"-->
+                    <!--android:layout_marginBottom="@dimen/xmin_padding"-->
+                    <!--app:srcCompat="@android:drawable/ic_delete" />-->
+
+                <!--<ImageButton-->
+                    <!--android:id="@+id/fr_btn_edit"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginBottom="@dimen/xmin_padding"-->
+                    <!--android:layout_marginLeft="@dimen/xmin_padding"-->
+                    <!--android:background="@color/colorNearWhite"-->
+                    <!--android:padding="@dimen/small_space"-->
+                    <!--app:srcCompat="@drawable/ic_edit_black_24dp" />-->
+
+                <!--&lt;!&ndash;<ImageButton&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:id="@+id/fr_btn_delete"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_marginBottom="@dimen/xmin_padding"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_marginLeft="@dimen/xmin_padding"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:background="@color/colorNearWhite"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:padding="@dimen/small_space"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:visibility="gone"&ndash;&gt;-->
+                    <!--&lt;!&ndash;app:srcCompat="@drawable/ic_delete_black_24dp" />&ndash;&gt;-->
+
+            <!--</LinearLayout>-->
 
         </LinearLayout>
 

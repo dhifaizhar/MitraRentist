@@ -139,7 +139,7 @@ public class FormFeatureActivity extends AppCompatActivity {
                         }
 
                         ArrayAdapter<String> nameAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item, nameArray);
-                        nameAdapter.setDropDownViewResource(android.R.layout.select_dialog_item);
+                        nameAdapter.setDropDownViewResource(R.layout.select_dialog_item);
                         featureName.setAdapter(nameAdapter);
 
                         featureName.setEnabled(true);

@@ -6,8 +6,7 @@ package id.rentist.mitrarentist.tools;
 
 public class AppConfig {
     private static String SERVER = "https://api.rentist.id:8443/";
-//    private static String SERVER = "http://192.168.100.49:1337/";
-//
+
     private static String ASSETS_SERVER = "https://assets.rentist.id/";
     public static String URL_IMAGE_PROFIL = ASSETS_SERVER + "images/";
     public static String URL_IMAGE_ASSETS = ASSETS_SERVER + "assets/";
@@ -23,17 +22,6 @@ public class AppConfig {
     public static String URL_DASHBOARD_DATA = SERVER + "dashboard/";
 
     public static String URL_LIST_ASSET = SERVER + "list/item/";
-    public static String URL_VIEW_CAR = SERVER + "view/mobil/";
-    public static String URL_VIEW_MOTOR = SERVER + "view/motor/";
-    public static String URL_VIEW_YACHT = SERVER + "view/yacht/";
-    public static String URL_VIEW_MEDIC = SERVER + "view/medical/";
-    public static String URL_VIEW_PHOTOGRAPHY = SERVER + "view/photography/";
-    public static String URL_VIEW_TOYS = SERVER + "view/toys/";
-    public static String URL_VIEW_ADVENTURE = SERVER + "view/watersport/";
-    public static String URL_VIEW_MATERNITY = SERVER + "view/maternity/";
-    public static String URL_VIEW_ELECTRONIC = SERVER + "view/electronic/";
-    public static String URL_VIEW_BICYCLE = SERVER + "view/bicycle/";
-    public static String URL_VIEW_OFFICE = SERVER + "view/officetools/";
     public static String URL_VIEW_EVENT = SERVER + "schedule/view/";
     public static String URL_SET_EVENT = SERVER + "schedule/asset/";
     public static String URL_DELETE_EVENT = SERVER + "schedule/delete/";

@@ -163,8 +163,8 @@ public class DriverDetailActivity extends AppCompatActivity {
                     name.setText(driverObject.getString("fullname"));
                     sim.setText(driverObject.getString("no_sim"));
                     gender.setText(driverObject.getString("gender").equals("male") ? "Pria" : "Wanita");
-                    phone.setText(driverObject.getString("phone"));
-                    email.setText(driverObject.getString("email"));
+                    phone.setText(driverObject.getString("phone").equals("null")?"":driverObject.getString("phone"));
+                    email.setText(driverObject.getString("email").equals("null")?"":driverObject.getString("email"));
                     birthdate = driverObject.getString("birthdate");
 
                     // formatter

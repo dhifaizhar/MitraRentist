@@ -26,13 +26,12 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 import id.rentist.mitrarentist.tools.AppConfig;
+import id.rentist.mitrarentist.tools.PricingTools;
 import id.rentist.mitrarentist.tools.SessionManager;
 
 public class WithdrawalActivity extends AppCompatActivity {
@@ -79,13 +78,12 @@ public class WithdrawalActivity extends AppCompatActivity {
         credit.setEnabled(false);
 
         transId = iWithdrawal.getStringArrayListExtra("transId");
-        NumberFormat formatter = NumberFormat.getInstance(Locale.GERMANY);
 
         Log.e(TAG, "Trans id array : " + transId);
 
         // set content control value
         balance = iWithdrawal.getStringExtra("balance");
-        credit.setText(formatter.format(Integer.parseInt(balance)));
+        credit.setText(PricingTools.PriceStringFormat(balance));
         withdrawal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

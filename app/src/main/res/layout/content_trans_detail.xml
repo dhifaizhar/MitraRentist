@@ -70,13 +70,14 @@
                     android:padding="@dimen/xmin_padding"
                     android:background="@color/colorPrimarySoft"
                     android:layout_marginTop="@dimen/small_space"
-                    android:visibility="gone">
+                    android:visibility="visible">
 
                     <TextView
                         android:id="@+id/textView45"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:layout_gravity="center_vertical"
                         android:text="Harga Telah Dipotong Kupon :"
                         android:textSize="@dimen/almost_tiny_text" />
 
@@ -84,7 +85,7 @@
                         android:id="@+id/detTrans_voucher_value"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="(Disk. 10%)"
+                        android:text="(Disk. 50.000 IDR)"
                         android:textStyle="bold"
                         android:layout_marginEnd="@dimen/xmin_padding"
                         android:layout_gravity="center_vertical"
@@ -94,11 +95,11 @@
                         android:id="@+id/detTrans_voucher_code"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="MURAH10"
-                        android:textAlignment="textEnd"
+                        android:text="DESEMBER2017"
                         android:paddingEnd="@dimen/xmin_padding"
                         android:paddingStart="@dimen/xmin_padding"
                         android:textSize="@dimen/under_small_text"
+                        android:layout_gravity="center_vertical"
                         android:background="@color/colorPrimary"
                         android:textColor="@color/colorWhite"
                         android:textStyle="bold" />
@@ -120,6 +121,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:layout_gravity="center_vertical"
                         android:text="Harga Termasuk Biaya Pengiriman :"
                         android:textSize="@dimen/almost_tiny_text" />
 
@@ -248,25 +250,25 @@
 
                             </LinearLayout>
 
-                            <!--<ImageView-->
-                                <!--android:id="@+id/btn_cameraa"-->
-                                <!--android:layout_width="@dimen/breadcrumb_height"-->
-                                <!--android:layout_height="@dimen/breadcrumb_height"-->
-                                <!--android:layout_alignParentEnd="true"-->
-                                <!--android:layout_centerVertical="true"-->
-                                <!--android:clickable="true"-->
-                                <!--android:src="@drawable/ic_camera_alt_black_24dp"-->
-                                <!--android:visibility="gone" />-->
-
-                            <ImageView
-                                android:id="@+id/btn_camera"
+                            <ImageButton
+                                android:id="@+id/btn_cameraa"
                                 android:layout_width="@dimen/breadcrumb_height"
                                 android:layout_height="@dimen/breadcrumb_height"
-                                android:layout_margin="@dimen/small_space"
-                                android:background="@color/colorNearWhite"
                                 android:layout_alignParentEnd="true"
-                                app:srcCompat="@drawable/ic_camera_alt_black_24dp"
+                                android:layout_centerVertical="true"
+                                android:clickable="true"
+                                android:src="@drawable/ic_camera_alt_black_24dp"
                                 android:visibility="gone" />
+
+                            <!--<ImageButton-->
+                                <!--android:id="@+id/btn_camera"-->
+                                <!--android:layout_width="@dimen/breadcrumb_height"-->
+                                <!--android:layout_height="@dimen/breadcrumb_height"-->
+                                <!--android:layout_margin="@dimen/small_space"-->
+                                <!--android:background="@color/colorNearWhite"-->
+                                <!--android:layout_alignParentEnd="true"-->
+                                <!--app:srcCompat="@drawable/ic_camera_alt_black_18dp"-->
+                                <!--android:visibility="visible" />-->
 
                         </RelativeLayout>
 

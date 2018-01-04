@@ -70,7 +70,7 @@ public class FormEditProfilActivity extends AppCompatActivity {
     EditText rName, rOwner, rAddress, rEmail, rPhone, rBankAccount, rAccountOwner, rBranch, rPostalCode,
             idProv, idCity, idDistric, idVillage, rNoKTP;
     ImageView profilePhoto;
-    Button btnUploadFoto;
+    Button btnUploadFoto, bSaveButton;
     String tenant, erName, erOwner, erAddress, erEmail, erPhone, erBankAccount, erAccountOwner,
             erBranch, erPostalCode, erNoKTP;
     Resources eprofilePhoto;
@@ -189,6 +189,15 @@ public class FormEditProfilActivity extends AppCompatActivity {
 
 
             }
+        });
+
+        bSaveButton = (Button) findViewById(R.id.btn_save);
+        bSaveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(sm.getPreferences("role").equals("SuperAdmin") || sm.getPreferences("role").equals("Admin")){
+                    updateProfileRent();
+                }            }
         });
 
     }
@@ -431,7 +440,7 @@ public class FormEditProfilActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_save_option, menu);
+//        getMenuInflater().inflate(R.menu.menu_save_option, menu);
         return true;
     }
 

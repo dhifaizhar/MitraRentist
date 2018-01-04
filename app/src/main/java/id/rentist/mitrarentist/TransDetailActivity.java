@@ -20,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -62,7 +63,9 @@ public class TransDetailActivity extends AppCompatActivity {
 
     Button btnClosePopup;
     Button btnDriver;
-    ImageView btnCamera;
+//    ImageView btnCamera;
+    ImageButton btnCamera;
+
     private PopupWindow pwindow;
     private Intent itransDet;
 
@@ -171,7 +174,7 @@ public class TransDetailActivity extends AppCompatActivity {
         con_insurance = (LinearLayout) findViewById(R.id.detTrans_con_insurance);
         con_additonal = (LinearLayout) findViewById(R.id.detTrans_con_additional_feature);
         withDriverCheck = (ImageView) findViewById(R.id.detTrans_with_driver);
-        btnCamera = (ImageView) findViewById(R.id.btn_camera);
+        btnCamera = (ImageButton) findViewById(R.id.btn_camera);
         btnDriver = (Button) findViewById(R.id.btn_assign_driver);
         con_deliver = (LinearLayout) findViewById(R.id.detTrans_con_deliver);
         mDistance = (TextView) findViewById(R.id.detTrans_distance);
@@ -279,7 +282,7 @@ public class TransDetailActivity extends AppCompatActivity {
         if (!itransDet.getStringExtra("distance").equals("0")){
             con_deliver.setVisibility(View.VISIBLE);
             mDeliveryPrice.setText(PricingTools.PriceStringFormat(itransDet.getStringExtra("delivery_price")));
-            mDistance.setText(itransDet.getStringExtra("distance"));
+            mDistance.setText(String.valueOf(itransDet.getStringExtra("distance") + " IDR"));
         }
 
         // Button Action Configure
@@ -471,7 +474,7 @@ public class TransDetailActivity extends AppCompatActivity {
 
             final EditText edt = (EditText) dialogView.findViewById(R.id.reason);
 
-            showAlert.setMessage("Anda yakin menolak transaksi ?");
+            showAlert.setMessage("Anda Yakin Menolak Pesanan?");
             showAlert.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface arg0, int arg1) {

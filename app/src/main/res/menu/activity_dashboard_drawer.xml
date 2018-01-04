@@ -16,11 +16,11 @@
             android:title="Aset" />
         <item
             android:id="@+id/nav_feature"
-            android:icon="@drawable/aset_box"
+            android:icon="@drawable/feature"
             android:title="Fitur Tambahan" />
         <item
             android:id="@+id/nav_driver"
-            android:icon="@drawable/ic_person_black_24dp"
+            android:icon="@drawable/driver"
             android:title="Pengemudi" />
         <item
             android:id="@+id/nav_riwayat"
@@ -64,7 +64,7 @@
             android:title="Panduan" />
         <item
             android:id="@+id/nav_tentang"
-            android:icon="@drawable/ic_info_black_24dp"
+            android:icon="@drawable/about_us"
             android:title="Tentang Kami" />
     </group>
 

@@ -51,7 +51,6 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/colorNearWhite"
                     android:orientation="vertical"
                     android:padding="@dimen/xmin_padding">
 
@@ -64,6 +63,7 @@
                 </LinearLayout>
             </LinearLayout>
 
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -72,12 +72,10 @@
                 android:padding="@dimen/xmin_padding">
 
                 <TextView
-                    android:id="@+id/textView6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Kategori Asset"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="12sp" />
+                    android:text="Kategori Aset"
+                    android:textColor="@color/colorBlack" />
 
                 <EditText
                     android:id="@+id/fr_asset_cat_val"
@@ -88,24 +86,22 @@
                     android:text="Name"
                     android:visibility="gone" />
 
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/xmin_padding"
-                    android:background="@color/colorNearWhite">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="@dimen/xmin_padding">
 
                     <Spinner
                         android:id="@+id/fr_asset_cat"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:entries="@array/asset_category_entries"
-                        android:fadingEdge="horizontal"
                         android:padding="@dimen/xmin_padding"
-                        android:spinnerMode="dialog"
-                        app:layout_gravity="bottom" />
-
-                </RelativeLayout>
+                        android:entries="@array/asset_category_entries"
+                        android:spinnerMode="dialog" />
+                </LinearLayout>
             </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -125,7 +121,6 @@
                     android:id="@+id/fr_price"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorNearWhite"
                     android:ems="10"
                     android:hint="0 IDR"
                     android:imeOptions="actionNext"
@@ -151,7 +146,6 @@
                     android:id="@+id/fr_qty"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorNearWhite"
                     android:ems="10"
                     android:hint="0"
                     android:inputType="number"
@@ -166,9 +160,9 @@
                 android:layout_gravity="bottom"
                 android:layout_marginTop="@dimen/xmin_padding"
                 android:layout_marginBottom="@dimen/xmin_padding"
-                android:background="@color/colorPrimaryDark"
+                android:background="@color/colorGreenRe"
                 android:textAlignment="center"
-                android:text="@string/btn_save"
+                android:text="Simpan"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/medium_text" />
 

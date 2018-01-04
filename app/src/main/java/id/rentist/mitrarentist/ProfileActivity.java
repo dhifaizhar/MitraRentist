@@ -129,10 +129,10 @@ public class ProfileActivity extends AppCompatActivity {
             Log.e(TAG, "Reuqest");
             getAddress();
         } else {
-            rVillage.setText(sm.getPreferences("village_name") + ", ");
-            rDistrict.setText(sm.getPreferences("distric_name"));
-            rCity.setText(sm.getPreferences("city_name") + ", ");
-            rProvince.setText(sm.getPreferences("province_name"));
+            rVillage.setText(sm.getPreferences("village_name"));
+            rDistrict.setText(", " + sm.getPreferences("distric_name"));
+            rCity.setText(sm.getPreferences("city_name"));
+            rProvince.setText(", " + sm.getPreferences("province_name"));
         }
 
         vAll.setOnClickListener(new View.OnClickListener() {

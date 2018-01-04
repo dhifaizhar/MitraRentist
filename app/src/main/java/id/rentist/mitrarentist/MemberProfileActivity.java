@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +38,7 @@ public class MemberProfileActivity extends AppCompatActivity {
     ImageView mProfilePic, mKTP, mKK, mRekListrik;
     SimpleRatingBar mCleanliness, mNeatness, mHonesty, mComunication;
     String URLKTP,URLKK, URLElectrical, thumbURL;
+    LinearLayout conKTP, conKK, conRekListrik;
 
     private static final String TAG = "MemberProfileActivity";
     private static final String TOKEN = "secretissecret";
@@ -68,6 +70,10 @@ public class MemberProfileActivity extends AppCompatActivity {
         mNeatness = (SimpleRatingBar) findViewById(R.id.mp_neatness_rating);
         mHonesty = (SimpleRatingBar) findViewById(R.id.mp_honesty_rating);
         mComunication = (SimpleRatingBar) findViewById(R.id.mp_comunication_rating);
+        conKTP = (LinearLayout) findViewById(R.id.con_ktp);
+        conKK = (LinearLayout) findViewById(R.id.con_kk);
+        conRekListrik = (LinearLayout) findViewById(R.id.con_rek);
+
 
         getDataMember();
 
@@ -76,7 +82,7 @@ public class MemberProfileActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent iZoom = new Intent(getApplicationContext(), ImageZoomActivity.class);
                 iZoom.putExtra("image", URLKTP);
-                iZoom.putExtra("title", "KTP");
+                iZoom.putExtra("title", "KTP/KITAS/PASSPORT");
                 startActivity(iZoom);
             }
         });
@@ -158,7 +164,10 @@ public class MemberProfileActivity extends AppCompatActivity {
             mPhone.setText(String.valueOf("+" + dataObject.getString("phone")));
             mEmail.setText(dataObject.getString("email"));
             mAddress.setText(dataObject.getString("address").equals("null")? "-" : dataObject.getString("address"));
-            mBirthday.setText(Tools.dateFineFormat(dataObject.getString("birthdate").substring(0,10)));
+
+            String bDate = dataObject.getString("birthdate").substring(0,10).equals("0000-00-00") ? "-" :
+                    Tools.dateFineFormat(dataObject.getString("birthdate").substring(0,10));
+            mBirthday.setText(bDate);
 
             mLevel.setText(dataObject.getString("badge"));
             if (mLevel.getText().equals(getResources().getString(R.string.member_badge_verified))) {
@@ -176,13 +185,13 @@ public class MemberProfileActivity extends AppCompatActivity {
             URLKK = AppConfig.URL_IMAGE_DOCUMENTS + dataObject.getString("family_card");
             URLElectrical = AppConfig.URL_IMAGE_DOCUMENTS + dataObject.getString("electricity_bills");
 
-            if(dataObject.getString("ktp").equals("null")) mKTP.setVisibility(View.GONE);
+            if(dataObject.getString("ktp").equals("null")) conKTP.setVisibility(View.GONE);
             else Picasso.with(getApplicationContext()).load(URLKTP).into(mKTP);
 
-            if(dataObject.getString("family_card").equals("null")) mKK.setVisibility(View.GONE);
+            if(dataObject.getString("family_card").equals("null")) conKK.setVisibility(View.GONE);
             else Picasso.with(getApplicationContext()).load(URLKK).into(mKK);
 
-            if(dataObject.getString("electricity_bills").equals("null")) mRekListrik.setVisibility(View.GONE);
+            if(dataObject.getString("electricity_bills").equals("null")) conRekListrik.setVisibility(View.GONE);
             else Picasso.with(getApplicationContext()).load(URLElectrical).into(mRekListrik);
 
             Float clean = Float.parseFloat(ratingObject.getString("cleanliness"))/ratingObject.getInt("counts");

@@ -55,7 +55,6 @@ public class DeliveryPriceAdapter extends RecyclerView.Adapter<DeliveryPriceAdap
         }
 
         String[] asset_category = context.getResources().getStringArray(R.array.asset_category_entries);
-//        int category[] = item.getCategory();
         String categoryText = "";
 
         if(!item.getCategory().equals("")){
@@ -87,6 +86,7 @@ public class DeliveryPriceAdapter extends RecyclerView.Adapter<DeliveryPriceAdap
         }
 
         viewHolder.distance.setText(item.getMaxDistance() + " KM");
+        viewHolder.free.setText(item.getDistaceFree() + " KM");
         viewHolder.price.setText(PricingTools.PriceStringFormat(item.getPricePerKM()));
 
     }
@@ -102,7 +102,7 @@ public class DeliveryPriceAdapter extends RecyclerView.Adapter<DeliveryPriceAdap
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView category, distance, price;
+        private TextView category, distance, price, free;
         private CardView cardDet;
         LinearLayout row_cat, fromasset, frommenu;
 
@@ -115,6 +115,7 @@ public class DeliveryPriceAdapter extends RecyclerView.Adapter<DeliveryPriceAdap
             fromasset = (LinearLayout) itemView.findViewById(R.id.from_asset);
             frommenu = (LinearLayout) itemView.findViewById(R.id.from_menu);
             cardDet = (CardView) itemView.findViewById(R.id.card_det);
+            free = (TextView) itemView.findViewById(R.id.dp_free);
 
         }
     }

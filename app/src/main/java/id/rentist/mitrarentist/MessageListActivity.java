@@ -121,7 +121,7 @@ public class MessageListActivity extends AppCompatActivity {
                                     JSONObject transObject = acceptArray.getJSONObject(i);
                                     JSONObject memberObject = transObject.getJSONObject("id_member");
 
-                                    mTrans.add(memberObject.getString("phone"));
+                                    mTrans.add(transObject.getString("id"));
                                 }
                             }
 
@@ -130,7 +130,7 @@ public class MessageListActivity extends AppCompatActivity {
                                     JSONObject transObject = ongoArray.getJSONObject(i);
                                     JSONObject memberObject = transObject.getJSONObject("id_member");
 
-                                    mTrans.add(memberObject.getString("phone"));
+                                    mTrans.add(transObject.getString("id"));
                                 }
                             }
 
@@ -273,6 +273,7 @@ public class MessageListActivity extends AppCompatActivity {
                     if(dataLength > 0){
                         errorMsg = "-";
                         Log.e(TAG, "Data lebih dari 1 " );
+                        Log.e(TAG, "mTrans : " + mTrans);
 
                         Iterator<String> keys = dataObject.keys();
                         while (keys.hasNext())

@@ -38,7 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/about_text"
         android:layout_centerHorizontal="true"
-        android:text="Versi 1.0"
+        android:text="Versi 1.0.1"
         android:textColor="@color/colorWhite"
         android:textSize="@dimen/medium_text"/>
 </RelativeLayout>

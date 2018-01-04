@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/colorBackgound"
+    android:background="@color/colorWhite"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="id.rentist.mitrarentist.DompetActivity"
     tools:showIn="@layout/activity_dompet">
@@ -19,7 +19,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/xmin_padding"
-            android:clickable="true"
             android:foreground="?selectableItemBackground"
             app:cardBackgroundColor="@color/colorWhite"
             app:cardElevation="1dp">
@@ -30,30 +29,28 @@
                 android:layout_margin="@dimen/min_padding"
                 android:padding="@dimen/min_padding">
 
-                <ImageView
-                    android:id="@+id/dm_credit_ico"
-                    android:layout_width="@dimen/thumb_med_width"
-                    android:layout_height="@dimen/thumb_med_height"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="@dimen/min_padding"
-                    android:contentDescription="credit"
-                    android:src="@drawable/dompet_ico" />
-
                 <LinearLayout
                     android:id="@+id/dm_det_saldo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_toEndOf="@+id/dm_credit_ico"
                     android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/dm_credit_ico"
+                        android:layout_width="@dimen/thumb_width"
+                        android:layout_height="@dimen/thumb_height"
+                        android:layout_gravity="center"
+                        android:contentDescription="credit"
+                        android:src="@drawable/wallet_banner" />
 
                     <TextView
                         android:id="@+id/dm_credit_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal|center_vertical"
-                        android:padding="@dimen/xmin_padding"
-                        android:text="Saldo"
+                        android:layout_marginTop="10dp"
+                        android:text="SALDO"
                         android:textSize="@dimen/large_text" />
 
                     <TextView
@@ -61,16 +58,27 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal|center_vertical"
-                        android:padding="@dimen/xmin_padding"
+                        android:text="0 IDR"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/huge_text"
                         android:textStyle="bold" />
 
+                    <TextView
+                        android:id="@+id/btn_history_withdrawal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/radius_primary"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:text="Riwayat Penarikan Dana"
+                        android:textStyle="bold"
+                        android:layout_margin="@dimen/xmin_padding"
+                        android:padding="@dimen/xmin_padding"
+                        android:textColor="@color/colorWhite" />
+
                 </LinearLayout>
 
-
             </RelativeLayout>
-
 
         </android.support.v7.widget.CardView>
 
@@ -82,7 +90,7 @@
             android:layout_margin="@dimen/xmin_padding"
             android:foreground="?selectableItemBackground"
             app:cardBackgroundColor="@color/colorWhite"
-            android:visibility="gone"
+            android:visibility="visible"
             app:cardElevation="1dp">
 
             <RelativeLayout
@@ -102,7 +110,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="end"
-                    android:text="date"
+                    android:text="-"
                     android:layout_alignBottom="@+id/textView23"
                     android:textSize="@dimen/tiny_text"
                     android:textColor="@color/colorGrey" />
@@ -125,7 +133,6 @@
                             android:id="@+id/pr_address"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@color/colorPrimarySoft"
                             android:padding="@dimen/min_padding"
                             tools:ignore="UselessParent">
 
@@ -158,7 +165,6 @@
                             android:id="@+id/pr_desc"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@color/colorWhite"
                             android:padding="@dimen/min_padding"
                             tools:ignore="UselessParent">
 
@@ -187,7 +193,6 @@
                             android:id="@+id/pr_stat"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@color/colorPrimarySoft"
                             android:padding="@dimen/min_padding"
                             tools:ignore="UselessParent">
 
@@ -225,19 +230,7 @@
         </android.support.v7.widget.CardView>
 
 
-        <TextView
-            android:id="@+id/btn_history_withdrawal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/last_withdrawal"
-            android:background="@drawable/radius_primary"
-            android:clickable="true"
-            android:layout_alignParentEnd="true"
-            android:text="Riwayat Penarikan Dana"
-            android:textStyle="bold"
-            android:layout_margin="@dimen/xmin_padding"
-            android:padding="@dimen/xmin_padding"
-            android:textColor="@color/colorWhite" />
+
 
         <!--<android.support.v7.widget.CardView-->
         <!--android:id="@+id/tunai_info"-->

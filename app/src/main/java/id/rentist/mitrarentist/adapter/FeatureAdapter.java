@@ -82,8 +82,8 @@ public class FeatureAdapter extends RecyclerView.Adapter<FeatureAdapter.ViewHold
         private TextView nama, price, qty;
         private CardView cardView;
         private LinearLayout linearAction;
-        private ImageButton editBtn, deleteBtn;
-        private ImageView hideBtn;
+        private ImageButton editBtn;
+        private ImageView hideBtn, deleteBtn;
 
         public ViewHolder(View itemView){
             super(itemView);
@@ -91,9 +91,9 @@ public class FeatureAdapter extends RecyclerView.Adapter<FeatureAdapter.ViewHold
             price = (TextView) itemView.findViewById(R.id.fr_price);
             qty = (TextView) itemView.findViewById(R.id.fr_qty);
             cardView = (CardView) itemView.findViewById(R.id.card_view_feature);
-            linearAction = (LinearLayout) itemView.findViewById(R.id.action_feature);
+//            linearAction = (LinearLayout) itemView.findViewById(R.id.action_feature);
             editBtn = (ImageButton) itemView.findViewById(R.id.fr_btn_edit);
-            deleteBtn = (ImageButton) itemView.findViewById(R.id.fr_btn_delete);
+            deleteBtn = (ImageView) itemView.findViewById(R.id.fr_btn_delete);
             hideBtn = (ImageView) itemView.findViewById(R.id.fr_hide);
         }
     }
@@ -113,8 +113,9 @@ public class FeatureAdapter extends RecyclerView.Adapter<FeatureAdapter.ViewHold
 //                return true;
 //            }
 //        });
-        viewHolder.linearAction.setVisibility(View.VISIBLE);
-        viewHolder.hideBtn.setVisibility(View.GONE);
+//        viewHolder.linearAction.setVisibility(View.VISIBLE);
+//        viewHolder.hideBtn.setVisibility(View.GONE);
+//        viewHolder.editBtn.setVisibility(View.GONE);
 
 //        viewHolder.hideBtn.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -122,7 +123,7 @@ public class FeatureAdapter extends RecyclerView.Adapter<FeatureAdapter.ViewHold
 //                viewHolder.linearAction.setVisibility(v.GONE);
 //            }
 //        });
-        viewHolder.editBtn.setOnClickListener(new View.OnClickListener() {
+        viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent iFeature = new Intent(context, FormFeatureActivity.class);

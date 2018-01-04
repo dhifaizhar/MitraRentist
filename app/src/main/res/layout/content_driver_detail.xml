@@ -27,8 +27,8 @@
 
                 <ImageView
                     android:id="@+id/det_dr_profile_pic"
-                    android:layout_width="@dimen/thumb_med_width"
-                    android:layout_height="@dimen/thumb_med_height"
+                    android:layout_width="@dimen/thumb_width"
+                    android:layout_height="@dimen/thumb_height"
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="1"
                     android:adjustViewBounds="false"
@@ -44,7 +44,6 @@
                     android:padding="@dimen/xmin_padding"
                     android:text="Nama"
                     android:textAlignment="center"
-                    android:textAllCaps="true"
                     android:textColor="@color/colorWhite"
                     android:textSize="@dimen/large_text"
                     android:textStyle="bold" />
@@ -55,6 +54,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="@dimen/med_padding"
+                app:cardElevation="0dp"
                 android:padding="@dimen/xmin_padding">
 
                 <LinearLayout
@@ -97,6 +97,7 @@
                             android:layout_below="@+id/det_dr_sim"
                             android:layout_marginLeft="@dimen/xmin_padding"
                             android:layout_toEndOf="@+id/pr_address_ico"
+                            android:textColor="@color/colorBlack"
                             android:text="SIM"
                             android:textSize="12sp" />
 
@@ -135,6 +136,7 @@
                             android:layout_marginLeft="@dimen/xmin_padding"
                             android:layout_toEndOf="@+id/pr_email_ico"
                             android:text="Email"
+                            android:textColor="@color/colorBlack"
                             android:textSize="12sp" />
 
                     </RelativeLayout>
@@ -172,6 +174,7 @@
                             android:layout_below="@+id/det_dr_phone_number"
                             android:layout_marginLeft="@dimen/xmin_padding"
                             android:layout_toEndOf="@+id/pr_telp_ico"
+                            android:textColor="@color/colorBlack"
                             android:text="Nomor Telepon"
                             android:textSize="12sp" />
 
@@ -192,7 +195,7 @@
                             android:layout_centerVertical="true"
                             android:layout_marginEnd="@dimen/min_padding"
                             android:contentDescription="email"
-                            app:srcCompat="@drawable/ic_data_usage_black_48dp" />
+                            app:srcCompat="@drawable/ic_data_usage_black_24dp" />
 
                         <TextView
                             android:id="@+id/det_dr_gender"
@@ -212,6 +215,7 @@
                             android:layout_below="@+id/det_dr_gender"
                             android:layout_marginLeft="@dimen/xmin_padding"
                             android:layout_toEndOf="@+id/pr_gender_ico"
+                            android:textColor="@color/colorBlack"
                             android:text="Jenis Kelamin"
                             android:textSize="12sp" />
 
@@ -234,7 +238,7 @@
                             android:layout_centerVertical="true"
                             android:layout_marginRight="@dimen/min_padding"
                             android:contentDescription="birthdate"
-                            app:srcCompat="@drawable/ic_perm_contact_calendar_black_36dp" />
+                            app:srcCompat="@drawable/ic_perm_contact_calendar_black_24dp" />
 
                         <TextView
                             android:id="@+id/det_dr_bdate"
@@ -253,6 +257,7 @@
                             android:layout_below="@+id/det_dr_bdate"
                             android:layout_marginLeft="@dimen/xmin_padding"
                             android:layout_toEndOf="@+id/pr_bdate_ico"
+                            android:textColor="@color/colorBlack"
                             android:text="Tanggal Lahir"
                             android:textSize="12sp" />
 

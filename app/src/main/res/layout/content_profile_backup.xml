@@ -1,0 +1,485 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_dashboard"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="id.rentist.mitrarentist.ProfileActivity"
+    tools:showIn="@layout/activity_profile_backup">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorPrimary"
+                    android:orientation="vertical"
+                    android:padding="@dimen/min_padding">
+
+
+                    <ImageView
+                        android:id="@+id/pr_thumb"
+                        android:layout_width="@dimen/thumb_med_width"
+                        android:layout_height="@dimen/thumb_med_height"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="@dimen/xmin_padding"
+                        android:layout_weight="1"
+                        android:adjustViewBounds="false"
+                        android:background="@drawable/img"
+                        android:cropToPadding="false" />
+
+
+                    <TextView
+                        android:id="@+id/pr_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/xmin_padding"
+                        android:background="@color/colorPrimaryDark"
+                        android:paddingBottom="@dimen/xmin_padding"
+                        android:paddingLeft="@dimen/med_padding"
+                        android:paddingRight="@dimen/med_padding"
+                        android:paddingTop="@dimen/xmin_padding"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="@dimen/medium_text"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_gravity="center_horizontal">
+
+                        <TextView
+                            android:id="@+id/pr_rental_code"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/xmin_padding"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="@dimen/almost_tiny_text"
+                            android:text="ID Rental : 1170000000129"
+                            android:layout_marginEnd="@dimen/xmin_padding"
+                            />
+
+                        <TextView
+                            android:id="@+id/pr_rental_type"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/xmin_padding"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="@dimen/almost_tiny_text"
+                            android:text="(Personal)"
+                            />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/card_profile_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/med_padding"
+                    android:foreground="?selectableItemBackground"
+                    android:padding="@dimen/xmin_padding"
+                    app:cardBackgroundColor="@color/colorWhite"
+                    app:cardElevation="1dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:id="@+id/pr_owner"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorPrimarySoft"
+                            android:padding="@dimen/min_padding"
+                            tools:ignore="UselessParent">
+
+                            <ImageView
+                                android:id="@+id/pr_owner_ico"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="@dimen/min_padding"
+                                android:contentDescription="location"
+                                app:srcCompat="@drawable/ic_person_black_24dp" />
+
+                            <TextView
+                                android:id="@+id/ownertext"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/xmin_padding"
+                                android:layout_toEndOf="@+id/pr_owner_ico"
+                                android:layout_marginBottom="@dimen/xmin_padding"
+
+                                android:text="Nama Pemilik/Penanggungjawab"
+                                android:textSize="12sp" />
+
+
+                            <TextView
+                                android:id="@+id/pr_owner_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/ownertext"
+                                android:layout_marginLeft="@dimen/xmin_padding"
+                                android:layout_toEndOf="@+id/pr_owner_ico"
+                                android:text="-"
+                                android:textSize="@dimen/medium_text" />
+
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/pr_ktp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorWhite"
+                            android:padding="@dimen/min_padding"
+                            tools:ignore="UselessParent">
+
+                            <ImageView
+                                android:id="@+id/pr_ktp_ico"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="@dimen/min_padding"
+                                app:srcCompat="@drawable/ic_credit_card_black_24dp" />
+
+                            <TextView
+                                android:id="@+id/ktptext"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/xmin_padding"
+                                android:layout_toEndOf="@+id/pr_ktp_ico"
+                                android:layout_marginBottom="@dimen/xmin_padding"
+                                android:text="Nomor KTP"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/pr_no_ktp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/ktptext"
+                                android:layout_marginLeft="@dimen/xmin_padding"
+                                android:layout_toEndOf="@+id/pr_ktp_ico"
+                                android:text="-"
+                                android:textSize="@dimen/medium_text" />
+
+                        </RelativeLayout>
+
+
+                        <RelativeLayout
+                            android:id="@+id/pr_address"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/min_padding"
+                            android:background="@color/colorPrimarySoft"
+                            tools:ignore="UselessParent">
+
+                            <ImageView
+                                android:id="@+id/pr_address_ico"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="@dimen/min_padding"
+                                android:contentDescription="location"
+                                app:srcCompat="@drawable/ic_location_on_black_24dp" />
+
+                            <TextView
+                                android:id="@+id/alamattext"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/xmin_padding"
+                                android:layout_marginLeft="@dimen/xmin_padding"
+                                android:layout_toEndOf="@+id/pr_address_ico"
+                                android:text="Alamat Usaha"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/pr_address_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/alamattext"
+                                android:layout_marginLeft="@dimen/xmin_padding"
+                                android:layout_toEndOf="@+id/pr_address_ico"
+                                android:text="-"
+                                android:textSize="@dimen/small_text" />
+
+                            <TextView
+                                android:id="@+id/pr_village"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/pr_address_name"
+                                android:layout_marginLeft="@dimen/xmin_padding"
+                                android:layout_toEndOf="@+id/pr_address_ico"
+                                android:text=""
+                                android:textSize="@dimen/small_text" />
+
+                            <TextView
+                                android:id="@+id/pr_distric"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/pr_address_name"
+                                android:layout_marginLeft="@dimen/xmin_padding"
+                                android:layout_toEndOf="@+id/pr_village"
+                                android:text=""
+                                android:textSize="@dimen/small_text" />
+
+                            <TextView
+                                android:id="@+id/pr_city"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/pr_village"
+                                android:layout_marginLeft="@dimen/xmin_padding"
+                                android:layout_toEndOf="@+id/pr_address_ico"
+                                android:text=""
+                                android:textSize="@dimen/small_text" />
+
+                            <TextView
+                                android:id="@+id/pr_province"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/pr_village"
+                                android:layout_marginLeft="@dimen/xmin_padding"
+                                android:layout_toEndOf="@+id/pr_city"
+                                android:text=""
+                                android:textSize="@dimen/small_text" />
+
+                            <TextView
+                                android:id="@+id/pr_postal_code"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/pr_province"
+                                android:layout_marginLeft="@dimen/xmin_padding"
+                                android:layout_toEndOf="@+id/pr_address_ico"
+                                android:text="-"
+                                android:textSize="@dimen/small_text" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/pr_no_telp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/min_padding"
+                            tools:ignore="UselessParent">
+
+                            <ImageView
+                                android:id="@+id/pr_telp_ico"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="@dimen/min_padding"
+                                android:contentDescription="phone"
+                                app:srcCompat="@drawable/ic_phone_android_black_24dp" />
+
+                            <TextView
+                                android:id="@+id/phoetext"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/xmin_padding"
+                                android:layout_marginLeft="@dimen/xmin_padding"
+                                android:layout_toEndOf="@+id/pr_telp_ico"
+                                android:text="Telepon"
+                                android:textSize="12sp" />
+
+
+                            <TextView
+                                android:id="@+id/pr_phone_number"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/phoetext"
+                                android:layout_marginLeft="@dimen/xmin_padding"
+                                android:layout_toEndOf="@+id/pr_telp_ico"
+                                android:text="-"
+                                android:textSize="@dimen/medium_text" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/pr_mail_info"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/min_padding"
+                            android:background="@color/colorPrimarySoft"
+                            tools:ignore="UselessParent">
+
+                            <ImageView
+                                android:id="@+id/pr_email_ico"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="@dimen/min_padding"
+                                android:contentDescription="email"
+                                app:srcCompat="@drawable/ic_email_black_24dp" />
+
+                            <TextView
+                                android:id="@+id/emailtext"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/xmin_padding"
+                                android:layout_marginLeft="@dimen/xmin_padding"
+                                android:layout_toEndOf="@+id/pr_email_ico"
+                                android:text="Email"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/pr_email"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/emailtext"
+                                android:layout_marginLeft="@dimen/xmin_padding"
+                                android:layout_toEndOf="@+id/pr_email_ico"
+                                android:text="-"
+                                android:textSize="@dimen/medium_text" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/pr_bank_info"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/min_padding"
+                            tools:ignore="UselessParent">
+
+                            <ImageView
+                                android:id="@+id/pr_bank_ico"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="@dimen/min_padding"
+                                android:contentDescription="Bank"
+                                app:srcCompat="@drawable/ic_account_balance_black_24dp" />
+
+                            <TextView
+                                android:id="@+id/akunbank"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/xmin_padding"
+                                android:layout_marginStart="@dimen/xmin_padding"
+                                android:layout_toEndOf="@+id/pr_bank_ico"
+                                android:text="Akun Bank"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/pr_bank_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/akunbank"
+                                android:layout_marginStart="@dimen/xmin_padding"
+                                android:layout_toEndOf="@+id/pr_bank_ico"
+                                android:text="-"
+                                android:textSize="@dimen/medium_text" />
+
+                            <TextView
+                                android:id="@+id/space"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/akunbank"
+                                android:layout_marginLeft="@dimen/xmin_padding"
+                                android:layout_toEndOf="@+id/pr_bank_name"
+                                android:text="|"
+                                android:textSize="@dimen/medium_text" />
+
+                            <TextView
+                                android:id="@+id/pr_bank_account"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/akunbank"
+                                android:layout_marginLeft="@dimen/xmin_padding"
+                                android:layout_toEndOf="@+id/space"
+                                android:text="-"
+                                android:textSize="@dimen/medium_text" />
+
+                            <TextView
+                                android:id="@+id/pr_account_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/pr_bank_name"
+                                android:layout_marginLeft="@dimen/xmin_padding"
+                                android:layout_toEndOf="@+id/pr_bank_ico"
+                                android:text="-"
+                                android:textSize="@dimen/small_text"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/pr_branch"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/pr_account_name"
+                                android:layout_marginLeft="@dimen/xmin_padding"
+                                android:layout_toEndOf="@+id/pr_bank_ico"
+                                android:text="-"
+                                android:textSize="@dimen/almost_tiny_text"
+                                 />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/xmin_padding"
+                                android:layout_marginStart="@dimen/xmin_padding"
+                                android:layout_marginTop="@dimen/xmin_padding"
+                                android:layout_below="@+id/pr_branch"
+                                android:text="* Apabila selain bank BCA biaya transfer dibebankan kepada partner dan dana akan diterima pada satu hari kerja berikutnya."
+                                android:textSize="@dimen/tiny_text" />
+
+                        </RelativeLayout>
+
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/med_padding"
+                    android:layout_marginLeft="@dimen/med_padding"
+                    android:layout_marginRight="@dimen/med_padding"
+                    android:background="@color/colorPrimary"
+                    android:padding="@dimen/min_padding">
+
+                    <TextView
+                        android:id="@+id/pr_testi_info"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="false"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:text="TESTIMONI"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="@dimen/medium_text" />
+
+                    <ImageButton
+                        android:id="@+id/view_testi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:background="@android:color/transparent"
+                        app:srcCompat="@drawable/ic_chevron_right_white_24dp" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+        </ScrollView>
+
+    </RelativeLayout>
+
+</LinearLayout>

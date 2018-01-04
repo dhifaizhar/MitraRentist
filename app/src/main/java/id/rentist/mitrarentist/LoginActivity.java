@@ -191,11 +191,18 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         String password = mPasswordView.getText().toString();
         String email;
         char firstChar = emailField.charAt(0);
-        if(firstChar == '+'){
-            email = emailField.substring(1);
-        }else{
-            email = emailField;
+        switch (firstChar){
+            case '+' :
+                email = emailField.substring(1);
+                break;
+            case '0':
+                email = emailField.replaceFirst("0", "62");
+                break;
+            default:
+                email = emailField;
+                break;
         }
+
         mToken = FirebaseInstanceId.getInstance().getToken();
         Log.e(TAG, "Data: " + mToken + "|" + email);
 
@@ -473,7 +480,22 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                     sm.setPreferences("bicycle", setCatObject.getString("bicycle"));
                     sm.setPreferences("office", setCatObject.getString("office"));
                     sm.setPreferences("fashion", setCatObject.getString("fashion"));
-                    sm.setIntPreferences("sum_cat", setCatObject.getInt("true"));
+
+                    int sum_cat = 0;
+                    if (sm.getPreferences("car").equals("true")){sum_cat += 1;}
+                    if (sm.getPreferences("motorcycle").equals("true")){sum_cat += 1;}
+                    if (sm.getPreferences("yacht").equals("true")){sum_cat += 1;}
+                    if (sm.getPreferences("medical_equipment").equals("true")){sum_cat += 1;}
+                    if (sm.getPreferences("photography").equals("true")){sum_cat += 1;}
+                    if (sm.getPreferences("toys").equals("true")){ sum_cat += 1;}
+                    if (sm.getPreferences("adventure").equals("true")){sum_cat += 1;}
+                    if (sm.getPreferences("maternity").equals("true")){sum_cat += 1;}
+                    if (sm.getPreferences("electronic").equals("true")){sum_cat += 1;}
+                    if (sm.getPreferences("bicycle").equals("true")){sum_cat += 1;}
+                    if (sm.getPreferences("office").equals("true")){sum_cat += 1;}
+                    if (sm.getPreferences("fashion").equals("true")){sum_cat += 1;}
+
+                    sm.setIntPreferences("sum_cat", sum_cat);
 
                     if(sStat.equals("true")){
                         startActivity(new Intent(LoginActivity.this, DashboardActivity.class));

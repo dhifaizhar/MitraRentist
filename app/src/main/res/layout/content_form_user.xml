@@ -33,14 +33,19 @@
                     android:layout_width="@dimen/thumb_height"
                     android:layout_height="@dimen/thumb_height"
                     android:layout_weight="1"
-                    android:src="@drawable/img_default" />
+                    android:background="@drawable/cirle_default_label"
+                    android:src="@drawable/img" />
 
                 <Button
                     android:id="@+id/btnUploadFoto"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/xmin_padding"
-                    android:layout_weight="1"
+                    android:layout_marginTop="20dp"
+                    android:paddingLeft="@dimen/min_padding"
+                    android:paddingRight="@dimen/min_padding"
+                    android:background="@color/colorGreenRe"
+                    android:textColor="@color/colorWhite"
+                    android:textStyle="bold"
                     android:text="Pilih Foto" />
             </LinearLayout>
 
@@ -56,18 +61,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Nama"
-                    android:textColor="@color/colorBlack" />
+                    android:textColor="@color/colorGrey" />
 
                 <EditText
                     android:id="@+id/fus_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorNearWhite"
                     android:ems="10"
                     android:hint="Nama"
                     android:imeOptions="actionNext"
                     android:inputType="textPersonName|textCapWords"
-                    android:maxLength="30"
                     android:padding="@dimen/min_padding" />
             </LinearLayout>
 
@@ -83,12 +86,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Jenis Pengguna"
-                    android:textColor="@color/colorBlack" />
+                    android:textColor="@color/colorGrey" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/colorNearWhite"
                     android:orientation="vertical"
                     android:padding="@dimen/xmin_padding">
 
@@ -115,18 +117,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Email"
-                    android:textColor="@color/colorBlack" />
+                    android:textColor="@color/colorGrey" />
 
                 <EditText
                     android:id="@+id/fus_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorNearWhite"
                     android:ems="10"
                     android:hint="Email"
                     android:imeOptions="actionNext"
                     android:inputType="textEmailAddress"
-                    android:maxLength="50"
                     android:padding="@dimen/min_padding" />
             </LinearLayout>
 
@@ -141,12 +141,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Nomor Telepon"
-                    android:textColor="@color/colorBlack" />
+                    android:textColor="@color/colorGrey" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorNearWhite">
+                    android:layout_height="wrap_content">
 
                     <com.hbb20.CountryCodePicker
                         android:id="@+id/country_code"
@@ -161,12 +160,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_toEndOf="@+id/country_code"
-                        android:background="@color/colorNearWhite"
                         android:ems="10"
                         android:hint="8xx xxxx xxxx"
                         android:imeOptions="actionNext"
                         android:inputType="phone"
-                        android:maxLength="11"
                         android:padding="@dimen/min_padding" />
 
                 </RelativeLayout>
@@ -184,13 +181,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Kata Sandi"
-                    android:textColor="@color/colorBlack" />
+                    android:textColor="@color/colorGrey" />
 
                 <EditText
                     android:id="@+id/fus_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorNearWhite"
                     android:ems="10"
                     android:hint="Kata Sandi"
                     android:imeOptions="actionNext"
@@ -210,13 +206,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Ulangi Kata Sandi"
-                    android:textColor="@color/colorBlack" />
+                    android:textColor="@color/colorGrey" />
 
                 <EditText
                     android:id="@+id/fus_repassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorNearWhite"
                     android:ems="10"
                     android:hint="Ulangi Kata Sandi"
                     android:imeOptions="actionDone"
@@ -232,11 +227,12 @@
                 android:layout_gravity="bottom"
                 android:layout_marginTop="@dimen/xmin_padding"
                 android:layout_marginBottom="@dimen/xmin_padding"
-                android:background="@color/colorPrimaryDark"
+                android:background="@color/colorGreenRe"
                 android:textAlignment="center"
-                android:text="@string/btn_save"
+                android:text="Simpan"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/medium_text" />
+
         </LinearLayout>
 
     </ScrollView>

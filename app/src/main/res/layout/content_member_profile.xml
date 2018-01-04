@@ -179,7 +179,7 @@
                                 android:layout_centerVertical="true"
                                 android:layout_marginEnd="@dimen/min_padding"
                                 android:contentDescription="location"
-                                app:srcCompat="@drawable/ic_perm_contact_calendar_black_18dp" />
+                                app:srcCompat="@drawable/ic_perm_contact_calendar_black_24dp" />
 
                             <TextView
                                 android:id="@+id/ownertext"
@@ -338,6 +338,7 @@
                                 android:orientation="horizontal">
 
                                 <LinearLayout
+                                    android:id="@+id/con_ktp"
                                     android:layout_width="@dimen/files_image"
                                     android:layout_height="wrap_content"
                                     android:orientation="vertical">
@@ -355,16 +356,16 @@
                                         android:textSize="9sp"
                                         android:paddingTop="@dimen/small_space"
                                         android:layout_gravity="center_horizontal"
-                                        android:text="KTP"/>
+                                        android:textAlignment="center"
+                                        android:text="KTP/KITAS/Passport"/>
 
                                 </LinearLayout>
 
-
                                 <LinearLayout
+                                    android:id="@+id/con_kk"
                                     android:layout_width="@dimen/files_image"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="@dimen/xmin_padding"
-
                                     android:orientation="vertical">
 
                                     <ImageView
@@ -385,6 +386,7 @@
                                 </LinearLayout>
 
                                 <LinearLayout
+                                    android:id="@+id/con_rek"
                                     android:layout_width="@dimen/files_image"
                                     android:layout_height="wrap_content"
                                     android:orientation="vertical"

@@ -5,7 +5,7 @@ package id.rentist.mitrarentist.modul;
  */
 
 public class ItemDeliveryPrice {
-    private String id, category, max_distance, price_per_km;
+    private String id, category, max_distance, price_per_km, distace_free;
 //    int category[];
 
     public void setId(String id) {
@@ -34,6 +34,13 @@ public class ItemDeliveryPrice {
     }
     public String getPricePerKM() {
         return price_per_km;
+    }
+
+    public void setDistaceFree(String distace_free) {
+        this.distace_free = distace_free;
+    }
+    public String getDistaceFree() {
+        return distace_free;
     }
 
 }

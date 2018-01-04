@@ -413,7 +413,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/xmin_padding"
-                android:background="@color/colorPrimary"
                 android:padding="@dimen/min_padding">
 
                 <TextView
@@ -424,7 +423,7 @@
                     android:layout_centerVertical="true"
                     android:text="Akun Bank"
                     android:textAlignment="center"
-                    android:textColor="@color/colorWhite"
+                    android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/medium_text"
                     android:textStyle="bold" />
 
@@ -534,6 +533,20 @@
                     android:inputType="textPersonName|textCapWords"
                     android:padding="@dimen/min_padding" />
             </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_save"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/btn_lmedium_height"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="bottom"
+                android:layout_marginTop="@dimen/xmin_padding"
+                android:layout_marginBottom="@dimen/xmin_padding"
+                android:background="@color/colorPrimary"
+                android:textAlignment="center"
+                android:text="Simpan"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/medium_text" />
 
         </LinearLayout>
     </ScrollView>
