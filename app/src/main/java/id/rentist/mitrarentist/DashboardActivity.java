@@ -360,7 +360,7 @@ public class DashboardActivity extends AppCompatActivity
             navMenuView.findItem(R.id.nav_driver).setVisible(true);
             navMenuView.findItem(R.id.nav_riwayat).setVisible(true);
             navMenuView.findItem(R.id.nav_dompet).setVisible(true);
-            navMenuView.findItem(R.id.nav_voucher).setVisible(true);
+//            navMenuView.findItem(R.id.nav_voucher).setVisible(true);
             navMenuView.findItem(R.id.nav_kebijakan).setVisible(true);
             navMenuView.findItem(R.id.nav_message).setVisible(true);
         }else if(sm.getPreferences("role").equals("Admin")){
@@ -370,7 +370,7 @@ public class DashboardActivity extends AppCompatActivity
             navMenuView.findItem(R.id.nav_driver).setVisible(true);
             navMenuView.findItem(R.id.nav_riwayat).setVisible(true);
             navMenuView.findItem(R.id.nav_dompet).setVisible(true);
-            navMenuView.findItem(R.id.nav_voucher).setVisible(true);
+//            navMenuView.findItem(R.id.nav_voucher).setVisible(true);
             navMenuView.findItem(R.id.nav_kebijakan).setVisible(true);
         }else if(sm.getPreferences("role").equals("Operation")){
             navMenuView.findItem(R.id.nav_aset).setVisible(true);

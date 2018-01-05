@@ -43,7 +43,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentStart="true"
                             android:layout_centerVertical="true"
-                            android:text="Data Kupon"
+                            android:text="Data Voucher"
                             android:textAlignment="center"
                             android:textColor="@color/colorWhite"
                             android:textSize="@dimen/medium_text"
@@ -62,7 +62,7 @@
                             android:id="@+id/textView2656"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Nama Kupon"
+                            android:text="Nama Voucher"
                             android:textColor="@color/colorBlack"
                             android:textSize="12sp" />
 
@@ -73,7 +73,7 @@
                             android:layout_height="wrap_content"
                             android:background="@color/colorNearWhite"
                             android:ems="10"
-                            android:hint="Nama Kupon"
+                            android:hint="Nama Voucher"
                             android:imeOptions="actionNext"
                             android:inputType="textPersonName|textCapWords"
                             android:padding="@dimen/min_padding"
@@ -91,7 +91,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Kode Kupon"
+                            android:text="Kode Voucher"
                             android:textColor="@color/colorBlack"
                             android:textSize="12sp" />
 
@@ -101,7 +101,7 @@
                             android:layout_height="wrap_content"
                             android:background="@color/colorNearWhite"
                             android:ems="10"
-                            android:hint="Kode Kupon"
+                            android:hint="Kode Voucher"
                             android:imeOptions="actionNext"
                             android:inputType="textCapCharacters"
                             android:maxLength="10"
@@ -254,7 +254,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Tipe Kupon"
+                            android:text="Tipe Voucher"
                             android:textColor="@color/colorBlack"
                             android:textSize="12sp" />
 
@@ -332,7 +332,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Kuota Kupon"
+                            android:text="Kuota Voucher"
                             android:textColor="@color/colorBlack"
                             android:textSize="12sp" />
 
@@ -342,7 +342,7 @@
                             android:layout_height="wrap_content"
                             android:background="@color/colorNearWhite"
                             android:ems="10"
-                            android:hint="Kuota Kupon"
+                            android:hint="Kuota Voucher"
                             android:imeOptions="actionNext"
                             android:inputType="number"
                             android:maxLength="10"
@@ -373,7 +373,7 @@
                             android:background="@color/colorNearWhite"
                             android:ems="10"
                             android:gravity="start"
-                            android:hint="Deskripsi Kupon"
+                            android:hint="Deskripsi Voucher"
                             android:inputType="textMultiLine|textCapSentences"
                             android:lines="3"
                             android:padding="@dimen/min_padding" />
@@ -395,7 +395,7 @@
                 <!--<TextView-->
                     <!--android:layout_width="match_parent"-->
                     <!--android:layout_height="wrap_content"-->
-                    <!--android:text="Data Kupon"-->
+                    <!--android:text="Data Voucher"-->
                     <!--android:textAlignment="center"-->
                     <!--android:textColor="@color/colorWhite"-->
                     <!--android:textSize="@dimen/medium_text"-->
@@ -438,7 +438,7 @@
                 <!--android:layout_height="wrap_content"-->
                 <!--android:ems="10"-->
                 <!--android:layout_marginTop="@dimen/xmin_padding"-->
-                <!--android:hint="Nama Kupon"-->
+                <!--android:hint="Nama Voucher"-->
                 <!--android:inputType="text"-->
                 <!--android:maxLines="1"-->
                 <!--android:padding="@dimen/min_padding"-->
@@ -453,7 +453,7 @@
                 <!--android:layout_height="wrap_content"-->
                 <!--android:ems="10"-->
                 <!--android:layout_marginTop="@dimen/xmin_padding"-->
-                <!--android:hint="Kode Kupon"-->
+                <!--android:hint="Kode Voucher"-->
                 <!--android:inputType="text"-->
                 <!--android:maxLines="1"-->
                 <!--android:padding="@dimen/min_padding"-->
@@ -551,7 +551,7 @@
                 <!--android:layout_height="wrap_content"-->
                 <!--android:ems="10"-->
                 <!--android:layout_marginTop="@dimen/xmin_padding"-->
-                <!--android:hint="Kuota Kupon"-->
+                <!--android:hint="Kuota Voucher"-->
                 <!--android:inputType="number"-->
                 <!--android:padding="@dimen/min_padding"-->
                 <!--android:backgroundTint="@color/colorGrey"-->

@@ -1152,20 +1152,39 @@ public class FormCarAsetActivity extends AppCompatActivity {
             aDepositValue.setText(iFormAsset.getStringExtra("nominal_deposit"));
         }
 
-       if (iFormAsset.getStringExtra("driver").equals("true")){
-            aNoDriver.setChecked(false);
+        if (iFormAsset.getStringExtra("driver").equals("true")){
+             aNoDriver.setChecked(false);
         }else if (iFormAsset.getStringExtra("driver").equals("false")){
             aDriver.setChecked(false);
-           conBasicWDriver.setVisibility(View.VISIBLE);
-           conAdvanceWDriver.setVisibility(View.VISIBLE);
-           conAdvanceWDriver2.setVisibility(View.VISIBLE);
-           conAdvanceWDriver3.setVisibility(View.VISIBLE);
-           conAdvanceWDriver4.setVisibility(View.VISIBLE);
-        }
+            conBasicWDriver.setVisibility(View.VISIBLE);
+            conAdvanceWDriver.setVisibility(View.VISIBLE);
+            conAdvanceWDriver2.setVisibility(View.VISIBLE);
+            conAdvanceWDriver3.setVisibility(View.VISIBLE);
+            conAdvanceWDriver4.setVisibility(View.VISIBLE);
+       }
 
         // Parsing data price
         Log.e(TAG, "PRICE ARRAY ORI :" + iFormAsset.getStringExtra("price"));
         JSONArray priceArray = new JSONArray(PricingTools.PriceStringToArrayCar(iFormAsset.getStringExtra("price")));
+//        JSONArray priceArray = null;
+//        try {
+//            JSONArray nPriceArray = new JSONArray(iFormAsset.getStringExtra("price"));
+//            if (nPriceArray.length() > 0) {
+//                for (int i = 0; i < nPriceArray.length(); i++) {
+//                    JSONObject priceObject = nPriceArray.getJSONObject(i);
+//                    JSONObject nPrice = new JSONObject();
+//                    nPrice.put("range_name", priceObject.getString("range_name"));
+//                    nPrice.put("start_date", priceObject.getString("start_date"));
+//                    nPrice.put("end_date", priceObject.getString("end_date"));
+//                    nPrice.put("price", priceObject.getString("price"));
+//                    nPrice.put("price_with_driver", priceObject.getString("price_with_driver"));
+//                }
+//            }
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+
+
         Log.e(TAG, "PRICE ARRAY :" + priceArray);
         if (priceArray.length() > 0){
             try {

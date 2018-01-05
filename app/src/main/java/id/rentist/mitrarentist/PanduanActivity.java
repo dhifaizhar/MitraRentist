@@ -24,13 +24,9 @@ public class PanduanActivity extends AppCompatActivity implements AdvancedWebVie
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-//        webView = (WebView) findViewById(R.id.webview);
-//        webView.getSettings().setJavaScriptEnabled(true);
-//        webView.loadUrl("https://rentist.id/front/tutorial");
-
         mWebView = (AdvancedWebView) findViewById(R.id.webview);
         mWebView.setListener(this, this);
-        mWebView.loadUrl("https://rentist.id/front/tutorial");
+        mWebView.loadUrl("https://beta.rentist.id/front/tutorial");
 
 
     }
