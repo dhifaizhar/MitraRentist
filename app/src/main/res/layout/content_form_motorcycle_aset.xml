@@ -111,6 +111,15 @@
                             android:hint="Nama"
                             android:padding="@dimen/min_padding"
                             android:text="" />
+
+                        <TextView
+                            android:id="@+id/hint_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="*Hindari penggunaan nama Rental Anda pada Nama Aset"
+                            android:textAlignment="center"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="10sp" />
                     </LinearLayout>
 
                     <LinearLayout
