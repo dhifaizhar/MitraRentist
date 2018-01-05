@@ -142,6 +142,11 @@
         <item>Fashion</item>
     </string-array>
 
+    <string-array name="additional_category_entries">
+        <item>Mobil</item>
+        <item>Motor</item>
+    </string-array>
+
     <string-array name="car_subcategory_entries">
         <item>Classic</item>
         <item>Family</item>

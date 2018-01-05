@@ -96,8 +96,8 @@
                         android:id="@+id/fr_asset_cat"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:entries="@array/additional_category_entries"
                         android:padding="@dimen/xmin_padding"
-                        android:entries="@array/asset_category_entries"
                         android:spinnerMode="dialog" />
                 </LinearLayout>
             </LinearLayout>
