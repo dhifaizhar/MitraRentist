@@ -229,7 +229,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/xmin_padding"
-                        android:text="Nomor Handphone" />
+                        android:text="Nomor HP" />
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -300,14 +300,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/xmin_padding"
-                        android:text="Password" />
+                        android:text="Kata Sandi" />
 
                     <EditText
                         android:id="@+id/reg_pass"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"
-                        android:hint="******"
+                        android:hint="********"
                         android:imeOptions="actionNext"
                         android:inputType="textPassword"
                         android:padding="@dimen/min_padding" />
@@ -325,14 +325,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/xmin_padding"
-                        android:text="Konfirmasi Password" />
+                        android:text="Konfirmasi Kata Sandi" />
 
                     <EditText
                         android:id="@+id/reg_conf_pass"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"
-                        android:hint="******"
+                        android:hint="********"
                         android:imeOptions="actionDone"
                         android:inputType="textPassword"
                         android:padding="@dimen/min_padding" />
@@ -352,7 +352,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/xmin_padding"
-                    android:text="Dengan mendaftar, saya telah membaca, mengerti, dan menyetujui"
+                    android:text="Dengan mendaftar, Saya telah membaca, mengerti, dan menyetujui."
                     android:textColor="@color/colorBlack"
                     android:textSize="10sp" />
 

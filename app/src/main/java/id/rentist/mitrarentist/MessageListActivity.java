@@ -104,7 +104,6 @@ public class MessageListActivity extends AppCompatActivity {
         });
     }
 
-
     private void getTransaction() {
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         StringRequest strReq = new StringRequest(Request.Method.GET, AppConfig.URL_TRANSACTION + tenant, new
@@ -121,7 +120,7 @@ public class MessageListActivity extends AppCompatActivity {
                                     JSONObject transObject = acceptArray.getJSONObject(i);
                                     JSONObject memberObject = transObject.getJSONObject("id_member");
 
-                                    mTrans.add(transObject.getString("id"));
+                                    mTrans.add(memberObject.getString("id"));
                                 }
                             }
 
@@ -130,7 +129,7 @@ public class MessageListActivity extends AppCompatActivity {
                                     JSONObject transObject = ongoArray.getJSONObject(i);
                                     JSONObject memberObject = transObject.getJSONObject("id_member");
 
-                                    mTrans.add(transObject.getString("id"));
+                                    mTrans.add(memberObject.getString("id"));
                                 }
                             }
 
@@ -273,7 +272,6 @@ public class MessageListActivity extends AppCompatActivity {
                     if(dataLength > 0){
                         errorMsg = "-";
                         Log.e(TAG, "Data lebih dari 1 " );
-                        Log.e(TAG, "mTrans : " + mTrans);
 
                         Iterator<String> keys = dataObject.keys();
                         while (keys.hasNext())
@@ -331,9 +329,10 @@ public class MessageListActivity extends AppCompatActivity {
             pBar.setVisibility(View.GONE);
         }
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_search_option, menu);
+        //getMenuInflater().inflate(R.menu.menu_search_option, menu);
         return true;
     }
 

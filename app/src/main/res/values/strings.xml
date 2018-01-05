@@ -8,28 +8,28 @@
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
-    <string name="prompt_password">Kata Sandi </string>
+    <string name="prompt_password">Kata Sandi</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Masuk</string>
-    <string name="error_invalid_email">Gunakan alamat surel yang valid</string>
-    <string name="error_invalid_password">Minimal 8 karakter ( hanya angka atau huruf )</string>
-    <string name="error_invalid_confirm_password">Konfirmasi Password tidak sesuai</string>
-    <string name="error_invalid_phone">Minimal 10 dan miksimal 12 karakter ( hanya angka )</string>
-    <string name="error_incorrect_password">Kata kunci tidak sesuai</string>
-    <string name="error_field_required">Wajib diisi!</string>
-    <string name="error_field_not_complete">Harap Lengkapi Form</string>
-    <string name="error_main_image_not_complete">Harap Masukan Gambar Aset</string>
+    <string name="error_invalid_email">Gunakan Alamat Surel yang Valid</string>
+    <string name="error_invalid_password">Minimal 8 Karakter ( Angka atau Huruf )</string>
+    <string name="error_invalid_confirm_password">Konfirmasi Password Tidak Sesuai</string>
+    <string name="error_invalid_phone">Minimal 10 dan Maksimal 12 Karakter ( Hanya Angka )</string>
+    <string name="error_incorrect_password">Kata Sandi Tidak Sesuai</string>
+    <string name="error_field_required">Wajib Diisi!</string>
+    <string name="error_field_not_complete">Harap Lengkapi Formulir</string>
+    <string name="error_main_image_not_complete">Harap Masukkan Gambar Aset</string>
 
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
     <string name="forgot_text">
-    Link untuk merubah password anda
+    Link untuk merubah password Anda
         akan kami kirimkan ke email valid anda</string>
     <string name="login_text">Sign in to your account</string>
     <string name="forgot_password">Lupa Kata Sandi?</string>
     <string name="help">Help</string>
-    <string name="aktif_text">Masukan kode aktivasi</string>
+    <string name="aktif_text">Masukan Kode Aktivasi</string>
 
     <string name="title_activity_asset_detail">AssetDetail</string>
 
