@@ -64,7 +64,7 @@
                             android:id="@+id/textView1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Sub Kategori Aset"
+                            android:text="@string/klasifikasi_aset"
                             android:textColor="@color/colorBlack" />
 
                         <LinearLayout
@@ -933,7 +933,7 @@
                                     android:buttonTint="@color/colorPrimary"
                                     android:checked="true"
                                     android:contextClickable="false"
-                                    android:text="Diambil" />
+                                    android:text="@string/deliv_pickup" />
 
                                 <RadioButton
                                     android:id="@+id/r_deliver"
@@ -941,7 +941,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:buttonTint="@color/colorPrimary"
-                                    android:text="Dikirim" />
+                                    android:text="@string/deliv_deliver" />
 
                                 <!--<RadioButton-->
                                 <!--android:id="@+id/r_logistic"-->
@@ -1399,7 +1399,7 @@
                                 android:id="@+id/textView21"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Input Harga "
+                                android:text="Input Harga Tanpa Pengemudi"
                                 android:textColor="@color/colorBlack"
                                 android:textSize="12sp" />
 
@@ -1489,7 +1489,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Input Harga (dengan Pengemudi)"
+                                    android:text="Input Harga dengan Pengemudi"
                                     android:textColor="@color/colorBlack"
                                     android:textSize="12sp" />
 
@@ -1675,7 +1675,7 @@
                                 android:id="@+id/textView12"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Input Harga"
+                                android:text="Input Harga Tanpa Pengemudi"
                                 android:textColor="@color/colorBlack"
                                 android:textSize="12sp" />
 
@@ -1750,7 +1750,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Input Harga (dengan Pengemudi)"
+                                    android:text="Input Harga dengan Pengemudi"
                                     android:textColor="@color/colorBlack"
                                     android:textSize="12sp" />
 
@@ -1925,7 +1925,7 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Input Harga"
+                                android:text="Input Harga Tanpa Pengemudi"
                                 android:textColor="@color/colorBlack"
                                 android:textSize="12sp" />
 
@@ -2000,7 +2000,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Input Harga (dengan Pengemudi)"
+                                    android:text="Input Harga dengan Pengemudi"
                                     android:textColor="@color/colorBlack"
                                     android:textSize="12sp" />
 
@@ -2176,7 +2176,7 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Input Harga"
+                                android:text="Input Harga Tanpa Pengemudi"
                                 android:textColor="@color/colorBlack"
                                 android:textSize="12sp" />
 
@@ -2251,7 +2251,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Input Harga (dengan Pengemudi)"
+                                    android:text="Input Harga dengan Pengemudi"
                                     android:textColor="@color/colorBlack"
                                     android:textSize="12sp" />
 
@@ -2426,7 +2426,7 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Input Harga"
+                                android:text="Input Harga Tanpa Pengemudi"
                                 android:textColor="@color/colorBlack"
                                 android:textSize="12sp" />
 
@@ -2501,7 +2501,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Input Harga (dengan Pengemudi)"
+                                    android:text="Input Harga dengan Pengemudi"
                                     android:textColor="@color/colorBlack"
                                     android:textSize="12sp" />
 
@@ -2613,7 +2613,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="*Untuk Keperluan Asuransi"
+                                android:text="Wajib Diisi Untuk Keperluan Asuransi"
                                 android:textColor="@color/colorBlack54"
                                 android:textSize="@dimen/tiny_text" />
                         </LinearLayout>

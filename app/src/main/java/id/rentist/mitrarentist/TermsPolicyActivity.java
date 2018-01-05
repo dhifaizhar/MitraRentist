@@ -32,7 +32,7 @@ public class TermsPolicyActivity extends AppCompatActivity implements AdvancedWe
 
         mWebView = (AdvancedWebView) findViewById(R.id.webview);
         mWebView.setListener(this, this);
-        mWebView.loadUrl("https://rentist.id/front/termandcondition");
+        mWebView.loadUrl("https://beta.rentist.id/front/termandcondition");
     }
 
     public boolean onSupportNavigateUp() {

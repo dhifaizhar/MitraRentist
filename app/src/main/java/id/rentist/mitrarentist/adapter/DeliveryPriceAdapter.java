@@ -78,8 +78,10 @@ public class DeliveryPriceAdapter extends RecyclerView.Adapter<DeliveryPriceAdap
                     Intent intent = new Intent("set-delivery");
                     intent.putExtra("id_delivery",item.getId());
                     intent.putExtra("delivery_detail",
-                            "Jarak Maksimal: " + item.getMaxDistance() + " KM, " +
-                                    "Biaya per KM: " + PricingTools.PriceStringFormat(item.getPricePerKM()));
+                            "Jarak Maksimal: " + item.getMaxDistance() + " KM\n " +
+                                    "Jarak Gratis Ongkir: " + item.getDistaceFree() + " KM\n" +
+                                    "Biaya per KM: " + PricingTools.PriceStringFormat(item.getPricePerKM())
+                    );
                     LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
                 }
             });

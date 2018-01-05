@@ -113,7 +113,7 @@ public class FormDriverActivity extends AppCompatActivity {
             Log.e(TAG, "Id Tenant Form Driver : " + aId);
             name.setText(formDriver.getStringExtra("fullname"));
             sim.setText(formDriver.getStringExtra("no_sim"));
-            phone.setText(formDriver.getStringExtra("phone"));
+            phone.setText(formDriver.getStringExtra("phone").substring(2));
             email.setText(formDriver.getStringExtra("email"));
             bdate.setText(formDriver.getStringExtra("birthdate"));
             if(formDriver.getStringExtra("gender").equals("male")){
@@ -162,8 +162,8 @@ public class FormDriverActivity extends AppCompatActivity {
                         r.getBitmap();
                         r.getError();
                         r.getUri();
-                        isiimage = Tools.getStringImageView(r.getBitmap(), profilePic);
-                        Log.e("onPickResult: ",isiimage );
+                        imgString = Tools.getStringImageView(r.getBitmap(), profilePic);
+                        Log.e("onPickResult: ",imgString );
                     }
                 }).show(FormDriverActivity.this);
             }
@@ -308,7 +308,7 @@ public class FormDriverActivity extends AppCompatActivity {
 
             if(driver != null){
                 Toast.makeText(getApplicationContext(),"Sukses menyimpan data.", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(FormDriverActivity.this,DriverDetailActivity.class);
+                Intent intent = new Intent(FormDriverActivity.this,DriverActivity.class);
                 setResult(RESULT_OK, intent);
                 finish();
             }else{
@@ -395,7 +395,7 @@ public class FormDriverActivity extends AppCompatActivity {
 
             if(user != null){
                 Toast.makeText(getApplicationContext(),"Sukses mengubah data.", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(FormDriverActivity.this,DriverActivity.class);
+                Intent intent = new Intent(FormDriverActivity.this,DriverDetailActivity.class);
                 intent.putExtra("id_driver", idDriver);
                 setResult(RESULT_OK, intent);
                 finish();

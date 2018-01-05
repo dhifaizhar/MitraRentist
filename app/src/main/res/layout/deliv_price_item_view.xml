@@ -74,19 +74,19 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:padding="@dimen/small_space"
-                    android:visibility="gone">
+                    android:visibility="visible">
 
                     <TextView
                         android:layout_width="@dimen/text_label_med"
                         android:layout_height="wrap_content"
-                        android:text="Jarak Gratis :"
+                        android:text="Jarak Gratis Ongkir :"
                         android:textSize="@dimen/tiny_text"/>
 
                     <TextView
                         android:id="@+id/dp_free"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="1.500 IDR"
+                        android:text="6 KM"
                         android:gravity="end"
                         android:textSize="@dimen/tiny_text"/>
                 </LinearLayout>

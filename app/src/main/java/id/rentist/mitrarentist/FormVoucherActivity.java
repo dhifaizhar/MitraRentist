@@ -64,7 +64,7 @@ public class FormVoucherActivity extends AppCompatActivity implements View.OnCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form_voucher);
-        setTitle("Form Kupon");
+        setTitle("Form Voucher");
 
         formVoucher = getIntent();
         sm = new SessionManager(getApplicationContext());

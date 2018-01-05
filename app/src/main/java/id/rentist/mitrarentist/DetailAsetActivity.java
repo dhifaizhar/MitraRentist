@@ -88,7 +88,7 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
     String changeStatus = "active",aAsetName, aName, aType, aSubType,  aStatus, aCat, aSubCat, aVerified, aLongitude, aLatitude,
             aInsurance, aMinRentDay, aDeliveryMethod, category, category_url, aDesc, aWeight,
             aAssetValue, aMainImage, aSecondImage, aThirdImage, aFourthImage, aFifthImage,
-            aDeposit, aDepositValue, aIdDelivery,
+            aDeposit, aDepositValue, aIdDelivery, aDimension,
             //Car&Motor
             aPlat, aYear, aNoStnk , aColor, aTransmission, aEngineCap, aFuel, aSeat, aAirBag, aAirCond,
                     aDriver, aEstPrice, aAsu1Image, aAsu2Image, aAsu3Image,
@@ -100,7 +100,7 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
             plat, year,  color, transmission, engine_cap, fuel, seats, air_bag, air_cond, driver,
             model, length, beam, gross_ton, draft, cruise_speed, top_speed, builder, naval, int_design, ext_design,
             guest, cabin, crew, asset_value, weight, dimension, no_rangka, no_mesin, est_value,
-            delivery_distance, delivery_price, deposit, deposit_value;
+            delivery_distance, delivery_price, deposit, deposit_value, distance_free;
 
     String aPrice;// = new ArrayList<>();
 
@@ -249,6 +249,7 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
 
         delivery_distance = (TextView) findViewById(R.id.as_delivery_distance);
         delivery_price = (TextView) findViewById(R.id.as_delivery_price);
+        distance_free = (TextView) findViewById(R.id.as_distance_free);
         deposit = (TextView) findViewById(R.id.as_deposit);
         deposit_value = (TextView) findViewById(R.id.as_nominal_deposit);
 
@@ -470,22 +471,22 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
                         }
 
                         if (aDeliveryMethod.equals("both")) {
-                            delivery_method.setText("Dikirim, Diambil");
+                            delivery_method.setText("Diantar, Diambil");
                         } else {
                             if (aDeliveryMethod.equals("pickup")) {
-                                delivery_method.setText("Diambil");
+                                delivery_method.setText(R.string.deliv_pickup);
                                 rDeliveryPrice.setVisibility(View.GONE);
                             }
                             else {
-                                delivery_method.setText("Dikirim");
+                                delivery_method.setText(R.string.deliv_deliver);
 
                                 if(jsonobject.has("id_delivery")){
                                     rDeliveryPrice.setVisibility(View.VISIBLE);
 
                                     JSONObject deliveryObject = jsonobject.getJSONObject("id_delivery");
                                     aIdDelivery = deliveryObject.getString("id");
-
                                     delivery_distance.setText(deliveryObject.getInt("max_distance") + " KM");
+                                    distance_free.setText(deliveryObject.getInt("max_distance_free") + " KM");
                                     delivery_price.setText(PricingTools.PriceStringFormat(deliveryObject.getString("price_per_km")));
                                 }else{
                                     rDeliveryPrice.setVisibility(View.GONE);
@@ -538,9 +539,9 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
                                 est_value.setText("Kurang dari " + aEstPrice);
 
                                 if (aDriver.equals("both")) {
-                                    driver.setText("Tersedia, Tidak Tersedia");
+                                    driver.setText("Dengan Pengemudi, Tanpa Pengemudi");
                                 } else {
-                                    driver.setText(aDriver.equals("true") ? "Tersedia" : "Tidak Tersedia");
+                                    driver.setText(aDriver.equals("true") ? "Dengan Pengemudi" : "Tanpa Pengemudi");
                                 }
 
                                 aAsu1Image = jsonobject.getString("image_1");
@@ -620,7 +621,12 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
 
                                     asset_value.setText(PricingTools.PriceStringFormat(aAssetValue));
                                     weight.setText(aWeight + " Kg");
-                                    dimension.setText(jsonobject.getString("dimension").equals("null") ? "-" : jsonobject.getString("dimension") + " cm");
+                                    if (!jsonobject.getString("dimension").equals("null")){
+                                        aDimension = jsonobject.getString("dimension");
+                                        dimension.setText(jsonobject.getString("dimension") + "cm");
+                                    }else{
+                                        dimension.setText("-");
+                                    }
                                 }
                                 aDesc = jsonobject.getString("description");
 
@@ -947,7 +953,8 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
                     if(aDeliveryMethod.equals("deliver")){
                         iAsetEdit.putExtra("id_delivery", aIdDelivery);
                         iAsetEdit.putExtra("delivery_detail", "Jarak Maksimal: " + delivery_distance.getText().toString() +
-                                ", Biaya per KM: " + delivery_price.getText().toString());
+                                "\nJarak Gratis Ongkir: " + distance_free.getText().toString() + " KM" +
+                                "\nBiaya per KM: " + delivery_price.getText().toString());
                     }
                     iAsetEdit.putExtra("deposit", aDeposit);
                     if (aDeposit.equals("true")) iAsetEdit.putExtra("nominal_deposit", aDepositValue);
@@ -994,7 +1001,8 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
                     if(aDeliveryMethod.equals("deliver")){
                         iAsetEdit.putExtra("id_delivery", aIdDelivery);
                         iAsetEdit.putExtra("delivery_detail", "Jarak Maksimal: " + delivery_distance.getText().toString() +
-                                ", Biaya per KM: " + delivery_price.getText().toString());
+                                "\nJarak Gratis Ongkir: " + distance_free.getText().toString() + " KM" +
+                                "\nBiaya per KM: " + delivery_price.getText().toString());
                     }
                     iAsetEdit.putExtra("deposit", aDeposit);
                     if (aDeposit.equals("true")) iAsetEdit.putExtra("nominal_deposit", aDepositValue);
@@ -1041,7 +1049,8 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
                     if(aDeliveryMethod.equals("deliver")){
                         iAsetEdit.putExtra("id_delivery", aIdDelivery);
                         iAsetEdit.putExtra("delivery_detail", "Jarak Maksimal: " + delivery_distance.getText().toString() +
-                                ", Biaya per KM: " + delivery_price.getText().toString());
+                                "\nJarak Gratis Ongkir: " + distance_free.getText().toString() + " KM" +
+                                "\nBiaya per KM: " + delivery_price.getText().toString());
                     }
                     iAsetEdit.putExtra("deposit", aDeposit);
                     if (aDeposit.equals("true")) iAsetEdit.putExtra("nominal_deposit", aDepositValue);
@@ -1086,13 +1095,14 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
                     if(!aCat.matches("10|7")){
                         iAsetEdit.putExtra("asset_value", aAssetValue.toString());
                         iAsetEdit.putExtra("weight", aWeight);
-                        iAsetEdit.putExtra("dimension", dimension.getText().toString());
+                        iAsetEdit.putExtra("dimension", aDimension);
                     }
                     iAsetEdit.putExtra("delivery_method", aDeliveryMethod);
                     if(aDeliveryMethod.equals("deliver")){
                         iAsetEdit.putExtra("id_delivery", aIdDelivery);
                         iAsetEdit.putExtra("delivery_detail", "Jarak Maksimal: " + delivery_distance.getText().toString() +
-                            ", Biaya per KM: " + delivery_price.getText().toString());
+                                "\nJarak Gratis Ongkir: " + distance_free.getText().toString() + " KM" +
+                                "\nBiaya per KM: " + delivery_price.getText().toString());
                     }
                     iAsetEdit.putExtra("deposit", aDeposit);
                     if (aDeposit.equals("true")) iAsetEdit.putExtra("nominal_deposit", aDepositValue);

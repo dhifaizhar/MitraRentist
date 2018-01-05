@@ -9,7 +9,7 @@
         <item
             android:id="@+id/nav_users"
             android:icon="@drawable/ic_people_black_24dp"
-            android:title="Pengguna" />
+            android:title="Akun Pengguna" />
         <item
             android:id="@+id/nav_aset"
             android:icon="@drawable/aset_box"
@@ -37,7 +37,7 @@
         <item
             android:id="@+id/nav_voucher"
             android:icon="@drawable/ic_card_giftcard_black_24dp"
-            android:title="Kupon" />
+            android:title="Voucher" />
         <item
             android:id="@+id/nav_kebijakan"
             android:icon="@drawable/ic_book_black_36dp"

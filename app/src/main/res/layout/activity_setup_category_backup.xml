@@ -53,6 +53,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/small_space"
+                    android:background="@color/colorPrimarySoft"
                     android:padding="@dimen/xmin_padding">
 
                     <ImageView
@@ -61,7 +62,7 @@
                         android:layout_height="@dimen/med_padding"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="@dimen/min_padding"
-                        android:src="@drawable/setting_32_car_blue" />
+                        android:src="@drawable/mobil_32" />
 
                     <TextView
                         android:id="@+id/title_car"
@@ -85,6 +86,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/small_space"
+                    android:background="@color/colorPrimarySoft"
                     android:padding="@dimen/xmin_padding">
 
                     <ImageView
@@ -93,7 +95,7 @@
                         android:layout_height="@dimen/med_padding"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="@dimen/min_padding"
-                        android:src="@drawable/setting_32_motor_blue" />
+                        android:src="@drawable/motor_32" />
 
                     <TextView
                         android:id="@+id/title_motor"
@@ -117,6 +119,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/small_space"
+                    android:background="@color/colorPrimarySoft"
                     android:padding="@dimen/xmin_padding">
 
                     <ImageView
@@ -125,7 +128,7 @@
                         android:layout_height="@dimen/med_padding"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="@dimen/min_padding"
-                        android:src="@drawable/setting_32_yacth_blue" />
+                        android:src="@drawable/yatch_32" />
 
                     <TextView
                         android:id="@+id/title_yacht"
@@ -149,6 +152,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/small_space"
+                    android:background="@color/colorPrimarySoft"
                     android:padding="@dimen/xmin_padding">
 
                     <ImageView
@@ -157,7 +161,7 @@
                         android:layout_height="@dimen/med_padding"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="@dimen/min_padding"
-                        android:src="@drawable/setting_32_medical_blue" />
+                        android:src="@drawable/medical_equipment_32" />
 
                     <TextView
                         android:id="@+id/title_medic"
@@ -180,6 +184,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/small_space"
+                    android:background="@color/colorPrimarySoft"
                     android:padding="@dimen/xmin_padding">
 
                     <ImageView
@@ -188,7 +193,7 @@
                         android:layout_height="@dimen/med_padding"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="@dimen/min_padding"
-                        android:src="@drawable/setting_32_camera_blue" />
+                        android:src="@drawable/camera_32" />
 
                     <TextView
                         android:id="@+id/title_photo"
@@ -212,6 +217,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/small_space"
+                    android:background="@color/colorPrimarySoft"
                     android:padding="@dimen/xmin_padding">
 
                     <ImageView
@@ -220,7 +226,7 @@
                         android:layout_height="@dimen/med_padding"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="@dimen/min_padding"
-                        android:src="@drawable/setting_32_kidtoys_blue" />
+                        android:src="@drawable/mainan_anak_32" />
 
                     <TextView
                         android:id="@+id/title_toys"
@@ -244,6 +250,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/small_space"
+                    android:background="@color/colorPrimarySoft"
                     android:padding="@dimen/xmin_padding">
 
                     <ImageView
@@ -252,7 +259,7 @@
                         android:layout_height="@dimen/med_padding"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="@dimen/min_padding"
-                        android:src="@drawable/setting_32_adventure_blue" />
+                        android:src="@drawable/adventure_36" />
 
                     <TextView
                         android:id="@+id/title_adventure"
@@ -276,6 +283,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/small_space"
+                    android:background="@color/colorPrimarySoft"
                     android:padding="@dimen/xmin_padding">
 
                     <ImageView
@@ -284,7 +292,7 @@
                         android:layout_height="@dimen/med_padding"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="@dimen/min_padding"
-                        android:src="@drawable/setting_32_maternity_blue" />
+                        android:src="@drawable/maternity_32" />
 
                     <TextView
                         android:id="@+id/title_maternity"
@@ -308,6 +316,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/small_space"
+                    android:background="@color/colorPrimarySoft"
                     android:padding="@dimen/xmin_padding">
 
                     <ImageView
@@ -316,7 +325,7 @@
                         android:layout_height="@dimen/med_padding"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="@dimen/min_padding"
-                        android:src="@drawable/setting_32_elektronik_blue" />
+                        android:src="@drawable/elektronik_36" />
 
                     <TextView
                         android:id="@+id/title_electronic"
@@ -340,6 +349,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/small_space"
+                    android:background="@color/colorPrimarySoft"
                     android:padding="@dimen/xmin_padding">
 
                     <ImageView
@@ -348,7 +358,7 @@
                         android:layout_height="@dimen/med_padding"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="@dimen/min_padding"
-                        android:src="@drawable/setting_32_sepeda_blue" />
+                        android:src="@drawable/sepeda_32" />
 
                     <TextView
                         android:id="@+id/title_bicycle"
@@ -372,6 +382,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/small_space"
+                    android:background="@color/colorPrimarySoft"
                     android:padding="@dimen/xmin_padding">
 
                     <ImageView
@@ -380,7 +391,7 @@
                         android:layout_height="@dimen/med_padding"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="@dimen/min_padding"
-                        android:src="@drawable/setting_32_office_blue" />
+                        android:src="@drawable/office_equipmen_32" />
 
                     <TextView
                         android:id="@+id/title_office"
@@ -404,6 +415,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/small_space"
+                    android:background="@color/colorPrimarySoft"
                     android:padding="@dimen/xmin_padding">
 
                     <ImageView
@@ -412,7 +424,7 @@
                         android:layout_height="@dimen/med_padding"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="@dimen/min_padding"
-                        android:src="@drawable/setting_32_fashion_blue" />
+                        android:src="@drawable/fashion_36" />
 
                     <TextView
                         android:id="@+id/title_fashion"
@@ -448,7 +460,7 @@
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
         android:layout_margin="0dp"
-        android:background="@color/colorGreenRe"
+        android:background="@color/colorPrimaryDark"
         android:padding="0dp"
         android:text="Terapkan"
         android:textColor="@color/colorWhite"

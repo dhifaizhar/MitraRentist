@@ -133,6 +133,7 @@ public class ListDeliveryPriceActivity extends AppCompatActivity {
                                         delivModul.setMaxDistance(itemObject.getString("max_distance"));
                                         delivModul.setPricePerKM(itemObject.getString("price_per_km"));
                                         delivModul.setId(itemObject.getString("id"));
+                                        delivModul.setDistaceFree(itemObject.getString("max_distance_free"));
                                         mDelivPrice.add(delivModul);
                                     }
                                     RecyclerView.Adapter mAdapter;

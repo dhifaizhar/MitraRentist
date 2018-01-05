@@ -119,6 +119,7 @@ public class DeliveryPricingActivity extends AppCompatActivity {
                                         delivModul.setCategory(itemObject.getString("id_asset_category"));
                                         delivModul.setMaxDistance(itemObject.getString("max_distance"));
                                         delivModul.setPricePerKM(itemObject.getString("price_per_km"));
+                                        delivModul.setDistaceFree(itemObject.getString("max_distance_free"));
                                         mDelivPrice.add(delivModul);
                                     }
 

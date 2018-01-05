@@ -261,7 +261,8 @@
                                 android:ems="10"
                                 android:hint="8xxxxxxxxxx"
                                 android:imeOptions="actionNext"
-                                android:inputType="phone"
+                                android:inputType="number"
+                                android:maxLength="11"
                                 android:paddingLeft="@dimen/min_padding"
                                 android:paddingRight="@dimen/min_padding"
                                 android:paddingTop="@dimen/min_padding" />
@@ -342,7 +343,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:layout_marginBottom="@dimen/xmin_padding"
                 android:layout_weight="1">
 
@@ -351,9 +352,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/xmin_padding"
-                    android:text="Saya mengerti dengan Kententuan dan Kebijakan yang berlaku."
+                    android:text="Dengan mendaftar, saya telah membaca, mengerti, dan menyetujui"
                     android:textColor="@color/colorBlack"
                     android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/terms_service"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/xmin_padding"
+                    android:text="@string/agreement_link"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_marginBottom="@dimen/min_padding"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
@@ -367,19 +380,6 @@
                 android:textColor="@color/colorWhite"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/terms_service"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/med_padding"
-                android:layout_marginTop="@dimen/med_padding"
-                android:padding="@dimen/xmin_padding"
-                android:text="@string/agreement_link"
-                android:textAlignment="center"
-                android:textColor="@color/colorPrimary"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                />
 
         </LinearLayout>
 

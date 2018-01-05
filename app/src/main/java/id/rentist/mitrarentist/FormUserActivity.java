@@ -77,7 +77,7 @@ FormUserActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form_user);
-        setTitle("Pengguna");
+        setTitle("Akun Pengguna");
 
         formUser = getIntent();
         formValidation = new FormValidation(FormUserActivity.this);
@@ -154,8 +154,8 @@ FormUserActivity extends AppCompatActivity {
                         r.getBitmap();
                         r.getError();
                         r.getUri();
-                        isiimage = Tools.getStringImageView(r.getBitmap(), profilPic);
-                        Log.e("onPickResult: ",isiimage );
+                        imgString = Tools.getStringImageView(r.getBitmap(), profilPic);
+                        Log.e("onPickResult: ",imgString );
                     }
                 }).show(FormUserActivity.this);
             }
@@ -188,9 +188,9 @@ FormUserActivity extends AppCompatActivity {
                     if(formUser.getStringExtra("action").equals("add")){
                         if(formValidation.isPasswordValid(pass.getText().toString())){
                             if(formValidation.isConfirmPasswordValid(pass.getText().toString(),cpass.getText().toString())){
-                                new getFormUserAddTask(tenant, id).execute();
                                 pDialog.setMessage("loading ...");
                                 showProgress(true);
+                                new getFormUserAddTask(tenant, id).execute();
                             }else{
                                 cpass.setError(getString(R.string.error_invalid_confirm_password));
                                 focusView = cpass;
@@ -241,7 +241,6 @@ FormUserActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(String response) {
                     responseUser = response;
-                    showProgress(false);
 
                     if(response != null){
                         try {
@@ -303,7 +302,11 @@ FormUserActivity extends AppCompatActivity {
 
             return responseUser;
         }
-
+        @Override
+        protected void onPostExecute(String user) {
+            mDetailUserTask = null;
+            showProgress(false);
+        }
 
         @Override
         protected void onCancelled() {

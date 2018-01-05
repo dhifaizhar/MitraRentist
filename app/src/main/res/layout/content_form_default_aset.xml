@@ -62,7 +62,7 @@
                             android:id="@+id/textView1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Sub Kategori Aset"
+                            android:text="@string/klasifikasi_aset"
                             android:textColor="@color/colorBlack" />
 
                         <LinearLayout
@@ -514,7 +514,7 @@
                                     android:buttonTint="@color/colorPrimary"
                                     android:checked="true"
                                     android:contextClickable="false"
-                                    android:text="Diambil" />
+                                    android:text="@string/deliv_pickup" />
 
                                 <RadioButton
                                     android:id="@+id/r_deliver"
@@ -522,7 +522,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:buttonTint="@color/colorPrimary"
-                                    android:text="Dikirim" />
+                                    android:text="@string/deliv_deliver" />
 
                                 <!--<RadioButton-->
                                 <!--android:id="@+id/r_logistic"-->

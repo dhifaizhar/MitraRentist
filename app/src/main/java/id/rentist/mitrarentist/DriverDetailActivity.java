@@ -347,9 +347,7 @@ public class DriverDetailActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(resultCode == RESULT_OK) {
-            DriverDetailActivity.this.finish();
-            Intent ii = new Intent(DriverDetailActivity.this,DriverDetailActivity.class);
-            startActivity(ii);
+            detUserTenant(tenant, aId);
         }
 
     }

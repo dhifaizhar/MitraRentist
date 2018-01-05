@@ -700,7 +700,9 @@ public class FormPhotographyAsetActivity extends AppCompatActivity {
         String pattern = "([^a-zA-z]*)[a-zA-z]([^a-zA-z]*)[a-zA-z]([^a-zA-z]*)";
         Pattern r = Pattern.compile(pattern);
         Matcher m = r.matcher(iFormAsset.getStringExtra("dimension"));
+        Log.e(TAG, iFormAsset.getStringExtra("dimension"));
         while (m.find()) {
+            Log.e(TAG, m.group(1));
             aDimensionP.setText(m.group(1));
             aDimensionL.setText(m.group(2));
             aDimensionT.setText(m.group(3));

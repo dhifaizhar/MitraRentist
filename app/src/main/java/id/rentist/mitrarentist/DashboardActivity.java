@@ -314,7 +314,7 @@ public class DashboardActivity extends AppCompatActivity
                 // custom dialog
                 final Dialog dialog = new Dialog(DashboardActivity.this);
                 dialog.setContentView(R.layout.dialog_rating_detail);
-                dialog.setTitle("Nilai");
+                dialog.setTitle("Rating");
 
                 // set the custom dialog components - text, image and button
                 ratCleanliness = (TextView) dialog.findViewById(R.id.cleanliness_rating);

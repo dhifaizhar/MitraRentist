@@ -13,7 +13,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -93,7 +92,9 @@ public class UserDetailActivity extends AppCompatActivity {
     }
 
     private void detUserTenant(String tenant, Integer id) {
-        pBar.setVisibility(View.VISIBLE);
+//        pBar.setVisibility(View.VISIBLE);
+        pDialog.setMessage("loading ...");
+        showProgress(true);
         new getDetUserTask(tenant, id).execute();
     }
 
@@ -154,7 +155,9 @@ public class UserDetailActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String user) {
             mDetailUserTask = null;
-            pBar.setVisibility(View.GONE);
+            showProgress(false);
+
+//            pBar.setVisibility(View.GONE);
 
             if(user != null){
                 try {
@@ -187,7 +190,7 @@ public class UserDetailActivity extends AppCompatActivity {
         @Override
         protected void onCancelled() {
             mDetailUserTask = null;
-            pBar.setVisibility(View.GONE);
+//            pBar.setVisibility(View.GONE);
         }
 
     }

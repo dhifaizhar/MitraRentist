@@ -125,7 +125,9 @@
                     android:hint="0 IDR"
                     android:imeOptions="actionNext"
                     android:inputType="number"
+                    android:maxLength="11"
                     android:padding="@dimen/min_padding" />
+
             </LinearLayout>
 
             <LinearLayout

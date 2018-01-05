@@ -36,6 +36,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import id.rentist.mitrarentist.tools.AppConfig;
+import id.rentist.mitrarentist.tools.NumberTextWatcherForThousand;
 import id.rentist.mitrarentist.tools.SessionManager;
 
 public class FormFeatureActivity extends AppCompatActivity {
@@ -47,7 +48,8 @@ public class FormFeatureActivity extends AppCompatActivity {
 
     int featureId;
     String tenant, fId, category = "1", fIdName;
-    TextView name, price, qty, aCatValue;
+    TextView name, qty, aCatValue;
+    EditText price;
     Spinner featureName, aCat;
     Button bSaveButton;
 
@@ -77,11 +79,12 @@ public class FormFeatureActivity extends AppCompatActivity {
     private void controlContent() {
         //initialize view
         name = (TextView)findViewById(R.id.fr_feature_name);
-        price = (TextView)findViewById(R.id.fr_price);
+        price = (EditText)findViewById(R.id.fr_price);
         qty = (TextView)findViewById(R.id.fr_qty);
         featureName = (Spinner) findViewById(R.id.fr_name);
         aCat = (Spinner) findViewById(R.id.fr_asset_cat);
         aCatValue = (EditText) findViewById(R.id.fr_asset_cat_val);
+        price.addTextChangedListener(new NumberTextWatcherForThousand(price));
 
         aCat.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -243,7 +246,8 @@ public class FormFeatureActivity extends AppCompatActivity {
                     Map<String, String> keys = new HashMap<String, String>();
                     keys.put("id_tenant", mTenant);
                     keys.put("feature_name", fIdName);
-                    keys.put("price", price.getText().toString());
+//                    keys.put("price", price.getText().toString());
+                    keys.put("price", NumberTextWatcherForThousand.trimCommaOfString(price.getText().toString()));
                     keys.put("quantity", qty.getText().toString());
                     keys.put("id_asset_category", String.valueOf(aCatValue.getText()));
                     Log.e(TAG, "Key Body : " + keys.toString());
@@ -325,7 +329,8 @@ public class FormFeatureActivity extends AppCompatActivity {
                     keys.put("id_feature_item", idFeature);
                     keys.put("id_tenant", mTenant);
                     keys.put("feature_name", fIdName);
-                    keys.put("price", price.getText().toString());
+                    keys.put("price", NumberTextWatcherForThousand.trimCommaOfString(price.getText().toString()));
+//                    keys.put("price", price.getText().toString());
                     keys.put("quantity", qty.getText().toString());
                     keys.put("id_asset_category", String.valueOf(aCatValue.getText()));
                     Log.e(TAG, "Key Body : " + keys.toString());

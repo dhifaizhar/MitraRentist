@@ -2,6 +2,9 @@ package id.rentist.mitrarentist.tools;
 
 import android.content.Context;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Created by mdhif on 21/10/2017.
  */
@@ -26,10 +29,18 @@ public class FormValidation {
 
     public boolean isPhoneValid(String phone) {
         boolean result = false;
+        String phonepattern = "\\D";
+        Pattern r = Pattern.compile(phonepattern);
+        Matcher m = r.matcher(phone);
 
-        if(phone.length() > 8 && phone.length() < 14){
-            result = true;
-        }
+//        Log.e("VALID", String.valueOf(m.find()));
+//        if(String.valueOf(m.find()).equals("true")){
+//            result = false;
+//        }else{
+            if(phone.length() > 8 && phone.length() < 14) {
+                result = true;
+            }
+//        }
 
         return result;
     }
