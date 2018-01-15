@@ -159,7 +159,7 @@ public class DompetActivity extends AppCompatActivity {
                             }
 
                         } else {
-                            errorMsg = "Anda belum mengajukan withdrawal";
+                            errorMsg = "Anda belum mengajukan penarikan dana";
                             Toast.makeText(getApplicationContext(),errorMsg, Toast.LENGTH_LONG).show();
                         }
 
@@ -170,7 +170,7 @@ public class DompetActivity extends AppCompatActivity {
                             }
 
                         } else {
-                            errorMsg = "Note : Anda tidak memiliki cukup saldo untuk melakukan withdrawal";
+                            errorMsg = "Note : Anda tidak memiliki cukup saldo untuk melakukan penarikan dana";
                             note.setText(errorMsg);
                             withdrawal.setEnabled(false);
                             withdrawal.setBackgroundColor(getResources().getColor(R.color.colorButtonDefault));

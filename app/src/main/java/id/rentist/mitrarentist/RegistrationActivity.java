@@ -260,7 +260,8 @@ public class  RegistrationActivity extends AppCompatActivity {
                     Map<String, String> keys = new HashMap<String, String>();
                     keys.put("rental_name", name);
                     keys.put("owner_name", owner);
-                    keys.put("rental_type", rRole.getSelectedItem().toString());
+                    keys.put("rental_typ" +
+                            "e", rRole.getSelectedItem().toString());
                     keys.put("email", email);
                     keys.put("password", password);
                     keys.put("phone", phone);

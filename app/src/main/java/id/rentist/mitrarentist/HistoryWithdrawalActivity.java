@@ -61,7 +61,7 @@ public class HistoryWithdrawalActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        setTitle("Riwayat Withdrawal");
+        setTitle("Riwayat Penarikan Dana");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
@@ -163,13 +163,13 @@ public class HistoryWithdrawalActivity extends AppCompatActivity {
                         mRecyclerView.setAdapter(mAdapter);
 
                     }else{
-                        errorMsg = "Anda belum memiliki Transaksi";
+                        errorMsg = "Anda belum memiliki riwayat penarikan dana";
                         Toast.makeText(getApplicationContext(),errorMsg, Toast.LENGTH_LONG).show();
                     }
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    errorMsg = "Anda belum memiliki Transaksi";
+                    errorMsg = "riwayat penarikan dana tidak ditemukan";
                     Toast.makeText(getApplicationContext(),errorMsg, Toast.LENGTH_LONG).show();
                 }
             } else {

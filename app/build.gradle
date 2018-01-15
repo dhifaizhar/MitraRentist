@@ -7,7 +7,7 @@ android {
         applicationId "id.rentist.mitrarentist"
         minSdkVersion 19
         targetSdkVersion 25
-        versionCode 30
+        versionCode 34
         versionName "1.0.1"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
@@ -71,6 +71,7 @@ dependencies {
     compile 'com.github.delight-im:Android-AdvancedWebView:v3.0.0'
     compile 'com.github.jrvansuita:PickImage:+'
     compile 'com.github.chrisbanes:PhotoView:1.2.7'
+//    compile 'com.mindorks:paracamera:0.2.2'
 
     testCompile 'junit:junit:4.12'
 }

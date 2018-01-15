@@ -326,8 +326,7 @@ public class FormEditProfilActivity extends AppCompatActivity {
                     keys.put("id_tenant", mTenant);
                     keys.put("owner_name", erOwner);
                     keys.put("rental_name", erName);
-                    keys.put("address", erAddress);// +", "+ rVillage.getSelectedItem().toString() +", "+ rDistric.getSelectedItem().toString() +
-//                        ", "+rCity.getSelectedItem().toString() +", "+ rProvince.getSelectedItem().toString());
+                    keys.put("address", erAddress);
                     keys.put("postal_code", erPostalCode);
                     keys.put("phone", erPhone);
                     keys.put("bank_name", rBankName.getSelectedItem().toString());

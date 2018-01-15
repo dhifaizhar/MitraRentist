@@ -360,7 +360,7 @@ public class DashboardActivity extends AppCompatActivity
             navMenuView.findItem(R.id.nav_driver).setVisible(true);
             navMenuView.findItem(R.id.nav_riwayat).setVisible(true);
             navMenuView.findItem(R.id.nav_dompet).setVisible(true);
-//            navMenuView.findItem(R.id.nav_voucher).setVisible(true);
+            navMenuView.findItem(R.id.nav_voucher).setVisible(true);
             navMenuView.findItem(R.id.nav_kebijakan).setVisible(true);
             navMenuView.findItem(R.id.nav_message).setVisible(true);
         }else if(sm.getPreferences("role").equals("Admin")){
@@ -370,7 +370,7 @@ public class DashboardActivity extends AppCompatActivity
             navMenuView.findItem(R.id.nav_driver).setVisible(true);
             navMenuView.findItem(R.id.nav_riwayat).setVisible(true);
             navMenuView.findItem(R.id.nav_dompet).setVisible(true);
-//            navMenuView.findItem(R.id.nav_voucher).setVisible(true);
+            navMenuView.findItem(R.id.nav_voucher).setVisible(true);
             navMenuView.findItem(R.id.nav_kebijakan).setVisible(true);
         }else if(sm.getPreferences("role").equals("Operation")){
             navMenuView.findItem(R.id.nav_aset).setVisible(true);
@@ -387,7 +387,6 @@ public class DashboardActivity extends AppCompatActivity
 
     public void onRestart() {
         super.onRestart();
-//        new getDataTask(tenant).execute();
         getDashboardData();
     }
 
@@ -424,111 +423,119 @@ public class DashboardActivity extends AppCompatActivity
         pBar.setVisibility(View.GONE);
 
         if(response != null){
-            try {
-                JSONObject dataObject = new JSONObject(response);
-                JSONObject assetObject = new JSONObject(String.valueOf(dataObject.getJSONObject("asset")));
-                JSONObject poinObject = new JSONObject(String.valueOf(dataObject.getJSONObject("poin")));
-                JSONObject ratingObject = new JSONObject(String.valueOf(dataObject.getJSONObject("rating")));
-                Log.d(TAG, "Response : " + dataObject.toString());
+            if(response.equals("Could not find Tenant")){
+                Intent iLogin = new Intent(this, LoginActivity.class);
+                startActivity(iLogin);
+                sm.clearPreferences();
+                Toast.makeText(getApplicationContext(),"Akun Tidak Ditemukan", Toast.LENGTH_LONG).show();
+                finish();
+            }else {
+                try {
+                    JSONObject dataObject = new JSONObject(response);
+                    JSONObject assetObject = new JSONObject(String.valueOf(dataObject.getJSONObject("asset")));
+                    JSONObject poinObject = new JSONObject(String.valueOf(dataObject.getJSONObject("poin")));
+                    JSONObject ratingObject = new JSONObject(String.valueOf(dataObject.getJSONObject("rating")));
+                    Log.d(TAG, "Response : " + dataObject.toString());
 
-                sumAsset = assetObject.getInt("total");
-                newTrans.setText(dataObject.getString("paid"));
-                totAsset.setText(String.valueOf(sumAsset));
-                totPoin.setText(poinObject.getString("received"));//.equals("null") ? "0" : ratingObject.getString("received"));
-                successRent.setText(String.valueOf(dataObject.getInt("sukses")));
-                ongoRent.setText(dataObject.getString("berlangsung"));
+                    sumAsset = assetObject.getInt("total");
+                    newTrans.setText(dataObject.getString("paid"));
+                    totAsset.setText(String.valueOf(sumAsset));
+                    totPoin.setText(poinObject.getString("received"));//.equals("null") ? "0" : ratingObject.getString("received"));
+                    successRent.setText(String.valueOf(dataObject.getInt("sukses")));
+                    ongoRent.setText(dataObject.getString("berlangsung"));
 
-                sm.setPreferences("verified", dataObject.getString("verified"));
-                if (sm.getPreferences("verified").equals("false")){
-                    if(!sm.getPreferences("nama_pemilik").isEmpty() &&
-                            !sm.getPreferences("nama_rental").isEmpty() &&
-                            !sm.getPreferences("nama").isEmpty() &&
-                            !sm.getPreferences("alamat").isEmpty() &&
-                            !sm.getPreferences("telepon").isEmpty() &&
-                            !sm.getPreferences("email").isEmpty() &&
-                            !String.valueOf(sm.getIntPreferences("city")).isEmpty() &&
-                            !sm.getPreferences("bank_name").isEmpty() &&
-                            !sm.getPreferences("bank_account").isEmpty() &&
-                            !sm.getPreferences("branch").isEmpty() &&
-                            !sm.getPreferences("account_name").isEmpty()){
+                    sm.setPreferences("verified", dataObject.getString("verified"));
+                    if (sm.getPreferences("verified").equals("false")) {
+                        if (!sm.getPreferences("nama_pemilik").isEmpty() &&
+                                !sm.getPreferences("nama_rental").isEmpty() &&
+                                !sm.getPreferences("nama").isEmpty() &&
+                                !sm.getPreferences("alamat").isEmpty() &&
+                                !sm.getPreferences("telepon").isEmpty() &&
+                                !sm.getPreferences("email").isEmpty() &&
+                                !String.valueOf(sm.getIntPreferences("city")).isEmpty() &&
+                                !sm.getPreferences("bank_name").isEmpty() &&
+                                !sm.getPreferences("bank_account").isEmpty() &&
+                                !sm.getPreferences("branch").isEmpty() &&
+                                !sm.getPreferences("account_name").isEmpty()) {
 
                             accountDataVerifNotif.setVisibility(View.VISIBLE);
                             verifIco.setVisibility(View.GONE);
                         }
-                } else  {
-                    accountDataVerifNotif.setVisibility(View.GONE);
-                    verifIco.setVisibility(View.VISIBLE);
+                    } else {
+                        accountDataVerifNotif.setVisibility(View.GONE);
+                        verifIco.setVisibility(View.VISIBLE);
+                    }
+
+                    if (dataObject.getInt("saldo") == 0) {
+                        totSaldo.setText("0 IDR");
+                    } else {
+                        totSaldo.setText(PricingTools.PriceFormat(dataObject.getInt("saldo")));
+                    }
+
+                    sm.setIntPreferences("sum_car", assetObject.getInt("mobil"));
+                    sm.setIntPreferences("sum_motor", assetObject.getInt("motor"));
+                    sm.setIntPreferences("sum_yacht", assetObject.getInt("yacht"));
+                    sm.setIntPreferences("sum_medic", assetObject.getInt("medical"));
+                    sm.setIntPreferences("sum_photography", assetObject.getInt("photography"));
+                    sm.setIntPreferences("sum_toys", assetObject.getInt("toys"));
+                    sm.setIntPreferences("sum_adventure", assetObject.getInt("watersport"));
+                    sm.setIntPreferences("sum_maternity", assetObject.getInt("maternity"));
+                    sm.setIntPreferences("sum_electronic", assetObject.getInt("electronic"));
+                    sm.setIntPreferences("sum_bicycle", assetObject.getInt("bicycle"));
+                    sm.setIntPreferences("sum_office", assetObject.getInt("officetools"));
+                    sm.setIntPreferences("sum_fashion", assetObject.getInt("fashion"));
+
+                    JSONArray feeObject = new JSONArray(String.valueOf(dataObject.getJSONArray("percentage")));
+                    JSONObject categoryCar = feeObject.getJSONObject(0);
+                    JSONObject categoryMotor = feeObject.getJSONObject(1);
+                    JSONObject categoryYacht = feeObject.getJSONObject(2);
+                    JSONObject categoryMedic = feeObject.getJSONObject(3);
+                    JSONObject categoryPhotography = feeObject.getJSONObject(4);
+                    JSONObject categoryToys = feeObject.getJSONObject(5);
+                    JSONObject categoryAdventure = feeObject.getJSONObject(6);
+                    JSONObject categoryMaternity = feeObject.getJSONObject(7);
+                    JSONObject categoryElectronic = feeObject.getJSONObject(8);
+                    JSONObject categoryBicycle = feeObject.getJSONObject(9);
+                    JSONObject categoryOffice = feeObject.getJSONObject(10);
+                    JSONObject categoryFashion = feeObject.getJSONObject(11);
+
+                    sm.setPreferences("fee_car", categoryCar.getString("percentage"));
+                    sm.setPreferences("fee_motor", categoryMotor.getString("percentage"));
+                    sm.setPreferences("fee_yacht", categoryYacht.getString("percentage"));
+                    sm.setPreferences("fee_medic", categoryMedic.getString("percentage"));
+                    sm.setPreferences("fee_photography", categoryPhotography.getString("percentage"));
+                    sm.setPreferences("fee_toys", categoryToys.getString("percentage"));
+                    sm.setPreferences("fee_adventure", categoryAdventure.getString("percentage"));
+                    sm.setPreferences("fee_maternity", categoryMaternity.getString("percentage"));
+                    sm.setPreferences("fee_electronic", categoryElectronic.getString("percentage"));
+                    sm.setPreferences("fee_bicycle", categoryBicycle.getString("percentage"));
+                    sm.setPreferences("fee_office", categoryOffice.getString("percentage"));
+                    sm.setPreferences("fee_fashion", categoryFashion.getString("percentage"));
+
+                    if (ratingObject.getInt("counts") > 0) {
+                        Float clean = Float.parseFloat(ratingObject.getString("cleanliness")) / ratingObject.getInt("counts");
+                        Float neat = Float.parseFloat(ratingObject.getString("neatness")) / ratingObject.getInt("counts");
+                        Float honest = Float.parseFloat(ratingObject.getString("honesty")) / ratingObject.getInt("counts");
+                        Float com = Float.parseFloat(ratingObject.getString("communication")) / ratingObject.getInt("counts");
+
+                        rClean = String.format("%.1f", clean);
+                        rNeat = String.format("%.1f", neat);
+                        rHonest = String.format("%.1f", honest);
+                        rCom = String.format("%.1f", com);
+
+                        Float rating_sum = (clean + neat + honest + com) / 4;
+                        totRating.setText(String.valueOf(rating_sum));
+                    } else {
+                        rClean = "0";
+                        rNeat = "0";
+                        rHonest = "0";
+                        rCom = "0";
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Log.d(TAG, "JSON Error : " + e);
                 }
-
-                if(dataObject.getInt("saldo") == 0){
-                    totSaldo.setText("0 IDR");
-                }else{
-                    totSaldo.setText(PricingTools.PriceFormat(dataObject.getInt("saldo")));
-                }
-
-                sm.setIntPreferences("sum_car", assetObject.getInt("mobil"));
-                sm.setIntPreferences("sum_motor", assetObject.getInt("motor"));
-                sm.setIntPreferences("sum_yacht", assetObject.getInt("yacht"));
-                sm.setIntPreferences("sum_medic", assetObject.getInt("medical"));
-                sm.setIntPreferences("sum_photography", assetObject.getInt("photography"));
-                sm.setIntPreferences("sum_toys", assetObject.getInt("toys"));
-                sm.setIntPreferences("sum_adventure", assetObject.getInt("watersport"));
-                sm.setIntPreferences("sum_maternity", assetObject.getInt("maternity"));
-                sm.setIntPreferences("sum_electronic", assetObject.getInt("electronic"));
-                sm.setIntPreferences("sum_bicycle", assetObject.getInt("bicycle"));
-                sm.setIntPreferences("sum_office", assetObject.getInt("officetools"));
-                sm.setIntPreferences("sum_fashion", assetObject.getInt("fashion"));
-
-                JSONArray feeObject = new JSONArray(String.valueOf(dataObject.getJSONArray("percentage")));
-                JSONObject categoryCar = feeObject.getJSONObject(0);
-                JSONObject categoryMotor = feeObject.getJSONObject(1);
-                JSONObject categoryYacht= feeObject.getJSONObject(2);
-                JSONObject categoryMedic = feeObject.getJSONObject(3);
-                JSONObject categoryPhotography = feeObject.getJSONObject(4);
-                JSONObject categoryToys = feeObject.getJSONObject(5);
-                JSONObject categoryAdventure = feeObject.getJSONObject(6);
-                JSONObject categoryMaternity = feeObject.getJSONObject(7);
-                JSONObject categoryElectronic = feeObject.getJSONObject(8);
-                JSONObject categoryBicycle = feeObject.getJSONObject(9);
-                JSONObject categoryOffice = feeObject.getJSONObject(10);
-                JSONObject categoryFashion = feeObject.getJSONObject(11);
-
-                sm.setPreferences("fee_car", categoryCar.getString("percentage"));
-                sm.setPreferences("fee_motor", categoryMotor.getString("percentage"));
-                sm.setPreferences("fee_yacht", categoryYacht.getString("percentage"));
-                sm.setPreferences("fee_medic", categoryMedic.getString("percentage"));
-                sm.setPreferences("fee_photography", categoryPhotography.getString("percentage"));
-                sm.setPreferences("fee_toys", categoryToys.getString("percentage"));
-                sm.setPreferences("fee_adventure", categoryAdventure.getString("percentage"));
-                sm.setPreferences("fee_maternity", categoryMaternity.getString("percentage"));
-                sm.setPreferences("fee_electronic", categoryElectronic.getString("percentage"));
-                sm.setPreferences("fee_bicycle", categoryBicycle.getString("percentage"));
-                sm.setPreferences("fee_office", categoryOffice.getString("percentage"));
-                sm.setPreferences("fee_fashion", categoryFashion.getString("percentage"));
-
-                if(ratingObject.getInt("counts") > 0){
-                    Float clean = Float.parseFloat(ratingObject.getString("cleanliness"))/ratingObject.getInt("counts");
-                    Float neat = Float.parseFloat(ratingObject.getString("neatness"))/ratingObject.getInt("counts");
-                    Float honest = Float.parseFloat(ratingObject.getString("honesty"))/ratingObject.getInt("counts");
-                    Float com = Float.parseFloat(ratingObject.getString("communication"))/ratingObject.getInt("counts");
-
-                    rClean = String.format("%.1f", clean);
-                    rNeat = String.format("%.1f", neat);
-                    rHonest = String.format("%.1f", honest);
-                    rCom = String.format("%.1f", com);
-
-                    Float rating_sum = (clean + neat + honest + com)/4;
-                    totRating.setText(String.valueOf(rating_sum));
-                }else{
-                    rClean = "0";
-                    rNeat = "0";
-                    rHonest = "0";
-                    rCom = "0";
-                }
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-                Log.d(TAG, "JSON Error : " + e);
             }
         }else{
             Toast.makeText(getApplicationContext(),"Gagal memuat data.", Toast.LENGTH_LONG).show();

@@ -32,6 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:focusableInTouchMode="true"
+            android:layout_marginTop="@dimen/med_padding"
             android:orientation="vertical">
 
             <android.support.design.widget.TextInputLayout

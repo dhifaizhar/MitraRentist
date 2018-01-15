@@ -40,7 +40,7 @@ public class ProfileActivity extends AppCompatActivity {
     TextView rName, rOwner, rAddress, rEmail, rPhone, rBankAccount, rBankName, rTenantCode,
             rAccountOwner, rBranch, rCity, rProvince, rVillage, rDistrict, rRentalType,
             rPostalCode, rNoKTP;
-    ImageView profilePhoto;
+    ImageView profilePhoto, phoneVerif, emailVerif;
     ImageButton vAll;
     String imageUrl, tenantCity;
     private ProgressDialog pDialog;
@@ -87,6 +87,8 @@ public class ProfileActivity extends AppCompatActivity {
         rPostalCode = (TextView) findViewById(R.id.pr_postal_code);
         rTenantCode = (TextView) findViewById(R.id.pr_rental_code);
         rNoKTP = (TextView) findViewById(R.id.pr_no_ktp);
+        phoneVerif = (ImageView) findViewById(R.id.pr_phone_verif);
+        emailVerif = (ImageView) findViewById(R.id.pr_email_verif);
 
         vAll = (ImageButton) findViewById(R.id.view_testi);
 
@@ -104,6 +106,14 @@ public class ProfileActivity extends AppCompatActivity {
         rBranch.setText("Cabang : " + String.valueOf(sm.getPreferences("branch").isEmpty()?"-":sm.getPreferences("branch")));
         rPostalCode.setText(sm.getPreferences("kode_pos"));
         rTenantCode.setText(String.valueOf("ID Rental : " + sm.getPreferences("tenant_code")));
+
+        if(sm.getPreferences("origin").equals("phone") || sm.getPreferences("second_verified").equals("phone")){
+            phoneVerif.setVisibility(View.VISIBLE);
+        }
+
+        if(sm.getPreferences("origin").equals("email") || sm.getPreferences("second_verified").equals("email")){
+            emailVerif.setVisibility(View.VISIBLE);
+        }
 
         if(!String.valueOf(sm.getIntPreferences("city")).isEmpty()){
             rCity.setText("");

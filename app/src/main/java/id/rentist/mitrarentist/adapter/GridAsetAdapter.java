@@ -154,7 +154,7 @@ public class GridAsetAdapter extends RecyclerView.Adapter<GridAsetAdapter.ViewHo
                    category = new ItemCategoryModul();
                    category.setId(13);
                    category.setTitle("Tambah Aset");
-                   category.setThumbnail(R.drawable.ic_add_black_48dp);
+                   category.setThumbnail(R.drawable.ic_add_asset_green);
                    itemCategory.add(category);
                }
            }

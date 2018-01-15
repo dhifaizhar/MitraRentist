@@ -2,6 +2,7 @@ package id.rentist.mitrarentist.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,7 +49,7 @@ public class VoucherAdapter extends RecyclerView.Adapter<VoucherAdapter.ViewHold
         viewHolder.startDate.setText(Tools.dateFineFormat(vou.getStartDate()));
         viewHolder.endDate.setText(Tools.dateFineFormat(vou.getEndDate()));
         if(vou.getType().equals("both")){
-            viewHolder.type.setText("mobile, web");
+            viewHolder.type.setText("Mobile, Web");
         }else{
             viewHolder.type.setText(vou.getType());
         }
@@ -56,10 +57,12 @@ public class VoucherAdapter extends RecyclerView.Adapter<VoucherAdapter.ViewHold
         viewHolder.desc.setText(vou.getDesc());
         viewHolder.amount.setText(vou.getAmount());
 
-        viewHolder.btnEdit.setOnClickListener(new View.OnClickListener() {
+        String[] asset_category = context.getResources().getStringArray(R.array.asset_category_entries);
+        viewHolder.asCategory.setText(asset_category[Integer.parseInt(vou.getAsCategory()) - 1]);
+
+        viewHolder.cardItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Integer id = vou.getId();
                 Intent iVou = new Intent(context, FormVoucherActivity.class);
                 iVou.putExtra("action","update");
                 iVou.putExtra("id_vou", vou.getId());
@@ -93,6 +96,7 @@ public class VoucherAdapter extends RecyclerView.Adapter<VoucherAdapter.ViewHold
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView title, discount, startDate, endDate, code, desc, amount, status, asCategory, type, btnEdit;
+        private CardView cardItem;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -102,13 +106,11 @@ public class VoucherAdapter extends RecyclerView.Adapter<VoucherAdapter.ViewHold
             endDate = (TextView) itemView.findViewById(R.id.vou_endDate);
             code = (TextView) itemView.findViewById(R.id.vou_code);
             desc = (TextView) itemView.findViewById(R.id.vou_desc);
-//            asCategory = (TextView) itemView.findViewById(R.id.vou_as_category);
+            asCategory = (TextView) itemView.findViewById(R.id.vou_category);
             type = (TextView) itemView.findViewById(R.id.vou_type);
             btnEdit = (TextView) itemView.findViewById(R.id.vou_edit);
             amount = (TextView) itemView.findViewById(R.id.vou_quantity);
-//            status = (TextView) itemView.findViewById(R.id.vou_status);
-
-
+            cardItem = (CardView) itemView.findViewById(R.id.card_view_voucher);
         }
     }
 }

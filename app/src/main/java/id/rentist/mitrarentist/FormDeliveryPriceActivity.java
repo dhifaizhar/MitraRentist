@@ -38,7 +38,7 @@ public class FormDeliveryPriceActivity extends AppCompatActivity {
 
     Intent iDelivery;
     String tenant;
-    EditText distance, price;
+    EditText distance, price, distance_free;
     LinearLayout rowCategory;
     CheckBox car, motor, yacht, medic, photo, toys, adventure, maternity, elektronic, bicycle, office, fashion;
     List<Integer> category = new ArrayList<>();
@@ -56,6 +56,7 @@ public class FormDeliveryPriceActivity extends AppCompatActivity {
 
         tenant = sm.getIntPreferences("id_tenant").toString();
         distance = (EditText) findViewById(R.id.distance);
+        distance_free = (EditText) findViewById(R.id.distance_free);
         price = (EditText) findViewById(R.id.price);
         rowCategory = (LinearLayout) findViewById(R.id.row_asset_category);
         car = (CheckBox) findViewById(R.id.ck_car);
@@ -122,7 +123,9 @@ public class FormDeliveryPriceActivity extends AppCompatActivity {
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(distance.getText().toString().isEmpty() || price.getText().toString().isEmpty()){
+                if(distance.getText().toString().isEmpty() ||
+                        distance_free.getText().toString().isEmpty() ||
+                        price.getText().toString().isEmpty()){
                     Toast.makeText(getApplicationContext(), "Harap Lengkapi Form",Toast.LENGTH_LONG).show();
 
                 }else{
@@ -177,6 +180,7 @@ public class FormDeliveryPriceActivity extends AppCompatActivity {
                 Map<String, String> keys = new HashMap<String, String>();
                 keys.put("id_tenant", tenant);
                 keys.put("max_distance", distance.getText().toString());
+                keys.put("max_distance_free", distance_free.getText().toString());
                 keys.put("price_per_km", NumberTextWatcherForThousand.trimCommaOfString(price.getText().toString()));
                 keys.put("id_asset_category", category.toString());
                 Log.e(TAG, "Post Data : " + String.valueOf(keys));

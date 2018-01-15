@@ -332,6 +332,16 @@
                                 android:textColor="@color/colorBlack"
                                 android:textSize="@dimen/medium_text" />
 
+                            <ImageView
+                                android:id="@+id/pr_phone_verif"
+                                android:layout_toEndOf="@+id/pr_phone_number"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_marginStart="@dimen/xmin_padding"
+                                android:layout_alignBottom="@+id/pr_phone_number"
+                                android:src="@drawable/ic_check_green"
+                                android:visibility="gone"/>
+
                         </RelativeLayout>
 
                         <RelativeLayout
@@ -370,6 +380,16 @@
                                 android:text="-"
                                 android:textColor="@color/colorBlack"
                                 android:textSize="@dimen/medium_text" />
+
+                            <ImageView
+                                android:id="@+id/pr_email_verif"
+                                android:layout_toEndOf="@+id/pr_email"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_marginStart="@dimen/xmin_padding"
+                                android:layout_alignBottom="@+id/pr_email"
+                                android:src="@drawable/ic_check_green"
+                                android:visibility="gone"/>
 
                         </RelativeLayout>
 

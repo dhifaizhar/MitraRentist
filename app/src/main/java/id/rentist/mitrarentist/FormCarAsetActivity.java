@@ -3,21 +3,18 @@ package id.rentist.mitrarentist;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -54,7 +51,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -1063,7 +1059,7 @@ public class FormCarAsetActivity extends AppCompatActivity {
         if(!iFormAsset.getStringExtra("est_price").equals("")) Tools.setSpinnerValue(iFormAsset.getStringExtra("est_price"), aEstPrice, R.array.estimated_price_entries, getApplicationContext());
 
         //Image
-        if(!iFormAsset.getStringExtra("main_image").isEmpty()) {
+        if(!iFormAsset.getStringExtra("main_image").isEmpty() && !iFormAsset.getStringExtra("main_image").equals("default.png")) {
             String imageUrl = AppConfig.URL_IMAGE_ASSETS + iFormAsset.getStringExtra("main_image");
             Picasso.with(getApplicationContext()).load(imageUrl).into(aMainImage);
             conSecondImage.setVisibility(View.VISIBLE);
@@ -1108,7 +1104,7 @@ public class FormCarAsetActivity extends AppCompatActivity {
             Picasso.with(getApplicationContext()).load(AppConfig.URL_IMAGE_ASSETS + asu2Img).into(aAsu2);
             delAsu2.setVisibility(View.VISIBLE);
         }
-        if (!asu3Img.isEmpty() && !asu2Img.equals("default.png")) {
+        if (!asu3Img.isEmpty() && !asu3Img.equals("default.png")) {
             conAsu3.setVisibility(View.VISIBLE);
             Picasso.with(getApplicationContext()).load(AppConfig.URL_IMAGE_ASSETS + asu3Img).into(aAsu3);
             delAsu3.setVisibility(View.VISIBLE);
@@ -1166,24 +1162,6 @@ public class FormCarAsetActivity extends AppCompatActivity {
         // Parsing data price
         Log.e(TAG, "PRICE ARRAY ORI :" + iFormAsset.getStringExtra("price"));
         JSONArray priceArray = new JSONArray(PricingTools.PriceStringToArrayCar(iFormAsset.getStringExtra("price")));
-//        JSONArray priceArray = null;
-//        try {
-//            JSONArray nPriceArray = new JSONArray(iFormAsset.getStringExtra("price"));
-//            if (nPriceArray.length() > 0) {
-//                for (int i = 0; i < nPriceArray.length(); i++) {
-//                    JSONObject priceObject = nPriceArray.getJSONObject(i);
-//                    JSONObject nPrice = new JSONObject();
-//                    nPrice.put("range_name", priceObject.getString("range_name"));
-//                    nPrice.put("start_date", priceObject.getString("start_date"));
-//                    nPrice.put("end_date", priceObject.getString("end_date"));
-//                    nPrice.put("price", priceObject.getString("price"));
-//                    nPrice.put("price_with_driver", priceObject.getString("price_with_driver"));
-//                }
-//            }
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-
 
         Log.e(TAG, "PRICE ARRAY :" + priceArray);
         if (priceArray.length() > 0){
@@ -1283,187 +1261,9 @@ public class FormCarAsetActivity extends AppCompatActivity {
         return status;
     }
 
-    // IMAGE : show in frame
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        Bitmap bitmap;
-        String ext;
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            Uri filePath = data.getData();
-            try {
-                //Getting the Bitmap from Gallery
-                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-
-                //Setting the Bitmap to ImageView
-//                aMainImage.setImageBitmap(bitmap);
-
-                String imgStr = data.toString();
-                ext = imgStr.substring(imgStr.indexOf("typ")+4, imgStr.indexOf("flg")-1);
-
-                isiimage = Tools.getStringImageView(bitmap, aMainImage);
-                imgStringMain = ext +"," + isiimage;
-                conSecondImage.setVisibility(View.VISIBLE);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        if (requestCode == PICK_IMAGE_SECOND_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            Uri filePath = data.getData();
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-//                aSecondImage.setImageBitmap(bitmap);
-                Log.e(TAG, filePath.toString());
-
-                String imgStr = data.toString();
-                ext = imgStr.substring(imgStr.indexOf("typ")+4, imgStr.indexOf("flg")-1);
-
-                isiimage = Tools.getStringImageView(bitmap, aSecondImage);
-                imgStringSecond = ext +"," + isiimage;
-                delSecondImage.setVisibility(View.VISIBLE);
-                conThirdImage.setVisibility(View.VISIBLE);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        if (requestCode == PICK_IMAGE_THIRD_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            Uri filePath = data.getData();
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-//                aThirdImage.setImageBitmap(bitmap);
-
-                String imgStr = data.toString();
-                ext = imgStr.substring(imgStr.indexOf("typ")+4, imgStr.indexOf("flg")-1);
-
-                isiimage = Tools.getStringImageView(bitmap, aThirdImage);
-                imgStringThird = ext +"," + isiimage;
-                delThirdImage.setVisibility(View.VISIBLE);
-                conFourthImage.setVisibility(View.VISIBLE);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        if (requestCode == PICK_IMAGE_FOURTH_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            Uri filePath = data.getData();
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-//                aFourthImage.setImageBitmap(bitmap);
-
-                String imgStr = data.toString();
-                ext = imgStr.substring(imgStr.indexOf("typ")+4, imgStr.indexOf("flg")-1);
-
-                isiimage = Tools.getStringImageView(bitmap, aFourthImage);
-                imgStringFourth = ext +"," + isiimage;
-                delFourthImage.setVisibility(View.VISIBLE);
-                conFifthImage.setVisibility(View.VISIBLE);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        if (requestCode == PICK_IMAGE_FIFTH_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            Uri filePath = data.getData();
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-//                aFifthImage.setImageBitmap(bitmap);
-
-                String imgStr = data.toString();
-                ext = imgStr.substring(imgStr.indexOf("typ")+4, imgStr.indexOf("flg")-1);
-
-                isiimage = Tools.getStringImageView(bitmap, aFifthImage);
-                imgStringFifth = ext +"," + isiimage;
-                delFifthImage.setVisibility(View.VISIBLE);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        if (requestCode == PICK_IMAGE_STNK_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            Uri filePath = data.getData();
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-//                aImgSTNK.setImageBitmap(bitmap);
-                String imgStr = data.toString();
-                ext = imgStr.substring(imgStr.indexOf("typ")+4, imgStr.indexOf("flg")-1);
-
-                isiimage = Tools.getStringImageView(bitmap, aImgSTNK);
-                imgStringSTNK = ext +"," + isiimage;
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
-            Bitmap photo = (Bitmap) data.getExtras().get("data");
-            String str64b = Tools.getStringImageView(photo, aImgSTNK);
-            imgStringSTNK = "image/jpeg," + str64b;
-//            aImgSTNK.setImageBitmap(photo);
-        }
-
-        if (requestCode == PICK_IMAGE_ASU_1_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            Uri filePath = data.getData();
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-//                aAsu1.setImageBitmap(bitmap);
-
-                String imgStr = data.toString();
-                ext = imgStr.substring(imgStr.indexOf("typ")+4, imgStr.indexOf("flg")-1);
-
-                isiimage = Tools.getStringImageView(bitmap,aAsu1);
-                imgStringAsu1 = ext +"," + isiimage;
-                conAsu2.setVisibility(View.VISIBLE);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        if (requestCode == PICK_IMAGE_ASU_2_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            Uri filePath = data.getData();
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                aAsu2.setImageBitmap(bitmap);
-
-                String imgStr = data.toString();
-                ext = imgStr.substring(imgStr.indexOf("typ")+4, imgStr.indexOf("flg")-1);
-
-                isiimage = Tools.getStringImageView(bitmap,aAsu2);
-                imgStringAsu2 = ext +"," + isiimage;
-                conAsu3.setVisibility(View.VISIBLE);
-                delAsu2.setVisibility(View.VISIBLE);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        if (requestCode == PICK_IMAGE_ASU_3_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            Uri filePath = data.getData();
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                aAsu3.setImageBitmap(bitmap);
-
-                String imgStr = data.toString();
-                ext = imgStr.substring(imgStr.indexOf("typ")+4, imgStr.indexOf("flg")-1);
-
-                isiimage = Tools.getStringImageView(bitmap,aAsu3);
-                imgStringAsu3 = ext +"," + isiimage;
-                delAsu3.setVisibility(View.VISIBLE);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
 
         if (requestCode == PICK_LOCATION_REQUEST){
             showProgress(false);
@@ -1690,8 +1490,15 @@ public class FormCarAsetActivity extends AppCompatActivity {
                     Log.e(TAG, "Response: " + response);
 
                     if(response != null){
-                        Toast.makeText(getApplicationContext(),"Data sukses disimpan, Aset sedang di verifikasi", Toast.LENGTH_LONG).show();
-                        finish();
+                        try {
+                            JSONObject assetObject = new JSONObject(response);
+                            putImageAsset(assetObject.getString("id"));
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+//                        Toast.makeText(getApplicationContext(),"Data sukses disimpan, Aset sedang di verifikasi", Toast.LENGTH_LONG).show();
+//                        finish();
                     }else{
                         showProgress(false);
                         Toast.makeText(getApplicationContext(),"Gagal meyimpan data", Toast.LENGTH_LONG).show();
@@ -1737,24 +1544,14 @@ public class FormCarAsetActivity extends AppCompatActivity {
                     keys.put("longitude", aLongitude);
                     keys.put("member_badge", aRentReq);
                     keys.put("price", pricingArray.toString());
-                    if(!imgStringSTNK.isEmpty()) { keys.put("stnk", imgStringSTNK);}
-                    if(!imgStringMain.isEmpty()){ keys.put("file", imgStringMain);}
-                    if(!imgStringSecond.isEmpty()){keys.put("file1", imgStringSecond);}
-                    if(!imgStringThird.isEmpty()){keys.put("file2", imgStringThird);}
-                    if(!imgStringFourth.isEmpty()){keys.put("file3", imgStringFourth);}
-                    if(!imgStringFifth.isEmpty()){keys.put("file4", imgStringFifth);}
-
                     keys.put("no_rangka", aNoRangka.getText().toString());
                     keys.put("no_mesin", aNoMesin.getText().toString());
                     keys.put("estimated_price", aEstPrice.getSelectedItem().toString());
+                    if(!imgStringSTNK.isEmpty()) { keys.put("stnk", imgStringSTNK);}
 
                     if(aDeliveryMethod.equals("deliver")) keys.put("id_delivery", aIdDelivery);
                     keys.put("deposit", aDepositStatus);
                     if(aDepositStatus.equals("true")) keys.put("nominal_deposit", NumberTextWatcherForThousand.trimCommaOfString(aDepositValue.getText().toString()));
-
-                    if(!imgStringAsu1.isEmpty()){keys.put("asu_1", imgStringAsu1);}
-                    if(!imgStringAsu2.isEmpty()){keys.put("asu_2", imgStringAsu2);}
-                    if(!imgStringAsu3.isEmpty()){keys.put("asu_3", imgStringAsu3);}
 
                     Log.e(TAG, "POST DATA: " + keys);
                     return keys;
@@ -1783,6 +1580,59 @@ public class FormCarAsetActivity extends AppCompatActivity {
             mAddAssetTask = null;
             showProgress(false);
         }
+    }
+
+    private void putImageAsset (final String id_asset){
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        StringRequest stringRequest = new StringRequest(Request.Method.PUT, URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.e(TAG, "resnpose balik image :" + response);
+                if(response != null){
+                    Toast.makeText(getApplicationContext(),"Data sukses disimpan", Toast.LENGTH_LONG).show();
+                    finish();
+                }else{
+                    Toast.makeText(getApplicationContext(),"Gagal meyimpan data", Toast.LENGTH_LONG).show();
+                    finish();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                showProgress(false);
+                Log.e(TAG, "Form Asset Fetch Error : " + error.toString());
+                Toast.makeText(getApplicationContext(), "Connection error, try again.",
+                        Toast.LENGTH_LONG).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() {
+                // Posting parameters to url
+                Map<String, String> keys = new HashMap<String, String>();
+                keys.put("id_asset", id_asset);
+                keys.put("price", pricingArray.toString());
+                if(!imgStringMain.isEmpty()){ keys.put("file", imgStringMain);}
+                if(!imgStringSecond.isEmpty()){keys.put("file1", imgStringSecond);}
+                if(!imgStringThird.isEmpty()){keys.put("file2", imgStringThird);}
+                if(!imgStringFourth.isEmpty()){keys.put("file3", imgStringFourth);}
+                if(!imgStringFifth.isEmpty()){keys.put("file4", imgStringFifth);}
+                if(!imgStringAsu1.isEmpty()){keys.put("asu_1", imgStringAsu1);}
+                if(!imgStringAsu2.isEmpty()){keys.put("asu_2", imgStringAsu2);}
+                if(!imgStringAsu3.isEmpty()){keys.put("asu_3", imgStringAsu3);}
+
+                Log.e(TAG, "Image Keys: " + String.valueOf(keys));
+                return keys;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> keys = new HashMap<String, String>();
+                keys.put("token", TOKEN);
+                return keys;
+            }
+        };
+
+        requestQueue.add(stringRequest);
     }
 
     private void updateDataAset(String category) {
@@ -1907,7 +1757,6 @@ public class FormCarAsetActivity extends AppCompatActivity {
         }
     }
 
-
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     private void showProgress(final boolean show) {
         if(show){
@@ -1923,115 +1772,47 @@ public class FormCarAsetActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        onBackPressed();
-        this.finish();
+        AlertDialog.Builder showAlert = new AlertDialog.Builder(this);
+        showAlert.setMessage("Data aset belum tersimpan, anda yakin akan keluar ?");
+        showAlert.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1) {
+                onBackPressed();
+                currentActivity.finish();
+            }
+        });
+        showAlert.setNegativeButton("Tidak",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+
+        AlertDialog alertDialog = showAlert.create();
+        alertDialog.show();
+
         return true;
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.menu_save_option, menu);
-        return true;
+    public void onBackPressed() {
+        AlertDialog.Builder showAlert = new AlertDialog.Builder(this);
+        showAlert.setMessage("Data aset belum tersimpan, anda yakin akan keluar ?");
+        showAlert.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1) {
+                onBackPressed();
+                currentActivity.finish();
+            }
+        });
+        showAlert.setNegativeButton("Tidak",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        AlertDialog alertDialog = showAlert.create();
+        alertDialog.show();
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_save) {
-            pDialog.setMessage("loading ...");
-            showProgress(true);
-
-            tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
-            category = iFormAsset.getStringExtra("cat");
-            idAsset = iFormAsset.getIntExtra("id_asset", 0);
-
-            int rentReqId = aRentReqGroup.getCheckedRadioButtonId();
-            if (rentReqId == aBasic.getId())
-                aRentReq = getResources().getString(R.string.member_badge_basic);
-            else if (rentReqId == aVerified.getId())
-                aRentReq = getResources().getString(R.string.member_badge_verified);
-            else aRentReq = getResources().getString(R.string.member_badge_smart_con);
-
-            if (aDriver.isChecked() && aNoDriver.isChecked()) {
-                aDriverStatus = "both";
-            } else if (aDriver.isChecked()) {
-                aDriverStatus = "true";
-            } else if (aNoDriver.isChecked()) {
-                aDriverStatus = "false";
-            } else {
-                aDriverStatus = "nodefine";
-            }
-
-            if (aDelivery.isChecked() && aPickup.isChecked()) {
-                aDeliveryMethod = "both";
-            } else if (aDelivery.isChecked()) {
-                aDeliveryMethod = "deliver";
-            } else if (aPickup.isChecked()) {
-                aDeliveryMethod = "pickup";
-            } else {
-                aDeliveryMethod = "nodefine";
-            }
-
-            aPlatStart.setError(null);
-            aPlatEnd.setError(null);
-
-            String numplatPattern = "\\d";
-            View focusView;
-            Pattern r = Pattern.compile(numplatPattern);
-            Matcher m = r.matcher(aPlatStart.getText().toString());
-            Matcher n = r.matcher(aPlatEnd.getText().toString());
-
-            Boolean startPlat = !m.find();
-            Boolean endPlat = !n.find();
-
-            if (aBasicPrice.getText().toString().isEmpty() || aDeliveryMethod.equals("nodefine") || aDriverStatus.equals("nodefine") ||
-                    aAddress.getText().toString().isEmpty() || aType.getText().toString().isEmpty() || aPlat.toString().isEmpty() || aPlatStart.toString().isEmpty() ||
-                    aName.getText().toString().isEmpty() || aNoRangka.getText().toString().isEmpty() || aNoMesin.getText().toString().isEmpty() ||
-                    aMinRentDay.getText().toString().isEmpty()) {
-                showProgress(false);
-                Toast.makeText(getApplicationContext(), R.string.error_field_not_complete, Toast.LENGTH_LONG).show();
-            } else {
-                if (startPlat) {
-                    if (endPlat) {
-                        pricingArray.clear();
-                        getPrice();
-                        postPriceCheck(pricingArray.toString());
-                    } else {
-                        aPlatEnd.setError("Tidak boleh memasukan angka");
-                        focusView = aPlatEnd;
-                        focusView.requestFocus();
-                    }
-                } else {
-                    aPlatStart.setError("Tidak boleh memasukan angka");
-                    focusView = aPlatStart;
-                    focusView.requestFocus();
-                }
-            }
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-
-    // IMAGE : pick image
-    private void showFileChooser(String action) {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        int request = 0;
-        switch (action){
-            case "main" : request = PICK_IMAGE_REQUEST; break;
-            case "second" : request = PICK_IMAGE_SECOND_REQUEST; break;
-            case "third" : request = PICK_IMAGE_THIRD_REQUEST; break;
-            case "fourth" : request = PICK_IMAGE_FOURTH_REQUEST; break;
-            case "fifth" : request = PICK_IMAGE_FIFTH_REQUEST; break;
-            case "STNK" : request = PICK_IMAGE_STNK_REQUEST; break;
-            case "asu1" : request = PICK_IMAGE_ASU_1_REQUEST; break;
-            case "asu2" : request = PICK_IMAGE_ASU_2_REQUEST; break;
-            case "asu3" : request = PICK_IMAGE_ASU_3_REQUEST; break;
-
-        }
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), request);
-    }
 }

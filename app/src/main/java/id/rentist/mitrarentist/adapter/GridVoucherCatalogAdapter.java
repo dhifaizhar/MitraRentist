@@ -51,7 +51,7 @@ public class GridVoucherCatalogAdapter extends RecyclerView.Adapter<GridVoucherC
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.grid_voucher_catalog, viewGroup, false);
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.grid_voucher_catalog_bakcup, viewGroup, false);
         ViewHolder viewHolder = new ViewHolder(v);
         return viewHolder;
     }

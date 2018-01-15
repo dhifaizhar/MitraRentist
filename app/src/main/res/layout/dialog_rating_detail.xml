@@ -22,7 +22,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/xmin_padding"
                 android:layout_centerHorizontal="true"
-                android:text="Nilai"
+                android:text="Rating"
                 android:layout_centerVertical="true"
                 android:textSize="@dimen/small_text" />
 

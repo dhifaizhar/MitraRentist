@@ -70,7 +70,7 @@
                     android:padding="@dimen/xmin_padding"
                     android:background="@color/colorPrimarySoft"
                     android:layout_marginTop="@dimen/small_space"
-                    android:visibility="visible">
+                    android:visibility="gone">
 
                     <TextView
                         android:id="@+id/textView45"
@@ -223,7 +223,7 @@
                                 android:id="@+id/det_member"
                                 android:layout_width="fill_parent"
                                 android:layout_height="match_parent"
-                                android:layout_toLeftOf="@+id/btn_camera"
+                                android:layout_toStartOf="@+id/btn_camera"
                                 android:orientation="vertical"
                                 android:padding="@dimen/xmin_padding">
 
@@ -251,7 +251,7 @@
                             </LinearLayout>
 
                             <ImageButton
-                                android:id="@+id/btn_cameraa"
+                                android:id="@+id/btn_camera"
                                 android:layout_width="@dimen/breadcrumb_height"
                                 android:layout_height="@dimen/breadcrumb_height"
                                 android:layout_alignParentEnd="true"
@@ -268,7 +268,7 @@
                                 <!--android:background="@color/colorNearWhite"-->
                                 <!--android:layout_alignParentEnd="true"-->
                                 <!--app:srcCompat="@drawable/ic_camera_alt_black_18dp"-->
-                                <!--android:visibility="visible" />-->
+                                <!--android:visibility="gone" />-->
 
                         </RelativeLayout>
 

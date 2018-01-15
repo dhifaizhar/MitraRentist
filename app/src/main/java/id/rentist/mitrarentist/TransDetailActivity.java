@@ -5,10 +5,12 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -56,6 +58,8 @@ import id.rentist.mitrarentist.tools.AppConfig;
 import id.rentist.mitrarentist.tools.PricingTools;
 import id.rentist.mitrarentist.tools.SessionManager;
 
+import static android.Manifest.permission.CAMERA;
+
 public class TransDetailActivity extends AppCompatActivity {
     private AsyncTask mTransactionTask = null;
     private ProgressDialog pDialog;
@@ -76,6 +80,7 @@ public class TransDetailActivity extends AppCompatActivity {
     ImageView mAsetThumb, withDriverCheck;
 
     private static int PICK_DRIVER_REQUEST = 3;
+    private static final int REQUEST_CAMERA = 0;
     private static final int CAMERA_REQUEST = 1888;
     String str64b, imgString = "", imgExt, tenant, mDriverID;
 
@@ -308,34 +313,21 @@ public class TransDetailActivity extends AppCompatActivity {
             btnCamera.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if (!mayRequestContacts()) {
+                        return;
+                    }
+
                     Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
                     startActivityForResult(cameraIntent, CAMERA_REQUEST);
 
-//                    PickSetup setup = Tools.imagePickerSetup();
-//                    PickImageDialog.build(setup, new IPickResult() {
-//                        @Override
-//                        public void onPickResult(PickResult r) {
-//                            r.getBitmap();
-//                            r.getError();
-//                            r.getUri();
-//                            imgString = Tools.getStringImageView(r.getBitmap(), btnCamera);
-//                            Log.e("onPickResult: ",imgString + r.getError());
-//                        }
-//                    }).show(TransDetailActivity.this);
-                }
-            });
-
-//            btnCamera.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
 //                    PickSetup setup = new PickSetup()
 //                            .setTitle("Pilih Gambar")
 //                            .setProgressText("Loading ...")
 //                            .setCancelText("Batal")
 //                            .setFlip(true)
 //                            .setMaxSize(500)
-//                            .setPickTypes(EPickType.CAMERA)
-//                            .setIconGravity(Gravity.LEFT)
+//                            .setPickTypes( EPickType.CAMERA, EPickType.GALLERY)
+//                            .setIconGravity(Gravity.TOP)
 //                            .setButtonOrientation(LinearLayoutCompat.HORIZONTAL)
 //                            .setSystemDialog(false);
 //
@@ -349,8 +341,9 @@ public class TransDetailActivity extends AppCompatActivity {
 //                            Log.e("onPickResult: ",imgString);
 //                        }
 //                    }).show(TransDetailActivity.this);
-//                }
-//            });
+                }
+
+            });
 
             btnAction.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -457,7 +450,6 @@ public class TransDetailActivity extends AppCompatActivity {
                 return params;
             }
         };
-//        pBar.setVisibility(View.GONE);
         queue.add(strReq);
     }
 
@@ -826,4 +818,27 @@ public class TransDetailActivity extends AppCompatActivity {
         }
     }
 
+    private boolean mayRequestContacts() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            return true;
+        }
+        if (checkSelfPermission(CAMERA) == PackageManager.PERMISSION_GRANTED) {
+            return true;
+        }
+        if (shouldShowRequestPermissionRationale(CAMERA)) {
+            requestPermissions(new String[]{CAMERA}, REQUEST_CAMERA);
+        } else {
+            requestPermissions(new String[]{CAMERA}, REQUEST_CAMERA);
+        }
+        return false;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        if (requestCode == REQUEST_CAMERA) {
+            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            }
+        }
+    }
 }

@@ -435,10 +435,10 @@
                                 android:id="@+id/rating"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginBottom="@dimen/xmin_padding"
+                                android:layout_marginBottom="@dimen/min_padding"
                                 android:layout_marginLeft="@dimen/xmin_padding"
                                 android:layout_toEndOf="@+id/mp_rating_ico"
-                                android:text="Nilai"
+                                android:text="Rating"
                                 android:textSize="12sp" />
 
                             <LinearLayout
@@ -447,7 +447,6 @@
                                 android:layout_height="wrap_content"
                                 android:layout_below="@+id/rating"
                                 android:layout_marginBottom="@dimen/min_padding"
-                                android:layout_toEndOf="@+id/mp_rating_ico"
                                 android:orientation="horizontal">
 
                                 <RelativeLayout
@@ -508,7 +507,6 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_below="@+id/rating1"
-                                android:layout_toEndOf="@+id/mp_rating_ico"
                                 android:orientation="horizontal">
 
                                 <RelativeLayout

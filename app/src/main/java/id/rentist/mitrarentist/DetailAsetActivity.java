@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Switch;
@@ -84,7 +85,7 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
     RecyclerView.Adapter mAdapter;
     RecyclerView.LayoutManager mLayoutManager;
 
-    Integer aId, position;
+    Integer aId, position, sw_count = 1;
     String changeStatus = "active",aAsetName, aName, aType, aSubType,  aStatus, aCat, aSubCat, aVerified, aLongitude, aLatitude,
             aInsurance, aMinRentDay, aDeliveryMethod, category, category_url, aDesc, aWeight,
             aAssetValue, aMainImage, aSecondImage, aThirdImage, aFourthImage, aFifthImage,
@@ -305,14 +306,7 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
         aAssetImages.setPageCount(imagesArray.length);
         aAssetImages.setImageListener(imageUrlListener);
 
-        swStatus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                changeStatAset();
-            }
-        });
         swStatus.setVisibility(View.GONE);
-
         if (!sm.getPreferences("role").equals(getString(R.string.role_finance))){
             if( !sm.getPreferences("role").equals(getString(R.string.role_delivery))){
                 swStatus.setVisibility(View.VISIBLE);
@@ -324,6 +318,19 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
                 });
             }
         }
+
+        swStatus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(sw_count == 1){
+                    sw_count--;
+                }else{
+                    changeStatAset();
+                }
+            }
+        });
+
+
     }
 
     private void getAssetDetail() {
@@ -453,8 +460,9 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
                         aAssetImages.setImageListener(imageUrlListener);
 
                         if (aVerified.equals("true")) {
+                            aset_name.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_check_green, 0);
                             ImageView verifIco = (ImageView) findViewById(R.id.as_verif);
-                            verifIco.setVisibility(View.VISIBLE);
+//                            verifIco.setVisibility(View.VISIBLE);
                         }
 
                         aset_name.setText(aAsetName);
@@ -464,10 +472,12 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
                             status.setText("Non-Aktif");
                             status.setTextColor(getResources().getColor(R.color.colorInactive));
                             swStatus.setChecked(false);
+                            sw_count -= 1;
                         }else{
                             status.setText("Aktif");
                             status.setTextColor(getResources().getColor(R.color.colorPrimary));
                             swStatus.setChecked(true);
+                            sw_count += 0 ;
                         }
 
                         if (aDeliveryMethod.equals("both")) {
@@ -678,6 +688,7 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
         showAlert.setNegativeButton("Tidak",new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                sw_count++;
                 if(nowStatus.equals("active")){
                     swStatus.setChecked(true);
                 }else{
@@ -685,6 +696,7 @@ public class DetailAsetActivity extends AppCompatActivity implements OnDateSelec
                 }
             }
         });
+        showAlert.setCancelable(false);
 
         alertDialog = showAlert.create();
         alertDialog.show();

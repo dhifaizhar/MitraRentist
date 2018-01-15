@@ -102,7 +102,7 @@
                     android:id="@+id/textView23"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Pengajuan Withdrawal Terakhir"
+                    android:text="Pengajuan Penarikan Dana Terakhir"
                     android:textColor="@color/colorBlack" />
 
                 <TextView

@@ -65,7 +65,7 @@
         <item
             android:id="@+id/nav_tentang"
             android:icon="@drawable/about_us"
-            android:title="Tentang Kami" />
+            android:title="Versi" />
     </group>
 
     <!--<item android:title="Pusat Bantuan">-->

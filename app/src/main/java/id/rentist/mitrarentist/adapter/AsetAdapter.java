@@ -111,7 +111,7 @@ public class AsetAdapter extends RecyclerView.Adapter<AsetAdapter.ViewHolder> {
         viewHolder.mark.setText(as.getMark());
 
         if (as.getThumbnail().equals("add")){
-            viewHolder.imgThumbnail.setImageResource(R.drawable.ic_add_black_48dp);
+            viewHolder.imgThumbnail.setImageResource(R.drawable.ic_add_asset_green);
             viewHolder.status.setVisibility(View.GONE);
             viewHolder.plat.setVisibility(View.GONE);
             viewHolder.subcat.setVisibility(View.GONE);
@@ -123,10 +123,13 @@ public class AsetAdapter extends RecyclerView.Adapter<AsetAdapter.ViewHolder> {
 
             if (as.getStatus().equals("active")){
                 viewHolder.status.setText("Aktif");
-                viewHolder.status.setTextColor(0xff00aeee);
+//                viewHolder.status.setTextColor(0xff00aeee);
+                viewHolder.status.setBackgroundColor(context.getResources().getColor(R.color.colorGreenRe));
             } else {
                 viewHolder.status.setText("Non-Aktif");
-                viewHolder.status.setTextColor(0xffff5050);
+//                viewHolder.status.setTextColor(0xffff5050);
+                viewHolder.status.setBackgroundColor(context.getResources().getColor(R.color.colorDanger));
+
             }
 
             if(as.getVerif().equals("true")){

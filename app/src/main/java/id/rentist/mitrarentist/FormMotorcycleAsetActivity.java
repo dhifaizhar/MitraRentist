@@ -3,21 +3,18 @@ package id.rentist.mitrarentist;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -53,7 +50,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -709,25 +705,6 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
                     }
                 }
 
-                if (aBasicPrice.getText().toString().isEmpty() ||
-                        aType.toString().isEmpty() ||
-                        aPlat.toString().isEmpty() || aPlatStart.toString().isEmpty() || aPlatEnd.toString().isEmpty() ||
-                        aName.getText().toString().isEmpty() ||
-                        aType.getText().toString().isEmpty() ||
-                        aMinDayRent.getText().toString().isEmpty() ||
-                        aNoRangka.getText().toString().isEmpty() ||
-                        aNoMesin.getText().toString().isEmpty() ||
-                        delivMethodValid.equals(false) ||
-                        depositValid.equals(false)){
-                    showProgress(false);
-                    Toast.makeText(getApplicationContext(), R.string.error_field_not_complete,Toast.LENGTH_LONG).show();
-                } else{
-                    pricingArray.clear();
-                    getPrice();
-                    postPriceCheck(pricingArray.toString());
-
-                }
-
                 String numplatPattern = "\\d";
                 View focusView;
                 Pattern r = Pattern.compile(numplatPattern);
@@ -933,147 +910,10 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
 
     }
 
-    private void showFileChooser(String action) {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        int request = 0;
-        switch (action){
-            case "main" : request = PICK_IMAGE_REQUEST; break;
-            case "second" : request = PICK_IMAGE_SECOND_REQUEST; break;
-            case "third" : request = PICK_IMAGE_THIRD_REQUEST; break;
-            case "fourth" : request = PICK_IMAGE_FOURTH_REQUEST; break;
-            case "fifth" : request = PICK_IMAGE_FIFTH_REQUEST; break;
-            case "STNK" : request = PICK_IMAGE_STNK_REQUEST; break;
-        }
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), request);
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        Bitmap bitmap;
-        String ext;
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            Uri filePath = data.getData();
-            try {
-                //Getting the Bitmap from Gallery
-                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-
-                //Setting the Bitmap to ImageView
-//                aMainImage.setImageBitmap(bitmap);
-
-                String imgStr = data.toString();
-                ext = imgStr.substring(imgStr.indexOf("typ")+4, imgStr.indexOf("flg")-1);
-
-                isiimage = Tools.getStringImageView(bitmap, aMainImage);
-                imgStringMain = ext +"," + isiimage;
-                conSecondImage.setVisibility(View.VISIBLE);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        if (requestCode == PICK_IMAGE_SECOND_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            Uri filePath = data.getData();
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-//                aSecondImage.setImageBitmap(bitmap);
-                Log.e(TAG, filePath.toString());
-
-                String imgStr = data.toString();
-                ext = imgStr.substring(imgStr.indexOf("typ")+4, imgStr.indexOf("flg")-1);
-
-                isiimage = Tools.getStringImageView(bitmap, aSecondImage);
-                imgStringSecond = ext +"," + isiimage;
-                delSecondImage.setVisibility(View.VISIBLE);
-                conThirdImage.setVisibility(View.VISIBLE);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        if (requestCode == PICK_IMAGE_THIRD_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            Uri filePath = data.getData();
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-//                aThirdImage.setImageBitmap(bitmap);
-
-                String imgStr = data.toString();
-                ext = imgStr.substring(imgStr.indexOf("typ")+4, imgStr.indexOf("flg")-1);
-
-                isiimage = Tools.getStringImageView(bitmap, aThirdImage);
-                imgStringThird = ext +"," + isiimage;
-                delThirdImage.setVisibility(View.VISIBLE);
-                conFourthImage.setVisibility(View.VISIBLE);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        if (requestCode == PICK_IMAGE_FOURTH_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            Uri filePath = data.getData();
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-//                aFourthImage.setImageBitmap(bitmap);
-
-                String imgStr = data.toString();
-                ext = imgStr.substring(imgStr.indexOf("typ")+4, imgStr.indexOf("flg")-1);
-
-                isiimage = Tools.getStringImageView(bitmap, aFourthImage);
-                imgStringFourth = ext +"," + isiimage;
-                delFourthImage.setVisibility(View.VISIBLE);
-                conFifthImage.setVisibility(View.VISIBLE);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        if (requestCode == PICK_IMAGE_FIFTH_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            Uri filePath = data.getData();
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-//                aFifthImage.setImageBitmap(bitmap);
-
-                String imgStr = data.toString();
-                ext = imgStr.substring(imgStr.indexOf("typ")+4, imgStr.indexOf("flg")-1);
-
-                isiimage = Tools.getStringImageView(bitmap, aFifthImage);
-                imgStringFifth = ext +"," + isiimage;
-                delFifthImage.setVisibility(View.VISIBLE);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        if (requestCode == PICK_IMAGE_STNK_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            Uri filePath = data.getData();
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-//                aImgSTNK.setImageBitmap(bitmap);
-                String imgStr = data.toString();
-                ext = imgStr.substring(imgStr.indexOf("typ")+4, imgStr.indexOf("flg")-1);
-
-                isiimage = Tools.getStringImageView(bitmap, aImgSTNK);
-                imgStringSTNK = ext +"," + isiimage;
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
-            Bitmap photo = (Bitmap) data.getExtras().get("data");
-            String str64b = Tools.getStringImageView(photo, aImgSTNK);
-            imgStringSTNK = "image/jpeg," + str64b;
-//            aImgSTNK.setImageBitmap(photo);
-        }
 
         if (requestCode == PICK_LOCATION_REQUEST){
             showProgress(false);
@@ -1139,50 +979,6 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
                 //Write your code if there's no result
             }
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.menu_save_option, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_save) {
-            int transmissionId = aTransmisionGroup.getCheckedRadioButtonId();
-            aTransmisionButton = (RadioButton) findViewById(transmissionId);
-            tenant = String.valueOf(sm.getIntPreferences("id_tenant"));
-            category = iFormAsset.getStringExtra("cat");
-            idAsset = iFormAsset.getIntExtra("id_asset",0);
-
-            int rentReqId = aRentReqGroup.getCheckedRadioButtonId();
-            if (rentReqId == aBasic.getId()) aRentReq = getResources().getString(R.string.member_badge_basic);
-            else if (rentReqId == aVerified.getId()) aRentReq = getResources().getString(R.string.member_badge_verified);
-            else aRentReq = getResources().getString(R.string.member_badge_smart_con);
-
-            if(aDelivery.isChecked() && aPickup.isChecked()){aDeliveryMethod = "both";}
-            else if (aDelivery.isChecked()){ aDeliveryMethod = "deliver";}
-            else if (aPickup.isChecked()){ aDeliveryMethod = "pickup";}
-            else { aDeliveryMethod = "nodefine";}
-
-            if (aBasicPrice.getText().toString().isEmpty() || aDeliveryMethod.equals("nodefine") ||
-                    aType.toString().isEmpty() || aPlat.toString().isEmpty() || aPlatStart.toString().isEmpty() || aPlatEnd.toString().isEmpty() ||
-                    aName.getText().toString().isEmpty() || aType.getText().toString().isEmpty() || aMinDayRent.getText().toString().isEmpty() ||
-                    aNoRangka.getText().toString().isEmpty() || aNoMesin.getText().toString().isEmpty() || aAddress.getText().toString().isEmpty()){
-
-                Toast.makeText(getApplicationContext(), R.string.error_field_not_complete,Toast.LENGTH_LONG).show();
-            } else{
-                pricingArray.clear();
-                getPrice();
-                postPriceCheck(pricingArray.toString());
-
-            }
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     private void getPrice(){
@@ -1331,8 +1127,15 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(String response) {
                     if(response != null){
-                        Toast.makeText(getApplicationContext(),"Data sukses disimpan", Toast.LENGTH_LONG).show();
-                        finish();
+                        try {
+                            JSONObject assetObject = new JSONObject(response);
+                            putImageAsset(assetObject.getString("id"));
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+//                        Toast.makeText(getApplicationContext(),"Data sukses disimpan", Toast.LENGTH_LONG).show();
+//                        finish();
                     }else{
                         Toast.makeText(getApplicationContext(),"Gagal meyimpan data", Toast.LENGTH_LONG).show();
                         finish();
@@ -1372,19 +1175,21 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
                     keys.put("longitude", aLongitude);
                     keys.put("member_badge", aRentReq);
                     keys.put("price", pricingArray.toString());
-                    if(!imgStringSTNK.isEmpty()) { keys.put("stnk", imgStringSTNK);}
-                    if(!imgStringMain.isEmpty()){ keys.put("file", imgStringMain);}
-                    if(!imgStringSecond.isEmpty()){keys.put("file1", imgStringSecond);}
-                    if(!imgStringThird.isEmpty()){keys.put("file2", imgStringThird);}
-                    if(!imgStringFourth.isEmpty()){keys.put("file3", imgStringFourth);}
-                    if(!imgStringFifth.isEmpty()){keys.put("file4", imgStringFifth);}
+
                     keys.put("no_rangka", aNoRangka.getText().toString());
                     keys.put("no_mesin", aNoMesin.getText().toString());
-                    Log.e(TAG, "Post Data : " + keys.toString());
 
                     if(aDeliveryMethod.equals("deliver")) keys.put("id_delivery", aIdDelivery);
                     keys.put("deposit", aDepositStatus);
                     if(aDepositStatus.equals("true")) keys.put("nominal_deposit", NumberTextWatcherForThousand.trimCommaOfString(aDepositValue.getText().toString()));
+
+                    if(!imgStringSTNK.isEmpty()) { keys.put("stnk", imgStringSTNK);}
+//                    if(!imgStringMain.isEmpty()){ keys.put("file", imgStringMain);}
+//                    if(!imgStringSecond.isEmpty()){keys.put("file1", imgStringSecond);}
+//                    if(!imgStringThird.isEmpty()){keys.put("file2", imgStringThird);}
+//                    if(!imgStringFourth.isEmpty()){keys.put("file3", imgStringFourth);}
+//                    if(!imgStringFifth.isEmpty()){keys.put("file4", imgStringFifth);}
+                    Log.e(TAG, "Post Data : " + keys.toString());
 
                     return keys;
                 }
@@ -1412,6 +1217,57 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
             mAddAssetTask = null;
             showProgress(false);
         }
+    }
+
+    private void putImageAsset (final String id_asset){
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        StringRequest stringRequest = new StringRequest(Request.Method.PUT, URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.e(TAG, "resnpose balik image :" + response);
+                if(response != null){
+                    Toast.makeText(getApplicationContext(),"Data sukses disimpan", Toast.LENGTH_LONG).show();
+                    finish();
+                }else{
+                    Toast.makeText(getApplicationContext(),"Gagal meyimpan data", Toast.LENGTH_LONG).show();
+                    finish();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                showProgress(false);
+                Log.e(TAG, "Form Asset Fetch Error : " + error.toString());
+                Toast.makeText(getApplicationContext(), "Connection error, try again.",
+                        Toast.LENGTH_LONG).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() {
+                // Posting parameters to url
+                Map<String, String> keys = new HashMap<String, String>();
+                keys.put("id_asset", id_asset);
+                keys.put("price", pricingArray.toString());
+//                if(!imgStringSTNK.isEmpty()) { keys.put("stnk", imgStringSTNK);}
+                if(!imgStringMain.isEmpty()){ keys.put("file", imgStringMain);}
+                if(!imgStringSecond.isEmpty()){keys.put("file1", imgStringSecond);}
+                if(!imgStringThird.isEmpty()){keys.put("file2", imgStringThird);}
+                if(!imgStringFourth.isEmpty()){keys.put("file3", imgStringFourth);}
+                if(!imgStringFifth.isEmpty()){keys.put("file4", imgStringFifth);}
+
+                Log.e(TAG, "Image Keys: " + String.valueOf(keys));
+                return keys;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> keys = new HashMap<String, String>();
+                keys.put("token", TOKEN);
+                return keys;
+            }
+        };
+
+        requestQueue.add(stringRequest);
     }
 
     private void updateDataAset(String id) {
@@ -1534,9 +1390,47 @@ public class FormMotorcycleAsetActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        onBackPressed();
-        this.finish();
+        AlertDialog.Builder showAlert = new AlertDialog.Builder(this);
+        showAlert.setMessage("Data aset belum tersimpan, anda yakin akan keluar ?");
+        showAlert.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1) {
+                onBackPressed();
+                currentActivity.finish();
+            }
+        });
+        showAlert.setNegativeButton("Tidak",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+
+        AlertDialog alertDialog = showAlert.create();
+        alertDialog.show();
+
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder showAlert = new AlertDialog.Builder(this);
+        showAlert.setMessage("Data aset belum tersimpan, anda yakin akan keluar ?");
+        showAlert.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1) {
+                onBackPressed();
+                currentActivity.finish();
+            }
+        });
+        showAlert.setNegativeButton("Tidak",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        AlertDialog alertDialog = showAlert.create();
+        alertDialog.show();
     }
 
 }

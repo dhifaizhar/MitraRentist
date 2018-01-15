@@ -105,12 +105,6 @@ public class FeatureActivity extends AppCompatActivity {
     private void getFeatureDataList(String tenant) {
         pBar.setVisibility(View.VISIBLE);
 
-//        if (mFeatureTask != null) {
-//            return;
-//        }
-//
-//        new getFeatureListTask(tenant).execute();
-
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         String newURL = AppConfig.URL_LIST_FEATURE + tenant;
         StringRequest stringRequest = new StringRequest(Request.Method.GET, newURL, new Response.Listener<String>() {

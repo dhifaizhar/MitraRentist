@@ -36,7 +36,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/med_padding"
-                android:textColor="@color/colorGreenRe"
+                android:textColor="@color/colorPrice"
                 android:textSize="@dimen/small_text"
                 android:textStyle="bold"
                 tools:text="150000 IDR" />
@@ -104,7 +104,7 @@
             android:id="@+id/as_driver_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorGreenRe"
+            android:textColor="@color/colorPrice"
             android:layout_marginStart="@dimen/xmin_padding"
             android:textSize="@dimen/under_small_text"
             tools:text="150000 IDR" />

@@ -27,37 +27,36 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/xmin_padding"
-                android:columnCount="3"
+                android:background="@color/colorPrimarySoft"
+                android:columnCount="2"
                 android:padding="@dimen/xmin_padding">
-
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_column="0"
-                    android:src="@drawable/ic_card_giftcard_blue_24dp"
-                    />
 
                 <TextView
                     android:id="@+id/vou_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_column="1"
+                    android:layout_column="0"
                     android:text="Nama Voucher"
-                    android:layout_marginStart="@dimen/min_padding"
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="@dimen/medium_text"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/vou_discount"
-                    android:layout_column="2"
+                    android:id="@+id/vou_code"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_column="1"
                     android:layout_gravity="end"
-                    android:text="10000 IDR"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorGreenRe"
-                    android:textSize="@dimen/medium_text" />
+                    android:background="@drawable/radius_primary"
+                    android:paddingBottom="@dimen/xmin_padding"
+                    android:paddingLeft="@dimen/min_padding"
+                    android:paddingRight="@dimen/min_padding"
+                    android:paddingTop="@dimen/xmin_padding"
+                    android:text="Code"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/medium_text"
+                    android:textStyle="bold" />
 
 
             </GridLayout>
@@ -77,6 +76,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
+                    <TextView
+                        android:id="@+id/disktext"
+                        android:layout_width="@dimen/text_label"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/xmin_padding"
+                        android:text="Diskon"
+                        android:textColor="@color/colorGrey"
+                        android:textSize="@dimen/almost_tiny_text" />
+
+                    <TextView
+                        android:id="@+id/vou_discount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@+id/disktext"
+                        android:text="10000 IDR"
+                        android:textColor="@color/colorPrice"
+                        android:textSize="@dimen/medium_text" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -135,7 +152,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="@dimen/xmin_padding"
-                        android:text="Berlaku"
+                        android:text="Tipe"
                         android:textColor="@color/colorGrey"
                         android:textSize="@dimen/almost_tiny_text" />
 
@@ -148,31 +165,6 @@
                         android:layout_alignBaseline="@+id/tipetext"
                         android:layout_alignBottom="@+id/tipetext"
                         android:layout_toEndOf="@+id/tipetext" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:id="@+id/categorytext"
-                        android:layout_width="@dimen/text_label"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="@dimen/xmin_padding"
-                        android:text="Berlaku"
-                        android:textColor="@color/colorGrey"
-                        android:textSize="@dimen/almost_tiny_text" />
-
-                    <TextView
-                        android:id="@+id/vou_category"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:text="Fotografi"
-                        android:textSize="@dimen/under_small_text"
-                        android:layout_alignBaseline="@+id/categorytext"
-                        android:layout_alignBottom="@+id/categorytext"
-                        android:layout_toEndOf="@+id/categorytext" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -230,23 +222,6 @@
                     </RelativeLayout>
 
                     <TextView
-                        android:id="@+id/vou_code"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_column="1"
-                        android:layout_gravity="end"
-                        android:background="@drawable/radius_green"
-                        android:paddingBottom="@dimen/xmin_padding"
-                        android:paddingLeft="@dimen/min_padding"
-                        android:paddingRight="@dimen/min_padding"
-                        android:paddingTop="@dimen/xmin_padding"
-                        android:text="Code"
-                        android:textAlignment="center"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/medium_text"
-                        android:textStyle="bold" />
-
-                    <TextView
                         android:id="@+id/vou_edit"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
@@ -256,8 +231,7 @@
                         android:text="Ubah"
                         android:textAlignment="textEnd"
                         android:textColor="@color/colorPrimaryDark"
-                        android:textSize="@dimen/medium_text"
-                        android:visibility="gone"/>
+                        android:textSize="@dimen/medium_text" />
 
                 </LinearLayout>
 
